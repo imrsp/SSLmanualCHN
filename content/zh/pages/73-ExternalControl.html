@@ -1,0 +1,863 @@
+﻿<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>外部控制</title>
+  <style>
+    body { font: 16px/1.55 Arial, sans-serif; max-width: 1080px; margin: 2rem auto; padding: 0 1.25rem; color: #202124; }
+    img { max-width: 100%; height: auto; }
+    table { border-collapse: collapse; max-width: 100%; }
+    th, td { border: 1px solid #aaa; padding: .45rem; vertical-align: top; }
+    .note { display: block; border-left: 4px solid #e0a000; background: #fff8df; padding: .75rem 1rem; margin: 1rem 0; }
+    .notetitle { font-weight: bold; }
+    .label { font-weight: bold; color: #174ea6; }
+    .source { color: #666; font-size: .9rem; }
+  </style>
+</head>
+<body>
+  <p class="source">章节：设置与扩展 | 来源： <a href="https://livehelp.solidstatelogic.com/Help/ExternalControl.html">https://livehelp.solidstatelogic.com/Help/ExternalControl.html</a></p>
+<h2>外部控制</h2>
+
+<p>
+    SSL Live 控制台可通过 Connectivity 网络端口远程控制其他设备，从而使大型系统中的不同部分实现更紧密的集成，例如控制台下游的扬声器处理单元。
+</p>
+
+<p>
+    下文提供受支持设备的配置说明。
+</p>
+
+<h3>控制台 OSC 路径</h3>
+
+<p>
+    根据受控设备的不同，可通过控制台音频路径或专用 OSC（Open Sound Control，开放声音控制）路径控制设备。OSC 路径不具备音频处理能力，但可像其他路径类型一样放置在控制台操作界面上，便于将外部设备控制整合到工作流程中。
+</p>
+
+<p>
+    Console Configuration 页面（<span class="label">MENU</span> > <span class="label">Setup</span> > <span class="label">Console&nbsp;Configuration</span>）中提供了按需添加 OSC 路径的区域。有关此页面的使用详情，请参阅 <a href="https://livehelp.solidstatelogic.com/Help/ConsoleConfig.html"><span class="hyperlink">Console&nbsp;Configuration</span></a> 章节。
+</p>
+
+
+<div id="accordion">
+    <div class="indexheader2">Sigma</div>
+    <div id="Sigma" style="padding: 1em 0;">
+        <h3>Sigma 设置</h3>
+
+        <p>
+            按照用户手册中的说明，在 Mac 或 PC 上下载并安装 Sigma Remote 应用程序
+            <a class="external-link" tabindex="-1" href="https://www.solidstatelogic.com/assets/uploads/downloads/sigma/SSL-Sigma-User-Guide.pdf" target="_blank">
+                <span class="hyperlink">此处</span>
+            </a>.
+        </p>
+
+        <p>在 <b>Settings</b> 页面中将协议设为 <b>OSC</b>；具体操作请参阅 Sigma 用户手册。</p>
+
+        <img style="display: block; margin: 25px auto;" src="https://livehelp.solidstatelogic.com/Help/images/s_SigmaProtocolOptions.png" alt="">
+
+        <p>确保 Sigma 的 IP 地址适合当前网络。Sigma 默认 IP 地址为 192.168.1.201/24。</p>
+
+        <p>配置完成后可关闭 Sigma Remote 应用程序；通过 OSC 使用 Sigma 时无需保持该程序运行。</p>
+
+
+        <h3>控制台设置</h3>
+
+        <p>
+            转到控制台的 <b>外部控制</b> 选项卡（<span class="label">MENU</span> > <span class="label">Setup</span> > <span class="label">Options</span>）。点击 <b>Sigma</b> ，位于页面的 <b>OSC&nbsp;SETTINGS</b> 设备列表中。
+        </p>
+
+        <img style="display: block; margin: 5px auto; width: 500px;" src="https://livehelp.solidstatelogic.com/Help/images/g_OSCsetupSigmaSelected.png" alt="">
+
+        <p>
+            双击 <b>Host&nbsp;IP&nbsp;Address</b> 字段，在下方 <b>DEVICE CONFIGURATION</b> 区域中输入 Sigma 的 IP 地址。<b>Name</b>、<b>Incoming&nbsp;Port</b> 和 <b>Host&nbsp;RX&nbsp;Port</b> 字段为只读，仅供参考。
+        </p>
+
+        <img style="display: block; margin: 5px auto; width: 800px;" src="https://livehelp.solidstatelogic.com/Help/images/g_OSCsetupSigmaDeviceConfig.png" alt="">
+
+        <p>
+            输入的 IP 地址将存储在 Showfile 中。请注意，网络中的每个 IP 地址必须唯一。此页面也会显示控制台 IP 地址以供参考。
+        </p>
+
+        <p>
+            控制台 IP 地址必须与 Sigma 的 IP 地址位于同一子网，但不能相同；可在 <b>Network</b> 选项卡（<span class="label">MENU</span> > <span class="label">Setup</span> > <span class="label">Options</span> > <span class="label">Network</span> 选项卡中更改；详情见 <a href="https://livehelp.solidstatelogic.com/Help/OptionsNetwork.html"><span class="hyperlink">Network&nbsp;Options</span></a> 。
+        </p>
+
+        <p>
+            按下 <span class="label">Enable&nbsp;Control</span> 按钮，启用控制台对 Sigma 的控制。设备列表中的 <b>Enabled</b> 指示灯将变为绿色。可同时启用多个设备。
+        </p>
+
+        <img style="display: block; margin: 5px auto; width: 500px;" src="https://livehelp.solidstatelogic.com/Help/images/g_OSCsetupSigmaEnabled.png" alt="">
+
+
+        <h3>创建控制台 OSC 路径</h3>
+
+        <p>
+            在 Console Configuration 页面（<span class="label">MENU</span> > <span class="label">Setup</span> > <span class="label">Console&nbsp;Configuration</span>）中，为每个要控制的 Sigma Channel 创建一条 OSC Path。详情请参阅 <a href="https://livehelp.solidstatelogic.com/Help/ConsoleConfig.html"><span class="hyperlink">Console&nbsp;Configuration</span></a> 章节。
+        </p>
+
+        <h3>路径分配</h3>
+
+        <p>
+            使用 <a href="https://livehelp.solidstatelogic.com/Help/LayerManager.html"><span class="hyperlink">推子层管理器</span></a>。这些路径可像其他路径类型一样按需放入 Bank。可根据工作流程创建专用 Bank，也可将 OSC Path 与其他控制台路径交错放置。
+        </p>
+
+        <p>
+            转到 <a href="https://livehelp.solidstatelogic.com/Help/ChanView.html"><span class="hyperlink">Channel&nbsp;View</span></a> 中的 OSC Path，双击屏幕底部的 Eyeconix 区域以打开 Name/Eyeconix <a href="https://livehelp.solidstatelogic.com/Help/DetailView.html"><span class="hyperlink">Detail&nbsp;View</span></a> 页面。根据需要为 OSC Path 命名并设置颜色。
+        </p>
+
+        <p>
+            转到 <span class="label">External&nbsp;Control</span> Detail View 页面，并从 <b>Select&nbsp;Device</b> 菜单中选择 <span class="label">Sigma</span>。
+        </p>
+
+        <p>
+            与 Sigma 通信时，显示的 OSC Path 编号将作为要控制的 Sigma Channel 编号。 <b>Control&nbsp;Path&nbsp;Num&nbsp;Offset</b> 字段可在 External Control Detail View 页面中为路径编号应用偏移。例如，若控制台 OSC Path 8 要控制 Sigma Channel 4，则必须输入 -4 的偏移。
+            <a href="https://livehelp.solidstatelogic.com/Help/PathLink.html"><span class="hyperlink">Path&nbsp;Link</span></a> 可用于同时为多条 OSC Path 分配 Sigma 并应用偏移。每条路径所选设备和偏移将存储在 Showfile 中。
+        </p>
+
+        <span class="note">
+            <span class="notetitle">注意：</span> 设置 <b>Control&nbsp;Path&nbsp;Num&nbsp;Offset</b> 字段时请小心，避免通过多条控制台路径访问同一个 Sigma Channel。
+        </span>
+
+        <p>OSC Path 中的参数可像其他路径类型一样进行自动化；使用 Automation Filters 调整存储与调用范围。</p>
+
+
+        <h3>可用控件</h3>
+
+        <p>
+            通过 Fader Tile 硬件及 GUI 的各 Fader 区域（Detail View、Channel View 等），控制路径的
+            <b>Fader</b>、<b>Solo</b> 和 <b>Mute</b> 控件分别控制所映射 Sigma Channel 的 <b>Gain</b>、<b>Solo</b> 和 <b>Cut</b> 功能。
+        </p>
+
+        <p>OSC Path 也可通过 SOLSA 和 TaCo 远程控制。</p>
+    </div>
+
+
+    <div class="indexheader2">L-ISA</div>
+    <div id="LISA" style="padding: 1em 0;">
+        <h3>简介</h3>
+
+        <p>
+            SSL 与 L-Acoustics 紧密合作，使用户可从控制台界面对 L-ISA 沉浸式扬声器系统进行高度集成的控制。L-ISA Source 可与单声道或立体声 Channel/Stem 关联，并可从控制台完整控制每个 Source 的 Pan、Distance、Width、Elevation 和 Aux Send 电平。
+        </p>
+
+        <span class="note">
+            <span class="notetitle">注意：</span>此功能要求控制台软件版本为 <b>4.11 或更高版本</b>，L-ISA Controller 软件版本为 <b>2.2.2 或更高版本</b>。
+        </span>
+
+        <h3>L-ISA Controller 设置</h3>
+
+        <p>
+            打开 L-ISA Controller 软件并转到 DeskLink Settings 页面（<span class="label">Settings</span> > <span class="label">DeskLink</span> 选项卡）。确保 <b>Parameters Synchronisation Mode</b> 设置为 <b>DeskLink&nbsp;OFF</b>.
+        </p>
+
+        <p>
+            从设置选项卡顶部的 <b>Desk&nbsp;Type</b> 下拉菜单中选择 <b>SSL&nbsp;Live</b>。此前选择的控制台类型会存储在运行 L-ISA Controller 的 PC 上，并在软件启动时自动选中（默认设置为 <b>None</b>）。
+        </p>
+
+        <img style="display: block; margin: 5px auto; width: 790px;" src="https://livehelp.solidstatelogic.com/Help/images/s_LISA_DesklinkOff.png" alt="">
+
+        <p>
+            将 <b>Desk&nbsp;IP&nbsp;Address</b> 输入指定字段。该地址可在控制台 Network 选项卡（<span class="label">MENU</span> > <span class="label">Setup</span> > <span class="label">Network</span>）中查看和设置。请注意，网络中的每个 IP 地址必须唯一。
+        </p>
+
+        <p>
+            选择一个与 SSL Live 控制台通信的端口号，建议使用 8811。双击 <b>Desk&nbsp;receives&nbsp;on&nbsp;port</b> 字段并输入端口号。
+        </p>
+
+
+        <h3>控制台设置</h3>
+
+        <p>
+            转到控制台的 <b>External&nbsp;Control</b> 选项卡（<span class="label">MENU</span> > <span class="label">Setup</span> > <span class="label">Options</span>）。点击 <b>L-ISA</b> ，位于页面的 <b>OSC&nbsp;SETTINGS</b> 设备列表中。
+        </p>
+
+        <img style="display: block; margin: 5px auto; width: 500px;" src="https://livehelp.solidstatelogic.com/Help/images/g_OSCsetupLISASelected.png" alt="">
+
+        <p>
+            在
+            <b>Host&nbsp;IP&nbsp;Address</b> 字段中输入运行 L-ISA Controller 软件的计算机 IP 地址，该字段位于 <b>DEVICE&nbsp;CONFIGURATION</b> 区域。
+        </p>
+
+        <p>
+            在 <b>Incoming&nbsp;Port</b> 字段中输入与上述 L-ISA 设置相同的端口号。<b>Name</b> 和 <b>Host&nbsp;RX&nbsp;Port</b> 字段为只读，仅供参考。
+        </p>
+
+        <img style="display: block; margin: 5px auto; width: 800px;" src="https://livehelp.solidstatelogic.com/Help/images/g_OSCsetupLISADeviceConfig.png" alt="">
+
+        <p>
+            输入的 IP 地址将存储在 Showfile 中。请注意，网络中的每个 IP 地址必须唯一。此页面也会显示控制台 IP 地址以供参考。
+        </p>
+
+        <p>
+            控制台 IP 地址必须与 L-ISA Controller 计算机位于同一子网，但不能相同；可在 <b>Network</b> 选项卡（<span class="label">MENU</span> > <span class="label">Setup</span> > <span class="label">Options</span> > <span class="label">Network</span> 选项卡中更改；详情见 <a href="https://livehelp.solidstatelogic.com/Help/OptionsNetwork.html"><span class="hyperlink">Network&nbsp;Options</span></a> 。
+        </p>
+
+        <p>
+            按下 <span class="label">Enable&nbsp;Control</span> 按钮，启用控制台对 L-ISA 的控制。设备列表中的 <b>Enabled</b> 指示灯将变为绿色。可同时启用多个设备。
+        </p>
+
+        <img style="display: block; margin: 5px auto; width: 500px;" src="https://livehelp.solidstatelogic.com/Help/images/g_OSCsetupLISAEnabled.png" alt="">
+
+
+        <h3>路径分配</h3>
+
+        <p>
+            可在控制台任意单声道或立体声 Channel/Stem 上启用 L-ISA 控制（Dry Channel 和 Dry Stem 除外）。
+        </p>
+
+        <p>
+            转到 <span class="label">External&nbsp;Control</span> <a href="https://livehelp.solidstatelogic.com/Help/DetailView.html"><span class="hyperlink">Detail View</span></a> 页面，
+            从 <b>Select&nbsp;Device</b> 菜单中选择 <span class="label">L-ISA</span>。
+            启用 <span class="label">DeskLink</span>，使 L-ISA Controller 参数与所选控制台路径同步。
+        </p>
+
+        <p>
+            请注意，此时 L-ISA Controller 与控制台之间尚未建立连接（说明见下文），因此两个系统之间暂不会同步参数更改。
+        </p>
+
+        <p>
+            <a href="https://livehelp.solidstatelogic.com/Help/PathLink.html"><span class="hyperlink">Path&nbsp;Link</span></a> 可用于同时为多条路径分配并启用 L-ISA 控制。所选 External Control 设备及 <span class="label">DeskLink</span> 启用状态将存储在 Showfile 中。
+        </p>
+
+        <span class="note">
+            <span class="notetitle">注意事项：</span><br>
+            为使控制台 Channel 编号正确报告给 L-ISA，控制台必须设置为
+            使用 <a href="https://livehelp.solidstatelogic.com/Help/ConsoleConfig.html#Numbering"><span class="hyperlink">Console Configuration 页面中的 <b>Default</b> Channel 编号方式</span></a>。<br>
+            L-ISA 支持单声道和立体声格式的 Source。控制台路径格式必须与所关联的 L-ISA Source 匹配。<br>
+            L-ISA Controller 仅通过 DeskLink 与控制台 Channel 1-256 和 Stem 1-64 通信。可在 <a href="https://livehelp.solidstatelogic.com/Help/ConsoleConfig.html#ConsoleConfigPage"><span class="hyperlink">Console Configuration</span></a> 页面中将控制台路径移至编号较低的 Slot。
+        </span>
+
+
+        <h3>音频路由</h3>
+
+        <p>
+            控制台必须通过 MADI 连接到 L-ISA Processor。最多可使用三路 MADI 流，将最多 96 个 Channel 的音频从控制台路由至 L-ISA。最多添加三个 <b>Generic&nbsp;MADI</b> 设备到控制台 I/O Configuration 页面（参见 <a href="https://livehelp.solidstatelogic.com/Help/LocalMADIConfig.html"><span class="hyperlink">MADI&nbsp;Configuration</span></a>
+            ），并将相应的实体 MADI 端口连接到 L-ISA Processor。
+        </p>
+        <p>
+            确保控制台与 L-ISA Processor 的采样率一致。控制台支持 96&nbsp;kHz（推荐）和 48&nbsp;kHz。详情见 <a href="https://livehelp.solidstatelogic.com/Help/Clocking.html#SampleRate"><span class="hyperlink">Clocking&nbsp;&amp;&nbsp;Sync</span></a> 。
+        </p>
+
+        <p>
+            将 Channel/Stem 输出路由至已配置的 MADI 端口。详情请参阅 <a href="https://livehelp.solidstatelogic.com/Help/Routing.html"><span class="hyperlink">Routing</span></a> 章节。
+        </p>
+
+        <span class="note">
+            <span class="notetitle">注意：</span>建议将 Channel/Stem 输出直接路由至控制台 MADI 端口，并将 Channel Direct Out 设置为 <b>Post&nbsp;All</b> 处理点；详情参阅 <a href="https://livehelp.solidstatelogic.com/Help/OptionsSystem.html#Chop"><span class="hyperlink">系统选项</span></a>。
+        </span>
+
+
+        <h3>建立控制台与 L-ISA Controller 之间的连接</h3>
+
+        <p>
+            L-ISA Controller 软件在 <b>Parameters&nbsp;Synchronisation&nbsp;Mode</b> 区域下提供两个初始化选项：
+            <ul>
+                <li><b>L-ISA&nbsp;Master</b> ：将 Source 参数从 L-ISA Controller 发送到控制台上所有已启用 L-ISA 的路径。</li>
+                <li><b>Desk Master</b> ：将控制台上所有已启用 L-ISA 的路径参数发送到 L-ISA Controller。</li>
+            </ul>
+        </p>
+
+        <p>
+            同步模式取决于工作流程；若所有 Source 参数值均存储在控制台 Showfile/Scene 中，请使用 <b>Desk&nbsp;Master</b>
+            将存储的设置推送到 L-ISA Controller。若 Source 位置数据存储在 L-ISA Controller Session/Snapshot 中，则使用 <b>L-ISA&nbsp;Master</b> 选项将设置推送到控制台。
+        </p>
+
+        <img style="display: block; margin: 5px auto; width: 790px;" src="https://livehelp.solidstatelogic.com/Help/images/s_LISA_DesklinkOn.png" alt="">
+
+        <p>
+            在控制台启用 L-ISA Control，并在 L-ISA Controller 中以 L-ISA Master 或 Desk Master 同步模式启用 DeskLink 后，L-ISA DeskLink Settings 页面中的 <b>Link&nbsp;Status</b> 应显示 <b>ACTIVE</b>，<b>Desk</b> 状态指示灯应亮起橙色或绿色。
+        </p>
+
+        <p>
+            <b>Desk</b> 指示灯为绿色时，表示所有 L-ISA Source 均已成功分配到控制台 Channel 和 Stem。若指示灯为橙色，则需要进一步操作，以正确配置 L-ISA Source 与控制台路径的分配。单击 L-ISA Controller 中的通知图标可查看错误类型。
+        </p>
+
+        <img style="display: block; margin: 5px auto; width: 300px;" src="https://livehelp.solidstatelogic.com/Help/images/s_LISA_ConfigErrorNotification.png" alt="">
+
+        <p>
+            要将控制台路径与 L-ISA Source 关联，请在 L-ISA Controller 中转到 <b>Desk&nbsp;Layout</b> 选项卡
+            （<span class="label">Sources</span> &gt; <span class="label">Desk&nbsp;Layout</span>）。
+        </p>
+
+        <p>
+            任何配置不匹配（例如将单声道 L-ISA Source 分配给立体声控制台 Channel）都会以橙色警告三角形标记
+            配置不匹配会在 L-ISA 的 <b>Desk&nbsp;Layout</b> 选项卡中以<img style="width: 20px;" src="https://livehelp.solidstatelogic.com/Help/images/b_LISA_WarningTriangle.png" alt="警告三角形">标记；单击标记可查看详情。
+        </p>
+
+        <img style="display: block; margin: 5px auto; width: 400px;" src="https://livehelp.solidstatelogic.com/Help/images/s_LISA_ConfigError.png" alt="">
+
+
+        <h3>可用控件</h3>
+
+        <p>
+            在 Channel 或 Stem 上启用 L-ISA DeskLink 后，该路径的 <b>External&nbsp;Control</b> Detail View 页面会显示 L-ISA 控制界面，可控制关联 L-ISA Source 的以下参数：
+            <ul>
+                <li><b>Pan</b></li>
+                <li><b>Width</b></li>
+                <li><b>Distance</b></li>
+                <li><b>Elevation</b></li>
+                <li><b>Aux&nbsp;Send</b> （注意：这与发送到控制台 Aux 母线的电平无关）</li>
+            </ul>
+            还提供二维 XY 声像界面，可通过触控控制 Pan（X）和 Distance（Y）。
+        </p>
+
+        <span class="note">
+            <span class="notetitle">注意：</span>控制台 XY 触控板的参数范围会自动缩放至 L-ISA Controller 的 <b>Pan</b>（X）和 <b>Distance</b>（Y）范围。参数值会从笛卡尔坐标转换为 L-ISA 使用的极坐标映射。
+        </span>
+
+        <img style="display: block; margin: 5px auto; width: 600px;" src="https://livehelp.solidstatelogic.com/Help/images/g_OSCdetailLISA.png" alt="">
+
+        <p>
+            立体声路径还包含以下功能：
+            <ul>
+                <li>
+                    提供两组上述控件，分别对应立体声对中的两个 Source；可使用二维声像界面上方的 <span class="label">LEFT</span> 和 <span class="label">RIGHT</span> 按钮访问。
+                </li>
+                <li>
+                    使用 <span class="label">LINKED</span> 按钮启用 <b>Link</b> 模式后，可使用<b>左侧</b>控件同时调整两个 Source（右侧控件会禁用）。
+                </li>
+                <li>
+                    <b>Pan&nbsp;Spread</b> 编码器可增大或减小两个 Source 之间的 Pan 位置，最大达到 L-ISA Soundscape 空间边界。此控件仅在启用 <b>Link</b> 模式时可用。
+                </li>
+
+            </ul>
+        </p>
+
+        <p>
+            启用以下模式后，可通过主屏幕下方的 Quick Control 编码器控制所选路径的 L-ISA 参数： <b>Follow&nbsp;Detail</b> 。有关 Quick Control 的使用详情，请参阅 <a href="https://livehelp.solidstatelogic.com/Help/DetailView.html"><span class="hyperlink">Detail&nbsp;View</span></a> 章节。
+        </p>
+
+        <p>
+            Channel/Stem 的所有常规处理和母线控件仍可正常使用。
+        </p>
+
+        <p>
+            L-ISA 参数可像其他路径参数一样进行自动化；可在
+            <a href="https://livehelp.solidstatelogic.com/Help/AutoFilters.html"><span class="hyperlink">自动化筛选器</span></a>页面中使用 <b>External&nbsp;Control</b> 列调整存储和调用范围。
+        </p>
+
+
+        <h3>配置 L-ISA 主电平控制</h3>
+
+        <p>
+            在 Console Configuration 页面（<span class="label">MENU</span> > <span class="label">Setup</span> > <span class="label">Console&nbsp;Configuration</span>).
+            Refer to the <a href="https://livehelp.solidstatelogic.com/Help/ConsoleConfig.html"><span class="hyperlink">Console&nbsp;Configuration</span></a> 章节。
+        </p>
+
+        <p>
+            使用 <a href="https://livehelp.solidstatelogic.com/Help/LayerManager.html"><span class="hyperlink">推子层管理器</span></a> 将 OSC Path 分配到 Fader Tile 的 Layer/Bank，从而放置到控制台操作面。OSC Path 也可分配到控制台 Master Tile 的 <b>FOCUS</b> 和 <b>MAIN</b> 推子。
+            refer to the <a href="https://livehelp.solidstatelogic.com/Help/MasterTile.html"><span class="hyperlink">Master&nbsp;Tile</span></a> 章节。
+        </p>
+
+        <p>
+            转到以下页面中的 OSC Path： <a href="https://livehelp.solidstatelogic.com/Help/ChanView.html"><span class="hyperlink">Channel&nbsp;View</span></a> 中的 OSC Path，双击屏幕底部的 Eyeconix 区域以打开 Name/Eyeconix <a href="https://livehelp.solidstatelogic.com/Help/DetailView.html"><span class="hyperlink">Detail&nbsp;View</span></a> 页面。根据需要为 OSC Path 命名并设置颜色。
+        </p>
+
+        <p>
+            转到 <span class="label">External&nbsp;Control</span> Detail View 页面，并从 <b>Select&nbsp;Device</b> 菜单中选择 <span class="label">L-ISA</span>。
+        </p>
+
+        <p>
+            OSC Path 的 Fader 将与 L-ISA Controller 的 Master 电平位置同步，随后可用于调节该电平。
+        </p>
+
+        <p>
+            与其他路径类型一样，OSC Path 的 Fader 位置可存储在控制台自动化中；但首次连接时，其值始终从 L-ISA Controller 同步，即使同步模式设为 Desk Master 也是如此。自动化 Fader 位置时应谨慎，以免造成大幅电平变化。
+        </p>
+
+    </div>
+
+
+    <div class="indexheader2">Meyer Sound Spacemap Go</div>
+    <div id="SMG" style="padding: 1em 0;">
+        <h3>简介</h3>
+
+        <p>
+            SSL 与 Meyer Sound 合作，使用户可从控制台界面集成控制 Spacemap Go 沉浸式扬声器系统。Spacemap Source 可与控制台 Channel 或 Stem 关联，并可完整控制每个 Source 的 XY Pan、Crossfade、Spread 和 Trajectory 传输控件。
+        </p>
+
+        <span class="note">
+            <span class="notetitle">注意：</span>此功能要求 SSL Live 控制台软件版本为 <b>5.0 或更高版本</b>、Meyer Sound GALAXY 固件版本为 <b>2.4.2 或更高版本</b>、Meyer Sound Compass 版本为 <b>4.9.2 或更高版本</b>，且 Meyer Sound Spacemap Go 版本为 <b>1.2.0 或更高版本</b>。
+        </span>
+
+
+        <h3>Meyer GALAXY 与 Spacemap Go 设置</h3>
+
+        <p>
+            请参考以下资料配置 Meyer Sound 系统：
+        </p>
+
+        <ul>
+            <li>配置 GALAXY Processor：<a class="external-link" tabindex="-1" href="https://docs.meyersound.com/products/en/user-guide---spacemap-go.html" target="_blank"><span class="hyperlink">Spacemap Go 用户指南</span></a></li>
+            <li>Spacemap Go 快速入门：<a class="external-link" tabindex="-1" href="https://docs.meyersound.com/products/en/user-guide---spacemap-go.html" target="_blank"><span class="hyperlink">Spacemap Go 用户指南</span></a></li>
+        </ul>
+
+        <p>
+            在 Spacemap Go 应用程序中转到 <span class="label">Settings</span> 页面，并选择左侧的 <span class="label">External&nbsp;Device&nbsp;Connection</span> 区域。滚动到右侧的 <span class="label">Console</span> 区域，将控制台 IP 地址输入 <b>External&nbsp;Device&nbsp;(Client)&nbsp;IPv4&nbsp;Address</b> 字段。该地址可在控制台 Network 选项卡（<span class="label">MENU</span> &gt; <span class="label">Setup</span> &gt; <span class="label">Network</span>）中查看和设置。网络中的每个 IP 地址必须唯一。
+        </p>
+
+        <img style="display: block; margin: 5px auto; width: 600px;" src="https://livehelp.solidstatelogic.com/Help/images/s_MeyerConsoleSettings.png" alt="">
+
+        <p>
+            选择与 SSL Live 控制台通信的端口号，建议使用 4001，并将其输入 <b>External&nbsp;Device&nbsp;(Client)&nbsp;Receiving&nbsp;Port</b> 字段。
+        </p>
+
+
+        <h3>控制台设置</h3>
+
+        <p>
+            转到控制台的 <b>External&nbsp;Control</b> 选项卡（<span class="label">MENU</span> > <span class="label">Setup</span> > <span class="label">Options</span>）。点击 <b>Spacemap&nbsp;Go</b> ，位于页面的 <b>OSC&nbsp;SETTINGS</b> 设备列表中。
+        </p>
+
+        <img style="display: block; margin: 5px auto; width: 500px;" src="https://livehelp.solidstatelogic.com/Help/images/g_OSCsetupSpacemapSelected.png" alt="">
+
+        <p>
+            输入运行 Meyer Compass 软件的计算机 IP 地址，字段为
+            <b>Host&nbsp;IP&nbsp;Address</b> 字段中输入运行 L-ISA Controller 软件的计算机 IP 地址，该字段位于 <b>DEVICE&nbsp;CONFIGURATION</b> 区域。
+        </p>
+
+        <p>
+            将上述 Spacemap Go 设置中选择的端口号输入 <b>Incoming&nbsp;Port</b> 字段。<b>Name</b> 和 <b>Host&nbsp;RX&nbsp;Port</b> 字段为只读，仅供参考。
+        </p>
+
+        <img style="display: block; margin: 5px auto; width: 800px;" src="https://livehelp.solidstatelogic.com/Help/images/g_OSCsetupSpacemapDeviceConfig.png" alt="">
+
+        <p>
+            输入的 IP 地址将存储在 Showfile 中。请注意，网络中的每个 IP 地址必须唯一。此页面也会显示控制台 IP 地址以供参考。
+        </p>
+
+        <p>
+            控制台 IP 地址必须与运行 Compass 和 Spacemap Go 软件的设备位于同一子网，但不能相同；可在 <b>Network</b> 选项卡（<span class="label">MENU</span> > <span class="label">Setup</span> > <span class="label">Options</span> > <span class="label">Network</span> 选项卡中更改；详情见 <a href="https://livehelp.solidstatelogic.com/Help/OptionsNetwork.html"><span class="hyperlink">Network&nbsp;Options</span></a> 。
+        </p>
+
+        <p>
+            按下 <span class="label">Enable&nbsp;Control</span> 按钮，启用控制台对 Spacemap Go 的控制。设备列表中的 <b>Enabled</b> 指示灯将变为绿色。可同时启用多个设备。
+        </p>
+
+        <img style="display: block; margin: 5px auto; width: 500px;" src="https://livehelp.solidstatelogic.com/Help/images/g_OSCsetupSpacemapEnabled.png" alt="">
+
+
+        <h3>路径分配</h3>
+
+        <p>
+            可在控制台任意 Channel 或 Stem 路径上启用 Spacemap Go Channel 控制（Dry Channel 和 Dry Stem 除外）。
+        </p>
+
+        <p>
+            转到 <span class="label">External&nbsp;Control</span> <a href="https://livehelp.solidstatelogic.com/Help/DetailView.html"><span class="hyperlink">Detail View</span></a> 页面，
+            并从 <b>Select&nbsp;Device</b> 菜单中选择 <span class="label">Spacemap&nbsp;Go</span>。
+        </p>
+
+        <p>
+            <a href="https://livehelp.solidstatelogic.com/Help/PathLink.html"><span class="hyperlink">Path&nbsp;Link</span></a> 可用于同时为多条路径分配并启用 Spacemap Go 控制。所选 External Control 设备将存储在 Showfile 中。
+        </p>
+
+
+        <h3>音频路由</h3>
+
+        <p>
+            确保控制台与 Meyer GALAXY Processor 的采样率一致。控制台支持 96&nbsp;kHz（推荐）和 48&nbsp;kHz。详情见 <a href="https://livehelp.solidstatelogic.com/Help/Clocking.html#SampleRate"><span class="hyperlink">Clocking&nbsp;&amp;&nbsp;Sync</span></a> 。
+        </p>
+
+        <p>
+            Meyer GALAXY Processor 支持模拟、AES3 和 AVB 输入。将控制台 Channel/Stem 输出路由至连接 Meyer Processor 所需的端口。详情请参阅 <a href="https://livehelp.solidstatelogic.com/Help/Routing.html"><span class="hyperlink">Routing</span></a> 章节。
+        </p>
+
+        <span class="note">
+            <span class="notetitle">注意：</span>建议使用 Channel/Stem Direct Output 路由至 Meyer 系统，并设置为 <b>Post&nbsp;All</b> 处理点；详情参阅<a href="https://livehelp.solidstatelogic.com/Help/OptionsSystem.html#Chop"><span class="hyperlink">系统选项</span></a>。
+        </span>
+
+
+        <h3>可用控件</h3>
+
+        <p>
+            在 Channel 或 Stem 上启用 Meyer Sound Spacemap Go 后，该路径的 External Control Detail View 页面会显示 Spacemap Go 控制界面，可控制关联 Spacemap Go Channel 的以下参数：
+            <ul>
+                <li><b>X Y Pan</b></li>
+                <li><b>Crossfade</b></li>
+                <li><b>Spread</b></li>
+                <li><b>Trajectory Rate</b></li>
+                <li><b>Trajectory 传输控件</b></li>
+            </ul>
+            提供二维声像界面，可通过触控控制 Spacemap 中的 X、Y 位置。
+        </p>
+
+        <img style="display: block; margin: 5px auto; width: 600px;" src="https://livehelp.solidstatelogic.com/Help/images/g_OSCdetailSMG.png" alt="">
+
+        <p>
+            请注意，Spacemap Go iPad 应用程序具有控制优先权；在应用程序中调节参数时，控制台控件会暂时禁用。
+        </p>
+
+        <p>
+            Channel/Stem 的所有常规处理和母线控件仍可正常使用。
+        </p>
+
+        <p>
+            Spacemap Go 参数可像其他路径参数一样进行自动化；可在
+            <a href="https://livehelp.solidstatelogic.com/Help/AutoFilters.html"><span class="hyperlink">自动化筛选器</span></a>页面中使用 <b>External&nbsp;Control</b> 列调整存储和调用范围。
+        </p>
+
+        <p>
+            但是，SSL 和 Meyer Sound 建议在控制台自动化中将 External Control 参数设为 <b>disabled</b>
+            ；对使用 Spacemap Go 的路径，应改在 Meyer Sound 自动化系统中自动化 Spacemap Go 参数。
+        </p>
+
+
+        <h3>配置 Spacemap Go 主电平控制</h3>
+
+        <p>
+            在 Console Configuration 页面中创建一条用于 Spacemap Go Mix Master 电平控制的 OSC Path（<span class="label">MENU</span> > <span class="label">Setup</span> > <span class="label">Console&nbsp;Configuration</span>).
+            Refer to the <a href="https://livehelp.solidstatelogic.com/Help/ConsoleConfig.html"><span class="hyperlink">Console&nbsp;Configuration</span></a> 章节。
+        </p>
+
+        <p>
+            使用 <a href="https://livehelp.solidstatelogic.com/Help/LayerManager.html"><span class="hyperlink">推子层管理器</span></a> 将 OSC Path 分配到 Fader Tile 的 Layer/Bank，从而放置到控制台操作面。OSC Path 也可分配到控制台 Master Tile 的 <b>FOCUS</b> 和 <b>MAIN</b> 推子。
+            refer to the <a href="https://livehelp.solidstatelogic.com/Help/MasterTile.html"><span class="hyperlink">Master&nbsp;Tile</span></a> 章节。
+        </p>
+
+        <p>
+            在 <a href="https://livehelp.solidstatelogic.com/Help/ChanView.html"><span class="hyperlink">Channel&nbsp;View</span></a> 中转到该 OSC Path，双击屏幕底部的 Eyeconix 区域，打开 Name/Eyeconix <a href="https://livehelp.solidstatelogic.com/Help/DetailView.html"><span class="hyperlink">Detail&nbsp;View</span></a> 页面。根据需要为 OSC Path 命名并设置颜色（例如 <i>SMG Master</i>）。
+        </p>
+
+        <p>
+            转到 <span class="label">External&nbsp;Control</span> Detail View 页面，并从 <b>Select&nbsp;Device</b> 菜单中选择 <span class="label">Spacemap&nbsp;Go</span>。
+        </p>
+
+        <p>
+            OSC Path 的 Fader 将与 Spacemap Go Mix Master 电平位置同步，随后可用于调节该电平。
+        </p>
+
+        <p>
+            与其他路径类型一样，OSC Path 的 Fader 位置可存储在控制台自动化中；但与上述逐路径 Spacemap Go 控件相同，建议将 External Control 参数设为 <b>disabled</b> 。自动化 Fader 位置时应谨慎，以免造成大幅电平变化。
+        </p>
+
+
+        <h3>自动化 Spacemap Go 参数</h3>
+
+        <p>为避免数据冲突，Spacemap Go 参数应仅存储在一个自动化系统中：Spacemap Go（推荐）或控制台。</p>
+
+        <p>
+            要禁止从控制台自动化系统调用，请转到 Automation 页面（<span class="label">MENU</span> > <span class="label">Automation</span>)
+            并选择 <b>Global Recall Filters</b> 页面（参阅<a href="https://livehelp.solidstatelogic.com/Help/AutoFilters.html#Filters"><span class="hyperlink">自动化筛选器</span></a>）。找到已启用 Spacemap Go 控制的路径，并确保这些路径的 <b>External&nbsp;Control</b> 列处于关闭状态。
+        </p>
+
+        <span class="note">
+            <span class="notetitle">注意：</span>以上操作只会禁止调用 External Control 参数。要同时禁止存储这些参数，还需在 <b>Global Store Filters</b> 页面中关闭 External Control 列。
+        </span>
+
+        <h4>使用 Generic OSC Path 触发 Spacemap Go Snapshot</h4>
+
+        <p>要在触发控制台 Scene 时同步触发 Spacemap Go Snapshot，可使用分配给 OSC Path 的 Generic OSC 设备（设置详情见下文）。</p>
+
+        <p>将 Generic OSC 设备配置为与上述 Spacemap Go 设备相同的 IP 地址和端口号。</p>
+
+        <p>
+            配置一个 Generic OSC Fader，并将其 <b>OSC&nbsp;Address</b> 设为 <i>/Console/recall/system</i>。Spacemap Go 系统的 Snapshot 可设置 900 到 3000 之间的 External Recall ID。设置 Fader 的 <b>Min</b> 和 <b>Max</b> 字段，以覆盖所需的 Snapshot 数量。Fader 以百分比表示，因此 Min/Max 范围 900 至 1000 表示 Fader 每变化 1&nbsp;%，External Recall ID 从 900 起增加 1。例如 Fader 值 42&nbsp;% 对应 Snapshot #942（900+42）。
+        </p>
+
+        <span class="note">
+            <span class="notetitle">Tip:</span> Generic OSC Fader 1 分配到 OSC Path 时会映射到实体 Fader，因此建议使用其他 Fader 编号，避免误动实体 Fader 导致 Snapshot 更改。
+        </span>
+
+        <p>
+            在 Console Configuration 页面中新建 OSC Path（<span class="label">MENU</span> > <span class="label">Setup</span> > <span class="label">Console&nbsp;Configuration</span>).
+            Refer to the <a href="https://livehelp.solidstatelogic.com/Help/ConsoleConfig.html"><span class="hyperlink">Console&nbsp;Configuration</span></a> 章节。
+        </p>
+
+        <p>确保 OSC Path 的 <b>External&nbsp;Control</b> 参数已设置为在控制台自动化 Scene 中存储和调用。详情参阅<a href="https://livehelp.solidstatelogic.com/Help/AutoFilters.html#Filters"><span class="hyperlink">自动化筛选器</span></a>。</p>
+
+        <p>使用 <a href="https://livehelp.solidstatelogic.com/Help/LayerManager.html"><span class="hyperlink">推子层管理器</span></a> 将新 OSC Path 放置到控制台操作面，便于访问；也可使用 <span class="label">Layers</span> 按钮访问。</p>
+
+        <p>
+            在 <a href="https://livehelp.solidstatelogic.com/Help/ChanView.html"><span class="hyperlink">Channel&nbsp;View</span></a> 中转到该 OSC Path，双击屏幕底部的 Eyeconix 区域，打开 Name/Eyeconix <a href="https://livehelp.solidstatelogic.com/Help/DetailView.html"><span class="hyperlink">Detail&nbsp;View</span></a> 页面。根据需要为 OSC Path 命名并设置颜色（例如 <i>SMG Snapshot</i>）。
+        </p>
+
+        <p>
+            转到 <span class="label">External&nbsp;Control</span> Detail View 页面，并从 <b>Select&nbsp;Device</b> 菜单中选择 <span class="label">Generic&nbsp;OSC</span>。
+        </p>
+
+        <p>
+            在每个需要触发 Spacemap Go Snapshot 更改的控制台 Scene 中，将 OSC Fader 位置改为所需的 Spacemap Go External Recall ID，并注意上述偏移和 Min/Max 范围。请记得 <span class="label">Store</span> 将此值存储在控制台自动化系统中，以便触发 Scene 时调用。
+        </p>
+
+        <span class="note">
+            <span class="notetitle">提示：</span>点击 OSC Fader 将其选中，再双击 Detail View 右下角的文本字段，调出键盘并输入指定值。详情参阅<a href="https://livehelp.solidstatelogic.com/Help/DetailView.html"><span class="hyperlink">详细视图</span></a>。
+        </span>
+
+        <img style="display: block; margin: 5px auto; width: 750px;" src="https://livehelp.solidstatelogic.com/Help/images/g_OSCdetailSMGsnapshot.png" alt="">
+
+        <p>触发包含 Generic OSC Path 中 OSC Fader 新值的 Scene 时，会向 Spacemap Go 发送 OSC 消息，使 Snapshot 更改与控制台自动化 Scene 更改同步。</p>
+
+    </div>
+
+    <div class="indexheader2">d&amp;b Soundscape 控制</div>
+    <div id="SSC" style="padding: 1em 0;">
+        <h3>简介</h3>
+
+        <p>
+            SSL 与 d&amp;b 合作实现集成控制，用户可直接从 SSL Live 控制台在 d&amp;b Soundscape 沉浸式扬声器系统中定位对象。每台 DS100 处理引擎最多可配置 64 个对象，均可由控制台控制。对象可由输入 Channel 或 Stem 组母线控制，并可在 Channel Detail View 中完整控制 XY Pan、Spread、En-Space Send、Delay Mode 和 Mapping Area。
+        </p>
+        <p>
+            “d&amp;b Soundscape 由 DS100 Signal Engine 驱动，该革命性音频系统处理器基于强大的 Dante 信号矩阵，并通过 En-Scene 和 En-Space 两个软件模块提供卓越的创作能力。”
+        </p>
+        <p>
+            d&amp;b DS100 Processor 内置 Dante I/O（48 kHz 和 96 kHz 均为 64 Channel）。建议通过 SSL Live 控制台的 Dante 选件连接音频。控制通信通过控制台 Connectivity 网络直接与 DS100 建立。
+
+        </p>
+
+        <span class="note">
+            <span class="notetitle">注意：</span>此功能要求 SSL Live 控制台软件版本为 <b>5.2 或更高版本</b>，
+        </span>
+
+
+        <h3>d&amp;b Soundscape 设置</h3>
+
+        <p>
+            在控制台 Setup 菜单中转到 Options > External Control。从 OSC Settings 列表选择 d&amp;b Soundscape，以在 DEVICE CONFIGURATION 面板显示详情。
+        </p>
+
+
+        <ul>
+            <li><strong>Enable Control</strong>：开启或关闭 d&amp;b Soundscape 的 OSC 通信。</li>
+            <li><strong>Host IP Address</strong> - 需要输入 DS100 设备的 IP 地址。（默认 50010）&nbsp;</li>
+            <li><strong>Incoming Port</strong> - 直接连接 DS100 时不需要；配合 d&amp;b 软件桥接应用程序 Remote Protocol Bridge 使用。&nbsp;
+            <li><strong>Host RX Port</strong> - 直接通信时需设置为 DS100 的入站端口。&nbsp;</li>
+        </ul>
+
+        <img style="display: block; margin: 5px auto; width: 1000px;" src="https://livehelp.solidstatelogic.com/Help/images/t_OSCsetupdbSelected.png" alt="">
+
+        <p>
+            输入的 Host IP 地址将存储在 Showfile 中。网络中的每个 IP 地址必须唯一。此页面也会显示控制台 IP 地址。控制台与 DS100 必须位于同一子网，但 IP 地址不能相同；可在 <strong>Options &gt; Network</strong> 选项卡中修改控制台地址。
+        </p>
+
+        <h3>音频路径映射</h3>
+
+        <p>
+            可在任意控制台 Channel 或 Stem（Dry 类型除外）上启用 Soundscape 控制。
+        </p>
+
+        <p>
+            转到 <strong>External Control</strong> Detail View 页面，并从 <strong>Select Device</strong> 菜单中选择 <strong>d&amp;b Soundscape</strong>。<strong>Control Path Num Offset</strong> 字段可在向 OSC 设备发送路径编号时添加偏移。例如使用 48 个单声道 Channel 和 8 个 Stem 时，Channel 使用偏移 0（d&amp;b Source ID 1-48），所有 Stem 使用偏移 48（d&amp;b Source ID 49-64）。
+        </p>
+
+        <p>
+            Path Link 可用于同时为多条路径分配并启用 d&amp;b Soundscape 控制。每条路径所选 External Control 设备将存储在 Showfile 中。
+        </p>
+
+        <h3>音频路由</h3>
+
+        <p>
+            DS100 配有 Dante 接口；与控制台之间的音频连接可使用控制台内置 Dante 扩展卡或高容量 BLII/X-Light Bridge。音频可通过 Virtual Tie Line（由 Dante Controller 管理）或控制台软件创建的 Dynamic Dante（Dual Domain）Route 连接。要从控制台进行 Dynamic Dante Routing，必须在 Dante Configuration 页面将 DS100 添加到 Configured Devices。配置后，可使用任意控制台路由界面连接 DS100 的路径输入输出；这些 Dynamic Dante Route 会随 Showfile 存储和调用。
+        </p>
+
+        <h3>d&amp;b Soundscape 控件 </h3>
+
+        <p>
+            在控制台路径 Detail View 中，d&amp;b 控件显示在触控界面上，也可在 Follow Detail 模式下通过编码器控制。可控制以下参数：
+            <ul>
+                <li><b>X</b> 和 <b>Y</b> 相对于 Mapping Area 的坐标（可使用二维位置图、两个滑块，或 Follow Detail 模式下的两个编码器控制）。</li>
+                <li><b>Spread</b> （使用位置图上的捏合手势、专用滑块或 Follow Detail 模式下的编码器控制）。</li>
+                <li><b>En-Space Send</b> （使用位置图上的捏合手势、专用滑块或 Follow Detail 模式下的编码器控制）。</li>
+                <li><b>Delay Mode</b> （使用屏幕按钮或 Follow Detail 模式下的硬件开关，在 Off、Tight 和 Full 之间切换）。</li>
+                <li><b>Mapping Area</b> （按住以选择 Area 1-4，详情见 d&amp;b Soundscape 文档）。</li>
+            </ul>
+
+        </p>
+
+        <img style="display: block; margin: 5px auto; width: 1000px;" src="https://livehelp.solidstatelogic.com/Help/images/t_OSCdetailsDBS.png" alt="">
+
+        <p>
+            多个 Channel 的控件可通过 Path Link 关联并成组控制，方式与控制台参数相同。
+        </p>
+
+        <p>
+            Soundscape 参数可像其他路径参数一样进行 Scene 自动化；可在
+            <a href="https://livehelp.solidstatelogic.com/Help/AutoFilters.html"><span class="hyperlink">自动化筛选器</span></a>页面中使用 <b>External&nbsp;Control</b> 列调整存储和调用范围。
+        </p>
+
+        <h3>配合 d&amp;b Remote Protocol Bridge（RPB）的高级用法</h3>
+
+        <p>
+            对于由多个用户界面控制的工作流程（例如控制台和 R1），需要与控制台进行双向通信。DS100 不直接使用 OSC 通信，因此需要 d&amp;b Remote Protocol Bridge 应用程序。
+        </p>
+
+        <p>
+            d&amp;b Remote Protocol Bridge 还支持两台 DS100，可并行配置用于冗余，也可作为两台独立设备，在 Soundscape 系统中提供最多 128 个声音对象。
+        </p>
+
+        <p>
+            有关包含 Remote Protocol Bridge 的使用场景，请联系当地 SSL 支持团队。
+        </p>
+
+    </div>
+
+    <div class="indexheader2">通用 OSC</div>
+    <div id="GenericOSC" style="padding: 1em 0;">
+        <h3>简介</h3>
+
+        <p>控制台可通过 UDP 网络协议控制许多支持 OSC（Open Sound Control）标准的设备。</p>
+
+        <p>请参阅各设备手册，确认设备是否支持 OSC 远程控制并查看设备专用设置说明。</p>
+
+        <p>
+            要从控制台操作界面通过 OSC 控制第三方设备，需要以下信息：
+            <ul>
+                <li>受控设备的 IP 地址</li>
+                <li>控制台接收端口号（即设备发送 OSC 数据包的目标端口）</li>
+                <li>设备接收端口号（即控制台发送 OSC 数据包的目标端口）</li>
+                <li>受控参数的 OSC 方法地址和数据类型</li>
+            </ul>
+        </p>
+
+        <p>
+            有关 OSC 协议的更多详情，请参阅 Open Sound Control 网站（<a class="external-link" tabindex="-1" href="http://www.opensoundcontrol.org/" target="_blank"><span class="hyperlink">www.opensoundcontrol.org</span></a>）。
+        </p>
+
+
+        <h3>控制台设置</h3>
+
+        <p>
+            转到控制台的 <b>External&nbsp;Control</b> 选项卡（<span class="label">MENU</span> > <span class="label">Setup</span> > <span class="label">Options</span>）。点击 <b>Generic&nbsp;OSC</b> ，位于页面的 <b>OSC&nbsp;SETTINGS</b> 设备列表中。
+        </p>
+
+        <img style="display: block; margin: 5px auto; width: 500px;" src="https://livehelp.solidstatelogic.com/Help/images/g_OSCsetupGenericSelected.png" alt="">
+
+        <p>
+            在 <b>DEVICE&nbsp;CONFIGURATION</b> 区域提供的 <b>Host&nbsp;IP&nbsp;Address</b>、<b>Incoming&nbsp;Port</b> 和 <b>Host&nbsp;RX&nbsp;Port</b> 字段中输入设备 IP 地址和端口号。
+        </p>
+
+        <img style="display: block; margin: 5px auto; width: 800px;" src="https://livehelp.solidstatelogic.com/Help/images/g_OSCsetupGenericDeviceConfig.png" alt="">
+
+        <p>
+            某些第三方设备要求控制台通过回送接收值来响应 OSC 消息。此时请确保 <span class="label">Enable Parameter Echo</span> 按钮已启用。详情请参阅设备手册。如不确定，请先将 <span class="label">Enable Parameter Echo</span> 设为关闭；仅在其他设置均正确但仍无法与设备通信时启用。
+        </p>
+
+        <p>
+            输入的设置将存储在 Showfile 中。网络中的每个 IP 地址必须唯一。此页面也会显示控制台 IP 地址以供参考。
+        </p>
+
+        <p>
+            控制台 IP 地址必须与 OSC 设备位于同一子网，但不能相同；可在 <b>Network</b> 选项卡（<span class="label">MENU</span> > <span class="label">Setup</span> > <span class="label">Options</span> > <span class="label">Network</span> 选项卡中更改；详情见 <a href="https://livehelp.solidstatelogic.com/Help/OptionsNetwork.html"><span class="hyperlink">Network&nbsp;Options</span></a> 。
+        </p>
+
+        <h4>定义 OSC 方法</h4>
+        <p>
+            每个第三方设备 Channel 最多可定义八个 <b>Fader</b>（连续可变）参数和八个 <b>Switch</b> 参数，供控制台控制。这些参数在 <b>DEVICE&nbsp;CONFIGURATION</b> 区域的相应选项卡中定义。
+        </p>
+
+        <img style="display: block; margin: 5px auto; width: 800px;" src="https://livehelp.solidstatelogic.com/Help/images/g_OSCsetupGenericMethodsConfig.png" alt="">
+
+        <p>
+            为每个参数输入以下信息：
+            <ul>
+                <li>
+                    <b>Label</b> ：控制台界面中控件旁显示的文本。字符 <b>*</b> 会替换为发起控制的控制台路径编号（包括 Path Num Offset；见下方 Path Assignment）。例如输入“Mute ch *”，路径 1 显示“Mute ch 1”，路径 2 显示“Mute ch 2”，依此类推。
+                </li>
+                <li>
+                    <b>OSC&nbsp;Address</b> ：要控制的 OSC 方法地址。控制台仅处理浮点数据类型。字符 <b>*</b> 会替换为发起控制的控制台路径编号（包括 Path Num Offset）。例如输入“/solidstatelogic/sigma/channels/fader/*”，路径 1 与 SSL Sigma Fader 1 的 OSC 方法通信，路径 2 与 Fader 2 通信，依此类推。
+                </li>
+                <li>
+                    <b>Min</b> 和 <b>Max</b> 值
+                    <ul>
+                        <li>Fader：在 Min 与 Max 之间进行线性插值。</li>
+                        <li>Switch：Off = Min，On = Max。通常分别为 0 和 1；请参阅设备手册。</li>
+                    </ul>
+                </li>
+                <li><b>Colour</b> ：控件在控制台界面中的显示颜色。</li>
+            </ul>
+        </p>
+
+        <p><b>Switch</b> 选项卡还可将数据类型设为 Integer，使 Switch 仅响应和发送带整数参数的 OSC 消息。</p>
+
+        <img style="display: block; margin: 5px auto; width: 800px;" src="https://livehelp.solidstatelogic.com/Help/images/g_OSCsetupGenericMethodsSwitchesConfig.png" alt="" />
+
+        <p>按住 <span class="label">Apply</span> 按钮以存储参数。</p>
+
+        <p>Use the <span class="label">Clear&nbsp;Pending</span> 按钮，将参数列表重置为当前已应用状态。</p>
+
+        <p>
+            按下 <span class="label">Enable&nbsp;Control</span> 按钮，启用控制台对 OSC 设备的控制。设备列表中的 <b>Enabled</b> 指示灯将变为绿色。可同时启用多个设备。
+        </p>
+
+        <img style="display: block; margin: 5px auto; width: 500px;" src="https://livehelp.solidstatelogic.com/Help/images/g_OSCsetupGenericEnabled.png" alt="">
+
+        <h3>创建控制台 OSC 路径</h3>
+
+        <p>
+            Generic OSC 设备既可从控制台音频路径控制，也可从不包含控制台音频处理的专用 OSC Path 控制。选择哪种方式取决于第三方设备是否直接与控制台音频路径交互，例如插入特定 Channel 的外部效果处理器；或是否与特定音频路径无关，例如用于触发灯光 Cue 的演出控制系统。
+        </p>
+
+        <p>
+            可同时从音频路径和 OSC Path 控制，但必须确保它们寻址第三方设备上的不同 Channel；详情见下方 Path Assignment 章节。
+        </p>
+
+        <p>
+            如需专用 OSC Path，请在 Console Configuration 页面中创建（<span class="label">MENU</span> > <span class="label">Setup</span> > <span class="label">Console&nbsp;Configuration</span>).
+            Refer to the <a href="https://livehelp.solidstatelogic.com/Help/ConsoleConfig.html"><span class="hyperlink">Console&nbsp;Configuration</span></a> 章节。
+        </p>
+
+        <h3>路径分配</h3>
+
+        <p>
+            使用以下功能将音频/OSC Path 放置到操作界面： <a href="https://livehelp.solidstatelogic.com/Help/LayerManager.html"><span class="hyperlink">推子层管理器</span></a>。OSC Path 可像其他路径类型一样按需放入 Bank。可创建专用 Bank，也可与其他控制台路径交错放置。
+        </p>
+
+        <p>
+            转到以下页面中的路径： <a href="https://livehelp.solidstatelogic.com/Help/ChanView.html"><span class="hyperlink">Channel&nbsp;View</span></a> 中的 OSC Path，双击屏幕底部的 Eyeconix 区域以打开 Name/Eyeconix <a href="https://livehelp.solidstatelogic.com/Help/DetailView.html"><span class="hyperlink">Detail&nbsp;View</span></a> 页面。根据需要为路径命名并设置颜色。
+        </p>
+
+        <p>
+            转到 <span class="label">External&nbsp;Control</span> Detail View 页面，并从 <b>Select&nbsp;Device</b> 菜单中选择 <span class="label">Generic&nbsp;OSC</span>。
+        </p>
+
+        <p>
+            与第三方设备通信时，显示的路径编号将作为受控设备 Channel 编号。 <b>Control&nbsp;Path&nbsp;Num&nbsp;Offset</b> External Control Detail View 页面中的此字段可为路径编号应用偏移。例如，若控制台 OSC Path 8 要控制设备 Channel 4，则必须输入 -4 的偏移。
+            <a href="https://livehelp.solidstatelogic.com/Help/PathLink.html"><span class="hyperlink">Path&nbsp;Link</span></a> 可用于同时为多条 OSC Path 分配 Generic OSC 并应用偏移。每条路径所选设备和偏移将存储在 Showfile 中。
+        </p>
+
+        <span class="note">
+            <span class="notetitle">注意：</span>请确保不会通过多条控制台路径访问同一设备 Channel，包括将同一设备 Channel 分配给不同路径类型（如 OSC Path 与 Channel），或通过 <b>Control&nbsp;Path&nbsp;Num&nbsp;Offset</b> 字段产生重复映射。
+        </span>
+
+        <p>OSC Path 中的参数可像其他路径类型一样进行自动化；使用 Automation Filters 调整存储与调用范围。</p>
+
+
+        <h3>可用控件</h3>
+
+        <p>
+            Generic OSC 设备设置中配置的参数（最多八个 Fader 和八个 Switch）可从
+            <span class="label">External&nbsp;Control</span> Detail View 页面访问，适用于任何配置为控制 Generic OSC 设备的路径。
+        </p>
+
+        <img style="display: block; margin: 5px auto; width: 600px;" src="https://livehelp.solidstatelogic.com/Help/images/g_GenericOscDetailView.png" alt="">
+
+        <p>左侧图形声像器表示前三个已配置的 Fader 参数，标记为 X、Y、Z，可图形化表示许多支持 OSC 的第三方沉浸式音频处理器的 3D/环绕声像。</p>
+
+        <p>可通过右下角的 <span class="label">Display X-Z</span> 和 <span class="label">Display Y-Z</span> 按钮选择图形声像器显示的维度。</p>
+
+        <p>
+            分配给 OSC Path 后，该路径的 <b>Fader</b> 将控制设备中配置的第一个 Fader 参数。该路径的 <b>Mute</b> 和 <b>Solo</b> 开关分别控制第一和第二个 Switch 参数，可通过 Fader Tile 硬件及 GUI 的各 Fader 区域（Detail View、Channel View 等）访问。
+        </p>
+    </div>
+
+    <div class="indexheader2">KLANG</div>
+    <div id="Sigma" style="padding: 1em 0;">
+        <h3>KLANG 沉浸式声像</h3>
+
+        <p>
+            请参阅<a href="https://livehelp.solidstatelogic.com/Help/KLANG.html"><span class="hyperlink">KLANG 集成</span></a>，了解如何为 SSL Live 设置 KLANG 系统。
+        </p>
+    </div>
+</div>
+
+
+<h2>实用链接</h2>
+
+<p><a href="https://livehelp.solidstatelogic.com/Help/OptionsNetwork.html"><span class="hyperlink">网络选项</span></a></p>
+
+<p><a href="https://livehelp.solidstatelogic.com/Help/ConsoleConfig.html"><span class="hyperlink">控制台配置</span></a></p>
+
+<p><a href="https://livehelp.solidstatelogic.com/Help/LayerManager.html"><span class="hyperlink">推子层管理器</span></a></p>
+
+<p><a href="https://livehelp.solidstatelogic.com/Help/LinkIndex.html"><span class="hyperlink">索引与术语表</span></a></p>
+</body>
+</html>

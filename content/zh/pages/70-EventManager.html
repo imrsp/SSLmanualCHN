@@ -1,0 +1,1336 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>事件管理器</title>
+  <style>
+    body { font: 16px/1.55 Arial, sans-serif; max-width: 1080px; margin: 2rem auto; padding: 0 1.25rem; color: #202124; }
+    img { max-width: 100%; height: auto; }
+    table { border-collapse: collapse; max-width: 100%; }
+    th, td { border: 1px solid #aaa; padding: .45rem; vertical-align: top; }
+    .note { display: block; border-left: 4px solid #e0a000; background: #fff8df; padding: .75rem 1rem; margin: 1rem 0; }
+    .notetitle { font-weight: bold; }
+    .label { font-weight: bold; color: #174ea6; }
+    .source { color: #666; font-size: .9rem; }
+  </style>
+</head>
+<body>
+  <p class="source">章节：设置与附加功能 | 来源： <a href="https://livehelp.solidstatelogic.com/Help/EventManager.html">https://livehelp.solidstatelogic.com/Help/EventManager.html</a></p>
+<h2>事件管理器</h2>
+
+<p>
+    事件管理器可用于在控制台上编排由状态驱动的操作。事件可在 Event Manager 页面（<span class="label">Menu</span>
+    > <span class="label">Tools</span> >
+    <span class="label">Event&nbsp;Manager</span>）中配置。页面上半部分显示所有已配置事件的列表。启用侧边栏中的 Edit 按钮即可修改事件列表。
+</p>
+
+<img style="display: block; margin: 5px auto; width: 780px"
+     src="https://livehelp.solidstatelogic.com/Help/images/g_EventManager.png"
+     alt="" />
+
+<p>
+    按下 <span class="label">New Event</span> 可创建新事件。事件在屏幕下半部分配置。双击页面中央的名称字段可重命名事件。在此添加事件触发条件（源）以及触发条件满足时要执行的操作（目标），从而定义事件功能。
+</p>
+
+<p>
+    要删除事件，请在侧边栏中启用 <span class="label">Edit</span> 模式，并使用事件列表 Edit 列中的圆形按钮，将相应事件置于可编辑状态。长按侧边栏中的
+    <span class="label">Delete</span> 按钮可删除所选事件。
+</p>
+
+<p><b>注意：事件删除后无法撤销！</b></p>
+
+<p>
+    要禁用事件而不将其删除，请按上述删除操作的方法将列表中的事件置于可编辑状态，然后按下侧边栏中的
+    <span class="label">Disable</span> 按钮。已禁用的事件会在事件列表的 <b>Enabled</b> 列中以红色图标标识。有关禁用单个
+    <a href="https://livehelp.solidstatelogic.com/Help/EventManager.html#Sources"><span class="hyperlink">事件源</span></a>
+    和
+    <a href="https://livehelp.solidstatelogic.com/Help/EventManager.html#Destinations"><span class="hyperlink">事件目标</span></a>的方法，请参见下文。
+</p>
+
+<p>
+    要复制事件，请按上述删除操作的方法将该事件置于可编辑状态，然后按下侧边栏中的 <span class="label">Duplicate&nbsp;Event</span> 按钮。系统会创建一个副本，并在原事件名称后附加编号，例如“New Event (1)”。
+</p>
+
+<p>
+    每个事件的当前状态显示在 <b>State</b> 列中。事件处于活动状态（即所有源条件均已满足）时，指示灯会亮绿色。
+</p>
+
+<h3 id="Sources">事件源</h3>
+
+<p>
+    使用 <span class="label">Add&nbsp;Source</span> 按钮添加新的事件源。每个事件最多可添加 12 个源。选择 Sources 区域右上角相应的
+    <span class="label">Any</span> 或 <span class="label">All</span> 条件，并设置 <b>Trigger</b> 选项，即可指定满足任一或全部源条件时触发事件。当任一或全部事件源状态变为真时，事件状态也会变为真，并触发所有事件目标操作。
+</p>
+
+<p>
+    使用 <span class="label">Remove&nbsp;Source</span> 按钮从事件中删除所选源。
+</p>
+
+<p>
+    <b>注意：删除源后无法撤销，必须手动重新添加。</b>
+</p>
+
+<p>
+    使用 <span class="label">Disable</span> 按钮可禁止所选源触发事件，而无需永久删除。这样可以暂时从事件逻辑中移除某些源（例如源产生错误信号时），同时保留其设置。
+</p>
+
+<p>
+    每个源的当前状态由事件列表和源详细信息区域中的图标表示。绿色图标表示源条件已满足，并会参与激活事件。
+</p>
+
+<table>
+    <tbody>
+        <tr>
+            <td style="vertical-align: middle">
+                <img style="margin: 0px 10px 0px 0px; width: 30px"
+                     src="https://livehelp.solidstatelogic.com/Help/images/b_EventFunction.png"
+                     alt="" />
+            </td>
+            <td style="vertical-align: middle">源已分配，未激活</td>
+        </tr>
+        <tr>
+            <td style="vertical-align: middle">
+                <img style="margin: 0px 10px 0px 0px; width: 30px"
+                     src="https://livehelp.solidstatelogic.com/Help/images/b_EventFunctionOn.png"
+                     alt="" />
+            </td>
+            <td style="vertical-align: middle">源已激活</td>
+        </tr>
+        <tr>
+            <td style="vertical-align: middle">
+                <img style="margin: 0px 10px 0px 0px; width: 30px"
+                     src="https://livehelp.solidstatelogic.com/Help/images/b_EventFunctionDisabled.png"
+                     alt="" />
+            </td>
+            <td style="vertical-align: middle">源已禁用</td>
+        </tr>
+    </tbody>
+</table>
+
+<p>
+    添加新源时，使用源区域左侧的 <b>TYPE</b> 选项选择源类型。可用源类型如下：
+</p>
+
+<table>
+    <tbody>
+        <tr>
+            <td style="vertical-align: middle">
+                <img style="margin: 0px 10px 0px 0px; width: 30px"
+                     src="https://livehelp.solidstatelogic.com/Help/images/b_EventNone.png"
+                     alt="" />
+            </td>
+            <td style="vertical-align: middle">
+                <span class="label">None</span> （未分配）
+            </td>
+        </tr>
+        <tr>
+            <td style="vertical-align: middle">
+                <img style="margin: 0px 10px 0px 0px; width: 30px"
+                     src="https://livehelp.solidstatelogic.com/Help/images/b_EventAuto.png"
+                     alt="" />
+            </td>
+            <td style="vertical-align: middle">
+                <span class="label">Automation&nbsp;Output</span>
+            </td>
+        </tr>
+        <tr>
+            <td style="vertical-align: middle">
+                <img style="margin: 0px 10px 0px 0px; width: 30px"
+                     src="https://livehelp.solidstatelogic.com/Help/images/b_EventGPIO.png"
+                     alt="" />
+            </td>
+            <td style="vertical-align: middle">
+                <span class="label">GP&nbsp;Input</span> (GPI)
+            </td>
+        </tr>
+        <tr>
+            <td style="vertical-align: middle">
+                <img style="margin: 0px 10px 0px 0px; width: 30px"
+                     src="https://livehelp.solidstatelogic.com/Help/images/b_EventMIDI.png"
+                     alt="" />
+            </td>
+            <td style="vertical-align: middle">
+                <span class="label">MIDI&nbsp;Input</span>
+            </td>
+        </tr>
+        <tr>
+            <td style="vertical-align: middle">
+                <img style="margin: 0px 10px 0px 0px; width: 30px"
+                     src="https://livehelp.solidstatelogic.com/Help/images/b_EventFunction.png"
+                     alt="" />
+            </td>
+            <td style="vertical-align: middle">
+                <span class="label">Console&nbsp;Function</span>
+            </td>
+        </tr>
+        <tr>
+            <td style="vertical-align: middle">
+                <img style="margin: 0px 10px 0px 0px; width: 30px"
+                     src="https://livehelp.solidstatelogic.com/Help/images/b_EventUserKey.png"
+                     alt="" />
+            </td>
+            <td style="vertical-align: middle">
+                <span class="label">User&nbsp;Key</span>
+            </td>
+        </tr>
+        <tr>
+            <td style="vertical-align: middle">
+                <img style="margin: 0px 10px 0px 0px; width: 30px"
+                     src="https://livehelp.solidstatelogic.com/Help/images/b_EventFader.png"
+                     alt="" />
+            </td>
+            <td style="vertical-align: middle">
+                <span class="label">Fader&nbsp;Function</span>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+<p></p>
+
+<div id="accordion">
+    <div class="indexheader2">自动化输出</div>
+    <div>
+        <p>
+            控制台的自动化场景可用于触发事件。请按以下步骤配置：
+        </p>
+
+        <p>
+            在 Event Manager 页面中选择 <span class="label">Automation&nbsp;Output</span> 源类型。
+        </p>
+
+        <img style="margin: 5px auto; width: 100px"
+             src="https://livehelp.solidstatelogic.com/Help/images/g_EventMgr_AutoSrcBtn.png"
+             alt="" />
+
+        <p>
+            现在可将此 Automation 事件源链接到场景的
+            <a href="https://livehelp.solidstatelogic.com/Help/AutoIOActions.html"><span class="hyperlink">Output&nbsp;Action</span></a>。在控制台的
+            <a href="https://livehelp.solidstatelogic.com/Help/AutoOverview.html"><span class="hyperlink">Automation</span></a>
+            页面中选择所需场景，进入
+            <b>Output&nbsp;Actions</b> 区域并选择
+            <span class="label">Event</span> 操作类型。
+        </p>
+
+        <p>
+            从 <b>LINKABLE&nbsp;EVENTS</b> 列表中选择事件，然后按下
+            <span class="label">Apply</span>。
+        </p>
+
+        <div>
+            <img style="display: block; margin: 20px auto; width: 700px"
+                 src="https://livehelp.solidstatelogic.com/Help/images/g_autoEventsLinked.png"
+                 alt="" />
+        </div>
+
+        <p>
+            <span class="label">Arm</span> 对 Output Action 执行 Arm，以确保场景触发时该操作会执行。
+        </p>
+
+        <p>已链接的场景会显示在 Event Manager 页面中。</p>
+    </div>
+    <div class="indexheader2">GP 输入（GPI）</div>
+    <div>
+        <p>
+            GPI 源可通过控制台的本地 GPIO 端口*，或任何带 GPIO 端口的 SSL Live MADI 或 Network I/O Dante 舞台接口箱触发事件。
+        </p>
+
+        <p>
+            选择 <span class="label">GP&nbsp;Input</span> 源类型，然后使用 <span class="label">Route</span> 按钮打开 Routing 对话框，其中列出控制台可用的所有 GPI。选择要使用的 GPI 并按下
+            <span class="label">Make</span>。关闭 Routing 对话框，返回事件源配置。
+        </p>
+
+        <p>GPI 可按多种不同的 Action 方式触发：</p>
+        <ul>
+            <li>
+                <span class="label">Latching</span> ：GPI 信号变为高电平时，源状态变为真并保持为真
+            </li>
+            <li>
+                <span class="label">Momentary</span> ：仅在 GPI 信号为高电平期间，源状态才为真
+            </li>
+            <li>
+                <span class="label">Momentary-On-Hold</span> ：GPI 信号变为高电平时源状态变为真；若 GPI 信号在 500 毫秒后变为低电平，源状态变为假，否则保持为真
+            </li>
+        </ul>
+
+        <p>
+            使用 <span class="label">Inverted</span> 按钮可反转输入事件触发器的 GPI 状态；即当传入 GPI 信号变为低电平时，源状态变为真。
+        </p>
+
+        <img style="display: block; margin: 5px auto"
+             src="https://livehelp.solidstatelogic.com/Help/images/g_EventMgr_GPI.png"
+             alt="" />
+    </div>
+    <div class="indexheader2">MIDI 输入</div>
+    <div>
+        <p>
+            MIDI 源可通过控制台本地 MIDI 端口*、任意 SSL Live MADI 舞台接口箱上的 MIDI 端口或 ipMIDI 触发事件。
+        </p>
+
+        <p>
+            选择 <span class="label">MIDI&nbsp;Input</span> 源类型，然后使用 <span class="label">Route</span> 按钮打开 Routing 对话框，其中列出控制台可用的所有 MIDI 端口。选择要使用的端口并按下 <span class="label">Make</span>。关闭 Routing 对话框，返回事件源配置。
+        </p>
+
+        <span class="note">
+            <span class="notetitle">注意：</span> 如果某个 MIDI Input 已路由至 MIDI 端口，之后添加的 MIDI Input 会自动路由至最后使用的 MIDI 端口。
+        </span>
+
+        <p>
+            <span class="label">Note&nbsp;On</span>,
+            <span class="label">Note&nbsp;Off</span>,
+            <span class="label">Program&nbsp;Change</span> 和
+            <span class="label">Control&nbsp;Change</span> （CC）消息均可选择用于事件。
+        </p>
+
+        <p>
+            源区域的其余部分用于配置预期接收的 MIDI 消息（MIDI Channel、Note Number 等，视情况而定）。
+        </p>
+
+        <img style="display: block; margin: 5px auto; width: 800px"
+             src="https://livehelp.solidstatelogic.com/Help/images/g_EventMgr_MIDIInput.png"
+             alt="" />
+
+        <p>
+            MIDI 事件源具有
+            <span class="label">Pulse&nbsp;Fire</span> 选项。启用后，收到指定类型的消息时，源状态会变为真并持续 500 毫秒，然后变为假，而不受输入状态影响。对于 Program Change 消息，这允许重复输入再次触发事件。若未启用 Pulse Fire，Program Change 后事件源状态会保持高电平。
+        </p>
+
+        <span class="note">
+            <span class="notetitle">注意：</span> 如果使用
+            <a href="https://livehelp.solidstatelogic.com/Help/ipMIDI.html"><span class="hyperlink">ipMIDI</span></a> 作为事件源，应使用不同于以下功能所用端口的 ipMIDI 端口：
+            <a href="https://livehelp.solidstatelogic.com/Help/AutoIOActions.html"><span class="hyperlink">自动化输入/输出操作</span></a>,
+            <a href="https://livehelp.solidstatelogic.com/Help/DAWControl.html"><span class="hyperlink">DAW 控制</span></a>
+            and
+            <a href="https://livehelp.solidstatelogic.com/Help/OptionsSystem.html#Timecode"><span class="hyperlink">时间码</span></a>。
+        </span>
+    </div>
+    <div class="indexheader2">控制台功能源</div>
+    <div>
+        <p>
+            多种控制台功能可用于触发事件。完整列表如下。
+        </p>
+
+        <p>
+            信号路径功能需要输入具体的信号路径编号（也可启用
+            <span class="label">Any&nbsp;Path</span> ，在所选类型的任一信号路径达到指定状态时触发事件源）。
+        </p>
+
+        <img style="display: block; margin: 5px auto"
+             src="https://livehelp.solidstatelogic.com/Help/images/g_EventMgr_ConsoleFunctionInput.png"
+             alt="" />
+
+        <table class="nestedlist" style="text-align: left; margin: 0px">
+            <tbody class="small">
+                <tr>
+                    <th rowspan="6">控制台功能</th>
+                    <th colspan="4">
+                        <a href="https://livehelp.solidstatelogic.com/Help/RecordingPlayback.html#RehearseMode"><span class="hyperlink">排练模式</span></a>
+                    </th>
+                </tr>
+                <tr>
+                    <th>
+                        <a href="https://livehelp.solidstatelogic.com/Help/Mute.html"><span class="hyperlink">静音组主控</span></a>
+                    </th>
+                    <th colspan="3">MG Master 1-10</th>
+                </tr>
+                <tr>
+                    <th>
+                        <a href="https://livehelp.solidstatelogic.com/Help/TB.html#Groups"><span class="hyperlink">对讲组</span></a>
+                    </th>
+                    <th colspan="3">Group 1 - 10 IN</th>
+                </tr>
+                <tr>
+                    <th rowspan="2">
+                        <a href="https://livehelp.solidstatelogic.com/Help/Solo.html"><span class="hyperlink">独奏设置</span></a>
+                    </th>
+                    <td colspan="3">SIP</td>
+                </tr>
+                <tr>
+                    <td colspan="3">Additive Solo A / B</td>
+                </tr>
+                <tr>
+                    <th>
+                        <a href="https://livehelp.solidstatelogic.com/Help/SignalSwitcher.html"><span class="hyperlink">信号切换器</span></a>
+                    </th>
+                    <th colspan="2">Signal Switcher 1 - 4</th>
+                    <th>Input B</th>
+                </tr>
+                <tr>
+                    <th rowspan="14">信号路径功能</th>
+                    <th rowspan="14">
+                        Channel&nbsp;/ Stem&nbsp;/<br />
+                        Aux / Master&nbsp;/<br />
+                        Matrix&nbsp;/ Talkback&nbsp;/<br />
+                        Solo Chan&nbsp;/ VCA N
+                    </th>
+                    <th colspan="3">Mute</th>
+                </tr>
+                <tr>
+                    <th colspan="3">
+                        Solo <span style="font-weight: normal">（不包括 Solo 信号路径）</span>
+                    </th>
+                </tr>
+                <tr>
+                    <th colspan="3">
+                        TB IN
+                        <span style="font-weight: normal">（仅限 Stem/Aux/Master 信号路径）</span>
+                    </th>
+                </tr>
+                <tr>
+                    <th colspan="3">
+                        Input A
+                        <span style="font-weight: normal">（仅限 Channel 信号路径）</span>
+                    </th>
+                </tr>
+                <tr>
+                    <th colspan="3">
+                        Input B
+                        <span style="font-weight: normal">（仅限 Channel 信号路径）</span>
+                    </th>
+                </tr>
+                <tr>
+                    <th colspan="3">
+                        Insert A IN <span style="font-weight: normal">（不包括 VCA 信号路径）</span>
+                    </th>
+                </tr>
+                <tr>
+                    <th colspan="3">
+                        Insert B IN <span style="font-weight: normal">（不包括 VCA 信号路径）</span>
+                    </th>
+                </tr>
+                <tr>
+                    <th colspan="3">
+                        Comp IN
+                        <span style="font-weight: normal">（仅限带处理功能的信号路径）</span>
+                    </th>
+                </tr>
+                <tr>
+                    <th colspan="3">
+                        Gate IN
+                        <span style="font-weight: normal">（仅限带处理功能的信号路径）</span>
+                    </th>
+                </tr>
+                <tr>
+                    <th colspan="3">
+                        EQ IN
+                        <span style="font-weight: normal">（仅限带处理功能的信号路径）</span>
+                    </th>
+                </tr>
+                <tr>
+                    <th colspan="3">
+                        Filters IN
+                        <span style="font-weight: normal">（仅限带处理功能的信号路径）</span>
+                    </th>
+                </tr>
+                <tr>
+                    <th colspan="3">
+                        Delay IN
+                        <span style="font-weight: normal">（仅限带处理功能的信号路径）</span>
+                    </th>
+                </tr>
+                <tr>
+                    <th colspan="3">
+                        All Pass IN
+                        <span style="font-weight: normal">（仅限带处理功能的信号路径）</span>
+                    </th>
+                </tr>
+                <tr>
+                    <th colspan="2">
+                        Routing
+                        <span style="font-weight: normal">（仅限 Channel/Stem/Aux/Talkback 信号路径）</span>
+                    </th>
+                    <th>Master / Stem / Aux IN</th>
+                </tr>
+                <tr>
+                    <th rowspan="36">
+                        <a href="https://livehelp.solidstatelogic.com/Help/DAWControl.html"><span class="hyperlink">DAW</span></a>
+                    </th>
+                    <th rowspan="28">DAW 1 - 4</th>
+                    <th rowspan="11">通道条主控开关</th>
+                    <th rowspan="4">Select - Assign</th>
+                    <th>Send A - E</th>
+                </tr>
+                <tr>
+                    <th>Pan</th>
+                </tr>
+                <tr>
+                    <th>Mute</th>
+                </tr>
+                <tr>
+                    <th>Flip</th>
+                </tr>
+                <tr>
+                    <th rowspan="2">Global</th>
+                    <th>Suspend</th>
+                </tr>
+                <tr>
+                    <th>Rec/Rdy All</th>
+                </tr>
+                <tr>
+                    <th rowspan="5">窗口</th>
+                    <th>Transport</th>
+                </tr>
+                <tr>
+                    <th>Edit</th>
+                </tr>
+                <tr>
+                    <th>Mix</th>
+                </tr>
+                <tr>
+                    <th>Alt</th>
+                </tr>
+                <tr>
+                    <th>Mem-Loc</th>
+                </tr>
+                <tr>
+                    <th rowspan="17">主控区</th>
+                    <th rowspan="2">键盘快捷键</th>
+                    <th>Undo</th>
+                </tr>
+                <tr>
+                    <th>Save</th>
+                </tr>
+                <tr>
+                    <th>Status/Group</th>
+                    <th>Suspend</th>
+                </tr>
+                <tr>
+                    <th rowspan="8">走带控制键</th>
+                    <th>On-Line</th>
+                </tr>
+                <tr>
+                    <th>Loop</th>
+                </tr>
+                <tr>
+                    <th>Quick Punch</th>
+                </tr>
+                <tr>
+                    <th>Rewind</th>
+                </tr>
+                <tr>
+                    <th>Fast Forward</th>
+                </tr>
+                <tr>
+                    <th>Stop</th>
+                </tr>
+                <tr>
+                    <th>Play</th>
+                </tr>
+                <tr>
+                    <th>Rec</th>
+                </tr>
+                <tr>
+                    <th rowspan="6">自动化写入启用</th>
+                    <th>AE Plugin</th>
+                </tr>
+                <tr>
+                    <th>AE Vol</th>
+                </tr>
+                <tr>
+                    <th>AE S Vol</th>
+                </tr>
+                <tr>
+                    <th>AE Pan</th>
+                </tr>
+                <tr>
+                    <th>AE Mute</th>
+                </tr>
+                <tr>
+                    <th>AE S Mute</th>
+                </tr>
+                <tr>
+                    <th rowspan="8">主 DAW</th>
+                    <th rowspan="8">主控区</th>
+                    <th rowspan="8">走带控制键</th>
+                    <th>On-Line</th>
+                </tr>
+                <tr>
+                    <th>Loop</th>
+                </tr>
+                <tr>
+                    <th>Quick Punch</th>
+                </tr>
+                <tr>
+                    <th>Rewind</th>
+                </tr>
+                <tr>
+                    <th>Fast Forward</th>
+                </tr>
+                <tr>
+                    <th>Stop</th>
+                </tr>
+                <tr>
+                    <th>Play</th>
+                </tr>
+                <tr>
+                    <th>Rec</th>
+                </tr>
+                <tr>
+                    <th>
+                        <a href="https://livehelp.solidstatelogic.com/Help/ControlSurface.html#StatusBar"><span class="hyperlink">状态消息</span></a>
+                    </th>
+                    <th colspan="4">
+                        错误状态
+                        <span style="font-weight: normal">（由任意错误状态触发，例如电源故障）</span>
+                    </th>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="indexheader2">用户按键输入</div>
+    <div>
+        <p>
+            控制台的
+            <a href="https://livehelp.solidstatelogic.com/Help/OptionsUserKeys.html"><span class="hyperlink">用户按键</span></a>
+            也可用于触发事件。选择
+            <span class="label">User&nbsp;Key</span> 源类型，然后选择触发事件所需的 Action。
+        </p>
+
+        <img style="display: block; margin: 5px auto"
+             src="https://livehelp.solidstatelogic.com/Help/images/g_EventMgr_UserKeyInput.png"
+             alt="" />
+
+        <p>可用的不同 Action 如下：</p>
+
+        <ul>
+            <li>
+                <span class="label">Latching</span> ：按下 User Key 时，源状态变为真并保持为真
+            </li>
+            <li>
+                <span class="label">Momentary</span> ：仅在按住 User Key 期间，源状态才为真
+            </li>
+            <li>
+                <span class="label">Momentary-On-Hold</span> ：按下 User Key 时源状态变为真；若在 500 毫秒后释放 User Key，源状态变为假，否则保持为真
+            </li>
+        </ul>
+
+        <p>
+            每个事件只能添加一个 User Key 源。该事件的 User Key 源随后会像通常一样出现在控制台任意 User Key 的分配选项中；可从相应的
+            <a href="https://livehelp.solidstatelogic.com/Help/OptionsUserKeys.html"><span class="hyperlink">用户选项页面</span></a>
+            （<span class="label">MENU</span> > <span class="label">Setup</span> >
+            <span class="label">Options</span> >
+            <span class="label">USER&nbsp;KEYS</span>）进行分配。
+        </p>
+    </div>
+    <div class="indexheader2">推子源</div>
+    <div>
+        <p>
+            当信号路径推子达到指定的 dB <b>Threshold</b>时，可使用 Fader Function 源触发事件。
+        </p>
+
+        <p>
+            推子功能需要输入具体的信号路径编号（也可启用
+            <span class="label">Any&nbsp;Path</span> ，在所选类型的任一信号路径达到指定状态时触发事件源）。
+        </p>
+
+        <p>
+            选择一个或多个信号路径后，设置 <b>Threshold</b> ，并指定源应在高于
+            <span class="label">Trigger&nbsp;Above</span> 还是低于
+            <span class="label">Trigger&nbsp;Below</span> 阈值时触发。
+        </p>
+
+        <img style="display: block; margin: 5px auto; width: 800px"
+             src="https://livehelp.solidstatelogic.com/Help/images/g_EventMgr_FaderInput.png"
+             alt="" />
+
+        <span class="note">
+            <span class="notetitle">注意：</span> 推子事件源依据的是计入所有相关 VCA 电平 <b>之后</b> 的推子位置。<br />
+            例如：若信号路径推子为 -6 dB，作用于该路径的 VCA 为 -10 dB，则用于判断推子位置高于还是低于事件阈值的数值为 -16 dB。
+        </span>
+    </div>
+</div>
+
+<h3 id="Destinations">事件目标</h3>
+
+<p>
+    使用 <span class="label">Add&nbsp;Destination</span> 按钮添加新的事件目标。每个事件最多可添加 12 个目标。事件状态变为真时，会执行所有目标操作。
+</p>
+
+<p>
+    使用 <span class="label">Remove&nbsp;Destination</span> 按钮从事件中删除所选目标。
+</p>
+
+<p>
+    <b>
+        注意：删除目标后无法撤销，必须手动重新添加。
+    </b>
+</p>
+
+<p>
+    使用 <span class="label">Disable</span> 按钮可从事件中禁用所选目标，而无需永久删除。这样可以暂时停止触发某些目标，同时保留其设置。
+</p>
+
+<p>
+    使用源区域中的 <span class="label">Test</span> 按钮测试事件状态变为真（以测试所有已配置目标）。使用目标区域中的
+    <span class="label">Test</span> 按钮测试所选目标。
+</p>
+
+<p>
+    添加新目标时，使用目标区域左侧的 <b>TYPE</b> 选项选择目标类型。可用目标类型如下：
+</p>
+
+<table>
+    <tbody>
+        <tr>
+            <td style="vertical-align: middle">
+                <img style="margin: 0px 10px 0px 0px; width: 30px"
+                     src="https://livehelp.solidstatelogic.com/Help/images/b_EventNone.png"
+                     alt="" />
+            </td>
+            <td style="vertical-align: middle">
+                <span class="label">None</span> （未分配）
+            </td>
+        </tr>
+        <tr>
+            <td style="vertical-align: middle">
+                <img style="margin: 0px 10px 0px 0px; width: 30px"
+                     src="https://livehelp.solidstatelogic.com/Help/images/b_EventAuto.png"
+                     alt="" />
+            </td>
+            <td style="vertical-align: middle">
+                <span class="label">Automation&nbsp;Input</span>
+            </td>
+        </tr>
+        <tr>
+            <td style="vertical-align: middle">
+                <img style="margin: 0px 10px 0px 0px; width: 30px"
+                     src="https://livehelp.solidstatelogic.com/Help/images/b_EventGPIO.png"
+                     alt="" />
+            </td>
+            <td style="vertical-align: middle">
+                <span class="label">GP&nbsp;Output</span> (GPO)
+            </td>
+        </tr>
+        <tr>
+            <td style="vertical-align: middle">
+                <img style="margin: 0px 10px 0px 0px; width: 30px"
+                     src="https://livehelp.solidstatelogic.com/Help/images/b_EventMIDI.png"
+                     alt="" />
+            </td>
+            <td style="vertical-align: middle">
+                <span class="label">MIDI&nbsp;Output</span>
+            </td>
+        </tr>
+        <tr>
+            <td style="vertical-align: middle">
+                <img style="margin: 0px 10px 0px 0px; width: 30px"
+                     src="https://livehelp.solidstatelogic.com/Help/images/b_EventFunction.png"
+                     alt="" />
+            </td>
+            <td style="vertical-align: middle">
+                <span class="label">Console&nbsp;Function</span>
+            </td>
+        </tr>
+        <tr>
+            <td style="vertical-align: middle">
+                <img style="margin: 0px 10px 0px 0px; width: 30px"
+                     src="https://livehelp.solidstatelogic.com/Help/images/b_EventFader.png"
+                     alt="" />
+            </td>
+            <td style="vertical-align: middle">
+                <span class="label">Fader&nbsp;Function</span>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+<span class="note">
+    <span class="notetitle">注意：</span> 事件目标 <b>不得</b> 设置为与事件源相同的功能，否则会形成反馈循环！
+</span>
+
+<p></p>
+
+<div id="accordion">
+    <div class="indexheader2">自动化输入</div>
+    <div>
+        <p>
+            事件可用于触发指定的自动化场景。请按以下步骤配置：
+        </p>
+
+        <p>
+            在 Event Manager 页面中选择 <span class="label">Automation&nbsp;Input</span> 目标类型。
+        </p>
+
+        <img style="margin: 5px auto; width: 100px"
+             src="https://livehelp.solidstatelogic.com/Help/images/g_EventMgr_AutoDestBtn.png"
+             alt="" />
+
+        <p>
+            现在可将此 Automation 事件目标链接到场景的
+            <a href="https://livehelp.solidstatelogic.com/Help/AutoIOActions.html"><span class="hyperlink">Input&nbsp;Action</span></a>。在控制台的
+            <a href="https://livehelp.solidstatelogic.com/Help/AutoOverview.html"><span class="hyperlink">Automation</span></a>
+            页面中选择所需场景，进入
+            <b>Input&nbsp;Actions</b> 区域并选择
+            <span class="label">Event</span> 操作类型。
+        </p>
+
+        <p>
+            从 <b>LINKABLE&nbsp;EVENTS</b> 列表中选择事件，然后按下
+            <span class="label">Apply</span>。
+        </p>
+
+        <p>
+            <span class="label">Arm</span> 对 Input Action 执行 Arm，以确保事件激活时触发场景。
+        </p>
+
+        <p>已链接的场景会显示在 Event Manager 页面中。</p>
+    </div>
+    <div class="indexheader2">GP 输出（GPO）</div>
+    <div>
+        <p>
+            GPO 目标可通过控制台的本地 GPIO 端口*，或任何带 GPIO 端口的 SSL Live MADI 或 Network I/O Dante 舞台接口箱控制外部设备。
+        </p>
+
+        <p>
+            选择 <span class="label">GP&nbsp;Output</span> 目标类型，然后使用 <span class="label">Route</span> 按钮打开 Routing 对话框，其中列出控制台可用的所有 GPO。选择要使用的 GPO 并按下
+            <span class="label">Make</span>。关闭 Routing 对话框，返回事件目标配置。
+        </p>
+
+        <p>GPO 行为可设置为多种不同的 Action：</p>
+
+        <ul>
+            <li>
+                <span class="label">Latching</span> ：事件状态变为真时切换 GPO 状态
+            </li>
+            <li>
+                <span class="label">Momentary</span> ：GPO 状态跟随事件状态
+            </li>
+            <li>
+                <span class="label">Pulse</span> ：事件状态变为真时，GPO 闭合脉冲持续 500 毫秒
+            </li>
+            <li>
+                <span class="label">Turn On</span> ：事件状态变为真时 GPO 闭合；需要第二个事件才能重新断开 GPO
+            </li>
+            <li>
+                <span class="label">Turn Off</span> ：事件状态变为真时 GPO 断开；需要第二个事件才能重新闭合
+            </li>
+        </ul>
+
+        <p>
+            使用 <span class="label">Inverted</span> 按钮可反转 GPO 状态与事件状态的对应关系；即事件状态变为真时 GPO 断开，反之亦然。
+        </p>
+
+        <img style="display: block; margin: 5px auto"
+             src="https://livehelp.solidstatelogic.com/Help/images/g_EventMgr_GPO.png"
+             alt="" />
+    </div>
+    <div class="indexheader2">MIDI 输出</div>
+    <div>
+        <p>
+            MIDI 目标可通过控制台本地 MIDI 端口*、任意 SSL Live MADI 舞台接口箱上的 MIDI 端口或 ipMIDI 控制外部设备。
+        </p>
+
+        <p>
+            选择 <span class="label">MIDI&nbsp;Output</span> 目标类型，然后使用 <span class="label">Route</span> 按钮打开 Routing 对话框，其中列出控制台可用的所有 MIDI 端口。选择要使用的端口并按下 <span class="label">Make</span>。关闭 Routing 对话框，返回事件目标配置。
+        </p>
+
+        <p>
+            如果某个 MIDI Output 已路由至 MIDI 端口，之后添加的 MIDI Output 会自动路由至最后使用的 MIDI 端口。
+        </p>
+
+        <p>
+            <span class="label">Note&nbsp;On</span>,
+            <span class="label">Note&nbsp;Off</span>,
+            <span class="label">Program&nbsp;Change</span> 和
+            <span class="label">Control&nbsp;Change</span> （CC）消息均可选择用于事件。
+        </p>
+
+        <p>
+            目标区域的其余部分用于配置要发送的 MIDI 消息（MIDI Channel、Note Number 等，视情况而定）。
+        </p>
+
+        <img style="display: block; margin: 5px auto; width: 800px"
+             src="https://livehelp.solidstatelogic.com/Help/images/g_EventMgr_MIDIOutput.png"
+             alt="" />
+
+        <span class="note">
+            <span class="notetitle">注意：</span> 如果使用
+            <a href="https://livehelp.solidstatelogic.com/Help/ipMIDI.html"><span class="hyperlink">ipMIDI</span></a> 作为事件目标，应使用不同于以下功能所用端口的 ipMIDI 端口：
+            <a href="https://livehelp.solidstatelogic.com/Help/AutoIOActions.html"><span class="hyperlink">自动化输入/输出操作</span></a>,
+            <a href="https://livehelp.solidstatelogic.com/Help/DAWControl.html"><span class="hyperlink">DAW 控制</span></a>
+            and
+            <a href="https://livehelp.solidstatelogic.com/Help/OptionsSystem.html#Timecode"><span class="hyperlink">时间码</span></a>。
+        </span>
+    </div>
+    <div class="indexheader2">控制台功能目标</div>
+    <div>
+        <p>
+            事件可执行多种控制台功能。完整列表如下。
+        </p>
+
+        <img style="display: block; margin: 5px auto; width: 800px"
+             src="https://livehelp.solidstatelogic.com/Help/images/g_EventMgr_ConsoleFunctionOutput.png"
+             alt="" />
+
+        <p>
+            控制台功能可设置为以下多种工作方式：
+        </p>
+
+        <ul>
+            <li>
+                <span class="label">Follow&nbsp;On</span> ：功能状态跟随事件状态
+            </li>
+            <li>
+                <span class="label">Follow&nbsp;Off</span> ：功能状态跟随事件状态的反相
+            </li>
+            <li>
+                <span class="label">Toggle</span> ：每当事件状态变为真时切换功能状态
+            </li>
+            <li>
+                <span class="label">Turn&nbsp;On</span> ：事件状态变为真时开启功能；需要第二个事件或直接操作该功能才能将其关闭
+            </li>
+            <li>
+                <span class="label">Turn&nbsp;Off</span> ：事件状态变为真时关闭功能；需要第二个事件或直接操作该功能才能将其开启
+            </li>
+        </ul>
+
+        <p>
+            信号路径功能需要输入具体的信号路径编号（也可启用
+            <span class="label">All&nbsp;Paths</span> 以影响所选类型的所有信号路径）。
+        </p>
+
+        <table class="nestedlist" style="text-align: left; margin: 0px">
+            <tbody class="small">
+                <tr>
+                    <th rowspan="27">控制台功能</th>
+                    <th rowspan="2">
+                        <a href="https://livehelp.solidstatelogic.com/Help/RecordingPlayback.html#RehearseMode"><span class="hyperlink">排练模式</span></a>
+                    </th>
+                    <td colspan="3">Global</td>
+                </tr>
+                <tr>
+                    <td colspan="3">Group 1-8</td>
+                </tr>
+                <tr>
+                    <th>
+                        <a href="https://livehelp.solidstatelogic.com/Help/Mute.html"><span class="hyperlink">静音组主控</span></a>
+                    </th>
+                    <td colspan="3">MG Master 1-10</td>
+                </tr>
+                <tr>
+                    <th>
+                        <a href="https://livehelp.solidstatelogic.com/Help/TB.html#Groups"><span class="hyperlink">对讲组</span></a>
+                    </th>
+                    <td colspan="3">Group 1 - 10 IN</td>
+                </tr>
+                <tr>
+                    <th>
+                        <a href="https://livehelp.solidstatelogic.com/Help/FXDelays.html#TempoLink"><span class="hyperlink">速度链接</span></a>
+                    </th>
+                    <td colspan="3">Rack 1 - 6 Tap Tempo</td>
+                </tr>
+                <tr>
+                    <th rowspan="10">
+                        <a href="https://livehelp.solidstatelogic.com/Help/Solo.html"><span class="hyperlink">Solo Setup</span></a>
+                    </th>
+                    <td colspan="3">SIP</td>
+                </tr>
+                <tr>
+                    <td colspan="3">Additive Solo A / B</td>
+                </tr>
+                <tr>
+                    <th rowspan="4">Solo A 默认馈送点</th>
+                    <td colspan="2">None</td>
+                </tr>
+                <tr>
+                    <td colspan="2">Pre Fader</td>
+                </tr>
+                <tr>
+                    <td colspan="2">Post All</td>
+                </tr>
+                <tr>
+                    <td colspan="2">Toggle Pre/Post</td>
+                </tr>
+                <tr>
+                    <th rowspan="4">Solo B 默认馈送点</th>
+                    <td colspan="2">None</td>
+                </tr>
+                <tr>
+                    <td colspan="2">Pre Fader</td>
+                </tr>
+                <tr>
+                    <td colspan="2">Post All</td>
+                </tr>
+                <tr>
+                    <td colspan="2">Toggle Pre/Post</td>
+                </tr>
+                <tr>
+                    <th>
+                        <a href="https://livehelp.solidstatelogic.com/Help/SignalSwitcher.html"><span class="hyperlink">信号切换器</span></a>
+                    </th>
+                    <th colspan="2">Signal Switcher 1 - 4</th>
+                    <td>Input B</td>
+                </tr>
+                <tr>
+                    <td colspan="4">
+                        <a href="https://livehelp.solidstatelogic.com/Help/Showfiles.html"><span class="hyperlink">保存演出文件</span></a>
+                    </td>
+                </tr>
+                <tr>
+                    <th rowspan="7">
+                        <a href="https://livehelp.solidstatelogic.com/Help/AutoOverview.html"><span class="hyperlink">Automation</span></a>
+                    </th>
+                    <td colspan="3">Fire Next / Previous</td>
+                </tr>
+                <tr>
+                    <td colspan="3">Save Scene</td>
+                </tr>
+                <tr>
+                    <td colspan="3">Arm All Input Actions</td>
+                </tr>
+                <tr>
+                    <td colspan="3">Disarm All Input Actions</td>
+                </tr>
+                <tr>
+                    <td colspan="3">Arm All Output Actions</td>
+                </tr>
+                <tr>
+                    <td colspan="3">Disarm All Output Actions</td>
+                </tr>
+                <tr>
+                    <td colspan="3">
+                        Group State
+                        <span style="font-weight: normal">(Group Mode, Group All, Disabled)</span>
+                    </td>
+                </tr>
+                <tr>
+                    <th>I/O 功能</th>
+                    <td colspan="3">
+                        Recalibrate All
+                        <span style="font-weight: normal">所有已连接 Net I/O 舞台接口箱中受本机控制的输入</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="4">Auto Mute Safe</td>
+                </tr>
+                <tr>
+                    <td colspan="4">Temporary Auto Mute Safe</td>
+                </tr>
+
+                <tr>
+                    <th rowspan="14">信号路径功能</th>
+                    <th rowspan="14">
+                        Channel&nbsp;/ Stem&nbsp;/<br />
+                        Aux / Master&nbsp;/<br />
+                        Matrix&nbsp;/ Talkback&nbsp;/<br />
+                        Solo Chan&nbsp;/ VCA N
+                    </th>
+                    <td colspan="3">Mute</td>
+                </tr>
+                <tr>
+                    <td colspan="3">
+                        Solo <span style="font-weight: normal">（不包括 Solo 信号路径）</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="3">
+                        TB IN
+                        <span style="font-weight: normal">（仅限 Stem/Aux/Master 信号路径）</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="3">
+                        Input A/B toggle
+                        <span style="font-weight: normal">（仅限 Channel 信号路径）</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="3">
+                        Input B
+                        <span style="font-weight: normal">（仅限 Channel 信号路径）</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="3">
+                        Insert A IN <span style="font-weight: normal">（不包括 VCA 信号路径）</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="3">
+                        Insert B IN <span style="font-weight: normal">（不包括 VCA 信号路径）</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="3">
+                        Comp IN
+                        <span style="font-weight: normal">（仅限带处理功能的信号路径）</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="3">
+                        Gate IN
+                        <span style="font-weight: normal">（仅限带处理功能的信号路径）</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="3">
+                        EQ IN
+                        <span style="font-weight: normal">（仅限带处理功能的信号路径）</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="3">
+                        Filters IN
+                        <span style="font-weight: normal">（仅限带处理功能的信号路径）</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="3">
+                        Delay IN
+                        <span style="font-weight: normal">（仅限带处理功能的信号路径）</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="3">
+                        All Pass IN
+                        <span style="font-weight: normal">（仅限带处理功能的信号路径）</span>
+                    </td>
+                </tr>
+                <tr>
+                    <th colspan="2">
+                        Routing
+                        <span style="font-weight: normal">（仅限 Channel/Stem/Aux/Talkback 信号路径）</span>
+                    </th>
+                    <td>Master / Stem / Aux IN</td>
+                </tr>
+
+                <tr>
+                    <th rowspan="55">
+                        <a href="https://livehelp.solidstatelogic.com/Help/DAWControl.html"><span class="hyperlink">DAW</span></a>
+                    </th>
+                    <th rowspan="41">DAW 1 - 4</th>
+                    <th rowspan="13">通道条主控开关</th>
+                    <th rowspan="4">Select - Assign</th>
+                    <td>Send A - E</td>
+                </tr>
+                <tr>
+                    <td>Pan</td>
+                </tr>
+                <tr>
+                    <td>Mute</td>
+                </tr>
+                <tr>
+                    <td>Flip</td>
+                </tr>
+                <tr>
+                    <th rowspan="2">Global</th>
+                    <td>Suspend</td>
+                </tr>
+                <tr>
+                    <td>Rec/Rdy All</td>
+                </tr>
+                <tr>
+                    <th rowspan="2">推子库</th>
+                    <td>Bank Down / Up</td>
+                </tr>
+                <tr>
+                    <td>Channel Down / Up</td>
+                </tr>
+                <tr>
+                    <th rowspan="5">Window</th>
+                    <td>Transport</td>
+                </tr>
+                <tr>
+                    <td>Edit</td>
+                </tr>
+                <tr>
+                    <td>Mix</td>
+                </tr>
+                <tr>
+                    <td>Alt</td>
+                </tr>
+                <tr>
+                    <td>Mem-Loc</td>
+                </tr>
+                <tr>
+                    <th rowspan="24">主控区</th>
+                    <th rowspan="2">键盘快捷键</th>
+                    <td>Undo</td>
+                </tr>
+                <tr>
+                    <td>Save</td>
+                </tr>
+                <tr>
+                    <th rowspan="2">功能键</th>
+                    <td>F1</td>
+                </tr>
+                <tr>
+                    <td>F8/ESC</td>
+                </tr>
+                <tr>
+                    <th>Status/Group</th>
+                    <td>Suspend</td>
+                </tr>
+                <tr>
+                    <th rowspan="12">走带控制键</th>
+                    <td>RTZ</td>
+                </tr>
+                <tr>
+                    <td>END</td>
+                </tr>
+                <tr>
+                    <td>On-Line</td>
+                </tr>
+                <tr>
+                    <td>Loop</td>
+                </tr>
+                <tr>
+                    <td>Quick Punch</td>
+                </tr>
+                <tr>
+                    <td>Rewind</td>
+                </tr>
+                <tr>
+                    <td>Fast Forward</td>
+                </tr>
+                <tr>
+                    <td>Stop</td>
+                </tr>
+                <tr>
+                    <td>Play</td>
+                </tr>
+                <tr>
+                    <td>Rec</td>
+                </tr>
+                <tr>
+                    <td>&lt;</td>
+                </tr>
+                <tr>
+                    <td>&gt;</td>
+                </tr>
+                <tr>
+                    <th rowspan="6">自动化写入启用</th>
+                    <td>AE Plugin</td>
+                </tr>
+                <tr>
+                    <td>AE Vol</td>
+                </tr>
+                <tr>
+                    <td>AE S Vol</td>
+                </tr>
+                <tr>
+                    <td>AE Pan</td>
+                </tr>
+                <tr>
+                    <td>AE Mute</td>
+                </tr>
+                <tr>
+                    <td>AE S Mute</td>
+                </tr>
+                <tr>
+                    <th>数字键盘</th>
+                    <td>+ / -</td>
+                </tr>
+                <tr>
+                    <th rowspan="2">其他</th>
+                    <td colspan="2">Foot Switch Stop/Play</td>
+                </tr>
+                <tr>
+                    <td colspan="2">Foot Switch Record</td>
+                </tr>
+                <tr>
+                    <th rowspan="2" colspan="2">SSL 嵌套功能</th>
+                    <td>Prev / Next</td>
+                </tr>
+                <tr>
+                    <td>Goto Marker 1</td>
+                </tr>
+                <tr>
+                    <th rowspan="14">主 DAW</th>
+                    <th rowspan="12">主控区</th>
+                    <th rowspan="12">走带控制键</th>
+                    <td>RTZ</td>
+                </tr>
+                <tr>
+                    <td>END</td>
+                </tr>
+                <tr>
+                    <td>On-Line</td>
+                </tr>
+                <tr>
+                    <td>Loop</td>
+                </tr>
+                <tr>
+                    <td>Quick Punch</td>
+                </tr>
+                <tr>
+                    <td>Rewind</td>
+                </tr>
+                <tr>
+                    <td>Fast Forward</td>
+                </tr>
+                <tr>
+                    <td>Stop</td>
+                </tr>
+                <tr>
+                    <td>Play</td>
+                </tr>
+                <tr>
+                    <td>Rec</td>
+                </tr>
+                <tr>
+                    <td>&lt;</td>
+                </tr>
+                <tr>
+                    <td>&gt;</td>
+                </tr>
+                <tr>
+                    <th rowspan="2" colspan="2">SSL 嵌套功能</th>
+                    <td>Prev / Next</td>
+                </tr>
+                <tr>
+                    <td>Goto Marker 1</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="indexheader2">推子目标</div>
+    <div>
+        <p>
+            事件可通过 Fader Function 事件目标，将信号路径推子设置到指定电平。
+        </p>
+
+        <p>
+            推子功能需要输入具体的信号路径编号（也可启用
+            <span class="label">All&nbsp;Paths</span> 以影响所选类型的所有信号路径）。
+        </p>
+
+        <p>
+            选择一个或多个信号路径后，为其设置所需的 dB 值。
+        </p>
+
+        <img style="display: block; margin: 5px auto; width: 800px"
+             src="https://livehelp.solidstatelogic.com/Help/images/g_EventMgr_FaderOutput.png"
+             alt="" />
+
+        <span class="note">
+            <span class="notetitle">注意：</span> 推子事件目标设置的是计入所有相关 VCA 电平 <b>之前</b> 的推子位置。<br />
+            例如：若事件将某信号路径推子设为 -6 dB，而作用于该路径的 VCA 设为 -10 dB，则总推子增益为 -16 dB。
+        </span>
+    </div>
+</div>
+
+<p>
+    <br />* L100 没有本地 GPIO 或 MIDI 端口；在 L100 上只能配置使用 ipMIDI 或远程舞台接口箱 GPIO 和 MIDI 的事件。
+</p>
+
+<h2>实用链接</h2>
+
+<p>
+    <a href="https://livehelp.solidstatelogic.com/Help/OptionsUserKeys.html"><span class="hyperlink">用户按键</span></a>
+</p>
+
+<p>
+    <a href="https://livehelp.solidstatelogic.com/Help/AutoOverview.html"><span class="hyperlink">自动化</span></a>
+</p>
+
+<p>
+    <a href="https://livehelp.solidstatelogic.com/Help/ipMIDI.html"><span class="hyperlink">ipMIDI</span></a>
+</p>
+
+<p>
+    <a href="https://livehelp.solidstatelogic.com/Help/LinkIndex.html"><span class="hyperlink">索引和术语表</span></a>
+</p>
+</body>
+</html>

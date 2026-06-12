@@ -1,0 +1,119 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>系统菜单</title>
+  <style>
+    body { font: 16px/1.55 Arial, sans-serif; max-width: 1080px; margin: 2rem auto; padding: 0 1.25rem; color: #202124; }
+    img { max-width: 100%; height: auto; }
+    table { border-collapse: collapse; max-width: 100%; }
+    th, td { border: 1px solid #aaa; padding: .45rem; vertical-align: top; }
+    .note { display: block; border-left: 4px solid #e0a000; background: #fff8df; padding: .75rem 1rem; margin: 1rem 0; }
+    .notetitle { font-weight: bold; }
+    .label { font-weight: bold; color: #174ea6; }
+    .source { color: #666; font-size: .9rem; }
+  </style>
+</head>
+<body>
+  <p class="source">章节：设置与附加功能 | 来源： <a href="https://livehelp.solidstatelogic.com/Help/System.html">https://livehelp.solidstatelogic.com/Help/System.html</a></p>
+
+
+<h2>系统设置</h2>
+
+<p>
+    要访问系统级功能，请进入 <span class="label">MENU</span> &gt; <span class="label">Setup</span> &gt; <span class="label">System&nbsp;/&nbsp;Power</span> 页面（在 SOLSA 中标为 <span class="label">System</span> ）。这些设置保存在控制台中（不保存在用户演出文件中）。大多数设置位于此页面的  <span class="label">System</span> 页签中。有关许可功能，请参阅 <a href="https://livehelp.solidstatelogic.com/Help/System.html#Licensing"><span class="hyperlink">下方的 Licensing 章节</span></a>。
+</p>
+
+<h2 id="OperatingLevel">工作电平</h2>
+<p>双击该数值可在 +12 至 +24&nbsp;dBu 之间调整模拟线路工作电平。默认设置为 +24&nbsp;dBu。</p>
+
+<p>此设置决定控制台中与 0&nbsp;dBFS 对应的 dBu 电平（控制台的所有电平表均以 0&nbsp;dBFS 为基准）。</p>
+
+<p>例如，当 Operating Level 设为 24&nbsp;dBu 时，20&nbsp;dBu 的输入信号将在电平表上显示为 -4&nbsp;dBFS。同样，输出 -6&nbsp;dBFS 信号时，模拟输出端将得到 +18&nbsp;dBu 的信号。</p>
+
+<span class="note">
+    <span class="notetitle">注意：</span> MADI 舞台接口箱和本地 I/O 输出可按设备相对于工作电平进行微调。请在 I/O Setup 页面选择相应舞台接口箱或 Local I/O 卡，然后使用 Output Trim 滑块。更多信息请参阅 <a href="https://livehelp.solidstatelogic.com/Help/LocalMADIConfig.html"><span class="notehyperlink">本地与 MADI I/O 配置</span></a> 章节。<br />
+    SSL Network I/O Dante 舞台接口箱的工作电平也可按设备配置。更多信息请参阅 <a href="https://livehelp.solidstatelogic.com/Help/DanteNetIO.html"><span class="notehyperlink">网络 I/O 设备</span></a> 章节。
+</span>
+
+
+<h2>采样率</h2>
+<p>系统可在 96 kHz（推荐）或 48 kHz 采样率下工作。长按相应按钮可更改控制台采样率。</p>
+
+<span class="note"><span class="notetitle">重要提示： </span>更改控制台采样率会导致 I/O 配置发生变化，因此现有路由可能丢失。所以应在配置控制台的其他部分 <span style="font-weight: bold;">之前</span> 设置采样率。</span>
+
+<p>每个舞台接口箱都必须配置为与控制台相同的采样率。更多信息请参阅 <a href="https://livehelp.solidstatelogic.com/Help/Clocking.html"><span class="hyperlink">时钟设置</span></a> 章节。</p>
+<span class="note"><span class="notetitle">重要：</span><br>更改采样率后，控制台 <span style="font-weight:bold;">必须</span> 彻底断电后重新上电。</span>
+
+
+<h2 id="Name">控制台名称</h2>
+
+<img style="display: block; margin: 10px auto; padding-left: 10px;" src="https://livehelp.solidstatelogic.com/Help/images/g_ConsoleName.png" align="right" alt="">
+
+<p>该 <span style="font-weight:bold;">控制台名称</span> 可在此编辑。通过远程操作面（SOLSA、TaCo 或处于远程模式的另一台控制台）连接本控制台时，将引用此名称。</p>
+
+<p>
+    该 <span style="font-weight:bold;">Control ID</span> （可在 <span style="font-weight:bold;">MENU</span> > <span class="label">Setup</span> > <span class="label">Options</span> > <span class="label">NETWORK</span> 页签中查看）用于在取得 Net I/O 设备参数的 Ownership 时确定控制台名称。不过， <span style="font-weight:bold;">Control ID</span> 也取自 <span style="font-weight:bold;">控制台名称</span>。
+</p>
+<p>双击名称字段以编辑控制台名称，然后长按 <span class="label">Apply</span>。 </p>
+<span class="note">
+    <span class="notetitle">请注意：</span><br>更改控制台名称会使控制台关机，并丢失对所有 Net I/O 设备参数的 Ownership。这表示必须手动重新取得之前拥有的输入（或其他设置），才能恢复控制。有关取得输入和舞台接口箱设置 Ownership 的说明，请参阅 <a href="https://livehelp.solidstatelogic.com/Help/DanteNetIO.html#Ownership"><span class="notehyperlink">控制 Net I/O 舞台接口箱与 Ownership</span></a>。
+</span>
+
+
+<h2>硬件配置</h2>
+
+<p>该 <span class="label">Rebuild Hardware Configuration</span> 按钮用于配置控制台，以便与 Remote Tile 配合使用。</p>
+<p>有关设置 Remote Tile 的更多信息，请参阅 <a href="https://livehelp.solidstatelogic.com/Help/RemoteTile.html"><span class="hyperlink">设置：Remote Tile</span></a>。</p>
+
+
+<h2>操作面</h2>
+<p>控制台的这些组件可在不影响音频的情况下重新启动。仅当组件无响应或 SSL 明确要求时使用。</p>
+<span class="note">请注意，刷新 Front Panel 大约需要两分钟，在此期间用户无法进行控制。</span>
+
+<h3>推子校准</h3>
+<p>
+    如果推子位置与显示值不一致，请长按 <span class="label">Calibrate&nbsp;Faders</span> （位于 <span style="font-weight: bold;">操作面</span> 中）重新校准推子。该过程约需 30 秒；音频将继续通过，但推子在此期间会与音频控制断开。
+</p>
+
+
+<h2>数据备份</h2>
+<p>如果遇到技术问题，SSL 可能会要求提供控制台日志文件以供分析。收到此要求后，请将 FAT32 或 NTFS 格式的 USB 驱动器插入控制台，然后按下 <span class="label">Data&nbsp;Backup</span> 按钮。日志文件和备份演出文件将保存到 USB 驱动器上 `SSL\Live\DataBackup` 子文件夹内以时间戳命名的文件夹中。</p>
+
+
+<h2>管理员访问</h2>
+<p>此功能用于 SSL 实时远程支持。SSL 要求时，请长按 <span class="label">Admin&nbsp;Access</span> 按钮以获取响应代码。</p>
+
+
+<span class="note"><span class="notetitle">注意： </span>强烈建议：在没有 SSL 明确指示的情况下，不要操作 System 页面中的任何其他按钮。</span>
+
+
+<h2 id="Licensing">许可功能</h2>
+
+<p>控制台的部分功能需要许可证。详情请联系 SSL。 <span class="label">Licensing</span> 页签用于管理这些许可证。</p>
+
+<p>SSL 要求时，请插入 FAT32 或 NTFS 格式的 USB 存储设备，并使用 <span class="label">Export&nbsp;Console&nbsp;ID</span> 按钮将控制台的唯一 ID 复制到 USB 存储设备。</p>
+
+<p>将 Console ID 文件发送给 SSL。</p>
+
+<p>将 SSL 提供的许可证文件复制到 FAT32 或 NTFS 格式的 USB 存储设备，然后使用 <span class="label">Import&nbsp;Licences</span> 按钮将许可证从 USB 存储设备复制到控制台。</p>
+
+<p>导入的许可证会显示在列表中。与 Console ID 不匹配的许可证不会被导入。</p>
+
+<img style="display: block; margin: 5px auto; width: 790px;" src="https://livehelp.solidstatelogic.com/Help/images/g_SystemLicensing.png" alt="">
+
+<p>如果控制台的系统日期和时间不在许可证的生效日期与到期日期范围内，许可证将显示为未激活，相应功能不可用。</p>
+
+<p>如果控制台硬件发生变化，Console ID 也会改变，许可证将显示为无效（即许可功能不可用）。遇到这种情况请联系 SSL Support。</p>
+
+
+
+<h2>实用链接</h2>
+<a href="https://livehelp.solidstatelogic.com/Help/OptionsSystem.html"><span class="hyperlink">系统选项</span></a>
+<br>
+
+<a href="https://livehelp.solidstatelogic.com/Help/LinkIndex.html"><span class="hyperlink">索引和术语表</span></a>
+<br>
+</body>
+</html>

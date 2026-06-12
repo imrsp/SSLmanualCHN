@@ -1,0 +1,341 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Path Linking &amp; Fast Setup</title>
+  <style>
+    body { font: 16px/1.55 Arial, sans-serif; max-width: 1080px; margin: 2rem auto; padding: 0 1.25rem; color: #202124; }
+    img { max-width: 100%; height: auto; }
+    table { border-collapse: collapse; max-width: 100%; }
+    th, td { border: 1px solid #aaa; padding: .45rem; vertical-align: top; }
+    .note { display: block; border-left: 4px solid #e0a000; background: #fff8df; padding: .75rem 1rem; margin: 1rem 0; }
+    .notetitle { font-weight: bold; }
+    .label { font-weight: bold; color: #174ea6; }
+    .source { color: #666; font-size: .9rem; }
+  </style>
+</head>
+<body>
+  <p class="source">Section: Building a Show | Source: <a href="https://livehelp.solidstatelogic.com/Help/PathLink.html">https://livehelp.solidstatelogic.com/Help/PathLink.html</a></p>
+<h2>Temporary Path Linking</h2>
+
+<p>
+    Control parameters can be <span style="font-weight: bold">linked</span> across
+    multiple paths in real time, while maintaining relative offsets.
+</p>
+<p>
+    To set up <span style="font-weight: bold">Path Linking</span> go to the
+    Channel View and tap <span class="label">Path&nbsp;Link</span> to the right of
+    the screen.
+</p>
+<p>
+    Now select the paths to link by tapping their Eyeconix or central context
+    window area on the screen or using their
+    <span class="label">SELECT</span> buttons on the Fader Tiles. These paths are
+    now in the link.
+</p>
+<p>
+    The first path selected with become the console's <b>Selected</b> path
+    (indicated by a white border around the path in Channel View), appearing in
+    the Detail View (if visible) and on the Focus Fader (if not locked to another
+    path).
+</p>
+<p>
+    All path types are compatible with
+    <span style="font-weight: bold">Path Linking</span> including Matrix channels
+    and VCAs.
+</p>
+
+<span class="note">
+    <span class="notetitle">Note:</span> Only paths of the same type can be
+    linked; Channels cannot be linked with Stems, fully processed Auxes cannot be
+    linked with Dry Auxes etc.
+</span>
+
+<span class="note">
+    <span class="notetitle">Tip:</span> Use
+    <span style="font-weight: bold">Range Select</span> to quickly select multiple
+    paths from the Fader Tiles. Hold down the
+    <span class="label">SELECT</span> button of the first path, then tap the
+    <span class="label">SELECT</span> button of the last path in the range. Now
+    release both buttons. This can also be done across neighbouring Fader
+    Tiles.<br />
+    Range Select also works on the Channel View and Overview pages; click on the
+    first path, hold down the Shift key on a connected keyboard then click the
+    last path to link all paths of the same type between the two.
+</span>
+
+<p>
+    Once the paths have been added to the link, adjust a parameter on one path in
+    the link and the other linked paths will update accordingly. These are
+    <span style="font-weight: bold">relative</span> changes.
+</p>
+
+<table style="width: 100%">
+    <tbody>
+        <tr>
+            <td style="vertical-align: top">
+                <p style="margin-bottom: 0px">
+                    Press &amp; hold the <span class="label">Path&nbsp;Link</span> button
+                    to open a popout with a series of multi-select options:
+                </p>
+
+                <ul class="tab" style="margin-top: 0px">
+                    <li>
+                        <span class="label">Select&nbsp;All</span> - link all paths of the
+                        same type
+                    </li>
+                    <li>
+                        <span class="label">Active&nbsp;Banks</span> - link all of selected
+                        path type in all banks currently displayed on all Fader Tiles
+                    </li>
+                    <li>
+                        <span class="label">Active&nbsp;Layers</span> - link all of selected
+                        path type in all layers currently active on all Fader Tiles
+                    </li>
+                </ul>
+            </td>
+            <td style="vertical-align: top; width: 25%">
+                <img style="margin: 0px 0px 0px 10px"
+                     src="https://livehelp.solidstatelogic.com/Help/images/s_PathLink.png"
+                     alt="" />
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+<p>
+    To activate these options, engage them at any time. For example, if there are
+    two full input channels in the link, and
+    <span class="label">Select All Channels</span> is pressed, all of the full
+    input channels will be added to the link.
+</p>
+
+<p>
+    Tapping <span class="label">Clear&nbsp;Selection</span> will clear the current
+    link. Engaging <span class="label">Suspend</span> will temporarily deactivate
+    the link, disengage to reactivate.
+</p>
+
+<p>
+    Press &amp; hold <span class="label">Path&nbsp;Link</span> again to toggle the
+    popout but retain the link.
+</p>
+
+<p>
+    When all adjustments have been made to the linked paths, tap
+    <span class="label">Path&nbsp;Link</span> to clear the link (and close the
+    popout if opened).
+</p>
+
+<h3 id="PreserveOffsets">Preserving Offsets</h3>
+
+<p>
+    By default, relative offsets between paths in a linked group are not retained
+    when paths reach their maximum and minimum values. As of Live v6.2, inside the
+    Path Link popout is a button, <span class="label">Preserve Offsets</span>,
+    which can change this behaviour.
+</p>
+<p>
+    When <span class="label">Preserve Offsets</span> is enabled, the console will
+    stop increasing or decreasing all linked parameter values when any one of them
+    reaches its limit. This setting applies globally, to temporary Path Links, as
+    well as Link Groups (see below).
+</p>
+<p>
+    If it's necessary to retain relative offsets between paths when
+    <span class="label">Preserve Offsets</span> is off, the lowest positioned path
+    can be used to fade down parameters, and likewise the highest positioned path
+    can be used to fade up.
+</p>
+
+<h2 id="FastSetup">Fast Setup</h2>
+
+<table>
+    <tbody>
+        <tr>
+            <td style="vertical-align: top; font-weight: normal">
+                <p>
+                    The Path Link popout also contains a
+                    <span class="label">Fast&nbsp;Setup</span> button. This expands the
+                    popout to show additional controls for quickly setting parameters of
+                    the selected path(s).
+                </p>
+
+                <p>
+                    Fast Setup is applied to a single <b>Selected</b> path, but can be
+                    used in conjunction with Path Link to make changes to multiple paths
+                    simultaneously.
+                </p>
+
+                <span class="note">
+                    <span class="notetitle">Caution:</span> Fast Setup can be used to
+                    adjust one or more levels by large amounts. Use care when using this
+                    feature!
+                </span>
+
+                <p>The following actions can be performed:</p>
+                <ul>
+                    <li>Set <b>Input Trim</b> to 0 dB</li>
+                    <li>Set <b>Input Trim</b> to X dB*</li>
+                    <li>Set <b>Fader</b> to 0 dB or -&infin; dB (off)</li>
+                    <li>Set <b>Fader</b> to X dB*</li>
+                    <li><b>Pan</b> path 100 % Left or Right</li>
+                    <li>Reset <b>Pan</b> settings to default (centre)</li>
+                    <li>Switch <b>EQ</b>/<b>Filters</b> In or Out</li>
+                    <li>Reset <b>EQ</b>/<b>Filters</b> section (Out &amp; flat)</li>
+                    <li>Switch <b>Compressor</b>/<b>Gate</b> In or Out</li>
+                    <li>Reset <b>Compressor</b>/<b>Gate</b> section</li>
+                    <li>
+                        Switch all Full/Dry** <b>Stem</b>/<b>Aux</b>/<b>Master</b> sends In
+                        or Out
+                    </li>
+                    <li>
+                        Switch all Full/Dry** <b>Stem</b>/<b>Aux</b> sends to 0 dB or
+                        -&infin; dB (Off)
+                    </li>
+                    <li>Switch all Full/Dry** <b>Stem</b>/<b>Aux</b> sends to X dB*</li>
+                </ul>
+
+                <p>
+                    * The <span class="label">To&nbsp;...</span> buttons open a keypad
+                    into which a value can be entered and applied in one of two ways when
+                    used in conjunction with Path Link:
+                </p>
+                <ul>
+                    <li>
+                        In <span class="label">Abs</span> (Absolute) terms: the Selected
+                        path and linked paths will all be set to the absolute value entered
+                        (e.g. all to -3&nbsp;dB regardless of previous position)
+                    </li>
+                    <li>
+                        In <span class="label">Rel</span> (Relative) mode: the Selected path
+                        will be set to the value entered and linked paths will change in
+                        value <b>relative</b> to the Selected path. e.g. if the Selected
+                        path is currently at -6&nbsp;dB and a linked path is at -10&nbsp;dB
+                        (-4&nbsp;dB lower), entering -3&nbsp;dB will set the Selected path
+                        to -3&nbsp;dB and the linked path to -7&nbsp;dB (retaining the
+                        relative -4&nbsp;dB offset).
+                    </li>
+                </ul>
+
+                <div style="text-align: center">
+                    <img src="https://livehelp.solidstatelogic.com/Help/images/s_FastSetupKeypad.png" alt="" />
+                </div>
+
+                <p>
+                    ** Use the <span class="label">Full</span> and
+                    <span class="label">Dry</span> buttons to switch the bus sends section
+                    between Full and Dry sends.
+                </p>
+            </td>
+            <td style="vertical-align: top; width: 25%">
+                <img style="margin: 0px 0px 0px 10px"
+                     src="https://livehelp.solidstatelogic.com/Help/images/s_FastSetup.png"
+                     alt="" />
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+<h2 id="PermanentPathLink">Permanently Linking Paths</h2>
+
+<table style="font-weight: normal">
+    <tbody>
+        <tr>
+            <td>
+                <p>
+                    As of Live v6.2, persistent groups of paths can be created in the same
+                    way as Path Links. Known as Link Groups, they are a way of linking the
+                    parameters of a set of paths, applying filters where parameters are
+                    specified to remain separate.
+                </p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <img style="display: block; margin: 5px auto"
+                src="https://livehelp.solidstatelogic.com/Help/images/s_LinkGroup_pathIcons.png"
+                alt="" />
+            </td>
+        </tr>
+        <tr>
+            <td style="vertical-align: top; font-weight: normal">
+                <h3 id="LinkGroupCreation">Creating Groups</h3>
+                <p>
+                    To create a Link Group, press and hold
+                    <span class="label">Path Link</span> and expand the
+                    <span class="label">Link Group</span> section. Select the paths that
+                    should be included in the Link Group in the same way as for temporary
+                    Path Linking.
+                </p>
+
+                <p>
+                    The Link Groups GUI will show which number group is currently being
+                    edited. Each group can have a name and a colour. Double tapping the
+                    name field allows it to be edited. Pressing the colour will open a
+                    dropdown where the group's colour can be changed.
+                </p>
+                <h3 id="LinkGroupNavigation">Navigating Groups</h3>
+
+                <p>
+                    Use the arrows in the popout to navigate between the different groups.
+                    A total of 48 groups are available. Alternatively, a double tap on the
+                    group number will open a keyboard and allow direct navigation to a
+                    desired group.
+                </p>
+
+                <p>
+                    The <span class="label">Select First Blank Group</span> button will
+                    automatically find the first group that contains no paths.
+                </p>
+                <h3 id="LinkGroupFilters">Parameter Filtering</h3>
+
+                <p>
+                    The <b>Enable Links</b> section of the popout displays the collections
+                    of parameters that can be linked across the paths in the group.
+                </p>
+
+                <p>
+                    <span class="label">All</span> will enable all possible links.
+                    <span class="label">None</span> will deselect all groups and leave
+                    nothing linked.
+                </p>
+
+                <p>Here is a list of the linkable sections:</p>
+
+                <ul>
+                    <li>
+                        <span class="label">In</span>: enables links between paths' input
+                        sections, including Gain, Trim etc...
+                    </li>
+                    <li><span class="label">MgVc</span>: enables links between paths' Mute Group and VCA assignments</li>
+                    <li><span class="label">Fade</span>: enables links between paths' Fader sections</li>
+                    <li><span class="label">Stem</span>: enables links between paths' Stem sends</li>
+                    <li><span class="label">Aux</span>: enables links between paths' Aux sends</li>
+                    <li><span class="label">Mast</span>: enables links between paths' Master assignments</li>
+                    <li><span class="label">EqFl</span>: enables links between paths' EQ and Filtering parameters</li>
+                    <li><span class="label">GCmp</span>: enables links between paths' Gate and Compression parameters</li>
+                    <li><span class="label">D/AP</span>: enables links between paths' Delay and All Pass filter parameters</li>
+                    <li><span class="label">Pan</span>: enables links between paths' Panning parameters</li>
+                </ul>
+
+                <p>No changes to groups need confirming, simply close the popout when all desired settings and filters have been set up.</p>
+            </td>
+            <td style="vertical-align: middle; width: 25%; text-align: center">
+                <img style="display: block; margin: 0 auto"
+                     src="https://livehelp.solidstatelogic.com/Help/images/s_PathLink-popout.png"
+                     alt="Link Group popout" />
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+<h2>Useful Links</h2>
+
+<a href="https://livehelp.solidstatelogic.com/Help/Copy.html"><span class="hyperlink">Copy</span></a>
+<br />
+<a href="https://livehelp.solidstatelogic.com/Help/LinkIndex.html"><span class="hyperlink">Index and Glossary</span></a>
+<br />
+</body>
+</html>

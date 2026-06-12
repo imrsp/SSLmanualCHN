@@ -1,0 +1,336 @@
+﻿<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>外部控制：KLANG</title>
+  <style>
+    body { font: 16px/1.55 Arial, sans-serif; max-width: 1080px; margin: 2rem auto; padding: 0 1.25rem; color: #202124; }
+    img { max-width: 100%; height: auto; }
+    table { border-collapse: collapse; max-width: 100%; }
+    th, td { border: 1px solid #aaa; padding: .45rem; vertical-align: top; }
+    .note { display: block; border-left: 4px solid #e0a000; background: #fff8df; padding: .75rem 1rem; margin: 1rem 0; }
+    .notetitle { font-weight: bold; }
+    .label { font-weight: bold; color: #174ea6; }
+    .source { color: #666; font-size: .9rem; }
+  </style>
+</head>
+<body>
+  <p class="source">章节：设置与扩展 | 来源： <a href="https://livehelp.solidstatelogic.com/Help/KLANG.html">https://livehelp.solidstatelogic.com/Help/KLANG.html</a></p>
+<h2>KLANG 集成</h2>
+
+<p>
+  通过将控制台与 KLANG 沉浸式处理器集成，可直接在控制台上为艺人创建沉浸式混音。
+</p>
+
+<p>
+  音频可发送到 KLANG 处理器，而不使用控制台内部的母线汇总和声像来为艺人提供个性化混音。在 KLANG 中，可对各通道在混音中的信号进行双耳声像定位，为表演者创建更具沉浸感且不拥挤的混音。
+</p>
+
+<p>
+  还可通过 KLANG 应用程序或 :kontroller 将混音控制权交给表演者。
+</p>
+
+<p>
+  随后可将这些混音送回控制台的 Aux，以重新获得路径处理功能和路由灵活性，再发送至最终目的地。
+</p>
+
+<span class="note">
+  <b>注意：</b>
+  使用此功能需要 KLANG 处理器。产品信息见
+  <a class="external-link" href="https://www.klang.com/" target="_blank"
+    ><span class="hyperlink">此处</span></a
+  >.
+</span>
+
+<p>
+  要使集成系统提供全部所需功能，需要完成以下步骤：
+</p>
+
+<ul>
+  <li>需要建立控制连接。</li>
+  <li>需要建立到 KLANG 设备的音频路由。</li>
+  <li>
+    需要将通道和 Aux 与 KLANG 中的对应项关联。
+  </li>
+</ul>
+
+<span class="note">
+  <b>注意：</b>
+  在此 SSL-KLANG 集成的初始版本中，需要一台运行 KLANG 应用程序的计算机来处理控制数据并将其传递给 KLANG 处理器。
+</span>
+
+<h2 id="control-setup">控制与音频传输设置</h2>
+
+<p>
+  KLANG 系统可通过多种方式与控制台集成。以下为两个示例：
+</p>
+
+<h3 id="control-setup-a">方案 A：使用 MADI 传输音频</h3>
+
+<ul>
+  <li>将控制台的 Connectivity 端口连接到网络交换机。</li>
+  <li>
+    将 KLANG 处理器和运行 KLANG 应用程序的计算机连接到同一台网络交换机。
+  </li>
+  <li>使用 MADI 将 KLANG 处理器连接到控制台。</li>
+</ul>
+
+<img
+  style="display: block; margin: 5px auto; width: 600px"
+  src="https://livehelp.solidstatelogic.com/Help/images/g_KLANG_MADI_Setup.png"
+  alt="SSL KLANG Network Routing A"
+/>
+
+<h3 id="control-setup-b">
+  方案 B：使用 Dante 网络传输音频
+</h3>
+
+<ul>
+  <li>
+    将控制台的 Connectivity 端口连接到运行 KLANG 应用程序的计算机。
+  </li>
+  <li>
+    将控制台的 Dante 端口以及运行 KLANG 应用程序的计算机连接到 Dante 网络（计算机需要具备两个独立的网络端口）。
+  </li>
+  <li>
+    确保控制台的 Connectivity IP 地址与 Dante IP 地址位于不同子网。计算机不应桥接这两个网络：Dante Controller 使用一个端口，KLANG 应用程序使用另一个端口。
+  </li>
+  <li>
+    通过 Dante/Control 端口将 KLANG 处理器连接到 Dante 网络。
+  </li>
+</ul>
+
+<img
+  style="display: block; margin: 5px auto; width: 50px"
+  src="https://livehelp.solidstatelogic.com/Help/images/g_KLANG_noVLAN_Dante_Setup.png"
+  alt="SSL KLANG Network Routing B"
+/>
+
+<!-- <h3 id="control-setup-b2">
+  方案 B2：通过带 VLAN 的 Dante 网络传输音频
+</h3>
+
+<ul>
+  <li>
+    Set up a managed switch according to KLANG's instructions regarding VLANs.
+    They can be found
+    <a
+      class="external-link"
+      href="https://www.klang.com/manuals/vlans-for-kontroller-vokal-konductor/"
+      target="_blank"
+      ><span class="hyperlink">此处</span></a
+    >.
+  </li>
+  <li>
+    Connect the console's connectivity port to the switch, using a "Control"
+    VLAN-tagged port.
+  </li>
+  <li>
+    Connect the console's Dante port to the switch, using an untagged port (or a
+    "Dante" tagged port, depending on the setup).
+  </li>
+  <li>
+    Connect the KLANG processor's "Dante/Control" port to the to the switch via
+    an untagged/Dante-tagged port.
+  </li>
+  <li>
+    也可将 :kontroller 连接到 KLANG Processor 的前面板端口。
+  </li>
+  <li>
+    Also optionally, connect a laptop to the Control and/or Dante tagged ports
+    on the switch. This will control of Dante routing via Dante Controller or
+    control of the KLANG mixes via the KLANG app.
+  </li>
+</ul>
+
+<img
+  style="display: block; margin: 5px auto; width: 800px"
+  src="https://livehelp.solidstatelogic.com/Help/images/g_KLANG_VLAN_Dante_Setup.png"
+  alt="SSL KLANG Network Routing B2"
+/> -->
+
+<h3 id="control-setup-console">控制台设置</h3>
+
+<p>
+  要在控制台上配置 KLANG 集成，请转到 <b>Setup</b> >
+  <b>Options</b> > <b>外部控制</b>.
+</p>
+
+<p>在表格中选择 KLANG 行。</p>
+
+<img
+  style="display: block; margin: 5px auto; width: 600px"
+  src="https://livehelp.solidstatelogic.com/Help/images/g_KLANG_ExtCtrl_Setup.png"
+  alt="SSL External Control - KLANG setup"
+/>
+
+<p>在此输入运行 KLANG 应用程序的计算机的控制 IP 地址。</p>
+
+<p>
+  按下 <span class="label">Enable Control</span> 按钮以建立与 KLANG 系统的连接。
+</p>
+
+<h2 id="associations">关联输入和混音</h2>
+
+<p>
+  建立与 KLANG 系统的连接后，即可将控制台的 Channel/Stem 和 Aux 与 KLANG 输入及 Mix 关联。
+</p>
+
+<p>转到 <b>Setup</b> > <b>Tools</b> > <b>SSL KLANG Interface</b>.</p>
+<img
+  style="display: block; margin: 5px auto; width: 600px"
+  src="https://livehelp.solidstatelogic.com/Help/images/g_SKI.png"
+  alt="SSL KLANG Interface"
+/>
+<p>
+  SSL-KLANG Interface（SKI）既是查看控制台与 KLANG 关联关系的中心界面，也是中间音频路由器。借此可通过任意 I/O 传输方式向 KLANG 系统发送音频，并可按任意顺序将控制台 Channel 和 Stem 馈送至 KLANG 输入。
+</p>
+<p>
+  In the SKI GUI, the <span class="label">Associate</span> 按钮可选择要与特定 KLANG 输入关联的控制台 Channel/Stem，或选择要与 KLANG Mix 关联的立体声 Aux。这会告知控制台每条路径的 OSC 数据发送目标，并处理通道输出路由。
+</p>
+<p>
+  Channel 和 Mix 列表还会显示各项关联所使用的 SKI 输入与输出。排查故障时，可利用这些编号追踪信号路径。
+</p>
+<span class="note">
+  <b> 注意： </b>
+  只有单声道和立体声 Channel/Stem 路径可与输入关联，且只有立体声 Aux 可与 Mix 关联。
+</span>
+
+<h2 id="routing">路由</h2>
+
+<p>
+  当 Channel 与 KLANG 输入关联时，该通道的输出会自动路由至 SKI。Aux 与 Mix 返回路径同样如此，关联的 KLANG Mix 会馈入 Aux 的交叉点汇总矩阵。
+</p>
+
+<p>
+  要从控制台 SKI 连接到 KLANG 处理器，请使用 XY 路由将 SKI 与处理器输入一一对应连接，并将处理器的 Mix 输出接回 SKI 返回端。此连接可使用任意音频传输方式。有关 XY 路由器的更多信息见
+  <a href="https://livehelp.solidstatelogic.com/Help/Routing.html#XY"><span class="hyperlink">此处</span></a
+  >.
+</p>
+
+<img
+  style="display: block; margin: 5px auto; width: 800px"
+  src="https://livehelp.solidstatelogic.com/Help/images/g_KLANGAudioRoutingDiagram.png"
+  alt="SSL KLANG Audio Routing"
+/>
+
+<p>
+  这种 KLANG 集成与路由方式允许使用需要不同音频传输方式的多个处理器。例如，Mix 可通过 MADI、Dante 甚至模拟连接返回控制台；只要路由至 SKI 的正确输入，它们就会以完全相同的方式馈入 Aux Mix。
+</p>
+
+<span class="note">
+  <b> 注意： </b>
+  这些输入和输出路由错误会导致为输入发送错误的声像数据，并使错误的 Mix 返回控制台 Aux 母线。
+</span>
+
+<p>
+  此时 Aux 母线的输入将包含 KLANG 双耳混音，以及内部直接发送到该母线的各路径信号。随后可按常规方式将此 Aux 的输出路由至艺人的耳返。
+</p>
+
+<span class="note">
+  <b> 注意： </b>
+  在 Mix 编号不连续且需要留空的特殊情况下，需要重新进行部分跳线，以确保关联的 Aux 接收到与其交叉点所控制声像数据相符的正确 Mix。SKI Mix 列表中的 SKI 输入编号会指示应连接的正确输入。
+</span>
+
+<h2 id="klang-mixing">使用 KLANG 混音</h2>
+
+<p>
+  关联所有必需的 Channel 和 Mix 后，操作员即可开始使用 KLANG 汇总与声像功能。
+</p>
+
+<p>
+  在每条已与 KLANG 输入关联的 Channel 路径中，
+  <span class="label">KLANG Mode</span> 将显示在以下界面的 Aux 发送 GUI 中： <b>Detail View</b>。仅当所选交叉点正在馈送已与 KLANG Mix 关联的 Aux 时，才会显示此按钮。
+</p>
+
+<p>
+  启用 <span class="label">KLANG Mode</span> 并切换到此 GUI 后，所选 Channel 路径会立即加入 KLANG Mix。此后， <span class="label">Gain</span> 和
+  <span class="label">In</span> 参数将与 KLANG 系统的
+  <b>Level</b> 和 <b>Mute</b> 参数关联。
+</p>
+
+<img
+  style="display: block; margin: 5px auto; width: 800px"
+  src="https://livehelp.solidstatelogic.com/Help/images/g_KLANG_ChanAuxCrosspoint.png"
+  alt="Chan-Aux KLANG Crosspoint"
+/>
+
+<p>
+  还可使用多项 KLANG 专用参数和功能：方位角、宽度、高度、声像模式、音色、独奏和聚焦。
+</p>
+
+<p>
+  启用以下功能后，可通过触控或 Channel Tile 编码器操作这些参数： <span class="label">Follow Detail</span> 。
+</p>
+
+<h3>声像模式</h3>
+<p>
+  Stereo、3D 和 i3D 选项可将声像设置为非双耳的
+  <b>Stereo</b> 平面、默认的 <b>3D</b> 双耳轨道，或
+  <b>i3D</b> 轨道（通过头部跟踪，可在听者转头时保持声像位置。有关 i3D 模式的使用说明，请参阅 KLANG 文档）。
+</p>
+
+<h3>方位角</h3>
+<p>
+  <span class="label">Azimuth</span>表示对象在 3D 轨道或立体声平面中的位置。沿轨道拖动 Channel 节点即可控制该参数，从而改变信号在 KLANG 双耳混音中的感知位置。
+</p>
+
+<h3>宽度</h3>
+<p>
+  此功能仅适用于立体声 Channel，
+  <span class="label">宽度</span> 参数控制对象在轨道或平面中占据的范围，可通过捏合手势进行控制。
+</p>
+
+<h3>高度</h3>
+<p>
+  轨道 GUI 旁的滑块用于控制对象的
+  <span class="label">高度</span> 。此控件仅在 3D 模式下有效，可将对象的感知位置移至视线高度上方或下方。
+</p>
+
+<h3>音色</h3>
+<p>
+  <span class="label">Tone</span> 参数控制 Personal Tone Filter，可针对每个 Mix 的每个输入 Channel 调整高低频内容之间的音色平衡。
+</p>
+
+<h3>独奏</h3>
+<p>
+  此功能在每个 KLANG Mix 中相当于 Solo-In-Place，可隔离单个输入。
+</p>
+
+<h3>聚焦</h3>
+<p>
+  此功能向已连接的 KLANG 应用程序发送命令，使声像视图聚焦于所选输入/Mix 交叉点。
+</p>
+
+<span class="note">
+  <b> 注意： </b>
+  在 KLANG Mode 下，Aux Detail View 中仍会显示馈送点选择器。但从 Channel 到 KLANG 的馈送点始终遵循路径配置页面中的 Direct Output 选择，而不是 Aux 馈送点。
+</span>
+
+<h2 id="other">其他功能</h2>
+
+<h3>旁路 KLANG</h3>
+
+<p>
+  运行期间，如与 KLANG 处理器之间的通信或音频传输出现问题，需要快速切回内部 Aux 母线。SKI 中提供一个标为
+  <span class="label">Bypass KLANG</span>，可立即完成切换。该功能也可分配为 User Key，并映射到 Tile 的实体按钮，以便紧急情况下快速操作。
+</p>
+
+<p>
+  内部交叉点的声像不会与 KLANG 系统保持同步，但增益和静音会同步。旁路 KLANG 后可获得电平大致匹配的混音，但声像将恢复为该交叉点使用 KLANG Mode 之前的设置；或者，如果所选 Aux 已启用
+  <span class="label">Follow Pan</span> ，交叉点声像将跟随所选路径的 Master 声像。
+</p>
+
+<h2>实用链接</h2>
+
+<a href="https://livehelp.solidstatelogic.com/Help/ExternalControl.html"
+  ><span class="hyperlink">外部控制</span></a
+>
+<br />
+<a href="https://livehelp.solidstatelogic.com/Help/BusRouting.html"><span class="hyperlink">母线路由</span></a>
+<br />
+<a href="https://livehelp.solidstatelogic.com/Help/LinkIndex.html"><span class="hyperlink">索引与术语表</span></a>
+<br />
+</body>
+</html>

@@ -1,0 +1,221 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Talkback</title>
+  <style>
+    body { font: 16px/1.55 Arial, sans-serif; max-width: 1080px; margin: 2rem auto; padding: 0 1.25rem; color: #202124; }
+    img { max-width: 100%; height: auto; }
+    table { border-collapse: collapse; max-width: 100%; }
+    th, td { border: 1px solid #aaa; padding: .45rem; vertical-align: top; }
+    .note { display: block; border-left: 4px solid #e0a000; background: #fff8df; padding: .75rem 1rem; margin: 1rem 0; }
+    .notetitle { font-weight: bold; }
+    .label { font-weight: bold; color: #174ea6; }
+    .source { color: #666; font-size: .9rem; }
+  </style>
+</head>
+<body>
+  <p class="source">Section: Mixing | Source: <a href="https://livehelp.solidstatelogic.com/Help/TB.html">https://livehelp.solidstatelogic.com/Help/TB.html</a></p>
+<h2>Talkback</h2>
+
+<p>
+    SSL Live consoles have two Talkback channels, each with two inputs and two types of output, allowing you to run two independent Talkback systems.
+    For example, you might use Talkback Channel 1 for a backstage cue speaker and Talkback Channel 2 to speak to musicians' in-ear monitors.
+</p>
+
+<p>Both Talkback channels have full channel controls with full signal processing.</p>
+
+<img style="margin: 8px 20px 0px 7px;" src="https://livehelp.solidstatelogic.com/Help/images/g_TBtile.png" alt="" align="left">
+
+<p>
+    Basic Talkback control is available in the <span style="font-weight: bold;">Talkback</span> area in the top right corner of the Master Tile (shown left).<br>
+    Turn the <span style="font-weight: bold;">TB1</span> and <span style="font-weight: bold;">TB2</span> encoders to change the fader level of the Talkback channels;
+    Press the encoders to mute the Talkback channels.
+</p>
+
+
+
+<p>The two Talkback output types can be summarised as follows:</p>
+
+
+
+
+<h3>Talkback Outputs</h3>
+
+<img style="display: block; margin: 25px auto;" src="https://livehelp.solidstatelogic.com/Help/images/g_TBdiagDirectOut.png" alt="">
+
+<p>
+    The main Talkback Outputs are used to feed remote speakers or headphones which may not have any other audio routed to it, such as a backstage cue speaker or another engineer's headphones.
+    These can also be used to feed the console's Matrix for injecting talkback into Matrix outputs.
+</p>
+
+<p>
+    Main Talkback Outputs are switched on and off using the <span class="label">OUT&nbsp;1</span> and <span class="label">OUT&nbsp;2</span>
+    keys in the Master Tile's <span style="font-weight: bold;">Talkback</span> area.
+    These buttons are also available in the Talkback Channel's <span class="label">Input/Routing</span> Detail View page (see below).
+</p>
+
+<p>
+    The <b>OUT</b> hardware keys will latch on if pressed for a short time or engage momentarily if pressed and held, automatically disengaging when the key is released.
+</p>
+
+
+<h3>Bus Injection</h3>
+
+<img style="display: block; margin: 25px auto;" src="https://livehelp.solidstatelogic.com/Help/images/g_TBdiagAuxSolo.png" alt="">
+
+<p>
+    You can also send Talkback to individual Aux buses (see diagram above), Stems and Masters. Talkback sends to buses are activated using the <span class="label">TB&nbsp;IN</span> button
+    in the bus' <span style="font-weight: bold;">Fader/TB</span> Quick Controls or Detail View page, as described further down this page.
+</p>
+
+
+<h2>Activating Talkback Inputs</h2>
+
+<p>The two inputs to each Talkback channel are switched in and out from the channel's Detail dialogue:</p>
+
+<p>A page similar to that shown below will appear (press the <span class="label">Input/Routing</span> button if a different dialogue page is shown):</p>
+
+<img style="display: block; margin: 25px auto;" src="https://livehelp.solidstatelogic.com/Help/images/g_detTBinput.png" alt="">
+
+<p>
+    Controls for the two inputs are located in either side of the dialogue. Each have full input configuration controls, as found in Input Channel
+    <span style="font-weight: bold;">Input</span> detail dialogues, introduced in <a href="https://livehelp.solidstatelogic.com/Help/DetailView.html"><span class="hyperlink">Detail View</span></a> section.
+</p>
+
+<p>
+    In addition, each input has a large <span class="label">Input&nbsp;IN</span> button which switches the input in and out. (The buttons are lit blue when the input is in).
+    These allow one or both TB inputs to feed the TB channel outputs.
+</p>
+
+
+<h2>Routing Talkback Inputs and Outputs</h2>
+
+<p>
+    The XLR inputs under the console's front buffer are available for Talkback microphones; the left side is hard-wired to local input A15 and the right to local input A16.
+    In the template showfiles, these inputs are routed to Input A of Talkback channels 1 and 2 respectively.
+</p>
+
+<p>
+    For L300, L350, L450, L500, L500&nbsp;Plus, L550 and L650 consoles, the Talkback XLR inputs are also internally hard-wired in parallel to the console's rear panel XLR inputs A15 and A16.
+</p>
+
+<span class="note">
+    <span class="notetitle">Note:</span> You should avoid plugging sources into an XLR input on the back of the console if a
+    source is also plugged into the corresponding front buffer input, as this will result in degraded audio performance.
+</span>
+
+<p>
+    Routing is performed in the Detail Dialogues of the Talkback Channels (<span style="font-weight: bold;">Input/Routing</span> page). To change the source for Input A press the
+    <span class="label">Route&nbsp;Input&nbsp;A</span> button and use the standard Routing dialogue which appears (see the <a href="https://livehelp.solidstatelogic.com/Help/Routing.html"><span class="hyperlink">Routing section</span></a> for details).
+    For Input B, use the <span class="label">Route&nbsp;Input&nbsp;B</span> button. Main Talkback Outputs (activated by the on-screen <span class="label">TALKBACK&nbsp;OUT</span> button or
+    <span class="label">OUT 1</span>/<span class="label">OUT 2</span> button in the <span style="font-weight: bold;">Talkback</span> section of the Master Tile) are routed using the <span class="label">Route&nbsp;Output</span> button.<br>
+    Use the <span class="label">Output&nbsp;Feed</span> button below the <span class="label">Route&nbsp;Output</span> button to choose where in the signal path the main output should be sourced
+    from: <span class="label">Post&nbsp;Trim</span>, <span class="label">Pre&nbsp;Fader</span>, <span class="label">Post&nbsp;Fader</span> or <span class="label">Post&nbsp;All</span>.
+    This does not affect the TB Channel to Aux/Stem/Master sends, which are always sourced <span style="font-weight: bold;">Post All</span> processing.
+</p>
+
+
+<h2>Sending to Buses</h2>
+
+<p>By default, both Talkback channels are routed to all Stem, Aux and Master buses, with their send gain set to 0 dB.</p>
+
+<p>This can be changed with the standard bus send controls in the Talkback Channel, using the Quick Controls, Detail dialogue, or Control Tile.</p>
+
+<span class="note"><span class="notetitle">Note:</span> Buses added to your Console Configuration will have their sends from both Talkback channels automatically switched IN and turned up to 0 dB.</span>
+
+<p>Talkback to individual buses can then be enabled within each bus path (or via a Talkback Group; see <a href="https://livehelp.solidstatelogic.com/Help/TB.html#Groups"><span class="hyperlink">below</span></a>).</p>
+
+<p>To access these controls, Select the desired Aux/Stem/Master path and press the <span style="font-weight: bold;">Fader/TB</span> Assigner button in the Channel View.</p>
+
+<p>
+    You can now press the <span class="label">TB</span> button to the left of the on-screen fader in the Channel View section,
+    or the <span class="label">TB&nbsp;to&nbsp;Bus</span> button in the <span style="font-weight: bold;">Fader/TB</span> Detail Dialogue, to activate or deactivate the Talkback injection.
+</p>
+
+<p>
+    <span style="font-weight: bold;">TB&nbsp;to&nbsp;Bus</span> can also be activated from the Quick Controls Fader section.
+    Press the Aux/Stem/Master's Fader Tile Quick Control encoder (or double-tap the on-screen encoder) to toggle the Quick Control page between the bus' main Fader and Talkback controls.
+</p>
+
+<img style="display:block; margin: 10px auto;" src="https://livehelp.solidstatelogic.com/Help/images/g_ChanViewAuxFaderTB.png" alt="">
+
+<p>
+    A <span style="font-weight: bold;">TB&nbsp;Dim</span> control is also included which allows the main bus signal to be attenuated while <span style="font-weight: bold;">TB&nbsp;to&nbsp;Bus</span> is engaged.
+    Each bus has its own TB Dim level, meaning each mix can be tailored according to the artist's preferences.
+</p>
+
+<img style="display:block; margin: 10px auto; width: 750px;" src="https://livehelp.solidstatelogic.com/Help/images/g_detAuxFADERTB.png" alt="">
+
+<p>Talkback can be injected into multiple buses simultaneously; simply enable <span style="font-weight: bold;">TB&nbsp;to&nbsp;Bus</span> for the desired Auxes/Stems/Masters.</p>
+
+<p>
+    Individual <span style="font-weight: bold;">TB&nbsp;to&nbsp;Bus</span> functions can also be assigned to user keys for quick access.
+    Refer to the <a href="https://livehelp.solidstatelogic.com/Help/OptionsUserKeys.html"><span class="hyperlink">User Keys</span></a> options page for further details.
+</p>
+
+<p>
+    <span style="font-weight: bold;">TB&nbsp;to&nbsp;Bus</span> functions on hardware keys will latch on if pressed for a short time or engage momentarily if pressed and held,
+    automatically disengaging when the key is released.
+</p>
+
+<span class="note">
+    <span class="notetitle">Note:</span> The <span style="font-weight: bold;">TB&nbsp;to&nbsp;Bus</span> enabled state is transitory, meaning it is not stored in showfiles or scenes.
+    This prevents the Talkback mics from being accidentally left switched on to buses. The <span style="font-weight: bold;">TB&nbsp;Dim</span> level is stored in showfiles.
+</span>
+
+
+<h2 id="Groups">Talkback Groups</h2>
+
+<p>Ten Talkback Groups are provided, to which any number of buses can be assigned, allowing Talkback to be injected into multiple Auxes/Stems/Masters from a single button or user key.</p>
+
+<p>
+    The same bus can be assigned to multiple Talkback Groups, e.g. a singer's Aux mix could be included in both 'Band' and 'Backing Vocals' TB Groups.
+    Talkback to each bus will be switched on when any of the assigned Talkback Groups are switched on. Talkback will be switched off when all assigned Talkback Groups are switched off.
+    The individual <span style="font-weight: bold;">TB&nbsp;to&nbsp;Bus</span> functions can still be used to toggle individual TB to Bus sends while they are assigned to a Talkback Group.
+</p>
+
+<p>
+    To assign buses to a Talkback Group, navigate to the Aux/Stem/Master's <span style="font-weight: bold;">Fader/TB</span> Detail View page and engage one or more of the ten buttons
+    in the <span style="font-weight: bold;">TB&nbsp;Groups</span> section. See also the Talkback Groups page described below.
+</p>
+
+<p>Once configured, TB Groups can be assigned to user keys for quick access. Refer to the <a href="https://livehelp.solidstatelogic.com/Help/OptionsUserKeys.html"><span class="hyperlink">User Keys</span></a> options page for further details.</p>
+
+<p>
+    <span style="font-weight: bold;">TB&nbsp;Group</span> functions on hardware keys will latch on if pressed for a short time or engage momentarily if pressed and held,
+    automatically disengaging when the key is released.
+</p>
+
+
+<h3>Talkback Groups page</h3>
+
+<p>
+    The <span style="font-weight: bold;">Talkback&nbsp;Groups</span> page can be used to view, name, assign to and engage Talkback Groups.
+    Access is from <span class="label">MENU</span> > <span class="label">Tools</span> > <span class="label">Talkback&nbsp;Groups</span>.
+</p>
+
+<img style="display:block; margin: 10px auto; width: 750px;" src="https://livehelp.solidstatelogic.com/Help/images/g_TBGroupPage.png" alt="">
+
+<p>
+    The top half of the page contains Talkback Group controls.
+    Press &amp; hold the <span class="label">TB&nbsp;Group&nbsp;Assign</span> button to engage assign mode. Use the Select keys on the Fader Tiles to assign Auxes/Stems/Masters to the selected Talkback Group.
+    A range of buses can be selected by pressing the first and last Select keys in the desired range. Press the <span class="label">TB&nbsp;Group&nbsp;Assign</span> button again to exit assign mode.
+</p>
+
+<p>Double-tap the name field (defaults to "Group N") to enter a user-defined name for the Talkback Group. This will be used when assigning the TB Group to user keys.</p>
+
+<p>Below the name field is a list of all buses assigned to each TB Group. This list can be swiped to scroll if a large number of buses are assigned to a single group.</p>
+
+<p>A <span class="label">TB&nbsp;Group&nbsp;IN</span> button is also provided, allowing Talkback to be injected into all of the buses listed in each group.</p>
+
+<p>The lower half of the page contains the Detail View for the Selected path. This can be used to view any path's processing and routing details, as in the Channel View screen.</p>
+
+
+<h2>Useful Links</h2>
+
+<a href="https://livehelp.solidstatelogic.com/Help/ConsoleConfig.html"><span class="hyperlink">Console Configuration</span></a><br>
+<a href="https://livehelp.solidstatelogic.com/Help/LinkIndex.html"><span class="hyperlink">Index and Glossary</span></a><br>
+</body>
+</html>

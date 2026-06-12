@@ -1,0 +1,578 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>信号路径处理</title>
+  <style>
+    body { font: 16px/1.55 Arial, sans-serif; max-width: 1080px; margin: 2rem auto; padding: 0 1.25rem; color: #202124; }
+    img { max-width: 100%; height: auto; }
+    table { border-collapse: collapse; max-width: 100%; }
+    th, td { border: 1px solid #aaa; padding: .45rem; vertical-align: top; }
+    .note { display: block; border-left: 4px solid #e0a000; background: #fff8df; padding: .75rem 1rem; margin: 1rem 0; }
+    .notetitle { font-weight: bold; }
+    .label { font-weight: bold; color: #174ea6; }
+    .source { color: #666; font-size: .9rem; }
+  </style>
+</head>
+<body>
+  <p class="source">章节：构建演出文件 | 来源：<a href="https://livehelp.solidstatelogic.com/Help/PathProc.html">https://livehelp.solidstatelogic.com/Help/PathProc.html</a></p>
+<h2>信号路径处理</h2>
+
+<p>完整处理路径（Full Path）包含 EQ、Dynamics、Delay 区域以及 All Pass Filter。</p>
+<br>
+<div id="accordion">
+
+    <div class="indexheader2 accordion-section-title">EQ</div>
+    <div id="EQ" style="padding: 1em 0;" class="accordion-section-content">
+        <h2>EQ</h2>
+
+        <p>所有 Full Path 均配有四段参数均衡器、高通滤波器和低通滤波器。</p>
+
+
+        <p>要访问 EQ，请打开 Detail View 并选择 <span class="label">EQ</span> 页面。</p>
+
+        <img style="display: block; margin: 20px auto; width: 750px;" src="https://livehelp.solidstatelogic.com/Help/images/g_DetailEQ.png" alt="">
+
+
+        <p>要启用或旁通 EQ 或滤波器，请触摸页面右上角的 <span class="label">EQ&nbsp;IN</span> 或 <span class="label">Filter&nbsp;IN</span> 按钮；启用后相应按钮会“点亮”。</p>
+
+        <p>可用手指或鼠标拖动 EQ 图形中的节点。要更改 Q 值，请使用捏合手势收窄或加宽曲线形状。</p>
+
+        <h2>EQ 形状</h2>
+
+        <p>EQ 和滤波器的每个频段都有三种形状选项，不同频段类型的选项也不同。</p>
+
+        <p>对于滤波器频段，可选择每倍频程衰减 <span style="font-weight: bold;">12 dB</span>、<span style="font-weight: bold;">18 dB</span> 或 <span style="font-weight: bold;">24 dB</span> 的滤波斜率。</p>
+
+        <p>EQ 频段提供以下形状：</p>
+
+        <p>Band 1（LF）：<span style="font-weight: bold;">Low Shelf</span>（Q 值可调，可在转折频率处产生过冲/下冲）、<span style="font-weight: bold;">ConstantQ</span>（Q 值可调，且增益变化时保持不变）或 <span style="font-weight: bold;">Legacy</span>（模拟典型 SSL G-Series EQ 的 Q 值特性）。</p>
+
+        <p>Band 2（LMF）和 Band 3（HMF）：<span style="font-weight: bold;">ConstantQ</span>、<span style="font-weight: bold;">Legacy</span> 或 <span style="font-weight: bold;">Notch</span>（中心频率处设为最大增益衰减；Q 值和频率仍可按常规方式调整）。</p>
+
+        <p>Band 4（HF）：<span style="font-weight: bold;">High Shelf</span>（Q 值可调，可在转折频率处产生过冲/下冲）、<span style="font-weight: bold;">ConstantQ</span> 或 <span style="font-weight: bold;">Legacy</span>。</p>
+
+        <p>要更改频段形状：</p>
+
+        <p>触摸相应频段的节点；节点会以颜色表示已被选择；</p>
+
+        <p>触摸图形右侧、<span class="label">Filter&nbsp;IN</span> 按钮下方的按钮，打开形状选项菜单，然后选择所需形状。</p>
+
+        <h2>FFT 分析仪</h2>
+
+        <p>Detail View 的 EQ 图形可非常精确地显示 EQ 和滤波器的频率响应，既可显示各个频段，也可显示总体效果。</p>
+
+        <p>
+            使用 <span class="label">Analyser</span> 按钮查看信号的频谱分析。
+            此分析仪每倍频程使用固定点数，因此在整个频率范围内均能提供同等精细的分辨率，即使低频也不例外。
+        </p>
+
+        <p>
+            可使用 <span class="label">Analyser&nbsp;Settings</span> 弹出面板自定义分析仪显示。
+            <ul>
+                <li><b>Display</b> 的 <span class="label">Slow</span>/<span class="label">Fast</span> 是全局设置，用于确定分析仪的更新速率。</li>
+                <li>
+                    <b>Feed Point</b> <span class="label">Pre&nbsp;Filter</span>/<span class="label">Post&nbsp;Filter</span>/<span class="label">Pre&nbsp;EQ</span>/<span class="label">Post&nbsp;EQ</span>
+                    用于设置分析仪的信号源。这是按路径保存的设置。请注意，Filter 和 EQ 模块可在<a href="https://livehelp.solidstatelogic.com/Help/ProcOrder.html"><span class="hyperlink">信号路径处理顺序</span></a>中自由移动。
+                </li>
+                <li><b>Offset</b> 调整送入分析仪的信号电平。这是按路径保存的设置，不会影响该路径的实际可听信号电平。</li>
+            </ul>
+        </p>
+
+        <img style="display: block; margin: 20px auto;" src="https://livehelp.solidstatelogic.com/Help/images/g_EQAnalyserSettings.png" alt="">
+
+        <p>
+            Live 支持连接多个操作面来远程控制音频引擎，包括其他控制台操作面和 SOLSA PC 应用程序
+            （详情请参阅<a href="https://livehelp.solidstatelogic.com/Help/RemoteControl.html"><span class="hyperlink">远程控制</span></a>章节）。
+            每个“操作面”（包括 SOLSA）都可在所选路径上显示 EQ 分析仪，但分析仪一次只能用于一条路径。
+            因此，可在主操作面以外的其他操作面上禁用 Analyser 视图，防止其他用户更改分析仪所分配的路径。
+            可在 User Options 页面（<span class="label">MENU</span> > <span class="label">Setup</span> > <span class="label">Options</span> > <span class="label">USER</span>）中进行设置。
+            更多详情和选项请参阅<a href="https://livehelp.solidstatelogic.com/Help/OptionsUser.html#Analyser"><span class="hyperlink">用户选项</span></a>章节。
+        </p>
+
+        <p><span class="note"><span class="notetitle">注意：</span>分析仪仅适用于单声道和立体声路径。</span></p>
+
+
+        <h2 id="ResettingEQ">重置 EQ</h2>
+
+        <p>要重置单个 EQ 或滤波器频段，请按 EQ 图形右侧的 <span class="label">Band&nbsp;Reset</span> 按钮，并从下拉列表中选择所需频段。</p>
+
+        <p>要将整个 EQ 和/或滤波器重置为平直状态，请按住 <span class="label">EQ&nbsp;IN</span> 或 <span class="label">Filter&nbsp;IN</span> 按钮，然后选择 <span class="label">Reset</span> 下拉列表选项。</p>
+
+
+
+        <br>
+
+
+        <h2>快速控制</h2>
+
+        <h3>Follow Detail 模式</h3>
+
+        <p>
+            屏幕下方的 Quick Controls 也可分配给 Detail View 参数。
+            为此，需要启用 Main Screen 右下角的 <span style="font-weight: bold;">Follow Detail</span> 按钮。
+        </p>
+
+        <img style="width: 147px; height: 116px; margin: 0px 0px 5px 15px;" src="https://livehelp.solidstatelogic.com/Help/images/g_PanelQuicksBasic2.png" alt="" align="right">
+
+        <p>
+            启用 <span class="label">Follow Detail</span> 后，屏幕下方的 Quick Controls 会分配给所选通道的不同功能
+            （仅在 Detail View 打开时适用）。其他 Fader Tile 上的 Quick Controls 不受影响。
+        </p>
+
+        <p>
+            Detail View 底部的标签表示分配给其正下方 Quick Controls 的功能。
+            通常，每个通道的 Quick Controls 一次只分配一种功能。
+            开关功能分配给 Upper Quick Key（可用时会点亮），连续参数分配给 Encoder。
+        </p>
+
+        <h3>Follow Channel Quick Control 模式</h3>
+
+        <p>在 Channel View 或 Detail View 的 EQ 区域轻触一次，将 Filters/EQ 发送到 Quick Controls。</p>
+
+        <img style="margin: 0px 0px 10px 19px;" src="https://livehelp.solidstatelogic.com/Help/images/g_quickEQ1.png" alt="" align="right">
+
+        <p>按 Fader Tile Encoder（或双击 Screen Encoder），在四个 EQ 频段（青色）与两个滤波器频段（紫色）之间循环切换控制；</p>
+
+        <p>在任意四个均衡器频段页面中按 In 按钮，将 EQ 接入信号链。同样，要将滤波器接入信号链，请在滤波器页面按 <span style="font-weight: bold;">In</span> 按钮；</p>
+
+        <p>对于均衡器频段，使用底部两个 Quick Control 按钮，在频段频率（左按钮点亮）、增益（右按钮点亮）和 Q（两个按钮均不亮）之间切换 Encoder 所控制的参数；</p>
+
+        <p>对于滤波器频段，使用底部两个 Quick Control 按钮，在高通频率和低通频率之间切换 Encoder 所控制的参数；</p>
+
+        <p>然后拖动 Encoder 调整所选参数。</p>
+
+        <p>Context Display 显示当前 EQ 设置。EQ 按钮帽上也会显示此图形的简化版本；当 Context Display 未显示 EQ 时，该简图仍保持可见。</p>
+
+        <p>双击 Context Display 可打开通道 EQ Detail View，在其中编辑更高级的 EQ 参数。</p>
+
+        <p>如果某个 EQ 频段的增益控件呈灰色，该频段很可能设置为 Notch。</p>
+
+        <img style="margin: 10px 0px 10px 21px;" src="https://livehelp.solidstatelogic.com/Help/images/g_miniEQ.png" alt="" align="right">
+
+
+        <h2>控制区块</h2>
+
+
+        <p>要启用或旁通四个 EQ 频段，请按 <span style="font-weight: bold;">EQ</span><span> </span><span class="label">IN</span> 按钮，该按钮位于屏幕下方的 <span style="font-weight: bold;">EQ</span> 区域；要启用或旁通滤波器，请触摸 <span style="font-weight: bold;">Filters</span><span> </span><span class="label">IN</span> 按钮。</p>
+
+        <p>要重置 EQ 频段或滤波器，请按住相应的 <span class="label">IN</span> 按钮，直到其闪烁。</p>
+
+        <p>屏幕中央的图形显示当前 EQ 和滤波器设置。</p>
+
+        <p>也可通过触摸调整图形。</p>
+
+        <p>屏幕两侧的编码器分别分配给四个 EQ 频段的频率、Q 和增益，具体功能显示在靠近各编码器的屏幕区域中；要更改某频段的 EQ 形状，请按其 Q 编码器，在 Q 值条下方出现的设置间循环切换。</p>
+
+        <p>滤波器频率在屏幕底部控制；触摸各频率值条上方的按钮选择滤波斜率。</p>
+
+
+        <p>所有屏幕按钮均可直接触摸操作。</p>
+
+
+    </div>
+
+
+
+
+
+
+
+    <div class="indexheader2 accordion-section-title">动态处理</div>
+    <div id="Dynamics" style="padding: 1em 0;" class="accordion-section-content">
+        <h2>动态处理</h2>
+
+        <p>所有 Full Path 均配有压缩器和门限器/扩展器。</p>
+
+
+        <p>要访问 Dynamics 区域，请打开 Detail View 并选择 <span class="label">Comp Gate</span> 页面。</p>
+
+
+        <img style="display: block; margin: 25px auto;" src="https://livehelp.solidstatelogic.com/Help/images/g_detailCOMPGATE.png" alt="">
+
+
+        <p>要启用或旁通压缩器或门限器，请触摸页面右上角的 <span class="label">Comp&nbsp;IN</span> 或 <span class="label">Gate&nbsp;IN</span> 按钮；相应动态处理单元启用后，按钮会“点亮”。</p>
+
+        <p>可用手指拖动所显示图形中的节点。</p>
+
+        <p>当两个节点重叠时，双击节点可切换当前选择。</p>
+
+        <p>要更改压缩器或门限器的 Hold 值，请用双指捏合 <span style="font-weight: bold;">Comp Time</span> 或 <span style="font-weight: bold;">Gate Time</span> 图形。</p>
+
+        <p>要更改压缩器或门限器（仅扩展器模式）的拐点值，请用双指捏合主图形中的 <span style="font-weight: bold;">CT</span> 或 <span style="font-weight: bold;">GT</span> 节点。</p>
+
+        <h2>显示选项</h2>
+
+        <p>左侧图形上方的按钮用于定义所显示的参数，汇总如下：</p>
+
+        <ul>
+            <li><span class="label">Compressor</span>：页面左侧显示 Threshold 和 Ratio，中间显示增益，右侧显示时间参数和 Compressor Setup；</li>
+            <li><span class="label">Compressor</span> 和 <span class="label">Comp&nbsp;Filters</span>：左侧显示滤波器频率，中间显示压缩器增益，右侧显示时间参数和 Compressor Setup；</li>
+            <li><span class="label">Gate</span>：左侧显示 Threshold 和 Range，右侧显示时间参数和 Gate Setup；</li>
+            <li><span class="label">Gate</span> 和 <span class="label">Gate&nbsp;Filters</span>：左侧显示滤波器频率，右侧显示时间参数和 Gate Setup。</li>
+            <li><span class="label">Compressor</span> 和 <span class="label">Gate</span>：左侧同时显示两者的 Threshold 和 Ratio，中间显示压缩器增益，右侧显示压缩器和门限器的时间参数。</li>
+        </ul>
+
+        <h2>动态处理显示</h2>
+
+        <p>门限器启用时，图形顶部会显示“交通灯”式门限表：红色表示信号未通过，绿色表示门已打开，琥珀色表示门限器处于阈值电平。</p>
+
+        <p>每个动态处理模块的 Setup 页面会显示该模块的基本路由；触摸所显示的元素即可启用，元素变为绿色表示已启用。</p>
+
+
+        <h2>压缩器增益</h2>
+
+        <p>要手动调整压缩器的补偿增益，请确保页面中的 Compressor 已启用，然后上下拖动页面中央的 <span style="font-weight: bold;">COMP</span> 滑块。左侧图形会随所加入的增益发生变化。</p>
+
+        <p>也可让控制台自动设置补偿增益：触摸 <span class="label">Auto&nbsp;Gain</span> 按钮（位于 <span style="font-weight: bold;">COMP</span> 滑块上方）；按钮点亮表示已启用，同时滑块会停用。</p>
+
+        <h2>压缩器混合控制</h2>
+
+        <p>信号路径 Dynamics 区域中的 <strong>Comp Mix</strong> 控件可便捷地在任意路径上使用并行压缩处理。</p>
+
+        <p>可将压缩信号与未压缩信号并行混合。设为 100% 时仅使用压缩信号；设为 0% 时仅通过未经压缩的干信号；50% 时压缩信号与未压缩信号各占相同比例。启用 <strong>Follow Detail</strong> 后，可使用屏幕推子或对应的 Quick Control Encoder 设置百分比。</p>
+
+        <p>启用电子管压缩模拟时无法使用 Comp Mix。启用 Tube 后，混合控制推子帽会消失，混合比例自动设为并显示为 100%。此前的混合百分比会保留，以便停用 Tube 后恢复。</p>
+
+        <h2>侧链</h2>
+
+        <p>门限器和压缩器均配有带滤波器及外部输入路由的侧链。</p>
+
+        <p>要将高通和低通滤波器插入 Compressor 和/或 Gate 侧链：</p>
+
+        <p>触摸 Compressor 或 Gate Setup 显示中的 <span class="label">Filters</span> 按钮；按钮点亮表示已启用；</p>
+
+        <p>触摸左侧图形上方的 <span class="label">Comp&nbsp;Filters</span> 或 <span class="label">Gate&nbsp;Filters</span> 按钮；随后会出现带 <span style="font-weight: bold;">HPF</span> 和 <span style="font-weight: bold;">LPF</span> 节点的频率图形。</p>
+
+        <p>拖动节点可更改各滤波器的 -3 dB 点。</p>
+
+        <p>要将其他信号路由到 Compressor 或 Gate 侧链，请触摸右侧图形右边的 <span class="label">Comp&nbsp;Key&nbsp;Route</span> 或 <span class="label">Gate&nbsp;Key&nbsp;Route</span> 按钮，并在出现的标准路由界面中找到该信号。（请参阅<a href="https://livehelp.solidstatelogic.com/Help/Routing.html"><span class="hyperlink">路由</span></a>，了解路由界面的操作说明。）</p>
+
+        <p>然后触摸 Compressor 或 Gate Setup 显示中的 <span class="label">Ext&nbsp;Key</span> 按钮以启用外部侧链；按钮点亮表示已启用。</p>
+
+        <p>要监听 Compressor 或 Gate 侧链，请触摸右侧图形上方的 <span class="label">Comp&nbsp;Key&nbsp;Solo</span> 或 <span class="label">Gate&nbsp;Key&nbsp;Solo</span> 按钮。</p>
+
+        <span class="note"><span class="notetitle">注意：</span>Key Listen Solo 信号会路由到通道 Misc Solo 设置中指定的 Solo 母线；详情请参阅 <a href="https://livehelp.solidstatelogic.com/Help/Solo.html"><span class="notehyperlink">Solo</span></a>。</span>
+
+        <h2>电子管模拟</h2>
+
+        <p>可在压缩电路中加入电子管压缩器模拟：</p>
+
+        <p>触摸 Compressor Setup 显示中的 <span class="label">Tube</span> 按钮；按钮点亮表示已启用。</p>
+
+        <h2>峰值模式</h2>
+
+        <p>信号路径压缩器提供 RMS 和 Peak 两种检测方式。</p>
+
+        <p>RMS 是默认检测模式。要启用 Peak 检测，请按 Compressor Setup 显示中的 <span class="label">Peak Mode</span> 按钮。</p>
+
+        <h2>扩展器模式</h2>
+
+        <p>触摸 Gate Setup 显示中的 <span class="label">Exp</span> 按钮，可将 Gate 切换为 Expander 模式。</p>
+
+        <h2>闪避模式</h2>
+
+        <!-- Start of Duck mode snippet -->
+        <!-- Also used in FXDynamics.html -->
+        <p>
+            启用 <span class="label">Duck</span> 按钮，将 Gate 变为 Ducker。
+            这会反转 Gate 侧链阈值逻辑的工作方式：当侧链（Key）输入信号超过 <b>Threshold</b> 时，输入信号会按 <b>Range</b> 数值衰减，
+            例如在 DJ 讲话时自动压低音乐。
+        </p>
+        <!-- End of Duck mode snippet -->
+
+        <h2>预设</h2>
+
+        <p>要为通道加载 Dynamics 预设，请触摸页面右下角的 <span class="label">Preset</span> 按钮，然后在出现的标准 LIVE Preset 页面中选择预设。</p>
+
+        <h2>重置动态处理数值</h2>
+
+        <p>要将压缩器或门限器重置为 1:1，请按住 <span class="label">Comp&nbsp;IN</span> 或 <span class="label">Gate&nbsp;IN</span> 按钮，然后选择 <span class="label">Reset</span> 下拉列表选项。</p>
+
+        <br>
+
+        <h2>快速控制</h2>
+
+        <h3>Follow Detail 模式</h3>
+
+        <p>
+            屏幕下方的 Quick Controls 也可分配给 Detail View 参数。
+            为此，需要启用 Main Screen 右下角的 <span style="font-weight: bold;">Follow Detail</span> 按钮。
+        </p>
+
+        <img style="width: 147px; height: 116px; margin: 0px 0px 5px 15px;" src="https://livehelp.solidstatelogic.com/Help/images/g_PanelQuicksBasic2.png" alt="" align="right">
+
+        <p>
+            启用 <span class="label">Follow Detail</span> 后，屏幕下方的 Quick Controls 会分配给所选通道的不同功能
+            （仅在 Detail View 打开时适用）。其他 Fader Tile 上的 Quick Controls 不受影响。
+        </p>
+
+        <p>
+            Detail View 底部的标签表示分配给其正下方 Quick Controls 的功能。
+            通常，每个通道的 Quick Controls 一次只分配一种功能。
+            开关功能分配给 Upper Quick Key（可用时会点亮），连续参数分配给 Encoder。
+        </p>
+
+        <h3>Follow Channel Quick Control 模式</h3>
+
+        <p>在 Channel View 或 Detail View 的 Dynamics 区域轻触一次，将 Comp/Gate 发送到 Quick Controls。</p>
+
+        <img style="margin: 0px 0px 10px 19px;" src="https://livehelp.solidstatelogic.com/Help/images/g_quickCOMPGATE.png" alt="" align="right">
+
+        <p>按 Fader Tile Encoder（或双击 Screen Encoder），在 Compressor（绿色）和 Gate（浅绿色）控制之间循环切换；</p>
+
+        <p>按 <span style="font-weight: bold;">In</span> 按钮，将 Compressor 或 Gate 接入信号链；</p>
+
+        <p>使用 Lower Quick Controls，在 <span style="font-weight: bold;">CT</span> 与 <span style="font-weight: bold;">CR</span>（Compressor Threshold 和 Ratio）之间，或在 <span style="font-weight: bold;">GT</span> 与 <span style="font-weight: bold;">GR</span>（Gate Threshold 和 Range）之间切换 Encoder 所控制的参数；</p>
+
+        <p>然后拖动/转动 Encoder 调整动态处理。</p>
+
+        <p>Context Display 显示当前门限器和压缩器设置。Compressor/Gate 按钮帽上也会显示此图形的简化版本；当 Context Display 未显示动态处理时，该简图仍保持可见。</p>
+
+        <p>实际增益衰减情况显示在控制台操作面上、通道推子右侧的 <span style="font-weight: bold;">COMP</span> 和 <span style="font-weight: bold;">GATE</span> 电平表中。</p>
+
+        <p>双击图形区域可打开扩展显示，在其中编辑更高级的动态处理参数。</p>
+
+
+
+        <img style="margin: 17px 0px 0px 20px;" src="https://livehelp.solidstatelogic.com/Help/images/g_miniDYN.png" alt="" align="right">
+
+
+        <h2>控制区块</h2>
+
+        <p>按 <span class="label">DYN</span> 按钮（位于 Control Tile Screen 下方的 <span style="font-weight: bold;">Dynamics</span> 区域），可将动态处理控件分配给 Main Screen 右侧的 Control Tile：</p>
+
+
+        <p>要启用或旁通 Compressor 或 Gate，请按 <span style="font-weight: bold;">Comp</span> 或 <span><span style="font-weight: bold;">Gate</span> </span><span class="label">IN</span> 按钮；这些按钮位于屏幕下方的 <span style="font-weight: bold;">Dynamics</span> 区域。</p>
+
+        <p>要重置 Compressor 或 Gate，请按住相应的 <span class="label">IN</span> 按钮，直到其闪烁。</p>
+
+        <p>也可通过触摸调整图形。</p>
+
+        <p>所有屏幕按钮均可直接触摸操作。</p>
+
+        <p>屏幕周围的编码器分配给其最近屏幕区域中的功能；压缩器控件位于左侧，门限器控件位于右侧。</p>
+
+        <p>按下编码器可操作开关，转动编码器可更改连续参数。</p>
+
+
+
+    </div>
+
+
+    <div class="indexheader2">延迟</div>
+    <div id="Delay" style="padding: 1em 0;" class="accordion-section-content">
+        <h2>延迟</h2>
+        <p>Live 中每条 Full Path 的信号最多可延迟 2 秒。</p>
+
+
+        <p>打开 Detail View，然后轻触 <span class="label">Delay All Pass</span> 页面。</p>
+
+        <img style="display: block; margin: 25px auto;" src="https://livehelp.solidstatelogic.com/Help/images/g_detailDELAY.png" alt="">
+
+        <p>要启用或旁通 Delay，请触摸页面右上角的 <span class="label">Delay&nbsp;IN</span> 按钮；启用后按钮变为蓝色。</p>
+
+        <p>可用手指拖动图形中的 <span style="font-weight: bold;">Del</span> 节点。</p>
+
+        <p>图形下方有一个滚动条。如果尝试将节点拖出左边界或右边界，显示内容会随之滚动。</p>
+
+        <p>可拖动滚动器更改延迟。节点会保持在显示区域中的位置，而其后的图形会滚动。</p>
+
+        <p>要放大或缩小，请使用双指合拢或张开。</p>
+
+        <p>延迟量显示在图形左上角。图形右侧的 <span class="label">Time</span> 和 <span class="label">Distance</span> 按钮用于定义单位；每个按钮会在相应单位间循环切换（采样/毫秒/秒，以及厘米/米）。</p>
+
+        <span class="note"><span class="notetitle">注意：</span>延迟值始终以<span style="font-weight: bold;">采样数</span>存储。更改控制台采样率会改变以其他单位表示的延迟时间。</span>
+
+        <p>要精确设置延迟量，可使用单位按钮下方的 Delay Time &#8211; 和 + 按钮，每次以一个采样为单位增减延迟。也可选择 <span style="font-weight: bold;">Del</span> 节点，双击右下角的数值框，然后使用出现的键盘输入。</p>
+
+        <span class="note">
+            <span class="notetitle">提示：</span>以下方式可能是操作图形最高效的方法：<br>
+            - 将图形放大到较近视图，并让 <span style="font-weight: bold;">Del</span> 节点保持在中央；<br>
+            - 使用 Scroller 设置大致延迟值；<br>
+            - 再移动 <span style="font-weight: bold;">Del</span> 节点，对数值进行微调。
+        </span>
+
+
+        <span class="note"><span class="notetitle">注意：</span>信号路径延迟用于延迟整个信号，并非用于制作延迟效果。可将控制台效果引擎中的延迟效果路由到路径插入点。请参阅<a href="https://livehelp.solidstatelogic.com/Help/FXIntro.html"><span class="notehyperlink">效果器机架</span></a>了解更多详情。</span>
+
+        <br>
+
+        <h2>快速控制</h2>
+
+        <h3>Follow Detail 模式</h3>
+
+        <p>屏幕下方的 Quick Controls 也可分配给 Detail View 参数。为此，需要启用 Main Screen 右下角的 <span style="font-weight: bold;">Follow Detail</span> 按钮。触摸该按钮可切换状态：</p>
+
+        <img style="width: 147px; height: 116px; margin: 0px 0px 5px 20px;" src="https://livehelp.solidstatelogic.com/Help/images/g_PanelQuicksBasic2.png" alt="" align="right">
+
+        <p>
+            屏幕下方的 Quick Controls 会分配给所选通道的不同功能
+            （仅在 Detail View 打开时适用）。其他 Fader Tile 上的 Quick Controls 不受影响。
+        </p>
+
+        <p>Detail View 底部的标签表示分配给其正下方 Quick Controls 的功能。通常，每个通道的 Quick Controls 一次只分配一种功能。开关功能分配给 Upper Quick Key（可用时会点亮），连续参数分配给 Encoder。</p>
+
+        <p>要将延迟单元重置为 0，请按住 Detail View 中的 <span class="label">Delay&nbsp;IN</span> 按钮，然后选择 <span class="label">Reset</span> 下拉列表选项。</p>
+
+        <p>要关闭 Detail View，请触摸右上角的 Close 按钮。</p>
+
+
+        <h3>Follow Channel Quick Control 模式</h3>
+
+
+        <p>在 Channel View 或 Detail View 的 Delay 区域轻触一次，将 Delay/All Pass 发送到 Quick Controls。</p>
+
+        <img style="margin: 0px 0px 0px 20px;" src="https://livehelp.solidstatelogic.com/Help/images/g_quickDelay.png" alt="" align="right">
+
+        <p>按 Fader Tile Encoder（或双击 Screen Encoder），在 Delay（洋红色）和 All Pass（粉色）控制之间循环切换；</p>
+
+        <p>按 <span style="font-weight: bold;">In</span> 按钮，将 Delay 或 All Pass 接入信号链；</p>
+
+        <p>转动 Encoder 调整延迟。</p>
+
+        <p>
+            延迟量显示在 Quick Key 显示区上方。下方 Quick Keys 可在
+            <span style="font-weight: bold;">Time</span> 和 <span style="font-weight: bold;">Distance</span> 测量方式之间切换，
+            每个按钮会在相应单位间循环切换（采样/毫秒/秒，以及厘米/米）。
+        </p>
+
+
+
+        <h2>控制区块</h2>
+
+        <img style="margin: 10px 0px 15px 20px;" src="https://livehelp.solidstatelogic.com/Help/images/g_miniTime.png" alt="" align="right">
+
+        <p>要启用或旁通延迟，请按 <span style="font-weight: bold;">Delay</span><span> </span><span class="label">IN</span> 按钮；该按钮位于屏幕上方的 <span style="font-weight: bold;">Time</span> 区域。</p>
+
+        <p>要重置延迟，请按住 <span class="label">IN</span> 按钮，直到其闪烁。</p>
+
+        <p>Delay 控件分配在屏幕上半部，All&nbsp;Pass 滤波器控件分配在屏幕下半部。</p>
+
+        <p>延迟量显示在屏幕左上角，可使用其左侧的编码器更改。</p>
+
+        <p>其下方的 <span class="label">Time</span> 和 <span class="label">Distance</span> 按钮用于定义单位；按相邻编码器可在所有相关单位间循环切换（采样/毫秒/秒，以及厘米/米）。也可直接触摸屏幕中的这些按钮。</p>
+
+        <p>这些 <span style="font-weight: bold;">Samples</span> <span class="label">&#8211;</span> 和 <span class="label">+</span> 按钮可逐步更改延迟值。
+
+        <p>此 <span style="font-weight: bold;">Delay</span> 图形显示当前设置。</p>
+
+        <p>可用手指拖动图形中的 <span style="font-weight: bold;">Del</span>（延迟）节点。</p>
+
+        <p>如果尝试将节点拖出左边界或右边界，显示内容会随之滚动。</p>
+
+        <p>也可拖动图形下方的滚动器更改延迟；节点会保持在显示区域中的位置，而其后的图形会滚动。</p>
+
+        <p>要放大或缩小，请使用双指合拢或张开。</p>
+
+
+    </div>
+
+
+    <div class="indexheader2">全通滤波器</div>
+    <div id="AllPass" style="padding: 1em 0;" class="accordion-section-content">
+        <h2>全通滤波器</h2>
+
+        <p>
+            All Pass Filter 可用于调整特定频率范围的相位。
+            在解决楔形返听音箱的反馈问题，或同一乐器使用多个麦克风时，全通滤波器尤其有用。
+            当两个信号的相位关系接近完全相反时，简单的 <span class="label">&#216;</span> 反相按钮最为有效，但实际情况往往并非如此。
+            All Pass Filter 是解决相位相关问题精确得多的工具。
+        </p>
+
+
+        <p>打开 Detail View，然后轻触 <span class="label">Delay All Pass</span> 按钮。</p>
+
+        <img style="display: block; margin: 25px auto;" src="https://livehelp.solidstatelogic.com/Help/images/g_detailALLPASS.png" alt="">
+
+        <p>要启用或旁通 All Pass Filter，请触摸页面右上角的 <span class="label">All&nbsp;Pass&nbsp;IN</span> 按钮；启用后按钮变为蓝色。</p>
+
+        <p>使用 <span class="label">2nd&nbsp;Order</span> 和 <span class="label">All&nbsp;Pass&nbsp;&Oslash;</span> 按钮定义滤波器类型。</p>
+
+        <p>可用手指或鼠标拖动图形中的 <span style="font-weight: bold;">AllP</span> 节点。</p>
+
+        <p>在二阶模式下，要更改 Q 值，请使用捏合手势。</p>
+
+        <p>滤波器的 Q 值和中心频率显示在图形左上角。</p>
+
+        <p>要将滤波器重置为默认值，请按住 Detail View 中的 <span class="label">All&nbsp;Pass&nbsp;IN</span> 按钮，然后选择 <span class="label">Reset</span> 下拉列表选项。</p>
+
+
+
+        <h2>快速控制</h2>
+
+        <h3>Follow Detail 模式</h3>
+
+        <p>屏幕下方的 Quick Controls 也可分配给 Detail View 参数。为此，需要启用 Main Screen 右下角的 <span style="font-weight: bold;">Follow Detail</span> 按钮。触摸该按钮可切换状态：</p>
+
+        <img style="width: 147px; height: 116px; margin: 0px 0px 5px 18px;" src="https://livehelp.solidstatelogic.com/Help/images/g_PanelQuicksBasic2.png" alt="" align="right">
+
+
+        <p>
+            屏幕下方的 Quick Controls 会分配给所选通道的不同功能（仅在 Detail View 打开时适用）。
+            其他 Fader Tile 上的 Quick Controls 不受影响。
+        </p>
+
+        <p>
+            Detail View 底部的标签表示分配给其正下方 Quick Controls 的功能。
+            通常，每个通道的 Quick Controls 一次只分配一种功能。开关功能分配给 Upper Quick Key（可用时会点亮），连续参数分配给 Encoder。
+        </p>
+
+        <h3>Follow Channel Quick Control 模式</h3>
+
+        <p>在 Channel View 或 Detail View 的 Delay 区域轻触一次，将 Delay/All Pass 发送到 Quick Controls。</p>
+
+        <img style="margin: 20px 0px 10px 20px;" src="https://livehelp.solidstatelogic.com/Help/images/g_quickAllPass.png" alt="" align="right">
+
+        <p>按 Fader Tile Encoder（或双击 Screen Encoder），在 Delay（洋红色）和 All Pass（粉色）控制之间循环切换；</p>
+
+        <p>按 <span style="font-weight: bold;">In</span> 按钮，将 Delay 或 All Pass 接入信号链；</p>
+
+        <p>转动 Encoder 调整频率。</p>
+
+
+
+
+        <p>通道 Quick Controls 会在 Delay 和 All&nbsp;Pass 滤波器控件之间循环切换；按 Fader Tile Encoder（或双击屏幕 Encoder）切换到正确显示。</p>
+
+        <p>在 All&nbsp;Pass 显示中，按 <span style="font-weight: bold;">In</span> 按钮将滤波器接入信号链。</p>
+
+        <p>
+            左下按钮（<span style="font-weight: bold;">Freq</span>）定义分配给编码器的参数；
+            取消选择该按钮后，Encoder 控制滤波器的 <span style="font-weight: bold;">Q</span>。
+        </p>
+
+        <p>右下按钮控制 <span class="label">All Pass &Oslash;</span> 功能。</p>
+
+        <h2>控制区块</h2>
+
+        <p>按 Control Tile Screen 上方的 <span class="label">Time</span> 按钮，可将 All Pass 滤波器控件分配给 Control Tile：</p>
+
+        <img style="margin: 0px 10px;" src="https://livehelp.solidstatelogic.com/Help/images/g_miniTime.png" alt="" align="right">
+
+        <p>要启用或旁通 All Pass 滤波器，请按 <span style="font-weight: bold;">AllPass</span><span> </span><span class="label">IN</span> 按钮；该按钮位于屏幕上方的 <span style="font-weight: bold;">Time</span> 区域。</p>
+
+        <p>要重置 All Pass 滤波器，请按住 <span class="label">IN</span> 按钮，直到其闪烁。</p>
+
+        <p>滤波器控件分配在屏幕下半部，Delay 控件分配在屏幕上半部。</p>
+
+        <p>位于 <span style="font-weight: bold;">All-Pass Filter</span> 图形左侧的编码器可用于更改滤波器频率和 Q，具体功能由屏幕内相邻的数值条指示。</p>
+
+        <p>也可左右拖动 <span style="font-weight: bold;">AllP</span> 节点来更改中心频率。</p>
+
+        <p>左下角的按钮可用于更改滤波器阶数和相位。</p>
+    </div>
+</div>
+
+<!--<p><a href="#EQ"><span class="hyperlink">Accordion test</span></a></p>-->
+
+<h2>实用链接</h2>
+<a href="https://livehelp.solidstatelogic.com/Help/DetailView.html"><span class="hyperlink">详细信息视图</span></a>
+<br>
+<a href="https://livehelp.solidstatelogic.com/Help/FXIntro.html"><span class="hyperlink">效果器机架</span></a>
+<br>
+<a href="https://livehelp.solidstatelogic.com/Help/LinkIndex.html"><span class="hyperlink">索引与术语表</span></a>
+<br>
+</body>
+</html>

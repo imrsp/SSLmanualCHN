@@ -1,0 +1,449 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html ng-app="sslLiveHelp">
+<head>
+    <meta content="text/html; charset=ISO-8859-1" http-equiv="content-type">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=yes">
+
+    <link href="../Help/style/style.css" rel="stylesheet">
+    <link href="../Help/style/jquery-ui-1.13.2.structure.css" rel="stylesheet">
+    <title>Remote Surfaces</title>
+    <script src="../Help/js/jquery-3.6.0.min.js"></script>
+    <script src="../Help/js/jquery-ui/1.13.2/jquery-ui.min.js"></script>
+    <!--<script type="text/javascript" src="cordova.js"></script>-->
+    <!-- Nav / search panels 2017 updates -->
+    <script>
+    window.baseDir = '../';
+    window.data = 'null';
+    </script>
+    <link rel="stylesheet" type="text/css" href="../Help/fonts/font-awesome-4.7.0/css/font-awesome.min.css" />
+    <link rel="stylesheet" type="text/css" href="../Help/style/sass-styles.css">
+    <script src="../Help/js/fastclick.js"></script>
+    <script src="../Help/js/lodash.core.min.js"></script>
+    <!--<script src="../Help/js/angular/1.2/angular.min.js"></script>-->  <!-- On a console -->
+    <script src="../Help/js/angular/1.8/angular.min.js"></script>   <!--Not on a console -->
+    <script src="../Help/js/ngStorage.min.js"></script>
+    <!--<script src="../Help/js/angular/1.2/angular-sanitize.min.js"></script>-->  <!-- On a console -->
+    <!--<script src="../Help/js/angular/1.2/angular-animate.min.js"></script>-->   <!-- On a console -->
+    <script src="../Help/js/angular/1.8/angular-sanitize.min.js"></script>  <!--Not on a console -->
+    <script src="../Help/js/angular/1.8/angular-animate.min.js"></script>   <!--Not on a console -->
+    <script src="../Help/js/lunr-2.3.min.js"></script>
+    <script src="../Help/js/menu.js"></script>
+
+</head>
+
+<body ng-controller="NavController as vm">
+
+    <!--<nav class="nav" ng-class="{ 'nav--visible' : vm.visible }" ng-if="vm.visible" role="navigation" aria-label="Primary">-->  <!-- On a console --> 
+    <nav class="nav" ng-class="{ 'nav--visible' : vm.visible }" role="navigation" aria-label="Primary"> <!--Not on a console -->
+        <!-- Search form -->
+        <div role="search">
+            <form class="nav__search" ng-if="vm.isSearchSupported">
+                <label class="nav__search-icon" for="query"><i aria-label="Search" title="Search" class="fa fa-search"></i></label>
+                <input type="search" id="query" class="nav__search-input" placeholder="Search..." ng-model="vm.query" />
+            </form>
+        </div>
+
+        <div class="nav__scroll" ng-style="vm.styleBasedOnSearchSupported">
+
+            <!-- Main nav -->
+            <ul class="main-nav" ng-hide="vm.query">
+                <li class="main-nav__item" ng-repeat="item in vm.nav">
+
+                    <!-- Link to page -->
+                    <a ng-if="item.url" ng-class="{'main-nav__link--active' : item.url===vm.currentPage}" class="main-nav__link" ng-attr-href="{{ vm.baseDir }}{{ item.url }}">
+                        {{ item.title }}
+                    </a>
+
+                    <!-- Expandable heading -->
+                    <span ng-click="vm.toggleExpanded(item.title)" ng-if="!item.url" class="main-nav__title">
+                        {{ item.title }}
+                        <span ng-if="!vm.isExpanded(item.title)" class="fa fa-caret-right"></span>
+                        <span ng-if="vm.isExpanded(item.title)" class="fa fa-caret-down"></span>
+                    </span>
+
+                    <!-- Subnav -->
+                    <ul ng-if="vm.isExpanded(item.title)" class="main-nav fx-fade">
+                        <li ng-repeat="sub in item.children" class="main-nav__item">
+
+                            <!-- Link to page -->
+                            <a ng-if="sub.url" ng-class="{'main-nav__link--active' : sub.url===vm.currentPage}" class="main-nav__link main-nav__link--level1" ng-attr-href="{{ vm.baseDir }}{{ sub.url }}">
+                                {{ sub.title }}
+                            </a>
+
+                            <!-- Expandable heading -->
+                            <span ng-click="vm.toggleExpanded(sub.title)" ng-if="!sub.url" class="main-nav__title main-nav__title--level1">
+                                {{ sub.title }}
+                                <span ng-if="!vm.isExpanded(sub.title)" class="fa fa-caret-right"></span>
+                                <span ng-if="vm.isExpanded(sub.title)" class="fa fa-caret-down"></span>
+                            </span>
+
+                            <!-- Sub-sub nav -->
+                            <ul ng-if="sub.children && vm.isExpanded(sub.title)" class="main-nav fx-fade">
+                                <li ng-repeat="subsub in sub.children" class="main-nav__item">
+
+                                    <!-- Link to page -->
+                                    <a ng-class="{'main-nav__link--active' : subsub.url===vm.currentPage}" class="main-nav__link main-nav__link--level2" ng-attr-href="{{ vm.baseDir }}{{ subsub.url }}" ng-bind-html="subsub.title">
+                                    </a>
+
+                                </li>
+                            </ul>
+
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+
+            <!-- Search results list -->
+            <ul class="search-results">
+                <li class="search-result" ng-repeat="result in vm.results">
+                    <a class="search-result__link" ng-attr-href="{{ vm.baseDir }}{{ 'Help/' + result.id }}">
+                        <h3 class="search-result__title">{{ result.title }}</h3>
+                        <p class="search-result__excerpt" ng-bind-html="result.excerpt"></p>
+                    </a>
+                </li>
+            </ul>
+
+            <!-- Keep screen on option - PhoneGap insomnia -->
+            <ul class="main-nav" ng-if="vm.isPhoneGap">
+                <li class="main-nav__item">
+                    <label class="main-nav__title">
+                        Keep Screen On
+                        <input style="display: none" type="checkbox" ng-model="vm.keepScreenOn" />
+                        <i ng-class="{'fa--cleared' : !vm.keepScreenOn, 'fa--checked' : vm.keepScreenOn}" class="fa fa-check"></i>
+                    </label>
+                </li>
+            </ul>
+
+
+        </div>
+    </nav>
+
+    <nav class="header" role="navigation" aria-label="Secondary">
+        <a ng-if="!vm.onAConsole" href="../index.html" class="header__btn" title="Home"><i class="fa fa-home"></i></a>
+        <div ng-if="!vm.onAConsole" class="header__history">
+            <a onclick="javascript:window.history.back()" class="header__btn"><i title="Back" class="fa fa-chevron-left"></i></a>
+            <a onclick="javascript:window.history.forward()" class="header__btn"><i title="Forwards" class="fa fa-chevron-right"></i></a>
+        </div>
+        <div align="right">
+            <a class="header__btn header__btn--nav" ng-click="vm.toggleVisibility()">
+                <i ng-if="!vm.visible" class="fa fa-bars"></i>
+                <i ng-if="vm.visible" class="fa fa-close"></i>
+            </a>
+        </div>
+    </nav>
+
+
+    <!-- Main content -->
+    <div id="main">
+        
+
+<div><a href="TaCo.html"><img class="TutorialNav" src="images/n_TutPrevious.png" alt=""><span class="TutorialNav"> PREVIOUS: TaCo Tablet Control</span></a></div>
+
+<h2>Remote Control from SOLSA PC software, other Consoles & Remote Expander</h2>
+
+<p>
+    This section describes how to remote control the console over a network connection from a computer running <span style="font-weight: bold;">SOLSA</span>,
+    another <span style="font-weight: bold;">SSL Live console</span> or from the <span style="font-weight: bold;">Remote Expander</span>.
+    The <span style="font-weight: bold;">Remote Tile</span> connects to the console via USB and has a dedicated page here:
+    <a href="RemoteTile.html"><span class="hyperlink">Remote Tile</span></a>.
+</p>
+
+<p>Remote console control surfaces or computers running SOLSA may be connected to the main console over an Ethernet network to share its audio processing capabilities.</p>
+<p>Up to 2 devices can remotely control the console at the same time.</p>
+
+<p>The connection process is almost identical for SOLSA, another SSL Live console in "Remote Surface" mode and the Remote Expander.</p>
+
+
+<h2>SOLSA</h2>
+<p>
+    <span style="font-weight: bold;">SOLSA</span> (SSL On/Off-line Setup Application) for PC provides an offline interface for users to prepare showfiles without a console.
+    SOLSA can also be used online to remotely control any SSL Live console.
+</p>
+
+<h2>Another SSL Live Console in Remote Surface Mode</h2>
+
+<p>If more than one SSL Live console is available, consoles can be used to remotely control one another. This effectively expands the control surface of the console.</p>
+
+<div><span class="note"><span class="notetitle">Note:</span> This feature increases the number of control surfaces able to control the audio processing; it does not increase the amount of audio processing available. Configuring a console as a Remote will disable its internal audio engine.</span></div>
+
+
+<h2>The Remote Expander</h2>
+
+<p>The <span style="font-weight: bold;">Remote Expander</span> is a dedicated remote surface for SSL Live.</p>
+
+<img style="display: block; margin: 11px auto;" src="images/g_consoleoverview_Expander.png" alt="">
+<br>
+
+<p>Unlike other control surfaces in the Live range, the Remote Expander does not include any audio processing capability; it is purely a control surface for attaching to a Live console. The Remote Expander is available with either 24 or 36 faders, a main touch-screen and a VGA output for an external screen.</p>
+
+
+<h2>Connecting to the Console</h2>
+
+<p>On the console, go to <span class="label">MENU</span> > <span class="label">Setup</span> > <span class="label">Options</span> > <span class="label">REMOTE</span> tab.</p>
+
+
+<div id="accordion">
+    <div class="indexheader2">Connecting using SOLSA</div>
+    <div style="padding: 1em 0;">
+
+        <h2>Connecting using SOLSA</h2>
+
+        <p>Ensure the console is set to <span style="font-weight: bold;">Main Surface</span> mode in the <span style="font-weight: bold;">Surface Settings</span> section. If not, press & hold the <span class="label">Main&nbsp;Surface</span> button.</p>
+
+        <img style="display: block; margin: 10px auto;" src="images/g_RemoteMainMode.png" alt="">
+
+        <p>Choose a password and enter it in the <span style="font-weight: bold;">Password</span> field.</p>
+
+        <p>
+            Connect the network port on your PC to one of the <span style="font-weight: bold;">Network</span> ports on the back of the console.<br>
+            <br>
+            Alternatively, if connecting to the console wirelessly, connect a wireless access point to one of the <span style="font-weight: bold;">Network</span> ports on the console.
+            Now connect your PC to the wireless network.
+        </p>
+
+        <div><span class="note"><span class="notetitle">Note: </span>Ensure the console's <span style="font-weight: bold;">Network</span> port is used; the Dante ports cannot be used for remote surface control.</span></div>
+
+        <p>
+            Now check that the console's IP address is in the same subnet as the computer.<br />
+            The console's IP settings are set in <span class="label">MENU</span> > <span class="label">Setup</span> > <span class="label">Options</span> > <span class="label">Network</span> tab.
+            Please see the <a href="OptionsNetwork.html#Network"><span class="hyperlink">Network Options</span></a> section for more information.<br />
+            Your PC's IP address is set in "Network and Internet" settings in Control Panel.
+        </p>
+        <p>Open SOLSA.</p>
+
+        <p>
+            In SOLSA, go to <span class="label">MENU</span> > <span class="label">Setup</span> > <span class="label">Options</span> > <span class="label">Network</span> tab
+            and select an Adapter, either <span class="label">Wireless</span> or select the Ethernet port that the console is plugged into on the PC. Close and reopen SOLSA if the adapter has been changed.
+        </p>
+
+        <p>In SOLSA, go to <span class="label">MENU</span> > <span class="label">Setup</span> > <span class="label">Options</span> > <span class="label">Remote</span> tab.</p>
+        <p>Press and hold <span class="label">Remote Surface</span>.</p>
+
+        <p>
+            The <span style="font-weight: bold;">SSL Live Connections</span> area lists all consoles visible on the network.
+            Locate the console you wish to connect to. Its default name will begin with "LIVE-" and can be changed in the console's System menu (<span class="label">MENU</span> > <span class="label">Setup</span> > <span class="label">System&nbsp;/&nbsp;Power</span> > <span class="label">System</span> tab).
+        </p>
+
+        <p>
+            The <span style="font-weight: bold;">Status</span> column lists the connection status of each console in the network.
+            Tap the <span class="label">Discovered</span> button and select <span class="label">Connect</span> from the drop down list.
+        </p>
+
+        <img style="display: block; margin: 10px auto;" src="images/g_RemoteMode.png" alt="">
+
+        <p>A flashing <img style="margin: 0px;" src="images/g_ConnectivityStatusWaiting.png" alt="yellow remote status"> icon will appear on the console's status bar to indicate a pending connection.</p>
+
+        <p>Enter the password and press <span class="label">OK</span>.</p>
+        <img style="display: block; margin: 10px auto;" src="images/g_RemotePasswordDialogue.png" alt="">
+
+        <p>The remote's <span style="font-weight: bold;">Status</span> button will now display <span class="label">Waiting&nbsp;for&nbsp;server&nbsp;response</span>.</p>
+
+        <p>
+            On the console, press the <span class="label">Awaiting&nbsp;authorisation</span> button and press one of the <span class="label">Connect to slot x</span> buttons.
+        </p>
+        <img style="display: block; margin: 10px auto;" src="images/g_RemoteAwaitingAuthOptions.png" alt="">
+
+        <p>The connection will now be made.</p>
+
+        <p>Use the <span class="label">Disconnect</span> button to decline the connection request.</p>
+
+        <p>Use the <span class="label">Ban</span> button to decline the request and prevent the device requesting further access.</p>
+
+        <p>Once connected, both <span style="font-weight: bold;">SSL Live Connections</span> areas of the main console and SOLSA will show the other device as <span class="label">Connected&nbsp;OK</span> and both status bars will show a <img style="margin: 0px;" src="images/g_ConnectivityStatusOK.png" alt="green remote status"> icon.</p>
+
+        <p>To disconnect, press the <span class="label">Connected&nbsp;OK</span> button and select <span class="label">Disconnect</span>.</p>
+
+    </div>
+
+    <div class="indexheader2">Connecting using another SSL Live Console or the Remote Expander</div>
+    <div style="padding: 1em 0;">
+
+        <h2>Connecting using another SSL Live console or the Remote Expander</h2>
+
+        <p>
+            Ensure the main console (the one processing the audio) is set to <span style="font-weight: bold;">Main Surface</span>
+            mode in the <span style="font-weight: bold;">Surface Settings</span> section.
+            If not, press & hold the <span class="label">Main&nbsp;Surface</span> button.
+        </p>
+
+        <img style="display: block; margin: 10px auto;" src="images/g_RemoteMainMode.png" alt="">
+
+        <p>
+            Choose a password and enter it in the <span style="font-weight: bold;">Password</span> field.
+        </p>
+
+        <p>
+            Connect one of the <span style="font-weight: bold;">Network</span> ports on the back of the main console to one of the <span style="font-weight: bold;">Network</span> ports on the other console/Remote Expander.
+        </p>
+
+        <div><span class="note"><span class="notetitle">Note: </span>Ensure the console's <span style="font-weight: bold;">Network</span> port is used; the Dante ports cannot be used for remote surface control.</span></div>
+
+        <p>
+            Now check that the main console's IP address is in the same subnet as the other console/Remote Expander.<br />
+            IP settings are set in <span class="label">MENU</span> > <span class="label">Setup</span> > <span class="label">Options</span> > <span class="label">Network</span> tab.
+            Please see the <a href="OptionsNetwork.html#Network"><span class="hyperlink">Network Options</span></a> section for more information.<br />
+        </p>
+
+        <p>
+            On the remote console/Remote Expander, go to <span class="label">MENU</span> > <span class="label">Setup</span> >
+            <span class="label">Options</span> > <span class="label">Remote</span> tab.
+        </p>
+        <p>Press and hold <span class="label">Remote Surface</span>.</p>
+
+        <p>
+            The <span style="font-weight: bold;">SSL Live Connections</span> area lists all main consoles visible on the network.
+            Locate the console you wish to connect to. Its default name will begin with "LIVE-" and can be changed in the main console's System menu (<span class="label">MENU</span> > <span class="label">Setup</span> > <span class="label">System&nbsp;/&nbsp;Power</span> > <span class="label">System</span> tab).
+        </p>
+
+        <p>
+            The <span style="font-weight: bold;">Status</span> column lists the connection status of each console in the network.
+            Tap the <span class="label">Discovered</span> button and select <span class="label">Connect</span> from the drop down list.
+        </p>
+
+        <img style="display: block; margin: 10px auto;" src="images/g_RemoteMode.png" alt="">
+
+        <p>A flashing <img style="margin: 0px;" src="images/g_ConnectivityStatusWaiting.png" alt="yellow remote status"> icon will appear on the main console's status bar to indicate a pending connection.</p>
+
+        <p>Enter the password and press <span class="label">OK</span>.</p>
+        <img style="display: block; margin: 10px auto;" src="images/g_RemotePasswordDialogue.png" alt="">
+
+        <p>The remote's <span style="font-weight: bold;">Status</span> button will now display <span class="label">Waiting&nbsp;for&nbsp;server&nbsp;response</span>.</p>
+
+        <p>
+            On the main console, press the <span class="label">Awaiting&nbsp;authorisation</span> button and press one of the <span class="label">Connect to slot x</span> buttons.
+        </p>
+        <img style="display: block; margin: 10px auto;" src="images/g_RemoteAwaitingAuthOptions.png" alt="">
+
+        <p>The connection will now be made.</p>
+
+        <p>Use the <span class="label">Disconnect</span> button to decline the connection request.</p>
+
+        <p>Use the <span class="label">Ban</span> button to decline the request and prevent the device requesting further access.</p>
+
+        <p>Once connected, both <span style="font-weight: bold;">SSL Live Connections</span> areas of the main console and remote will show the other device as <span class="label">Connected&nbsp;OK</span> and both status bars will show a <img style="margin: 0px;" src="images/g_ConnectivityStatusOK.png" alt="green remote status"> icon.</p>
+
+        <p>To disconnect, press the <span class="label">Connected&nbsp;OK</span> button and select <span class="label">Disconnect</span>.</p>
+
+    </div>
+</div>
+
+<p></p>
+
+<div id="accordion">
+    <div class="indexheader2">Manual discovery of the console</div>
+    <div style="padding: 1em 0;" id="ManualDiscovery">
+
+        <h2>Manual discovery of the console</h2>
+
+        <p>
+            Automatic detection of the console from a remote surface/SOLSA instance will not work across some networks, for example when using a Virtual Private Network (VPN) to connect the two endpoints over a Wide Area Network (WAN).
+            The ability to manually enter the IP address of the main console into the remote surface allows a connection to be established even under these circumstances.
+        </p>
+
+        <p>
+            Follow the instructions above to prepare the remote surface for connection to the console.
+            If the console is not detected by the remote surface when connected via a VPN, enter the IP address of the main console into the <b>MANUAL&nbsp;DISCOVERY</b> area of the <b>remote surface's</b> Remote options page (MENU > Setup > Options > REMOTE tab).
+            The IP address of the console can be found in its Network options page (MENU > Setup > Options > NETWORK tab).
+        </p>
+
+        <p>
+            Ensure that the remote surface is set to use the correct network adapter in the <b>remote surface's</b> Network options page (MENU > Setup > Options > NETWORK tab). Changing the network adapter will necessitate a restart of the remote surface.
+        </p>
+
+        <p>
+            Enter a port number into the <b>MANUAL&nbsp;DISCOVERY</b> area of the <b>main console's</b> Remote options page (MENU > Setup > Options > REMOTE tab). The default port number is 11973.
+            Enter the same port number into the <b>MANUAL&nbsp;DISCOVERY</b> area of the <b>remote surface's</b> Remote options page.
+        </p>
+
+        <p>For example, using the default port number and a console IP address of 10.1.2.3 the options pages should look like this:</p>
+
+        <table>
+            <tbody>
+                <tr>
+                    <td style="vertical-align: top; padding-right: 10px;">
+                        <p>Main console:</p>
+                        <img style="width: 390px;" src="images/g_ManualDiscoveryMain.png" alt="">
+                    </td>
+                    <td style="vertical-align: top; padding-right: 10px;">
+                        <p>Remote surface:</p>
+                        <img style="width: 390px;" src="images/g_ManualDiscoveryRemote.png" alt="">
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <p>Continue with the instructions above to connect the remote surface to the console in the usual manner.</p>
+
+        <p>
+            Alternatively, the remote surface can be auto-authorised to remote slot 1 on the main console, negating the need for manual intervention at the main console to authorise the connection (provided the correct password is entered).
+            Press &amp; hold the <span class="label">Enabled</span> button in the <b>MANUAL&nbsp;DISCOVERY</b> area of the <b>main console's</b> Remote options page to engage this option.
+        </p>
+    </div>
+</div>
+
+<p>
+    Once connected, settings from the main console can be copied to the remote surface using the <span class="label">Remote&nbsp;Sync</span> buttons in the main console's Layer Manager
+    (<span style="font-weight: bold;">Menu > Setup > Layer Manager</span>). One <span class="label">Remote&nbsp;Sync</span> button is included for each remote surface connected to the main console.
+    These buttons will be disabled during synchronisation; if syncing two remote surfaces wait for one to complete before starting the other.
+    These settings will be stored in the main showfile independently of the main console's settings. Note that updating the main console's settings will not update the remote surfaces unless the relevant Sync button is pressed again.
+</p>
+
+<div>
+    <span class="note">
+        <span class="notetitle">Important Notes: </span><br />
+        - The console does not provide any form of VPN functionality. A third-party VPN service may be required in order to establish a network link between two remote sites.<br /><br />
+        - This feature provides remote control of a console over a network connection; it <b>does not</b> include a means to transport audio between the console and the remote connection over the network. A third-party codec must be used for the audio transport in parallel with the control data connection.<br /><br />
+        - End-to-end network latency (e.g. as measured by pinging the console) should be &lt;100 ms. Note this is the minimum latency of the control signal to/from the console and is not related to the latency of any audio sent between sites, which will be a function of the audio codec used.<br /><br />
+        - Remote connections <b>must</b> be made using a high bandwidth network connection; each remote surface requires up to 25 Mbps of data when connected to a console.<br /><br />
+        - This feature must be used with care. Operating a PA or monitoring system without being physically present carries risk as the engineer does not have direct and immediate acoustic awareness of the audio generated in the venue. 
+        SSL cannot be held responsible for any damage incurred to equipment or persons through use of this feature!<br />
+    </span>
+</div>
+
+<h3>Scope of Remote Control</h3>
+
+<p>
+    Note that certain areas of the console are not accessible by the remote surface. These include loading <a href="Showfiles.html"><span class="hyperlink">showfiles</span></a>,
+    changing the <a href="ConsoleConfig.html"><span class="hyperlink">Console Configuration</span></a> and powering off the console.
+</p>
+
+<p>Certain elements are always controlled in 'parallel' from all control surfaces. These include any functions that affect the processing of audio, such as Solo, Mutes, bus routing, automation changes, FX etc.</p>
+
+<p>
+    Other items can be configured independently for each surface. These include:
+</p>
+
+<ul>
+    <li>Fader Tile <a href="LayerManager.html"><span class="hyperlink">Layers and Banks</span></a></li>
+    <li><a href="OptionsConsole.html#SurfaceBrightness"><span class="hyperlink">Brightness settings</span></a></li>
+    <li><a href="OptionsConsole.html#ExternalScreen"><span class="hyperlink">External Screen selection</span></a></li>
+    <li><a href="OptionsConsole.html#MouseTouch"><span class="hyperlink">Mouse & Touch settings</span></a></li>
+    <li><a href="OptionsConsole.html#ControlSurfaceLock"><span class="hyperlink">Surface lock</span></a></li>
+    <li>Other settings in the <a href="OptionsConsole.html"><span class="hyperlink">Console Options</span></a> tab, such as console time and date and keyboard locale</li>
+    <li><a href="OptionsSystem.html#MeterBallistics"><span class="hyperlink">Meter ballistics</span></a> (but not meter sources)</li>
+    <li>All items in the <a href="OptionsSurface.html#SurfaceOptions"><span class="hyperlink">Surface Options</span></a> tab (Tile setup, Query and Follow modes)</li>
+    <li><a href="OptionsUserKeys.html"><span class="hyperlink">User Keys</span></a></li>
+</ul>
+
+<p><a href="Query.html"><span class="hyperlink">Query</span></a> operates on a per-surface basis, meaning that a path can be Queried on one surface without affecting the other. Or different paths can be Queried on two (or more) surfaces.</p>
+
+<p>Surface network configuration and Automation GUI and Tile lock controls are also independent for each surface.</p>
+
+<h2>Useful Links</h2>
+
+<a href="TaCo.html"><span class="hyperlink">TaCo Tablet Control</span></a>
+<br>
+<a href="OptionsRemote.html"><span class="hyperlink">Remote Options</span></a>
+<br>
+<a href="LinkIndex.html"><span class="hyperlink">Index and Glossary</span></a>
+<br>
+
+<div class="TutorialNavNext"> <a href="RemoteTile.html"><span class="TutorialNav">NEXT: Remote Tile</span> <img class="TutorialNav" src="images/n_TutNext.png" alt=""></a></div>
+
+
+    </div>
+
+    <script src="../Help/js/OpenAccordionFromLink.js"></script>
+</body>
+</html>

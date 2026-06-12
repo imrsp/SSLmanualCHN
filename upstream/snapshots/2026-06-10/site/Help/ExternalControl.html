@@ -1,0 +1,1102 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html ng-app="sslLiveHelp">
+<head>
+    <meta content="text/html; charset=ISO-8859-1" http-equiv="content-type">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=yes">
+
+    <link href="../Help/style/style.css" rel="stylesheet">
+    <link href="../Help/style/jquery-ui-1.13.2.structure.css" rel="stylesheet">
+    <title>External Control</title>
+    <script src="../Help/js/jquery-3.6.0.min.js"></script>
+    <script src="../Help/js/jquery-ui/1.13.2/jquery-ui.min.js"></script>
+    <!--<script type="text/javascript" src="cordova.js"></script>-->
+    <!-- Nav / search panels 2017 updates -->
+    <script>
+    window.baseDir = '../';
+    window.data = 'null';
+    </script>
+    <link rel="stylesheet" type="text/css" href="../Help/fonts/font-awesome-4.7.0/css/font-awesome.min.css" />
+    <link rel="stylesheet" type="text/css" href="../Help/style/sass-styles.css">
+    <script src="../Help/js/fastclick.js"></script>
+    <script src="../Help/js/lodash.core.min.js"></script>
+    <!--<script src="../Help/js/angular/1.2/angular.min.js"></script>-->  <!-- On a console -->
+    <script src="../Help/js/angular/1.8/angular.min.js"></script>   <!--Not on a console -->
+    <script src="../Help/js/ngStorage.min.js"></script>
+    <!--<script src="../Help/js/angular/1.2/angular-sanitize.min.js"></script>-->  <!-- On a console -->
+    <!--<script src="../Help/js/angular/1.2/angular-animate.min.js"></script>-->   <!-- On a console -->
+    <script src="../Help/js/angular/1.8/angular-sanitize.min.js"></script>  <!--Not on a console -->
+    <script src="../Help/js/angular/1.8/angular-animate.min.js"></script>   <!--Not on a console -->
+    <script src="../Help/js/lunr-2.3.min.js"></script>
+    <script src="../Help/js/menu.js"></script>
+
+</head>
+
+<body ng-controller="NavController as vm">
+
+    <!--<nav class="nav" ng-class="{ 'nav--visible' : vm.visible }" ng-if="vm.visible" role="navigation" aria-label="Primary">-->  <!-- On a console --> 
+    <nav class="nav" ng-class="{ 'nav--visible' : vm.visible }" role="navigation" aria-label="Primary"> <!--Not on a console -->
+        <!-- Search form -->
+        <div role="search">
+            <form class="nav__search" ng-if="vm.isSearchSupported">
+                <label class="nav__search-icon" for="query"><i aria-label="Search" title="Search" class="fa fa-search"></i></label>
+                <input type="search" id="query" class="nav__search-input" placeholder="Search..." ng-model="vm.query" />
+            </form>
+        </div>
+
+        <div class="nav__scroll" ng-style="vm.styleBasedOnSearchSupported">
+
+            <!-- Main nav -->
+            <ul class="main-nav" ng-hide="vm.query">
+                <li class="main-nav__item" ng-repeat="item in vm.nav">
+
+                    <!-- Link to page -->
+                    <a ng-if="item.url" ng-class="{'main-nav__link--active' : item.url===vm.currentPage}" class="main-nav__link" ng-attr-href="{{ vm.baseDir }}{{ item.url }}">
+                        {{ item.title }}
+                    </a>
+
+                    <!-- Expandable heading -->
+                    <span ng-click="vm.toggleExpanded(item.title)" ng-if="!item.url" class="main-nav__title">
+                        {{ item.title }}
+                        <span ng-if="!vm.isExpanded(item.title)" class="fa fa-caret-right"></span>
+                        <span ng-if="vm.isExpanded(item.title)" class="fa fa-caret-down"></span>
+                    </span>
+
+                    <!-- Subnav -->
+                    <ul ng-if="vm.isExpanded(item.title)" class="main-nav fx-fade">
+                        <li ng-repeat="sub in item.children" class="main-nav__item">
+
+                            <!-- Link to page -->
+                            <a ng-if="sub.url" ng-class="{'main-nav__link--active' : sub.url===vm.currentPage}" class="main-nav__link main-nav__link--level1" ng-attr-href="{{ vm.baseDir }}{{ sub.url }}">
+                                {{ sub.title }}
+                            </a>
+
+                            <!-- Expandable heading -->
+                            <span ng-click="vm.toggleExpanded(sub.title)" ng-if="!sub.url" class="main-nav__title main-nav__title--level1">
+                                {{ sub.title }}
+                                <span ng-if="!vm.isExpanded(sub.title)" class="fa fa-caret-right"></span>
+                                <span ng-if="vm.isExpanded(sub.title)" class="fa fa-caret-down"></span>
+                            </span>
+
+                            <!-- Sub-sub nav -->
+                            <ul ng-if="sub.children && vm.isExpanded(sub.title)" class="main-nav fx-fade">
+                                <li ng-repeat="subsub in sub.children" class="main-nav__item">
+
+                                    <!-- Link to page -->
+                                    <a ng-class="{'main-nav__link--active' : subsub.url===vm.currentPage}" class="main-nav__link main-nav__link--level2" ng-attr-href="{{ vm.baseDir }}{{ subsub.url }}" ng-bind-html="subsub.title">
+                                    </a>
+
+                                </li>
+                            </ul>
+
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+
+            <!-- Search results list -->
+            <ul class="search-results">
+                <li class="search-result" ng-repeat="result in vm.results">
+                    <a class="search-result__link" ng-attr-href="{{ vm.baseDir }}{{ 'Help/' + result.id }}">
+                        <h3 class="search-result__title">{{ result.title }}</h3>
+                        <p class="search-result__excerpt" ng-bind-html="result.excerpt"></p>
+                    </a>
+                </li>
+            </ul>
+
+            <!-- Keep screen on option - PhoneGap insomnia -->
+            <ul class="main-nav" ng-if="vm.isPhoneGap">
+                <li class="main-nav__item">
+                    <label class="main-nav__title">
+                        Keep Screen On
+                        <input style="display: none" type="checkbox" ng-model="vm.keepScreenOn" />
+                        <i ng-class="{'fa--cleared' : !vm.keepScreenOn, 'fa--checked' : vm.keepScreenOn}" class="fa fa-check"></i>
+                    </label>
+                </li>
+            </ul>
+
+
+        </div>
+    </nav>
+
+    <nav class="header" role="navigation" aria-label="Secondary">
+        <a ng-if="!vm.onAConsole" href="../index.html" class="header__btn" title="Home"><i class="fa fa-home"></i></a>
+        <div ng-if="!vm.onAConsole" class="header__history">
+            <a onclick="javascript:window.history.back()" class="header__btn"><i title="Back" class="fa fa-chevron-left"></i></a>
+            <a onclick="javascript:window.history.forward()" class="header__btn"><i title="Forwards" class="fa fa-chevron-right"></i></a>
+        </div>
+        <div align="right">
+            <a class="header__btn header__btn--nav" ng-click="vm.toggleVisibility()">
+                <i ng-if="!vm.visible" class="fa fa-bars"></i>
+                <i ng-if="vm.visible" class="fa fa-close"></i>
+            </a>
+        </div>
+    </nav>
+
+
+    <!-- Main content -->
+    <div id="main">
+        
+
+
+<div><a href="DAWControl.html"><img class="TutorialNav" src="images/n_TutPrevious.png" alt=""><span class="TutorialNav">PREVIOUS: DAW Control</span></a></div>
+
+<h2>External Control</h2>
+
+<p>
+    The SSL Live console is capable of remotely controlling other devices over its Connectivity network ports.
+    This allows tighter integration between different parts of a wider system, such as a loudspeaker processing unit downstream of the console.
+</p>
+
+<p>
+    Instructions for the configuration of supported devices are provided below.
+</p>
+
+<h3>Console OSC Paths</h3>
+
+<p>
+    Devices may be controlled either via console audio paths or through dedicated 'OSC' (Open Sound Control) paths on the console, depending on the device under control.
+    OSC paths have no audio processing capability but can be placed on the console surface like other path types, allowing external device control to be easily integrated into your workflow.
+</p>
+
+<p>
+    A section in the Console Configuration page (<span class="label">MENU</span> > <span class="label">Setup</span> > <span class="label">Console&nbsp;Configuration</span>)
+    is provided for adding OSC paths if required. Refer to the <a href="ConsoleConfig.html"><span class="hyperlink">Console&nbsp;Configuration</span></a> section for further details on using this page.
+</p>
+
+
+<div id="accordion">
+    <div class="indexheader2">Sigma</div>
+    <div id="Sigma" style="padding: 1em 0;">
+        <h3>Sigma Setup</h3>
+
+        <p>
+            Download and install the Sigma Remote application to your Mac or PC using the instructions provided in the User Manual
+            <a class="external-link" tabindex="-1" href="https://www.solidstatelogic.com/assets/uploads/downloads/sigma/SSL-Sigma-User-Guide.pdf" target="_blank">
+                <span class="hyperlink">here</span>
+            </a>.
+        </p>
+
+        <p>Set the protocol to <b>OSC</b> in the <b>Settings</b> page of the application; refer to the User Manual for instructions.</p>
+
+        <img style="display: block; margin: 25px auto;" src="images/s_SigmaProtocolOptions.png" alt="">
+
+        <p>Ensure the Sigma's IP address is set appropriately for your network. Sigma's default IP address is 192.168.1.201/24.</p>
+
+        <p>Once configured the Sigma Remote application can be closed; it does not need to be running to use Sigma with OSC.</p>
+
+
+        <h3>Console Setup</h3>
+
+        <p>
+            Navigate to the console's <b>External Control</b> options tab (<span class="label">MENU</span> > <span class="label">Setup</span> > <span class="label">Options</span>).
+            Tap <b>Sigma</b> in the device list in the <b>OSC&nbsp;SETTINGS</b> section of the page.
+        </p>
+
+        <img style="display: block; margin: 5px auto; width: 500px;" src="images/g_OSCsetupSigmaSelected.png" alt="">
+
+        <p>
+            Double-tap the <b>Host&nbsp;IP&nbsp;Address</b> field in the <b>DEVICE CONFIGURATION</b> section below and enter the IP Address of the Sigma.
+            The <b>Name</b>, <b>Incoming&nbsp;Port</b> and <b>Host&nbsp;RX&nbsp;Port</b> fields are read-only and for information only.
+        </p>
+
+        <img style="display: block; margin: 5px auto; width: 800px;" src="images/g_OSCsetupSigmaDeviceConfig.png" alt="">
+
+        <p>
+            The IP address entered will be stored in the showfile. Note that each IP address on the network must be unique.
+            The console's IP address is also displayed in this page for reference.
+        </p>
+
+        <p>
+            The console's IP address must be in the same subnet as (but not identical to) the IP address of the Sigma and can be changed in the <b>Network</b> options tab
+            (<span class="label">MENU</span> > <span class="label">Setup</span> > <span class="label">Options</span> > <span class="label">Network</span> tab;
+            see <a href="OptionsNetwork.html"><span class="hyperlink">Network&nbsp;Options</span></a> for more details).
+        </p>
+
+        <p>
+            Press the <span class="label">Enable&nbsp;Control</span> button to enable control of Sigma from the console. The <b>Enabled</b> indicator in the device list will light green.
+            Multiple devices can be enabled simultaneously.
+        </p>
+
+        <img style="display: block; margin: 5px auto; width: 500px;" src="images/g_OSCsetupSigmaEnabled.png" alt="">
+
+
+        <h3>Creating Console OSC Paths</h3>
+
+        <p>
+            Create one OSC Path in the Console Configuration page (<span class="label">MENU</span> > <span class="label">Setup</span> > <span class="label">Console&nbsp;Configuration</span>)
+            for each Sigma channel you wish to control.
+            Refer to the <a href="ConsoleConfig.html"><span class="hyperlink">Console&nbsp;Configuration</span></a> section for further details on using this page.
+        </p>
+
+        <h3>Path Assignment</h3>
+
+        <p>
+            Place the OSC Paths on the surface using the <a href="LayerManager.html"><span class="hyperlink">Layer&nbsp;Manager</span></a>.
+            These may be placed in banks as desired, just like any other path type. Depending on the workflow desired, a dedicated bank could be created,
+            or OSC Paths can be interspersed with other console paths.
+        </p>
+
+        <p>
+            Navigate to the OSC Paths in the <a href="ChanView.html"><span class="hyperlink">Channel&nbsp;View</span></a> and double-tap the Eyeconix area at the bottom of the screen
+            to open the Name/Eyeconix <a href="DetailView.html"><span class="hyperlink">Detail&nbsp;View</span></a> page. Name/colour the OSC Paths as desired.
+        </p>
+
+        <p>
+            Navigate to the <span class="label">External&nbsp;Control</span> Detail View page and select <span class="label">Sigma</span> from the <b>Select&nbsp;Device</b> menu.
+        </p>
+
+        <p>
+            When communicating with Sigma, the displayed OSC Path number will be used as the Sigma channel number to control.
+            The <b>Control&nbsp;Path&nbsp;Num&nbsp;Offset</b> field in the External Control Detail View page can be used to apply an offset to the path number.
+            E.g. if console OSC Path 8 is to control Sigma channel 4, an offset of -4 must be entered.
+            <a href="PathLink.html"><span class="hyperlink">Path&nbsp;Link</span></a> can be used to assign Sigma and apply offsets to multiple OSC Paths simultaneously.
+            The selected device and offset per path will be stored in the showfile.
+        </p>
+
+        <span class="note">
+            <span class="notetitle">Note:</span> Care should be taken when setting the <b>Control&nbsp;Path&nbsp;Num&nbsp;Offset</b> field
+            that the same Sigma channel is not accessed via more than one console path.
+        </span>
+
+        <p>Parameters within OSC Paths can be automated in the same way as other path types; use the Automation Filters to adjust the store and recall scope.</p>
+
+
+        <h3>Available Controls</h3>
+
+        <p>
+            From the Fader Tile hardware and various Fader sections of the GUI (Detail View, Channel View etc.) the control path's
+            <b>Fader</b>, <b>Solo</b> and <b>Mute</b> controls will respectively alter the <b>Gain</b>, <b>Solo</b> and <b>Cut</b> functions of the mapped Sigma channel.
+        </p>
+
+        <p>OSC Paths are also remotely controllable from SOLSA and TaCo.</p>
+    </div>
+
+
+    <div class="indexheader2">L-ISA</div>
+    <div id="LISA" style="padding: 1em 0;">
+        <h3>Introduction</h3>
+
+        <p>
+            SSL and L-Acoustics have worked closely to deliver tightly integrated control of L-ISA immersive loudspeaker systems from the console interface.
+            L-ISA sources can be associated with mono or stereo console Channels or Stems,
+            with full control of L-ISA Pan, Distance, Width, Elevation and Aux Send level for each source available from the console.
+        </p>
+
+        <span class="note">
+            <span class="notetitle">Note:</span> This feature is only available when running console software version <b>4.11 and above</b> and L-ISA Controller software version <b>2.2.2 and above</b>.
+        </span>
+
+        <h3>L-ISA Controller Setup</h3>
+
+        <p>
+            Open the L-ISA Controller software and navigate to the DeskLink Settings page
+            (<span class="label">Settings</span> > <span class="label">DeskLink</span> tab).
+            Ensure that the <b>Parameters Synchronisation Mode</b> is set to <b>DeskLink&nbsp;OFF</b>.
+        </p>
+
+        <p>
+            Select <b>SSL&nbsp;Live</b> from the <b>Desk&nbsp;Type</b> drop down menu at the top of the settings tab.
+            The previously selected console type is stored on the PC running L-ISA Controller and automatically selected when the software is started (set to <b>None</b> by default).
+        </p>
+
+        <img style="display: block; margin: 5px auto; width: 790px;" src="images/s_LISA_DesklinkOff.png" alt="">
+
+        <p>
+            Enter the <b>Desk&nbsp;IP&nbsp;Address</b> into the field provided. This can be found and set in the console's Network options tab
+            (<span class="label">MENU</span> > <span class="label">Setup</span> > <span class="label">Network</span>).
+            Note that each IP address on the network must be unique.
+        </p>
+
+        <p>
+            Choose a port number with which to communicate with the SSL Live console. The suggested port number is 8811.
+            Double-click on the <b>Desk&nbsp;receives&nbsp;on&nbsp;port</b> field in the L-ISA DeskLink Settings page and enter the port number.
+        </p>
+
+
+        <h3>Console Setup</h3>
+
+        <p>
+            Navigate to the console's <b>External&nbsp;Control</b> options tab (<span class="label">MENU</span> > <span class="label">Setup</span> > <span class="label">Options</span>).
+            Tap <b>L-ISA</b> in the device list in the <b>OSC&nbsp;SETTINGS</b> section of the page.
+        </p>
+
+        <img style="display: block; margin: 5px auto; width: 500px;" src="images/g_OSCsetupLISASelected.png" alt="">
+
+        <p>
+            Type in the IP Address of the computer running the L-ISA Controller software in the
+            <b>Host&nbsp;IP&nbsp;Address</b> field provided in the <b>DEVICE&nbsp;CONFIGURATION</b> section below.
+        </p>
+
+        <p>
+            Enter the same port number chosen in the L-ISA Setup section above into the <b>Incoming&nbsp;Port</b> field provided.
+            The <b>Name</b> and <b>Host&nbsp;RX&nbsp;Port</b> fields are read-only and for information only.
+        </p>
+
+        <img style="display: block; margin: 5px auto; width: 800px;" src="images/g_OSCsetupLISADeviceConfig.png" alt="">
+
+        <p>
+            The IP address entered will be stored in the showfile. Note that each IP address on the network must be unique.
+            The console's IP address is also displayed in this page for reference.
+        </p>
+
+        <p>
+            The console's IP address must be in the same subnet as (but not identical to) the IP address of the L-ISA Controller computer and can be changed in the <b>Network</b> options tab
+            (<span class="label">MENU</span> > <span class="label">Setup</span> > <span class="label">Options</span> > <span class="label">Network</span> tab;
+            see <a href="OptionsNetwork.html"><span class="hyperlink">Network&nbsp;Options</span></a> for more details).
+        </p>
+
+        <p>
+            Press the <span class="label">Enable&nbsp;Control</span> button to enable control of L-ISA from the console. The <b>Enabled</b> indicator in the device list will light green.
+            Multiple devices can be enabled simultaneously.
+        </p>
+
+        <img style="display: block; margin: 5px auto; width: 500px;" src="images/g_OSCsetupLISAEnabled.png" alt="">
+
+
+        <h3>Path Assignment</h3>
+
+        <p>
+            L-ISA control can be enabled on any of the console's mono or stereo Channels or Stems (excluding Dry Channels and Dry Stems).
+        </p>
+
+        <p>
+            Navigate to the <span class="label">External&nbsp;Control</span> <a href="DetailView.html"><span class="hyperlink">Detail&nbsp;View</span></a> page
+            and select <span class="label">L-ISA</span> from the <b>Select&nbsp;Device</b> menu.
+            Enable <span class="label">DeskLink</span> to synchronise L-ISA Controller parameters with the selected console path.
+        </p>
+
+        <p>
+            Note that a connection between L-ISA Controller and the console has not yet been established (see below for instructions),
+            so parameter changes will not yet be synchronised between the two systems.
+        </p>
+
+        <p>
+            <a href="PathLink.html"><span class="hyperlink">Path&nbsp;Link</span></a> can be used to assign and enable L-ISA control to multiple paths simultaneously.
+            The selected External Control device and <span class="label">DeskLink</span> enabled state will be stored in the showfile.
+        </p>
+
+        <span class="note">
+            <span class="notetitle">Notes:</span><br>
+            In order for console Channel numbers to be reported correctly to L-ISA, the console must be set to
+            <a href="ConsoleConfig.html#Numbering"><span class="hyperlink"><b>Default</b> channel numbering in the Console Configuration</span></a> page.<br>
+            L-ISA supports mono and stereo formatted sources. The console path formats must match the L-ISA sources being associated with them.<br>
+            L-ISA Controller will only communicate via DeskLink with console Channels 1-256 and Stems 1-64. Console paths can be moved to lower numbered slots using the <a href="ConsoleConfig.html#ConsoleConfigPage"><span class="hyperlink">Console&nbsp;Configuration</span></a> page.
+        </span>
+
+
+        <h3>Audio Routing</h3>
+
+        <p>
+            The console must be connected to the L-ISA Processor via MADI. Up to three MADI streams may be used for routing up to 96 channels of audio from the console to L-ISA.
+            Add up to three <b>Generic&nbsp;MADI</b> devices to the console's I/O configuration page (see <a href="LocalMADIConfig.html"><span class="hyperlink">MADI&nbsp;Configuration</span></a>
+            for details) and connect the corresponding physical MADI ports to the L-ISA processor.
+        </p>
+        <p>
+            Ensure that the console and L-ISA Processor sample rates match. 96&nbsp;kHz (recommended) and 48&nbsp;kHz operation is supported by the console.
+            Refer to <a href="Clocking.html#SampleRate"><span class="hyperlink">Clocking&nbsp;&amp;&nbsp;Sync</span></a> for details.
+        </p>
+
+        <p>
+            Route the Channel/Stem outputs to the configured MADI ports. Please refer to the <a href="Routing.html"><span class="hyperlink">Routing</span></a> section for further information.
+        </p>
+
+        <span class="note">
+            <span class="notetitle">Note:</span> It is recommended that the Channel/Stem outputs are routed directly to the console's MADI ports and that Channel
+            direct outs are set to <b>Post&nbsp;All</b> processing (please see <a href="OptionsSystem.html#Chop"><span class="hyperlink">System&nbsp;Options</span></a> for further details).
+        </span>
+
+
+        <h3>Establishing a Connection Between the Console and L-ISA Controller</h3>
+
+        <p>
+            There are two initialisation options in the L-ISA Controller software, listed under the <b>Parameters&nbsp;Synchronisation&nbsp;Mode</b> section:
+            <ul>
+                <li><b>L-ISA&nbsp;Master</b> : Source parameters are sent from L-ISA Controller to all L-ISA enabled paths on the console.</li>
+                <li><b>Desk Master</b> : Source parameters are sent from all L-ISA enabled paths on the console to L-ISA Controller.</li>
+            </ul>
+        </p>
+
+        <p>
+            The synchronisation mode will depend on workflow; if all source parameter values are stored in the console showfile/scenes then use <b>Desk&nbsp;Master</b>
+            to push those stored settings to L-ISA Controller.
+            However, if source position data is stored in the L-ISA Controller session/snapshots then use the <b>L-ISA&nbsp;Master</b> option to push settings to the console.
+        </p>
+
+        <img style="display: block; margin: 5px auto; width: 790px;" src="images/s_LISA_DesklinkOn.png" alt="">
+
+        <p>
+            Once L-ISA Control has been enabled on the console and DeskLink has been enabled in L-ISA Controller in either L-ISA Master or Desk Master synchronisation mode,
+            the <b>Link&nbsp;Status</b> in the L-ISA DeskLink Settings page should read <b>ACTIVE</b> and the <b>Desk</b> status indicator in the top right corner
+            of the L-ISA Controller software should light orange or green.
+        </p>
+
+        <p>
+            If the <b>Desk</b> indicator lights green, all L-ISA sources have been successfully assigned to console Channels and Stems (see above for assigning control to console paths).
+            However, if the indicator lights orange, some further steps must be taken to allocate L-ISA sources to console paths in the correct configuration.
+            Click on the notification icon in L-ISA Controller to view the error type.
+        </p>
+
+        <img style="display: block; margin: 5px auto; width: 300px;" src="images/s_LISA_ConfigErrorNotification.png" alt="">
+
+        <p>
+            To associate console paths with L-ISA sources, navigate to the <b>Desk&nbsp;Layout</b> tab in L-ISA Controller
+            (<span class="label">Sources</span> > <span class="label">Desk&nbsp;Layout</span> tab).
+        </p>
+
+        <p>
+            Any mismatch in configuration (e.g. a mono L-ISA source assigned to a stereo console Channel) will be marked with an orange warning triangle
+            <img class="TutorialNav" style="width: 20px;" src="images/b_LISA_WarningTriangle.png" alt=""> in the L-ISA <b>Desk&nbsp;Layout</b> tab; click on these for more information.
+        </p>
+
+        <img style="display: block; margin: 5px auto; width: 400px;" src="images/s_LISA_ConfigError.png" alt="">
+
+
+        <h3>Available Controls</h3>
+
+        <p>
+            When L-ISA DeskLink is enabled on a Channel or Stem, the path's <b>External&nbsp;Control</b> Detail View page will show the L-ISA control interface.
+            This provides control over the following parameters for the associated L-ISA source:
+            <ul>
+                <li><b>Pan</b></li>
+                <li><b>Width</b></li>
+                <li><b>Distance</b></li>
+                <li><b>Elevation</b></li>
+                <li><b>Aux&nbsp;Send</b> (note this is unrelated to any send levels to console Aux buses)</li>
+            </ul>
+            A 2D 'XY' panning interface is also provided for touch control of Pan (X) and Distance (Y).
+        </p>
+
+        <span class="note">
+            <span class="notetitle">Note:</span> The console's XY touchpad parameter ranges automatically scale to the extents of L-ISA Controller's <b>Pan</b> (X) and <b>Distance</b> (Y) ranges.
+            Parameter values are translated from Cartesian to the polar mapping used in L-ISA.
+        </span>
+
+        <img style="display: block; margin: 5px auto; width: 600px;" src="images/g_OSCdetailLISA.png" alt="">
+
+        <p>
+            Stereo paths contain some additional features:
+            <ul>
+                <li>
+                    Two sets of the above controls; one for each source in the stereo pair.
+                    Accessed using the <span class="label">LEFT</span> and <span class="label">RIGHT</span> buttons above the 2D panning interface
+                </li>
+                <li>
+                    <b>Link</b> mode, enabled using the <span class="label">LINKED</span> button, allows both sources to be adjusted with the <b>left</b> controls (right controls are disabled)
+                </li>
+                <li>
+                    <b>Pan&nbsp;Spread</b> encoder to increase/decrease the Pan position between the two sources (up to the extents of the L-ISA Soundscape space).
+                    Only available when <b>Link</b> mode is enabled.
+                </li>
+
+            </ul>
+        </p>
+
+        <p>
+            Control of L-ISA parameters for the selected path are available on the Quick Control encoders beneath the main screen when <b>Follow&nbsp;Detail</b> mode is enabled.
+            Refer to the <a href="DetailView.html"><span class="hyperlink">Detail&nbsp;View</span></a> section for further details on the use of Quick Controls.
+        </p>
+
+        <p>
+            All of the Channel's/Stem's regular processing and bus controls remain available and function as normal.
+        </p>
+
+        <p>
+            L-ISA parameters can be automated in the same way as other path parameters; use the <b>External&nbsp;Control</b> column in the
+            <a href="AutoFilters.html"><span class="hyperlink">Automation&nbsp;Filters</span></a> pages to adjust the store and recall scope.
+        </p>
+
+
+        <h3>Configuring the L-ISA Master Level Control</h3>
+
+        <p>
+            Create one OSC Path for the L-ISA Master level control in the Console Configuration page
+            (<span class="label">MENU</span> > <span class="label">Setup</span> > <span class="label">Console&nbsp;Configuration</span>).
+            Refer to the <a href="ConsoleConfig.html"><span class="hyperlink">Console&nbsp;Configuration</span></a> section for further details on using this page.
+        </p>
+
+        <p>
+            Place the OSC Path on the console surface using the <a href="LayerManager.html"><span class="hyperlink">Layer&nbsp;Manager</span></a> to assign it to a Fader Tile layer/bank.
+            OSC Paths may also be assigned to the console's Master Tile <b>FOCUS</b> and <b>MAIN</b> faders;
+            refer to the <a href="MasterTile.html"><span class="hyperlink">Master&nbsp;Tile</span></a> section for further instructions.
+        </p>
+
+        <p>
+            Navigate to the OSC Path in the <a href="ChanView.html"><span class="hyperlink">Channel&nbsp;View</span></a> and double-tap the Eyeconix area at the bottom of the screen
+            to open the Name/Eyeconix <a href="DetailView.html"><span class="hyperlink">Detail&nbsp;View</span></a> page. Name/colour the OSC Path as desired.
+        </p>
+
+        <p>
+            Navigate to the <span class="label">External&nbsp;Control</span> Detail View page and select <span class="label">L-ISA</span> from the <b>Select&nbsp;Device</b> menu.
+        </p>
+
+        <p>
+            The OSC Path's fader will synchronise to L-ISA Controller's Master level position and can now be used to adjust it.
+        </p>
+
+        <p>
+            Note that, like other path types, the OSC Path's fader position can be stored in console automation, but its value will always sync from L-ISA Controller when first connected,
+            even if the L-ISA Controller Synchronisation Mode is set to Desk Master. Care should be taken if automating the fader position as it can cause large changes in level.
+        </p>
+
+    </div>
+
+
+    <div class="indexheader2">Meyer Sound Spacemap Go</div>
+    <div id="SMG" style="padding: 1em 0;">
+        <h3>Introduction</h3>
+
+        <p>
+            SSL and Meyer Sound have worked in partnership to provide integrated control of Spacemap Go immersive loudspeaker systems from the console interface.
+            Spacemap sources can be associated with console Channels or Stems, with full control of XY Pan, Crossfade, Spread and Trajectory transport controls for each source available from the console.
+        </p>
+
+        <span class="note">
+            <span class="notetitle">Note:</span> This feature is only available when running SSL Live console software version <b>5.0 and above</b>, Meyer Sound GALAXY firmware version <b>2.4.2 and above</b>,
+            Meyer Sound Compass version <b>4.9.2 and above</b> and Meyer Sound Spacemap Go version <b>1.2.0 and above</b>.
+        </span>
+
+
+        <h3>Meyer GALAXY and Spacemap Go Setup</h3>
+
+        <p>
+            Refer to the following references to configure your Meyer Sound system:
+        </p>
+
+        <ul>
+            <li>Configure GALAXY Processors: <a class="external-link" tabindex="-1" href="https://spacemap-go-help.meyersound.com/configure-galaxy/" target="_blank"><span class="hyperlink">spacemap-go-help.meyersound.com/configure-galaxy</span></a></li>
+            <li>Spacemap Go Quick Start: <a class="external-link" tabindex="-1" href="https://spacemap-go-help.meyersound.com/quick-start/" target="_blank"><span class="hyperlink">spacemap-go-help.meyersound.com/quick-start</span></a></li>
+        </ul>
+
+        <p>
+            From the Spacemap Go app, navigate to the <span class="label">Settings</span> page and select the <span class="label">External&nbsp;Device&nbsp;Connection</span> section on the left.
+            Scroll to the <span class="label">Console</span> section on the right and enter the console's IP address into the <b>External&nbsp;Device&nbsp;(Client)&nbsp;IPv4&nbsp;Address</b> field.
+            This can be found and set in the console's Network options tab (<span class="label">MENU</span> > <span class="label">Setup</span> > <span class="label">Network</span>).
+            Note that each IP address on the network must be unique.
+        </p>
+
+        <img style="display: block; margin: 5px auto; width: 600px;" src="images/s_MeyerConsoleSettings.png" alt="">
+
+        <p>
+            Choose a port number with which to communicate with the SSL Live console. The suggested port number is 4001.
+            Set this in the <b>External&nbsp;Device&nbsp;(Client)&nbsp;Receiving&nbsp;Port</b> field.
+        </p>
+
+
+        <h3>Console Setup</h3>
+
+        <p>
+            Navigate to the console's <b>External&nbsp;Control</b> options tab (<span class="label">MENU</span> > <span class="label">Setup</span> > <span class="label">Options</span>).
+            Tap <b>Spacemap&nbsp;Go</b> in the device list in the <b>OSC&nbsp;SETTINGS</b> section of the page.
+        </p>
+
+        <img style="display: block; margin: 5px auto; width: 500px;" src="images/g_OSCsetupSpacemapSelected.png" alt="">
+
+        <p>
+            Type in the IP Address of the computer running the Meyer Compass software in the
+            <b>Host&nbsp;IP&nbsp;Address</b> field provided in the <b>DEVICE&nbsp;CONFIGURATION</b> section below.
+        </p>
+
+        <p>
+            Enter the same port number chosen in the Spacemap Go Setup section above into the <b>Incoming&nbsp;Port</b> field provided.
+            The <b>Name</b> and <b>Host&nbsp;RX&nbsp;Port</b> fields are read-only and for information only.
+        </p>
+
+        <img style="display: block; margin: 5px auto; width: 800px;" src="images/g_OSCsetupSpacemapDeviceConfig.png" alt="">
+
+        <p>
+            The IP address entered will be stored in the showfile. Note that each IP address on the network must be unique.
+            The console's IP address is also displayed in this page for reference.
+        </p>
+
+        <p>
+            The console's IP address must be in the same subnet as (but not identical to) the IP addresses of the devices running Compass and Spacemap Go software, and can be changed in the <b>Network</b> options tab
+            (<span class="label">MENU</span> > <span class="label">Setup</span> > <span class="label">Options</span> > <span class="label">Network</span> tab;
+            see <a href="OptionsNetwork.html"><span class="hyperlink">Network&nbsp;Options</span></a> for more details).
+        </p>
+
+        <p>
+            Press the <span class="label">Enable&nbsp;Control</span> button to enable control of Spacemap Go from the console. The <b>Enabled</b> indicator in the device list will light green.
+            Multiple devices can be enabled simultaneously.
+        </p>
+
+        <img style="display: block; margin: 5px auto; width: 500px;" src="images/g_OSCsetupSpacemapEnabled.png" alt="">
+
+
+        <h3>Path Assignment</h3>
+
+        <p>
+            Control of Spacemap Go channels can be enabled on any of the console's Channel or Stem paths (excluding Dry Channels and Dry Stems).
+        </p>
+
+        <p>
+            Navigate to the <span class="label">External&nbsp;Control</span> <a href="DetailView.html"><span class="hyperlink">Detail&nbsp;View</span></a> page
+            and select <span class="label">Spacemap&nbsp;Go</span> from the <b>Select&nbsp;Device</b> menu.
+        </p>
+
+        <p>
+            <a href="PathLink.html"><span class="hyperlink">Path&nbsp;Link</span></a> can be used to assign and enable Spacemap Go control to multiple paths simultaneously.
+            The selected External Control device will be stored in the showfile.
+        </p>
+
+
+        <h3>Audio Routing</h3>
+
+        <p>
+            Ensure that the console and Meyer GALAXY Processor sample rates match. 96&nbsp;kHz (recommended) and 48&nbsp;kHz operation is supported by the console.
+            Refer to <a href="Clocking.html#SampleRate"><span class="hyperlink">Clocking&nbsp;&amp;&nbsp;Sync</span></a> for details.
+        </p>
+
+        <p>
+            Meyer GALAXY Processors can support analogue, AES3 and AVB inputs. Route the console's Channel/Stem outputs to the required ports for connection to the Meyer Processor.
+            Please refer to the <a href="Routing.html"><span class="hyperlink">Routing</span></a> section for further information.
+        </p>
+
+        <span class="note">
+            <span class="notetitle">Note:</span> It is recommended that the Channel/Stem direct outputs are used to route to the Meyer system and
+            set to <b>Post&nbsp;All</b> processing (please see <a href="OptionsSystem.html#Chop"><span class="hyperlink">System&nbsp;Options</span></a> for further details).
+        </span>
+
+
+        <h3>Available Controls</h3>
+
+        <p>
+            When Meyer Sound Spacemap Go is enabled on a Channel or Stem, the path's External Control Detail View page will show the Spacemap Go control interface.
+            This provides control over the following parameters for the associated Spacemap Go channel:
+            <ul>
+                <li><b>X Y Pan</b></li>
+                <li><b>Crossfade</b></li>
+                <li><b>Spread</b></li>
+                <li><b>Trajectory Rate</b></li>
+                <li><b>Trajectory Transport Controls</b></li>
+            </ul>
+            A 2D panning interface is provided for touch control of X and Y position within the Spacemap.
+        </p>
+
+        <img style="display: block; margin: 5px auto; width: 600px;" src="images/g_OSCdetailSMG.png" alt="">
+
+        <p>
+            Note that the Spacemap Go iPad app takes control precedence; the console controls will be temporarily disabled while parameters are adjusted in the Spacemap Go app.
+        </p>
+
+        <p>
+            All of the Channel's/Stem's regular processing and bus controls remain available and function as normal.
+        </p>
+
+        <p>
+            Spacemap Go parameters can be automated in the same way as other path parameters; use the <b>External&nbsp;Control</b> column in the
+            <a href="AutoFilters.html"><span class="hyperlink">Automation&nbsp;Filters</span></a> pages to adjust the store and recall scope.
+        </p>
+
+        <p>
+            <b>However</b>, it is recommended by SSL and Meyer Sound that console automation of External Control parameters is <b>disabled</b>
+            for paths using Spacemap Go and that Spacemap Go parameters are instead automated in the Meyer Sound automation system.
+        </p>
+
+
+        <h3>Configuring the Spacemap Go Master Level Control</h3>
+
+        <p>
+            Create one OSC Path for the Spacemap Go Mix Master level control in the Console Configuration page
+            (<span class="label">MENU</span> > <span class="label">Setup</span> > <span class="label">Console&nbsp;Configuration</span>).
+            Refer to the <a href="ConsoleConfig.html"><span class="hyperlink">Console&nbsp;Configuration</span></a> section for further details on using this page.
+        </p>
+
+        <p>
+            Place the OSC Path on the console surface using the <a href="LayerManager.html"><span class="hyperlink">Layer&nbsp;Manager</span></a> to assign it to a Fader Tile layer/bank.
+            OSC Paths may also be assigned to the console's Master Tile <b>FOCUS</b> and <b>MAIN</b> faders;
+            refer to the <a href="MasterTile.html"><span class="hyperlink">Master&nbsp;Tile</span></a> section for further instructions.
+        </p>
+
+        <p>
+            Navigate to the OSC Path in the <a href="ChanView.html"><span class="hyperlink">Channel&nbsp;View</span></a> and double-tap the Eyeconix area at the bottom of the screen
+            to open the Name/Eyeconix <a href="DetailView.html"><span class="hyperlink">Detail&nbsp;View</span></a> page. Name/colour the OSC Path as desired (e.g. <i>SMG Master</i>).
+        </p>
+
+        <p>
+            Navigate to the <span class="label">External&nbsp;Control</span> Detail View page and select <span class="label">Spacemap&nbsp;Go</span> from the <b>Select&nbsp;Device</b> menu.
+        </p>
+
+        <p>
+            The OSC Path's fader will synchronise to the Spacemap Go Mix Master level position and can now be used to adjust it.
+        </p>
+
+        <p>
+            Note that, like other path types, the OSC Path's fader position can be stored in console automation, but as with the per-path Spacemap Go controls described above,
+            it is recommended that External Control parameters are <b>disabled</b> in console automation. Care should be taken if automating the fader position as it can cause large changes in level.
+        </p>
+
+
+        <h3>Automating Spacemap Go parameters</h3>
+
+        <p>In order to prevent possible data conflicts, Spacemap Go parameters should be stored in only one automation system; either in Spacemap Go (recommended) or in the console.</p>
+
+        <p>
+            To disable recall from the console's automation system, navigate to the Automation page (<span class="label">MENU</span> > <span class="label">Automation</span>)
+            and select the <b>Global Recall Filters</b> page (refer to the <a href="AutoFilters.html#Filters"><span class="hyperlink">Automation&nbsp;Filters</span></a> section for details).
+            Navigate to the paths that have Spacemap Go control enabled and ensure the <b>External&nbsp;Control</b> column is turned off for these paths.
+        </p>
+
+        <span class="note">
+            <span class="notetitle">Note:</span> This will only disable <b>recall</b> of the External Control parameters. To disable storing these parameters, turn off the
+            External Control column in the <b>Global Store Filters</b> page as well.
+        </span>
+
+        <h4>Using a Generic OSC Path to Trigger Spacemap Go Snapshots</h4>
+
+        <p>To trigger Spacemap Go snapshots in sync with firing console scenes, a Generic OSC device assigned to an OSC path can be used (see below for setup details).</p>
+
+        <p>Configure the Generic OSC device with the same IP address and port numbers as the Spacemap Go device configured above.</p>
+
+        <p>
+            Configure one of the Generic OSC Faders with an <b>OSC&nbsp;Address</b> of <i>/Console/recall/system</i>. Spacemap Go system snapshots can be given an External Recall ID of between 900 and 3000.
+            Set the Fader's <b>Min</b> and <b>Max</b> fields to cover the number of snapshots required. Bear in mind that the Fader is represented in percent, so a range (Min and Max) of 900 to 1000
+            would mean that a 1&nbsp;% change in Fader position equates to increasing the External Recall ID by 1 (starting at 900). For example, a Fader value of 42&nbsp;% would equal snapshot #942 (900+42).
+        </p>
+
+        <span class="note">
+            <span class="notetitle">Tip:</span> Generic OSC Fader 1 is mapped to the physical fader when assigned to an OSC Path.
+            It is therefore recommended that another fader number is used, so as to prevent accidental physical fader moves causing a snapshot change.
+        </span>
+
+        <p>
+            Create a new OSC Path in the Console Configuration page
+            (<span class="label">MENU</span> > <span class="label">Setup</span> > <span class="label">Console&nbsp;Configuration</span>).
+            Refer to the <a href="ConsoleConfig.html"><span class="hyperlink">Console&nbsp;Configuration</span></a> section for further details on using this page.
+        </p>
+
+        <p>Ensure that the OSC Path's <b>External&nbsp;Control</b> parameters are set to store and recall in the console's automation scenes. Refer to the <a href="AutoFilters.html#Filters"><span class="hyperlink">Automation&nbsp;Filters</span></a> section for details.</p>
+
+        <p>Place the new OSC Path on the console surface for ease of access using the <a href="LayerManager.html"><span class="hyperlink">Layer&nbsp;Manager</span></a> (or use the <span class="label">Layers</span> button in the Channel View sidebar to gain access).</p>
+
+        <p>
+            Navigate to the OSC Path in the <a href="ChanView.html"><span class="hyperlink">Channel&nbsp;View</span></a> and double-tap the Eyeconix area at the bottom of the screen
+            to open the Name/Eyeconix <a href="DetailView.html"><span class="hyperlink">Detail&nbsp;View</span></a> page. Name/colour the OSC Path as desired (e.g. <i>SMG Snapshot</i>).
+        </p>
+
+        <p>
+            Navigate to the <span class="label">External&nbsp;Control</span> Detail View page and select <span class="label">Generic&nbsp;OSC</span> from the <b>Select&nbsp;Device</b> menu.
+        </p>
+
+        <p>
+            In each console scene you wish to trigger a Spacemap Go snapshot change, change the OSC Fader position to match the required Spacemap Go External Recall ID number, bearing in mind the offset and range (Min and Max) of values entered above.
+            Remember to <span class="label">Store</span> this value in the console's automation system so it is recalled when the scene is fired.
+        </p>
+
+        <span class="note">
+            <span class="notetitle">Tip:</span> Tap on the OSC Fader to select it then double-tap in the text field in the lower right corner of the Detail View to bring up a keyboard for entering a specific value.
+            Refer to the <a href="DetailView.html"><span class="hyperlink">Detail&nbsp;View</span></a> section for further details.
+        </span>
+
+        <img style="display: block; margin: 5px auto; width: 750px;" src="images/g_OSCdetailSMGsnapshot.png" alt="">
+
+        <p>When a scene is fired that contains a new value for the OSC Fader in the Generic OSC Path, an OSC message will now be sent to Spacemap Go prompting a snapshot change to coincide with the console automation scene change.</p>
+
+    </div>
+
+    <div class="indexheader2">d&amp;b Soundscape Control</div>
+    <div id="SSC" style="padding: 1em 0;">
+        <h3>Introduction</h3>
+
+        <p>
+            SSL and d&amp;b have collaborated to bring integrated control allowing users to position objects within the d&amp;b Soundscape immersive loudspeaker system directly from SSL Live consoles. Up to 64 objects can be configured per DS100 processing engine in Soundscape, all of which can be controlled from the console. Objects can be controlled from console input Channels or Stem group buses with full control of XY Pan, Spread, En-Space Send, Delay Mode and Mapping Area from the channel detail view.
+        </p>
+        <p>
+            &quot;Powered by the DS100 Signal Engine, a revolutionary audio system processor based on a powerful Dante enabled signal matrix, d&amp;b Soundscape provides unparalleled creativity through its two software modules En-Scene and En-Space.&quot;
+        </p>
+        <p>
+            The d&amp;b DS100 processor includes Dante IO (64ch at both 48kHz and 96kHz). Audio connectivity with the console is best achieved via one of SSL Live console's Dante options. Control communication is across the console's Connectivity network directly with the DS100.
+
+        </p>
+
+        <span class="note">
+            <span class="notetitle">Note:</span> This feature is only available when running SSL Live console software version <b>5.2 and above</b>,
+        </span>
+
+
+        <h3>d&amp;b Soundscape Setup</h3>
+
+        <p>
+            Within the console Setup menus, navigate to Options > External Control. Select the d&amp; soundscape entry from the OSC settings list to show the details on the DEVICE CONFIGURATION pane.
+        </p>
+
+
+        <ul>
+            <li><strong>Enable Control</strong> - Toggles the OSC communication for d&amp;b soundscape on and off.&nbsp;</li>
+            <li><strong>Host IP Address</strong> - Requires the IP address of the DS100 device. (Default 50010)&nbsp;</li>
+            <li><strong>Incoming Port</strong> - Not required for direct connection to the DS100, to be used with d&amp;b software bridge app (Remote Protocol Bridge).&nbsp;
+            <li><strong>Host RX Port</strong> - Requires setting to the inbound port on the DS100 for direct communication. &nbsp;</li>
+        </ul>
+
+        <img style="display: block; margin: 5px auto; width: 1000px;" src="images/t_OSCsetupdbSelected.png" alt="">
+
+        <p>
+            The Host IP address entered will be stored in the showfile. Note that each IP address on the network must be unique. The console's IP address is also displayed in this page for reference. The console's IP address must be in the same subnet as - but not identical to - the IP addresses of the DS100, and can be changed in the <strong>Options &gt; Network</strong> tab.
+        </p>
+
+        <h3>Audio Path Mapping</h3>
+
+        <p>
+            Any console Channel or Stem (excluding Dry variants) may have Soundscape control enabled on it.
+        </p>
+
+        <p>
+            Navigate to the <strong>External Control</strong> Detail View page and select <strong>d&amp;b Soundscape</strong> from the <strong>Select Device</strong> menu. The <strong>Control Path Num Offset</strong> field allows an offset to be added to the path number when transmitted to the OSC device. For example, if 48 mono Channels and 8 Stems are being used, the Channels would use an offset of 0 (d&amp;b source IDs 1 to 48) while all Stems would use an offset of 48 (d&amp;b source IDs 49-64).
+        </p>
+
+        <p>
+            Path Link can be used to assign and enable d&amp;b Soundscape control to multiple paths simultaneously. The selected External Control device per path will be stored in the showfile.
+        </p>
+
+        <h3>Audio Routing</h3>
+
+        <p>
+            The DS100 has a Dante interface; audio connections to/from the console will be via the onboard console Dante expander, or the high-capacity BLII/X-Light Bridge interfaces. Audio connections can be via Virtual Tie Lines (managed with Dante controller), or Dynamic Dante (Dual Domain) Routes made using the console software. For Dynamic Dante Routing from console the DS100 must be added to the Configured Devices list in the Dante configuration page. Once configured any console routing UIs can be used to patch path inputs and outputs to and from the DS100; these Dynamic Dante routes will be stored and recalled with the console showfiles.
+        </p>
+
+        <h3>d&amp; Soundscape Controls </h3>
+
+        <p>
+            Within the console paths detail view, the d&amp; controls are displayed on a UI designed for the touch screen but can also be controlled from the encoders in follow detail mode. The following parameters are controllable:
+            <ul>
+                <li><b>X</b> and <b>Y</b> relative to coordinate mapping area (controlled using the 2D position graphic, the two sliders, or two encoders in follow detail mode).</li>
+                <li><b>Spread</b> (controlled using pinch on the position graphic, the dedicated slider, or encoder in follow detail mode).</li>
+                <li><b>En-Space Send</b> (controlled using pinch on the position graphic, the dedicated slider, or encoder in follow detail mode).</li>
+                <li><b>Delay Mode</b> (toggled between Off, Tight &amp; Full) with the onscreen buttons or hardware switch in follow detail mode).</li>
+                <li><b>Mapping Area</b> (press and hold to choose area 1 to 4 - see d&amp; Soundscape for details).</li>
+            </ul>
+
+        </p>
+
+        <img style="display: block; margin: 5px auto; width: 1000px;" src="images/t_OSCdetailsDBS.png" alt="">
+
+        <p>
+            Controls across multiple channels can be Path Linked and controlled as a set, in the same way console parameters can be.
+        </p>
+
+        <p>
+            Soundscape parameters can be scene automated in the same way as other path parameters; use the <b>External&nbsp;Control</b> column in the
+            <a href="AutoFilters.html"><span class="hyperlink">Automation&nbsp;Filters</span></a> pages to adjust the store and recall scope.
+        </p>
+
+        <h3>Advanced Use with d&amp;b Remote Protocol Bridge (RPB)</h3>
+
+        <p>
+            For workflows involving control from multiple user interfaces - for example the console and R1 - bidirectional communication with the console is required. The DS100 does not directly communicate using OSC, therefore the d&amp;b Remote Protocol Bridge app is required.
+        </p>
+
+        <p>
+            The d&amp;b Remote Protocol Bridge will also allow support for 2x DS100s. These can be configured as units in parallel, for redundancy, or as two individual units providing up to 128 sound objects within the Soundscape System.
+        </p>
+
+        <p>
+            Please speak to your local SSL Support team for use cases including Remote Protocol Bridge.
+        </p>
+
+    </div>
+
+    <div class="indexheader2">Generic OSC</div>
+    <div id="GenericOSC" style="padding: 1em 0;">
+        <h3>Introduction</h3>
+
+        <p>The console is able to control many devices that support the OSC (Open Sound Control) standard via the UDP network protocol.</p>
+
+        <p>Please refer to individual device manuals to determine if they support remote control via OSC and for device-specific setup instructions.</p>
+
+        <p>
+            To control third-party devices from the console surface via OSC, the following pieces of information are required
+            <ul>
+                <li>IP address of the device to control</li>
+                <li>Console incoming port number (i.e. the port to which the device will send OSC packets)</li>
+                <li>Device receiving port number (i.e. the port to which the console should send OSC packets)</li>
+                <li>OSC method addresses and data types for the parameters to be controlled</li>
+            </ul>
+        </p>
+
+        <p>
+            Refer to the Open Sound Control website
+            (<a class="external-link" tabindex="-1" href="http://www.opensoundcontrol.org/" target="_blank"><span class="hyperlink">www.opensoundcontrol.org</span></a>)
+            for further details on the OSC protocol.
+        </p>
+
+
+        <h3>Console Setup</h3>
+
+        <p>
+            Navigate to the console's <b>External&nbsp;Control</b> options tab (<span class="label">MENU</span> > <span class="label">Setup</span> > <span class="label">Options</span>).
+            Tap <b>Generic&nbsp;OSC</b> in the device list in the <b>OSC&nbsp;SETTINGS</b> section of the page.
+        </p>
+
+        <img style="display: block; margin: 5px auto; width: 500px;" src="images/g_OSCsetupGenericSelected.png" alt="">
+
+        <p>
+            Enter the IP Address and port numbers of the device in the <b>Host&nbsp;IP&nbsp;Address</b>, <b>Incoming&nbsp;Port</b> and <b>Host&nbsp;RX&nbsp;Port</b> fields provided
+            in the <b>DEVICE&nbsp;CONFIGURATION</b> section below.
+        </p>
+
+        <img style="display: block; margin: 5px auto; width: 800px;" src="images/g_OSCsetupGenericDeviceConfig.png" alt="">
+
+        <p>
+            Some third-party devices require the console to respond to OSC messages by echoing back the value received. If this is the case then ensure the <span class="label">Enable Parameter Echo</span> button is engaged.
+            Please consult the device's manual for details. If in doubt, start with <span class="label">Enable Parameter Echo</span> off and enable only if all other settings are correct but communication with the device is still not successful.
+        </p>
+
+        <p>
+            The settings entered will be stored in the showfile. Note that each IP address on the network must be unique.
+            The console's IP address is also displayed in this page for reference.
+        </p>
+
+        <p>
+            The console's IP address must be in the same subnet as (but not identical to) the IP address of the OSC device and can be changed in the <b>Network</b> options tab
+            (<span class="label">MENU</span> > <span class="label">Setup</span> > <span class="label">Options</span> > <span class="label">Network</span> tab;
+            see <a href="OptionsNetwork.html"><span class="hyperlink">Network&nbsp;Options</span></a> for more details).
+        </p>
+
+        <h4>Defining OSC Methods</h4>
+        <p>
+            Up to eight <b>Fader</b> (i.e. continuously variable) and eight <b>Switch</b> parameters <b>per third-party device channel</b> may be defined for control by the console.
+            These are defined in the relevant tabs in the <b>DEVICE&nbsp;CONFIGURATION</b> section.
+        </p>
+
+        <img style="display: block; margin: 5px auto; width: 800px;" src="images/g_OSCsetupGenericMethodsConfig.png" alt="">
+
+        <p>
+            For each parameter, enter the following information:
+            <ul>
+                <li>
+                    <b>Label</b> : The text displayed beside the control in the console interface.
+                    A <b>*</b> character will be substituted with the originating console path number (including the Path Num Offset; see Path Assignment section below).
+                    e.g. Entering "Mute ch *" will display "Mute ch 1" on console path number 1, "Mute ch 2" on path number 2 etc.
+                </li>
+                <li>
+                    <b>OSC&nbsp;Address</b> : The address of the OSC method to control. The console only handles float data types.
+                    A <b>*</b> character will be substituted with the originating console path number (including the Path Num Offset; see Path Assignment section below).
+                    e.g. Entering "/solidstatelogic/sigma/channels/fader/*" will communicate with an SSL Sigma's fader 1 OSC method from console path number 1, fader 2 from path 2 etc.
+                </li>
+                <li>
+                    <b>Min</b> and <b>Max</b> values
+                    <ul>
+                        <li>Faders : Linearly interpolates between Min and Max.</li>
+                        <li>Switches : Off = Min, On = Max. Typically 0 and 1 respectively; refer to the device manual.</li>
+                    </ul>
+                </li>
+                <li><b>Colour</b> : The colour in which to display the control on the console interface.</li>
+            </ul>
+        </p>
+
+        <p>The <b>Switch</b> tab has an extra option to set the data type to Integer. This restricts the switches to only respond to, and send, OSC messages with integer arguments.</p>
+
+        <img style="display: block; margin: 5px auto; width: 800px;" src="images/g_OSCsetupGenericMethodsSwitchesConfig.png" alt="" />
+
+        <p>Press &amp; hold the <span class="label">Apply</span> button to store the parameters.</p>
+
+        <p>Use the <span class="label">Clear&nbsp;Pending</span> button to reset the parameter list to the currently applied state.</p>
+
+        <p>
+            Press the <span class="label">Enable&nbsp;Control</span> button to enable control of OSC device from the console. The <b>Enabled</b> indicator in the device list will light green.
+            Multiple devices can be enabled simultaneously.
+        </p>
+
+        <img style="display: block; margin: 5px auto; width: 500px;" src="images/g_OSCsetupGenericEnabled.png" alt="">
+
+        <h3>Creating Console OSC Paths</h3>
+
+        <p>
+            Control of Generic OSC devices is accessible from console audio paths as well as dedicated OSC paths with no console audio processing associated to them.
+            Which to choose will depend on whether the third-party device interacts directly with console audio paths (e.g. an outboard effects processor inserted over certain channels),
+            or is unrelated to specific audio paths (e.g. a show control system for triggering lighting cues).
+        </p>
+
+        <p>
+            Control is possible from both audio and OSC paths simultaneously, but care must be taken that they address different channels on the third-party device;
+            see the Path Assignment section below for further details.
+        </p>
+
+        <p>
+            If dedicated OSC Paths are required, create these in the Console Configuration page
+            (<span class="label">MENU</span> > <span class="label">Setup</span> > <span class="label">Console&nbsp;Configuration</span>).
+            Refer to the <a href="ConsoleConfig.html"><span class="hyperlink">Console&nbsp;Configuration</span></a> section for further details on using this page.
+        </p>
+
+        <h3>Path Assignment</h3>
+
+        <p>
+            Place the audio/OSC Paths on the surface using the <a href="LayerManager.html"><span class="hyperlink">Layer&nbsp;Manager</span></a>.
+            OSC may be placed in banks as desired, just like any other path type. Depending on the workflow desired, a dedicated bank could be created,
+            or OSC Paths can be interspersed with other console paths.
+        </p>
+
+        <p>
+            Navigate to the paths in the <a href="ChanView.html"><span class="hyperlink">Channel&nbsp;View</span></a> and double-tap the Eyeconix area at the bottom of the screen
+            to open the Name/Eyeconix <a href="DetailView.html"><span class="hyperlink">Detail&nbsp;View</span></a> page. Name/colour the paths as desired.
+        </p>
+
+        <p>
+            Navigate to the <span class="label">External&nbsp;Control</span> Detail View page and select <span class="label">Generic&nbsp;OSC</span> from the <b>Select&nbsp;Device</b> menu.
+        </p>
+
+        <p>
+            When communicating with the third-party device, the displayed path number will be used as the device channel number to control.
+            The <b>Control&nbsp;Path&nbsp;Num&nbsp;Offset</b> field in the External Control Detail View page can be used to apply an offset to the path number.
+            E.g. if console OSC Path 8 is to control device channel 4, an offset of -4 must be entered.
+            <a href="PathLink.html"><span class="hyperlink">Path&nbsp;Link</span></a> can be used to assign Generic OSC and apply offsets to multiple OSC Paths simultaneously.
+            The selected device and offset per path will be stored in the showfile.
+        </p>
+
+        <span class="note">
+            <span class="notetitle">Note:</span> Care should be taken that the same device channel is not accessed via more than one console path, either by assigning to different path types
+            (e.g. OSC path and Channel) and/or through use of the <b>Control&nbsp;Path&nbsp;Num&nbsp;Offset</b> field.
+        </span>
+
+        <p>Parameters within OSC Paths can be automated in the same way as other path types; use the Automation Filters to adjust the store and recall scope.</p>
+
+
+        <h3>Available Controls</h3>
+
+        <p>
+            The parameters configured in the Generic OSC device setup (up to eight faders and up to eight switches) can be accessed from the
+            <span class="label">External&nbsp;Control</span> Detail View page of any path configured to control the Generic OSC device.
+        </p>
+
+        <img style="display: block; margin: 5px auto; width: 600px;" src="images/g_GenericOscDetailView.png" alt="">
+
+        <p>The graphical panner on the left represents the first three configured fader parameters - notated as X, Y and Z. This allows a graphical representation of 3D/Surround panning in many third-party, OSC-enabled, immersive audio processors.</p>
+
+        <p>The dimenstion shown on the graphical panner can be selected via the <span class="label">Display X-Z</span> and <span class="label">Display Y-Z</span> buttons in the bottom right.</p>
+
+        <p>
+            If assigned to an OSC path, the path's <b>Fader</b> will control the first Fader parameter configured in the device.
+            The path's <b>Mute</b> and <b>Solo</b> switches will control the first and second switch parameters respectively.
+            These can be accessed from the Fader Tile hardware and various Fader sections of the GUI (Detail View, Channel View etc.)
+        </p>
+    </div>
+
+    <div class="indexheader2">KLANG</div>
+    <div id="Sigma" style="padding: 1em 0;">
+        <h3>KLANG Immersive Panning</h3>
+
+        <p>
+            Please see the <a href="KLANG.html"><span class="hyperlink">KLANG Integration page</span></a> for information on how to set up a KLANG system with SSL Live.
+        </p>
+    </div>
+</div>
+
+
+<h2>Useful Links</h2>
+
+<p><a href="OptionsNetwork.html"><span class="hyperlink">Network Options</span></a></p>
+
+<p><a href="ConsoleConfig.html"><span class="hyperlink">Console Configuration</span></a></p>
+
+<p><a href="LayerManager.html"><span class="hyperlink">Layer Manager</span></a></p>
+
+<p><a href="LinkIndex.html"><span class="hyperlink">Index and Glossary</span></a></p>
+
+<div class="TutorialNavNext"> <a href="Storage.html"><span class="TutorialNav">NEXT: Parameter & Settings Storage</span> <img class="TutorialNav" src="images/n_TutNext.png" alt=""></a></div>
+
+
+    </div>
+
+    <script src="../Help/js/OpenAccordionFromLink.js"></script>
+</body>
+</html>

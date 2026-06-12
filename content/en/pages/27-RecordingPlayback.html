@@ -1,0 +1,199 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Multitrack Recording &amp; Playback</title>
+  <style>
+    body { font: 16px/1.55 Arial, sans-serif; max-width: 1080px; margin: 2rem auto; padding: 0 1.25rem; color: #202124; }
+    img { max-width: 100%; height: auto; }
+    table { border-collapse: collapse; max-width: 100%; }
+    th, td { border: 1px solid #aaa; padding: .45rem; vertical-align: top; }
+    .note { display: block; border-left: 4px solid #e0a000; background: #fff8df; padding: .75rem 1rem; margin: 1rem 0; }
+    .notetitle { font-weight: bold; }
+    .label { font-weight: bold; color: #174ea6; }
+    .source { color: #666; font-size: .9rem; }
+  </style>
+</head>
+<body>
+  <p class="source">Section: Building a Show | Source: <a href="https://livehelp.solidstatelogic.com/Help/RecordingPlayback.html">https://livehelp.solidstatelogic.com/Help/RecordingPlayback.html</a></p>
+<h2>Multitrack Recording and Playback (Recorder and Rehearse Mode)</h2>
+
+<p>
+    Each Channel path of an SSL Live console comes equipped with <b>Record Send</b> and <b>Record Return</b> points at the top of the signal chain (post Input A/B selection, pre Trim).
+    The Record Send point is always active for routing to a multitrack recording device. The Record Return point can be switched into circuit on multiple channels simultaneously, as described below. Record patch routing can be performed from the Channel View Input/Routing Detail View, XY Routing, or the new bulk Recorder routing from the IO menu. 
+</p>
+
+<span class="note">
+    <span class="notetitle">V5.2 and higher: </span><br>
+  	V5.2 software delivers greatly enhanced 'Rehearsal and Recorder' functionality, which includes multiple switching groups, flexible routing and locking override functions. Eight freely assignable switching groups can be used to manage multiple groups of instruments or even different acts within the same showfile, rehearsals can become very dynamic with fast comparisons. Combined with global and local switching options, plus override "lock to" functions per channel, switching individual channels between live and playback is quick and simple. 
+	<br><br>
+	Bulk routed recorder IO is now handled via generic MADI and Dante Expander modules, the consoles concept of a "Live Recorder" is removed. Free routing of the channel record sends, and returns allows the use of any IO, and any console path to be recorded providing very flexible recording and rehearsal playback options. 
+	<br><br>
+	The previous live recorder concept included fixed but maintained routing auto incrementing channel record send and return routing. This had the advantage of automatically updating routes when channel formats or channel order were changed, but the disadvantage that the very fixed routing that could not be altered. This new version gives the power to the user to manage routing however they wish, but does not have any automatically maintained routing, the two features being mutually exclusive. New bulk routing commands from the MADI and Dante IO devices, provide a fast way to route all channels after they have been configured in console config. If channel formats are subsequently changed, the operator will need to monitor, and update required recorder routes. 
+	<br><br>
+	Showfiles saved in an earlier version of software will update when loaded and subsequently saved in Live V5.2. Live recorders will be updated to generic MADI IO. Console channels previously corresponding to recorder ID, will automatically be added to the corresponding new switching group. New showfiles will default to all channels as part of the global switching group and start with blank record send and return routing.</span>		
+	
+	
+<h3>Rehearsal Mode Switching Groups</h3>
+	  <p><strong> Rehearse Mode</strong>&nbsp;buttons are available from the <strong>MENU</strong>&nbsp;&gt;&nbsp;<strong>Setup</strong>&nbsp;&gt;&nbsp;<strong>Options</strong>&nbsp;&gt;&nbsp;<strong>USER</strong>&nbsp;tab. These allow playback of recorded audio through the console channels, allowing engineers to test the system or performers to rehearse alongside previous performances. There are eight possible rehearse switching groups, allowing different sets of channels to be switched when necessary. The groups can be named with a double tap of the text box (e.g. Drums). Each group has an associated colour used to identify the switch group state, both per channel strip and in the status bar. </p>
+		
+		<img style="display: block; margin: 5px auto; width: 300px;" src="https://livehelp.solidstatelogic.com/Help/images/t_Rehearse_mode.png" alt="">
+		<img style="display: block; margin: 5px auto;" src="https://livehelp.solidstatelogic.com/Help/images/t_Rehearse_status.png" alt="">
+
+<span class="note">
+    <span class="notetitle">Note:</span> Rehearse mode can also be triggered from User Keys and Events System; see the <a href="https://livehelp.solidstatelogic.com/Help/OptionsUserKeys.html"><span class="hyperlink">User Keys Options</span> or <a href="https://livehelp.solidstatelogic.com/Help/EventManager.html"><span class="hyperlink">Event&nbsp;Manager</span></a> section</a>.
+</span>	
+	<p>
+	A <strong>Global Rehearse Mode</strong> button (press &amp; hold to activate) switches all paths in <strong>Follow Global</strong> or a <strong>Follow Group</strong> mode (not <strong>Follow Local</strong> mode), in and out of Rehearse mode simultaneously. Channel Paths are assigned to Global, Group or Local switching in the Input <strong>Channel Detail View</strong>.&nbsp; &nbsp;</p>
+	<p>	
+	  <li><strong>Follow Global</strong> - The default option - The path is NOT in a group but IS changed when the global rehearsal mode is switched.</li>
+		<li><strong>Follow Group &lt;N&gt;</strong> - Assigns the path to the group to be switched with that group.</li>
+		<li><strong>Follow Local</strong> - No switching group assigned, channel defaults to live input but can be locally switched to rehearsal input.</li>
+	</p>
+		
+		<img style="display: block; margin: 15px auto; width: 1200px;" src="https://livehelp.solidstatelogic.com/Help/images/t_Rehearse_pathdetail.png" alt="">
+		
+	<p>A simple setup may keep all channels as <strong>Follow Global</strong>, providing a bulk switch for every channel on the console. Separate groups provide user defined switching, typically across types of instruments. <strong>Follow Local</strong> provides a way to remove a channel easily and permanently from the switching groups, useful for effect returns or sources always fed from playback devices routed to the channel input. These assignments are all stored and recalled with the showfile.</p>
+		
+	<p>A pair of <strong>Lock to Live Input</strong> and <strong>Lock to Rehearsal Input</strong> override functions force a path to the live input or the record return. Turning one lock on cancels the other, turning either lock off does not turn to the other lock on. The "lock to" functions can be used at any time, even when a path is in follow global or follow group mode.</p>
+	
+	<p>
+	<li><strong>Lock to Rehearsal Input</strong> button is orange when engaged, the Channel input A/B/tape indication is orange when the path is locked to rehearsal input.</li>
+	<li><strong>Lock to Live Input</strong> button is cyan when engaged, the Channel input A/B indication remains as standard when the path is locked to live input.</li>	
+		</p>
+		
+		<p>When a path is in <strong>Lock to Live</strong> or <strong>Lock to Rehearsal</strong> that paths input is NOT changed by group or global switching. The lock to switch states are not saved in the showfile or scene. The "lock to" functions can provide a fast way to force a channel to live or rehearsal/replay input on that run through the show. Perhaps one musician is late for soundcheck, or one instrument malfunctions; switching this one channel to playback allows the show or rehearsal to continue while it is resolved. If the singer wants to run through a few more times after soundcheck, their mic can be locked to live input while rehearsal is engaged for everyone else.</p>
+		
+<h3>Recorder IO</h3>
+		<p>The ability to manual route channel record sends and returns, allows any IO to be used as the recorder and rehearsal replay machine. Routing is performed in the same way as any other signal patching and is stored and recalled with showfiles. </p>
+		
+		<p>MADI and Dante Expander connections can be configured as "recorders." Recorders are given a channel block (e.g. 1-32, 33-64, ... @96 kHz). When assigned channel blocks bulk routing actions for both the IO and the channel record send/return can be performed. This allows a recorder IO and routing to be configured quickly once channel allocation in <stromg>Console Config</stromg> has been completed, ensuring all channels are being recorded. </p>
+		
+		<li><strong>Make All</strong> - will route signals 1:1 from channel record send to this device, and from this device to channel record returns.</li>
+		<li><strong>Clear Destination</strong> - will remove all signals routed to this device and remove all signals routed to these channel record returns.</li>
+		<li><strong>Clear All</strong> - will remove all routes made to and from both this device and these channels record send and returns.</li>
+		
+		<p>The 1:1 routing is based on incremental signals across the console channel paths, i.e., a stereo channel path will use 2 signals on the IO.</p>
+		
+		<p>Make is only available if all signal destination points are clear to be made. The clear functions are only available if there are routes to be cleared. It is useful to remember routing is directional. One to many routing is simply distribution and easily achievable with patch routing. Many to one routing requires summing/mixing and therefore needs busses, so not part of any patch routing feature. (Signal receiving points need clearing or replacing to be sent different signal.)</p>
+		
+	  <img style="display: block; margin: 15px auto; width: 1200px;" src="https://livehelp.solidstatelogic.com/Help/images/t_Rehearse_bulk.png" alt="">
+		
+		<p>Setting an IO device to <strong>Not Set</strong> automatically actions the <strong>Clear Destinations </strong>function, freeing up the channel record returns and the IO outputs to be routed from other signals. The channel record sends, and IO inputs could have been legitimately routed to other destinations, not part of the recorder, and therefore are not cleared when the recorder IO is changed to <strong>Not Set</strong>. </p>
+		
+		<p>When the Dante expander is set to a recorder it will be forced to use all its channels as VTLs (Virtual Tie Lines), rather than dynamic Dante routing</p>
+		
+<h3>Suggested Use Case and Workflow</h3>	
+		<p>The recorder IO options make it simple and quick to record and playback a rehearsal when configuring a console from scratch or setting up new recording devices.</p>
+		
+	    <ol>
+			<li>After building your console config...</li>  
+			<li>Set device recorder channel ID: e.g. <strong>Chan 1 - 32  </strong></li>
+			<li><strong>Make All</strong> routes*  </li>
+			<li>Repeat step 1 and 2 for other devices.</li>
+			<li>To listen to the playback during a rehearsal enable <strong>Global Rehearsal Mode</strong></li>
+		</ol>
+		
+		<p>*This applies when the starting point is that the recording device has no receive routes and channel record return has no routes connected to it. If a recorder or the channel path record return has already been routed to, use <strong>Clear Destination</strong> before <strong>Make All</strong> in step 2.</p>
+		
+		<p>If devices have previously been used for recorders, but these assignments require changing there are several options:</p>
+		
+		<ul>
+			<li>Set the console IO port to none - removing recorder assignments and routing - then chose MADI and configure the recorder options.</li>
+			<li>Set the recorder to not set - removing recorder assignments and routing, then chose new channel blocks.</li>
+			<li>Reassign channel block for each recorder clearing and making new routing as you go.</li>
+		</ul>
+		
+		<p>The recorder options in the MADI and Dante Expander IO pages are to provide bulk routing and fast setup capabilities, XY and channel view routing can also be used to connect signals between a recording device and the channel record send / returns</p>
+		
+		<p>If channel formats are subsequently changed, the operator will need to monitor, and update required recorder routes.</p>
+	
+<!--
+<h2>OLD TEXT TO EDIT OR REMOVE</h2>
+<h3>Recording/Playback via MADI</h3>
+
+<p>
+    The Live Recorder is intended to be used to record live events and has the ability to play back the recording for rehearsal mode 'virtual soundcheck' purposes. 
+    Any MADI device can be set as Live Recorder for this purpose.
+</p>
+
+<p>
+    Sends and returns to the Live Recorder are automatically routed to Input Channels pre-digital trim. Each Live Recorder must be assigned a device number from the detail dialogue. 
+    Since each MADI stream can carry 32 channels of audio (at 96 kHz), Live <span style="font-weight: bold;">Recorder ID</span> 1 will be routed to & from the first block of channels 
+    equalling 32 mono audio streams. Live <span style="font-weight: bold;">Recorder ID</span> 2 will be routed to & from the next block of 32 channels and so on. 
+    Stereo channels will take 2 of the 32 streams available, LCR channels will take 3, etc.<br>
+    Once all full channel paths have been used, dry channels will be assigned to subsequent Live Recorder streams.
+</p>
+
+<span class="note">
+    <span class="notetitle">Examples: </span><br>
+    64 mono channels: Live Recorder ID 1 will be routed to and from channels 1-32. Live Recorder ID 2 will be routed to and from channels 33-64.<br><br>
+    Channels 1-8 stereo; channels 9-56 mono: Channels 1-8 will consume the first 16 streams of Live Recorder ID 1; the remaining 16 streams of Live Recorder ID 1 will be routed to and from channels 9-24. 
+    The remaining channels 25-56 will be routed to and from Live Recorder ID 2.
+</span>
+
+<p>Up to eight Live Recorder MADI devices may be added to the I/O page, totalling 256 audio streams (up to 208 Full Processing Input Channels + 48 Dry Input Channels).</p>
+
+<p>At 48 kHz, the number of channels routed to each Live Recorder device doubles to 64.</p>
+
+<span class="note">
+    <span class="notetitle">Note: </span>The audio streams recorded correspond to the channel order by channel number (i.e. as they appear in the overview and console configuration pages and in system layers), 
+    which may be different to how the Input Channels appear on the Fader Tiles and also may not correlate with the inputs on the stageboxes as this is dependent on how the console has been set up.
+</span>
+
+
+<h3>Recording/Playback via Dante</h3>
+
+<p>A Dante Expander Module may also be fitted to the Live console. This adds up to 64 channels of Dante I/O to the console (dependent on sample rate).</p>
+
+<p>
+    Select the Dante Expander Module from the left-most column in the I/O page 
+    (<span class="label">MENU</span> > <span class="label">Setup</span> > <span class="label">I/O</span> > <span class="label">Local/MADI Configuration</span>). 
+    You will be presented with options for the Dante Expander in the lower portion of the screen.
+    The <span style="font-weight: bold;">Recorder ID</span> buttons operate in the same way as the Live Recorder interface described above
+    (automatically routing the record sends/returns of blocks of channels to the Dante port), with the exception that the <span class="label">Free&nbsp;Route</span> button
+    allows the Dante I/O to be freely routed within the console routing system. Select the appropriate recorder ID to assign the Dante Expander Module as a Live Recorder device.
+</p>
+
+<img style="display: block; margin: 25px auto;" src="https://livehelp.solidstatelogic.com/Help/images/g_DanteLiveRec.png" alt="">
+
+<p>For more information on setting up Dante, Net I/O Stageboxes or a BLII/X-Light Bridge, please see <a href="https://livehelp.solidstatelogic.com/Help/DanteConfig.html"><span class="hyperlink">I/O&nbsp;Setup:&nbsp;Dante</span></a>.</p>
+
+
+<h3 id="RehearseMode">Rehearse Mode (Virtual Soundcheck/Playback)</h3>
+
+<p>
+    <b>Rehearse</b> buttons are available from the <a href="https://livehelp.solidstatelogic.com/Help/OptionsUser.html#RehearseMode"><span class="hyperlink"><b>User&nbsp;Options</b></span></a> page
+    (<span class="label">MENU</span> > <span class="label">Setup</span> > <span class="label">Options</span> > <span class="label">USER</span> tab).
+    These allow playback of recorded audio through the channels from which they were recorded, allowing engineers to test the system or performers to rehearse alongside previous performances.
+    Each Live Recorder has its own <b>Rehearse</b> button, allowing blocks of 32 (or 64 at 48 kHz) channels to be switched in and out of Rehearse mode.
+    A <span class="label">Global&nbsp;Rehearse&nbsp;Mode</span> button (press &amp; hold to activate) is also available to switch all Live Recorders in and out of Rehearse mode simultaneously.
+</p>
+
+<p>
+    Per-device and Global Rehearse Mode functions can be assigned to <a href="https://livehelp.solidstatelogic.com/Help/OptionsUserKeys.html"><span class="hyperlink">User&nbsp;Keys</span></a>. 
+    Global Rehearse Mode may also be accessed through the <a href="https://livehelp.solidstatelogic.com/Help/EventManager.html"><span class="hyperlink">Event&nbsp;Manager</span></a>.
+</p>
+
+<span class="note">
+    <span class="notetitle">Note:</span> Rehearse mode can also be triggered from User Keys; see the <a href="https://livehelp.solidstatelogic.com/Help/OptionsUserKeys.html"><span class="hyperlink">User Keys Options</span> section</a>.
+</span>
+
+<p>
+    Rehearsal mode is always indicated at the very top of the screen, towards the left-middle of the status bar, either with a <img src="https://livehelp.solidstatelogic.com/Help/images/g_RehearseModeIconWhite.png" alt="white 'tape'"> 
+    icon when one or more Live Recorders are in Rehearse mode, or <img src="https://livehelp.solidstatelogic.com/Help/images/g_RehearseModeIcon.png" alt="cyan 'tape'"> icon when all Live Recorders are in Rehearse mode.
+</p>
+-->
+<span class="note">
+    <span class="notetitle">Note:</span> The Record Sends remain active at all times. This means that 'live' signals from stage will continue to be sent to the recording device, even when in Rehearse Mode.
+</span>
+
+
+<h2>Useful Links:</h2>
+<a href="https://livehelp.solidstatelogic.com/Help/LocalMADIConfig.html"><span class="hyperlink">Local/MADI I/O Configuration</span></a><br>
+<a href="https://livehelp.solidstatelogic.com/Help/DanteSetup.html"><span class="hyperlink">Setting Up Dante</span></a><br>
+<a href="https://livehelp.solidstatelogic.com/Help/InstallGuide.html"><span class="hyperlink">Installation Guide</span></a><br>
+<a href="https://livehelp.solidstatelogic.com/Help/LinkIndex.html"><span class="hyperlink">Index and Glossary</span></a><br>
+</body>
+</html>

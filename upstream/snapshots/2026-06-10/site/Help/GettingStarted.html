@@ -1,0 +1,507 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html ng-app="sslLiveHelp">
+<head>
+    <meta content="text/html; charset=ISO-8859-1" http-equiv="content-type">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=yes">
+
+    <link href="../Help/style/style.css" rel="stylesheet">
+    <link href="../Help/style/jquery-ui-1.13.2.structure.css" rel="stylesheet">
+    <title>Quick Start Guide</title>
+    <script src="../Help/js/jquery-3.6.0.min.js"></script>
+    <script src="../Help/js/jquery-ui/1.13.2/jquery-ui.min.js"></script>
+    <!--<script type="text/javascript" src="cordova.js"></script>-->
+    <!-- Nav / search panels 2017 updates -->
+    <script>
+    window.baseDir = '../';
+    window.data = 'null';
+    </script>
+    <link rel="stylesheet" type="text/css" href="../Help/fonts/font-awesome-4.7.0/css/font-awesome.min.css" />
+    <link rel="stylesheet" type="text/css" href="../Help/style/sass-styles.css">
+    <script src="../Help/js/fastclick.js"></script>
+    <script src="../Help/js/lodash.core.min.js"></script>
+    <!--<script src="../Help/js/angular/1.2/angular.min.js"></script>-->  <!-- On a console -->
+    <script src="../Help/js/angular/1.8/angular.min.js"></script>   <!--Not on a console -->
+    <script src="../Help/js/ngStorage.min.js"></script>
+    <!--<script src="../Help/js/angular/1.2/angular-sanitize.min.js"></script>-->  <!-- On a console -->
+    <!--<script src="../Help/js/angular/1.2/angular-animate.min.js"></script>-->   <!-- On a console -->
+    <script src="../Help/js/angular/1.8/angular-sanitize.min.js"></script>  <!--Not on a console -->
+    <script src="../Help/js/angular/1.8/angular-animate.min.js"></script>   <!--Not on a console -->
+    <script src="../Help/js/lunr-2.3.min.js"></script>
+    <script src="../Help/js/menu.js"></script>
+
+</head>
+
+<body ng-controller="NavController as vm">
+
+    <!--<nav class="nav" ng-class="{ 'nav--visible' : vm.visible }" ng-if="vm.visible" role="navigation" aria-label="Primary">-->  <!-- On a console --> 
+    <nav class="nav" ng-class="{ 'nav--visible' : vm.visible }" role="navigation" aria-label="Primary"> <!--Not on a console -->
+        <!-- Search form -->
+        <div role="search">
+            <form class="nav__search" ng-if="vm.isSearchSupported">
+                <label class="nav__search-icon" for="query"><i aria-label="Search" title="Search" class="fa fa-search"></i></label>
+                <input type="search" id="query" class="nav__search-input" placeholder="Search..." ng-model="vm.query" />
+            </form>
+        </div>
+
+        <div class="nav__scroll" ng-style="vm.styleBasedOnSearchSupported">
+
+            <!-- Main nav -->
+            <ul class="main-nav" ng-hide="vm.query">
+                <li class="main-nav__item" ng-repeat="item in vm.nav">
+
+                    <!-- Link to page -->
+                    <a ng-if="item.url" ng-class="{'main-nav__link--active' : item.url===vm.currentPage}" class="main-nav__link" ng-attr-href="{{ vm.baseDir }}{{ item.url }}">
+                        {{ item.title }}
+                    </a>
+
+                    <!-- Expandable heading -->
+                    <span ng-click="vm.toggleExpanded(item.title)" ng-if="!item.url" class="main-nav__title">
+                        {{ item.title }}
+                        <span ng-if="!vm.isExpanded(item.title)" class="fa fa-caret-right"></span>
+                        <span ng-if="vm.isExpanded(item.title)" class="fa fa-caret-down"></span>
+                    </span>
+
+                    <!-- Subnav -->
+                    <ul ng-if="vm.isExpanded(item.title)" class="main-nav fx-fade">
+                        <li ng-repeat="sub in item.children" class="main-nav__item">
+
+                            <!-- Link to page -->
+                            <a ng-if="sub.url" ng-class="{'main-nav__link--active' : sub.url===vm.currentPage}" class="main-nav__link main-nav__link--level1" ng-attr-href="{{ vm.baseDir }}{{ sub.url }}">
+                                {{ sub.title }}
+                            </a>
+
+                            <!-- Expandable heading -->
+                            <span ng-click="vm.toggleExpanded(sub.title)" ng-if="!sub.url" class="main-nav__title main-nav__title--level1">
+                                {{ sub.title }}
+                                <span ng-if="!vm.isExpanded(sub.title)" class="fa fa-caret-right"></span>
+                                <span ng-if="vm.isExpanded(sub.title)" class="fa fa-caret-down"></span>
+                            </span>
+
+                            <!-- Sub-sub nav -->
+                            <ul ng-if="sub.children && vm.isExpanded(sub.title)" class="main-nav fx-fade">
+                                <li ng-repeat="subsub in sub.children" class="main-nav__item">
+
+                                    <!-- Link to page -->
+                                    <a ng-class="{'main-nav__link--active' : subsub.url===vm.currentPage}" class="main-nav__link main-nav__link--level2" ng-attr-href="{{ vm.baseDir }}{{ subsub.url }}" ng-bind-html="subsub.title">
+                                    </a>
+
+                                </li>
+                            </ul>
+
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+
+            <!-- Search results list -->
+            <ul class="search-results">
+                <li class="search-result" ng-repeat="result in vm.results">
+                    <a class="search-result__link" ng-attr-href="{{ vm.baseDir }}{{ 'Help/' + result.id }}">
+                        <h3 class="search-result__title">{{ result.title }}</h3>
+                        <p class="search-result__excerpt" ng-bind-html="result.excerpt"></p>
+                    </a>
+                </li>
+            </ul>
+
+            <!-- Keep screen on option - PhoneGap insomnia -->
+            <ul class="main-nav" ng-if="vm.isPhoneGap">
+                <li class="main-nav__item">
+                    <label class="main-nav__title">
+                        Keep Screen On
+                        <input style="display: none" type="checkbox" ng-model="vm.keepScreenOn" />
+                        <i ng-class="{'fa--cleared' : !vm.keepScreenOn, 'fa--checked' : vm.keepScreenOn}" class="fa fa-check"></i>
+                    </label>
+                </li>
+            </ul>
+
+
+        </div>
+    </nav>
+
+    <nav class="header" role="navigation" aria-label="Secondary">
+        <a ng-if="!vm.onAConsole" href="../index.html" class="header__btn" title="Home"><i class="fa fa-home"></i></a>
+        <div ng-if="!vm.onAConsole" class="header__history">
+            <a onclick="javascript:window.history.back()" class="header__btn"><i title="Back" class="fa fa-chevron-left"></i></a>
+            <a onclick="javascript:window.history.forward()" class="header__btn"><i title="Forwards" class="fa fa-chevron-right"></i></a>
+        </div>
+        <div align="right">
+            <a class="header__btn header__btn--nav" ng-click="vm.toggleVisibility()">
+                <i ng-if="!vm.visible" class="fa fa-bars"></i>
+                <i ng-if="vm.visible" class="fa fa-close"></i>
+            </a>
+        </div>
+    </nav>
+
+
+    <!-- Main content -->
+    <div id="main">
+        
+
+<div><a href="Intro.html"><img class="TutorialNav" src="images/n_TutPrevious.png" alt=""><span class="TutorialNav">PREVIOUS: Introduction</span></a></div>
+
+<h2>Quick Start Guide</h2>
+
+<p>This page is designed to get you up and running quickly.</p>
+<p>If you would like to learn more about any of the topics covered, return to the Homepage where each section of the console is described in detail.</p>
+<span class="note">
+    <span class="notetitle">Please Note: </span>If using Dante Stageboxes, this Quick Start Guide assumes that the reader has completed Dante Certification Levels 1 & 2 or has equivalent Dante experience.
+    If this is not the case please refer to <a href="DanteSetup.html"><span class="hyperlink">Setting Up Dante</span></a> to learn more.
+</span>
+
+<h2>1. Turn on the console</h2>
+<p>On the rear of the console, turn the PSU switches to the "on" position (L100 consoles fitted with dual-redundant power supplies do not have these switches).</p>
+<p>Now press the <span class="label">PSU</span> switch on the console's Control Tile or Tablet Tile.</p>
+<p>The console will now start.</p>
+<br>
+
+<h2>2. Set the Sample Rate</h2>
+<p>On the console go to the System page (<span class="label">MENU</span> > <span class="label">Setup</span> > <span class="label">System&nbsp;/&nbsp;Power</span> > <span class="label">System</span> tab).</p>
+<p>Press and hold the <span class="label">96 kHz</span> or <span class="label">48 kHz</span> button to choose the Sample Rate. Once the button starts flashing, you can let go.</p>
+<p>Reboot the console if the sample rate has been changed.</p>
+<img style="display: block; margin: 25px auto;" src="images/g_OptionsSystemClock.png" align="right" alt="">
+<br>
+
+<h2>3. Choose a Clock Master</h2>
+<p>On the console go to <span class="label">MENU</span> > <span class="label">Setup</span> > <span class="label">Options</span> > <span class="label">SYSTEM</span> tab.</p>
+<p>In the <span style="font-weight:bold;">System Clock</span> section, choose a <b>Main</b> clock master from the available options. Optionally select a <b>Backup</b> clock source.</p>
+<p>Press and hold <span class="label">APPLY</span>.</p>
+<p>
+    For <span style="font-weight:bold;">MADI-based systems</span>,
+    SSL recommends selecting the <span style="font-weight:bold;">console as the clock master</span> (choose <span class="label">Int</span> (internal clock) on the screen). The stageboxes and all other MADI devices should slave to the console.
+</p>
+<p>
+    For <span style="font-weight:bold;">Dante-based systems</span>, SSL recommends that the <span style="font-weight:bold;">console slaves to Dante</span> (choose <span class="label">Dante Expander</span> on the screen)
+    to take advantage of Dante's clock election process.
+</p>
+<p>See <a href="Clocking.html"><span class="hyperlink">Clocking</span></a> for more information.</p>
+
+<br>
+
+<h2 id="Templates">4. Load a Template Showfile</h2>
+<p>Go to <span class="label">MENU</span> > <span class="label">Setup</span> > <span class="label">File&nbsp;Manager</span> > <span class="label">Showfiles</span> tab.</p>
+<p>Tap on <span class="label">System Templates</span> to the left.</p>
+<p>Choose a template that best fits your system:</p>
+<p style="margin-bottom:0px">
+    <ul>
+        <li><span style="font-weight:bold;">... over BLII-MADI Concentrator</span> templates refer to systems using MADI stageboxes and a BLII-MADI Concentrator</li>
+        <li><span style="font-weight:bold;">... over MADI</span> templates refer to systems using MADI stageboxes connecting directly to the console (without a BLII-MADI Concentrator)</li>
+        <li><span style="font-weight:bold;">... over Dante - Local Dante Port</span> templates refer to systems using Dante stageboxes with no BLII Bridge</li>
+        <li><span style="font-weight:bold;">... over Dante - BLII Bridge</span> templates refer to systems using Dante stageboxes with a BLII Bridge</li>
+        <li><span style="font-weight:bold;">... over Dante - X-Light Bridge</span> templates refer to systems using Dante stageboxes with an X-Light Bridge</li>
+    </ul>
+</p>
+<p>Tap on a template and press and hold <span class="label">Load</span>.</p>
+<span class="note">
+    <span class="notetitle">SSL recommends: </span>For the purposes of this Quick Start Guide, <span style="font-weight:bold;">please do not load the Blank showfile</span>.<br>
+    The other templates have been configured so that most of the work has already been done for you. The setup process will take much longer using the Blank showfile.
+</span>
+<p>When a template is selected, the Showfile Notes area describes the settings for that showfile. You can refer back to this at any time. Double tap on the Showfile Notes area to edit the notes.
+
+<p>Tap the <span class="label">HD</span> button to the top of the showfile list. Press <span class="label">Save As</span> and type in the name of your showfile. Press <span class="label">OK</span>.</p>
+<span class="note">
+    <span class="notetitle">SSL recommends: </span>It is recommended that showfiles are run from the console's internal hard drive, and not from a USB stick. The console saves a backup showfile every minute.
+    In the event of a power loss, when the console is powered back on, the most recent backup showfile will be loaded. Backup showfiles cannot be saved to a USB stick, so this protection is not in place if a showfile is run from a USB stick.
+</span>
+<br>
+
+<h2>5. Connect the Stageboxes</h2>
+<div id="accordion">
+    <div class="indexheader2">MADI Stageboxes</div>
+    <div style="padding: 1em 0;">
+        <h2>MADI Stageboxes</h2>
+        <img style="display: block; margin: 25px auto;" src="images/g_SBSetup.png" align="right" alt="">
+        <p>The following instructions apply to MADI stageboxes with analogue inputs: ML 32.32 & ML i32.</p>
+        <h3>Stagebox Sample Rate & Clocking</h3>
+        <p>On the rear of the stagebox, locate the <span style="font-weight:bold;">SETUP</span> section. Check that the Sample Rate listed matches that which you have set the console to. There is no Sample Rate Conversion for MADI connections.</p>
+        <p>If the Sample Rate does not match, press and hold the <span class="label">RATE</span> and <span class="label">CLOCK</span> buttons until the padlock LED starts to flash.</p>
+        <p>Press the <span class="label">RATE</span> button repeatedly until the Sample Rate listed matches the sample rate of the console. Please note that 96 kHz is displayed with the <span style="font-weight:bold;">48</span> and <span style="font-weight:bold;">x2</span> LEDs illuminated.</p>
+        <p>
+            Press the <span class="label">CLOCK</span> button repeatedly until the <span style="font-weight:bold;">MADI</span> LED is illuminated green. The stagebox will now clock from the console. If it is illuminated red, there is an invalid clocking scheme.
+            If this is the case, go over step 3 again to check if anything has been missed.
+        </p>
+        <p>
+            Ensure that the <span style="font-weight:bold;">ID</span> section has the <span style="font-weight:bold;">1-32</span> LED illuminated (unless daisy-chaining stageboxes at 48 kHz). Press <span class="label">ID</span> button repeatedly
+            until the <span style="font-weight:bold;">1-32</span> LED is illuminated. (If daisy-chaining stageboxes at 48 kHz please see the <a href="Clocking.html#MADIStageboxes"><span class="hyperlink">Clocking</span></a> section).
+        </p>
+        <h3>Stagebox Connection</h3>
+        <p>The Blacklight II (BLII) Concentrator allows up to 8 MADI devices to be connected to the console redundantly via a pair of fibre cables.</p>
+        <p>Connect MADI <span style="font-weight:bold;">Port 1</span> on the rear of the Stagebox to <span style="font-weight:bold;">Port 1A</span> on the rear of the Blacklight II Concentrator via BNC.</p>
+        <p>Connect MADI <span style="font-weight:bold;">Port 2</span> on the Stagebox to <span style="font-weight:bold;">Port 1B</span> on the BLII Concentrator via BNC.</p>
+        <p>Connect <span style="font-weight:bold;">BLII A Main</span> on the front of the BLII Concentrator to <span style="font-weight:bold;">BLII Port 1a</span> on the rear of the console via a Neutrik OpticalCON DUO connection.</p>
+        <p>Connect <span style="font-weight:bold;">BLII A Backup</span> on the BLII Concentrator to <span style="font-weight:bold;">BLII Port 1b</span> on the console via a Neutrik OpticalCON DUO connection.</p>
+        <span class="note">
+            <span class="notetitle">Please Note: </span>If you do not have a BLII-MADI Concentrator, stageboxes can also be connected directly to the console.
+            To do this simply connect stagebox MADI Ports 1-2 directly to an odd/even pair of MADI ports on the console via BNC.
+        </span>
+        <p>On the console go to <span class="label">MENU</span> > <span class="label">Setup</span> > <span class="label">I/O</span> > <span class="label">Local/MADI Configuration</span>.</p>
+        <p>
+            To the right of the screen, under the <span style="font-weight:bold;">BLII</span> heading(s), the first port should be green with an image of the stagebox.
+            If the background is red or grey, or there is no stagebox image, please see <a href="LocalMADIConfig.html"><span class="hyperlink">Local/MADI I/O Configuration</span></a>.
+        </p>
+        <br>
+        <p>Repeat the above steps for any additional MADI stageboxes.</p>
+        <p>Routes have now been made from the stagebox to Channel inputs via a 1:1 patch. For Monitor templates, Aux Mix outputs have also been routed. To adjust these routes please see <a href="Routing.html"><span class="hyperlink">Routing</span></a>.</p>
+    </div>
+    <div class="indexheader2">Dante Stageboxes</div>
+    <div style="padding: 1em 0;">
+        <h2>Dante Stageboxes</h2>
+        <p>The following instructions apply to <span style="font-weight:bold;">Net I/O SB&nbsp;32.24 stageboxes only</span>. If you are connecting to another Net I/O stagebox please see <a href="DanteNetIO.html"><span class="hyperlink">Network I/O Stageboxes</span></a>.</p>
+        <span class="note">
+            <span class="notetitle">Please Note: </span>SSL Live consoles contain 4 network devices for use with Dante:<br>
+            -&emsp;<span style="font-weight:bold;">Dante Control (Primary & Secondary)</span>: These devices handle Dante Control data (i.e. Net I/O stagebox gain and routing)<br />
+            -&emsp;<span style="font-weight:bold;">Dante Audio (Primary & Secondary)</span>: These devices handle the Dante Audio. This device is also called the <span style="font-weight:bold;">Dante Expander</span> on SSL Live consoles and contains a Dante Brooklyn II module.<br />
+            All of these devices must have different IP addresses within the same subnet.
+        </span>
+        <h3>Setting the IP Address of the Console's Dante Control</h3>
+        <p>On the console go to <span class="label">MENU</span> > <span class="label">Setup</span> > <span class="label">Options</span> > <span class="label">NETWORK</span> tab.</p>
+        <p>Under <span style="font-weight:bold;">Dante Control Settings</span> press the <span class="label">Fixed</span> button for <span style="font-weight:bold;">Primary Control Network</span>.</p>
+        <p style="margin-bottom:0px">
+            <ul>
+                <li>Double tap on the <span style="font-weight:bold;">IP Address</span> field and type in <span style="font-weight:bold;">10.101.<i>x</i>.<i>x</i></span>*. Press <span class="label">OK</span>.</li>
+                <li>Double tap on the <span style="font-weight:bold;">Netmask</span> field and type in <span style="font-weight:bold;">255.255.0.0</span>. Press <span class="label">OK</span>.</li>
+                <li>Leave <span style="font-weight:bold;">Gateway</span> as <span style="font-weight:bold;">0.0.0.0</span>.</li>
+            </ul>
+        </p>
+        <p>Press and hold the corresponding <span class="label">Apply</span> button.</p>
+        <p>Press the <span class="label">Fixed</span> button for <span style="font-weight:bold;">Secondary Control Network</span>. </p>
+        <p style="margin-bottom:0px">
+            <ul>
+                <li>Double tap on the <span style="font-weight:bold;">IP Address</span> field and type in <span style="font-weight:bold;">10.102.<i>x</i>.<i>x</i></span>*. Press <span class="label">OK</span>.</li>
+                <li>Double tap on the <span style="font-weight:bold;">Netmask</span> field and type in <span style="font-weight:bold;">255.255.0.0</span>. Press <span class="label">OK</span>.</li>
+                <li>Leave <span style="font-weight:bold;">Gateway</span> as <span style="font-weight:bold;">0.0.0.0</span>.</li>
+            </ul>
+        </p>
+        <p>Press and hold the corresponding <span class="label">Apply</span> button.</p>
+        <p>
+            <i>
+                <span style="font-weight:bold;">*</span> Where "x" is written, choose <span style="font-weight:bold;">any number between 1 and 255</span>, other than a number that is already in use by another device for this network.
+                The same IP address cannot be used by more than one device on the same network.
+            </i>
+        </p>
+
+        <h3>Setting the IP Address of the Console's Dante Audio</h3>
+        <p>Connect your computer to the Primary Dante port on the back of the console.</p>
+        <p>Ensure your computer is in the same subnet as the stagebox's Primary Dante Audio. If you are not sure how to do this please see <a href="DanteSetup.html"><span class="hyperlink">Setting Up Dante</span></a>.</p>
+        <p>Open <span style="font-weight:bold;">Dante Controller</span> and locate the console's Dante Expander/Brooklyn Module on the network. If you cannot see the console in Dante Controller please see <a href="DanteSetup.html#FindingDevice"><span class="hyperlink">Finding a Dante Device Set to a Fixed IP Address in a Different Subnet</span></a>.</p>
+
+        <p>Double click on the console and go to the <span class="label">Network Config</span> tab.</p>
+        <p>Under <span style="font-weight:bold;">Primary</span>, click <span class="label">Manually configure an IP Address</span> and type in the following:</p>
+        <p style="margin-bottom:0px">
+            <ul>
+                <li>IP Address: <span style="font-weight:bold;">10.101.<i>x</i>.<i>x</i></span>*</li>
+                <li>Netmask: <span style="font-weight:bold;">25.255.0.0</span></li>
+                <li>Leave "DNS Server" and "Gateway" as <span style="font-weight:bold;">0.0.0.0</span></li>
+            </ul>
+        </p>
+        <p>Under <span style="font-weight:bold;">Secondary</span>, click<span class="label">Manually configure an IP Address</span> and type in the following:</p>
+        <p style="margin-bottom:0px">
+            <ul>
+                <li>IP Address: <span style="font-weight:bold;">10.102.<i>x</i>.<i>x</i></span>*</li>
+                <li>Netmask: <span style="font-weight:bold;">25.255.0.0</span></li>
+                <li>Leave "DNS Server" and "Gateway" as <span style="font-weight:bold;">0.0.0.0</span></li>
+            </ul>
+        </p>
+        <p>
+            <i>
+                <span style="font-weight:bold;">*</span> Where "x" is written, choose <span style="font-weight:bold;">any number between 1 and 255</span>, other than a number that is already in use by another device for this network.
+                The same IP address cannot be used by more than one device on the same network.
+            </i>
+        </p>
+        <p>
+            Press <span class="label">Apply</span>. You will be asked to confirm the IP address change, click <span class="label">Yes</span>.
+            The Brooklyn II module must be rebooted for changes to take effect. Click <span class="label">Reboot</span>. You will be asked to confirm the reboot. Click <span class="label">Yes</span>. There is no need to reboot the console.
+        </p>
+
+
+        <h3>Setting the Name of the Console</h3>
+        <p>Go to <span class="label">MENU</span> > <span class="label">Setup</span> > <span class="label">I/O</span> > <span class="label">Local/MADI Configuration</span> and tap on the <span class="label">Dante Expander</span> to the left of the screen.</p>
+        <p>
+            Locate the console's Dante Expander in Dante Controller. The name listed in Dante Controller must be the same as the name listed in the Dante Expander section of <span class="label">Local/MADI Configuration</span> on the console.
+            The names cannot automatically update themselves so, if necessary, the names must be changed manually.
+        </p>
+        <p>If the names differ, double tap on the name on the console's screen and type in the same name as is displayed in Dante Controller.</p>
+
+        <h3>Stagebox Connection</h3>
+        <p>Connect the Dante Primary connection of the stagebox to a network switch. Connect the Dante Primary connection of the console to the same switch.</p>
+        <p>Connect the Dante Secondary connection of the stagebox to a different network switch. Connect the Dante Secondary connection of the console to the second switch.</p>
+        <span class="note">
+            <span class="notetitle">Note: </span>It is also possible to connect the stagebox directly to the console by connecting their Dante Primary & Secondary ports directly,
+            although no additional Dante devices will be able to connect to the network. For this Quick Start Guide, SSL recommends that switches are used.
+        </span>
+
+        <h3>Setting the IP Address of the Stagebox</h3>
+        <p>Connect your computer to the same network switch as the stagebox's Primary connection (or connect to the stagebox's Primary connection directly).</p>
+        <p>Ensure your computer is in the same subnet as the stagebox's Primary connection. If you are not sure how to do this please see <a href="DanteSetup.html"><span class="hyperlink">Setting Up Dante</span></a>.</p>
+        <p>Open <span style="font-weight:bold;">Dante Controller</span> and locate two stagebox devices for every single stagebox unit. If you cannot see the stagebox devices please see <a href="DanteSetup.html#FindingDevice"><span class="hyperlink">Finding a Dante Device Set to a Fixed IP Address in a Different Subnet</span></a>.</p>
+        <p>One of the devices will contain the word "Main" or "Mn". The other will contain the word "Comp". The "Comp" device will also contain the word "Compensated" in its individual transmit channel names.</p>
+        <p>
+            The "Comp" device is used when gain sharing one stagebox with two consoles. We will not set this up now. For instructions on setting up Gain Sharing
+            with Dante stageboxes please see <a href="DanteNetIO.html#GainShare"><span class="hyperlink">Net I/O Stageboxes: Gain Sharing</span></a>.
+        </p>
+        <span class="note"><span class="notetitle">Please Note: </span>For the purposes of this Quick Start Guide, ignore the "Comp" device. All following instructions apply to the "Main" device only.</span>
+        <p>Double click on the stagebox "Main" device and go to the <span class="label">Network Config</span> tab.</p>
+        <p>Under <span style="font-weight:bold;">Primary</span>, click <span class="label">Manually configure an IP Address</span> and type in the following:</p>
+        <p style="margin-bottom:0px">
+            <ul>
+                <li>IP Address: <span style="font-weight:bold;">10.101.<i>x</i>.<i>x</i></span>*</li>
+                <li>Netmask: <span style="font-weight:bold;">25.255.0.0</span></li>
+                <li>Leave "DNS Server" and "Gateway" as <span style="font-weight:bold;">0.0.0.0</span></li>
+            </ul>
+        </p>
+        <p>Under <span style="font-weight:bold;">Secondary</span>, click <span class="label">Manually configure an IP Address</span> and type in the following:</p>
+        <p style="margin-bottom:0px">
+            <ul>
+                <li>IP Address: <span style="font-weight:bold;">10.102.<i>x</i>.<i>x</i></span>*</li>
+                <li>Netmask: <span style="font-weight:bold;">25.255.0.0</span></li>
+                <li>Leave "DNS Server" and "Gateway" as <span style="font-weight:bold;">0.0.0.0</span></li>
+            </ul>
+        </p>
+        <p>
+            <i>
+                <span style="font-weight:bold;">*</span> Where "x" is written, choose <span style="font-weight:bold;">any number between 1 and 255</span>, other than a number that is already in use by another device for this network.
+                The same IP address cannot be used by more than one device on the same network.
+            </i>
+        </p>
+        <p>
+            Press <span class="label">Apply</span>. You will be asked to confirm the IP address change, click <span class="label">Yes</span>.
+            The device must now be rebooted for changes to take effect. Click <span class="label">Reboot</span>. You will be asked to confirm the reboot. Click <span class="label">Yes</span>.
+        </p>
+        <p>Now manually reboot the stagebox. This is done by removing the power cable from the rear of the stagebox and then reconnecting it.</p>
+
+        <h3>Setting the Sample Rate of the Stagebox</h3>
+        <p>In Dante Controller double click on the stagebox and go to the <span class="label">Device Config</span> tab.</p>
+        <p>In the <span style="font-weight:bold;">Sample Rate</span> section, select a sample rate from the drop down menu. You will be asked to confirm the Sample Rate change. Click <span class="label">Yes</span>.</p>
+        <span class="note">
+            <span class="notetitle">Note: </span>Sample Rate Conversion is possible between the console and the Dante network. <span style="font-weight:bold;">For the purposes of this Quick Start Guide, set the stagebox to the same sample rate as the console.</span><br><br>
+            If you would like to use Sample Rate Conversion, Virtual Tie Lines must be used. Please see <a href="DanteVTL.html"><span class="hyperlink">Working with Dante Virtual Tie Lines</span></a> for more details.
+        </span>
+
+        <h3>Setting the Leader Clock of the Dante Network</h3>
+        <p>It is not necessary to set a Leader clock on the Dante network. Dante networks have their own clock election process and the most appropriate Leader clock will be chosen automatically.</p>
+        <p>See <a href="Clocking.html#Source"><span class="hyperlink">Clocking</span></a> for more details.</p>
+
+        <h3>Setting the Name of the Stagebox</h3>
+        <p>In Dante Controller double click on the stagebox and go to the <span class="label">Device Config</span> page.</p>
+        <p>In the <span style="font-weight:bold;">Rename Device</span> section, type in the following:</p>
+        <p style="margin-bottom:0px">
+            <ul>
+                <li>First stagebox: <span style="font-weight:bold;">IO1-32Main</span></li>
+                <li>Second stagebox (if applicable): <span style="font-weight:bold;">IO33-64Main</span></li>
+                <li>Third stagebox (if applicable): <span style="font-weight:bold;">IO65-96Main</span></li>
+            </ul>
+        </p>
+        <p>Press <span class="label">Apply</span>.</p>
+        <h3>If everything has been configured correctly...</h3>
+        <p>Go to <span class="label">MENU</span> > <span class="label">Setup</span> > <span class="label">I/O</span> > <span class="label">Dante Configuration</span>.</p>
+        <p>
+            If everything has been configured correctly, the stagebox "Main" device should show up in the <span style="font-weight:bold;">Configured Devices</span> list with a green icon to the left of the device and four green icons to the right (to show
+            PSU status of both PSUs and whether the stagebox is connected to both Primary and Secondary Dante networks correctly ("NET" icons).
+        </p>
+        <p>The resource bars at the top of the screen should show how many Dante routes have been used of the total. Neither the "Inputs" or "Outputs" areas should display "0 of 0".</p>
+        <p>If any of the above differs from what you are seeing, please repeat step 5 again to check that nothing has been missed, or go to <a href="DanteSetup.html"><span class="hyperlink">Setting Up Dante</span></a> for more information.</p>
+
+        <br>
+        <p>Routes have now been made from the stagebox to Channel inputs via a 1:1 patch. For Monitor templates, Aux Mix outputs have also been routed. To adjust these routes please see <a href="Routing.html"><span class="hyperlink">Routing</span></a>.</p>
+
+    </div>
+</div>
+<br>
+
+<h2>6. Soloing</h2>
+<p>On the <a href="MasterTile.html"><span class="hyperlink">Master Tile</span></a> (the one with the two Faders and Solo controls) there are two Solo Bus encoders: <span style="font-weight:bold;">Solo A</span> and <span style="font-weight:bold;">Solo B</span></p>
+<p>Turn the encoder to increase/decrease the volume. Push the top of the encoder to Mute the Solo Bus.</p>
+<h3>FOH Templates</h3>
+<p><span style="font-weight:bold;">Solo Bus A</span> is fed <span style="font-weight:bold;">Post All</span></p>
+<p><span style="font-weight:bold;">Solo Bus B</span> is fed <span style="font-weight:bold;">Pre Fader</span></p>
+<p>All paths are feeding both Solo buses. Choose whether you want a Post All or Pre Fader Solo Bus, and keep the other Solo Bus muted.</p>
+<p>Use either headphone socket under the front buffer to listen to the Solo Bus.</p>
+<p>On the Master Tile, the Main fader (right one) is controlling the main Master bus output.</p>
+<h3>Monitor Templates</h3>
+<p>All paths feed <span style="font-weight:bold;">Solo Bus A Pre Fader</span>.</p>
+<p>All paths except IEM Aux Mixes are feeding <span style="font-weight:bold;">Solo Bus B Post All</span>.</p>
+<p>Use the Right headphone socket for your IEMs. Use Local Analogue Output A12 for your Wedge.</p>
+<p>On the Master Tile, the Focus Fader (left one) is controlling your monitor IEM Master and the Main Fader (right) is controlling your monitor Wedge Master.</p>
+<br>
+<p>For more information, please see <a href="Solo.html"><span class="hyperlink">Solo</span></a>.</p>
+<br>
+
+<h2>7. Channel View</h2>
+<p>Press the <span class="label">SCREEN</span> to the right of any of the Fader Tiles. This calls the channels on that bank to the main screen. The screen is now showing the <a href="ChanView.html"><span class="hyperlink">Channel View</span></a>.</p>
+<p>Press the <span class="label">CALL</span> buttons on the Fader Tiles to call different <span style="font-weight:bold;">Banks</span> of faders.</p>
+<p>
+    Just above the <span class="label">SCREEN</span> and <span class="label">SWAP</span> buttons there is a label display with Up/Down arrow buttons. Press these to cycle through <span style="font-weight:bold;">Layers</span>.
+    As you do so, you will see the Bank label displays change (displays by the <span class="label">CALL</span> buttons). Layers can be thought of as folders of banks. There are 5 banks in every layer.
+    To find out more about Layers and Banks and to configure your own User Layers, please see <a href="LayerManager.html"><span class="hyperlink">Layer Manager</span></a>.
+</p>
+<p>In the Channel View, tap on any of the elements on screen to send that function to the encoder knobs at the top of the Fader Tile (called the <a href="QuickControls.html"><span class="hyperlink">Quick Controls</span></a>).</p>
+<p>Double tap on the coloured square at the bottom of the channel strip to open the expanded view for the channel (called the <a href="DetailView.html"><span class="hyperlink">Detail View</span></a>.)</p>
+<p>Channel processing, bus/VCA/Mute Group assignments and inserts can be accessed from the Detail View.</p>
+<p>
+    By default, when the Detail View is open, the Quick Controls directly below the screen will each control one parameter of the function displayed in the Detail View.
+    For example, when EQ is displayed in the Detail View, it is possible to use the Quick Control to control individual EQ parameters. If you want to return the Quick Controls to their normal function, turn off <span class="label">Follow Detail</span>
+    in the bottom right of the screen.
+</p>
+<span class="note">
+    <span class="notetitle">SSL recommended workflow: </span><br>
+    -&emsp;Leave the Detail View open all the time.<br>
+    -&emsp;Leave <span class="label">Follow Detail</span> on.<br>
+    -&emsp;Press a channel's <span class="label">SELECT</span> button on the Fader Tiles to call that channel to the Detail View.<br>
+    -&emsp;Use either the multi-touch interface of the Detail View or corresponding Quick Controls to adjust channel processing parameters. 
+    (For L300, L350, L500, L500&nbsp;Plus, L550 or L650 consoles, the <a href="ControlTile.html"><span class="hyperlink">Control Tile</span></a> (the one with the small screen) can also be used for a "knob-per-function" workflow).
+</span>
+
+<br>
+
+<h2>8. Talkback</h2>
+<p>There are two Talkback Channels. The inputs are routed from the two XLR inputs under the front buffer of the console respectively.</p>
+<p>To send Talkback to an Aux, Stem or Master, first open the Detail View for the bus. Then press <span class="label">Fader/TB</span>.</p>
+<p>Engage <span class="label">TB&nbsp;to&nbsp;Bus</span></p>
+<p>Now on the <a href="MasterTile.html"><span class="hyperlink">Master Tile</span></a>, press the Talkback <span class="label">TB1</span> or <span class="label">TB2</span> encoder to unmute Talkback Channel 1 or 2. Now you can talk to that bus.</p>
+<p>When you are finished speaking, press the encoder again to mute the Talkback Channel.</p>
+<p>For more information please see <a href="TB.html"><span class="hyperlink">Talkback</span></a>.</p>
+<br>
+
+<h2>9. FX</h2>
+<p>The templates feature 8 Effects channels (using Stem paths). These effects channels contain the FX send and return in the same channel. The Effect is inserted on the Stem.</p>
+<p>The following effect have already been created for you:</p>
+<p style="margin-bottom:0px">
+    <ul>
+        <li>Hall Reverb</li>
+        <li>Plate Reverb</li>
+        <li>Ambient Reverb</li>
+        <li>Vocal Thickener</li>
+        <li>Tape Echo</li>
+        <li>Delay</li>
+        <li>Amp Cap (Guitar amp emulation)</li>
+        <li>SubmoniX (sub-bass harmonic synthesizer)</li>
+    </ul>
+</p>
+<p>To send signal to an effect press the Effects Stem's <span class="label">Q</span> button on the Fader Tiles (Q stands for <a href="Query.html"><span class="hyperlink">Query</span></a>).</p>
+<p>All sends from other paths to that Stem will now be displayed on the Faders (Flip Faders automatically turns on). Use the faders to adjust the send level.</p>
+<p>When you are finished, press the <span class="label">Q</span> button again (on the same Effects Stem) to exit Query mode.</p>
+<p>Outside of Query mode, the Effects Stem's fader now controls the FX return.</p>
+<span class="note">
+    <span class="notetitle">Please Note: </span>Sends to Stems and Auxes normally require the send to be turned IN. In the templates, this has already been done for you for Channels sends to Effects Stems.
+    If you create any new paths or new sends, you will need to turn the send IN as well as turn the level up for signal to pass. For more information please see <a href="BusRouting.html"><span class="hyperlink">Bus Routing</span></a>.
+</span>
+<br>
+
+<h2>10. Save Your Showfile</h2>
+<p>Go to <span class="label">MENU</span> > <span class="label">Setup</span> > <span class="label">File&nbsp;Manager</span> > <span class="label">Showfiles</span> tab.</p>
+<p>Press and hold <span class="label">Save</span> to save changes to your showfile.</p>
+<br>
+
+<h2>11. Powering Down the Console</h2>
+<p>Go to the System page (<span class="label">MENU</span> > <span class="label">Setup</span> > <span class="label">System&nbsp;/&nbsp;Power</span> > <span class="label">System</span> tab).</p>
+<p>Press and hold the red <span class="label">Power&nbsp;Off&nbsp;Console</span> button to shut the console down. Wait until the <span class="label">PSU</span> switch has turned from cyan back to white before removing the power cables.</p>
+<br>
+
+<div class="TutorialNavNext"> <a href="Menu.html"><span class="TutorialNav">NEXT: Main Screen Menu</span> <img class="TutorialNav" src="images/n_TutNext.png" alt=""></a></div>
+
+
+    </div>
+
+    <script src="../Help/js/OpenAccordionFromLink.js"></script>
+</body>
+</html>

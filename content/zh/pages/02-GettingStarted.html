@@ -1,0 +1,374 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>快速入门指南</title>
+  <style>
+    body { font: 16px/1.55 Arial, sans-serif; max-width: 1080px; margin: 2rem auto; padding: 0 1.25rem; color: #202124; }
+    img { max-width: 100%; height: auto; }
+    table { border-collapse: collapse; max-width: 100%; }
+    th, td { border: 1px solid #aaa; padding: .45rem; vertical-align: top; }
+    .note { display: block; border-left: 4px solid #e0a000; background: #fff8df; padding: .75rem 1rem; margin: 1rem 0; }
+    .notetitle { font-weight: bold; }
+    .label { font-weight: bold; color: #174ea6; }
+    .source { color: #666; font-size: .9rem; }
+  </style>
+</head>
+<body>
+  <p class="source">章节：入门介绍 | 来源：<a href="https://livehelp.solidstatelogic.com/Help/GettingStarted.html">https://livehelp.solidstatelogic.com/Help/GettingStarted.html</a></p>
+<h2>快速入门指南</h2>
+
+<p>本页旨在帮助你快速启动并开始使用控制台。</p>
+<p>如需进一步了解其中任何主题，请返回主页；主页对控制台的各个部分均有详细说明。</p>
+<span class="note">
+    <span class="notetitle">请注意：</span>如果使用 Dante 舞台接口箱，本快速入门指南假定读者已完成 Dante 认证第 1、2 级，或具备同等 Dante 使用经验。
+    如果不具备这些条件，请参阅<a href="https://livehelp.solidstatelogic.com/Help/DanteSetup.html"><span class="hyperlink">设置 Dante</span></a>了解更多信息。
+</span>
+
+<h2>1. 开启控制台</h2>
+<p>将控制台背面的 PSU 开关拨到“on”位置（配备双冗余电源的 L100 控制台没有这些开关）。</p>
+<p>按下控制台 Control Tile 或 Tablet Tile 上的 <span class="label">PSU</span> 开关。</p>
+<p>控制台随即启动。</p>
+<br>
+
+<h2>2. 设置采样率</h2>
+<p>在控制台上进入 System 页面（<span class="label">MENU</span> &gt; <span class="label">Setup</span> &gt; <span class="label">System&nbsp;/&nbsp;Power</span> &gt; <span class="label">System</span> 选项卡）。</p>
+<p>按住 <span class="label">96 kHz</span> 或 <span class="label">48 kHz</span> 按钮选择采样率。按钮开始闪烁后即可松开。</p>
+<p>如果更改了采样率，请重启控制台。</p>
+<img style="display: block; margin: 25px auto;" src="https://livehelp.solidstatelogic.com/Help/images/g_OptionsSystemClock.png" align="right" alt="">
+<br>
+
+<h2>3. 选择时钟主设备</h2>
+<p>在控制台上进入 <span class="label">MENU</span> &gt; <span class="label">Setup</span> &gt; <span class="label">Options</span> &gt; <span class="label">SYSTEM</span> 选项卡。</p>
+<p>在 <span style="font-weight:bold;">System Clock</span> 区域，从可用选项中选择一个 <b>Main</b> 时钟主设备；也可选择一个 <b>Backup</b> 备用时钟源。</p>
+<p>按住 <span class="label">APPLY</span>。</p>
+<p>
+    对于<span style="font-weight:bold;">基于 MADI 的系统</span>，
+    SSL 建议将<span style="font-weight:bold;">控制台设为时钟主设备</span>（在屏幕上选择 <span class="label">Int</span>，即内部时钟）。舞台接口箱及所有其他 MADI 设备均应从属于控制台。
+</p>
+<p>
+    对于<span style="font-weight:bold;">基于 Dante 的系统</span>，SSL 建议让<span style="font-weight:bold;">控制台从属于 Dante</span>（在屏幕上选择 <span class="label">Dante Expander</span>），
+    以利用 Dante 的时钟选举机制。
+</p>
+<p>更多信息请参阅<a href="https://livehelp.solidstatelogic.com/Help/Clocking.html"><span class="hyperlink">时钟设置</span></a>。</p>
+
+<br>
+
+<h2 id="Templates">4. 加载模板演出文件</h2>
+<p>进入 <span class="label">MENU</span> &gt; <span class="label">Setup</span> &gt; <span class="label">File&nbsp;Manager</span> &gt; <span class="label">Showfiles</span> 选项卡。</p>
+<p>点击左侧的 <span class="label">System Templates</span>。</p>
+<p>选择最适合系统的模板：</p>
+<p style="margin-bottom:0px">
+    <ul>
+        <li><span style="font-weight:bold;">... over BLII-MADI Concentrator</span> 模板适用于使用 MADI 舞台接口箱和 BLII-MADI Concentrator 的系统</li>
+        <li><span style="font-weight:bold;">... over MADI</span> 模板适用于 MADI 舞台接口箱直接连接控制台的系统（不使用 BLII-MADI Concentrator）</li>
+        <li><span style="font-weight:bold;">... over Dante - Local Dante Port</span> 模板适用于使用 Dante 舞台接口箱但不使用 BLII Bridge 的系统</li>
+        <li><span style="font-weight:bold;">... over Dante - BLII Bridge</span> 模板适用于使用 Dante 舞台接口箱和 BLII Bridge 的系统</li>
+        <li><span style="font-weight:bold;">... over Dante - X-Light Bridge</span> 模板适用于使用 Dante 舞台接口箱和 X-Light Bridge 的系统</li>
+    </ul>
+</p>
+<p>点击一个模板，然后按住 <span class="label">Load</span>。</p>
+<span class="note">
+    <span class="notetitle">SSL 建议：</span>在本快速入门指南中，<span style="font-weight:bold;">请不要加载 Blank 演出文件</span>。<br>
+    其他模板已预先完成大部分配置。使用 Blank 演出文件会使设置过程耗时更长。
+</span>
+<p>选中模板后，Showfile Notes 区域会说明该演出文件的设置。你可以随时返回查看。双击 Showfile Notes 区域可编辑备注。
+
+<p>点击演出文件列表顶部的 <span class="label">HD</span> 按钮。按 <span class="label">Save As</span>，输入演出文件名称，然后按 <span class="label">OK</span>。</p>
+<span class="note">
+    <span class="notetitle">SSL 建议：</span>建议从控制台内置硬盘运行演出文件，而不是从 USB 存储设备运行。控制台每分钟保存一次演出文件备份。
+    如果发生断电，控制台再次开机时会加载最近的备份演出文件。备份演出文件无法保存到 USB 存储设备，因此从 USB 运行演出文件时不具备此项保护。
+</span>
+<br>
+
+<h2>5. 连接舞台接口箱</h2>
+<div id="accordion">
+    <div class="indexheader2">MADI 舞台接口箱</div>
+    <div style="padding: 1em 0;">
+        <h2>MADI 舞台接口箱</h2>
+        <img style="display: block; margin: 25px auto;" src="https://livehelp.solidstatelogic.com/Help/images/g_SBSetup.png" align="right" alt="">
+        <p>以下说明适用于带模拟输入的 MADI 舞台接口箱：ML 32.32 和 ML i32。</p>
+        <h3>舞台接口箱采样率与时钟设置</h3>
+        <p>在舞台接口箱背面找到 <span style="font-weight:bold;">SETUP</span> 区域。检查所示采样率是否与控制台设置一致。MADI 连接不支持采样率转换。</p>
+        <p>如果采样率不一致，请同时按住 <span class="label">RATE</span> 和 <span class="label">CLOCK</span> 按钮，直到挂锁 LED 开始闪烁。</p>
+        <p>反复按 <span class="label">RATE</span> 按钮，直到所示采样率与控制台采样率一致。请注意，96 kHz 通过 <span style="font-weight:bold;">48</span> 和 <span style="font-weight:bold;">x2</span> LED 同时亮起来表示。</p>
+        <p>
+            反复按 <span class="label">CLOCK</span> 按钮，直到 <span style="font-weight:bold;">MADI</span> LED 亮绿灯。此时舞台接口箱会从控制台获取时钟。如果 LED 亮红灯，表示时钟方案无效。
+            此时请重新检查第 3 步，确认是否有遗漏。
+        </p>
+        <p>
+            确保 <span style="font-weight:bold;">ID</span> 区域的 <span style="font-weight:bold;">1-32</span> LED 亮起（在 48 kHz 下以菊花链方式连接舞台接口箱时除外）。反复按 <span class="label">ID</span> 按钮，
+            直到 <span style="font-weight:bold;">1-32</span> LED 亮起。（如需在 48 kHz 下以菊花链方式连接舞台接口箱，请参阅<a href="https://livehelp.solidstatelogic.com/Help/Clocking.html#MADIStageboxes"><span class="hyperlink">时钟设置</span></a>章节。）
+        </p>
+        <h3>舞台接口箱连接</h3>
+        <p>Blacklight II（BLII）Concentrator 可通过一对光纤线缆，以冗余方式将最多 8 台 MADI 设备连接到控制台。</p>
+        <p>使用 BNC，将舞台接口箱背面的 MADI <span style="font-weight:bold;">Port 1</span> 连接到 Blacklight II Concentrator 背面的 <span style="font-weight:bold;">Port 1A</span>。</p>
+        <p>使用 BNC，将舞台接口箱的 MADI <span style="font-weight:bold;">Port 2</span> 连接到 BLII Concentrator 的 <span style="font-weight:bold;">Port 1B</span>。</p>
+        <p>使用 Neutrik OpticalCON DUO 连接，将 BLII Concentrator 前面的 <span style="font-weight:bold;">BLII A Main</span> 连接到控制台背面的 <span style="font-weight:bold;">BLII Port 1a</span>。</p>
+        <p>使用 Neutrik OpticalCON DUO 连接，将 BLII Concentrator 上的 <span style="font-weight:bold;">BLII A Backup</span> 连接到控制台上的 <span style="font-weight:bold;">BLII Port 1b</span>。</p>
+        <span class="note">
+            <span class="notetitle">请注意：</span>如果没有 BLII-MADI Concentrator，也可以将舞台接口箱直接连接到控制台。
+            只需使用 BNC，将舞台接口箱的 MADI Ports 1-2 直接连接到控制台上一对奇数/偶数 MADI 端口。
+        </span>
+        <p>在控制台上进入 <span class="label">MENU</span> &gt; <span class="label">Setup</span> &gt; <span class="label">I/O</span> &gt; <span class="label">Local/MADI Configuration</span>。</p>
+        <p>
+            在屏幕右侧的 <span style="font-weight:bold;">BLII</span> 标题下，第一个端口应显示为绿色，并带有舞台接口箱图像。
+            如果背景为红色或灰色，或者没有舞台接口箱图像，请参阅<a href="https://livehelp.solidstatelogic.com/Help/LocalMADIConfig.html"><span class="hyperlink">本地/MADI I/O 配置</span></a>。
+        </p>
+        <br>
+        <p>对其他 MADI 舞台接口箱重复上述步骤。</p>
+        <p>此时已通过 1:1 跳线建立从舞台接口箱到通道输入的路由。对于 Monitor 模板，也已路由 Aux Mix 输出。如需调整这些路由，请参阅<a href="https://livehelp.solidstatelogic.com/Help/Routing.html"><span class="hyperlink">路由</span></a>。</p>
+    </div>
+    <div class="indexheader2">Dante 舞台接口箱</div>
+    <div style="padding: 1em 0;">
+        <h2>Dante 舞台接口箱</h2>
+        <p>以下说明<span style="font-weight:bold;">仅适用于 Net I/O SB&nbsp;32.24 舞台接口箱</span>。如需连接其他 Net I/O 舞台接口箱，请参阅<a href="https://livehelp.solidstatelogic.com/Help/DanteNetIO.html"><span class="hyperlink">Network I/O 舞台接口箱</span></a>。</p>
+        <span class="note">
+            <span class="notetitle">请注意：</span>SSL Live 控制台包含 4 个用于 Dante 的网络设备：<br>
+            <span style="font-weight:bold;">· Dante Control（Primary 和 Secondary）</span>：这些设备处理 Dante 控制数据（即 Net I/O 舞台接口箱增益和路由）<br />
+            <span style="font-weight:bold;">· Dante Audio（Primary 和 Secondary）</span>：这些设备处理 Dante 音频。在 SSL Live 控制台上，该设备也称为 <span style="font-weight:bold;">Dante Expander</span>，并包含 Dante Brooklyn II 模块。<br />
+            所有这些设备必须在同一子网内使用不同的 IP 地址。
+        </span>
+        <h3>设置控制台 Dante Control 的 IP 地址</h3>
+        <p>在控制台上进入 <span class="label">MENU</span> &gt; <span class="label">Setup</span> &gt; <span class="label">Options</span> &gt; <span class="label">NETWORK</span> 选项卡。</p>
+        <p>在 <span style="font-weight:bold;">Dante Control Settings</span> 下，按 <span class="label">Fixed</span> 按钮，将其用于 <span style="font-weight:bold;">Primary Control Network</span>。</p>
+        <p style="margin-bottom:0px">
+            <ul>
+                <li>双击 <span style="font-weight:bold;">IP Address</span> 字段，输入 <span style="font-weight:bold;">10.101.<i>x</i>.<i>x</i></span>*，然后按 <span class="label">OK</span>。</li>
+                <li>双击 <span style="font-weight:bold;">Netmask</span> 字段，输入 <span style="font-weight:bold;">255.255.0.0</span>，然后按 <span class="label">OK</span>。</li>
+                <li>将 <span style="font-weight:bold;">Gateway</span> 保持为 <span style="font-weight:bold;">0.0.0.0</span>。</li>
+            </ul>
+        </p>
+        <p>按住对应的 <span class="label">Apply</span> 按钮。</p>
+        <p>按 <span class="label">Fixed</span> 按钮，将其用于 <span style="font-weight:bold;">Secondary Control Network</span>。</p>
+        <p style="margin-bottom:0px">
+            <ul>
+                <li>双击 <span style="font-weight:bold;">IP Address</span> 字段，输入 <span style="font-weight:bold;">10.102.<i>x</i>.<i>x</i></span>*，然后按 <span class="label">OK</span>。</li>
+                <li>双击 <span style="font-weight:bold;">Netmask</span> 字段，输入 <span style="font-weight:bold;">255.255.0.0</span>，然后按 <span class="label">OK</span>。</li>
+                <li>将 <span style="font-weight:bold;">Gateway</span> 保持为 <span style="font-weight:bold;">0.0.0.0</span>。</li>
+            </ul>
+        </p>
+        <p>按住对应的 <span class="label">Apply</span> 按钮。</p>
+        <p>
+            <i>
+                <span style="font-weight:bold;">*</span> 出现“x”的位置，请选择 <span style="font-weight:bold;">1 至 255 之间的任意数字</span>，但不能使用此网络中其他设备已占用的数字。
+                同一网络中的多台设备不能使用相同的 IP 地址。
+            </i>
+        </p>
+
+        <h3>设置控制台 Dante Audio 的 IP 地址</h3>
+        <p>将计算机连接到控制台背面的 Primary Dante 端口。</p>
+        <p>确保计算机与舞台接口箱的 Primary Dante Audio 位于同一子网。如果不确定如何操作，请参阅<a href="https://livehelp.solidstatelogic.com/Help/DanteSetup.html"><span class="hyperlink">设置 Dante</span></a>。</p>
+        <p>打开 <span style="font-weight:bold;">Dante Controller</span>，在网络中找到控制台的 Dante Expander/Brooklyn Module。如果 Dante Controller 中看不到控制台，请参阅<a href="https://livehelp.solidstatelogic.com/Help/DanteSetup.html#FindingDevice"><span class="hyperlink">查找设置为不同子网固定 IP 地址的 Dante 设备</span></a>。</p>
+
+        <p>双击控制台并进入 <span class="label">Network Config</span> 选项卡。</p>
+        <p>在 <span style="font-weight:bold;">Primary</span> 下，单击 <span class="label">Manually configure an IP Address</span>，然后输入：</p>
+        <p style="margin-bottom:0px">
+            <ul>
+                <li>IP Address：<span style="font-weight:bold;">10.101.<i>x</i>.<i>x</i></span>*</li>
+                <li>Netmask：<span style="font-weight:bold;">25.255.0.0</span></li>
+                <li>将“DNS Server”和“Gateway”保持为 <span style="font-weight:bold;">0.0.0.0</span></li>
+            </ul>
+        </p>
+        <p>在 <span style="font-weight:bold;">Secondary</span> 下，单击<span class="label">Manually configure an IP Address</span>，然后输入：</p>
+        <p style="margin-bottom:0px">
+            <ul>
+                <li>IP Address：<span style="font-weight:bold;">10.102.<i>x</i>.<i>x</i></span>*</li>
+                <li>Netmask：<span style="font-weight:bold;">25.255.0.0</span></li>
+                <li>将“DNS Server”和“Gateway”保持为 <span style="font-weight:bold;">0.0.0.0</span></li>
+            </ul>
+        </p>
+        <p>
+            <i>
+                <span style="font-weight:bold;">*</span> 出现“x”的位置，请选择 <span style="font-weight:bold;">1 至 255 之间的任意数字</span>，但不能使用此网络中其他设备已占用的数字。
+                同一网络中的多台设备不能使用相同的 IP 地址。
+            </i>
+        </p>
+        <p>
+            按 <span class="label">Apply</span>。系统会要求确认 IP 地址更改，请单击 <span class="label">Yes</span>。
+            更改生效前必须重启 Brooklyn II 模块。单击 <span class="label">Reboot</span>。系统会要求确认重启，请单击 <span class="label">Yes</span>。无需重启控制台。
+        </p>
+
+
+        <h3>设置控制台名称</h3>
+        <p>进入 <span class="label">MENU</span> &gt; <span class="label">Setup</span> &gt; <span class="label">I/O</span> &gt; <span class="label">Local/MADI Configuration</span>，然后点击屏幕左侧的 <span class="label">Dante Expander</span>。</p>
+        <p>
+            在 Dante Controller 中找到控制台的 Dante Expander。Dante Controller 中列出的名称必须与控制台 <span class="label">Local/MADI Configuration</span> 的 Dante Expander 区域中列出的名称相同。
+            名称不会自动同步，因此如有需要，必须手动更改。
+        </p>
+        <p>如果名称不同，请双击控制台屏幕上的名称，然后输入 Dante Controller 中显示的相同名称。</p>
+
+        <h3>舞台接口箱连接</h3>
+        <p>将舞台接口箱的 Dante Primary 接口连接到一台网络交换机。将控制台的 Dante Primary 接口连接到同一台交换机。</p>
+        <p>将舞台接口箱的 Dante Secondary 接口连接到另一台网络交换机。将控制台的 Dante Secondary 接口连接到第二台交换机。</p>
+        <span class="note">
+            <span class="notetitle">注意：</span>也可以将舞台接口箱与控制台的 Dante Primary 和 Secondary 端口直接互连，但这样其他 Dante 设备便无法连接到该网络。在本快速入门指南中，SSL 建议使用交换机。
+        </span>
+
+        <h3>设置舞台接口箱的 IP 地址</h3>
+        <p>将计算机连接到舞台接口箱 Primary 接口所在的同一台网络交换机（或直接连接到舞台接口箱的 Primary 接口）。</p>
+        <p>确保计算机与舞台接口箱的 Primary 接口位于同一子网。如果不确定如何操作，请参阅<a href="https://livehelp.solidstatelogic.com/Help/DanteSetup.html"><span class="hyperlink">设置 Dante</span></a>。</p>
+        <p>打开 <span style="font-weight:bold;">Dante Controller</span>。每台实体舞台接口箱应显示两个舞台接口箱设备。如果看不到这些设备，请参阅<a href="https://livehelp.solidstatelogic.com/Help/DanteSetup.html#FindingDevice"><span class="hyperlink">查找设置为不同子网固定 IP 地址的 Dante 设备</span></a>。</p>
+        <p>其中一个设备名称包含“Main”或“Mn”，另一个包含“Comp”。“Comp”设备的各个发送通道名称中也会包含“Compensated”。</p>
+        <p>
+            “Comp”设备用于两台控制台共享一台舞台接口箱时的增益共享，此处暂不设置。有关 Dante 舞台接口箱增益共享的设置说明，
+            请参阅<a href="https://livehelp.solidstatelogic.com/Help/DanteNetIO.html#GainShare"><span class="hyperlink">Net I/O 舞台接口箱：增益共享</span></a>。
+        </p>
+        <span class="note"><span class="notetitle">请注意：</span>在本快速入门指南中，请忽略“Comp”设备。以下所有说明仅适用于“Main”设备。</span>
+        <p>双击舞台接口箱的“Main”设备，然后进入 <span class="label">Network Config</span> 选项卡。</p>
+        <p>在 <span style="font-weight:bold;">Primary</span> 下，单击 <span class="label">Manually configure an IP Address</span>，然后输入：</p>
+        <p style="margin-bottom:0px">
+            <ul>
+                <li>IP Address：<span style="font-weight:bold;">10.101.<i>x</i>.<i>x</i></span>*</li>
+                <li>Netmask：<span style="font-weight:bold;">25.255.0.0</span></li>
+                <li>将“DNS Server”和“Gateway”保持为 <span style="font-weight:bold;">0.0.0.0</span></li>
+            </ul>
+        </p>
+        <p>在 <span style="font-weight:bold;">Secondary</span> 下，单击 <span class="label">Manually configure an IP Address</span>，然后输入：</p>
+        <p style="margin-bottom:0px">
+            <ul>
+                <li>IP Address：<span style="font-weight:bold;">10.102.<i>x</i>.<i>x</i></span>*</li>
+                <li>Netmask：<span style="font-weight:bold;">25.255.0.0</span></li>
+                <li>将“DNS Server”和“Gateway”保持为 <span style="font-weight:bold;">0.0.0.0</span></li>
+            </ul>
+        </p>
+        <p>
+            <i>
+                <span style="font-weight:bold;">*</span> 出现“x”的位置，请选择 <span style="font-weight:bold;">1 至 255 之间的任意数字</span>，但不能使用此网络中其他设备已占用的数字。
+                同一网络中的多台设备不能使用相同的 IP 地址。
+            </i>
+        </p>
+        <p>
+            按 <span class="label">Apply</span>。系统会要求确认 IP 地址更改，请单击 <span class="label">Yes</span>。
+            更改生效前必须重启设备。单击 <span class="label">Reboot</span>。系统会要求确认重启，请单击 <span class="label">Yes</span>。
+        </p>
+        <p>然后手动重启舞台接口箱：拔下舞台接口箱背面的电源线，再重新连接。</p>
+
+        <h3>设置舞台接口箱的采样率</h3>
+        <p>在 Dante Controller 中双击舞台接口箱，然后进入 <span class="label">Device Config</span> 选项卡。</p>
+        <p>在 <span style="font-weight:bold;">Sample Rate</span> 区域，从下拉菜单中选择采样率。系统会要求确认采样率更改，请单击 <span class="label">Yes</span>。</p>
+        <span class="note">
+            <span class="notetitle">注意：</span>控制台与 Dante 网络之间可以进行采样率转换。<span style="font-weight:bold;">在本快速入门指南中，请将舞台接口箱设置为与控制台相同的采样率。</span><br><br>
+            如需使用采样率转换，必须使用 Virtual Tie Lines。更多信息请参阅<a href="https://livehelp.solidstatelogic.com/Help/DanteVTL.html"><span class="hyperlink">使用 Dante Virtual Tie Lines</span></a>。
+        </span>
+
+        <h3>设置 Dante 网络的 Leader Clock</h3>
+        <p>无需在 Dante 网络上手动设置 Leader Clock。Dante 网络具有自己的时钟选举机制，会自动选择最合适的 Leader Clock。</p>
+        <p>更多信息请参阅<a href="https://livehelp.solidstatelogic.com/Help/Clocking.html#Source"><span class="hyperlink">时钟设置</span></a>。</p>
+
+        <h3>设置舞台接口箱名称</h3>
+        <p>在 Dante Controller 中双击舞台接口箱，然后进入 <span class="label">Device Config</span> 页面。</p>
+        <p>在 <span style="font-weight:bold;">Rename Device</span> 区域输入：</p>
+        <p style="margin-bottom:0px">
+            <ul>
+                <li>第一台舞台接口箱：<span style="font-weight:bold;">IO1-32Main</span></li>
+                <li>第二台舞台接口箱（如适用）：<span style="font-weight:bold;">IO33-64Main</span></li>
+                <li>第三台舞台接口箱（如适用）：<span style="font-weight:bold;">IO65-96Main</span></li>
+            </ul>
+        </p>
+        <p>按 <span class="label">Apply</span>。</p>
+        <h3>如果所有配置均正确……</h3>
+        <p>进入 <span class="label">MENU</span> &gt; <span class="label">Setup</span> &gt; <span class="label">I/O</span> &gt; <span class="label">Dante Configuration</span>。</p>
+        <p>
+            如果所有配置均正确，舞台接口箱“Main”设备应出现在 <span style="font-weight:bold;">Configured Devices</span> 列表中；设备左侧显示一个绿色图标，右侧显示四个绿色图标（用于显示两个 PSU 的状态，以及舞台接口箱是否已正确连接到 Primary 和 Secondary Dante 网络，即“NET”图标）。
+        </p>
+        <p>屏幕顶部的资源条应显示已使用的 Dante 路由数量及总数。“Inputs”和“Outputs”区域均不应显示“0 of 0”。</p>
+        <p>如果实际显示与上述任何一项不符，请重新检查第 5 步，确认是否有遗漏，或参阅<a href="https://livehelp.solidstatelogic.com/Help/DanteSetup.html"><span class="hyperlink">设置 Dante</span></a>了解更多信息。</p>
+
+        <br>
+        <p>此时已通过 1:1 跳线建立从舞台接口箱到通道输入的路由。对于 Monitor 模板，也已路由 Aux Mix 输出。如需调整这些路由，请参阅<a href="https://livehelp.solidstatelogic.com/Help/Routing.html"><span class="hyperlink">路由</span></a>。</p>
+
+    </div>
+</div>
+<br>
+
+<h2>6. Solo 操作</h2>
+<p><a href="https://livehelp.solidstatelogic.com/Help/MasterTile.html"><span class="hyperlink">Master Tile</span></a>（带有两个推子和 Solo 控制的区块）上有两个 Solo Bus 编码器：<span style="font-weight:bold;">Solo A</span> 和 <span style="font-weight:bold;">Solo B</span></p>
+<p>旋转编码器可提高/降低音量。按下编码器顶部可将 Solo Bus 静音。</p>
+<h3>FOH 模板</h3>
+<p><span style="font-weight:bold;">Solo Bus A</span> 接收 <span style="font-weight:bold;">Post All</span> 信号</p>
+<p><span style="font-weight:bold;">Solo Bus B</span> 接收 <span style="font-weight:bold;">Pre Fader</span> 信号</p>
+<p>所有信号路径均发送到两条 Solo 母线。选择使用 Post All 或 Pre Fader Solo Bus，并将另一条 Solo Bus 保持静音。</p>
+<p>使用前挡板下方的任一耳机接口监听 Solo Bus。</p>
+<p>Master Tile 上的 Main Fader（右侧）控制主 Master Bus 输出。</p>
+<h3>Monitor 模板</h3>
+<p>所有信号路径均发送到 <span style="font-weight:bold;">Solo Bus A Pre Fader</span>。</p>
+<p>除 IEM Aux Mixes 外，所有信号路径均发送到 <span style="font-weight:bold;">Solo Bus B Post All</span>。</p>
+<p>使用右侧耳机接口连接 IEM。使用本地模拟输出 A12 连接返送音箱。</p>
+<p>在 Master Tile 上，Focus Fader（左侧）控制监听 IEM Master，Main Fader（右侧）控制监听 Wedge Master。</p>
+<br>
+<p>更多信息请参阅 <a href="https://livehelp.solidstatelogic.com/Help/Solo.html"><span class="hyperlink">Solo</span></a>。</p>
+<br>
+
+<h2>7. Channel View</h2>
+<p>按任一 Fader Tile 右侧的 <span class="label">SCREEN</span>。该 Bank 中的通道会显示在主屏幕上。此时屏幕显示 <a href="https://livehelp.solidstatelogic.com/Help/ChanView.html"><span class="hyperlink">Channel View</span></a>。</p>
+<p>按 Fader Tiles 上的 <span class="label">CALL</span> 按钮可调出不同的推子 <span style="font-weight:bold;">Bank</span>。</p>
+<p>
+    <span class="label">SCREEN</span> 和 <span class="label">SWAP</span> 按钮正上方有一块带上下箭头按钮的标签显示屏。按这些按钮可循环浏览 <span style="font-weight:bold;">Layer</span>。
+    浏览时，Bank 标签显示屏（<span class="label">CALL</span> 按钮旁的显示屏）会随之变化。可以将 Layer 理解为 Bank 文件夹；每个 Layer 包含 5 个 Bank。
+    有关 Layer、Bank 以及配置自定义 User Layer 的更多信息，请参阅 <a href="https://livehelp.solidstatelogic.com/Help/LayerManager.html"><span class="hyperlink">推子层管理器</span></a>。
+</p>
+<p>在 Channel View 中，点击屏幕上的任意元素，可将该功能发送到 Fader Tile 顶部的编码器旋钮（称为 <a href="https://livehelp.solidstatelogic.com/Help/QuickControls.html"><span class="hyperlink">Quick Controls</span></a>）。</p>
+<p>双击通道条底部的彩色方块，可打开该通道的展开视图（称为 <a href="https://livehelp.solidstatelogic.com/Help/DetailView.html"><span class="hyperlink">Detail View</span></a>）。</p>
+<p>可从 Detail View 访问通道处理、Bus/VCA/Mute Group 分配和 Insert。</p>
+<p>
+    默认情况下，打开 Detail View 后，屏幕正下方的各个 Quick Controls 会分别控制 Detail View 中所显示功能的一个参数。
+    例如，当 Detail View 显示 EQ 时，可使用 Quick Control 控制各个 EQ 参数。如需让 Quick Controls 恢复正常功能，请关闭屏幕右下角的 <span class="label">Follow Detail</span>。
+</p>
+<span class="note">
+    <span class="notetitle">SSL 建议的工作流程：</span><br>
+    -&emsp;始终保持 Detail View 打开。<br>
+    -&emsp;保持 <span class="label">Follow Detail</span> 开启。<br>
+    -&emsp;按 Fader Tiles 上某通道的 <span class="label">SELECT</span> 按钮，将该通道调入 Detail View。<br>
+    -&emsp;使用 Detail View 的多点触控界面或相应 Quick Controls 调节通道处理参数。
+    （对于 L300、L350、L500、L500&nbsp;Plus、L550 或 L650 控制台，也可使用 <a href="https://livehelp.solidstatelogic.com/Help/ControlTile.html"><span class="hyperlink">Control Tile</span></a>（带小屏幕的区块）实现“一项功能一个旋钮”的工作流程。）
+</span>
+
+<br>
+
+<h2>8. Talkback</h2>
+<p>系统有两个 Talkback Channel，其输入分别路由自控制台前挡板下方的两个 XLR 输入。</p>
+<p>要将 Talkback 发送到 Aux、Stem 或 Master，先打开相应母线的 Detail View，然后按 <span class="label">Fader/TB</span>。</p>
+<p>启用 <span class="label">TB&nbsp;to&nbsp;Bus</span></p>
+<p>然后在 <a href="https://livehelp.solidstatelogic.com/Help/MasterTile.html"><span class="hyperlink">Master Tile</span></a> 上按 Talkback <span class="label">TB1</span> 或 <span class="label">TB2</span> 编码器，取消 Talkback Channel 1 或 2 的静音。此时即可向该母线讲话。</p>
+<p>讲话结束后，再次按编码器，将 Talkback Channel 静音。</p>
+<p>更多信息请参阅 <a href="https://livehelp.solidstatelogic.com/Help/TB.html"><span class="hyperlink">Talkback</span></a>。</p>
+<br>
+
+<h2>9. FX</h2>
+<p>模板提供 8 条 Effects 通道（使用 Stem 信号路径）。这些效果通道在同一通道中包含 FX Send 和 Return；效果器插入在 Stem 上。</p>
+<p>系统已创建以下效果：</p>
+<p style="margin-bottom:0px">
+    <ul>
+        <li>Hall Reverb（大厅混响）</li>
+        <li>Plate Reverb（板式混响）</li>
+        <li>Ambient Reverb（环境混响）</li>
+        <li>Vocal Thickener（人声增厚）</li>
+        <li>Tape Echo（磁带回声）</li>
+        <li>Delay（延迟）</li>
+        <li>Amp Cap（吉他放大器模拟）</li>
+        <li>SubmoniX（次低频谐波合成器）</li>
+    </ul>
+</p>
+<p>要将信号发送到效果器，请按 Fader Tiles 上 Effects Stem 的 <span class="label">Q</span> 按钮（Q 代表 <a href="https://livehelp.solidstatelogic.com/Help/Query.html"><span class="hyperlink">Query</span></a>）。</p>
+<p>此时，其他信号路径到该 Stem 的所有发送都会显示在推子上（Flip Faders 会自动开启）。使用推子调节发送电平。</p>
+<p>完成后，再次按同一 Effects Stem 上的 <span class="label">Q</span> 按钮，退出 Query 模式。</p>
+<p>退出 Query 模式后，Effects Stem 的推子控制 FX Return。</p>
+<span class="note">
+    <span class="notetitle">请注意：</span>发送到 Stem 和 Aux 时，通常还需要将发送切换为 IN。在模板中，Channel 到 Effects Stem 的发送已预先切换为 IN。
+    如果创建任何新信号路径或新发送，必须将发送切换为 IN 并提高电平，信号才能通过。更多信息请参阅<a href="https://livehelp.solidstatelogic.com/Help/BusRouting.html"><span class="hyperlink">母线路由</span></a>。
+</span>
+<br>
+
+<h2>10. 保存演出文件</h2>
+<p>进入 <span class="label">MENU</span> &gt; <span class="label">Setup</span> &gt; <span class="label">File&nbsp;Manager</span> &gt; <span class="label">Showfiles</span> 选项卡。</p>
+<p>按住 <span class="label">Save</span>，保存对演出文件所做的更改。</p>
+<br>
+
+<h2>11. 关闭控制台</h2>
+<p>进入 System 页面（<span class="label">MENU</span> &gt; <span class="label">Setup</span> &gt; <span class="label">System&nbsp;/&nbsp;Power</span> &gt; <span class="label">System</span> 选项卡）。</p>
+<p>按住红色的 <span class="label">Power&nbsp;Off&nbsp;Console</span> 按钮关闭控制台。等待 <span class="label">PSU</span> 开关由青色变回白色后，再拔下电源线。</p>
+<br>
+</body>
+</html>

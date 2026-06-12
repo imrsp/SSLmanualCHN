@@ -1,0 +1,347 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html ng-app="sslLiveHelp">
+<head>
+    <meta content="text/html; charset=ISO-8859-1" http-equiv="content-type">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=yes">
+
+    <link href="../Help/style/style.css" rel="stylesheet">
+    <link href="../Help/style/jquery-ui-1.13.2.structure.css" rel="stylesheet">
+    <title>Network Options</title>
+    <script src="../Help/js/jquery-3.6.0.min.js"></script>
+    <script src="../Help/js/jquery-ui/1.13.2/jquery-ui.min.js"></script>
+    <!--<script type="text/javascript" src="cordova.js"></script>-->
+    <!-- Nav / search panels 2017 updates -->
+    <script>
+    window.baseDir = '../';
+    window.data = 'null';
+    </script>
+    <link rel="stylesheet" type="text/css" href="../Help/fonts/font-awesome-4.7.0/css/font-awesome.min.css" />
+    <link rel="stylesheet" type="text/css" href="../Help/style/sass-styles.css">
+    <script src="../Help/js/fastclick.js"></script>
+    <script src="../Help/js/lodash.core.min.js"></script>
+    <!--<script src="../Help/js/angular/1.2/angular.min.js"></script>-->  <!-- On a console -->
+    <script src="../Help/js/angular/1.8/angular.min.js"></script>   <!--Not on a console -->
+    <script src="../Help/js/ngStorage.min.js"></script>
+    <!--<script src="../Help/js/angular/1.2/angular-sanitize.min.js"></script>-->  <!-- On a console -->
+    <!--<script src="../Help/js/angular/1.2/angular-animate.min.js"></script>-->   <!-- On a console -->
+    <script src="../Help/js/angular/1.8/angular-sanitize.min.js"></script>  <!--Not on a console -->
+    <script src="../Help/js/angular/1.8/angular-animate.min.js"></script>   <!--Not on a console -->
+    <script src="../Help/js/lunr-2.3.min.js"></script>
+    <script src="../Help/js/menu.js"></script>
+
+</head>
+
+<body ng-controller="NavController as vm">
+
+    <!--<nav class="nav" ng-class="{ 'nav--visible' : vm.visible }" ng-if="vm.visible" role="navigation" aria-label="Primary">-->  <!-- On a console --> 
+    <nav class="nav" ng-class="{ 'nav--visible' : vm.visible }" role="navigation" aria-label="Primary"> <!--Not on a console -->
+        <!-- Search form -->
+        <div role="search">
+            <form class="nav__search" ng-if="vm.isSearchSupported">
+                <label class="nav__search-icon" for="query"><i aria-label="Search" title="Search" class="fa fa-search"></i></label>
+                <input type="search" id="query" class="nav__search-input" placeholder="Search..." ng-model="vm.query" />
+            </form>
+        </div>
+
+        <div class="nav__scroll" ng-style="vm.styleBasedOnSearchSupported">
+
+            <!-- Main nav -->
+            <ul class="main-nav" ng-hide="vm.query">
+                <li class="main-nav__item" ng-repeat="item in vm.nav">
+
+                    <!-- Link to page -->
+                    <a ng-if="item.url" ng-class="{'main-nav__link--active' : item.url===vm.currentPage}" class="main-nav__link" ng-attr-href="{{ vm.baseDir }}{{ item.url }}">
+                        {{ item.title }}
+                    </a>
+
+                    <!-- Expandable heading -->
+                    <span ng-click="vm.toggleExpanded(item.title)" ng-if="!item.url" class="main-nav__title">
+                        {{ item.title }}
+                        <span ng-if="!vm.isExpanded(item.title)" class="fa fa-caret-right"></span>
+                        <span ng-if="vm.isExpanded(item.title)" class="fa fa-caret-down"></span>
+                    </span>
+
+                    <!-- Subnav -->
+                    <ul ng-if="vm.isExpanded(item.title)" class="main-nav fx-fade">
+                        <li ng-repeat="sub in item.children" class="main-nav__item">
+
+                            <!-- Link to page -->
+                            <a ng-if="sub.url" ng-class="{'main-nav__link--active' : sub.url===vm.currentPage}" class="main-nav__link main-nav__link--level1" ng-attr-href="{{ vm.baseDir }}{{ sub.url }}">
+                                {{ sub.title }}
+                            </a>
+
+                            <!-- Expandable heading -->
+                            <span ng-click="vm.toggleExpanded(sub.title)" ng-if="!sub.url" class="main-nav__title main-nav__title--level1">
+                                {{ sub.title }}
+                                <span ng-if="!vm.isExpanded(sub.title)" class="fa fa-caret-right"></span>
+                                <span ng-if="vm.isExpanded(sub.title)" class="fa fa-caret-down"></span>
+                            </span>
+
+                            <!-- Sub-sub nav -->
+                            <ul ng-if="sub.children && vm.isExpanded(sub.title)" class="main-nav fx-fade">
+                                <li ng-repeat="subsub in sub.children" class="main-nav__item">
+
+                                    <!-- Link to page -->
+                                    <a ng-class="{'main-nav__link--active' : subsub.url===vm.currentPage}" class="main-nav__link main-nav__link--level2" ng-attr-href="{{ vm.baseDir }}{{ subsub.url }}" ng-bind-html="subsub.title">
+                                    </a>
+
+                                </li>
+                            </ul>
+
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+
+            <!-- Search results list -->
+            <ul class="search-results">
+                <li class="search-result" ng-repeat="result in vm.results">
+                    <a class="search-result__link" ng-attr-href="{{ vm.baseDir }}{{ 'Help/' + result.id }}">
+                        <h3 class="search-result__title">{{ result.title }}</h3>
+                        <p class="search-result__excerpt" ng-bind-html="result.excerpt"></p>
+                    </a>
+                </li>
+            </ul>
+
+            <!-- Keep screen on option - PhoneGap insomnia -->
+            <ul class="main-nav" ng-if="vm.isPhoneGap">
+                <li class="main-nav__item">
+                    <label class="main-nav__title">
+                        Keep Screen On
+                        <input style="display: none" type="checkbox" ng-model="vm.keepScreenOn" />
+                        <i ng-class="{'fa--cleared' : !vm.keepScreenOn, 'fa--checked' : vm.keepScreenOn}" class="fa fa-check"></i>
+                    </label>
+                </li>
+            </ul>
+
+
+        </div>
+    </nav>
+
+    <nav class="header" role="navigation" aria-label="Secondary">
+        <a ng-if="!vm.onAConsole" href="../index.html" class="header__btn" title="Home"><i class="fa fa-home"></i></a>
+        <div ng-if="!vm.onAConsole" class="header__history">
+            <a onclick="javascript:window.history.back()" class="header__btn"><i title="Back" class="fa fa-chevron-left"></i></a>
+            <a onclick="javascript:window.history.forward()" class="header__btn"><i title="Forwards" class="fa fa-chevron-right"></i></a>
+        </div>
+        <div align="right">
+            <a class="header__btn header__btn--nav" ng-click="vm.toggleVisibility()">
+                <i ng-if="!vm.visible" class="fa fa-bars"></i>
+                <i ng-if="vm.visible" class="fa fa-close"></i>
+            </a>
+        </div>
+    </nav>
+
+
+    <!-- Main content -->
+    <div id="main">
+        
+
+<div><a href="OptionsRemote.html"><img class="TutorialNav" src="images/n_TutPrevious.png" alt=""><span class="TutorialNav">PREVIOUS: Remote Options</span></a></div>
+<p>The Options can be found in <span class="label">MENU</span> > <span class="label">Setup</span> > <span class="label">Options</span>.</p>
+
+<p>
+    The following pages detail the settings in each <span class="label">Options</span> tab:<br>
+    <a href="OptionsConsole.html"><span class="hyperlink">CONSOLE Options</span></a><br>
+    <a href="OptionsSystem.html"><span class="hyperlink">SYSTEM Options</span></a><br>
+    <a href="OptionsSurface.html"><span class="hyperlink">SURFACE Options</span></a><br>
+    <a href="OptionsUser.html"><span class="hyperlink">USER Options</span></a><br>
+    <a href="OptionsUserKeys.html"><span class="hyperlink">USER KEYS Options</span></a><br>
+    <a href="OptionsRemote.html"><span class="hyperlink">REMOTE Options</span></a><br>
+    <a href="OptionsNetwork.html"><span class="hyperlink">NETWORK Options</span></a> (this page)<br>
+    <a href="OptionsDAW.html"><span class="hyperlink">DAW Options</span></a><br>
+    <a href="OptionsExtCtrl.html"><span class="hyperlink">External Control Options</span></a><br>
+</p>
+
+<h2 id="Network">Network Options</h2>
+
+<p>These settings relate to the console's local network and Dante IP configuration.</p>
+
+<p>Network Options are found in <span class="label">MENU</span> > <span class="label">Setup</span> > <span class="label">Options</span> > <span class="label">NETWORK</span> tab.</p>
+
+<img style="display: block; margin: 15px auto;" src="images/g_NetworkOptions.png" alt="">
+
+<p>This page contains IP settings for the following console network devices:</p>
+
+<p>
+    <span style="font-weight:bold;">Connectivity Network</span>
+</p>
+<p>
+    Used for remote control of the console via SOLSA, the Remote Expander, another SSL Live console or TaCo. Also used to communicate with DAWs and other ipMIDI devices.
+    This network is accessed from one of the three ports labelled <span style="font-weight:bold;">NETWORK</span> on the rear of the console.
+</p>
+<p>
+    To connect a device to the Connectivity network, that device must have an IP address in the same subnet as the subnet listed for the Connectivity network on this page.
+</p>
+
+<p>
+    <span style="font-weight:bold;">Primary Dante Control</span> -
+    Provides the primary connection for control over the Dante network including making/unmaking routes and controlling input parameters such as mic gain.
+</p>
+<p>
+    <span style="font-weight:bold;">Secondary Dante Control</span> -
+    Provides the secondary connection for control over the Dante network.
+</p>
+<p>
+    To use Dante on the console, the primary and secondary IP addresses of the console's Dante Control must be in the same subnets as the other devices on the Dante network.
+    The primary and secondary Dante networks must have different subnets.
+</p>
+
+<p>All three of the console's network devices (Connectivity network, Dante Primary Control and Dante Secondary Control) must all have IP addresses in different subnets.</p>
+
+<p>
+    Select <span class="label">DHCP</span> or <span class="label">Fixed</span> for each network as appropriate.
+    Double tapping on any <b>IP Address</b>, <b>Netmask</b> or <b>Gateway</b> fields brings up the on-screen keyboard for fixed address entry.
+    When the correct settings have been entered, press and hold <span class="label">Apply</span>.
+</p>
+
+<p>
+    Note that the on-screen green LED shows a network is connected, but it does not show that the IP settings are correct.
+</p>
+
+<span class="note">
+    <span class="notetitle">Please Note: </span>If any of these console network devices are set to <span class="label">DHCP</span> and there is no DHCP server on that network, the IP address will be auto-configured within the <span style="font-weight:bold;">169.254.x.x</span> subnet.
+    If more than one of these console network devices are set to <span class="label">DHCP</span> and there are no DHCP servers on those networks, those network devices will all be auto-configured with an IP address within the <span style="font-weight:bold;">169.254.x.x</span> subnet.
+    This will link the networks, which is an invalid configuration. For this reason, SSL recommends that a <span class="label">Fixed</span> IP address is used if a DHCP server is not available.
+</span>
+
+<p>For more information on Dante IP configuration please see <a href="DanteSetup.html"><span class="hyperlink">Setting Up Dante</span></a>.</p>
+<p>For more information on connecting remote surfaces or TaCo to the Connectivity network please see <a href="RemoteControl.html"><span class="hyperlink">Remote Surfaces</span></a> and <a href="TaCo.html"><span class="hyperlink">TaCo Tablet Control</span></a>.</p>
+
+
+
+<h3 id="Clash">IP Address Clash Warnings</h3>
+
+<p>
+    IP Address clash warnings have been added to the Network Options (<span class="label">MENU</span> > <span class="label">Setup</span> > <span class="label">Options</span> > <span class="label">NETWORK</span> tab)
+    to notify of when multiple network adapters on the console have IP addresses within the same subnet.
+</p>
+
+<p>The adapters with IP addresses that need changing will be highlighted in red.</p>
+
+<img style="display: block; margin: 15px auto;" src="images/g_NetworkIPHighlight.png" alt"">
+
+<p>A status message will also appear.</p>
+
+<img style="margin: 15px 0px;" src="images/g_NetworkIPMessage.png" alt"">
+
+<p>And a network error icon will appear in the status bar.</p>
+
+<img style="margin: 15px 0px;" src="images/g_NetworkIPIcon.png" alt"">
+
+<p>
+    The warnings will appear when an adapter's IP address is changed to within the same subnet as another adapter.
+    If these warning messages appear, the current configuration of the console's network adapters is invalid and the IP addresses of the appropriate network adapters must be changed to resolve the clashes.
+</p>
+
+<p>The warnings are organised by priority in the following order:
+
+
+<p style="margin-bottom:0px;">
+    <ol>
+        <li>Dante Control Primary</li>
+        <li>Dante Control Secondary</li>
+        <li>Connectivity Network</li>
+    </ol>
+
+<p>
+    So for example, if the IP address of the Connectivity adapter was set within the 169.254.x.x subnet, and the user also set Dante Control Primary's IP address within the 169.254.x.x subnet,
+    the warning would appear on the Connectivity adapter, as it is lower priority.
+</p>
+
+<p>When the IP address clash has been resolved, the network error icon will disappear and the following status message will appear:</p>
+
+<img style="margin: 15px 0px;" src="images/g_NetworkIPResolve.png" alt"">
+
+
+<h2 id="SNMP">SNMP Logging</h2>
+
+<p>Simple Network Management Protocol (SNMP) is a protocol for logging information about devices on a network. An external SNMP 'manager' service must be present on the console's <span style="font-weight:bold;">Connectivity</span> network to use this feature.</p>
+
+<img style="display: block; margin: 15px auto;" src="images/g_snmpOptions.png" alt="">
+
+<p>Configure the console's SNMP agent service by filling in the <span style="font-weight:bold;">Username</span>, <span style="font-weight:bold;">Authentication</span> and <span style="font-weight:bold;">Privacy</span> fields, noting the minimum character length for each.</p>
+
+<p>Define the <span style="font-weight:bold;">Authentication</span> and <span style="font-weight:bold;">Privacy</span> encryption schemes using the <span class="label">Protocol</span> buttons to the right of each field.</p>
+
+<p>To start the console's SNMP agent service engage the <span class="label">Enabled</span> button in the <span style="font-weight:bold;">SNMP Configuration</span> section. Disengage the button to stop the service.</p>
+
+<p>Use the <span class="label">Export MIB</span> button to export a 'MIB' file containing the parameters exposed by the console when SNMP is enabled. This can be imported into the SNMP manager's database for ease of configuration.</p>
+
+<p>The console will report the status of:</p>
+
+<ul>
+    <li>Console's Connectivity network status</li>
+    <li>Console's Dante Primary network status</li>
+    <li>Console's Dante Secondary network status</li>
+</ul>
+
+
+<h2 id="DDM">Dante Domain Manager Login</h2>
+
+<!-- Start of DDM Snippet -->
+<!-- Also used in DanteSetup.html -->
+<p>
+    The console is capable of connecting to a managed domain within a network controlled by Dante Domain Manager (DDM).
+    The console must be logged into the same domain as any I/O devices you wish to route to/from or control.
+</p>
+
+<span class="note">
+    <span class="notetitle">Important Note:</span> The console's Local Dante Expander (Brooklyn II) module and any BLII or X-Light Bridges must be enrolled in to the same domain as the I/O and console's control software.
+    This is done using Dante Domain Manager.
+</span>
+<!-- End of DDM Snippet -->
+
+<p>
+    To connect the console to a Dante Domain Manager server, enter its IP address or host name into the <b>DDM Sever Name/IP Address</b> field.
+    Enter the DDM <b>User Name</b> and <b>Password</b> into the fields provided. The <b>DDM Server Connection Status</b> indicator will flash green while connecting then turn solid green when connected to the DDM server successfully.
+</p>
+
+<span class="note">
+    <span class="notetitle">Note:</span> The DDM user account must have routing capabilities, therefore set as "Operator" or "Administrator" roles in the domain being used. This is configured in DDM.
+</span>
+
+<p>
+    Use the <b>Selected&nbsp;Domain</b> section to select from a list of domains configured on the DDM server.
+    Any I/O devices not enrolled in a specific domain are automatically placed into the <span class="label">&lt;unmanaged&gt;</span> domain for discovery, routing and control.
+    It is recommended that devices are enrolled in a domain if DDM is configured on a network.
+    It is advised that the console is rebooted after changing DDM settings.
+</p>
+
+<p>
+    The <b>Current Domain</b> field displays the name of the domain the console is currently in.
+    This may differ from the Selected Domain if permissions on the DDM server change that cause the console to be removed from the Selected Domain.
+</p>
+
+<img style="display: block; margin: 15px auto;" src="images/g_OptionsDDM.png" alt="">
+
+<p>
+    If connection to a DDM domain has failed, the console will automatically re-attempt connection a number of times.
+    However, a manual reconnection can be attempted (e.g. after verifying correct credentials) by using the <span class="label">Attempt&nbsp;Reconnection</span> button.
+</p>
+
+
+<h2>Useful Links</h2>
+
+<a href="OptionsConsole.html"><span class="hyperlink">CONSOLE Options</span></a><br>
+<a href="OptionsSystem.html"><span class="hyperlink">SYSTEM Options</span></a><br>
+<a href="OptionsSurface.html"><span class="hyperlink">SURFACE Options</span></a><br>
+<a href="OptionsUser.html"><span class="hyperlink">USER Options</span></a><br>
+<a href="OptionsUserKeys.html"><span class="hyperlink">USER KEYS Options</span></a><br>
+<a href="OptionsRemote.html"><span class="hyperlink">REMOTE Options</span></a><br>
+<a href="OptionsDAW.html"><span class="hyperlink">DAW Options</span></a><br>
+<a href="OptionsExtCtrl.html"><span class="hyperlink">EXTERNAL CONTROL Options</span></a><br>
+<a href="DanteSetup.html"><span class="hyperlink">Setting Up Dante</span></a><br>
+
+
+<a href="LinkIndex.html"><span class="hyperlink">Index and Glossary</span></a><br>
+
+<div class="TutorialNavNext"> <a href="OptionsDAW.html"><span class="TutorialNav">NEXT: DAW Control Options</span> <img class="TutorialNav" src="images/n_TutNext.png" alt=""></a></div>
+
+
+    </div>
+
+    <script src="../Help/js/OpenAccordionFromLink.js"></script>
+</body>
+</html>

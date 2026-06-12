@@ -1,0 +1,220 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Effects Racks: Overview</title>
+  <style>
+    body { font: 16px/1.55 Arial, sans-serif; max-width: 1080px; margin: 2rem auto; padding: 0 1.25rem; color: #202124; }
+    img { max-width: 100%; height: auto; }
+    table { border-collapse: collapse; max-width: 100%; }
+    th, td { border: 1px solid #aaa; padding: .45rem; vertical-align: top; }
+    .note { display: block; border-left: 4px solid #e0a000; background: #fff8df; padding: .75rem 1rem; margin: 1rem 0; }
+    .notetitle { font-weight: bold; }
+    .label { font-weight: bold; color: #174ea6; }
+    .source { color: #666; font-size: .9rem; }
+  </style>
+</head>
+<body>
+  <p class="source">Section: Building a Show | Source: <a href="https://livehelp.solidstatelogic.com/Help/FXIntro.html">https://livehelp.solidstatelogic.com/Help/FXIntro.html</a></p>
+<h2>Effects Rack Overview</h2>
+
+<p>
+    SSL Live consoles offer a wealth of signal processing in its <b>six</b> effects racks, which can be routed into the insert points of any path type.
+    To open the effects rack page, touch <span class="label">Menu</span> > <span class="label">Effects</span>.
+</p>
+
+<p>The <b>six</b> racks are displayed as <b>columns</b>. Each rack column has 16 module slots, four of which are visible at a time; swipe to scroll to higher slots.</p>
+
+<p>The maximum number of populated Effects slots available for each console model is indicated below:</p>
+
+<div>
+    <table class="insideborder" style="display: block; margin: auto;" cellpadding="3" cellspacing="1">
+        <tbody>
+            <tr>
+                <th>L650</th>
+                <th>L550 Plus</th>
+                <th>L550</th>
+                <th>L500 Plus</th>
+                <th>L500</th>
+                <th>L450</th>
+                <th>L350 Plus</th>
+                <th>L350</th>
+                <th>L300</th>
+                <th>L200 Plus</th>
+                <th>L200</th>
+                <th>L100 Plus</th>
+                <th>L100</th>
+            </tr>
+            <tr>
+                <td colspan="5">96</td>
+                <td>60</td>
+                <td colspan="6">48</td>
+                <td>24</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<p>Each rack and slot has a number, for example 3-4 is rack 3 slot 4. Touch a slot to select it to the detail area:</p>
+
+<div style="text-align: center; margin: 25px 0px;"><img src="https://livehelp.solidstatelogic.com/Help/images/s_FXRackFull.png" alt=""><br></div>
+
+<p>To rename a rack, double-tap the box in its header. These names will be displayed in the routing menus for easier identification.</p>
+
+
+<h2 id="LoadingModules">Loading Effects Modules Into Racks</h2>
+
+<p>Any effect can occupy any slot, but we recommend you develop a workflow that gives each rack a common purpose, such as keep reverbs and delays in one rack, dynamics in another, and master processing in another, etc.</p>
+<p>To add or change an effect slot:</p>
+
+<ul class="tab">
+    <li>Touch the arrow in the slot.</li>
+
+    <li>Choose the effect's format, such as <span style="font-weight: bold;">Mono</span>, <span style="font-weight: bold;">Stereo</span>, <span style="font-weight: bold;">LCR</span>, etc.</li>
+
+    <li>Choose the type category, then choose the specific effect.</li>
+</ul>
+
+
+<p>To name the slot, simply double tap on the effect name and use the popup keyboard to enter your own name. These names will be displayed in the Routing View when routing to or from the Effects Rack, to facilitate routing the correct effect. Note that only slots with effects loaded can be named.</p>
+
+<span class="note"><span class="notetitle">Note: </span>The module controls in the left side of the FX Detail View can also be used to populate and name the currently selected slot.</span>
+
+<span class="note"><span class="notetitle">Note: </span>The <span style="font-weight: bold;">Recent</span> submenu gives you quick access to the 10 last used effect modules (including format) for adding multiple instances of the same effect.</span>
+
+
+<h2 id="DetailView">Effects Detail View</h2>
+
+<p>On the left is the rack and slot number, and user-defined name.</p>
+
+<p>Cursor keys navigate to other racks and slots.</p>
+
+<p>Meters on the right display the effect's input and output level.</p>
+
+<img style="display: block; margin: 24px auto; width: 795px;" src="https://livehelp.solidstatelogic.com/Help/images/g_detailFX1.png" alt="">
+
+<p>Holding <span class="label">Reset FX</span> resets back to default settings.</p>
+
+<p>Press <span class="label">View</span> and use the drop-down to choose whether you are viewing the global controls for all legs of a multi-channel effect (<span style="font-weight: bold;">Master</span>), or one of the individual components.</p>
+
+<p>To enter a precise numerical value, first touch the parameter on-screen, then double-tap the numerical box below the meters.</p>
+
+<p>If the DSP usage graphs (bottom left) are nearing 100%, you may want to reconfigure the slots to free up processing power. Or consider the processing that is built into all full path types!</p>
+
+
+<p>The DSP usage indicators in the lower left of the screen provide a visual indication of the amount of processing currently in use:</p>
+<ul>
+    <li><span style="font-weight: bold;">FX Instance DSP</span>: Total amount of FX processing used by the selected module</li>
+    <li><span style="font-weight: bold;">FX Type DSP</span>: Total amount of FX processing used by all instances of the selected effect type</li>
+    <li><span style="font-weight: bold;">FX Type Legs</span>: Number of instances of the effect type used</li>
+    <li><span style="font-weight: bold;">Racks Total DSP</span>: Total amount of processing used by all modules in the Effects Rack</li>
+    <li><span style="font-weight: bold;">Racks Total Slots</span>: Number of FX rack slots used</li>
+</ul>
+
+
+<h2 id="RoutingModules">Routing Effects to Path Inserts</h2>
+
+<span class="note">
+    <span class="notetitle">Note: </span>effects slots/modules can be formatted as mono, stereo, LCR etc. This format applies to the effect's input, output and key (if applicable) routes.
+</span>
+
+<p>You can route effects into path inserts using the path's Detail View Insert Routing display, or via the Effects menu (<span class="label">MENU</span> > <span class="label">Effects</span>).</p>
+
+<p>
+    Pressing <span class="label">Route Send</span> will open the Routing View so the Insert send can be routed to the Effect. Tap on the console (begins with "LIVE...") then tap
+    <span class="label">Effects Rack</span>. Now choose the effect, tap <span class="label">Input</span> and press <span class="label">Make</span> or <span class="label">Make All</span> (depending on the format of the effect).
+</p>
+
+<p>
+    Press & hold <span class="label">Route Return</span> and select the <span class="label">Auto-route</span> option to automatically route the return from the same effect as the send.
+    Alternatively, you can press <span class="label">Route Return</span> once to open the Routing View if the return is not coming from the same effect as the send.
+</p>
+
+<p>When a path's insert send and return have been routed to an effect, the effect will appear in the path's detail dialogue for that insert point, with full control provided via the channel view screen or the effect rack screen.</p>
+
+
+<span class="note"><span class="notetitle">Note: </span>For mono, stereo, LCR, 4.0 and 5.1 effects, the format of the effect module should match the format of the channel into which it is inserted. To route all legs of the effect, simply select the module name and press <span class="label">Make</span> in the routing page. Explicitly selecting the L/C/R leg before pressing <span class="label">Make</span> will only route the leg selected.</span>
+
+<p>
+    Routing can also be done from the Effects Rack slot itself. Use the <span class="label">In&nbsp;Route</span>, <span class="label">Out&nbsp;Route</span> and <span class="label">Key&nbsp;Route</span> buttons to open up the appropriate routing pages. This method also allows effects modules to be 'daisy-chained' by routing out of one module and in to another before routing the last module back to a channel.<br>
+    If routing a single effect to and from an Insert point, make the input route then press & hold the <span class="label">Out&nbsp;Route</span> button and select the <span class="label">Auto-route&nbsp;Output</span> option to route the output of the effect to the same Insert point.
+</p>
+
+<span class="note"><span class="notetitle">Note: </span>If inserting daisy-chained effects modules into a channel Insert point, only the last module in the chain will appear in the channel's Insert page.</span>
+
+<p>See <a href="https://livehelp.solidstatelogic.com/Help/Routing.html"><span class="hyperlink">Routing</span></a> for more information on the routing pages.</p>
+
+
+<h2>Using Stems as FX Channels</h2>
+
+<p>For Reverbs and Delays, the traditional Aux Send > Effect > Channel Return workflow is perfectly possible on SSL Live consoles. However, can be advantageous to use Stems as <i>Effects Channels</i>.</p>
+
+<p>In this workflow:</p>
+<p><span style="font-weight:bold;">The send to the Stem is the FX send.</span></p>
+
+<p><span style="font-weight:bold;">The Effect is inserted on one of the Insert points on the Stem.</span></p>
+
+<p><span style="font-weight:bold;">The Stem's fader acts as the FX return.</span></p>
+
+<p>There are many advantages to this workflow:</p>
+<p style="margin-bottom:0px">
+    <ul>
+        <li>The Effect is easily accessible from the Insert section of the Stem's Detail View.</li>
+        <li>The FX send and return are all in one path, which means fewer faders to worry about, and lower DSP usage.</li>
+        <li>Stems have far more feed point options than Auxes.</li>
+    </ul>
+</p>
+
+<span class="note">
+    <span class="notetitle">Tip: </span>If you would like to work in the traditional Aux Send > Effect > Channel Return way,
+    it is recommended that effect outputs are routed to the <b>Insert Return</b> of Channels (do not forget to switch the <span class="label">Insert In</span>)
+    and the Insert point moved to the beginning of the Channel processing order if desired.
+    This will enable controls of the onboard effects to be visible in the Channel's Insert page of the Detail View.<br>
+    Routing from the effect's output to the Channel's <b>Input</b> will mean that adjustments to the effect's parameters can only be done by returning to the Effects Rack page.
+</span>
+
+
+<h2 id="Presets">Effects Presets</h2>
+
+<p>Effects can have their settings stored as presets. Presets can be saved for individual effects or the entire rack.</p>
+
+<p>Presets are loaded and saved in the same way as <a href="https://livehelp.solidstatelogic.com/Help/Showfiles.html#LoadSave"><span class="hyperlink">showfiles</span></a>.</p>
+
+<p>To access a preset, load an effect and then touch <span class="label">Preset</span> in the bottom right of the detail dialogue.</p>
+
+<p>
+    Use the <span class="label">SSL&nbsp;Presets</span> button to access factory presets for the effects module that is currently displayed. 
+    These presets provide a useful starting point for common use cases (e.g. drum or vocal reverbs).
+    Note that not all effect types will have SSL presets available.
+</p>
+
+<p>
+    To access the preset list for the entire rack, touch <span class="label">Racks&nbsp;Preset</span> in the detail dialogue.
+    Rack presets include the type and format of all effects modules in the entire Effects Rack. 
+    Loading a rack preset will replace all existing modules with those from the preset file.
+    If overwriting existing module(s) of the same format, the routing to and from the effects rack slot(s) will be preserved.
+</p>
+
+
+<h2>Effects Units</h2>
+<p>Information on individual effects units can be found here:</p>
+
+<ul>
+    <li><a href="https://livehelp.solidstatelogic.com/Help/FXDelays.html"><span class="hyperlink">Delay Modules</span></a></li>
+    <li><a href="https://livehelp.solidstatelogic.com/Help/FXDynamics.html"><span class="hyperlink">Dynamics Modules</span></a></li>
+    <li><a href="https://livehelp.solidstatelogic.com/Help/FXEQs.html"><span class="hyperlink">EQ Modules</span></a></li>
+    <li><a href="https://livehelp.solidstatelogic.com/Help/FXModulation.html"><span class="hyperlink">Modulation Modules</span></a></li>
+    <li><a href="https://livehelp.solidstatelogic.com/Help/FXReverbs.html"><span class="hyperlink">Reverb Modules</span></a></li>
+    <li><a href="https://livehelp.solidstatelogic.com/Help/FXOther.html"><span class="hyperlink">'Other' Modules</span></a></li>
+    <li><a href="https://livehelp.solidstatelogic.com/Help/FXTools.html"><span class="hyperlink">Audio Tools</span></a></li>
+    <li><a href="https://livehelp.solidstatelogic.com/Help/FXAutoMix.html"><span class="hyperlink">Automix: Auto Gain</span></a></li>
+</ul>
+
+<h2>Useful Links</h2>
+<a href="https://livehelp.solidstatelogic.com/Help/DetailView.html"><span class="hyperlink">Detail View</span></a>
+<br>
+<a href="https://livehelp.solidstatelogic.com/Help/LinkIndex.html"><span class="hyperlink">Index and Glossary</span></a>
+<br>
+</body>
+</html>

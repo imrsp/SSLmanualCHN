@@ -1,0 +1,540 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Dante Dual Domain Routes</title>
+  <style>
+    body { font: 16px/1.55 Arial, sans-serif; max-width: 1080px; margin: 2rem auto; padding: 0 1.25rem; color: #202124; }
+    img { max-width: 100%; height: auto; }
+    table { border-collapse: collapse; max-width: 100%; }
+    th, td { border: 1px solid #aaa; padding: .45rem; vertical-align: top; }
+    .note { display: block; border-left: 4px solid #e0a000; background: #fff8df; padding: .75rem 1rem; margin: 1rem 0; }
+    .notetitle { font-weight: bold; }
+    .label { font-weight: bold; color: #174ea6; }
+    .source { color: #666; font-size: .9rem; }
+  </style>
+</head>
+<body>
+  <p class="source">Section: Building a Show | Source: <a href="https://livehelp.solidstatelogic.com/Help/DanteConfig.html">https://livehelp.solidstatelogic.com/Help/DanteConfig.html</a></p>
+<p>
+    The following pages contain instructions on setting up SSL Live consoles for use with a Dante network, routing to and from Dante devices and controlling and gain sharing with SSL Net I/O Stageboxes:
+    <ul>
+        <li><a href="https://livehelp.solidstatelogic.com/Help/DanteSetup.html"><span class="hyperlink">Setting Up Dante</span></a></li>
+        <li><a href="https://livehelp.solidstatelogic.com/Help/DanteVTL.html"><span class="hyperlink">Virtual Tie Lines</span></a></li>
+        <li>Dual Domain Routes and Configuring Dante Devices (this page)</li>
+        <li><a href="https://livehelp.solidstatelogic.com/Help/DanteNetIO.html"><span class="hyperlink">Network I/O Stageboxes and Devices</span></a></li>
+        <li><a href="https://livehelp.solidstatelogic.com/Help/DanteBridges.html"><span class="hyperlink">BLII & X-Light Bridges</span></a></li>
+    </ul>
+</p>
+
+
+
+<h2 id="DualDomain">Configuring Dante Devices and Working with Dual Domain Routes</h2>
+
+<h3>Dual Domain Routes</h3>
+
+<p><span style="font-weight:bold;">Dual Domain Routes</span> are unique to SSL, allowing the console to interact directly with devices on the network, with no need to use Dante Controller to make routes.</p>
+
+<p>
+    As with normal Dante routes, by default Dual Domain Routes are created using unicast flows.
+    If multicast flows are desired, these must be set up in Dante Controller in the usual way.
+    Any existing unicast Dual Domain Routes from those transmit channels will be automatically converted to multicast. Any Dual Domain Routes subsequently created from those transmit channels will be multicast.
+</p>
+
+<h3>The Dante Configuration Page</h3>
+
+<p>Dante Devices must be configured in the console's <span class="label">Dante Configuration</span> page before they can be routed to directly from the console using dual domain routes.</p>
+
+<p>Go to <span class="label">MENU</span> > <span class="label">Setup</span> > <span class="label">I/O</span> then tap <span class="label">Dante Configuration</span> just below the Menu.</p>
+
+<p>On the left of the page there is a list of <span style="font-weight:bold;">Connected Devices</span>. All Dante devices on the network will be listed here. Tap the <span class="label">Refresh&nbsp;Devices</span> button to refresh the view if a correctly configured device does not appear in the list.</p>
+
+<p>On the right of the page there is a list of <span style="font-weight:bold;">Configured Devices</span>. This is a list of all Dante devices that have been configured for use.</p>
+
+<img style="display: block; margin: 25px auto;" src="https://livehelp.solidstatelogic.com/Help/images/g_DanteDevices.png" alt="">
+
+<p>
+    There are two resource bars above the Configured Devices list to indicate the total dual domain input and output routes available and how many are currently in use.
+    The total number displayed will depend on sample rate, quantity of Virtual Tie Lines and whether a BLII/X-Light Bridge is being used. The resource bars fill with light or dark blue as dual domain routes are made:
+</p>
+
+<img style="display: block; margin: 25px auto;" src="https://livehelp.solidstatelogic.com/Help/images/g_DanteResourceBar.png" alt="">
+
+<p><span style="font-weight:bold;">Light Blue:</span> Routes to offline Configured Devices (Devices not connected to the network, used for preparing showfiles prior to stageboxes being physically present)</p>
+<p><span style="font-weight:bold;">Dark Blue:</span> Routes to online Configured Devices (Devices connected to the network)</p>
+
+<p>There are a series of status LEDs for each device:</p>
+
+<img style="display: block; margin: 25px auto;" src="https://livehelp.solidstatelogic.com/Help/images/g_DanteLEDs.png" alt="">
+
+<p>There are two <span style="font-weight:bold;">NET</span> LEDs showing the network status of the Primary and Secondary network connection.</p>
+<div>
+
+    <table class="insideborder" style="width: auto; margin: 15px 0px;" cellpadding="4" cellspacing="1">
+        <tbody>
+            <tr>
+                <th class="solidborder">Colour</th>
+                <th class="solidborder">Meaning</th>
+            </tr>
+            <tr>
+                <th class="solidborder">Green</th>
+                <td class="solidborder">Connected</td>
+            </tr>
+            <tr>
+                <th class="solidborder">Red</th>
+                <td class="solidborder">Not Connected or Fault</td>
+            </tr>
+        </tbody>
+    </table>
+
+</div>
+
+<div class="note">
+        <span class="notetitle">Please note:</span><br>When an SB&nbsp;16.12 or SB&nbsp;32.24 is connected with Networks A+B Linked,
+        the Primary and Secondary network status will always report that both are connected, even if that is not the case.
+        In this mode please consult the <span style="font-weight:bold;">NET A</span> and <span style="font-weight:bold;">NET B</span> LEDs on the front of the unit for Primary and Secondary connection status:
+        <br>
+
+        <table class="insideborder" style="width: auto; margin: 15px 0px;" cellpadding="4" cellspacing="1">
+            <tbody>
+                <tr>
+                    <th class="solidborder">Colour</th>
+                    <th class="solidborder">Meaning</th>
+                </tr>
+                <tr>
+                    <th class="solidborder">Green</th>
+                    <td class="solidborder">Dante Primary and Secondary connected</td>
+                </tr>
+                <tr>
+                    <th class="solidborder">Red</th>
+                    <td class="solidborder">Dante Primary not connected or fault</td>
+                </tr>
+                <tr>
+                    <th class="solidborder">Flashing Red</th>
+                    <td class="dashedborder">Dante Secondary not connected or fault</td>
+                </tr>
+            </tbody>
+        </table>
+
+        For more information please consult the <a class="external-link" tabindex="-1" href="https://www.solidstatelogic.com/products/dante-live-sound?tab=documents" target="_blank"><span class="hyperlink">SB&nbsp;16.12 &amp; SB&nbsp;32.24 User Guide (www.solidstatelogic.com/products/dante-live-sound)</span></a>.
+</div>
+
+<p>For Configured Devices, there is a single LED to the left. This shows whether the device is online or offline.</p>
+
+<div>
+
+    <table class="insideborder" style="width: auto; margin: 15px 0px;" cellpadding="4" cellspacing="1">
+        <tbody>
+            <tr>
+                <th class="solidborder">Colour</th>
+                <th class="solidborder">Meaning</th>
+            </tr>
+            <tr>
+                <th class="solidborder">Green</th>
+                <td class="solidborder">Online</td>
+            </tr>
+            <tr>
+                <th class="solidborder">Red</th>
+                <td class="solidborder">Offline - Device has previously been online<br>(in this showfile)</td>
+            </tr>
+            <tr>
+                <th class="solidborder">Grey</th>
+                <td class="solidborder">Offline - Device was created offline<br>and has never been online (in this showfile)</td>
+            </tr>
+        </tbody>
+    </table>
+
+</div>
+
+<br>
+<p>For SSL Net I/O Stageboxes, there are also PSU status LEDs.</p>
+
+
+<div>
+
+    <table class="insideborder" style="width: auto; margin: 15px 0px;" cellpadding="4" cellspacing="1">
+        <tbody>
+            <tr>
+                <th class="solidborder">Colour</th>
+                <th class="solidborder">Meaning</th>
+            </tr>
+            <tr>
+                <th class="solidborder">Green</th>
+                <td class="solidborder">PSU On and functioning correctly</td>
+            </tr>
+            <tr>
+                <th class="solidborder">Red</th>
+                <td class="solidborder">PSU Off or fault</td>
+            </tr>
+        </tbody>
+    </table>
+
+</div>
+
+<p>
+    Tapping on any device in the Connected or Configured Devices list will bring up a Detail View for that device.
+    If the device is a Connected Device, stagebox settings cannot be edited. If the device is a Configured Device, all stagebox settings and parameters (e.g. gain, +48V, operating level etc.) can be changed here.
+</p>
+
+<img style="display: block; margin: 25px auto; width: 800px;" src="https://livehelp.solidstatelogic.com/Help/images/g_DanteDetailView.png" alt="">
+
+<p>The following information is displayed in the <span class="label">Setup</span> tab:</p>
+
+<p style="margin-bottom:0px;">
+    <ul>
+        <li><span style="font-weight:bold;">Dante device name</span> (This should be changed from Dante Controller, not from the console)</li>
+        <li><span style="font-weight:bold;">I/O capacity</span></li>
+        <li><span style="font-weight:bold;">PSU status</span> for SSL devices</li>
+        <li>Primary and Secondary <span style="font-weight:bold;">Network Status</span></li>
+        <li><span style="font-weight:bold;">IP address</span> (which will be red if there is a subnet discrepancy)</li>
+        <li>Dante and console <span style="font-weight:bold;">sample rates</span> (which will be red if there is an sample rate discrepancy, and the console's Dante SRC is off)</li>
+        <li>Device <span style="font-weight:bold;">Temperature</span> if available</li>
+    </ul>
+</p>
+
+<span class="note">
+    <span class="notetitle">Please note:</span><br>Dante routes are associated with device names.
+    So changing Dante device names will remove all routes. Renaming devices should be changed from Dante Controller, not on the console.
+    A warning dialogue will appear in Dante Controller before device names are changed to inform the user of a break in audio routes.
+</span>
+
+<p>Other information about the stageboxes can be viewed and edited from the relevant tabs on the right hand side: <span class="label">Inputs</span>, <span class="label">Outputs</span> etc.
+    The individual Input and Output channel names listed in these tabs will correspond to the channel labels set in Dante Controller.</p>
+
+<h3>Configuring Online Dante Devices</h3>
+
+<p>Now we will configure an online device for Dual Domain Routing. An online device is a device that is connected to the network.</p>
+
+<p>
+    First, engage <span class="label">Edit</span>.
+    Then tap and drag a device in the Connected Devices list on the left.
+    A <span class="label">+</span> sign will appear at the bottom of the Configured Devices list once you begin to drag the device. Drop the device onto the <span class="label">+</span> sign.
+</p>
+
+<img style="display: block; margin: 25px auto;" src="https://livehelp.solidstatelogic.com/Help/images/g_DantePlus.png" alt="">
+
+<p>This device has now been added to the Configured Devices List and you can now route to/from it in the routing view or <span class="label">XY Routing</span> page.</p>
+<br>
+<h3>Configuring Offline Dante Devices</h3>
+
+<p>Offline devices can be added, configured and routed to/from even when the physical device is not present.</p>
+
+<p>These settings can then be associated with online devices when the units are available (see below).</p>
+
+<p>First, engage <span class="label">Edit</span>. Then tap <span class="label">Configure New Device</span> and select one of the devices from the list:</p>
+
+<p style="margin-bottom:0px;">
+    <ul>
+        <li><span class="label">Net&nbsp;I/O&nbsp;SB&nbsp;8.8</span>*</li>
+        <li>
+            <ul>
+                <li><span class="label">Main&nbsp;(Uncompensated)</span></li>
+                <li><span class="label">Compensated&nbsp;Splits</span></li>
+            </ul>
+        </li>
+        <li><span class="label">Net&nbsp;I/O&nbsp;SB&nbsp;i16</span>*</li>
+        <li>
+            <ul>
+                <li><span class="label">Main&nbsp;(Uncompensated)</span></li>
+                <li><span class="label">Compensated&nbsp;Splits</span></li>
+            </ul>
+        </li>
+        <li><span class="label">Net&nbsp;I/O&nbsp;SB&nbsp;16.12</span>*</li>
+        <li>
+            <ul>
+                <li><span class="label">Main&nbsp;(Uncompensated)</span></li>
+                <li><span class="label">Compensated Splits</span></li>
+            </ul>
+        </li>
+        <li><span class="label">Net I/O SB&nbsp;32.24</span>*</li>
+        <li>
+            <ul>
+                <li><span class="label">Main&nbsp;(Uncompensated)</span></li>
+                <li><span class="label">Compensated&nbsp;Splits</span></li>
+            </ul>
+        </li>
+        <li><span class="label">Net&nbsp;I/O&nbsp;A16.D16</span></li>
+        <li><span class="label">Net&nbsp;I/O&nbsp;A32</span></li>
+        <li><span class="label">Net&nbsp;I/O&nbsp;D64</span></li>
+        <li><span class="label">Net&nbsp;I/O&nbsp;GPIO32</span></li>
+        <li><span class="label">Net&nbsp;I/O&nbsp;MADI&nbsp;Bridge</span></li>
+
+        <li><span class="label">SSL&nbsp;Console</span></li>
+        <li>
+            <ul>
+                <li><span class="label">Live&nbsp;Dante&nbsp;Expansion</span> (An SSL Live console with a Dante Expander Module fitted)</li>
+                <li><span class="label">Net&nbsp;I/O&nbsp;BLII&nbsp;Bridge</span> (An SSL Live console connected to a BLII Bridge)</li>
+                <li><span class="label">Net&nbsp;I/O&nbsp;XL&nbsp;Bridge</span> (An SSL Live console connected to an X-Light Bridge)</li>
+                <li><span class="label">System&nbsp;T&nbsp;Dante&nbsp;HC</span> (SSL System T broadcast console system)</li>
+                <li><span class="label">System&nbsp;T&nbsp;Dante&nbsp;HC&nbsp;SRC</span> (SSL System T broadcast console with SRC capabilities)</li>
+            </ul>
+        </li>
+
+        <li><span class="label">Shure</span></li>
+        <li>
+            <ul>
+                <li><span class="label">ANI22</span> (See <a href="https://livehelp.solidstatelogic.com/Help/ShureIO.html#ANI"><span class="hyperlink">Shure ANI devices</span></a>)</li>
+                <li><span class="label">ANI4IN</span> (See <a href="https://livehelp.solidstatelogic.com/Help/ShureIO.html#ANI"><span class="hyperlink">Shure ANI devices</span></a>)</li>
+                <li><span class="label">Axient&nbsp;AD4D</span> (See <a href="https://livehelp.solidstatelogic.com/Help/ShureIO.html#Wireless"><span class="hyperlink">Shure Wireless devices</span></a>)</li>
+                <li><span class="label">Axient&nbsp;AD4Q</span> (See <a href="https://livehelp.solidstatelogic.com/Help/ShureIO.html#Wireless"><span class="hyperlink">Shure Wireless devices</span></a>)</li>
+                <li><span class="label">ULXD4D</span> (See <a href="https://livehelp.solidstatelogic.com/Help/ShureIO.html#Wireless"><span class="hyperlink">Shure Wireless devices</span></a>)</li>
+                <li><span class="label">ULXD4Q</span> (See <a href="https://livehelp.solidstatelogic.com/Help/ShureIO.html#Wireless"><span class="hyperlink">Shure Wireless devices</span></a>)</li>
+            </ul>
+        </li>
+
+        <li><span class="label">Generic Dante</span> (Any other Dante device)</li>
+    </ul>
+</p>
+
+<p>
+    * When an SSL Network I/O Stagebox is connected to a Dante network, it will appear on the console as two separate Dante devices: The Main uncompensated/gain dependant device and the Comp gain compensated device.
+    See <a href="https://livehelp.solidstatelogic.com/Help/DanteNetIO.html#GainShare"><span class="hyperlink">Gain Sharing</span></a> for further details.
+</p>
+
+<p>Select the device you wish to add and an offline device will be added to the Configured Devices list. The new device's status LED will be Grey to show that it has never been online.</p>
+
+<p>You can now route to/from this device in any routing view (path Inputs/Outputs, FX Rack etc.) or <span class="label">XY Routing</span> page.</p>
+
+<h3>Making Dual Domain Routes</h3>
+
+<p>
+    Dual Domain Routes can be made to any configured Dante device in the normal way using the routing view or the <span class="label">XY Routing</span> page.
+    When a Dual Domain Route is made to an online configured Dante device on the console, you will see the route created on the Dante network in Dante Controller.
+</p>
+
+<span class="note">
+    <span class="notetitle">Important:</span><br>Please <span style="font-weight:bold;">do not</span> attempt to make or unmake Dual Domain Routes from <span style="font-weight:bold;">Dante Controller</span>.
+    All Dual Domain Routes must be made or unmade from the console.
+</span>
+
+
+<br>
+<h3>Linking an Offline Device with an Online Device</h3>
+
+<p>When the device name and type of an offline Configured Device matches that of a Connected device, the two will be automatically linked. The previously offline device will come online.</p>
+
+<p>
+    All settings on the stagebox that were stored in the offline device will be pushed to the stagebox* and routes to/from the offline device will be assigned to the online device**.
+    This allows for a power down or disconnection without loss of routes or device settings.
+</p>
+
+<p><i>*Providing all ownership requirements have been satisfied (see <a href="https://livehelp.solidstatelogic.com/Help/DanteNetIO.html#Ownership"><span class="hyperlink">Ownership</span></a>)</i></p>
+
+<p><i>**Providing there are no routing conflicts with existing routes between this device and other devices on the network (see <a href="https://livehelp.solidstatelogic.com/Help/DanteConfig.html#Conflict"><span class="hyperlink">Routing Conflicts</span></a>).</i></p>
+
+<p>To link an offline and an online device, first tap <span class="label">Edit</span>, and drag the online Connected Device onto the corresponding offline Configured device.</p>
+
+<img style="display: block; margin: 25px auto;" src="https://livehelp.solidstatelogic.com/Help/images/g_DanteAssign.png" alt="">
+
+<p>Tap <span class="label">Assign to Configured Device</span> to confirm.</p>
+
+<span class="note"><span class="notetitle">Please note:</span><br>Devices must be of the same type for this to work. If they are not, the console will not allow linking.</span>
+
+<p>The online and offline devices have now been linked and all settings and routes of the offline device will be assigned to the online device (providing there are no Ownership or Routing conflicts.</p>
+
+<p>You can also use the above process to link an existing online Configured Device with a different online Connected Device.</p>
+
+
+<h3>Deleting Configured Devices</h3>
+<p>Deleting a device will move the online device back to the Connected Devices list. All routes between the console and this device will be unmade.</p>
+
+<p>To delete a Configured Device, tap <span class="label">Edit</span>, select a device in the Configured devices list using the circles to the right. Then press and hold <span class="label">Delete</span>.</p>
+
+
+<h3>Unlinking</h3>
+<p>Unlinking separates the online device from the device routes and settings and saves the routes and settings within an offline device.</p>
+
+<p>Unlinking a device will move the online device back to the Connected Devices list. An offline device with all the routes and settings will be retained in the Configured Devices list.</p>
+
+<p>
+    To Unlink a device, tap <span class="label">Edit</span>, select a device in the Configured devices list using the circles to the right. Then press and hold <span class="label">Unlink</span>.
+</p>
+
+
+<h3 id="Conflict">Routing Conflicts</h3>
+
+<p>A routing conflict occurs when the console attempts to make a route to a Dante device on the network, but there is already a Dante route occupying this routing point.</p>
+
+<p>This may occur in the following situations:</p>
+<p>
+    <ul>
+        <li>When the operator manually makes a route between the console and another Dante device (from the console)</li>
+        <li>When a showfile is loaded containing Dante routes</li>
+        <li>When the console is powered on and the most recent showfile contains Dante routes</li>
+        <li>When a offline Configured Device with routes saved is linked to an online Connected Device</li>
+    </ul>
+</p>
+
+<h3>First come, first served</h3>
+
+<p>
+    When <b>devices come online on the network</b> or <b>new showfiles are loaded</b>, Dante routing operates on a <b>first come, first served</b> basis.
+</p>
+<p>
+    So if there is a conflict between two routes to the same destination, the first route that was created will be retained.
+    Any routes that are subsequently made to the same destination will not be made.
+    <b>This means Dante routes can never be automatically unmade.</b>
+</p>
+
+<p>
+    However, the console can manually overwrite existing routes in the <span class="label">XY Routing</span> page. See below <a href="https://livehelp.solidstatelogic.com/Help/DanteConfig.html#Overwrite"><span class="hyperlink">Manually Overwriting Existing Dante Routes</span></a>.
+</p>
+
+
+<h3>When the console is powered off or goes offline</h3>
+
+<p>
+    When the console is powered down correctly from the main screen, all Dante routes to/from the console are unmade.
+    This allows Dante devices that previously contained a route to/from the console, to be freed up,
+    and those routing points can now be used by other Dante devices on the network.
+</p>
+
+<p>
+    When the console loses power, or is powered off incorrectly (for example by pulling out the PSU cables or switching the PSUs off),
+    all Dante routes to/from the console are retained.
+    This causes any routing points on other Dante devices that were in use by the console, to be unavailable for further routing.
+</p>
+
+<span class="note">
+    <span class="notetitle">Note:</span><br> For this and many other reasons, SSL recommends that the SSL Live consoles are always powered down correctly via the main screen
+    (<span class="label">MENU</span> > <span class="label">Setup</span> > <span class="label">System&nbsp;/&nbsp;Power</span> menu > <span class="label">System</span> tab > <span class="label">Power&nbsp;Off&nbsp;Console</span> button).
+    Please do not pull out the PSU cables or switch off the PSUs prior to a correct shut down from the main screen.
+</span>
+
+<p>
+    If the console loses its connection to the Dante network and goes offline,
+    all Dante routing will be retained by the devices on the network. So when the console comes back online, routing does not need to be re-made.
+</p>
+
+<h3>When the console comes online or when a showfile is loaded</h3>
+
+<p>
+    Loading showfiles containing dual domain routes can cause routing conflicts with routes already on the network.
+    This can also occur when the console is connected to the network or powered on and the most recent showfile is loaded automatically.
+</p>
+
+<i>For example:</i>
+<p>
+    An L550, an L200 and one SB&nbsp;32.24 are on a Dante network.
+
+    <b>SB&nbsp;32.24 input 1 is routed to the input of Channel 1 on the L550</b>.
+    And the <b>output of Channel 1 is routed to SB&nbsp;32.24 output 1</b>.
+    The L200 is connected to the network but in the current showfile there are no routes between the console and the SB&nbsp;32.24.
+</p>
+
+<p>
+    A new showfile is loaded on the L200. <b>In the new showfile SB&nbsp;32.24 input 1 is routed to Channel 32 on the L200</b>.
+    And <span style="font-weight:bold;">the output of this channel is routed to output 1 on the SB&nbsp;32.24</span>.
+</p>
+
+<p>
+    For the transmit channels of the SB&nbsp;32.24, this is not a problem.
+    <b>Input 1 on the SB&nbsp;32.24 can be sent to both the L550 and the L200 at the same time</b>.
+</p>
+
+<p>
+    For the receive channels of the SB&nbsp;32.24, there is a <b>routing conflict</b>.
+    The <b>SB&nbsp;32.24 cannot receive a route from both the L550 and the L200 at the same time</b>.
+</p>
+
+<p>
+    Following Dante routing's first come, first served basis, <b>the L550's route will be retained</b>.
+    This is because the L550's route was already valid at the time the L200 attempted to make its route.
+    <b>The L200's route will not be made</b>.
+</p>
+
+<p>This is to avoid active routes being stolen by devices when they come online.</p>
+
+<span class="note">
+    <span class="notetitle">Note:</span> The first come, first served basis is a Dante concept and applies to SSL and non-SSL Dante devices alike.
+</span>
+
+<p>
+    The same first come, first served basis will apply if a Configured Device is assigned to a new Connected Device with existing routes.
+    To check if the network route has been created please use the Routing tab of Dante Controller.
+</p>
+
+
+<h3 id="Overwrite">Manually Overwriting Existing Dante Routes</h3>
+
+<p>
+    Dante routes can never be automatically unmade. But they can be manually overwritten by the console. In the <span class="label">XY Routing</span> page, the engineer can overwrite existing routes by creating new routes to the same destinations.
+    This is not possible from the Routing View.
+</p>
+
+<i>For example:</i>
+<p>
+    An L550, an L200 and one SB&nbsp;32.24 are on a Dante network.
+
+    <b>The output of Channel 1 on the L550 is routed to SB&nbsp;32.24 output 1</b>.
+</p>
+
+<p>
+    On the L200, the engineer goes to <span class="label">XY Routing</span> and tries to make a route from the
+    <b>output of Channel 2 on the L200 to the SB&nbsp;32.24 output 1</b>.
+</p>
+
+<p>
+    This has caused a <b>routing conflict</b>.
+    The <b>SB&nbsp;32.24 cannot receive a route from both the L550 and the L200 at the same time</b>.
+</p>
+
+<p>
+    Since the L200 has manually attempted the route (i.e. the route was a choice by the engineer),
+    the L200 can overwrite the existing route between the L550 and the SB&nbsp;32.24.
+    <b>The route from the L550 will be unmade, and the route from the L200 will be made.</b>
+</p>
+
+
+<h3>Dante Routes Between Two Other Dante Devices</h3>
+<p>Routes between any two other Dante devices on the network can also be manually made or unmade from the <span class="label">XY Routing</span> page.</p>
+
+<p>
+    If a route between two other Dante devices (i.e. not involving the console) is made from the console, this route will be saved in the console's showfile.
+    This route will be recalled when the showfile is loaded on the console (provided devices with the same Dante names are on the network
+    and subject to any routing conflicts, see above <a href="https://livehelp.solidstatelogic.com/Help/DanteConfig.html#Conflict"><span class="hyperlink">Routing Conflicts</span></a>).
+</p>
+
+<h2>Dante Allowed Devices List</h2>
+
+<p>
+	The beauty, and challenge, of Dante and AoIP is the freedom to connect anything, anywhere. SSL Live tackles this by integrating the Dante API with automatic device discovery, offering a simple drag-and-drop interface for adding discovered devices into the console's configuration for streamlined routing. For fixed installations on larger networks, SSL Live's '<strong>Dante Allowed Device List</strong>' lets you manage which Dante devices are visible and routable on the console, ideal for fixed installations where freelance engineers access the console, but certain resources must remain restricted.
+</p>
+
+<p>
+	Enabled with a Dante Allowed Device List licence, this feature limits visible devices to only those in the 'AllowedDevicesConfig.xml' file, maintaining all standard console functionality if unlicensed. Both SSL Network I/O and third-party devices are supported, and while Rx subscriptions remain manageable via Dante Controller, the SSL interface marks restricted Rx channels with a hatched brown overlay in the routing GUI, preventing routing changes or showfile overwrites. Please speak to your SSL sales or support rep to discuss workflow and licensing if you have a use case for Dante Allowed Device List. 
+</p>
+	
+<p>
+	Dante Allowed Device List keeps networked resources secure, ensuring only selected devices and channels are accessible. Perfect for large, flexible audio networks.
+</p>
+
+<img style="display: block; margin: 0px auto 45px; width: 250px" src="https://livehelp.solidstatelogic.com/Help/images/u_DanteConfig_Allowed_dev_list.png" alt="">
+
+<p>
+	The Allowed Devices list is based on device name rather than Dante device UID. This has the following implications: 
+</p>
+
+	<ul>
+		<li>Devices can be configured (and named) offline (on a console or SOLSA) and routes stored in showfiles, which can later be played out onto the network when an Allowed device of the correct name is detected.</li>
+		<li>Changing the name of a device on the Dante network will require the Allowed list to be updated (requiring service page access) on each console utilising this feature.</li>
+		<li>A device may be renamed in Dante Controller (or other capable control interface) to match a device name present in the Allowed list to enable that device to be used on the console (subject to the restricted Rx channels defined in the Allowed list) without requiring modification to the Allowed list.</li>
+	</ul>
+
+
+<br>
+
+
+<h2>Useful Links:</h2>
+
+<a href="https://livehelp.solidstatelogic.com/Help/DanteSetup.html"><span class="hyperlink">Setting Up Dante</span></a><br>
+<a href="https://livehelp.solidstatelogic.com/Help/DanteNetIO.html"><span class="hyperlink">Network I/O Stageboxes and Devices</span></a><br>
+<a href="https://livehelp.solidstatelogic.com/Help/DanteVTL.html"><span class="hyperlink">Virtual Tie Lines</span></a><br>
+<a href="https://livehelp.solidstatelogic.com/Help/DanteBridges.html"><span class="hyperlink">BLII & X-Light Bridges</span></a><br>
+<a href="https://livehelp.solidstatelogic.com/Help/LocalMADIConfig.html"><span class="hyperlink">Local/MADI I/O Configuration</span></a><br>
+
+<a href="https://livehelp.solidstatelogic.com/Help/InstallGuide.html"><span class="hyperlink">Setup: Installation Guide</span></a><br>
+<a href="https://livehelp.solidstatelogic.com/Help/LinkIndex.html"><span class="hyperlink">Index and Glossary</span></a><br>
+</body>
+</html>

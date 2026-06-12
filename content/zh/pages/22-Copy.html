@@ -1,0 +1,97 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>复制</title>
+  <style>
+    body { font: 16px/1.55 Arial, sans-serif; max-width: 1080px; margin: 2rem auto; padding: 0 1.25rem; color: #202124; }
+    img { max-width: 100%; height: auto; }
+    table { border-collapse: collapse; max-width: 100%; }
+    th, td { border: 1px solid #aaa; padding: .45rem; vertical-align: top; }
+    .note { display: block; border-left: 4px solid #e0a000; background: #fff8df; padding: .75rem 1rem; margin: 1rem 0; }
+    .notetitle { font-weight: bold; }
+    .label { font-weight: bold; color: #174ea6; }
+    .source { color: #666; font-size: .9rem; }
+  </style>
+</head>
+<body>
+  <p class="source">章节：构建演出 | 来源：<a href="https://livehelp.solidstatelogic.com/Help/Copy.html">https://livehelp.solidstatelogic.com/Help/Copy.html</a></p>
+<h2>复制</h2>
+<p>可使用 Channel View 屏幕右侧的 <span class="label">Copy</span> 按钮，在信号路径之间复制信号处理、母线及声像设置。</p>
+
+<p>复制功能既可复制完整通道，也可复制单独的通道组件（包括信号处理和声像的各个组成部分）。</p>
+<img style="margin: 0px 0px 5px 17px;" src="https://livehelp.solidstatelogic.com/Help/images/s_CopyChannelMenu.png" alt="" align="right">
+
+<p>
+    首先在屏幕上点按要<span style="font-weight:bold;">复制来源</span>的通道，或使用推子区块上的 <span class="label">SELECT</span> 按钮。
+    然后点按 <span class="label">Copy</span> 打开 Copy 窗口。
+</p>
+<p>作为<span style="font-weight:bold;">复制来源</span>的信号路径以<span style="font-weight:bold;">绿色</span>标示。
+
+<p>从列表中选择要复制的参数。也可以使用 <span class="label">Set All</span> 设置全部参数，并使用 <span class="label">Toggle</span> 切换其开启或关闭状态。</p>
+<p>
+    现在选择要<span style="font-weight:bold;">粘贴到</span>的信号路径，可在屏幕上选择，也可使用推子区块上的 <span class="label">SELECT</span> 按钮。
+    这些<span style="font-weight:bold;">粘贴目标</span>信号路径以<span style="font-weight:bold;">紫色</span>标示。
+</p>
+<p>然后按住 <span class="label">Apply</span>。
+
+<p>完成后，再次按下 <span class="label">Copy</span> 关闭窗口并清除选择。</p>
+<span class="note"><span class="notetitle">提示：</span>使用<span style="font-weight:bold;">范围选择</span>可快速复制到多个信号路径。按住范围内第一个信号路径的 <span class="label">SELECT</span> 按钮，再点按最后一个信号路径的 <span class="label">SELECT</span> 按钮，然后松开两个按钮。也可以跨相邻的推子区块执行此操作。</span>
+
+<p>以下组件可单独复制：</p>
+<ul>
+    <li><span class="label">Full</span> 和 <span class="label">Dry</span> 处理的 <span style="font-weight: bold;">Master</span> 发送</li>
+    <li><span class="label">Full</span> 和 <span class="label">Dry</span> 处理的 <span style="font-weight: bold;">Aux</span> 发送</li>
+    <li><span class="label">Full</span> 和 <span class="label">Dry</span> 处理的 <span style="font-weight: bold;">Stem</span> 发送</li>
+    <li>通道 <span class="label">Input</span> 设置</li>
+    <li><span class="label">Pan</span></li>
+    <li><span class="label">Fader</span> 电平</li>
+    <li><span class="label">Mute</span> 状态</li>
+    <li><span class="label">EQ</span>（仅限完整处理和矩阵输出信号路径）</li>
+    <li>高通和低通 <span class="label">Filters</span>（仅限完整处理和矩阵输出信号路径）</li>
+    <li><span class="label">Compressor</span>（仅限完整处理信号路径）</li>
+    <li><span class="label">Gate</span>（仅限完整处理信号路径）</li>
+    <li><span class="label">Delay</span>（仅限完整处理和矩阵输出信号路径）</li>
+    <li><span class="label">All&nbsp;Pass</span> 滤波器（仅限完整处理和矩阵输出信号路径）</li>
+    <li><span class="label">VCA</span> 分配
+</ul>
+
+
+<br>
+<h2>复制发送混音</h2>
+<img style="margin: 0px 0px 5px 26px;" src="https://livehelp.solidstatelogic.com/Help/images/s_CopyBusMenu.png" alt="" align="right">
+
+<p>可以使用 Channel View 中的 <span class="label">Bus&nbsp;Copy</span>，将某个 Stem、Aux 或 Master 混音复制到另一个 Stem、Aux 或 Master 母线。</p>
+
+<div class="tabsmall">
+    <ol>
+        <li>选择要作为<span style="font-weight:bold;">复制来源</span>的母线信号路径条。</li>
+        <li>点按 <span class="label">Copy</span> 打开复制窗口。作为<span style="font-weight:bold;">复制来源</span>的信号路径将以<span style="font-weight:bold;">绿色</span>标示。</li>
+        <li>点按 <span class="label">Bus&nbsp;Copy</span>。</li>
+        <li>选择要复制的信号路径类型。使用 <span class="label">Set&nbsp;All</span> 和 <span class="label">Toggle</span> 可更快地调整选择。</li>
+        <li>现在选择要<span style="font-weight:bold;">粘贴到</span>的信号路径，它们将以<span style="font-weight:bold;">紫色</span>标示。</li>
+        <li>然后按住 <span class="label">Apply</span>。
+        <li>完成后，再次按下 <span class="label">Copy</span> 关闭窗口并清除选择。</li>
+    </ol>
+</div>
+
+<span class="note">
+    <span class="notetitle">注意：</span>母线复制中只会提供能够向源信号路径发送信号的信号路径（例如 Aux 不能发送到 Stem）。<br><br>
+
+    Bus Copy 可在不同母线类型之间复制，例如将 Aux 混音复制到 Stem。<br><br>
+
+    <span class="notetitle">警告：</span>复制过程中被覆盖的设置无法直接恢复，只能从先前保存的场景或演出文件中调用。
+</span>
+
+<h2 id="Store">Copy 包含哪些参数？</h2>
+
+<p>Copy 所包含的参数和设置与场景存储所包含的内容相同。要了解场景包含哪些参数，请参阅 <a href="https://livehelp.solidstatelogic.com/Help/Storage.html"><span class="hyperlink">存储</span></a>。</p>
+
+
+<h2>实用链接</h2>
+
+<a href="https://livehelp.solidstatelogic.com/Help/PathLink.html"><span class="hyperlink">信号路径联动</span></a><br>
+<a href="https://livehelp.solidstatelogic.com/Help/LinkIndex.html"><span class="hyperlink">索引和术语表</span></a><br>
+</body>
+</html>

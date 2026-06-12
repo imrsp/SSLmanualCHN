@@ -1,0 +1,269 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html ng-app="sslLiveHelp">
+<head>
+    <meta content="text/html; charset=ISO-8859-1" http-equiv="content-type">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=yes">
+
+    <link href="../Help/style/style.css" rel="stylesheet">
+    <link href="../Help/style/jquery-ui-1.13.2.structure.css" rel="stylesheet">
+    <title>ipMIDI</title>
+    <script src="../Help/js/jquery-3.6.0.min.js"></script>
+    <script src="../Help/js/jquery-ui/1.13.2/jquery-ui.min.js"></script>
+    <!--<script type="text/javascript" src="cordova.js"></script>-->
+    <!-- Nav / search panels 2017 updates -->
+    <script>
+    window.baseDir = '../';
+    window.data = 'null';
+    </script>
+    <link rel="stylesheet" type="text/css" href="../Help/fonts/font-awesome-4.7.0/css/font-awesome.min.css" />
+    <link rel="stylesheet" type="text/css" href="../Help/style/sass-styles.css">
+    <script src="../Help/js/fastclick.js"></script>
+    <script src="../Help/js/lodash.core.min.js"></script>
+    <!--<script src="../Help/js/angular/1.2/angular.min.js"></script>-->  <!-- On a console -->
+    <script src="../Help/js/angular/1.8/angular.min.js"></script>   <!--Not on a console -->
+    <script src="../Help/js/ngStorage.min.js"></script>
+    <!--<script src="../Help/js/angular/1.2/angular-sanitize.min.js"></script>-->  <!-- On a console -->
+    <!--<script src="../Help/js/angular/1.2/angular-animate.min.js"></script>-->   <!-- On a console -->
+    <script src="../Help/js/angular/1.8/angular-sanitize.min.js"></script>  <!--Not on a console -->
+    <script src="../Help/js/angular/1.8/angular-animate.min.js"></script>   <!--Not on a console -->
+    <script src="../Help/js/lunr-2.3.min.js"></script>
+    <script src="../Help/js/menu.js"></script>
+
+</head>
+
+<body ng-controller="NavController as vm">
+
+    <!--<nav class="nav" ng-class="{ 'nav--visible' : vm.visible }" ng-if="vm.visible" role="navigation" aria-label="Primary">-->  <!-- On a console --> 
+    <nav class="nav" ng-class="{ 'nav--visible' : vm.visible }" role="navigation" aria-label="Primary"> <!--Not on a console -->
+        <!-- Search form -->
+        <div role="search">
+            <form class="nav__search" ng-if="vm.isSearchSupported">
+                <label class="nav__search-icon" for="query"><i aria-label="Search" title="Search" class="fa fa-search"></i></label>
+                <input type="search" id="query" class="nav__search-input" placeholder="Search..." ng-model="vm.query" />
+            </form>
+        </div>
+
+        <div class="nav__scroll" ng-style="vm.styleBasedOnSearchSupported">
+
+            <!-- Main nav -->
+            <ul class="main-nav" ng-hide="vm.query">
+                <li class="main-nav__item" ng-repeat="item in vm.nav">
+
+                    <!-- Link to page -->
+                    <a ng-if="item.url" ng-class="{'main-nav__link--active' : item.url===vm.currentPage}" class="main-nav__link" ng-attr-href="{{ vm.baseDir }}{{ item.url }}">
+                        {{ item.title }}
+                    </a>
+
+                    <!-- Expandable heading -->
+                    <span ng-click="vm.toggleExpanded(item.title)" ng-if="!item.url" class="main-nav__title">
+                        {{ item.title }}
+                        <span ng-if="!vm.isExpanded(item.title)" class="fa fa-caret-right"></span>
+                        <span ng-if="vm.isExpanded(item.title)" class="fa fa-caret-down"></span>
+                    </span>
+
+                    <!-- Subnav -->
+                    <ul ng-if="vm.isExpanded(item.title)" class="main-nav fx-fade">
+                        <li ng-repeat="sub in item.children" class="main-nav__item">
+
+                            <!-- Link to page -->
+                            <a ng-if="sub.url" ng-class="{'main-nav__link--active' : sub.url===vm.currentPage}" class="main-nav__link main-nav__link--level1" ng-attr-href="{{ vm.baseDir }}{{ sub.url }}">
+                                {{ sub.title }}
+                            </a>
+
+                            <!-- Expandable heading -->
+                            <span ng-click="vm.toggleExpanded(sub.title)" ng-if="!sub.url" class="main-nav__title main-nav__title--level1">
+                                {{ sub.title }}
+                                <span ng-if="!vm.isExpanded(sub.title)" class="fa fa-caret-right"></span>
+                                <span ng-if="vm.isExpanded(sub.title)" class="fa fa-caret-down"></span>
+                            </span>
+
+                            <!-- Sub-sub nav -->
+                            <ul ng-if="sub.children && vm.isExpanded(sub.title)" class="main-nav fx-fade">
+                                <li ng-repeat="subsub in sub.children" class="main-nav__item">
+
+                                    <!-- Link to page -->
+                                    <a ng-class="{'main-nav__link--active' : subsub.url===vm.currentPage}" class="main-nav__link main-nav__link--level2" ng-attr-href="{{ vm.baseDir }}{{ subsub.url }}" ng-bind-html="subsub.title">
+                                    </a>
+
+                                </li>
+                            </ul>
+
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+
+            <!-- Search results list -->
+            <ul class="search-results">
+                <li class="search-result" ng-repeat="result in vm.results">
+                    <a class="search-result__link" ng-attr-href="{{ vm.baseDir }}{{ 'Help/' + result.id }}">
+                        <h3 class="search-result__title">{{ result.title }}</h3>
+                        <p class="search-result__excerpt" ng-bind-html="result.excerpt"></p>
+                    </a>
+                </li>
+            </ul>
+
+            <!-- Keep screen on option - PhoneGap insomnia -->
+            <ul class="main-nav" ng-if="vm.isPhoneGap">
+                <li class="main-nav__item">
+                    <label class="main-nav__title">
+                        Keep Screen On
+                        <input style="display: none" type="checkbox" ng-model="vm.keepScreenOn" />
+                        <i ng-class="{'fa--cleared' : !vm.keepScreenOn, 'fa--checked' : vm.keepScreenOn}" class="fa fa-check"></i>
+                    </label>
+                </li>
+            </ul>
+
+
+        </div>
+    </nav>
+
+    <nav class="header" role="navigation" aria-label="Secondary">
+        <a ng-if="!vm.onAConsole" href="../index.html" class="header__btn" title="Home"><i class="fa fa-home"></i></a>
+        <div ng-if="!vm.onAConsole" class="header__history">
+            <a onclick="javascript:window.history.back()" class="header__btn"><i title="Back" class="fa fa-chevron-left"></i></a>
+            <a onclick="javascript:window.history.forward()" class="header__btn"><i title="Forwards" class="fa fa-chevron-right"></i></a>
+        </div>
+        <div align="right">
+            <a class="header__btn header__btn--nav" ng-click="vm.toggleVisibility()">
+                <i ng-if="!vm.visible" class="fa fa-bars"></i>
+                <i ng-if="vm.visible" class="fa fa-close"></i>
+            </a>
+        </div>
+    </nav>
+
+
+    <!-- Main content -->
+    <div id="main">
+        
+
+
+<h2>ipMIDI</h2>
+
+<h3>ipMIDI Software</h3>
+<p>
+    ipMIDI is an application that allows a standard network adapter to be used as multiple MIDI ports. It may be downloaded from
+    <a class="external-link" tabindex="-1" href="https://www.nerds.de/en/download.html" target="_blank"><span class="hyperlink">https://www.nerds.de/en/download.html</span></a>
+</p>
+<p>The latest version of ipMIDI must be installed on the Mac or PC running the DAW you wish to control. Once installed, the computer must be restarted.</p>
+<p>
+    <b>ipMIDI Monitor</b> is used to set the number of emulated MIDI ports in use. Each port allows for 8 channels of control. The loop back function must be turned off.
+    The picture below shows 10 ports and loopback turned off. Please note a reboot is required after making any changes in ipMIDI Monitor.
+</p>
+
+<img style="display: block; margin: 5px auto;" src="images/g_ipMIDIports.png" alt="">
+
+<h3>Network Addresses</h3>
+
+<p>
+    ipMIDI works over an Ethernet connection between the SSL Live console and the computer running the DAW.
+    The network cable should be connected directly to the Connectivity network port on the console or via network switches.
+</p>
+
+<p>
+    The Connectivity port must be set to an IP address or DHCP server that does not conflict with any other subnet used by the console (Pri or Sec Dante).
+    The DAW network adapter must be set to the same subnet as the console's Connectivity adapter.
+    Refer to the <a href="OptionsNetwork.html#Network"><span class="hyperlink">Network options</span></a> section for more detail.
+</p>
+
+<span class="note">
+    <span class="notetitle">Notes:</span><br />
+    - The Connectivity port is also used for SOLSA and TaCo remote control. DAW control, SOLSA and TaCo may all be used simultaneously provided the network bandwidth allows.<br><br>
+    - If Audinate's Dante Controller or Dante Virtual Soundcard are to be used on the same computer as the DAW, multiple network adapters will be needed.
+    Dante and DAW control must be on different subnets for correct operation with SSL Live consoles.<br><br>
+    - ipMIDI may be used for <a href="EventManager.html"><span class="hyperlink">Events</span></a>, <a href="AutoIOActions.html"><span class="hyperlink">Automation Input/Output Actions</span></a>,
+    <a href="DAWControl.html"><span class="hyperlink">DAW Control</span></a> and <a href="OptionsSystem.html#Timecode"><span class="hyperlink">Timecode</span></a>.
+    Different ipMIDI ports should be used for each.
+</span>
+
+<h3>Network Adapter Selection for ipMIDI</h3>
+
+<p>
+    For computers with multiple network adapters, the computer must be configured to ensure the correct adapter is used.
+    If your DAW computer has only 1 network adapter, this will be used by default and no further configuration is necessary.
+</p>
+
+<p>
+    ipMIDI transmits multicast UDP with a destination address of 225.0.0.37. In order to bind ipMIDI to a particular network adapter on a computer, you must alter the computer routing table using the following commands:
+</p>
+
+<h4>Windows</h4>
+
+<p>Open an elevated command prompt and type:</p>
+<blockquote>
+    <p>route add -p 225.0.0.37 MASK 255.255.255.255 <b>&lt;ip_address_of_desired_NIC&gt;</b></p>
+    <p>e.g. <b>route add -p 225.0.0.37 mask 255.255.255.255 192.168.1.1</b></p>
+    <span class="note">
+        <span class="notetitle">Note:</span> To find the IP address of the network adapter, first type <b>ipconfig</b> at the command prompt to list all network adapters.
+    </span>
+</blockquote>
+
+<p>
+    This adds a persistent route to the Windows registry, which forces traffic with a destination address of 225.0.0.37 to be forwarded out of the network adapter with the IP address entered.
+    Since this route is bound to the IP address of the network adapter, it will be necessary to repeat this should it become necessary to change the IP address of the computer,
+    or should the computer be replaced or flat installed.
+</p>
+
+<h4>macOS</h4>
+
+<p>Open a terminal (Applications > Utilities > Terminal) and type:</p>
+<blockquote>
+    <p>route -n add -net 225.0.0.37 -interface <b>&lt;name_of_desired_NIC&gt;</b></p>
+    <p>e.g. <b>route -n add -net 225.0.0.37 -interface en1</b></p>
+    <p>You should then see the following response in the terminal: <b>add net 225.0.0.37: gateway &lt;name_of_desired_NIC&gt;</b></p>
+    <span class="note">
+        <span class="notetitle">Notes:</span><br />
+        - It may be necessary to prefix the <b>route</b> command with <b>sudo</b> to run the command with super user privileges. You will be prompted to enter your password.<br>
+        - <b>networksetup -listallhardwareports</b> can be used to obtain the correct interface name to use in the <b>route</b> command above.<br>
+        - To find the MAC address go to Apple menu > System Preferences > Network. Select the interface you intend to use. Click the Advanced button. The MAC address is listed in the Hardware tab.
+    </span>
+</blockquote>
+
+<p>
+    It is not possible to natively configure persistent routes on macOS, so the user will either need to enter this command after every boot, or create a start-up script which restores the route after the system is rebooted.
+    Methods to create persistent static routes within macOS are dependent on the specific version of macOS, ensure the method used is applicable to the installed version of macOS.
+</p>
+
+<p>
+    Example persistent implementations may be found here:
+    <a class="external-link" tabindex="-1" href="https://blog.dchidell.com/2018/07/23/persistent-static-routes-macos-high-sierra/" target="_blank"><span class="hyperlink">https://blog.dchidell.com/2018/07/23/persistent-static-routes-macos-high-sierra/</span></a>
+</p>
+
+<p>
+    These examples must be edited to include the "route -n add -net 225.0.0.37 -interface &lt;name_of_desired_NIC&gt;" line from above.
+</p>
+
+<h3>Pro Tools Settings</h3>
+
+<p>
+    In Pro Tools open <b>Setup>Peripherals>MIDI Controllers</b>. Enable the HUI type on the ports that will be used and then select the same ipMIDI ports that have been setup in the console's DAW Control setup page.
+</p>
+
+<img style="display: block; margin: 5px auto;" src="images/g_ipMIDI_ProTools.png" alt="">
+
+<p>
+    In Pro Tools open <b>Setup>Peripherals>Ethernet Controllers</b>. Ensure that the <b>Enable EUCON</b> option is <b>unticked</b> to enable metering on the console surface.
+</p>
+
+<img style="display: block; margin: 5px auto;" src="images/g_EuconProTools.png" alt="">
+
+
+<h2>Useful Links</h2>
+
+<p><a href="DAWControl.html"><span class="hyperlink">DAW Control</span></a></p>
+
+<p><a href="AutoIOActions.html"><span class="hyperlink">Automation Input and Output Actions</span></a></p>
+
+<p><a href="EventManager.html"><span class="hyperlink">Event Manager</span></a></p>
+
+<p><a href="OptionsSystem.html#Timecode"><span class="hyperlink">Timecode</span></a></p>
+
+<p><a href="LinkIndex.html"><span class="hyperlink">Index and Glossary</span></a></p>
+
+
+    </div>
+
+    <script src="../Help/js/OpenAccordionFromLink.js"></script>
+</body>
+</html>

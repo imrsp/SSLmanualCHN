@@ -1,0 +1,566 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html ng-app="sslLiveHelp">
+<head>
+    <meta content="text/html; charset=ISO-8859-1" http-equiv="content-type">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=yes">
+
+    <link href="../Help/style/style.css" rel="stylesheet">
+    <link href="../Help/style/jquery-ui-1.13.2.structure.css" rel="stylesheet">
+    <title>External Control: KLANG</title>
+    <script src="../Help/js/jquery-3.6.0.min.js"></script>
+    <script src="../Help/js/jquery-ui/1.13.2/jquery-ui.min.js"></script>
+    <!--<script type="text/javascript" src="cordova.js"></script>-->
+    <!-- Nav / search panels 2017 updates -->
+    <script>
+    window.baseDir = '../';
+    window.data = 'null';
+    </script>
+    <link rel="stylesheet" type="text/css" href="../Help/fonts/font-awesome-4.7.0/css/font-awesome.min.css" />
+    <link rel="stylesheet" type="text/css" href="../Help/style/sass-styles.css">
+    <script src="../Help/js/fastclick.js"></script>
+    <script src="../Help/js/lodash.core.min.js"></script>
+    <!--<script src="../Help/js/angular/1.2/angular.min.js"></script>-->  <!-- On a console -->
+    <script src="../Help/js/angular/1.8/angular.min.js"></script>   <!--Not on a console -->
+    <script src="../Help/js/ngStorage.min.js"></script>
+    <!--<script src="../Help/js/angular/1.2/angular-sanitize.min.js"></script>-->  <!-- On a console -->
+    <!--<script src="../Help/js/angular/1.2/angular-animate.min.js"></script>-->   <!-- On a console -->
+    <script src="../Help/js/angular/1.8/angular-sanitize.min.js"></script>  <!--Not on a console -->
+    <script src="../Help/js/angular/1.8/angular-animate.min.js"></script>   <!--Not on a console -->
+    <script src="../Help/js/lunr-2.3.min.js"></script>
+    <script src="../Help/js/menu.js"></script>
+
+</head>
+
+<body ng-controller="NavController as vm">
+
+    <!--<nav class="nav" ng-class="{ 'nav--visible' : vm.visible }" ng-if="vm.visible" role="navigation" aria-label="Primary">-->  <!-- On a console --> 
+    <nav class="nav" ng-class="{ 'nav--visible' : vm.visible }" role="navigation" aria-label="Primary"> <!--Not on a console -->
+        <!-- Search form -->
+        <div role="search">
+            <form class="nav__search" ng-if="vm.isSearchSupported">
+                <label class="nav__search-icon" for="query"><i aria-label="Search" title="Search" class="fa fa-search"></i></label>
+                <input type="search" id="query" class="nav__search-input" placeholder="Search..." ng-model="vm.query" />
+            </form>
+        </div>
+
+        <div class="nav__scroll" ng-style="vm.styleBasedOnSearchSupported">
+
+            <!-- Main nav -->
+            <ul class="main-nav" ng-hide="vm.query">
+                <li class="main-nav__item" ng-repeat="item in vm.nav">
+
+                    <!-- Link to page -->
+                    <a ng-if="item.url" ng-class="{'main-nav__link--active' : item.url===vm.currentPage}" class="main-nav__link" ng-attr-href="{{ vm.baseDir }}{{ item.url }}">
+                        {{ item.title }}
+                    </a>
+
+                    <!-- Expandable heading -->
+                    <span ng-click="vm.toggleExpanded(item.title)" ng-if="!item.url" class="main-nav__title">
+                        {{ item.title }}
+                        <span ng-if="!vm.isExpanded(item.title)" class="fa fa-caret-right"></span>
+                        <span ng-if="vm.isExpanded(item.title)" class="fa fa-caret-down"></span>
+                    </span>
+
+                    <!-- Subnav -->
+                    <ul ng-if="vm.isExpanded(item.title)" class="main-nav fx-fade">
+                        <li ng-repeat="sub in item.children" class="main-nav__item">
+
+                            <!-- Link to page -->
+                            <a ng-if="sub.url" ng-class="{'main-nav__link--active' : sub.url===vm.currentPage}" class="main-nav__link main-nav__link--level1" ng-attr-href="{{ vm.baseDir }}{{ sub.url }}">
+                                {{ sub.title }}
+                            </a>
+
+                            <!-- Expandable heading -->
+                            <span ng-click="vm.toggleExpanded(sub.title)" ng-if="!sub.url" class="main-nav__title main-nav__title--level1">
+                                {{ sub.title }}
+                                <span ng-if="!vm.isExpanded(sub.title)" class="fa fa-caret-right"></span>
+                                <span ng-if="vm.isExpanded(sub.title)" class="fa fa-caret-down"></span>
+                            </span>
+
+                            <!-- Sub-sub nav -->
+                            <ul ng-if="sub.children && vm.isExpanded(sub.title)" class="main-nav fx-fade">
+                                <li ng-repeat="subsub in sub.children" class="main-nav__item">
+
+                                    <!-- Link to page -->
+                                    <a ng-class="{'main-nav__link--active' : subsub.url===vm.currentPage}" class="main-nav__link main-nav__link--level2" ng-attr-href="{{ vm.baseDir }}{{ subsub.url }}" ng-bind-html="subsub.title">
+                                    </a>
+
+                                </li>
+                            </ul>
+
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+
+            <!-- Search results list -->
+            <ul class="search-results">
+                <li class="search-result" ng-repeat="result in vm.results">
+                    <a class="search-result__link" ng-attr-href="{{ vm.baseDir }}{{ 'Help/' + result.id }}">
+                        <h3 class="search-result__title">{{ result.title }}</h3>
+                        <p class="search-result__excerpt" ng-bind-html="result.excerpt"></p>
+                    </a>
+                </li>
+            </ul>
+
+            <!-- Keep screen on option - PhoneGap insomnia -->
+            <ul class="main-nav" ng-if="vm.isPhoneGap">
+                <li class="main-nav__item">
+                    <label class="main-nav__title">
+                        Keep Screen On
+                        <input style="display: none" type="checkbox" ng-model="vm.keepScreenOn" />
+                        <i ng-class="{'fa--cleared' : !vm.keepScreenOn, 'fa--checked' : vm.keepScreenOn}" class="fa fa-check"></i>
+                    </label>
+                </li>
+            </ul>
+
+
+        </div>
+    </nav>
+
+    <nav class="header" role="navigation" aria-label="Secondary">
+        <a ng-if="!vm.onAConsole" href="../index.html" class="header__btn" title="Home"><i class="fa fa-home"></i></a>
+        <div ng-if="!vm.onAConsole" class="header__history">
+            <a onclick="javascript:window.history.back()" class="header__btn"><i title="Back" class="fa fa-chevron-left"></i></a>
+            <a onclick="javascript:window.history.forward()" class="header__btn"><i title="Forwards" class="fa fa-chevron-right"></i></a>
+        </div>
+        <div align="right">
+            <a class="header__btn header__btn--nav" ng-click="vm.toggleVisibility()">
+                <i ng-if="!vm.visible" class="fa fa-bars"></i>
+                <i ng-if="vm.visible" class="fa fa-close"></i>
+            </a>
+        </div>
+    </nav>
+
+
+    <!-- Main content -->
+    <div id="main">
+        
+
+<h2>KLANG Integration</h2>
+
+<p>
+  Console integration with KLANG immersive processors can be used to create
+  immersive mixes for artists directly on the desk.
+</p>
+
+<p>
+  Instead of the console using its internal bus summing and panning to provide
+  individualised mixes for artists, audio can be sent to a KLANG processor.
+  Here, individual channels' contributions to a mix can be panned binaurally,
+  creating an immersive and less congested mix for the performer.
+</p>
+
+<p>
+  Control of the mixes can also be given to the performers, through KLANG's app
+  or :kontroller.
+</p>
+
+<p>
+  These mixes can then be brought back into the console's Auxes, to regain the
+  functionality of the path processing and routing flexibility, before being
+  sent out to their final destinations.
+</p>
+
+<span class="note">
+  <b>Note:</b>
+  A KLANG processor is required for use of this feature. Find them
+  <a class="external-link" href="https://www.klang.com/" target="_blank"
+    ><span class="hyperlink">here</span></a
+  >.
+</span>
+
+<p>
+  Several steps are needed before the integration will provide all the required
+  functionality:
+</p>
+
+<ul>
+  <li>The control connection needs to be established.</li>
+  <li>Audio routes need to be made to the KLANG device.</li>
+  <li>
+    Channels and auxes need to be associated with their KLANG counterparts.
+  </li>
+</ul>
+
+<span class="note">
+  <b>Note:</b>
+  In this initial release of SSL-KLANG integration, a computer running the KLANG
+  app is required to process the control data and pass it on to the KLANG
+  processors.
+</span>
+
+<h2 id="control-setup">Control and Audio Transport Setup</h2>
+
+<p>
+  There are multiple ways a KLANG system can be integrated with a console. Here
+  are two examples:
+</p>
+
+<h3 id="control-setup-a">Option A: Using MADI for audio transport</h3>
+
+<ul>
+  <li>Connect the console's connectivity port to a network switch.</li>
+  <li>
+    Connect the KLANG processor and a computer running the KLANG app to the same
+    network switch.
+  </li>
+  <li>Connect the KLANG processor to the console using MADI.</li>
+</ul>
+
+<img
+  style="display: block; margin: 5px auto; width: 600px"
+  src="images/g_KLANG_MADI_Setup.png"
+  alt="SSL KLANG Network Routing A"
+/>
+
+<h3 id="control-setup-b">
+  Option B: Using a Dante network for Audio transport
+</h3>
+
+<ul>
+  <li>
+    Connect the console's connectivity port to the computer running the KLANG
+    app.
+  </li>
+  <li>
+    Connect the console's Dante port to the Dante network, along with the
+    computer running the KLANG app (this requires two separate network ports to
+    be available on the computer).
+  </li>
+  <li>
+    Ensure that the console's connectivity and Dante IP addresses are in
+    separate subnets. The computer should not bridge these two networks: Dante
+    Controller should use one port, and the KLANG app should use the other.
+  </li>
+  <li>
+    Connect the KLANG processor to the Dante network via the Dante/Control port.
+  </li>
+</ul>
+
+<img
+  style="display: block; margin: 5px auto; width: 50px"
+  src="images/g_KLANG_noVLAN_Dante_Setup.png"
+  alt="SSL KLANG Network Routing B"
+/>
+
+<!-- <h3 id="control-setup-b2">
+  Option B2: Using a Dante network for Audio transport - with VLAN
+</h3>
+
+<ul>
+  <li>
+    Set up a managed switch according to KLANG's instructions regarding VLANs.
+    They can be found
+    <a
+      class="external-link"
+      href="https://www.klang.com/manuals/vlans-for-kontroller-vokal-konductor/"
+      target="_blank"
+      ><span class="hyperlink">here</span></a
+    >.
+  </li>
+  <li>
+    Connect the console's connectivity port to the switch, using a "Control"
+    VLAN-tagged port.
+  </li>
+  <li>
+    Connect the console's Dante port to the switch, using an untagged port (or a
+    "Dante" tagged port, depending on the setup).
+  </li>
+  <li>
+    Connect the KLANG processor's "Dante/Control" port to the to the switch via
+    an untagged/Dante-tagged port.
+  </li>
+  <li>
+    Optionally, connect a :kontroller to the front port of the KLANG processor.
+  </li>
+  <li>
+    Also optionally, connect a laptop to the Control and/or Dante tagged ports
+    on the switch. This will control of Dante routing via Dante Controller or
+    control of the KLANG mixes via the KLANG app.
+  </li>
+</ul>
+
+<img
+  style="display: block; margin: 5px auto; width: 800px"
+  src="images/g_KLANG_VLAN_Dante_Setup.png"
+  alt="SSL KLANG Network Routing B2"
+/> -->
+
+<h3 id="control-setup-console">Console Setup</h3>
+
+<p>
+  To configure the KLANG integration on the console, navigate to <b>Setup</b> >
+  <b>Options</b> > <b>External Control</b>.
+</p>
+
+<p>Select the KLANG row in the table.</p>
+
+<img
+  style="display: block; margin: 5px auto; width: 600px"
+  src="images/g_KLANG_ExtCtrl_Setup.png"
+  alt="SSL External Control - KLANG setup"
+/>
+
+<p>Here, type in the control IP of the computer running the KLANG app.</p>
+
+<p>
+  Press the <span class="label">Enable Control</span> button to establish the
+  connection to the KLANG system.
+</p>
+
+<h2 id="associations">Associating Inputs and Mixes</h2>
+
+<p>
+  With the connection to the KLANG system set up, console channels/stems and
+  auxillaries can now be associated to KLANG inputs and Mixes.
+</p>
+
+<p>Navigate to <b>Setup</b> > <b>Tools</b> > <b>SSL KLANG Interface</b>.</p>
+<img
+  style="display: block; margin: 5px auto; width: 600px"
+  src="images/g_SKI.png"
+  alt="SSL KLANG Interface"
+/>
+<p>
+  This SSL-KLANG interface (SKI) acts as central place to view console-KLANG
+  associations, but also as an intermediate audio router. This allows any I/O
+  transport to be used to send audio to the KLANG system, and console channels
+  and stems to feed KLANG inputs in any order.
+</p>
+<p>
+  In the SKI GUI, the <span class="label">Associate</span> buttons can be used
+  to choose a console channel/stem that will be associated with a particular
+  KLANG input, or a stereo console aux that will be associated with a KLANG mix.
+  This tells the console where to send the OSC data for each path, and handles
+  the channel output routing.
+</p>
+<p>
+  The channel and mix lists also show which SKI inputs and outputs are used for
+  each assocation. If troubleshooting is required, these numbers allow the
+  tracing of the signal path.
+</p>
+<span class="note">
+  <b> Note: </b>
+  Only mono and stereo channel/stem paths can be associated with inputs, and
+  only stereo auxes can be associated with mixes.
+</span>
+
+<h2 id="routing">Routing</h2>
+
+<p>
+  When a channel is associated with a KLANG input, the channel's output will be
+  automatically routed to the SKI. The same is true for an Aux and the Mix
+  return path, which feeds the associated KLANG Mix into the Aux's crosspoint
+  summing matrix.
+</p>
+
+<p>
+  To get from the console's SKI to the KLANG processor, use XY routing to patch
+  the SKI 1-to-1 to the processor's inputs, and the processor's mix outputs back
+  to the SKI returns. This can use any audio transport method. More information
+  can be found about the XY router
+  <a href="Routing.html#XY"><span class="hyperlink">here</span></a
+  >.
+</p>
+
+<img
+  style="display: block; margin: 5px auto; width: 800px"
+  src="images/g_KLANGAudioRoutingDiagram.png"
+  alt="SSL KLANG Audio Routing"
+/>
+
+<p>
+  This method of KLANG integration and routing allows multiple processors to be
+  used that might require different audio transport. For example, mixes could be
+  returned to the console via MADI, Dante, or even analogue connections, and as
+  long as they're routed into the SKI's correct inputs, they will feed the aux
+  mixes in exactly the same way.
+</p>
+
+<span class="note">
+  <b> Note: </b>
+  Incorrectly routing these inputs and outputs will result in incorrect panning
+  data being sent for the inputs, and incorrect mixes returning to the console's
+  aux buses.
+</span>
+
+<p>
+  The Aux bus will now have the binaural KLANG mix on its' input, alongside any
+  paths' signals sent directly to the bus internally. The output of this Aux can
+  then be routed, as normal, to the artist's ears.
+</p>
+
+<span class="note">
+  <b> Note: </b>
+  In a special case where mixes are not used sequentially and gaps are needed,
+  some repatching will be needed to ensure the associated aux receives the
+  correct mix for the panning data its crosspoints are controlling. The SKI
+  input numbers in the SKI mix list will show the correct inputs to patch to.
+</span>
+
+<h2 id="klang-mixing">Mixing with KLANG</h2>
+
+<p>
+  When all the required channels and mixes have been associated, the operator
+  can begin to use the KLANG summing and panning fatures.
+</p>
+
+<p>
+  In each channel path that has been associated with a KLANG input, a button for
+  <span class="label">KLANG Mode</span> will be available in the Aux send GUI in
+  the <b>Detail View</b>. This will also only show when the selected crosspoint
+  is feeding an Aux that has been associated with a KLANG mix.
+</p>
+
+<p>
+  Enabling <span class="label">KLANG Mode</span> and switching to this GUI
+  immediately puts the selected channel path into the KLANG mix. From this point
+  on, the <span class="label">Gain</span> and
+  <span class="label">In</span> parameters are linked with the KLANG system's
+  <b>Level</b> and <b>Mute</b> parameters.
+</p>
+
+<img
+  style="display: block; margin: 5px auto; width: 800px"
+  src="images/g_KLANG_ChanAuxCrosspoint.png"
+  alt="Chan-Aux KLANG Crosspoint"
+/>
+
+<span class="note"
+  ><b>Note:</b>
+  <a href="BusRouting.html#VcaBusSends"
+    ><span class="hyperlink">VCA (V-Aux) control</span></a
+  >
+  of KLANG-linked gain parameters is not supported.</span
+>
+
+<p>
+  Several KLANG-specific parameters and functions are also available - azimuth,
+  width, height, pan mode, tone, solo and focus.
+</p>
+
+<p>
+  These parameters are available via touch or on the channel tiles' encoders
+  when <span class="label">Follow Detail</span> is enabled.
+</p>
+
+<h3>Pan Mode</h3>
+<p>
+  The options Stereo, 3D, i3D allow the panning to be set to a non-binaural
+  <b>Stereo</b> plane, the default <b>3D</b> binaural orbit, or the
+  <b>i3D</b> orbit (This can maintain the panning positions when the listener
+  turns their head, using head-tracking. Please see KLANG's documentation for
+  instructions on using i3D mode).
+</p>
+
+<h3>Azimuth</h3>
+<p>
+  The <span class="label">Azimuth</span>is position of the object in the 3D
+  orbit or the stereo plane. This is controlled by dragging the channel's node
+  around the orbit which will change the signal's perceived position in KLANG's
+  binaural mix.
+</p>
+
+<h3>Width</h3>
+<p>
+  Only available for stereo channels, the
+  <span class="label">Width</span> parameter controls how much of the orbit or
+  plane an object occupies. This is controlled by a pinch.
+</p>
+
+<h3>Height</h3>
+<p>
+  A slider next to the orbit GUI controls the
+  <span class="label">Height</span> of the object. Only effective in 3D mode,
+  this control allows you to move an objects' perceived position above or below
+  eye level.
+</p>
+
+<h3>Tone</h3>
+<p>
+  The <span class="label">Tone</span> parameter controls the Personal Tone
+  Filter, which adjusts the tonal balance between high and low frequency
+  content, per input channel, per mix.
+</p>
+
+<h3>Solo</h3>
+<p>
+  This acts as a Solo-In-Place in each KLANG mix, allowing a single input to be
+  isolated.
+</p>
+
+<h3>Focus</h3>
+<p>
+  This sends a command to the connected KLANG app to focus the panning view on
+  the selected input/mix crosspoint.
+</p>
+
+<span class="note">
+  <b> Note: </b>
+  In KLANG Mode, the feed point selector is still visible in the Aux detail
+  view. However, the feed point from the channel to KLANG will always follow the
+  path's Direct Output selection, available on the path config page, rather than
+  the Aux feed point.
+</span>
+
+<h2 id="other">Other Functionality</h2>
+
+<h3>Bypassing KLANG</h3>
+
+<p>
+  During operation, if there are any issues with comms or audio transport to the
+  KLANG processors, it's necessary to quickly switch back to internal aux
+  bussing. There is a button in the SKI, labelled
+  <span class="label">Bypass KLANG</span>, that does exactly that. It's also
+  available on a User Key, which can be assigned to a physical button on the
+  tile, enabling quick access in case of emergency.
+</p>
+
+<p>
+  Internal crosspoint pans are not kept in sync with the the KLANG system.
+  However, gain and mutes are. Bypassing KLANG will give a rough mix that
+  matches in levels, but the panning will either be set as it was before KLANG
+  mode was used for that crosspoint, or if
+  <span class="label">Follow Pan</span> is turned on for the selected aux, the
+  crosspoint panning will have followed the Master pan of the selected path.
+</p>
+
+<h3>Automation</h3>
+
+<p>
+  KLANG panning data will be stored in scenes and is recallable as normal.
+  However, due to the complexity of the integration, the data is stored against
+  the KLANG channels in the SKI, as opposed to the channel and stem paths
+  themselves. This means that the parameters aren't protected by Path Global
+  Recall Safe.
+</p>
+
+<p>
+  To recall protect the KLANG panning data, use the Recall Filters in the
+  Automation page. The appropriate filter is located in the "KLANG Channel" row
+  and the "OSC & Ext Pan" column.
+</p>
+
+<span class="note"
+  ><b>Note:</b> Using fades with KLANG parameters is not recommended.</span
+>
+
+<h2>Useful Links</h2>
+
+<a href="ExternalControl.html"
+  ><span class="hyperlink">External Control</span></a
+>
+<br />
+<a href="BusRouting.html"><span class="hyperlink">Bus Routing</span></a>
+<br />
+<a href="LinkIndex.html"><span class="hyperlink">Index and Glossary</span></a>
+<br />
+
+
+    </div>
+
+    <script src="../Help/js/OpenAccordionFromLink.js"></script>
+</body>
+</html>

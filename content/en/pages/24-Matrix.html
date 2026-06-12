@@ -1,0 +1,89 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Matrix</title>
+  <style>
+    body { font: 16px/1.55 Arial, sans-serif; max-width: 1080px; margin: 2rem auto; padding: 0 1.25rem; color: #202124; }
+    img { max-width: 100%; height: auto; }
+    table { border-collapse: collapse; max-width: 100%; }
+    th, td { border: 1px solid #aaa; padding: .45rem; vertical-align: top; }
+    .note { display: block; border-left: 4px solid #e0a000; background: #fff8df; padding: .75rem 1rem; margin: 1rem 0; }
+    .notetitle { font-weight: bold; }
+    .label { font-weight: bold; color: #174ea6; }
+    .source { color: #666; font-size: .9rem; }
+  </style>
+</head>
+<body>
+  <p class="source">Section: Building a Show | Source: <a href="https://livehelp.solidstatelogic.com/Help/Matrix.html">https://livehelp.solidstatelogic.com/Help/Matrix.html</a></p>
+<h2>Matrix</h2>
+
+  <p>SSL Live has four matrices. These allow you to reduce the number of crosspoints you can see to those you are likely to use, focusing in on relevant parts of the 'full matrix' rather than having to sift through a large page of mostly redundant controls.</p>
+
+  <p>Matrix channels provide basic control of the matrix outputs before they reach the outside world.</p>
+
+  <p>The basic configuration of the four matrices is defined in the Console Configuration page (<span class="label">MENU</span> > <span class="label">Setup</span> > <span class="label">Console&nbsp;Configuration</span>).</p>
+
+  <p>If you haven't already configured the size your matrices, please refer to <a href="https://livehelp.solidstatelogic.com/Help/ConsoleConfig.html"><span class="hyperlink">Console Configuration</span>.</a></p>
+
+  <p>Access the matrices from the main screen menu (<span class="label">MENU</span> > <span class="label">Matrix</span>).</p>
+
+  <p>To choose which matrix is displayed, press the <span class="label">Matrix&nbsp;A</span>, <span class="label">Matrix&nbsp;B</span>, <span class="label">Matrix&nbsp;C</span> or <span class="label">Matrix&nbsp;D</span> button on the right edge of the screen.</p>
+
+  <p>That matrix will appear in the main part of the screen, with each row referring to an input, and each column referring to an output:</p>
+
+  <img style="display: block; margin: 20px auto;" src="https://livehelp.solidstatelogic.com/Help/images/g_matrix.png" alt="">
+
+  <p>If the matrix is too large to display all of its crosspoints in the screen simultaneously, use the <span style="font-weight: bold;">Navigation</span> cursor keys in the right side of the screen to scroll the display up and down, or left and right.</p>
+
+  <h3>Input Routing</h3>
+
+  <p>To route a signal to a matrix input:</p>
+
+  <p>Select the row whose input you wish to route by touching it. Tap the <span class="label">Routing</span> button; a standard Routing dialogue will appear.</p>
+
+  <span class="note"><span class="notetitle">Note: </span>Matrix routing is always done on a mono basis. Multichannel signals must be routed as separate mono signals.</span>
+
+  <p>The selected input will appear in the text box above the controls for each output column in the selected row.</p>
+
+  <span class="note"><span class="notetitle">Note: </span>For more details about using a Routing display, see <a href="https://livehelp.solidstatelogic.com/Help/Routing.html"><span class="notehyperlink">Routing</span></a>.</span>
+
+  <span class="note"><span class="notetitle">Note: </span>Output routing is performed from the Matrix Output channel, as described below.</span>
+
+  <h3>Output Activation and Level Control</h3>
+
+  <p>
+      If the <span class="label">Lock</span> button (top right) is inactive, you can activate each crosspoint by touching its <span style="font-weight: bold;">In</span> button in the Main Screen display; you can then drag the adjacent <span style="font-weight: bold;">Gain</span> encoder up and right to increase the output level.
+      To enter a specific value, double-tap on the gain value to activate the on-screen keyboard.
+  </p>
+
+  <p>If the <span class="label">Lock</span> button is active, the crosspoints within the matrix cannot be altered using the screen:</p>
+
+  <p>Touch the crosspoint row you wish to alter so that it is highlighted;</p>
+
+  <p>Crosspoint controls for that row will now be assigned to the Quick Controls immediately below the screen: press the upper Quick Key to switch the crosspoint in, and turn the Quick Encoder to adjust the gain.</p>
+
+  <p><img style="width: 147px; height: 116px; margin: 20px 20px 0px 0px;" src="https://livehelp.solidstatelogic.com/Help/images/g_PanelQuicksBasic2.png" alt=""></p>
+
+  <span class="note"><span class="notetitle">Note: </span>
+    This Quick Control operation requires <span style="font-weight: bold;">Follow Detail</span> mode to be active. Touch the <span style="font-weight: bold;">Follow Detail</span> button (bottom right corner of the Main Screen) 
+    to toggle between <span style="font-weight: bold;">Follow Channel</span> (button inactive) and <span style="font-weight: bold;">Follow Detail</span> (button active).
+  </span>
+
+  <h2 id="MatrixOutputChannels">Matrix Output Routing</h2>
+
+  <p>Matrix path faders allow for master level control before audio leaves the console. Matrix paths have all full path processing (EQ, Filters, Delay etc.) <em>except</em> dynamics, plus access to Eyeconix, naming, inserts, and output routing.</p>
+
+  <p>Matrix outputs are routed using the standard routing display accessed via <span class="label">Route Output</span> in the <span style="font-weight: bold;">Input/Routing</span> Detail View dialogue. Access this page by double-tapping on the top of the Matrix Channel strip in the Channel View.</p>
+
+  <span class="note"><span class="notetitle">Note:</span> Matrix routing is always done on a mono basis.</span>
+
+
+  <h2>Useful Links</h2>
+
+  <a href="https://livehelp.solidstatelogic.com/Help/Routing.html"><span class="hyperlink">Routing</span></a><br>
+
+  <a href="https://livehelp.solidstatelogic.com/Help/LinkIndex.html"><span class="hyperlink">Index and Glossary</span></a><br>
+</body>
+</html>

@@ -1,0 +1,402 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Parameter/Settings Storage</title>
+  <style>
+    body { font: 16px/1.55 Arial, sans-serif; max-width: 1080px; margin: 2rem auto; padding: 0 1.25rem; color: #202124; }
+    img { max-width: 100%; height: auto; }
+    table { border-collapse: collapse; max-width: 100%; }
+    th, td { border: 1px solid #aaa; padding: .45rem; vertical-align: top; }
+    .note { display: block; border-left: 4px solid #e0a000; background: #fff8df; padding: .75rem 1rem; margin: 1rem 0; }
+    .notetitle { font-weight: bold; }
+    .label { font-weight: bold; color: #174ea6; }
+    .source { color: #666; font-size: .9rem; }
+  </style>
+</head>
+<body>
+  <p class="source">Section: Settings &amp; Extras | Source: <a href="https://livehelp.solidstatelogic.com/Help/Storage.html">https://livehelp.solidstatelogic.com/Help/Storage.html</a></p>
+<h2>Parameter/Settings Storage</h2>
+
+<p>This page lists where each parameter is stored.</p>
+
+<div id="accordion">
+    <div class="indexheader2">Scene Storage</div>
+    <div id="Scene" style="padding: 1em 0;">
+        <p>The following tables show the settings included in the columns and rows of the Store/Recall filter grid. The following information applies to both the Store and Recall filters.</p>
+
+        <span class="note">
+            <span class="notetitle">Notes: </span><br>
+            Scenes are stored in showfiles, so all of the parameters listed below will also be stored within the showfile, including any changes not stored to a scene (e.g. the last EQ setting of a channel will still be stored in the showfile even if it was not stored in the scene before the showfile was saved).<br><br>
+            The scope buttons in the <a href="https://livehelp.solidstatelogic.com/Help/Copy.html"><span class="hyperlink">Copy menu</span></a> (EQ, Gate, Aux etc.) follow the same scope as listed below.
+        </span>
+
+        <h3>Columns</h3>
+        <div>
+            <table class="insideborder" style="width: auto; margin: 15px 0px;" cellpadding="4" cellspacing="1">
+                <tbody>
+                    <tr>
+                        <th class="solidborder" style="width: 15%">Column Name</th>
+                        <th class="solidborder" style="width: 30%">Meaning</th>
+                        <th class="solidborder" style="width: 55%">Includes Settings</th>
+                    </tr>
+                    <tr>
+                        <th class="solidborder">Input</th>
+                        <td class="solidborder">Input Settings for Channels & Talkback Channels</td>
+                        <td class="solidborder">
+                            Channel Input A/B Selection<br>Analogue Gain<br>Digital Trim<br>Phantom Power On/Off<br>Polarity Flip On/Off<br>Pad On/Off<br>High Gain Sensitivity On/Off<br>Mic Amp High Pass Filter On/Off
+                            <br>Net I/O Stagebox Mic/Line Mode<br>Net I/O Stagebox Gain Compensation Point<br>Net I/O Stagebox Limiter In/Out<br>Sum to Mono<br>Balance<br>Talkback Input In/Out
+                        </td>
+                    </tr>
+                    <tr>
+                        <th class="solidborder">Name Eyeconix Colour</th>
+                        <td class="solidborder">Basic Path Details</td>
+                        <td class="solidborder">Path Name<br>Path Eyeconix Image<br>Path Colour</td>
+                    </tr>
+                    <tr>
+                        <th class="solidborder">Fader</th>
+                        <td class="solidborder">Fader Level</td>
+                        <td class="solidborder">Fader Level</td>
+                    </tr>
+                    <tr>
+                        <th class="solidborder">Mute</th>
+                        <td class="solidborder">Mute Button Status</td>
+                        <td class="solidborder">Mute On/Off</td>
+                    </tr>
+                    <tr>
+                        <th class="solidborder">Panning</th>
+                        <td class="solidborder">Panning Settings for All Paths Feeding Multi-Format buses</td>
+                        <td class="solidborder">Pan Left/Right Position<br>Pan Front/Rear Position<br>Width<br>Depth<br>Divergence<br>LFE Gain<br>LFE Only On/Off</td>
+                    </tr>
+                    <tr>
+                        <th class="solidborder">Inserts</th>
+                        <td class="solidborder">Insert In/Out Statuses</td>
+                        <td class="solidborder">Insert A In/Out<br>Insert B In/Out</td>
+                    </tr>
+                    <tr>
+                        <th class="solidborder">Filter</th>
+                        <td class="solidborder">Path Filter</td>
+                        <td class="solidborder">Filter In/Out<br>High Pass Filter Frequency<br>Low Pass Filter Frequency<br>High Pass Filter Slope Type<br>Low Pass Filter Slope Type</td>
+                    </tr>
+                    <tr>
+                        <th class="solidborder">EQ</th>
+                        <td class="solidborder">Path EQ</td>
+                        <td class="solidborder">EQ In/Out<br>Gain (All Bands)<br>Frequency (All Bands)<br> Q (All Bands)<br>Band Type (All Bands)</td>
+                    </tr>
+                    <tr>
+                        <th class="solidborder">Gate</th>
+                        <td class="solidborder">Path Gate</td>
+                        <td class="solidborder">
+                            Gate In/Out<br>Threshold<br>Range<br>Knee<br>Attack<br>Release<br>Hold<br>External Key In/Out<br>Gate Filters In/Out<br>Peak Mode On/Off<br>Expander Mode On/Off<br>Gate High Pass Filter Frequency
+                            <br>Gate Low Pass Filter Frequency
+                        </td>
+                    </tr>
+                    <tr>
+                        <th class="solidborder">Compressor</th>
+                        <td class="solidborder">Path Compressor</td>
+                        <td class="solidborder">
+                            Compressor In/Out<br>Threshold<br>Ratio<br>Knee<br>Attack<br>Release<br>Hold<br>Makeup Gain<br>Auto Makeup Gain On/Off<br>Comp External Key In/Out<br>Comp Filters In/Out<br>Peak Mode On/Off
+                            <br>Tube Emulation In/Out<br>Comp High Pass Filter Frequency<br>Comp Low Pass Filter Frequency
+                        </td>
+                    </tr>
+                    <tr>
+                        <th class="solidborder">All Pass Filter</th>
+                        <td class="solidborder">Path All Pass Filter</td>
+                        <td class="solidborder">All Pass Filter In/Out<br>Frequency<br>Q<br>2nd Order On/Off<br>Polarity Flip On/Off</td>
+                    </tr>
+                    <tr>
+                        <th class="solidborder">Delay</th>
+                        <td class="solidborder">Path Delay</td>
+                        <td class="solidborder">Delay In/Out<br>Delay Time<br>Units</td>
+                    </tr>
+                    <tr>
+                        <th class="solidborder">Bus Settings</th>
+                        <td class="solidborder">Extra Settings for Stems, Auxes & Masters</td>
+                        <td class="solidborder">Follow Pan On/Off<br>Follow Mute On/Off<br>Default Feed Point to Bus</td>
+                    </tr>
+                    <tr>
+                        <th class="solidborder">Stem</th>
+                        <td class="solidborder">Send to Full Stems</td>
+                        <td class="solidborder">Send In/Out<br>Send Gain<br>Send Feed Point<br>Send Panning Left/Right<br>Send Panning Front/Rear<br>Send Panning Width<br>Send Panning Depth<br>Send Panning Divergence<br>Send Panning LFE Gain</td>
+                    </tr>
+                    <tr>
+                        <th class="solidborder">Aux</th>
+                        <td class="solidborder">Send to Full Auxes</td>
+                        <td class="solidborder">Send In/Out<br>Send Gain<br>Send Feed Point<br>Send Panning Left/Right<br>Send Panning Front/Rear<br>Send Panning Width<br>Send Panning Depth<br>Send Panning Divergence<br>Send Panning LFE Gain</td>
+                    </tr>
+                    <tr>
+                        <th class="solidborder">Master</th>
+                        <td class="solidborder">Send to Full Masters</td>
+                        <td class="solidborder">Send In/Out<br>Send Feed Point</td>
+                    </tr>
+                    <tr>
+                        <th class="solidborder">Dry Stem</th>
+                        <td class="solidborder">Send to Dry Stems</td>
+                        <td class="solidborder">Send In/Out<br>Send Gain<br>Send Feed Point<br>Send Panning Left/Right<br>Send Panning Front/Rear<br>Send Panning Width<br>Send Panning Depth<br>Send Panning Divergence<br>Send Panning LFE Gain</td>
+                    </tr>
+                    <tr>
+                        <th class="solidborder">Dry Aux</th>
+                        <td class="solidborder">Send to Dry Auxes</td>
+                        <td class="solidborder">Send In/Out<br>Send Gain<br>Send Feed Point<br>Send Panning Left/Right<br>Send Panning Front/Rear<br>Send Panning Width<br>Send Panning Depth<br>Send Panning Divergence<br>Send Panning LFE Gain</td>
+                    </tr>
+                    <tr>
+                        <th class="solidborder">Dry Master</th>
+                        <td class="solidborder">Send to Dry Masters</td>
+                        <td class="solidborder">Send In/Out<br>Send Feed Point</td>
+                    </tr>
+                    <tr>
+                        <th class="solidborder">Matrix</th>
+                        <td class="solidborder">Settings for the Matrices</td>
+                        <td class="solidborder">Crosspoints In/Out<br>Crosspoints Gain</td>
+                    </tr>
+                    <tr>
+                        <th class="solidborder">Solo</th>
+                        <td class="solidborder">Global Solo Settings</td>
+                        <td class="solidborder">Solo Bus A Assignment to Solo Channels<br>Solo Bus B Assignment to Solo Channels</td>
+                    </tr>
+                    <tr>
+                        <th class="solidborder">Output</th>
+                        <td class="solidborder">Direct Output Feed Point for Channels & Talkback Channels</td>
+                        <td class="solidborder">Direct Output Feed Point</td>
+                    </tr>
+                    <tr>
+                        <th class="solidborder">FX</th>
+                        <td class="solidborder">FX Rack Unit Settings</td>
+                        <td class="solidborder">FX Rack Unit Parameters</td>
+                    </tr>
+                    <tr>
+                        <th class="solidborder">Display Settings</th>
+                        <td class="solidborder">Brightness Settings</td>
+                        <td class="solidborder">Screen Brightness<br>Surface Brightness<br>Lights Brightness</td>
+                    </tr>
+                    <tr>
+                        <th class="solidborder">Mute Group Master</th>
+                        <td class="solidborder">On/Off Status of Mute Groups</td>
+                        <td class="solidborder">Mute Groups On/Off</td>
+                    </tr>
+                    <tr>
+                        <th class="solidborder">VCA Grouping</th>
+                        <td class="solidborder">VCA Assignments</td>
+                        <td class="solidborder">VCA Membership Status</td>
+                    </tr>
+                    <tr>
+                        <th class="solidborder">Layer & Bank</th>
+                        <td class="solidborder">Bank Called to Each Fader Tile (Does not affect Layer Manager configuration)
+                        <td class="solidborder">Bank Called to Fader Tile 1<br>Bank Called to Fader Tile 2<br>Bank Called to Fader Tile 3<br>Bank Called to Remote Fader Tile 1<br>Bank Called to Remote Fader Tile 2</td>
+                    </tr>
+                    <tr>
+                        <th class="solidborder">External Control</th>
+                        <td class="solidborder">Parameters used to control external devices
+                        <td class="solidborder">Sigma Fader, Solo and Cut<br>L-ISA parameters<br>Spacemap Go parameters<br>Generic OSC device fader and switch parameters<br></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <h3>Rows</h3>
+        <div>
+            <table class="insideborder" style="width: auto; margin: 15px 0px;" cellpadding="4" cellspacing="1">
+                <tbody>
+                    <tr>
+                        <th class="solidborder">Row Name</th>
+                        <th class="solidborder">Meaning</th>
+                    </tr>
+                    <tr>
+                        <th class="solidborder">Input Channel</th>
+                        <td class="solidborder">Full Input Channels</td>
+                    </tr>
+                    <tr>
+                        <th class="solidborder">Stem</th>
+                        <td class="solidborder">Full Stems</td>
+                    </tr>
+                    <tr>
+                        <th class="solidborder">Aux</th>
+                        <td class="solidborder">Full Auxes</td>
+                    </tr>
+                    <tr>
+                        <th class="solidborder">Master</th>
+                        <td class="solidborder">Full Masters</td>
+                    </tr>
+                    <tr>
+                        <th class="solidborder">Dry Input Channel</th>
+                        <td class="solidborder">Dry Input Channels</td>
+                    </tr>
+                    <tr>
+                        <th class="solidborder">Dry Stem</th>
+                        <td class="solidborder">Dry Stems</td>
+                    </tr>
+                    <tr>
+                        <th class="solidborder">Dry Aux</th>
+                        <td class="solidborder">Dry Auxes</td>
+                    </tr>
+                    <tr>
+                        <th class="solidborder">Dry Master</th>
+                        <td class="solidborder">Dry Masters</td>
+                    </tr>
+                    <tr>
+                        <th class="solidborder">VCA</th>
+                        <td class="solidborder">VCAs</td>
+                    </tr>
+                    <tr>
+                        <th class="solidborder">OSC Path</th>
+                        <td class="solidborder">OSC Control Paths</td>
+                    </tr>
+                    <tr>
+                        <th class="solidborder">Matrix Channel</th>
+                        <td class="solidborder">Matrix Output Channels</td>
+                    </tr>
+                    <tr>
+                        <th class="solidborder">Solo Bus</th>
+                        <td class="solidborder">Solo buses A & B</td>
+                    </tr>
+                    <tr>
+                        <th class="solidborder">Solo Channel</th>
+                        <td class="solidborder">Solo Output Channels 1-3</td>
+                    </tr>
+                    <tr>
+                        <th class="solidborder">Talkback Channel</th>
+                        <td class="solidborder">Talkback Channels 1-2</td>
+                    </tr>
+                    <tr>
+                        <th class="solidborder">DAW Channel</th>
+                        <td class="solidborder">DAW Control Channels</td>
+                    </tr>
+                    <tr>
+                        <th class="solidborder">Rack Slot</th>
+                        <td class="solidborder">FX Rack Units</td>
+                    </tr>
+                    <tr>
+                        <th class="solidborder">Rack</th>
+                        <td class="solidborder">Rack Names</td>
+                    </tr>
+                    <tr>
+                        <th class="solidborder">Console</th>
+                        <td class="solidborder">Global Settings</td>
+                    </tr>
+                    <tr>
+                        <th class="solidborder">Fader Tile</th>
+                        <td class="solidborder">Fader Tiles 1-3 & Remote Fader Tiles 1-2</td>
+                    </tr>
+                    <tr>
+                        <th class="solidborder">Local Control Surface</th>
+                        <td class="solidborder">Console Control Surface settings</td>
+                    </tr>
+                    <tr>
+                        <th class="solidborder">Remote Control Surface</th>
+                        <td class="solidborder">Remote Expander/Remote Console/SOLSA settings</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+
+    </div>
+
+
+    <div class="indexheader2">Showfile Storage</div>
+    <div id="Showfile" style="padding: 1em 0;">
+
+
+        <p>Automation Scenes are stored in showfiles, so all of the settings that are stored in scenes will also be stored in showfiles.</p>
+
+        <p>In addition to those settings, the following settings are also stored in showfiles:</p>
+
+        <div>
+            <table class="insideborder" style="width: auto; margin: 15px 0px;" cellpadding="4" cellspacing="1">
+                <tbody>
+                    <tr>
+                        <th class="solidborder">Console Options</th>
+                        <td class="solidborder">External Screen assignment</td>
+                    </tr>
+                    <tr>
+                        <th class="solidborder">System Options</th>
+                        <td class="solidborder">
+                            Timecode Frame Rate<br>Timecode Input<br>Default Folddown Settings<br>Alternate Folddown Settings<br>Meter Sources
+                        </td>
+                    </tr>
+                    <tr>
+                        <th class="solidborder">Surface Options</th>
+                        <td class="solidborder">All Tile Setup options (Screen Follow Select etc.)<br />All Query Setup options (Compressed/Expanded etc. modes for each path type)<br />All Select/Solo/Q Follow Setup options</td>
+                    </tr>
+                    <tr>
+                        <th class="solidborder">User Options</th>
+                        <td class="solidborder">
+                            All Solo Setup options (Additive Solo Mode, Default Feed Point etc.)<br />Rehearse Mode On/Off<br />All FFT Analyser options (Enable Analyser, Analyser Follows Selected Path/FX Slot)<br />Lock V-Aux &amp; V-Stem Control from VCAs<br />User Key assignments
+                        </td>
+                    </tr>
+                    <tr>
+                        <th class="solidborder">External Control Options</th>
+                        <td class="solidborder">
+                            IP address and port numbers for all External Devices<br />Generic OSC fader and switch control labels, OSC method addresses, Min &amp; Max values and colours
+                        </td>
+                    </tr>
+                    <tr>
+                        <th class="solidborder">I/O</th>
+                        <td class="solidborder">
+                            BLII/X-Light Port Configuration (BLII Concentrator/BLII Bridge/X-Light Bridge)<br>MADI Port Redundancy Status On/Off<br>Local Analogue I/O Names<br>MADI Stagebox I/O Names
+                            <br>MADI Stagebox Gain Sharing On/Off<br>MADI Stagebox Gain Sharing Compensation Point
+                            <br>Dante Expander Quantity of Virtual Tie Lines<br>BLII/X-Light Bridge Quantity of Virtual Tie Lines
+                            <br>Device Recorder ID<br>Device Rehearse Mode On/Off<br>Global Rehearse Mode On/Off
+                        </td>
+                    </tr>
+                    <tr>
+                        <th class="solidborder">Console Configuration</th>
+                        <td class="solidborder">Number Channels By: Default/Auto-Renumber<br>Quantity of each path type<br>Path formats<br>Input & Output Configuration of Matrices</td>
+                    </tr>
+                    <tr>
+                        <th class="solidborder">Other</th>
+                        <td class="solidborder">
+                            Selected Path<br>Mute Group Assignments<br>TB to Bus Dim<br>Automation Lock Tile<br>Automation Lock GUI<br />Path Global Recall Safe On/Off 
+                            (<a href="https://livehelp.solidstatelogic.com/Help/AutoFilters.html#RecallSafe"><span class="hyperlink">option</span></a> to store in showfiles)
+                            <br>Operating Level<br />DAW Control settings
+                            <br>Broadcast Solo Mode Solo Channel Fader Dim On/Off<br>Broadcast Solo Mode Solo Channel Fader Dim Level
+                            <br>Broadcast Solo Mode Solo Channel Auto Dim On/Off<br>Broadcast Solo Mode GPI Link from Solo Channel Mute<br>Broadcast Solo Mode GPI Link from Solo Channel Dim
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+
+    <div class="indexheader2">Console Storage</div>
+    <div id="Console" style="padding: 1em 0;">
+        <p>The following settings are stored in Console Storage. This means they are not stored in scenes or showfiles, and are specific to that individual console.</p>
+
+        <p style="margin-bottom:0px">
+            <ul>
+                <li>Sample Rate</li>
+                <li>Clock Source</li>
+                <li>Dante Expander Device Name (console end, see <a href="https://livehelp.solidstatelogic.com/Help/DanteSetup.html"><span class="hyperlink">Setting Up Dante</span></a> for more details)</li>
+                <li>BLII/X-Light Bridge Device Name (console end)</li>
+                <li>All settings for Connectivity and Dante Control networks (DHCP/Fixed, IP address etc.)</li>
+                <li>Remote surface <a href="https://livehelp.solidstatelogic.com/Help/RemoteControl.html#ManualDiscovery"><span class="hyperlink">Manual Discovery</span></a> settings</li>
+            </ul>
+        </p>
+    </div>
+
+    <div class="indexheader2">Not Stored</div>
+    <div id="NotStored" style="padding: 1em 0;">
+
+        <p>The following settings are not stored in scene, showfile or console storage. These settings will be reset to their default OFF setting when the console is rebooted or when a new showfile is loaded.</p>
+
+        <p style="margin-bottom:0px">
+            <ul>
+                <li>Path Solo On/Off</li>
+                <li>Solo In Place On/Off</li>
+                <li>Mute Safe On/Off</li>
+                <li>Path Global Recall Safe On/Off (<a href="https://livehelp.solidstatelogic.com/Help/AutoFilters.html#RecallSafe"><span class="hyperlink">option</span></a> to store in showfiles)</li>
+                <li>Main/Remote Surface mode (defaults to Main)</li>
+            </ul>
+        </p>
+
+    </div>
+</div>
+<h2>Useful Links</h2>
+
+<a href="https://livehelp.solidstatelogic.com/Help/AutoFilters.html"><span class="hyperlink">Automation Filters</span></a><br>
+<a href="https://livehelp.solidstatelogic.com/Help/Showfiles.html"><span class="hyperlink">Showfiles</span></a><br>
+<a href="https://livehelp.solidstatelogic.com/Help/LinkIndex.html"><span class="hyperlink">Index and Glossary</span></a><br>
+</body>
+</html>

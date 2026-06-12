@@ -1,0 +1,227 @@
+.fa--checked {
+  color: #9e0b0f;
+}
+.fa--cleared {
+  color: #f1f1f1;
+}
+
+.fx-fade.ng-enter {
+  transition: all 0.2s linear;
+  opacity: 0;
+}
+.fx-fade.ng-enter.ng-enter-active {
+  opacity: 1;
+}
+.fx-fade.ng-leave {
+  transition: all 0.2s linear;
+  opacity: 1;
+}
+.fx-fade.ng-leave.ng-leave-active {
+  opacity: 0;
+}
+
+body {
+  padding-top: 48px;
+  width: 99%;
+}
+
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 48px;
+  background: #9e0b0f;
+  display: flex;
+  z-index: 1000;
+}
+.header__history {
+  flex-grow: 1;
+  display: flex;
+  justify-content: center;
+}
+.header__btn {
+  width: 48px;
+  height: 48px;
+  line-height: 48px;
+  display: block;
+  text-align: center;
+  color: #ffffff;
+  cursor: pointer;
+  font-size: 18px;
+}
+.header__btn:hover {
+  background: rgba(0, 0, 0, 0.1);
+}
+
+.nav {
+  position: fixed;
+  top: 48px;
+  right: 0;
+  bottom: 0;
+  width: 300px;
+  background: #f8f8f8;
+  transform: translateX(330px);
+  transition: transform 0.25s;
+  z-index: 999;
+  -webkit-box-shadow: 0px 0px 25px 0px rgba(0, 0, 0, 0.57);
+  -moz-box-shadow: 0px 0px 25px 0px rgba(0, 0, 0, 0.57);
+  box-shadow: 0px 0px 25px 0px rgba(0, 0, 0, 0.57);
+}
+.nav--visible {
+  transform: translateX(0);
+}
+.nav__scroll {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  overflow-y: scroll; /* has to be scroll, not auto */
+  -webkit-overflow-scrolling: touch;
+}
+.nav__search {
+  box-sizing: border-box;
+  height: 48px;
+  background: #f1f1f1;
+  padding: 8px;
+  margin: 0;
+  border-bottom: 1px solid #ffffff;
+}
+.nav__search-input {
+  height: 32px;
+  border: 0;
+  border-radius: 32px;
+  background: #ffffff;
+  line-height: 32px;
+  margin: 0;
+  width: 100%;
+  text-indent: 32px;
+  font-size: 14px;
+  font-family: arial, sans-serif;
+  -webkit-appearance: textfield;
+}
+.nav__search-icon {
+  position: absolute;
+  top: 0;
+  left: 0;
+  color: #888888;
+  font-size: 16px;
+  width: 48px;
+  height: 48px;
+  line-height: 48px;
+  text-align: center;
+}
+
+.search-results {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  background: #ffffff;
+}
+
+.search-result {
+  display: inline;
+  margin: 0;
+  padding: 0;
+}
+.search-result__link {
+  display: block;
+  padding: 16px;
+  border-bottom: 1px solid #f1f1f1;
+}
+.search-result__link:hover {
+  background: #f1f1f1;
+}
+.search-result__title {
+  color: #9e0b0f;
+  font-size: 14px;
+  font-weight: bold;
+  margin: 0 0 8px 0;
+  padding: 0;
+  line-height: 24px;
+  font-style: normal;
+}
+.search-result__excerpt {
+  color: #888888;
+  font-size: 14px;
+  line-height: 16px;
+  margin: 8px 0 0 0;
+}
+
+.main-nav {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  user-select: none;
+  background: #ffffff;
+}
+.main-nav__item {
+  display: inline;
+  margin: 0;
+  padding: 0;
+}
+.main-nav__title, .main-nav__link {
+  font-size: 14px;
+  color: #9e0b0f;
+  display: block;
+  line-height: 32px;
+  padding: 8px 16px;
+  font-weight: bold;
+  border-bottom: 1px solid #f1f1f1;
+  position: relative;
+}
+.main-nav__title:hover, .main-nav__link:hover {
+  background: #f1f1f1;
+  cursor: pointer;
+}
+.main-nav__title--active, .main-nav__link--active {
+  background: #f1f1f1;
+  color: #888888;
+}
+.main-nav__title--level1, .main-nav__link--level1 {
+  padding-left: 32px;
+  font-weight: normal;
+}
+.main-nav__title--level2, .main-nav__link--level2 {
+  padding-left: 48px;
+  font-weight: normal;
+  font-size: 13px;
+}
+.main-nav__title .fa, .main-nav__link .fa {
+  position: absolute;
+  right: 16px;
+  top: 17.6px;
+}
+
+.setup-install-guide {
+  display: block;
+  position: fixed;
+  top: 48px;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  height: 100%;
+  overflow: scroll !important;
+  -webkit-overflow-scrolling: touch !important;
+}
+.setup-install-guide__iframe {
+  margin: 0;
+  padding: 0;
+  border-collapse: collapse;
+  width: 100%;
+  height: 100%;
+  /*overflow: scroll !important;
+  -webkit-overflow-scrolling: touch !important;*/
+}
+
+#main img {
+  max-width: 100%;
+}
+
+.insomnia {
+  display: block;
+  height: 32px;
+  line-height: 32px;
+  padding: 8px 16px;
+}

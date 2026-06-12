@@ -1,0 +1,276 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>自动化：输入和输出动作</title>
+  <style>
+    body { font: 16px/1.55 Arial, sans-serif; max-width: 1080px; margin: 2rem auto; padding: 0 1.25rem; color: #202124; }
+    img { max-width: 100%; height: auto; }
+    table { border-collapse: collapse; max-width: 100%; }
+    th, td { border: 1px solid #aaa; padding: .45rem; vertical-align: top; }
+    .note { display: block; border-left: 4px solid #e0a000; background: #fff8df; padding: .75rem 1rem; margin: 1rem 0; }
+    .notetitle { font-weight: bold; }
+    .label { font-weight: bold; color: #174ea6; }
+    .source { color: #666; font-size: .9rem; }
+  </style>
+</head>
+<body>
+  <p class="source">章节：混音 | 来源： <a href="https://livehelp.solidstatelogic.com/Help/AutoIOActions.html">https://livehelp.solidstatelogic.com/Help/AutoIOActions.html</a></p>
+<p>LIVE 的自动化 Input 和 Output Actions 可让场景由远程触发，也可让控制台控制外部事件，例如外接效果器的跳线切换。</p>
+
+<h2 id="InputActions">输入动作</h2>
+
+<p>
+    Input Actions 可通过控制台的 <a href="https://livehelp.solidstatelogic.com/Help/EventManager.html"><span class="hyperlink">Event&nbsp;Manager</span></a>
+    或外部事件触发场景；外部事件可以是 GPI（通用输入）或指定 MIDI 消息。
+</p>
+
+<p>
+    如需为场景启用 Input Action 触发，请触摸场景列表中 <span style="font-weight: bold;">Input&nbsp;Action</span> 方框之一；这些方框位于 <span style="font-weight: bold;">Scene&nbsp;Name</span> 左侧。方框会突出显示（变为青色）。（也可触摸 Automation 详细信息对话框左侧的 <span class="label">Input&nbsp;Actions</span> 按钮，打开该动作的配置页面。）
+</p>
+
+<p>然后触摸 <span style="font-weight: bold;">TYPE</span> 标签下方的按钮，并从子菜单中选择 <span class="label">GPIO</span>、 <span class="label">MIDI</span> 或 <span class="label">Event</span> 。</p>
+
+<span class="note"><span class="notetitle">请注意： </span>L100 没有本地 GPIO 或 MIDI 端口；L100 只能配置使用 ipMIDI 或远程舞台接口箱 GPIO/MIDI 的 Input/Output Actions。</span>
+
+<div id="accordion">
+    <div class="indexheader2">GPIO 输入动作</div>
+    <div>
+        <p>选择 <span class="label">GPIO</span> 时，Input Actions 的 <span style="font-weight: bold;">TYPE</span> 列表会显示类似如下的详细信息对话框：</p>
+
+        <div><img style="display: block; margin: 25px auto; width: 700px;" src="https://livehelp.solidstatelogic.com/Help/images/g_autoGPIO.png" alt=""></div>
+
+        <p>按 <span class="label">Apply</span> 启用 Route Input 按钮。按下 <span class="label">Route Input</span> 会打开路由菜单，显示所有可用 GPI 信号源。</p>
+
+        <p>选择其中一个信号源并按 <span class="label">Make</span> ，即可将该 GPI 引脚分配给输入动作的第一个触发器。也可对整组 GPI 连接执行 <span class="label">Make All</span> ，将每个 GPI 引脚分别路由到一个触发器。</p>
+
+        <p>GUI 主区域中的十二个分区即为触发器。如果只路由了一个 GPI 引脚，则只有第一个触发器相关。每个触发器有两个按钮： </p>
+
+        <p>左侧按钮定义触发动作的输入跳变类型：上升沿或下降沿。</p>
+
+        <p>右侧按钮用于将各触发器切换为 <span class="label">In</span>。一个 Input Action 可将多个 GPI 引脚切换为 <span class="label">In</span> ，这样任意一个 <span style="font-weight: bold;">任意</span> 已路由的 GPI 信号源都可触发场景。</p>
+    </div>
+    <div class="indexheader2">MIDI 输入动作</div>
+    <div>
+        <p>选择 <span class="label">MIDI</span> 时，Input Actions 的 <span style="font-weight: bold;">TYPE</span> 列表会显示类似下图的详细信息对话框：</p>
+
+        <div><img style="display: block; margin: 20px auto; width: 700px;" src="https://livehelp.solidstatelogic.com/Help/images/g_autoEventsMIDI.png" alt=""></div>
+
+        <p>
+            首先选择要用于触发场景的 MIDI 消息类型： <span class="label">Note&nbsp;On</span>、 <span class="label">Note&nbsp;Off</span>、 <span class="label">PRG&nbsp;Change</span> （Program Change）或 <span class="label">CTRL&nbsp;Change</span> （Control Change，也称 MIDI CC 消息）。选择 <span class="label">Note&nbsp;On</span> 会显示上图页面，并提供以下选项：
+        </p>
+
+        <ul>
+            <li><span class="label">All&nbsp;Channels</span> 按钮：启用时，监听所有 MIDI 通道上符合所定义参数的消息。禁用此按钮后，会增加另一个数值字段，用于输入 1 至 16 之间的指定 <span style="font-weight: bold;">Channel</span> 编号。</li>
+            <li><span style="font-weight: bold;">Note&nbsp;Number</span>：0 至 127 之间、表示音符的数值（Note Number 60 = C3）。该值会自动更新下述 Note Name 字段。</li>
+            <li><span style="font-weight: bold;">Note&nbsp;Name</span>：音名（C、C#、D 等）和八度编号（受上述 Middle C 数值限制）。该值会自动更新上述 Note Number 字段。</li>
+            <li><span style="font-weight: bold;">Velocity</span>：音符力度值，范围为 1 至 127。</li>
+        </ul>
+
+        <p>选择 <span class="label">Note&nbsp;Off</span> 会显示与 <span class="label">Note&nbsp;On</span>相同的选项，但不包含 <span style="font-weight: bold;">Velocity</span> 参数。</p>
+
+        <p>选择 <span class="label">PRG&nbsp;Change</span> 后，可指定范围为 1 至 128 的 <span style="font-weight: bold;">Program&nbsp;Number</span> ，并选择监听 <span class="label">All&nbsp;Channels</span> 或指定的 MIDI Channel 编号。</p>
+
+        <p>
+            选择 <span class="label">CTRL&nbsp;Change</span> 后，可指定范围为 0 至 119 的 <span style="font-weight: bold;">Control&nbsp;Number</span> 、范围为 0 至 127 的 <span style="font-weight: bold;">Control&nbsp;Value</span> ，并选择监听 <span class="label">All&nbsp;Channels</span> 或指定的 MIDI Channel 编号。
+        </p>
+
+        <span class="note">
+            <span class="notetitle">注意：</span> 如果使用 <a href="https://livehelp.solidstatelogic.com/Help/ipMIDI.html"><span class="hyperlink">ipMIDI</span></a> 传输 MIDI Input Actions，应使用不同于以下功能所用端口的 ipMIDI 端口： <a href="https://livehelp.solidstatelogic.com/Help/OptionsSystem.html#Timecode"><span class="hyperlink">Timecode</span></a>、
+            <a href="https://livehelp.solidstatelogic.com/Help/DAWControl.html"><span class="hyperlink">DAW Control</span></a> 和 <a href="https://livehelp.solidstatelogic.com/Help/EventManager.html"><span class="hyperlink">Events</span></a>。
+        </span>
+    </div>
+    <div class="indexheader2">Event 输入动作</div>
+    <div>
+        <p>选择 <span class="label">Event</span> 时，Input Actions 的 <span style="font-weight: bold;">TYPE</span> 列表会显示类似下图的详细信息对话框：</p>
+
+        <div><img style="display: block; margin: 20px auto; width: 700px;" src="https://livehelp.solidstatelogic.com/Help/images/g_autoEvents.png" alt=""></div>
+
+        <p>从 <b>LINKABLE EVENTS</b> 列表中选择事件。只有以 <b>Automation&nbsp;Output</b> 作为事件源的事件才会出现在此列表中。</p>
+    </div>
+</div>
+
+<p>触摸 <span class="label">Apply</span> 应用配置。场景列表中的 Input Action 方框会增加一个图标，表示该场景可由 Input Action 触发。</p>
+
+<p>
+    <span class="note">
+        <span class="notetitle">重要说明： </span>按下 <span class="label">Apply</span>后，必须为传入的 MIDI/GPI 数据选择信号源。该信号源可以是操作面背面的本地端口（如已安装）、舞台接口箱上的远程端口，或通过 Connectivity 网络端口传输的 ipMIDI（配置说明请参阅 <a href="https://livehelp.solidstatelogic.com/Help/ipMIDI.html"><span class="hyperlink">ipMIDI 章节</span></a> ）。按 <span class="label">Route&nbsp;Input</span> 按钮打开相应对话框。从列表中选择信号源并按 <span class="label">Make</span>。
+    </span>
+</p>
+
+<p>按 <span class="label">Arm</span> ，允许 Input Action 触发该场景。</p>
+
+<p>
+    如果希望 Input Action 触发后仍保持待命，请保持 <span class="label">One&nbsp;Shot</span> 未启用；如果希望 Input Action 触发一次后解除待命，请启用 <span class="label">One&nbsp;Shot</span> 按钮。这样，只有第一次满足 Input Action 条件时才会触发场景。
+</p>
+
+<p>现在可为该场景或其他场景配置其他 Input Actions。每个场景最多可定义三个 Input Actions。</p>
+
+<p>
+    可使用 Automation <span class="label">Arm&nbsp;All&nbsp;Input&nbsp;Actions</span> 和 <span class="label">Disarm&nbsp;All&nbsp;Input&nbsp;Actions</span>
+    按钮批量将所有场景中的全部 Input Actions 设为待命/解除待命；这些按钮位于 <span class="label">Controls</span> 页面。也可使用 <a href="https://livehelp.solidstatelogic.com/Help/EventManager.html"><span class="hyperlink">Event&nbsp;Manager</span></a>触发这些动作。
+</p>
+
+<p>如需从场景中移除 Input Action，请选择 <span class="label">None</span> ，即 Input Actions <span style="font-weight: bold;">TYPE</span> 列表中的该项，然后按 <span class="label">Apply</span>。</p>
+
+<p><span class="note"><span class="notetitle">注意： </span>Input Actions 按“或”逻辑工作：任意一个 Input Action 被触发时都会切换场景。一个 Input Action 中也可启用多个 GPIO 输入，同样按“或”逻辑工作。</span></p>
+
+<h2 id="OutputActions">输出动作</h2>
+
+<p>Output Actions 可在触发场景时让控制台向外部设备发送消息；消息可通过 GPO（通用输出）或指定 MIDI 消息发送。</p>
+
+<p>
+    如需在场景中创建由 GPO、MIDI 或 Event 驱动的触发动作，请触摸场景列表中 <span style="font-weight: bold;">Output Actions</span> 方框之一；这些方框位于 <span style="font-weight: bold;">Scene Name</span> 右侧。方框会突出显示（变为青色）。（也可触摸 Automation 详细信息对话框左侧的 <span class="label">Output Actions</span> 按钮，打开该动作的配置页面。）
+</p>
+
+<p>
+    触摸 <span style="font-weight: bold;">TYPE</span> 标签下方的按钮选择动作类型，并从子菜单中选择
+    <span class="label">GPIO</span>、 <span class="label">MIDI</span> 或 <span class="label">Event</span> 。
+</p>
+
+<p>
+    动作类型按钮下方的 <span class="label">At</span> 按钮用于选择相对于场景的哪个时间点触发 Output Action：
+</p>
+
+<ul>
+    <li><span class="label">At&nbsp;Fade&nbsp;Start</span> ：场景刚刚触发时，即场景最开始</li>
+    <li><span class="label">At&nbsp;Fade&nbsp;End</span> ：所有参数完成淡入/淡出后</li>
+    <li><span class="label">At&nbsp;Scene&nbsp;End</span> ：离开场景时，即触发下一场景时</li>
+</ul>
+
+<div id="accordion">
+    <div class="indexheader2">GPIO 输出动作</div>
+    <div>
+        <p>
+            该 <span class="label">GPIO</span> Output Actions 详细信息对话框与 GPIO Input Actions 页面（见 <a href="https://livehelp.solidstatelogic.com/Help/AutoIOActions.html#InputActions"><span class="hyperlink">上文</span></a>）相似，但每个 GPO 还增加了 <span class="label">Test</span> 按钮。
+        </p>
+
+        <p>路由方式相同。只路由一个 GPO 时，只有第一个触发器相关。使用 <span class="label">Make All</span> 按钮后，每个触发器分别对应一个已路由的 GPO 引脚。</p>
+
+        <p>左下按钮定义触发的 GPO 类型：上升沿、下降沿、正脉冲或“负”脉冲（+12V -> 0V -> +12V）。按钮角落的绿色指示灯在 GPO 设为 +12V 时显示绿色，在 0V 时显示灰色。</p>
+
+        <p>右下按钮用于将各 GPO 引脚切换为 <span class="label">In</span>。将多个 GPO 引脚全部切换为 <span class="label">In</span>，即可让一个 Output Action 启用多个 GPO 引脚。</p>
+
+        <p>该 <span class="label">Test</span> 按钮可切换 GPO 引脚上的电压，用于检查输出是否正常工作。</p>
+    </div>
+    <div class="indexheader2">MIDI 输出动作</div>
+    <div>
+        <p>
+            该 <span class="label">MIDI</span> Output Actions 详细信息对话框与 MIDI Input Actions 页面（见 <a href="https://livehelp.solidstatelogic.com/Help/AutoIOActions.html#InputActions"><span class="hyperlink">上文</span></a>）相似，并为每种 MIDI 消息类型提供相同参数：
+        </p>
+
+        <ul>
+            <li><span class="label">Note&nbsp;On</span> 消息包含 <span style="font-weight: bold;">Note Number</span> （0-127）、 <span style="font-weight: bold;">Note Name</span> 和 <span style="font-weight: bold;">Velocity</span> （1-127）参数。按钮启用时可在 <span class="label">All&nbsp;Channels</span> 上发送；按钮禁用时可在指定 <span style="font-weight: bold;">Channel</span> （1-16）上发送。</li>
+            <li><span class="label">Note&nbsp;Off</span> 消息包含 <span style="font-weight: bold;">Note Number</span> （0-127）和 <span style="font-weight: bold;">Note Name</span> 参数。按钮启用时可在 <span class="label">All&nbsp;Channels</span> 上发送；按钮禁用时可在指定 <span style="font-weight: bold;">Channel</span> （1-16）上发送。</li>
+            <li><span class="label">PGM&nbsp;Change</span> 消息只包含 <span style="font-weight: bold;">Channel</span> 编号和 <span style="font-weight: bold;">Program Number</span> （1-128）参数。</li>
+            <li><span class="label">CTRL&nbsp;Change</span> 消息包含 <span style="font-weight: bold;">Channel</span> 编号、 <span style="font-weight: bold;">Control Number</span> （0-119）和 <span style="font-weight: bold;">Control Value</span> （0-127）参数。</li>
+        </ul>
+    </div>
+    <div class="indexheader2">Event 输出动作</div>
+    <div>
+        <p>该 <span class="label">Event</span> Output Actions 详细信息对话框与 Event Input Actions 页面（见 <a href="https://livehelp.solidstatelogic.com/Help/AutoIOActions.html#InputActions"><span class="hyperlink">上文</span></a>）相似。</p>
+
+        <p>从 <b>LINKABLE EVENTS</b> 列表中选择事件。只有以 <b>Automation&nbsp;Input</b> 作为事件目标的事件才会出现在此列表中。</p>
+    </div>
+</div>
+
+<p>触摸 <span class="label">Apply</span> 应用配置。</p>
+
+<p>
+    <span class="note">
+        <span class="notetitle">重要说明： </span>按下 <span class="label">Apply</span>后，必须为 MIDI/GPO 数据选择目标。该目标可以是操作面背面的本地端口（如已安装）、舞台接口箱上的远程端口，或通过 Connectivity 网络端口传输的 ipMIDI（配置说明请参阅 <a href="https://livehelp.solidstatelogic.com/Help/ipMIDI.html"><span class="hyperlink">ipMIDI 章节</span></a> ）。按 <span class="label">Route&nbsp;Output</span> 按钮打开相应对话框。从列表中选择目标并按 <span class="label">Make</span>。
+    </span>
+</p>
+
+<p>按 <span class="label">Arm</span> 按钮，允许该 Output Action 随此场景触发。</p>
+
+<p>如果希望每次调用场景时都触发 Output Action，请保持 <span class="label">One&nbsp;Shot</span> 未启用；如果希望 Output Action 触发一次后解除待命，请启用 <span class="label">One&nbsp;Shot</span> 按钮。这样，只有第一次调用场景时才会发送 Output Action。</p>
+
+<p>现在可为该场景或其他场景配置其他 Output Actions。每个场景最多可定义九个 Output Actions，触发场景时会将其全部触发。</p>
+
+<p>
+    可使用 Automation <span class="label">Arm&nbsp;All&nbsp;Output&nbsp;Actions</span> 和 <span class="label">Disarm&nbsp;All&nbsp;Output&nbsp;Actions</span>
+    按钮批量将所有场景中的全部 Output Actions 设为待命/解除待命；这些按钮位于 <span class="label">Controls</span> 页面。也可使用 <a href="https://livehelp.solidstatelogic.com/Help/EventManager.html"><span class="hyperlink">Event&nbsp;Manager</span></a>触发这些动作。
+</p>
+
+<h2>场景列表</h2>
+
+<div><img style="display: block; margin: 10px auto; width: 790px;" src="https://livehelp.solidstatelogic.com/Help/images/g_autoScenedetail.png" alt=""></div>
+
+<p>已配置的 Input 和 Output Actions 会使用以下图标显示在场景列表的相应列中：</p>
+
+<table style="text-align: left; width: 790px; margin: 10px 0px">
+    <tbody>
+        <tr>
+            <td style="width: 40px; padding: 0px 5px;"><img src="https://livehelp.solidstatelogic.com/Help/images/g_autoActionsIcons_Selected.png" alt=""></td>
+            <td>所选 Input/Output Action</td>
+        </tr>
+        <tr>
+            <td style="width: 40px; padding: 0px 5px;"><img src="https://livehelp.solidstatelogic.com/Help/images/g_autoActionsIcons_GPIONotArmed.png" alt=""></td>
+            <td>GPI/O：已配置，未待命</td>
+        </tr>
+        <tr>
+            <td style="width: 40px; padding: 0px 5px;"><img src="https://livehelp.solidstatelogic.com/Help/images/g_autoActionsIcons_GPIOArmed.png" alt=""></td>
+            <td>GPI/O：已配置，已待命</td>
+        </tr>
+        <tr>
+            <td style="width: 40px; padding: 0px 5px;"><img src="https://livehelp.solidstatelogic.com/Help/images/g_autoActionsIcons_MIDINoteOnNotArmed.png" alt=""></td>
+            <td>MIDI Note On：已配置，未待命</td>
+        </tr>
+        <tr>
+            <td style="width: 40px;padding: 0px 5px;"><img src="https://livehelp.solidstatelogic.com/Help/images/g_autoActionsIcons_MIDINoteOnArmed.png" alt=""></td>
+            <td>MIDI Note On：已配置，已待命</td>
+        </tr>
+        <tr>
+            <td style="width: 40px; padding: 0px 5px;"><img src="https://livehelp.solidstatelogic.com/Help/images/g_autoActionsIcons_MIDINoteOffNotArmed.png" alt=""></td>
+            <td>MIDI Note Off：已配置，未待命</td>
+        </tr>
+        <tr>
+            <td style="width: 40px; padding: 0px 5px;"><img src="https://livehelp.solidstatelogic.com/Help/images/g_autoActionsIcons_MIDINoteOffArmed.png" alt=""></td>
+            <td>MIDI Note Off：已配置，已待命</td>
+        </tr>
+        <tr>
+            <td style="width: 40px; padding: 0px 5px;"><img src="https://livehelp.solidstatelogic.com/Help/images/g_autoActionsIcons_MIDIPgmNotArmed.png" alt=""></td>
+            <td>MIDI Program Change：已配置，未待命</td>
+        </tr>
+        <tr>
+            <td style="width: 40px; padding: 0px 5px;"><img src="https://livehelp.solidstatelogic.com/Help/images/g_autoActionsIcons_MIDIPgmArmed.png" alt=""></td>
+            <td>MIDI Program Change：已配置，已待命</td>
+        </tr>
+        <tr>
+            <td style="width: 40px; padding: 0px 5px;"><img src="https://livehelp.solidstatelogic.com/Help/images/g_autoActionsIcons_MIDICCNotArmed.png" alt=""></td>
+            <td>MIDI Control Change：已配置，未待命</td>
+        </tr>
+        <tr>
+            <td style="width: 40px; padding: 0px 5px;"><img src="https://livehelp.solidstatelogic.com/Help/images/g_autoActionsIcons_MIDICCArmed.png" alt=""></td>
+            <td>MIDI Control Change：已配置，已待命</td>
+        </tr>
+        <tr>
+            <td style="width: 40px; padding: 0px 5px;"><img src="https://livehelp.solidstatelogic.com/Help/images/g_autoActionsIcons_EventNotArmed.png" alt=""></td>
+            <td>Event：已配置，未待命</td>
+        </tr>
+        <tr>
+            <td style="width: 40px; padding: 0px 5px;"><img src="https://livehelp.solidstatelogic.com/Help/images/g_autoActionsIcons_EventArmed.png" alt=""></td>
+            <td>Event：已配置，已待命</td>
+        </tr>
+    </tbody>
+</table>
+
+
+<h2>更多自动化帮助链接：</h2>
+
+<ul>
+    <li><a href="https://livehelp.solidstatelogic.com/Help/AutoOverview.html"><span class="hyperlink">自动化概述</span></a></li>
+    <li><a href="https://livehelp.solidstatelogic.com/Help/AutoTime.html"><span class="hyperlink">场景时间功能</span></a></li>
+    <li><a href="https://livehelp.solidstatelogic.com/Help/AutoNamesNotes.html"><span class="hyperlink">场景名称和备注</span></a></li>
+    <li><a href="https://livehelp.solidstatelogic.com/Help/AutoGrouping.html"><span class="hyperlink">场景组</span></a></li>
+    <li><a href="https://livehelp.solidstatelogic.com/Help/AutoFilters.html"><span class="hyperlink">功能过滤器</span></a></li>
+    <li><a href="https://livehelp.solidstatelogic.com/Help/AutoSceneList.html"><span class="hyperlink">场景列表管理</span></a></li>
+    <li><a href="https://livehelp.solidstatelogic.com/Help/AutoPreview.html"><span class="hyperlink">自动化预览模式</span></a></li>
+</ul>
+<br>
+<a href="https://livehelp.solidstatelogic.com/Help/LinkIndex.html"><span class="hyperlink">索引与术语表</span></a>
+<br>
+</body>
+</html>

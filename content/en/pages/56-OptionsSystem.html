@@ -1,0 +1,229 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>System Options</title>
+  <style>
+    body { font: 16px/1.55 Arial, sans-serif; max-width: 1080px; margin: 2rem auto; padding: 0 1.25rem; color: #202124; }
+    img { max-width: 100%; height: auto; }
+    table { border-collapse: collapse; max-width: 100%; }
+    th, td { border: 1px solid #aaa; padding: .45rem; vertical-align: top; }
+    .note { display: block; border-left: 4px solid #e0a000; background: #fff8df; padding: .75rem 1rem; margin: 1rem 0; }
+    .notetitle { font-weight: bold; }
+    .label { font-weight: bold; color: #174ea6; }
+    .source { color: #666; font-size: .9rem; }
+  </style>
+</head>
+<body>
+  <p class="source">Section: Settings &amp; Extras | Source: <a href="https://livehelp.solidstatelogic.com/Help/OptionsSystem.html">https://livehelp.solidstatelogic.com/Help/OptionsSystem.html</a></p>
+<p>The Options can be found in <span class="label">MENU</span> > <span class="label">Setup</span> > <span class="label">Options</span>.</p>
+
+<p>
+    The following pages detail the settings in each <span class="label">Options</span> tab:<br>
+    <a href="https://livehelp.solidstatelogic.com/Help/OptionsConsole.html"><span class="hyperlink">CONSOLE Options</span></a><br>
+    <a href="https://livehelp.solidstatelogic.com/Help/OptionsSystem.html"><span class="hyperlink">SYSTEM Options</span></a> (this page)<br>
+    <a href="https://livehelp.solidstatelogic.com/Help/OptionsSurface.html"><span class="hyperlink">SURFACE Options</span></a><br>
+    <a href="https://livehelp.solidstatelogic.com/Help/OptionsUser.html"><span class="hyperlink">USER Options</span></a><br>
+    <a href="https://livehelp.solidstatelogic.com/Help/OptionsUserKeys.html"><span class="hyperlink">USER KEYS Options</span></a><br>
+    <a href="https://livehelp.solidstatelogic.com/Help/OptionsRemote.html"><span class="hyperlink">REMOTE Options</span></a><br>
+    <a href="https://livehelp.solidstatelogic.com/Help/OptionsNetwork.html"><span class="hyperlink">NETWORK Options</span></a><br>
+    <a href="https://livehelp.solidstatelogic.com/Help/OptionsDAW.html"><span class="hyperlink">DAW Options</span></a><br>
+    <a href="https://livehelp.solidstatelogic.com/Help/OptionsExtCtrl.html"><span class="hyperlink">External Control Options</span></a><br>
+</p>
+
+<h2 id="SystemOptions">System Options</h2>
+<p>These relate to system-wide settings such as meter ballistics, clock source, etc.</p>
+
+<p>System Options are found in <span class="label">MENU</span> > <span class="label">Setup</span> > <span class="label">Options</span> > <span class="label">SYSTEM</span> tab.</p>
+
+
+<blockquote>
+    <table>
+        <tbody>
+            <tr>
+                <td style="vertical-align: top;">
+                    <h2 id="MeterBallistics">Meter Options</h2>
+
+                    The following timings can be adjusted:<br>
+
+                    <ul>
+                        <li><span style="font-weight: bold;">Peak Hold Duration</span>: The amount of time the highest signal level indication stays visible (0s to 10s, Infinite);</li>
+                        <li><span style="font-weight: bold;">Overload Hold</span>: The amount of time overload lights stay lit after an overload takes place (0s to 60s, Infinite);</li>
+                        <li><span style="font-weight: bold;">Attack Ratio</span>: The speed at which the meters respond to an increase in level, measured against the change in level (1 to 100 ms/20 dB);</li>
+                        <li><span style="font-weight: bold;">Release Ratio</span>: The speed at which the meters fall back down after a peak, measured against the change in level (100 to 1000 ms/20 dB).</li>
+                    </ul>
+
+                    <p>To change a value, either drag the on-screen encoder, or double-tap on the value and edit it using the standard keypad which appears.</p>
+                    
+                    <p>To access the infinite setting for Peak and Overload Hold, set the parameter to its maximum numerical value, then use the encoder to increase it one step more.</p>
+
+                    <p><span class="label">Clear Peaks</span> and <span class="label">Clear Overloads</span> can be used to reset unwanted held metering.</p>
+
+                    <span class="note"><span class="notetitle">Note: </span>The Attack and Release Ratio settings do not apply to the Overview screen meters as these use fixed ratios.</span>
+                    <p>The <strong>Onscreen Meter Scale</strong> setting toggles the onscreen meters' scale between -42dB and -60dB ranges. As per the ballistic meter option, meter scale is per front panel and can therefore be different for the main surface, remote or SOLSA control instance. The setting is stored as console storage and not recalled with showfiles or scenes.</p> 
+                </td>
+                <td style="vertical-align: middle; width: 250px;"><img style="margin: 0px 0px 0px 10px;" src="https://livehelp.solidstatelogic.com/Help/images/u_OptionsMeterOptions.png" alt=""></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <br>
+
+    <table>
+        <tbody>
+            <tr>
+                <td style="vertical-align: top;">
+                    <h2>Meter Sources</h2>
+
+                    You can define the meter source point for various path types:<br>
+
+                    <span class="label">Input</span> (pre Trim), <span class="label">Post&nbsp;Trim</span>, <span class="label">Pre&nbsp;Fader</span> and <span class="label">Post&nbsp;All</span> options are independently available for <span style="font-weight: bold;">Input</span> Channels, <span style="font-weight: bold;">Aux</span> Buses, <span style="font-weight: bold;">Stem/Master</span> Buses and <span style="font-weight: bold;">Solo Channel</span>s.<br><br>
+
+                    <span class="label">Post&nbsp;Trim</span>, <span class="label">Pre&nbsp;Fader</span> and <span class="label">Post&nbsp;All</span> options are available for <span style="font-weight: bold;">Talkback</span> channels.<br><br>
+                    Matrix Channel metering is always set to Post All.
+                </td>
+                <td style="vertical-align: middle; width: 250px;"><img style="margin: 20px 0px 0px 10px;" src="https://livehelp.solidstatelogic.com/Help/images/g_OptionsMeterSources.png" alt=""></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <br>
+
+    <h2 id="ClockSource">Defining the Clock (Sync) Source (consoles only)</h2>
+    <table>
+        <tbody>
+            <tr>
+                <td style="vertical-align: top;">
+                    To select a <b>Main</b> and <b>Backup</b> clock source for the console, select the appropriate source from the lists available in the <span style="font-weight: bold;">System Clock</span> section,
+                    also selecting the port number if clocking to <span style="font-weight: bold;">MADI</span> or Blacklight II (<span style="font-weight: bold;">BLII</span>) connections.
+                    Press & hold the <span class="label">APPLY</span> button to set the clock source.<br><br>
+
+                    The clock source will only change if the requested source can be detected.<br>
+
+                    <span class="note"><span class="notetitle">Note: </span>The <b>Current</b> field displays the currently active clock source.</span>
+
+                    If the Main clock source is lost the Backup will be used. If the Backup is lost the console's internal clock will be used.
+                    Use the <span class="label">Reclock</span> button to retry locking to the Main/Backup clock source.<br><br>
+
+                    More information about clocking the system can be found in the <a href="https://livehelp.solidstatelogic.com/Help/Clocking.html"><span class="hyperlink">Clocking the System</span></a> pages.
+                </td>
+                <td style="vertical-align: middle; width: 250px;"><img style="margin: 0px 0px 0px 10px;" src="https://livehelp.solidstatelogic.com/Help/images/g_OptionsSystemClock.png" alt=""></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <br>
+
+    <table>
+        <tbody>
+            <tr>
+                <td style="vertical-align: top;">
+                    <h2 id="Timecode">Timecode Source</h2>
+                    The source for the console's timecode receiver can be set by touching the button under the <span style="font-weight: bold;">Timecode</span> label and selecting a source from the submenus which appear.<br><br>
+
+                    If a timecode source is not detected, buttons will appear to manually set the frame rate, so that timecode values entered can be interpreted correctly.
+                    Select from one of the following options:<br>
+
+                    <ul>
+                        <li><span class="label">24&nbsp;f/s</span> - 24 frames per second timecode source</li>
+                        <li><span class="label">25&nbsp;f/s</span> - 25 frames per second timecode source</li>
+                        <li><span class="label">30&nbsp;f/s</span> - 29.97 or 30 frames per second timecode source (non drop frame)</li>
+                        <li><span class="label">30&nbsp;df</span> - 29.97 or 30 frames per second timecode source (drop frame)</li>
+                    </ul>
+
+                    Timecode can be used to trigger <a href="https://livehelp.solidstatelogic.com/Help/AutoTime.html"><span class="hyperlink">Automation scenes</span></a>.<br><br>
+
+                    The current timecode value can be displayed in the <a href="https://livehelp.solidstatelogic.com/Help/ControlSurface.html#StatusBar"><span class="hyperlink">status bar</span></a> (tap the time area to toggle between time and timecode).<br><br>
+
+                    <span class="note">
+                        <span class="notetitle">Note:</span> If using <a href="https://livehelp.solidstatelogic.com/Help/ipMIDI.html"><span class="hyperlink">ipMIDI</span></a> for Timecode this should be a different ipMIDI port to that used for <a href="https://livehelp.solidstatelogic.com/Help/AutoIOActions.html"><span class="hyperlink">Automation MIDI Input/Output Actions</span></a>,
+                        <a href="https://livehelp.solidstatelogic.com/Help/DAWControl.html"><span class="hyperlink">DAW Control</span></a> and <a href="https://livehelp.solidstatelogic.com/Help/EventManager.html"><span class="hyperlink">Events</span></a>.
+                    </span>
+                </td>
+                <td style="vertical-align: middle; width: 250px;"><img style="margin: 20px 0px 0px 10px;" src="https://livehelp.solidstatelogic.com/Help/images/g_OptionsTimecode.png" alt=""></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <br>
+
+    <table>
+        <tbody>
+            <tr>
+                <td style="vertical-align: top;">
+                    <h2>Compatibility Mode</h2>
+
+                    A showfile created on a larger console may be loaded onto a smaller one (e.g. L500&nbsp;Plus show onto an L300). The system will automatically enter
+                    <span style="font-weight:bold;">Compatibility Mode</span> if the showfile cannot fit within the resources available.
+                    More information on <span style="font-weight:bold;">Compatibility Mode</span> can be found in the <a href="https://livehelp.solidstatelogic.com/Help/ConsoleConfig.html"><span class="hyperlink">Console Configuration</span></a> section.
+                    <br><br>
+
+                    <h2>Console Model (SOLSA only)</h2>
+
+                    The SSL Off-Line Setup Application (SOLSA) can be configured to operate as any current or legacy Live console model.
+                    This allows SOLSA to emulate a particular console for showfile editing and remote access (see <a href="https://livehelp.solidstatelogic.com/Help/OptionsRemote.html"><span class="hyperlink">Remote Options</span></a>).
+                    Press & hold the <span class="label">Model&nbsp;Select</span> button then select the relevant console button in the list to switch between models.<br>
+
+                    <span class="note"><span class="notetitle">Important:</span> Changing the model setting will cause the current showfile to be unloaded.</span>
+                </td>
+                <td style="vertical-align: top; width: 250px;"><img style="margin: 20px 0px 0px 10px; width: 210px;" src="https://livehelp.solidstatelogic.com/Help/images/g_OptionsModel.png" alt=""></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <br>
+
+    <table>
+        <tbody>
+            <tr>
+                <td style="vertical-align: top;">
+                    <h2>Folddown</h2>
+
+                    Folddown is applied when routing 4.0 and 5.1 formatted Channels and Stems to Stereo and Mono Stems, Auxes and Masters. Settings are also available for folding down Stereo to Mono routes. A choice of two global user preset folddowns can be selected with variable Centre to Left/Right, Surround Left/Right to Front Left/Right, plus overall Left/Right level trims.<br>
+                    Each path can be configured to use the Default or Alternative settings using the <span class="label">Use&nbsp;Alt&nbsp;Folddown</span> button in the <a href="https://livehelp.solidstatelogic.com/Help/DetailView.html#Eyeconix"><span class="hyperlink">Config Detail View</span></a> page.
+
+                    <span class="note"><span class="notetitle">Note:</span> The <span style="font-weight: bold;">Overall Output Trim</span> parameter only applies when folding down a source with surround channels to a destination with only front channels.</span>
+                </td>
+                <td style="vertical-align: top; width: 250px;"><img style="margin: 20px 0px 0px 10px;" src="https://livehelp.solidstatelogic.com/Help/images/g_OptionsFolddown.png" alt=""></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <br>
+
+    <table>
+        <tbody>
+            <tr>
+                <td style="vertical-align: top;">
+                    <h2 id="Chop">Channel Direct Output</h2>
+
+                    <p>This is where the <span style="font-weight:bold;">default output feed point</span> of an Input Channel is customised. New Input Channels will be created with the default output feed point.</p>
+
+                    <p>The options are <span style="font-weight:bold;">Post Trim</span>, <span style="font-weight:bold;">Pre Fader</span>, <span style="font-weight:bold;">Post Fader</span> and <span style="font-weight:bold;">Post All</span>.</p>
+
+                    <span class="note"><span class="notetitle">Note:</span> This option can be automated using the <b>Output</b> column of the <b>Console</b> row in the Automation filters pages.</span>
+
+                    <p>To change the Direct Output Feed Point on a per channel basis, go to the <span style="font-weight:bold;">Input/Routing</span> page of the channel's <a href="https://livehelp.solidstatelogic.com/Help/DetailView.html#Input"><span class="hyperlink">Detail View</span></a> and tap <span class="label">Output:</span>, located to the right.</p>
+                </td>
+                <td style="vertical-align: top; width: 250px;"><img style="margin: 20px 0px 0px 10px;" src="https://livehelp.solidstatelogic.com/Help/images/g_OptionsDirectOut.png" alt=""></td>
+            </tr>
+        </tbody>
+    </table>
+
+</blockquote>
+
+<h2>Useful Links</h2>
+
+<p><a href="https://livehelp.solidstatelogic.com/Help/OptionsConsole.html"><span class="hyperlink">CONSOLE Options</span></a></p>
+<p><a href="https://livehelp.solidstatelogic.com/Help/OptionsSurface.html"><span class="hyperlink">SURFACE Options</span></a></p>
+<p><a href="https://livehelp.solidstatelogic.com/Help/OptionsUser.html"><span class="hyperlink">USER Options</span></a></p>
+<p><a href="https://livehelp.solidstatelogic.com/Help/OptionsUserKeys.html"><span class="hyperlink">USER KEYS Options</span></a></p>
+<p><a href="https://livehelp.solidstatelogic.com/Help/OptionsRemote.html"><span class="hyperlink">REMOTE Options</span></a></p>
+<p><a href="https://livehelp.solidstatelogic.com/Help/OptionsNetwork.html"><span class="hyperlink">NETWORK Options</span></a></p>
+<p><a href="https://livehelp.solidstatelogic.com/Help/OptionsDAW.html"><span class="hyperlink">DAW Options</span></a></p>
+<p><a href="https://livehelp.solidstatelogic.com/Help/OptionsExtCtrl.html"><span class="hyperlink">EXTERNAL CONTROL Options</span></a></p>
+<p><a href="https://livehelp.solidstatelogic.com/Help/Clocking.html"><span class="hyperlink">Clocking The System</span></a></p>
+<p><a href="https://livehelp.solidstatelogic.com/Help/LinkIndex.html"><span class="hyperlink">Index and Glossary</span></a></p>
+</body>
+</html>

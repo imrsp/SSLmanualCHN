@@ -1,0 +1,402 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Dynamics Effects</title>
+  <style>
+    body { font: 16px/1.55 Arial, sans-serif; max-width: 1080px; margin: 2rem auto; padding: 0 1.25rem; color: #202124; }
+    img { max-width: 100%; height: auto; }
+    table { border-collapse: collapse; max-width: 100%; }
+    th, td { border: 1px solid #aaa; padding: .45rem; vertical-align: top; }
+    .note { display: block; border-left: 4px solid #e0a000; background: #fff8df; padding: .75rem 1rem; margin: 1rem 0; }
+    .notetitle { font-weight: bold; }
+    .label { font-weight: bold; color: #174ea6; }
+    .source { color: #666; font-size: .9rem; }
+  </style>
+</head>
+<body>
+  <p class="source">Section: Mixing | Source: <a href="https://livehelp.solidstatelogic.com/Help/FXDynamics.html">https://livehelp.solidstatelogic.com/Help/FXDynamics.html</a></p>
+<p>For more information about Effects in general, please see the <a href="https://livehelp.solidstatelogic.com/Help/FXIntro.html"><span class="hyperlink">Effects Rack Overview</span></a> section.</p>
+
+<h2>Dynamics Effects</h2>
+
+
+<h2 id="Blitzer">The Blitzer&trade;</h2>
+
+<p><img class="center" style="width: 500px;" src="https://livehelp.solidstatelogic.com/Help/images/g_FXDynBlitzer.png" alt=""></p>
+
+<p>
+    The Blitzer is an ultra-versatile compressor that can produce soft saturating compression to explosive brick-wall limiting.
+    It includes adjustable transient shaping and vintage-style harmonic drive options for colouration.
+</p>
+
+<p>Use the <b>INPUT</b> gain control to adjust the signal level reaching the compressor and the <b>OUTPUT</b> gain to trim the output level of the compressor.</p>
+
+<p>
+    The <span class="label">Auto</span> Output Gain button automatically applies an amount of Output makeup gain to compensate for the Input gain and compression ratio used. 
+    Note that the amount of makeup gain applied to counteract the Input gain is only approximate, as the compression curve depends on many factors; 
+    once <span class="label">Auto</span> is engaged and the other compression parameters set, the Output gain can be manually adjusted further to provide a higher degree 
+    of level matching between wet (compressed) and dry signals. This is particularly important if using the Mix control (described below) to blend the two signals together.
+</p>
+
+<p><b>ATTACK</b> and <b>RELEASE</b> controls adjust the envelope characteristics of the compressor.</p>
+
+<p>
+    Use the <b>RATIO</b> buttons to select a compression ratio.
+    The <span class="label">1:1</span> mode can be used to add character to a signal without affecting its dynamic range, while <span class="label">BLITZ!</span> mode offers the ultimate slamming compression.
+</p>
+
+<p>
+    <b>TRANSIENTS</b> and <b>DRIVE</b> offer a host of colouration options, allowing the signal transients to be shaped and harmonic warmth to be added.
+    The respective meters offer indication of the amount of colouration being added to the signal.
+</p>
+
+<p>The <b>DETECTION SIDECHAIN</b> controls can be used to alter the frequency content of the signal keying the compressor, e.g. to remove LF content to avoid pumping from kick drum transients activating the compressor.</p>
+
+<p><b>MIX</b> controls the balance of the compressed ('wet') to uncompressed ('dry') signal. Turn fully clockwise to 100% for a fully wet output from the compressor.</p>
+
+
+<h2 id="BusComp">Bus Compressor</h2>
+
+<p><img class="center" style="width: 622px;" src="https://livehelp.solidstatelogic.com/Help/images/g_FXDynBuscomp.png" alt=""></p>
+
+<p>
+    The Bus Compressor plug-in is based on the legendary centre section Bus Compressor found on SSL's large-format
+    analogue consoles. It provides high quality stereo compression, giving you critical control over the dynamic range of
+    audio signals.
+</p>
+
+<p>
+    Uses may include inserting the bus compressor over a stereo mix, which has the effect of 'gluing' the mix together whilst
+    still maintaining a big sound. The dynamics of drum overheads or whole drum kits can be controlled very effectively with
+    the bus compressor. As it is available as either a stereo or mono plug-in the bus compressor can be used for practically
+    any application that requires superior compression.
+</p>
+
+<p>The <b>In Gain</b> and <b>Threshld</b> controls can be used to alter the signal's level into the compressor to adjust the amount of compression being applied.</p>
+
+<p>
+    The <b>Makeup</b> gain control is used to trim the signal exiting the compressor circuit to 'make up' any reduction in level that has been applied by the compressor.
+</p>
+
+<p><b>Attack</b>, <b>Release</b> and <b>Ratio</b> controls alter the characteristics of the compressor.</p>
+
+<p>
+    Note that the knee point of the compressor, set with the <span style="font-weight:bold;">Threshold</span> control,
+    purposely changes depending on the setting of the <span style="font-weight:bold;">Ratio</span> control.
+    Decreasing the <span style="font-weight:bold;">Ratio</span> setting lowers the effective threshold, hence maintaining the perceived 'loudness' of the compressed signal.
+</p>
+
+<p>
+    The amount of gain reduction being applied is indicated by the analogue-style meter in the banner area of the effect.
+</p>
+
+<p><b>Mix</b> controls the balance of the compressed ('wet') to uncompressed ('dry') signal.</p>
+
+<h3>Sidechain Options</h3>
+
+<p>
+    In normal operation the signal feeding the detection section (sidechain) of the Bus Compressor is the same as the audio signal being processed by the module.
+    However, it is possible to route a different signal to the sidechain input. This causes the signal routed through the effect to be processed based on the properties of the external 'key' signal.
+    Use the <span class="label">Key&nbsp;Route</span> button to route the key input signal and engage the <span class="label">Ext&nbsp;Key</span> button to activate External Key mode.
+</p>
+
+<p>
+    A high-pass filter (HPF) is also included in the sidechain. This can be used to filter out low frequencies to prevent the compressor from 'pumping'
+    with low frequency transients such as kick drum hits. Use the <b>HPF Freq</b> fader to adjust the corner frequency of the filter (set to its minimum position to bypass the HPF completely).
+</p>
+
+<p>
+    Use the sidechain <span class="label">Solo</span> button to listen to the key signal being used by the compressor (post <b>Ext Key</b> and <b>HPF</b> options).
+</p>
+
+
+<h2 id="LMC">Listen Mic Compressor</h2>
+
+<p><img class="center" src="https://livehelp.solidstatelogic.com/Help/images/g_FXDynListen.png" alt=""></p>
+
+<p>The Listen Mic Compressor emulates the sound of the listen mic on an SSL E series console. Originally designed to prevent overloading the return feed from a studio communications mic, its fixed attack and release curves were eminently suitable for use on ambient drums mics, and it became a classic production tool.</p>
+
+<p><span style="font-weight: bold;">Mix</span> controls the balance of the compressed ('wet') to uncompressed ('dry') signal. Note that <span style="font-weight: bold;">MakeUp</span> only acts on the 'wet' part of the signal.</p>
+
+<p><span style="font-weight: bold;">Comp</span> controls the amount of compression, from 0 to 100%.</p>
+
+<p><span style="font-weight: bold;">MakeUp</span> controls the level compensation for the gain reduction.</p>
+
+<p>To simulate the original narrow-band listen mic characteristic, activate the <span class="label">EQ</span> button &#8211; to use the compressor on the full frequency range, leave <span class="label">EQ</span> inactive.</p>
+
+<p><span class="note"><span class="notetitle">Note: </span>Listen Mic Compressor features very quick time constants. This means it is easily capable of producing distortion on low frequency material.</span></p>
+
+
+<h2 id="Multiband">Multi-Band Compressor</h2>
+
+<p><img class="center" style="width: 706px;" src="https://livehelp.solidstatelogic.com/Help/images/g_FXDynMultiBand.png" alt=""></p>
+
+<p>There are three bands of compression available within the Multi-Band compressor; touch the <span class="label">Low</span>, <span class="label">Mid</span> or <span class="label">High</span> buttons in the top left to define which band is being edited in the rest of the window. The sliders to the right of the buttons define the crossover frequencies between <span style="font-weight: bold;">Low</span> and Mid bands, and between Mid and <span style="font-weight: bold;">High</span> bands.</p>
+
+<table>
+    <tbody>
+        <tr>
+            <td>
+                <p>Each band's controls should be self-explanatory. The possible exception may be <span style="font-weight: bold;">Max GR</span> which limits the maximum amount of gain reduction, meaning that peaks which are well over the threshold are only attenuated up to the <span style="font-weight: bold;">Max GR</span> value. The rest of the dynamic range is left unaltered, and behaves as expected according to the other controls.</p>
+
+                <p>To reset a band, press & hold the relevant <span class="label">Low</span>/<span class="label">Mid</span>/<span class="label">High</span> button and select <span class="label">Reset</span>;</p>
+                <p>To reset the whole module, press & hold <span class="label">Reset&nbsp;FX</span>.</p>
+            </td>
+            <td style="width: 140px;"><img style="margin: 0px 10px;" src="https://livehelp.solidstatelogic.com/Help/images/g_MaxGRdiag.png" alt=""></td>
+        </tr>
+    </tbody>
+</table>
+
+<h3>Sidechain</h3>
+<p>
+    In normal operation the signal feeding the detection section (sidechain) of the Multi-Band Compressor is the same as the audio signal being processed by the module.
+    However, it is possible to route a different signal to the sidechain input. This causes the signal routed through the effect to be processed based on the properties of the external 'key' signal.
+    Use the <span class="label">Key&nbsp;Route</span> button to route the key input signal and engage the <span class="label">Ext&nbsp;Key</span> button to activate External Key mode.
+</p>
+
+<p>
+    It is possible to Solo the sidechain signal in various places. Use the <span class="label">Solo:</span> button to choose the solo source point;
+    the full range <span class="label">Pre-Filter</span> point or after one of the <span class="label">Low</span>, <span class="label">Mid</span> or <span class="label">High</span> bands.
+</p>
+
+
+<h2>De-Esser</h2>
+
+<p><img class="center" src="https://livehelp.solidstatelogic.com/Help/images/g_FXDynDeEsser.png" alt=""></p>
+
+<p>The De-esser is a compression and filter system which can be used to remove sibilance or other frequency-dependent artefacts.</p>
+
+<p><span class="note"><span class="notetitle">Definition: </span>Sibilance is the resonance often found on vocal mics which can result in 'S' consonants becoming too pronounced.</span></p>
+
+<table>
+    <tbody>
+        <tr>
+            <td>
+                <p>Start by selecting which configuration of de-esser to use. The diagrams to the left explain the difference between <span class="label">Broad&nbsp;Band</span> and <span class="label">Band&nbsp;Split</span> de-esser configurations.</p>
+
+                <p>Set the <span style="font-weight: bold;">Filter Type</span> and <span style="font-weight: bold;">Freq</span>uency to ensure the de-esser is responding to the right frequency range.</p>
+
+                <p><span class="note"><span class="notetitle">Note:</span> The filter position within the de-esser depends on the compressor configuration, as shown left. </span></p>
+
+                <p>Move the <span style="font-weight: bold;">Threshold</span> control to set the detection level at the point where the De-esser only acts on sibilant peaks.</p>
+
+                <p>Move the <span style="font-weight: bold;">Ratio</span> knob to control how much sibilance is removed.</p>
+            </td>
+            <td style="width: 272px;"><img style="margin: 0px 10px;" src="https://livehelp.solidstatelogic.com/Help/images/g_deesserdiag.png" alt=""></td>
+        </tr>
+    </tbody>
+</table>
+
+<p>To listen only to the sibilance that is being removed, press the <span class="label">Solo</span> button. This can be particularly helpful in ensuring that the threshold is correctly set.</p>
+
+<p>An attenuation (<span style="font-weight: bold;">Attn</span>) meter is shown to the right of the <span class="label">Solo</span> button.</p>
+
+
+<h2 id="DynamicEQ">Dynamic EQ</h2>
+
+<p>
+    The Dynamic EQ is available with 1-, 2- or 4-bands of EQ; each band is colour coded. Each band boosts/cuts frequencies <span style="font-weight: bold;">up to</span> the maximum <span style="font-weight: bold;">Range</span> value.
+    This gain is scaled by the compression sidechain circuitry, which is altered by the <span style="font-weight: bold;">Threshold</span>, <span style="font-weight: bold;">Ratio</span> and other dynamics controls.
+</p>
+
+<p><img class="center" src="https://livehelp.solidstatelogic.com/Help/images/g_FXDynDynEQ.png" alt=""></p>
+
+<p>For each band the following controls are available:</p>
+
+<ul>
+    <li><b>Filter Type</b> - The shape of the EQ filter; <span class="label">Bell</span>, <span class="label">Low&nbsp;Shelf</span> or <span class="label">High&nbsp;Shelf</span></li>
+    <li><b>Trigger Mode</b> - Determines whether the dynamic EQ acts <b>Above&nbsp;Threshold</b>, <b>Below&nbsp;Threshold</b> or <b>Auto</b> (Range-dependent; see <a href="#TriggerMode"><span class="hyperlink">below</span></a>)</li>
+    <li><b>Frequency</b> - The centre frequency of the EQ band</li>
+    <li><b>Q</b> - The width of the EQ band</li>
+    <li><b>Gain</b> - The baseline gain from which dynamic EQ changes occur</li>
+    <li><b>Range</b> - The largest gain boost/cut that will be applied, relative to the baseline Gain</li>
+    <li><b>Threshold</b> - The level (above or below, depending on the mode) at which the dynamic EQ band becomes active</li>
+    <li><b>Ratio</b> - The amount of gain reduction when the dynamics section is active</li>
+    <li><b>Attack</b> &amp; <b>Release</b> - The attack and release times of the dynamics section</li>
+</ul>
+
+<p><span class="note"><span class="notetitle">Note: </span>Dynamic EQ has an auto knee that goes from 12 dB when the compression ratio is 1:1 to 0 dB when the ratio is &infin;:1, i.e. it becomes progressively harder as ratio increases.</span></p>
+
+<p>The <b>View</b> buttons at the top of the display determine the controls available on the encoders below the graph (and on the Quick Controls if <span class="label">Follow&nbsp;Detail</span> is enabled). These are:</p>
+
+<ul>
+    <li><span class="label">Band&nbsp;View</span> - Shows <b>Freq</b>, <b>Q</b>, <b>Gain</b>, <b>Range</b>, <b>Threshld</b>, <b>Ratio</b>, <b>Attack</b> and <b>Release</b> for the selected band</li>
+    <li><span class="label">Thresh&nbsp;View</span> - Shows <b>Freq</b> and <b>Threshld</b> for all bands</li>
+    <li><span class="label">Range&nbsp;View</span> - Shows <b>Freq</b> and <b>Range</b> for all bands</li>
+    <li><span class="label">Gain&nbsp;View</span> - Shows <b>Freq</b> and <b>Gain</b> for all bands</li>
+</ul>
+
+<h3 id="TriggerMode">Trigger Mode</h3>
+
+<p>A per-band <b>Threshold Trigger</b> mode allows the threshold trigger to operate in one of three ways:</p>
+<ol>
+    <li><span class="label">Auto</span> - Dynamic EQ operates in cut mode when Range is negative and signal is above the Threshold, Dynamic EQ operates in boost mode when Range is positive and signal is below Threshold</li>
+    <li><span class="label">Above&nbsp;Threshold</span> - Dynamic EQ triggered when sidechain signal is above the Threshold (regardless of Range setting)</li>
+    <li><span class="label">Below&nbsp;Threshold</span> - Dynamic EQ triggered when sidechain signal is below the Threshold (regardless of Range setting)</li>
+</ol>
+
+<h3>Using the Graph</h3>
+
+<p>
+    The 'bullseye' thumbs indicate the baseline <b>Gain</b> applied to each band when no 'dynamic' element of EQ is being applied. The round thumbs adjust the <b>Range</b> (maximum boost/cut) of each band.
+    Horizontal dotted lines appear when either thumb is touched to indicate the range of adjustment available. Pinching the graph when either thumb is highlighted adjusts the <b>Q</b> of the band.
+</p>
+
+<p><img class="center" src="https://livehelp.solidstatelogic.com/Help/images/g_FXDynEQThumb.png" alt=""></p>
+
+<p>
+    Dashed and dotted white lines indicate the Above and Below Threshold limits respectively. The solid white line plots the applied EQ in real-time, between the Above and Below Threshold limit lines.
+</p>
+<p>
+    For example, if the Trigger mode is set to Above Threshold the solid EQ plot line will sit on the dotted Below Threshold limit line (as set by the baseline Gain parameter) until the signal exceeds the Threshold,
+    at which point the EQ plot line will move towards the dashed Above Threshold line (as set by the Range parameter) according to the signal level and values of the Threshold, Ratio and other sidechain dynamics parameters.
+</p>
+
+<p>
+    In the example image above a positive Gain has been dialled in and the band is in Above Threshold mode, meaning that when the signal is below the Threshold the band will be boosted.
+    But as soon as the signal exceeds the Threshold, the negative Range parameter will cause the band to be attenuated, up to the maximum amount determined by the Range value.
+</p>
+
+<p><span class="note"><span class="notetitle">Tip: </span>Use the <span class="label">Reset</span> button to reset an individual band, or press &amp; hold the <span class="label">FX&nbsp;Reset</span> button to reset the entire effect module (all bands).</span></p>
+
+<h3>Sidechain Options</h3>
+
+<p>
+    In normal operation the signal feeding the detection section (sidechain) of the Dynamic EQ is the same as the audio signal being processed by the module.
+    However, it is possible to route a different signal to the sidechain input. This causes the signal routed through the effect to be processed based on the properties of the external 'key' signal.
+    Use the <span class="label">Key&nbsp;Route</span> button to route the key input signal and engage the <span class="label">Ext&nbsp;Key</span> button to activate External Key mode.
+</p>
+
+<p>
+    To audition the full range sidechain input or an individual band, use the <span class="label">Solo</span> button. Press to toggle Solo on/off. Press &amp; hold to select the solo source
+    (<span class="label">Pre-EQ</span>, <span class="label">Band&nbsp;1</span>, <span class="label">Band&nbsp;2</span>, <span class="label">Band&nbsp;3</span> or <span class="label">Band&nbsp;4</span>).
+</p>
+
+
+<h2 id="Gate">Gate</h2>
+
+<p><img class="center" src="https://livehelp.solidstatelogic.com/Help/images/g_FXdynGate.png" alt=""></p>
+
+<p>To activate the Gate, drag the <span style="font-weight: bold;">Range</span> down to a suitable level. The <span style="font-weight: bold;">Range</span> controls the dynamic range over which the gate operates.</p>
+
+<p>The buttons in the top left allow you to select between <span class="label">RMS</span> and <span class="label">Peak</span> response mode.</p>
+
+<p>The <span style="font-weight: bold;">Threshld</span> control defines the audio level at which the gate is opened to allow audio through.</p>
+
+<p>
+    <span class="note">
+        <span class="notetitle">Note: </span>The level at which the gate opens is higher than the level at which it closes again.
+        In other words, when the gate is opened, it stays open until the signal level crosses the quieter 'close' threshold.
+        This is known as hysteresis and is very useful as it allows instruments to decay more naturally. The <span style="font-weight: bold;">Threshld</span> control refers to the 'open' threshold.
+    </span>
+</p>
+
+<p>
+    <span style="font-weight: bold;">Hold</span> controls the delay before the signal level starts reducing again, and <span style="font-weight: bold;">Release</span> controls how quickly the level then reduces.
+    <span style="font-weight: bold;">Attack</span> controls the time taken for the Gate to 'recover' once the signal level is above the open threshold.
+    1.5 ms (per 40 dB) is a good Attack starting point, though percussive sounds may require an attack in the region of 0.1 ms.
+</p>
+
+<!-- Start of Duck mode snippet -->
+<!-- Also used in PathProc.html -->
+<p>
+    Engage the <span class="label">Duck</span> button to turn the Gate into a Ducker.
+    This inverts the operation of the Gate's sidechain threshold logic, allowing the incoming signal to be attenuated by the <b>Range</b> amount
+    when the sidechain (key) input signal exceeds the <b>Threshold</b>, e.g. to duck the music when a DJ speaks.
+</p>
+<!-- End of Duck mode snippet -->
+
+<p>The 'traffic lights' towards the top-left indicate the gate's status: red indicates that the gate is closed (no audio is being passed), green that it is open (audio is being passed at full level), and yellow that it is opening or closing.</p>
+
+<p>The meters at the right of the module show the module's input and output levels.</p>
+
+
+<h2 id="Sourcerer">The Sourcerer&trade; - Primary Source Isolator</h2>
+
+<p><img class="center"style="width: 750px;"  src="https://livehelp.solidstatelogic.com/Help/images/g_FXDynSourcerer.png" alt=""></p>
+
+<p>The Sourcerer is a dynamics module capable of drastically reducing or even eliminating feedback and stage bleed from open mics, providing greater signal clarity to the channel's primary source. It's simply magic!</p>
+
+<p>The Sourcerer can be inserted over individual Channels or across groups of Channels through the use of a Stem or Aux bus.</p>
+
+<p>Adjust the <b>THRESHOLD</b> control so that ambient signals do not cause the <b>SIDECHAIN&nbsp;LEVEL</b> meter to exceed the blue shaded area.</p>
+
+<p>
+    Start with the <b>TIME</b> mode set to <span class="label">Slow</span> or <span class="label">Medium</span> and the 
+    <b>DETECT</b> controls set to <span class="label">Peak</span> with the <b>LPF</b> and <b>HPF</b> filters <b>Off</b> (fully clockwise and counter-clockwise respectively).
+</p>
+
+<p>Increase the <b>DEPTH</b> control until the ambient noise is reduced sufficiently. The amount of noise reduction is indicated on the <b>GAIN REDUCTION</b> meter.</p>
+
+<p>
+    Perfecting the response of the Sourcerer is a matter of trial and error. Select a slower <b>Time</b> mode if the primary source signal is prematurely attenuated, 
+    or a faster one if the gain reduction is not acting quickly enough when transitioning between ambient and desired source passages.
+</p>
+
+<p>
+    Use the <b>HPF</b> and <b>LPF</b> controls to limit the frequencies reaching the detection circuitry (these control do not affect the main signal).
+    This can further improve the sidechain detection sensitivity to ambient noise and feedback. 
+    The <span class="label">Sidechain&nbsp;Solo</span> button can be used to audition the filters.
+</p>
+
+<p>
+    Engage the <span class="label">Ext&nbsp;Key</span> button to trigger the detection circuitry from a different signal path to the one you are trying to isolate.
+    The Sourcerer will then only attenuate the main signal when the 'Key' input signal is below the Threshold level.
+    This can be useful if inserting the Sourcerer over a group (e.g. backing signers) and triggering from a dedicated microphone an individual in the group.
+</p>
+
+
+<h2>Transient Shaper</h2>
+
+<p><img class="center" src="https://livehelp.solidstatelogic.com/Help/images/g_FXDynTransient.png" alt=""></p>
+
+<p>The Transient Shaper uses an expander to add attack to the start of percussive sounds by increasing the amplitude of the attack portion of the signal whilst leaving the decay unchanged.</p>
+
+<table>
+    <tbody>
+        <tr>
+            <td style="vertical-align: middle; width: 319px;"><img src="https://livehelp.solidstatelogic.com/Help/images/g_TransientDiag.png" alt=""></td>
+            <td style="vertical-align: top;">
+                <span style="font-weight: bold;">I/P Gain</span> controls the detection level of the controller signal, and should be set so that only the transients you want to shape are detected. If this is set too low then the Shaper will do nothing; if it is set too high then the Shaper will detect too many transients, resulting in an exaggerated process, and the attack appearing too long. The default setting of 0 dB should be a good starting point.<br>
+
+                <span class="note"><span class="notetitle">Note:</span> <span style="font-weight: bold;">I/P Gain</span> doesn't directly affect the output signal's gain.</span>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+<p><span style="font-weight: bold;">Amount</span> controls the amount of the processed signal added to the unprocessed signal. This process can increase the peak level of a signal significantly so watch the output meter carefully.</p>
+
+<p><span style="font-weight: bold;">Speed</span> controls the length of time the added attack takes to fall back down to the normal signal level once it has reached the top of the attack phase.</p>
+
+<p>Press <span style="font-weight: bold;">Invert</span> to invert the processed signal so that it is subtracted from the unprocessed signal. This has the effect of softening the attack, resulting in more body in a percussive sound.</p>
+
+<p><span style="font-weight: bold;">Solo</span> allows you to listen to the processed signal, to assist in the set up process.</p>
+
+<p><span class="note"><span class="notetitle">Note: </span>When the <span style="font-weight: bold;">Invert</span> and <span style="font-weight: bold;">Solo</span> buttons are both pressed, the signal will not be inverted.</span></p>
+
+
+
+<h2>Useful Links</h2>
+<a href="https://livehelp.solidstatelogic.com/Help/FXIntro.html"><span class="hyperlink">Effects Rack Overview</span></a>
+<br>
+<a href="https://livehelp.solidstatelogic.com/Help/FXDelays.html"><span class="hyperlink">Delay Effects</span></a>
+<br>
+<a href="https://livehelp.solidstatelogic.com/Help/FXEQs.html"><span class="hyperlink">EQ Effects</span></a>
+<br>
+<a href="https://livehelp.solidstatelogic.com/Help/FXModulation.html"><span class="hyperlink">Modulation Effects</span></a>
+<br>
+<a href="https://livehelp.solidstatelogic.com/Help/FXReverbs.html"><span class="hyperlink">Reverb Effects</span></a>
+<br>
+<a href="https://livehelp.solidstatelogic.com/Help/FXOther.html"><span class="hyperlink">Other Effects Modules</span></a>
+<br>
+<a href="https://livehelp.solidstatelogic.com/Help/FXTools.html"><span class="hyperlink">Audio Tools</span></a>
+<br>
+<a href="https://livehelp.solidstatelogic.com/Help/FXAutoMix.html"><span class="hyperlink">Automix</span></a>
+<br>
+<a href="https://livehelp.solidstatelogic.com/Help/LinkIndex.html"><span class="hyperlink">Index and Glossary</span></a>
+<br>
+</body>
+</html>

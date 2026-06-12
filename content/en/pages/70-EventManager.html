@@ -1,0 +1,1465 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Event Manager</title>
+  <style>
+    body { font: 16px/1.55 Arial, sans-serif; max-width: 1080px; margin: 2rem auto; padding: 0 1.25rem; color: #202124; }
+    img { max-width: 100%; height: auto; }
+    table { border-collapse: collapse; max-width: 100%; }
+    th, td { border: 1px solid #aaa; padding: .45rem; vertical-align: top; }
+    .note { display: block; border-left: 4px solid #e0a000; background: #fff8df; padding: .75rem 1rem; margin: 1rem 0; }
+    .notetitle { font-weight: bold; }
+    .label { font-weight: bold; color: #174ea6; }
+    .source { color: #666; font-size: .9rem; }
+  </style>
+</head>
+<body>
+  <p class="source">Section: Settings &amp; Extras | Source: <a href="https://livehelp.solidstatelogic.com/Help/EventManager.html">https://livehelp.solidstatelogic.com/Help/EventManager.html</a></p>
+<h2>Event Manager</h2>
+
+<p>
+    The Event Manager allows programming of state-driven actions on the console.
+    Events can be configured in the Event Manager page (<span class="label">Menu</span>
+    > <span class="label">Tools</span> >
+    <span class="label">Event&nbsp;Manager</span>). The top half of the page
+    displays a list of all configured events. Engage the Edit button in the
+    sidebar to modify the event list.
+</p>
+
+<img style="display: block; margin: 5px auto; width: 780px"
+     src="https://livehelp.solidstatelogic.com/Help/images/g_EventManager.png"
+     alt="" />
+
+<p>
+    Press <span class="label">New Event</span> to create a new event. Events are
+    configured in the lower half of the screen. Double-tap the name field in the
+    centre of the page to rename the event. Event triggers (sources) and actions
+    to perform when the trigger conditions are met (destinations) are added here
+    to define the event's functionality.
+</p>
+
+<p>
+    To delete an event, enable <span class="label">Edit</span> mode from the
+    sidebar and use the round buttons in the Edit column of the event list to
+    edit-enable the event(s). Press & hold the
+    <span class="label">Delete</span> button in the sidebar to delete the selected
+    event(s).
+</p>
+
+<p><b>Note: Event deletion cannot be undone!</b></p>
+
+<p>
+    To disable an event without deleting it, edit-enable the event(s) in the list
+    (as per delete operation above) and press the
+    <span class="label">Disable</span> button in the sidebar. Disabled events are
+    identified by a red icon in the <b>Enabled</b> column of the events list. See
+    below for disabling individual
+    <a href="https://livehelp.solidstatelogic.com/Help/EventManager.html#Sources"><span class="hyperlink">Sources</span></a>
+    and
+    <a href="https://livehelp.solidstatelogic.com/Help/EventManager.html#Destinations"><span class="hyperlink">Destinations</span></a>.
+</p>
+
+<p>
+    To duplicate an event, edit-enable the event (as per delete operation above)
+    and press the <span class="label">Duplicate&nbsp;Event</span> button in the
+    sidebar. This will create a duplicate event, appending the original event name
+    with a number, e.g. "New Event (1)".
+</p>
+
+<p>
+    The current state of each event is indicated in the <b>State</b> column. The
+    indicator will light green when the event is active (i.e. all source
+    conditions have been met).
+</p>
+
+<h3 id="Sources">Event Sources</h3>
+
+<p>
+    Use the <span class="label">Add&nbsp;Source</span> button to add a new event
+    source. Up to 12 sources can be added per event. Events can be triggered when
+    <span class="label">Any</span> or <span class="label">All</span> source
+    conditions are met by selecting the appropriate <b>Trigger</b> option in the
+    top right corner of the Sources section. When any/all event source states
+    become true, the event state becomes true and all event destination actions
+    are triggered.
+</p>
+
+<p>
+    Use the <span class="label">Remove&nbsp;Source</span> button to delete the
+    selected source from the event.
+</p>
+
+<p>
+    <b>Note: Removing a source cannot be undone; it must be re-added manually.</b>
+</p>
+
+<p>
+    Use the <span class="label">Disable</span> button to disable the selected
+    source from triggering the event, without permanently deleting it. This allows
+    certain sources to be temporarily removed from the event logic (e.g. if the
+    source is producing erroneous signals) without permanently losing the source's
+    settings.
+</p>
+
+<p>
+    The current state of each source is indicated by its icon in the event list
+    and source detail area. A green icon indicates that the source condition has
+    been met and will contribute to activating the event.
+</p>
+
+<table>
+    <tbody>
+        <tr>
+            <td style="vertical-align: middle">
+                <img style="margin: 0px 10px 0px 0px; width: 30px"
+                     src="https://livehelp.solidstatelogic.com/Help/images/b_EventFunction.png"
+                     alt="" />
+            </td>
+            <td style="vertical-align: middle">Source assigned, not activated</td>
+        </tr>
+        <tr>
+            <td style="vertical-align: middle">
+                <img style="margin: 0px 10px 0px 0px; width: 30px"
+                     src="https://livehelp.solidstatelogic.com/Help/images/b_EventFunctionOn.png"
+                     alt="" />
+            </td>
+            <td style="vertical-align: middle">Source activated</td>
+        </tr>
+        <tr>
+            <td style="vertical-align: middle">
+                <img style="margin: 0px 10px 0px 0px; width: 30px"
+                     src="https://livehelp.solidstatelogic.com/Help/images/b_EventFunctionDisabled.png"
+                     alt="" />
+            </td>
+            <td style="vertical-align: middle">Source disabled</td>
+        </tr>
+    </tbody>
+</table>
+
+<p>
+    When adding a new source, use the <b>TYPE</b> option to the left of the source
+    area to choose the source type. Source options are:
+</p>
+
+<table>
+    <tbody>
+        <tr>
+            <td style="vertical-align: middle">
+                <img style="margin: 0px 10px 0px 0px; width: 30px"
+                     src="https://livehelp.solidstatelogic.com/Help/images/b_EventNone.png"
+                     alt="" />
+            </td>
+            <td style="vertical-align: middle">
+                <span class="label">None</span> (unassigned)
+            </td>
+        </tr>
+        <tr>
+            <td style="vertical-align: middle">
+                <img style="margin: 0px 10px 0px 0px; width: 30px"
+                     src="https://livehelp.solidstatelogic.com/Help/images/b_EventAuto.png"
+                     alt="" />
+            </td>
+            <td style="vertical-align: middle">
+                <span class="label">Automation&nbsp;Output</span>
+            </td>
+        </tr>
+        <tr>
+            <td style="vertical-align: middle">
+                <img style="margin: 0px 10px 0px 0px; width: 30px"
+                     src="https://livehelp.solidstatelogic.com/Help/images/b_EventGPIO.png"
+                     alt="" />
+            </td>
+            <td style="vertical-align: middle">
+                <span class="label">GP&nbsp;Input</span> (GPI)
+            </td>
+        </tr>
+        <tr>
+            <td style="vertical-align: middle">
+                <img style="margin: 0px 10px 0px 0px; width: 30px"
+                     src="https://livehelp.solidstatelogic.com/Help/images/b_EventMIDI.png"
+                     alt="" />
+            </td>
+            <td style="vertical-align: middle">
+                <span class="label">MIDI&nbsp;Input</span>
+            </td>
+        </tr>
+        <tr>
+            <td style="vertical-align: middle">
+                <img style="margin: 0px 10px 0px 0px; width: 30px"
+                     src="https://livehelp.solidstatelogic.com/Help/images/b_EventFunction.png"
+                     alt="" />
+            </td>
+            <td style="vertical-align: middle">
+                <span class="label">Console&nbsp;Function</span>
+            </td>
+        </tr>
+        <tr>
+            <td style="vertical-align: middle">
+                <img style="margin: 0px 10px 0px 0px; width: 30px"
+                     src="https://livehelp.solidstatelogic.com/Help/images/b_EventUserKey.png"
+                     alt="" />
+            </td>
+            <td style="vertical-align: middle">
+                <span class="label">User&nbsp;Key</span>
+            </td>
+        </tr>
+        <tr>
+            <td style="vertical-align: middle">
+                <img style="margin: 0px 10px 0px 0px; width: 30px"
+                     src="https://livehelp.solidstatelogic.com/Help/images/b_EventFader.png"
+                     alt="" />
+            </td>
+            <td style="vertical-align: middle">
+                <span class="label">Fader&nbsp;Function</span>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+<p></p>
+
+<div id="accordion">
+    <div class="indexheader2">Automation Outputs</div>
+    <div>
+        <p>
+            The console's automation scenes can be used to trigger events. Follow the
+            configuration steps below:
+        </p>
+
+        <p>
+            Select the <span class="label">Automation&nbsp;Output</span> source type
+            in the Event Manager page.
+        </p>
+
+        <img style="margin: 5px auto; width: 100px"
+             src="https://livehelp.solidstatelogic.com/Help/images/g_EventMgr_AutoSrcBtn.png"
+             alt="" />
+
+        <p>
+            This Automation event source can now be linked to a scene's
+            <a href="https://livehelp.solidstatelogic.com/Help/AutoIOActions.html"><span class="hyperlink">Output&nbsp;Action</span></a>. From the console's
+            <a href="https://livehelp.solidstatelogic.com/Help/AutoOverview.html"><span class="hyperlink">Automation</span></a>
+            page, select the desired scene, go to the
+            <b>Output&nbsp;Actions</b> section and select the
+            <span class="label">Event</span> action type.
+        </p>
+
+        <p>
+            Select the event from the list of <b>LINKABLE&nbsp;EVENTS</b> and press
+            <span class="label">Apply</span>.
+        </p>
+
+        <div>
+            <img style="display: block; margin: 20px auto; width: 700px"
+                 src="https://livehelp.solidstatelogic.com/Help/images/g_autoEventsLinked.png"
+                 alt="" />
+        </div>
+
+        <p>
+            <span class="label">Arm</span> the Output Action to ensure it triggers
+            when the scene is fired.
+        </p>
+
+        <p>The linked scene will be displayed in the Event Manager page.</p>
+    </div>
+    <div class="indexheader2">GP Inputs (GPIs)</div>
+    <div>
+        <p>
+            GPI sources can be used to trigger events from the console's local GPIO
+            ports* or from any SSL Live MADI or Network I/O Dante stagebox with GPIO
+            ports.
+        </p>
+
+        <p>
+            Select the <span class="label">GP&nbsp;Input</span> source type then use
+            the <span class="label">Route</span> button to open a Routing dialogue
+            listing all GPIs available to the console. Select the GPI to use and press
+            <span class="label">Make</span>. Close the Routing dialogue to return to
+            the event source configuration.
+        </p>
+
+        <p>GPIs can trigger based on a number of different Actions:</p>
+        <ul>
+            <li>
+                <span class="label">Latching</span> : Source state becomes and stays
+                true when GPI signal goes high
+            </li>
+            <li>
+                <span class="label">Momentary</span> : Source state becomes true only
+                while the GPI signal is high
+            </li>
+            <li>
+                <span class="label">Momentary-On-Hold</span> : Source state becomes true
+                when GPI signal goes high and becomes false if GPI signal goes low after
+                500 milliseconds, else state remains true
+            </li>
+        </ul>
+
+        <p>
+            Use the <span class="label">Inverted</span> button to invert the GPI state
+            into the event trigger, i.e. when the incoming GPI signal goes low, the
+            source state should become true.
+        </p>
+
+        <img style="display: block; margin: 5px auto"
+             src="https://livehelp.solidstatelogic.com/Help/images/g_EventMgr_GPI.png"
+             alt="" />
+    </div>
+    <div class="indexheader2">MIDI Inputs</div>
+    <div>
+        <p>
+            MIDI sources can be used to trigger events from the console's local MIDI
+            ports*, from the MIDI port on any SSL Live MADI stagebox or via ipMIDI.
+        </p>
+
+        <p>
+            Select the <span class="label">MIDI&nbsp;Input</span> source type then use
+            the <span class="label">Route</span> button to open a Routing dialogue
+            listing all MIDI ports available to the console. Select the port to use
+            and press <span class="label">Make</span>. Close the Routing dialogue to
+            return to the event source configuration.
+        </p>
+
+        <span class="note">
+            <span class="notetitle">Note:</span> If a MIDI Input has already been
+            routed to a MIDI port, subsequently added MIDI Inputs will be
+            automatically routed to the last used MIDI port.
+        </span>
+
+        <p>
+            <span class="label">Note&nbsp;On</span>,
+            <span class="label">Note&nbsp;Off</span>,
+            <span class="label">Program&nbsp;Change</span> and
+            <span class="label">Control&nbsp;Change</span> (CC) messages can all be
+            selected for use with events.
+        </p>
+
+        <p>
+            The remainder of the source section is used to configure the expected MIDI
+            message (MIDI Channel, Note Number etc. as applicable).
+        </p>
+
+        <img style="display: block; margin: 5px auto; width: 800px"
+             src="https://livehelp.solidstatelogic.com/Help/images/g_EventMgr_MIDIInput.png"
+             alt="" />
+
+        <p>
+            MIDI event sources have a
+            <span class="label">Pulse&nbsp;Fire</span> option. When enabled and a
+            message of the specific type is received, the source state will go true
+            for 500 ms then go false, irrespective of the input state. For program
+            change messages this allows events to be retriggered by a repeated input.
+            Without Pulse Fire enabled the event source state remains high following
+            the program change.
+        </p>
+
+        <span class="note">
+            <span class="notetitle">Note:</span> If using
+            <a href="https://livehelp.solidstatelogic.com/Help/ipMIDI.html"><span class="hyperlink">ipMIDI</span></a> for Event
+            sources this should be a different ipMIDI port to that used for
+            <a href="https://livehelp.solidstatelogic.com/Help/AutoIOActions.html"><span class="hyperlink">Automation Input/Output Actions</span></a>,
+            <a href="https://livehelp.solidstatelogic.com/Help/DAWControl.html"><span class="hyperlink">DAW Control</span></a>
+            and
+            <a href="https://livehelp.solidstatelogic.com/Help/OptionsSystem.html#Timecode"><span class="hyperlink">Timecode</span></a>.
+        </span>
+    </div>
+    <div class="indexheader2">Console Function Sources</div>
+    <div>
+        <p>
+            Various console functions can be used to trigger events. A full list is
+            included below.
+        </p>
+
+        <p>
+            Path functions require the specific path number to be entered (or engage
+            <span class="label">Any&nbsp;Path</span> to trigger the event source when
+            any paths of the selected type meet the desired state).
+        </p>
+
+        <img style="display: block; margin: 5px auto"
+             src="https://livehelp.solidstatelogic.com/Help/images/g_EventMgr_ConsoleFunctionInput.png"
+             alt="" />
+
+        <table class="nestedlist" style="text-align: left; margin: 0px">
+            <tbody class="small">
+                <tr>
+                    <th rowspan="6">Console Functions</th>
+                    <th colspan="4">
+                        <a href="https://livehelp.solidstatelogic.com/Help/RecordingPlayback.html#RehearseMode"><span class="hyperlink">Rehearse Mode</span></a>
+                    </th>
+                </tr>
+                <tr>
+                    <th>
+                        <a href="https://livehelp.solidstatelogic.com/Help/Mute.html"><span class="hyperlink">Mute Group Masters</span></a>
+                    </th>
+                    <th colspan="3">MG Master 1-10</th>
+                </tr>
+                <tr>
+                    <th>
+                        <a href="https://livehelp.solidstatelogic.com/Help/TB.html#Groups"><span class="hyperlink">Talkback Groups</span></a>
+                    </th>
+                    <th colspan="3">Group 1 - 10 IN</th>
+                </tr>
+                <tr>
+                    <th rowspan="2">
+                        <a href="https://livehelp.solidstatelogic.com/Help/Solo.html"><span class="hyperlink">Solo Setup</span></a>
+                    </th>
+                    <td colspan="3">SIP</td>
+                </tr>
+                <tr>
+                    <td colspan="3">Additive Solo A / B</td>
+                </tr>
+                <tr>
+                    <th>
+                        <a href="https://livehelp.solidstatelogic.com/Help/SignalSwitcher.html"><span class="hyperlink">Signal Switchers</span></a>
+                    </th>
+                    <th colspan="2">Signal Switcher 1 - 4</th>
+                    <th>Input B</th>
+                </tr>
+                <tr>
+                    <th rowspan="14">Path Functions</th>
+                    <th rowspan="14">
+                        Channel&nbsp;/ Stem&nbsp;/<br />
+                        Aux / Master&nbsp;/<br />
+                        Matrix&nbsp;/ Talkback&nbsp;/<br />
+                        Solo Chan&nbsp;/ VCA N
+                    </th>
+                    <th colspan="3">Mute</th>
+                </tr>
+                <tr>
+                    <th colspan="3">
+                        Solo <span style="font-weight: normal">(not Solo paths)</span>
+                    </th>
+                </tr>
+                <tr>
+                    <th colspan="3">
+                        TB IN
+                        <span style="font-weight: normal">(Stem/Aux/Master paths only)</span>
+                    </th>
+                </tr>
+                <tr>
+                    <th colspan="3">
+                        Input A
+                        <span style="font-weight: normal">(Channel paths only)</span>
+                    </th>
+                </tr>
+                <tr>
+                    <th colspan="3">
+                        Input B
+                        <span style="font-weight: normal">(Channel paths only)</span>
+                    </th>
+                </tr>
+                <tr>
+                    <th colspan="3">
+                        Insert A IN <span style="font-weight: normal">(not VCA paths)</span>
+                    </th>
+                </tr>
+                <tr>
+                    <th colspan="3">
+                        Insert B IN <span style="font-weight: normal">(not VCA paths)</span>
+                    </th>
+                </tr>
+                <tr>
+                    <th colspan="3">
+                        Comp IN
+                        <span style="font-weight: normal">(processed paths only)</span>
+                    </th>
+                </tr>
+                <tr>
+                    <th colspan="3">
+                        Gate IN
+                        <span style="font-weight: normal">(processed paths only)</span>
+                    </th>
+                </tr>
+                <tr>
+                    <th colspan="3">
+                        EQ IN
+                        <span style="font-weight: normal">(processed paths only)</span>
+                    </th>
+                </tr>
+                <tr>
+                    <th colspan="3">
+                        Filters IN
+                        <span style="font-weight: normal">(processed paths only)</span>
+                    </th>
+                </tr>
+                <tr>
+                    <th colspan="3">
+                        Delay IN
+                        <span style="font-weight: normal">(processed paths only)</span>
+                    </th>
+                </tr>
+                <tr>
+                    <th colspan="3">
+                        All Pass IN
+                        <span style="font-weight: normal">(processed paths only)</span>
+                    </th>
+                </tr>
+                <tr>
+                    <th colspan="2">
+                        Routing
+                        <span style="font-weight: normal">(Channel/Stem/Aux/Talkback paths only)</span>
+                    </th>
+                    <th>Master / Stem / Aux IN</th>
+                </tr>
+                <tr>
+                    <th rowspan="36">
+                        <a href="https://livehelp.solidstatelogic.com/Help/DAWControl.html"><span class="hyperlink">DAW</span></a>
+                    </th>
+                    <th rowspan="28">DAW 1 - 4</th>
+                    <th rowspan="11">Strip Master Switches</th>
+                    <th rowspan="4">Select - Assign</th>
+                    <th>Send A - E</th>
+                </tr>
+                <tr>
+                    <th>Pan</th>
+                </tr>
+                <tr>
+                    <th>Mute</th>
+                </tr>
+                <tr>
+                    <th>Flip</th>
+                </tr>
+                <tr>
+                    <th rowspan="2">Global</th>
+                    <th>Suspend</th>
+                </tr>
+                <tr>
+                    <th>Rec/Rdy All</th>
+                </tr>
+                <tr>
+                    <th rowspan="5">Window</th>
+                    <th>Transport</th>
+                </tr>
+                <tr>
+                    <th>Edit</th>
+                </tr>
+                <tr>
+                    <th>Mix</th>
+                </tr>
+                <tr>
+                    <th>Alt</th>
+                </tr>
+                <tr>
+                    <th>Mem-Loc</th>
+                </tr>
+                <tr>
+                    <th rowspan="17">Master Section</th>
+                    <th rowspan="2">Keyboard Shortcuts</th>
+                    <th>Undo</th>
+                </tr>
+                <tr>
+                    <th>Save</th>
+                </tr>
+                <tr>
+                    <th>Status/Group</th>
+                    <th>Suspend</th>
+                </tr>
+                <tr>
+                    <th rowspan="8">Transport Keys</th>
+                    <th>On-Line</th>
+                </tr>
+                <tr>
+                    <th>Loop</th>
+                </tr>
+                <tr>
+                    <th>Quick Punch</th>
+                </tr>
+                <tr>
+                    <th>Rewind</th>
+                </tr>
+                <tr>
+                    <th>Fast Forward</th>
+                </tr>
+                <tr>
+                    <th>Stop</th>
+                </tr>
+                <tr>
+                    <th>Play</th>
+                </tr>
+                <tr>
+                    <th>Rec</th>
+                </tr>
+                <tr>
+                    <th rowspan="6">Automation Write Enable</th>
+                    <th>AE Plugin</th>
+                </tr>
+                <tr>
+                    <th>AE Vol</th>
+                </tr>
+                <tr>
+                    <th>AE S Vol</th>
+                </tr>
+                <tr>
+                    <th>AE Pan</th>
+                </tr>
+                <tr>
+                    <th>AE Mute</th>
+                </tr>
+                <tr>
+                    <th>AE S Mute</th>
+                </tr>
+                <tr>
+                    <th rowspan="8">Master DAW</th>
+                    <th rowspan="8">Master Section</th>
+                    <th rowspan="8">Transport Keys</th>
+                    <th>On-Line</th>
+                </tr>
+                <tr>
+                    <th>Loop</th>
+                </tr>
+                <tr>
+                    <th>Quick Punch</th>
+                </tr>
+                <tr>
+                    <th>Rewind</th>
+                </tr>
+                <tr>
+                    <th>Fast Forward</th>
+                </tr>
+                <tr>
+                    <th>Stop</th>
+                </tr>
+                <tr>
+                    <th>Play</th>
+                </tr>
+                <tr>
+                    <th>Rec</th>
+                </tr>
+                <tr>
+                    <th>
+                        <a href="https://livehelp.solidstatelogic.com/Help/ControlSurface.html#StatusBar"><span class="hyperlink">Status Messages</span></a>
+                    </th>
+                    <th colspan="4">
+                        Error Status
+                        <span style="font-weight: normal">(triggered by any error state, e.g. PSU failure)</span>
+                    </th>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="indexheader2">User Key Inputs</div>
+    <div>
+        <p>
+            The console's
+            <a href="https://livehelp.solidstatelogic.com/Help/OptionsUserKeys.html"><span class="hyperlink">User Keys</span></a>
+            can also be used to trigger events. Select the
+            <span class="label">User&nbsp;Key</span> source type then select the
+            Action required to trigger the event.
+        </p>
+
+        <img style="display: block; margin: 5px auto"
+             src="https://livehelp.solidstatelogic.com/Help/images/g_EventMgr_UserKeyInput.png"
+             alt="" />
+
+        <p>The different Actions available are:</p>
+
+        <ul>
+            <li>
+                <span class="label">Latching</span> : Source state becomes and stays
+                true when User Key is pressed
+            </li>
+            <li>
+                <span class="label">Momentary</span> : Source state becomes true only
+                while the User Key is pressed
+            </li>
+            <li>
+                <span class="label">Momentary-On-Hold</span> : Source state becomes true
+                when User Key pressed and becomes false if User Key is released after
+                500 milliseconds, else state remains true
+            </li>
+        </ul>
+
+        <p>
+            Only one User Key source can be added per event. The event's User Key
+            source will now be available for assigning to any of the console's User
+            Keys in the usual way, from the relevant
+            <a href="https://livehelp.solidstatelogic.com/Help/OptionsUserKeys.html"><span class="hyperlink">User Options page</span></a>
+            (<span class="label">MENU</span> > <span class="label">Setup</span> >
+            <span class="label">Options</span> >
+            <span class="label">USER&nbsp;KEYS</span>).
+        </p>
+    </div>
+    <div class="indexheader2">Fader Sources</div>
+    <div>
+        <p>
+            Fader Function sources can be used to trigger an event when a path's fader
+            meets a specified dB <b>Threshold</b>.
+        </p>
+
+        <p>
+            Fader functions require the specific path number to be entered (or engage
+            <span class="label">Any&nbsp;Path</span> to trigger the event source when
+            any paths of the selected type meet the desired state).
+        </p>
+
+        <p>
+            Once a path (or paths) have been selected, set the <b>Threshold</b> and
+            determine if the source should
+            <span class="label">Trigger&nbsp;Above</span> or
+            <span class="label">Trigger&nbsp;Below</span> the threshold value.
+        </p>
+
+        <img style="display: block; margin: 5px auto; width: 800px"
+             src="https://livehelp.solidstatelogic.com/Help/images/g_EventMgr_FaderInput.png"
+             alt="" />
+
+        <span class="note">
+            <span class="notetitle">Note:</span> Fader event sources act on the fader
+            position <b>after</b> any contributing VCA levels have been taken into
+            account.<br />
+            e.g. If a path fader is at -6&nbsp;dB and a VCA acting on that path is set
+            to -10&nbsp;dB, the value used to determine if the fader position is above
+            or below the event threshold is -16&nbsp;dB.
+        </span>
+    </div>
+</div>
+
+<h3 id="Destinations">Event Destinations</h3>
+
+<p>
+    Use the <span class="label">Add&nbsp;Destination</span> button to add a new
+    event destination. Up to 12 destinations can be added per event. All
+    destination actions will be applied when the event's state becomes true.
+</p>
+
+<p>
+    Use the <span class="label">Remove&nbsp;Destination</span> button to delete
+    the selected destination from the event.
+</p>
+
+<p>
+    <b>
+        Note: Removing a destination cannot be undone; it must be re-added
+        manually.
+    </b>
+</p>
+
+<p>
+    Use the <span class="label">Disable</span> button to disable the selected
+    destination from the event, without permanently deleting it. This allows
+    certain destinations to be temporarily suspended from triggering without
+    permanently losing their settings.
+</p>
+
+<p>
+    Use the <span class="label">Test</span> button in the source area to test the
+    event state going true (to test all configured destinations). Use the
+    <span class="label">Test</span> button in the destination area to test the
+    selected destination.
+</p>
+
+<p>
+    When adding a new destination, use the <b>TYPE</b> option to the left of the
+    destination area to choose the destination type. Destination options are:
+</p>
+
+<table>
+    <tbody>
+        <tr>
+            <td style="vertical-align: middle">
+                <img style="margin: 0px 10px 0px 0px; width: 30px"
+                     src="https://livehelp.solidstatelogic.com/Help/images/b_EventNone.png"
+                     alt="" />
+            </td>
+            <td style="vertical-align: middle">
+                <span class="label">None</span> (unassigned)
+            </td>
+        </tr>
+        <tr>
+            <td style="vertical-align: middle">
+                <img style="margin: 0px 10px 0px 0px; width: 30px"
+                     src="https://livehelp.solidstatelogic.com/Help/images/b_EventAuto.png"
+                     alt="" />
+            </td>
+            <td style="vertical-align: middle">
+                <span class="label">Automation&nbsp;Input</span>
+            </td>
+        </tr>
+        <tr>
+            <td style="vertical-align: middle">
+                <img style="margin: 0px 10px 0px 0px; width: 30px"
+                     src="https://livehelp.solidstatelogic.com/Help/images/b_EventGPIO.png"
+                     alt="" />
+            </td>
+            <td style="vertical-align: middle">
+                <span class="label">GP&nbsp;Output</span> (GPO)
+            </td>
+        </tr>
+        <tr>
+            <td style="vertical-align: middle">
+                <img style="margin: 0px 10px 0px 0px; width: 30px"
+                     src="https://livehelp.solidstatelogic.com/Help/images/b_EventMIDI.png"
+                     alt="" />
+            </td>
+            <td style="vertical-align: middle">
+                <span class="label">MIDI&nbsp;Output</span>
+            </td>
+        </tr>
+        <tr>
+            <td style="vertical-align: middle">
+                <img style="margin: 0px 10px 0px 0px; width: 30px"
+                     src="https://livehelp.solidstatelogic.com/Help/images/b_EventFunction.png"
+                     alt="" />
+            </td>
+            <td style="vertical-align: middle">
+                <span class="label">Console&nbsp;Function</span>
+            </td>
+        </tr>
+        <tr>
+            <td style="vertical-align: middle">
+                <img style="margin: 0px 10px 0px 0px; width: 30px"
+                     src="https://livehelp.solidstatelogic.com/Help/images/b_EventFader.png"
+                     alt="" />
+            </td>
+            <td style="vertical-align: middle">
+                <span class="label">Fader&nbsp;Function</span>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+<span class="note">
+    <span class="notetitle">Note:</span> Event Destinations should <b>not</b> be
+    set to the same function as Event Sources; this will create a feedback loop!
+</span>
+
+<p></p>
+
+<div id="accordion">
+    <div class="indexheader2">Automation Inputs</div>
+    <div>
+        <p>
+            Events can be used to trigger specific automation scenes. Follow the
+            configuration steps below:
+        </p>
+
+        <p>
+            Select the <span class="label">Automation&nbsp;Input</span> destination
+            type in the Event Manager page.
+        </p>
+
+        <img style="margin: 5px auto; width: 100px"
+             src="https://livehelp.solidstatelogic.com/Help/images/g_EventMgr_AutoDestBtn.png"
+             alt="" />
+
+        <p>
+            This Automation event destination can now be linked to a scene's
+            <a href="https://livehelp.solidstatelogic.com/Help/AutoIOActions.html"><span class="hyperlink">Input&nbsp;Action</span></a>. From the console's
+            <a href="https://livehelp.solidstatelogic.com/Help/AutoOverview.html"><span class="hyperlink">Automation</span></a>
+            page, select the desired scene, go to the
+            <b>Input&nbsp;Actions</b> section and select the
+            <span class="label">Event</span> action type.
+        </p>
+
+        <p>
+            Select the event from the list of <b>LINKABLE&nbsp;EVENTS</b> and press
+            <span class="label">Apply</span>.
+        </p>
+
+        <p>
+            <span class="label">Arm</span> the Input Action to ensure it fires the
+            scene when the event is activated.
+        </p>
+
+        <p>The linked scene will be displayed in the Event Manager page.</p>
+    </div>
+    <div class="indexheader2">GP Outputs (GPOs)</div>
+    <div>
+        <p>
+            GPO destinations can be used to control external devices from the
+            console's local GPIO ports* or from any SSL Live MADI or Network I/O Dante
+            stagebox with GPIO ports.
+        </p>
+
+        <p>
+            Select the <span class="label">GP&nbsp;Output</span> destination type then
+            use the <span class="label">Route</span> button to open a Routing dialogue
+            listing all GPOs available to the console. Select the GPO to use and press
+            <span class="label">Make</span>. Close the Routing dialogue to return to
+            the event destination configuration.
+        </p>
+
+        <p>GPO behaviour can be set to a number of different Actions:</p>
+
+        <ul>
+            <li>
+                <span class="label">Latching</span> : GPO state toggled when event state
+                becomes true
+            </li>
+            <li>
+                <span class="label">Momentary</span> : GPO state follows event state
+            </li>
+            <li>
+                <span class="label">Pulse</span> : GPO pulsed closed for 500
+                milliseconds when event state becomes true
+            </li>
+            <li>
+                <span class="label">Turn On</span> : GPO closed when event state becomes
+                true; second event required to re-open GPO
+            </li>
+            <li>
+                <span class="label">Turn Off</span> : GPO opened when event state
+                becomes true; second event required to re-close
+            </li>
+        </ul>
+
+        <p>
+            Use the <span class="label">Inverted</span> button to invert the GPO state
+            relative to the event state, i.e. when the event state goes true, the GPO
+            opens and vice versa.
+        </p>
+
+        <img style="display: block; margin: 5px auto"
+             src="https://livehelp.solidstatelogic.com/Help/images/g_EventMgr_GPO.png"
+             alt="" />
+    </div>
+    <div class="indexheader2">MIDI Outputs</div>
+    <div>
+        <p>
+            MIDI destinations can be used to control external devices from the
+            console's local MIDI ports*, from the MIDI port on any SSL Live MADI
+            stagebox or via ipMIDI.
+        </p>
+
+        <p>
+            Select the <span class="label">MIDI&nbsp;Output</span> destination type
+            then use the <span class="label">Route</span> button to open a Routing
+            dialogue listing all MIDI ports available to the console. Select the port
+            to use and press <span class="label">Make</span>. Close the Routing
+            dialogue to return to the event destination configuration.
+        </p>
+
+        <p>
+            If a MIDI Output has already been routed to a MIDI port, subsequently
+            added MIDI Outputs will be automatically routed to the last used MIDI
+            port.
+        </p>
+
+        <p>
+            <span class="label">Note&nbsp;On</span>,
+            <span class="label">Note&nbsp;Off</span>,
+            <span class="label">Program&nbsp;Change</span> and
+            <span class="label">Control&nbsp;Change</span> (CC) messages can all be
+            selected for use with events.
+        </p>
+
+        <p>
+            The remainder of the destination section is used to configure the outgoing
+            MIDI message (MIDI Channel, Note Number etc. as applicable).
+        </p>
+
+        <img style="display: block; margin: 5px auto; width: 800px"
+             src="https://livehelp.solidstatelogic.com/Help/images/g_EventMgr_MIDIOutput.png"
+             alt="" />
+
+        <span class="note">
+            <span class="notetitle">Note:</span> If using
+            <a href="https://livehelp.solidstatelogic.com/Help/ipMIDI.html"><span class="hyperlink">ipMIDI</span></a> for Event
+            destinations this should be a different ipMIDI port to that used for
+            <a href="https://livehelp.solidstatelogic.com/Help/AutoIOActions.html"><span class="hyperlink">Automation Input/Output Actions</span></a>,
+            <a href="https://livehelp.solidstatelogic.com/Help/DAWControl.html"><span class="hyperlink">DAW Control</span></a>
+            and
+            <a href="https://livehelp.solidstatelogic.com/Help/OptionsSystem.html#Timecode"><span class="hyperlink">Timecode</span></a>.
+        </span>
+    </div>
+    <div class="indexheader2">Console Function Destinations</div>
+    <div>
+        <p>
+            Various console functions can be actioned from events. A full list is
+            included below.
+        </p>
+
+        <img style="display: block; margin: 5px auto; width: 800px"
+             src="https://livehelp.solidstatelogic.com/Help/images/g_EventMgr_ConsoleFunctionOutput.png"
+             alt="" />
+
+        <p>
+            Console Functions can be set to operate in a number of different ways:
+        </p>
+
+        <ul>
+            <li>
+                <span class="label">Follow&nbsp;On</span> : Function state follows event
+                state
+            </li>
+            <li>
+                <span class="label">Follow&nbsp;Off</span> : Function state follows
+                inverse of event state
+            </li>
+            <li>
+                <span class="label">Toggle</span> : Function state toggled whenever
+                event state becomes true
+            </li>
+            <li>
+                <span class="label">Turn&nbsp;On</span> : Function turned on when event
+                state becomes true; second event or direct function interaction required
+                to turn the function off
+            </li>
+            <li>
+                <span class="label">Turn&nbsp;Off</span> : Function turned off when
+                event state becomes true; second event or direct function interaction
+                required to turn the function on
+            </li>
+        </ul>
+
+        <p>
+            Path functions require the specific path number to be entered (or engage
+            <span class="label">All&nbsp;Paths</span> to affect all paths of the
+            selected type).
+        </p>
+
+        <table class="nestedlist" style="text-align: left; margin: 0px">
+            <tbody class="small">
+                <tr>
+                    <th rowspan="27">Console Functions</th>
+                    <th rowspan="2">
+                        <a href="https://livehelp.solidstatelogic.com/Help/RecordingPlayback.html#RehearseMode"><span class="hyperlink">Rehearse Mode</span></a>
+                    </th>
+                    <td colspan="3">Global</td>
+                </tr>
+                <tr>
+                    <td colspan="3">Group 1-8</td>
+                </tr>
+                <tr>
+                    <th>
+                        <a href="https://livehelp.solidstatelogic.com/Help/Mute.html"><span class="hyperlink">Mute Group Masters</span></a>
+                    </th>
+                    <td colspan="3">MG Master 1-10</td>
+                </tr>
+                <tr>
+                    <th>
+                        <a href="https://livehelp.solidstatelogic.com/Help/TB.html#Groups"><span class="hyperlink">Talkback Groups</span></a>
+                    </th>
+                    <td colspan="3">Group 1 - 10 IN</td>
+                </tr>
+                <tr>
+                    <th>
+                        <a href="https://livehelp.solidstatelogic.com/Help/FXDelays.html#TempoLink"><span class="hyperlink">Tempo Link</span></a>
+                    </th>
+                    <td colspan="3">Rack 1 - 6 Tap Tempo</td>
+                </tr>
+                <tr>
+                    <th rowspan="10">
+                        <a href="https://livehelp.solidstatelogic.com/Help/Solo.html"><span class="hyperlink">Solo Setup</span></a>
+                    </th>
+                    <td colspan="3">SIP</td>
+                </tr>
+                <tr>
+                    <td colspan="3">Additive Solo A / B</td>
+                </tr>
+                <tr>
+                    <th rowspan="4">Solo A Default Feed Point</th>
+                    <td colspan="2">None</td>
+                </tr>
+                <tr>
+                    <td colspan="2">Pre Fader</td>
+                </tr>
+                <tr>
+                    <td colspan="2">Post All</td>
+                </tr>
+                <tr>
+                    <td colspan="2">Toggle Pre/Post</td>
+                </tr>
+                <tr>
+                    <th rowspan="4">Solo B Default Feed Point</th>
+                    <td colspan="2">None</td>
+                </tr>
+                <tr>
+                    <td colspan="2">Pre Fader</td>
+                </tr>
+                <tr>
+                    <td colspan="2">Post All</td>
+                </tr>
+                <tr>
+                    <td colspan="2">Toggle Pre/Post</td>
+                </tr>
+                <tr>
+                    <th>
+                        <a href="https://livehelp.solidstatelogic.com/Help/SignalSwitcher.html"><span class="hyperlink">Signal Switchers</span></a>
+                    </th>
+                    <th colspan="2">Signal Switcher 1 - 4</th>
+                    <td>Input B</td>
+                </tr>
+                <tr>
+                    <td colspan="4">
+                        <a href="https://livehelp.solidstatelogic.com/Help/Showfiles.html"><span class="hyperlink">Save Showfile</span></a>
+                    </td>
+                </tr>
+                <tr>
+                    <th rowspan="7">
+                        <a href="https://livehelp.solidstatelogic.com/Help/AutoOverview.html"><span class="hyperlink">Automation</span></a>
+                    </th>
+                    <td colspan="3">Fire Next / Previous</td>
+                </tr>
+                <tr>
+                    <td colspan="3">Save Scene</td>
+                </tr>
+                <tr>
+                    <td colspan="3">Arm All Input Actions</td>
+                </tr>
+                <tr>
+                    <td colspan="3">Disarm All Input Actions</td>
+                </tr>
+                <tr>
+                    <td colspan="3">Arm All Output Actions</td>
+                </tr>
+                <tr>
+                    <td colspan="3">Disarm All Output Actions</td>
+                </tr>
+                <tr>
+                    <td colspan="3">
+                        Group State
+                        <span style="font-weight: normal">(Group Mode, Group All, Disabled)</span>
+                    </td>
+                </tr>
+                <tr>
+                    <th>IO Functions</th>
+                    <td colspan="3">
+                        Recalibrate All
+                        <span style="font-weight: normal">Owned inputs across all connected Net I/O stageboxes</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="4">Auto Mute Safe</td>
+                </tr>
+                <tr>
+                    <td colspan="4">Temporary Auto Mute Safe</td>
+                </tr>
+
+                <tr>
+                    <th rowspan="14">Path Functions</th>
+                    <th rowspan="14">
+                        Channel&nbsp;/ Stem&nbsp;/<br />
+                        Aux / Master&nbsp;/<br />
+                        Matrix&nbsp;/ Talkback&nbsp;/<br />
+                        Solo Chan&nbsp;/ VCA N
+                    </th>
+                    <td colspan="3">Mute</td>
+                </tr>
+                <tr>
+                    <td colspan="3">
+                        Solo <span style="font-weight: normal">(not Solo paths)</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="3">
+                        TB IN
+                        <span style="font-weight: normal">(Stem/Aux/Master paths only)</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="3">
+                        Input A/B toggle
+                        <span style="font-weight: normal">(Channel paths only)</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="3">
+                        Input B
+                        <span style="font-weight: normal">(Channel paths only)</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="3">
+                        Insert A IN <span style="font-weight: normal">(not VCA paths)</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="3">
+                        Insert B IN <span style="font-weight: normal">(not VCA paths)</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="3">
+                        Comp IN
+                        <span style="font-weight: normal">(processed paths only)</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="3">
+                        Gate IN
+                        <span style="font-weight: normal">(processed paths only)</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="3">
+                        EQ IN
+                        <span style="font-weight: normal">(processed paths only)</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="3">
+                        Filters IN
+                        <span style="font-weight: normal">(processed paths only)</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="3">
+                        Delay IN
+                        <span style="font-weight: normal">(processed paths only)</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="3">
+                        All Pass IN
+                        <span style="font-weight: normal">(processed paths only)</span>
+                    </td>
+                </tr>
+                <tr>
+                    <th colspan="2">
+                        Routing
+                        <span style="font-weight: normal">(Channel/Stem/Aux/Talkback paths only)</span>
+                    </th>
+                    <td>Master / Stem / Aux IN</td>
+                </tr>
+
+                <tr>
+                    <th rowspan="55">
+                        <a href="https://livehelp.solidstatelogic.com/Help/DAWControl.html"><span class="hyperlink">DAW</span></a>
+                    </th>
+                    <th rowspan="41">DAW 1 - 4</th>
+                    <th rowspan="13">Strip Master Switches</th>
+                    <th rowspan="4">Select - Assign</th>
+                    <td>Send A - E</td>
+                </tr>
+                <tr>
+                    <td>Pan</td>
+                </tr>
+                <tr>
+                    <td>Mute</td>
+                </tr>
+                <tr>
+                    <td>Flip</td>
+                </tr>
+                <tr>
+                    <th rowspan="2">Global</th>
+                    <td>Suspend</td>
+                </tr>
+                <tr>
+                    <td>Rec/Rdy All</td>
+                </tr>
+                <tr>
+                    <th rowspan="2">Fader Banks</th>
+                    <td>Bank Down / Up</td>
+                </tr>
+                <tr>
+                    <td>Channel Down / Up</td>
+                </tr>
+                <tr>
+                    <th rowspan="5">Window</th>
+                    <td>Transport</td>
+                </tr>
+                <tr>
+                    <td>Edit</td>
+                </tr>
+                <tr>
+                    <td>Mix</td>
+                </tr>
+                <tr>
+                    <td>Alt</td>
+                </tr>
+                <tr>
+                    <td>Mem-Loc</td>
+                </tr>
+                <tr>
+                    <th rowspan="24">Master Section</th>
+                    <th rowspan="2">Keyboard Shortcuts</th>
+                    <td>Undo</td>
+                </tr>
+                <tr>
+                    <td>Save</td>
+                </tr>
+                <tr>
+                    <th rowspan="2">Function Keys</th>
+                    <td>F1</td>
+                </tr>
+                <tr>
+                    <td>F8/ESC</td>
+                </tr>
+                <tr>
+                    <th>Status/Group</th>
+                    <td>Suspend</td>
+                </tr>
+                <tr>
+                    <th rowspan="12">Transport Keys</th>
+                    <td>RTZ</td>
+                </tr>
+                <tr>
+                    <td>END</td>
+                </tr>
+                <tr>
+                    <td>On-Line</td>
+                </tr>
+                <tr>
+                    <td>Loop</td>
+                </tr>
+                <tr>
+                    <td>Quick Punch</td>
+                </tr>
+                <tr>
+                    <td>Rewind</td>
+                </tr>
+                <tr>
+                    <td>Fast Forward</td>
+                </tr>
+                <tr>
+                    <td>Stop</td>
+                </tr>
+                <tr>
+                    <td>Play</td>
+                </tr>
+                <tr>
+                    <td>Rec</td>
+                </tr>
+                <tr>
+                    <td>&lt;</td>
+                </tr>
+                <tr>
+                    <td>&gt;</td>
+                </tr>
+                <tr>
+                    <th rowspan="6">Automation Write Enable</th>
+                    <td>AE Plugin</td>
+                </tr>
+                <tr>
+                    <td>AE Vol</td>
+                </tr>
+                <tr>
+                    <td>AE S Vol</td>
+                </tr>
+                <tr>
+                    <td>AE Pan</td>
+                </tr>
+                <tr>
+                    <td>AE Mute</td>
+                </tr>
+                <tr>
+                    <td>AE S Mute</td>
+                </tr>
+                <tr>
+                    <th>Keypad</th>
+                    <td>+ / -</td>
+                </tr>
+                <tr>
+                    <th rowspan="2">Misc</th>
+                    <td colspan="2">Foot Switch Stop/Play</td>
+                </tr>
+                <tr>
+                    <td colspan="2">Foot Switch Record</td>
+                </tr>
+                <tr>
+                    <th rowspan="2" colspan="2">SSL Nested Functions</th>
+                    <td>Prev / Next</td>
+                </tr>
+                <tr>
+                    <td>Goto Marker 1</td>
+                </tr>
+                <tr>
+                    <th rowspan="14">Master DAW</th>
+                    <th rowspan="12">Master Section</th>
+                    <th rowspan="12">Transport Keys</th>
+                    <td>RTZ</td>
+                </tr>
+                <tr>
+                    <td>END</td>
+                </tr>
+                <tr>
+                    <td>On-Line</td>
+                </tr>
+                <tr>
+                    <td>Loop</td>
+                </tr>
+                <tr>
+                    <td>Quick Punch</td>
+                </tr>
+                <tr>
+                    <td>Rewind</td>
+                </tr>
+                <tr>
+                    <td>Fast Forward</td>
+                </tr>
+                <tr>
+                    <td>Stop</td>
+                </tr>
+                <tr>
+                    <td>Play</td>
+                </tr>
+                <tr>
+                    <td>Rec</td>
+                </tr>
+                <tr>
+                    <td>&lt;</td>
+                </tr>
+                <tr>
+                    <td>&gt;</td>
+                </tr>
+                <tr>
+                    <th rowspan="2" colspan="2">SSL Nested Functions</th>
+                    <td>Prev / Next</td>
+                </tr>
+                <tr>
+                    <td>Goto Marker 1</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="indexheader2">Fader Destinations</div>
+    <div>
+        <p>
+            Events can be used to set path faders to a specified level using the Fader
+            Function event destination.
+        </p>
+
+        <p>
+            Fader functions require the specific path number to be entered (or engage
+            <span class="label">All&nbsp;Paths</span> to affect all paths of the
+            selected type).
+        </p>
+
+        <p>
+            Once a path (or paths) have been selected, set the desired dB value for
+            the path(s).
+        </p>
+
+        <img style="display: block; margin: 5px auto; width: 800px"
+             src="https://livehelp.solidstatelogic.com/Help/images/g_EventMgr_FaderOutput.png"
+             alt="" />
+
+        <span class="note">
+            <span class="notetitle">Note:</span> Fader event destinations set the
+            fader position <b>before</b> any contributing VCA levels have been taken
+            into account.<br />
+            e.g. If a path fader is set to -6&nbsp;dB by the event and a VCA acting on
+            that path is set to -10&nbsp;dB, the overall fader gain will be
+            -16&nbsp;dB.
+        </span>
+    </div>
+</div>
+
+<p>
+    <br />* L100 does not have local GPIO or MIDI ports; only Events using ipMIDI
+    or remote stagebox GPIO and MIDI can be configured on L100.
+</p>
+
+<h2>Useful Links</h2>
+
+<p>
+    <a href="https://livehelp.solidstatelogic.com/Help/OptionsUserKeys.html"><span class="hyperlink">User Keys</span></a>
+</p>
+
+<p>
+    <a href="https://livehelp.solidstatelogic.com/Help/AutoOverview.html"><span class="hyperlink">Automation</span></a>
+</p>
+
+<p>
+    <a href="https://livehelp.solidstatelogic.com/Help/ipMIDI.html"><span class="hyperlink">ipMIDI</span></a>
+</p>
+
+<p>
+    <a href="https://livehelp.solidstatelogic.com/Help/LinkIndex.html"><span class="hyperlink">Index and Glossary</span></a>
+</p>
+</body>
+</html>

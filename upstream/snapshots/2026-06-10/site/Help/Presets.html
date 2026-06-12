@@ -1,0 +1,282 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html ng-app="sslLiveHelp">
+<head>
+    <meta content="text/html; charset=ISO-8859-1" http-equiv="content-type">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=yes">
+
+    <link href="../Help/style/style.css" rel="stylesheet">
+    <link href="../Help/style/jquery-ui-1.13.2.structure.css" rel="stylesheet">
+    <title>Presets</title>
+    <script src="../Help/js/jquery-3.6.0.min.js"></script>
+    <script src="../Help/js/jquery-ui/1.13.2/jquery-ui.min.js"></script>
+    <!--<script type="text/javascript" src="cordova.js"></script>-->
+    <!-- Nav / search panels 2017 updates -->
+    <script>
+    window.baseDir = '../';
+    window.data = 'null';
+    </script>
+    <link rel="stylesheet" type="text/css" href="../Help/fonts/font-awesome-4.7.0/css/font-awesome.min.css" />
+    <link rel="stylesheet" type="text/css" href="../Help/style/sass-styles.css">
+    <script src="../Help/js/fastclick.js"></script>
+    <script src="../Help/js/lodash.core.min.js"></script>
+    <!--<script src="../Help/js/angular/1.2/angular.min.js"></script>-->  <!-- On a console -->
+    <script src="../Help/js/angular/1.8/angular.min.js"></script>   <!--Not on a console -->
+    <script src="../Help/js/ngStorage.min.js"></script>
+    <!--<script src="../Help/js/angular/1.2/angular-sanitize.min.js"></script>-->  <!-- On a console -->
+    <!--<script src="../Help/js/angular/1.2/angular-animate.min.js"></script>-->   <!-- On a console -->
+    <script src="../Help/js/angular/1.8/angular-sanitize.min.js"></script>  <!--Not on a console -->
+    <script src="../Help/js/angular/1.8/angular-animate.min.js"></script>   <!--Not on a console -->
+    <script src="../Help/js/lunr-2.3.min.js"></script>
+    <script src="../Help/js/menu.js"></script>
+
+</head>
+
+<body ng-controller="NavController as vm">
+
+    <!--<nav class="nav" ng-class="{ 'nav--visible' : vm.visible }" ng-if="vm.visible" role="navigation" aria-label="Primary">-->  <!-- On a console --> 
+    <nav class="nav" ng-class="{ 'nav--visible' : vm.visible }" role="navigation" aria-label="Primary"> <!--Not on a console -->
+        <!-- Search form -->
+        <div role="search">
+            <form class="nav__search" ng-if="vm.isSearchSupported">
+                <label class="nav__search-icon" for="query"><i aria-label="Search" title="Search" class="fa fa-search"></i></label>
+                <input type="search" id="query" class="nav__search-input" placeholder="Search..." ng-model="vm.query" />
+            </form>
+        </div>
+
+        <div class="nav__scroll" ng-style="vm.styleBasedOnSearchSupported">
+
+            <!-- Main nav -->
+            <ul class="main-nav" ng-hide="vm.query">
+                <li class="main-nav__item" ng-repeat="item in vm.nav">
+
+                    <!-- Link to page -->
+                    <a ng-if="item.url" ng-class="{'main-nav__link--active' : item.url===vm.currentPage}" class="main-nav__link" ng-attr-href="{{ vm.baseDir }}{{ item.url }}">
+                        {{ item.title }}
+                    </a>
+
+                    <!-- Expandable heading -->
+                    <span ng-click="vm.toggleExpanded(item.title)" ng-if="!item.url" class="main-nav__title">
+                        {{ item.title }}
+                        <span ng-if="!vm.isExpanded(item.title)" class="fa fa-caret-right"></span>
+                        <span ng-if="vm.isExpanded(item.title)" class="fa fa-caret-down"></span>
+                    </span>
+
+                    <!-- Subnav -->
+                    <ul ng-if="vm.isExpanded(item.title)" class="main-nav fx-fade">
+                        <li ng-repeat="sub in item.children" class="main-nav__item">
+
+                            <!-- Link to page -->
+                            <a ng-if="sub.url" ng-class="{'main-nav__link--active' : sub.url===vm.currentPage}" class="main-nav__link main-nav__link--level1" ng-attr-href="{{ vm.baseDir }}{{ sub.url }}">
+                                {{ sub.title }}
+                            </a>
+
+                            <!-- Expandable heading -->
+                            <span ng-click="vm.toggleExpanded(sub.title)" ng-if="!sub.url" class="main-nav__title main-nav__title--level1">
+                                {{ sub.title }}
+                                <span ng-if="!vm.isExpanded(sub.title)" class="fa fa-caret-right"></span>
+                                <span ng-if="vm.isExpanded(sub.title)" class="fa fa-caret-down"></span>
+                            </span>
+
+                            <!-- Sub-sub nav -->
+                            <ul ng-if="sub.children && vm.isExpanded(sub.title)" class="main-nav fx-fade">
+                                <li ng-repeat="subsub in sub.children" class="main-nav__item">
+
+                                    <!-- Link to page -->
+                                    <a ng-class="{'main-nav__link--active' : subsub.url===vm.currentPage}" class="main-nav__link main-nav__link--level2" ng-attr-href="{{ vm.baseDir }}{{ subsub.url }}" ng-bind-html="subsub.title">
+                                    </a>
+
+                                </li>
+                            </ul>
+
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+
+            <!-- Search results list -->
+            <ul class="search-results">
+                <li class="search-result" ng-repeat="result in vm.results">
+                    <a class="search-result__link" ng-attr-href="{{ vm.baseDir }}{{ 'Help/' + result.id }}">
+                        <h3 class="search-result__title">{{ result.title }}</h3>
+                        <p class="search-result__excerpt" ng-bind-html="result.excerpt"></p>
+                    </a>
+                </li>
+            </ul>
+
+            <!-- Keep screen on option - PhoneGap insomnia -->
+            <ul class="main-nav" ng-if="vm.isPhoneGap">
+                <li class="main-nav__item">
+                    <label class="main-nav__title">
+                        Keep Screen On
+                        <input style="display: none" type="checkbox" ng-model="vm.keepScreenOn" />
+                        <i ng-class="{'fa--cleared' : !vm.keepScreenOn, 'fa--checked' : vm.keepScreenOn}" class="fa fa-check"></i>
+                    </label>
+                </li>
+            </ul>
+
+
+        </div>
+    </nav>
+
+    <nav class="header" role="navigation" aria-label="Secondary">
+        <a ng-if="!vm.onAConsole" href="../index.html" class="header__btn" title="Home"><i class="fa fa-home"></i></a>
+        <div ng-if="!vm.onAConsole" class="header__history">
+            <a onclick="javascript:window.history.back()" class="header__btn"><i title="Back" class="fa fa-chevron-left"></i></a>
+            <a onclick="javascript:window.history.forward()" class="header__btn"><i title="Forwards" class="fa fa-chevron-right"></i></a>
+        </div>
+        <div align="right">
+            <a class="header__btn header__btn--nav" ng-click="vm.toggleVisibility()">
+                <i ng-if="!vm.visible" class="fa fa-bars"></i>
+                <i ng-if="vm.visible" class="fa fa-close"></i>
+            </a>
+        </div>
+    </nav>
+
+
+    <!-- Main content -->
+    <div id="main">
+        
+
+<div><a href="Mute.html"><img class="TutorialNav" src="images/n_TutPrevious.png" alt=""><span class="TutorialNav">PREVIOUS: Mute & Mute Groups</span></a></div>
+
+<h2>Presets</h2>
+
+<p>All of the channel settings found in the Detail Dialogue can be saved and recalled using Presets; these Presets can cover the entire channel or smaller segments of it.</p>
+
+<p>
+    To open the Preset list for any area of the console, open the Detail dialogue to the appropriate page and touch the <span class="label">Preset</span> button towards the bottom right corner.
+    The Preset list will open within the Detail dialogue:
+</p>
+
+<img style="display: block; margin: 20px auto; width: 750px" src="images/g_detailPresets.png" alt="">
+
+<p>
+    When accessing the Presets dialogue from a processing page (e.g. EQ/Filters, Panner etc.) only that section of the path can be stored/recalled from the Preset file.
+    The Presets dialogue accessed from the Path Eyeconix/Config page can be used to store and recall multiple processing sections from a single Preset file.
+</p>
+
+<p>
+    Use the <b>Store</b> Section column to select the scope of what is saved to Preset files (engage the blue dots to enable storing). 
+    To overwrite an existing preset, choose the scope then press &amp; hold the <span class="label">Save</span> button.
+    To save a new Preset file, press the <span class="label">Save&nbsp;As</span> button and enter a filename.
+</p>
+
+<span class="note">
+    <span class="notetitle">Note: </span> Saving processing sections to an existing Preset file is an additive process.
+    e.g. if an existing file contains Gate settings and the Preset Store scope is set to Compressor, the previously saved Gate settings will remain in the file when the Compressor settings are saved.
+</span>
+
+<p>
+    Use the <b>Recall</b> Section column to select the scope of what is loaded from a selected Preset file (engage the purple dots to enable recall).
+    The cyan boxes in the Recall column indicate the sections stored and available for recall from the selected file. 
+    Only sections present in the file and with recall enabled (i.e. cyan box and purple dot enabled) will be loaded.
+    Press &amp; hold the <span class="label">Load</span> button to load the selected section(s) from the Preset file.
+</p>
+
+<span class="note"><span class="notetitle">Tip:</span> Use the Store and Recall column headings in the Path Eyeconix/Config Preset page to toggle selection of all store/recall scope sections.</span>
+
+<span class="note"><span class="notetitle">Note:</span> Once created, folders can only be renamed from the Main Preset List, described <a href="#PresetsPage"><span class="hyperlink">below</span></a>.</span>
+
+
+<h3>Preset Notes</h3>
+
+<p>Any pertinent details about a Preset can be typed into the Notes display, to the right of the Preset list.</p>
+
+<p>To type notes, navigate to the Preset and Select it so that it has a cyan surround.</p>
+
+<p>Double-tap inside the notes display, then type the notes using the keyboard which appears, and touch <span class="label">OK</span>.</p>
+
+<p>These notes will appear in the notes display whenever that Preset is highlighted in the Preset list.</p>
+
+<p>Press <span class="label">Preset</span> again to close the Preset list.</p>
+
+<span class="note">
+    <span class="notetitle">Old Preset Files: </span> Note that Presets saved in V4.10 software and earlier are stored in a different format to V4.11 Presets.
+    Old Preset files will be automatically converted to the new format when their containing folder is opened in console or SOLSA software.
+</span>
+
+
+
+<h2 id="PresetsPage">Main Preset List</h2>
+
+<p>
+    You can also view and manage a complete list of the console's Presets by opening the main Preset List,
+    accessed via the Setup menu: <span class="label">MENU</span> > <span class="label">Setup</span> > <span class="label">File&nbsp;Manager</span> > <span class="label">Presets</span> tab
+</p>
+
+<p>
+    This display functions in a very similar way to the Showfiles display, with the main exception being the absence of SSL Templates. Note also that files are displayed with their full extensions.
+    The 'user' name given to Presets appears as the first part of the Preset filename.
+    The next section of the filename is the type of channel that the Preset was saved from. The third part is the type of Preset (EQ bands, compressor, entire channel path etc.).
+</p>
+
+
+<h3>Edit Mode </h3>
+
+<p>As with Showfiles, a number of folder actions are only available when the Preset list is in Edit mode.</p>
+
+<p>To activate Edit mode, touch the <span class="label">Edit</span> button in the top-centre of the Main Preset List screen. The button will 'light' and a second navigation pane will appear in the right side of the screen.</p>
+
+<p>To select a Preset to be edited using any of the edit actions listed between the panes, navigate to it in the left navigation pane and touch the circle at the end of its list entry &#8211; the circle will go red to indicate that the Preset is Edit Enabled.</p>
+
+<p>You can select multiple Preset and multiple folders. You can also select all Presets and folders in the current location by touching the <span style="font-weight: bold;">All</span> circle at the top of the list.</p>
+
+<span class="note"><span class="notetitle">Remember: </span>Edit mode functions always act on the Presets which are Edit Enabled, and not on Presets which are highlighted (displayed with a cyan surround).</span>
+
+
+<h3>Moving and Copying Presets </h3>
+
+<p>To move or copy files and folders, navigate to the source folder in the left pane, and the destination folder in the right navigation pane;</p>
+
+<p>In the left navigation pane, Edit Enable the items to be moved or copied;</p>
+
+<p>Now press the <span class="label">Move</span> or <span class="label">Copy</span> button in between the two panes. The items will be moved or copied to the new location.</p>
+
+<span class="note"><span class="notetitle">Note: </span>Items cannot be copied into their current location.</span>
+
+
+<h3>Making Presets Read-Only</h3>
+
+<p>You can make Presets read-only in order to prevent them from being overwritten via the Save function.</p>
+
+<p>To select the Presets to be made Read-Only, navigate to them in the left navigation pane and Edit Enable them.</p>
+
+<p>Now press the <span class="label">Read&nbsp;Only</span> button in between the two panes. A padlock symbol will appear before the file names.</p>
+
+<p>To undo a file's Read Only status, simply repeat this procedure.</p>
+
+
+<h3>Renaming Presets and Folders</h3>
+
+<p>To rename a file or folder, navigate to it in the left navigation pane and Edit Enable it.</p>
+
+<p>Now press the <span class="label">Rename</span> button between the panes, rename the Preset using the keyboard which appears, and touch <span class="label">OK</span>.</p>
+
+<span class="note"><span class="notetitle">Note: </span>The renaming function only allows you to change the 'user' part of the filename.</span>
+
+
+<h3>Deleting Presets and Folders</h3>
+
+<p>To delete Presets or folders, navigate to them in the left navigation pane and Edit Enable them.</p>
+
+<p>Now press & hold the <span class="label">Delete</span> button between the panes.</p>
+
+<span class="note"><span class="notetitle">Note: </span>Folders must be empty before they can be deleted. Presets with Read Only protection cannot be deleted.</span>
+
+
+<h2>Useful Links:</h2>
+
+<a href="Showfiles.html"><span class="hyperlink">Showfiles</span></a>
+<br>
+<a href="LinkIndex.html"><span class="hyperlink">Index and Glossary</span></a>
+<br>
+
+<div class="TutorialNavNext"> <a href="FXDelays.html"><span class="TutorialNav">NEXT: Delay Effects</span> <img class="TutorialNav" src="images/n_TutNext.png" alt=""></a></div>
+
+
+    </div>
+
+    <script src="../Help/js/OpenAccordionFromLink.js"></script>
+</body>
+</html>

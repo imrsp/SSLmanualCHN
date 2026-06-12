@@ -1,0 +1,138 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Automation: Scene List</title>
+  <style>
+    body { font: 16px/1.55 Arial, sans-serif; max-width: 1080px; margin: 2rem auto; padding: 0 1.25rem; color: #202124; }
+    img { max-width: 100%; height: auto; }
+    table { border-collapse: collapse; max-width: 100%; }
+    th, td { border: 1px solid #aaa; padding: .45rem; vertical-align: top; }
+    .note { display: block; border-left: 4px solid #e0a000; background: #fff8df; padding: .75rem 1rem; margin: 1rem 0; }
+    .notetitle { font-weight: bold; }
+    .label { font-weight: bold; color: #174ea6; }
+    .source { color: #666; font-size: .9rem; }
+  </style>
+</head>
+<body>
+  <p class="source">Section: Mixing | Source: <a href="https://livehelp.solidstatelogic.com/Help/AutoSceneList.html">https://livehelp.solidstatelogic.com/Help/AutoSceneList.html</a></p>
+<h2>Automation Scene List</h2>
+
+<p>
+    Navigate to <span class="label">MENU</span> > <span class="label">Automation</span> to access the Scene list.
+    Use the <span class="label">Show&nbsp;Details</span> button to show more/fewer rows in the list.
+</p>
+
+<p>The following functions are available for each Scene row using the columns of the Scene List:</p>
+
+<ul>
+    <li><span style="font-weight: bold;">Skip</span> Causes the Scene to be skipped when triggered in sequence. See <a href="https://livehelp.solidstatelogic.com/Help/AutoTime.html"><span class="hyperlink">Scene Time Functions</span></a> for details. Tap the <span class="label">Skip</span> heading button to disable the Skip column.</li>
+    <li><span style="font-weight: bold;">GO</span> Recalls the Scene to the console, making it the Active Scene. Tap the <span class="label">Go</span> heading button to disable the Go buttons in the list.</li>
+    <li><span style="font-weight: bold;">Trigger&nbsp;Time</span> Sets a timecode location at which the Scene is automatically triggered. See <a href="https://livehelp.solidstatelogic.com/Help/AutoTime.html"><span class="hyperlink">Scene Time Functions</span></a> for details.  Tap the <span class="label">Trigger&nbsp;Time</span> heading button to disable triggering from timecode.</li>
+    <li><span style="font-weight: bold;">Input&nbsp;Actions</span> See <a href="https://livehelp.solidstatelogic.com/Help/AutoIOActions.html"><span class="hyperlink">Scene Input and Output Actions</span></a> for details. Tap the <span class="label">Input&nbsp;Actions</span> heading button once to disable the selected column. Touch again to disable all Input Action triggering.</li>
+    <li><span style="font-weight: bold;">Fade&nbsp;Time</span> See <a href="https://livehelp.solidstatelogic.com/Help/AutoTime.html"><span class="hyperlink">Scene Time Functions</span></a> for details. Tap the <span class="label">Fade&nbsp;Time</span> heading button to disable scene fading.</li>
+    <li><span style="font-weight: bold;">ID</span> Indicates the Scene's position in the Scene List.</li>
+    <li><span style="font-weight: bold;">Scene&nbsp;Name</span> Indicates the Scene's user editable name.</li>
+    <li><span style="font-weight: bold;">Output&nbsp;Actions</span> See <a href="https://livehelp.solidstatelogic.com/Help/AutoIOActions.html"><span class="hyperlink">Scene Input and Output Actions</span></a> for details. Tap the <span class="label">Output&nbsp;Actions</span> heading button once to disable the selected column. Touch again to disable all Output Actions.</li>
+    <li><span style="font-weight: bold;">Transition</span> Sets a Scene duration, after which time the console automatically transitions to the next Scene in the List. See <a href="https://livehelp.solidstatelogic.com/Help/AutoTime.html"><span class="hyperlink">Scene Time Functions</span></a> for details. Tap the <span class="label">Transition</span> heading button to disable Auto Transition mode.</li>
+    <li><span style="font-weight: bold;">Lock</span> prevents the scene from being edited. See <a href="https://livehelp.solidstatelogic.com/Help/AutoSceneList.html#SceneLock"><span class="hyperlink">Scene Lock</span></a> below for details.</li>
+    <li><span style="font-weight: bold;">Group</span> Defines what edit Group each Scene is part of, if any. Tap the <span class="label">Group</span> heading button once to engage Group All mode. Touch again to disable Group mode globally. See <a href="https://livehelp.solidstatelogic.com/Help/AutoGrouping.html"><span class="hyperlink">Scene Groups</span></a> for details.</li>
+</ul>
+
+<img style="display: block; margin: 27px auto;" src="https://livehelp.solidstatelogic.com/Help/images/g_autoscenelistdetail.png" alt="">
+
+<p>The final column in the Scene List is used for editing the List itself. To delete, move or copy+paste Scenes:</p>
+
+<p>Enable the Edit function by touching the <span class="label">Edit</span> button (near the top right corner of the screen);</p>
+
+<p>Touch the round <span style="font-weight: bold;">Edit</span> indicator at the end of a row to select the scene. The indicator will go red to indicate that its row is being edited.</p>
+
+<p>Multiple scenes (rows) can be selected. All scenes can be selected by touching the <span style="font-weight: bold;">Edit</span> label itself.</p>
+
+<p>The three edit functions listed below the Edit button will now be available: <span class="label">Del</span> (Delete), <span class="label">Move</span> and <span class="label">Copy</span>.</p>
+
+<p>To delete Scenes, touch their Edit indicators so that they go red, then press & hold the <span class="label">Del</span> button.</p>
+
+<span class="note">
+    <span class="notetitle">Notes:</span><br>
+    Scene deletion cannot be undone without reloading your showfile.<br>
+    The Active Scene cannot be deleted.
+</span>
+
+<p>To move Scenes, touch their <span style="font-weight: bold;">Edit</span> indicators so that they go red;</p>
+
+<p>Touch the <span class="label">Move</span> button &#8211; it will go blue to indicate that it is active;</p>
+
+<p>Now touch the Scene which is in the position you wish to put the Moved Scene(s). The Scenes will be placed above the Scene you touched.</p>
+
+<p>The Scenes will move to the new location. The other Scenes will move to close up any gaps.</p>
+
+<p>To copy Scenes, touch their <span style="font-weight: bold;">Edit</span> indicators so that they go red;</p>
+
+<p>Touch the <span class="label">Copy</span> button &#8211; it will go blue and become a <span class="label">Paste</span> button.</p>
+
+<p>Now touch the Scene which is in the position you wish to paste the new Scenes.</p>
+
+<p>The Scenes will be duplicated at the new location, with the word <span style="font-weight: bold;">Copy</span> appended to their names. The other Scenes will move to create space for them.</p>
+
+<p>You can rename the copied Scenes in the usual way (See <a href="https://livehelp.solidstatelogic.com/Help/AutoNamesNotes.html"><span class="hyperlink">Scene Names and Notes</span></a>).</p>
+
+<h2>Scene ID</h2>
+
+<p>Scene ID is for display purposes only and serve no operational purpose within the software. The <span class="label">Auto ID</span> button (in the right side of the Detail Display when the ID column is selected) defines what happens to ID numbers when the Scene list is re-arranged:</p>
+
+<ul>
+    <li>When the button is active, the ID column is simply renumbered to stay in order.</li>
+    <li>When the button is inactive, Scene IDs will not change when Scenes are re-ordered; if new Scenes are placed in between old ones, their IDs will increment upwards from the Scene before, using decimals if necessary to prevent their IDs from matching the Scene after. <br> Pressing & holding the <span class="label">Auto ID</span> button can then be used to renumber the Scenes in order.</li>
+</ul>
+
+<h3 id="Renumber">Renumber Scenes with Tap</h3>
+<span class="note"><span class="notetitle">Note:</span> Please note that <span class="label">Auto ID</span> must be off to use this feature.</span>
+
+<p>
+    Tapping on the column header for the ID column enables renumbering Scenes with a tap.
+    The user can now tap on the scenes in the correct order to renumber them.
+    i.e. the first scene tapped will receive number 1 and the second number 2 etc.
+    Pressing and holding <span class="label">Reorder List</span> will now reorder the scenes so they are in the order that you tapped them in.
+</p>
+
+<span class="note">
+    <span class="notetitle">Note:</span><br>If two scenes are given the same number, the console will retain their relative positions against each other.
+    For example if "Interlude" and "My Song" scenes appeared in that order in the scene list, and they were subsequently both manually numbered with scene number 1, "Interlude" would be first, and "My Song" would be second.
+    But both scenes would retain the scene number 1.
+</span>
+
+<h3 id="ManualRenumber">Manual Scene Numbering</h3>
+
+<p>Scenes can be numbered manually by double tapping on the scene number in the Scene Detail View and entering the desired number using the keyboard.</p>
+
+<span class="note"><span class="notetitle">Note:</span> Please note that <span class="label">Auto ID</span> must be off to use this feature.</span>
+
+<h3 id="SceneLock">Scene Lock</h3>
+
+<p>Scenes can be made read only to prevent edits (including Input/Output Actions and per-scene filters).</p>
+
+<p>With <span class="label">Edit</span> engaged, tap on the padlock button to lock a scene.</p>
+
+<p>This scene is now read only. It cannot be edited and when it is fired, the <span class="label">Store</span> button will be disabled.</p>
+
+<p>Tap the <span class="label">Lock</span> column heading to cycle between locking all/none/individual scenes.</p>
+
+
+<h2>Links to Further Automation Help:</h2>
+
+<ul>
+    <li><a href="https://livehelp.solidstatelogic.com/Help/AutoOverview.html"><span class="hyperlink">Automation Overview</span></a></li>
+    <li><a href="https://livehelp.solidstatelogic.com/Help/AutoTime.html"><span class="hyperlink">Scene Time Functions</span></a></li>
+    <li><a href="https://livehelp.solidstatelogic.com/Help/AutoNamesNotes.html"><span class="hyperlink">Scene Names and Notes</span></a></li>
+    <li><a href="https://livehelp.solidstatelogic.com/Help/AutoIOActions.html"><span class="hyperlink">Scene Input and Output Actions</span></a></li>
+    <li><a href="https://livehelp.solidstatelogic.com/Help/AutoGrouping.html"><span class="hyperlink">Scene Groups</span></a></li>
+    <li><a href="https://livehelp.solidstatelogic.com/Help/AutoFilters.html"><span class="hyperlink">Function Filters</span></a></li>
+    <li><a href="https://livehelp.solidstatelogic.com/Help/AutoPreview.html"><span class="hyperlink">Automation Preview Mode</span></a></li>
+</ul>
+<br>
+<a href="https://livehelp.solidstatelogic.com/Help/LinkIndex.html"><span class="hyperlink">Index and Glossary</span></a>
+<br>
+</body>
+</html>

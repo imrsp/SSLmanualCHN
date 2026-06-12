@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>本地 I/O</title>
+  <style>
+    body { font: 16px/1.55 Arial, sans-serif; max-width: 1080px; margin: 2rem auto; padding: 0 1.25rem; color: #202124; }
+    img { max-width: 100%; height: auto; }
+    table { border-collapse: collapse; max-width: 100%; }
+    th, td { border: 1px solid #aaa; padding: .45rem; vertical-align: top; }
+    .note { display: block; border-left: 4px solid #e0a000; background: #fff8df; padding: .75rem 1rem; margin: 1rem 0; }
+    .notetitle { font-weight: bold; }
+    .label { font-weight: bold; color: #174ea6; }
+    .source { color: #666; font-size: .9rem; }
+  </style>
+</head>
+<body>
+  <p class="source">章节：入门介绍 | 来源：<a href="https://livehelp.solidstatelogic.com/Help/LocalIO.html">https://livehelp.solidstatelogic.com/Help/LocalIO.html</a></p>
+<h2>本地 I/O</h2>
+
+<p>所有 SSL Live 控制台型号都配有相同类型的本地 I/O，但各型号每种 I/O 的数量不同。本页底部列出了各控制台型号的完整 I/O 容量。</p>
+
+<br>
+
+<h2>模拟</h2>
+
+<p>
+    Live 本地 I/O 和舞台接口箱采用 SSL 专利话放技术，可实现 <span style="font-weight:bold;">SSL SuperAnalogue<sup>TM</sup></span> 性能。
+    超越行业标准的录音室级话筒前置放大器结合 24bit/96 kHz DAC，可在 20 Hz 至 20 kHz 范围内实现 ±0.05 dB 以内的频率响应（低至 10 Hz 时为 1.3 dB 以内）以及 0.005% 的 THD。
+    电路采用直流耦合（信号路径中没有电解电容）和高输入阻抗设计。
+    话放增益可通过 16,000 多个步进进行极高精度控制，从而保证完全平滑的调节、出色的共模抑制和极低失真。
+</p>
+
+<br>
+
+<h2>MADI</h2>
+<p>SSL Live 控制台配有 SC 光纤和 BNC 同轴 MADI 接口，可连接 <span style="font-weight:bold;">SSL Live MADI 舞台接口箱</span>或其他第三方 MADI 设备。</p>
+
+<br>
+
+<h2>Dante</h2>
+<p>
+    <span style="font-weight:bold;">Dante Brooklyn II</span> 模块通过冗余连接提供 96 kHz 下 32x32 通道的 I/O（或 48 kHz 下 64x64 通道）。
+    这些 Dante 连接还支持控制 <span style="font-weight:bold;">SSL Network I/O 舞台接口箱</span>的话放。
+</p>
+
+<p>利用 SSL 的 Dante 双域路由，可以直接在控制台屏幕上同时完成控制台侧和 Dante 侧的路由，因此无需使用 Dante Controller 建立任何路由。</p>
+
+<br>
+
+<h2>Blacklight II</h2>
+<p>
+    对于通道数较多的系统，可使用 SSL 专有的 <span style="font-weight:bold;">Blacklight II</span> 高带宽传输连接，
+    以减少互连线缆的数量。
+    Blacklight II 可通过单根光纤双向传输 256 路 96 kHz 音频信号。
+</p>
+<p>
+    使用 <span style="font-weight:bold;">BLII-MADI Concentrator</span> 或 <span style="font-weight:bold;">BLII-Dante Bridge</span>，可分别将 Blacklight II 转换为 MADI 或 Dante。
+</p>
+<p>Blacklight II 使用 Neutrik OpticalCON DUO 连接器。</p>
+
+
+<p>Blacklight II 通常缩写为 <span style="font-weight:bold;">BLII</span>。</p>
+
+<br>
+
+<h2>AES</h2>
+<p>SSL Live 控制台还配有支持完全可变采样率转换的 AES I/O。</p>
+
+<br>
+
+<h2>型号比较</h2>
+
+<div>
+    <table class="insideborder" style="width: auto; margin: 15px 0px;" cellpadding="4" cellspacing="1">
+        <tbody>
+            <tr>
+                <th width="10%"></th>
+                <th width="15%">L100</th>
+                <th width="15%">L200</th>
+                <th width="15%">L350</th>
+                <th width="15%">L450</th>
+                <th width="15%">L550</th>
+                <th width="15%">L650</th>
+            </tr>
+            <tr>
+                <th>模拟 I/O</th>
+                <td colspan="2">12 路 Mic/Line 输入、2 路 Talkback 输入、3.5&nbsp;mm 立体声输入 | 12 路线路输出、2 路立体声耳机输出</td>
+                <td colspan="4">16 路 Mic/Line 输入（含 2 路 Talkback 输入）| 16 路线路输出（含 2 路立体声耳机输出）*</td>
+            </tr>
+            <tr>
+                <th>选配模拟 I/O</th>
+                <td colspan="4">不适用</td>
+                <td>16 路 Mic/Line 输入 | 16 路线路输出</td>
+                <td>不适用</td>
+            </tr>
+            <tr>
+                <th>AES/EBU I/O</th>
+                <td colspan="6">4 对，带 SRC（8 路 I/O 通道）</td>
+            </tr>
+            <tr>
+                <th>选配 AES/EBU I/O</th>
+                <td colspan="4">不适用</td>
+                <td>4 对，带 SRC（8 路 I/O 通道）</td>
+                <td>不适用</td>
+            </tr>
+            <tr>
+                <th>MADI I/O 端口</th>
+                <td>共 4 个（或 2 对冗余端口）<br />4 x 同轴</td>
+                <td colspan="3">共 8 个（或 4 对冗余端口）<br />6 x 同轴，2 x 光纤</td>
+                <td>共 16 个（或 8 对冗余端口）<br />12 x 同轴，4 x 光纤</td>
+                <td>共 8 个（或 4 对冗余端口）<br />6 x 同轴，2 x 光纤</td>
+            </tr>
+            <tr>
+                <th>MADI FX Loop</th>
+                <td colspan="6">1 个光纤端口（96 kHz 时 32 x 32 | 48 kHz 时 64 x 64）</td>
+            </tr>
+            <tr>
+                <th>本地 Dante 扩展（选配）</th>
+                <td colspan="6">96 kHz 时 32 x 32（48 kHz 时 64 x 64）</td>
+            </tr>
+            <tr>
+                <th>Blacklight&nbsp;II（选配）</th>
+                <td colspan="3" rowspan="2">1 对冗余端口**</td>
+                <td colspan="3">1 对冗余端口</td>
+            </tr>
+            <tr>
+                <th>X-Light（选配）</th>
+                <td colspan="3">1 对冗余端口</td>
+            </tr>
+            <tr>
+                <th>最大 I/O</th>
+                <td>536</td>
+                <td colspan="2">664</td>
+                <td>920</td>
+                <td>1200</td>
+                <td>920</td>
+            </tr>
+            <tr>
+                <th>电源</th>
+                <td>1 个单电源（可选冗余电源对）</td>
+                <td colspan="5">1 对冗余电源</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<p>* 前面板 Talkback 和耳机接口与控制台背面的模拟 XLR I/O 插座并联，以提高使用灵活性。不建议同时使用前后面板接口。</p>
+<p>** 控制台可以同时安装 Blacklight II 和 X-Light 接口，但同一时间只能使用其中一个。</p>
+
+<span class="note"><span class="notetitle">注意：</span>此表仅显示 SSL Live 控制台型号当前可用的配置。</span>
+
+<h2>实用链接</h2>
+<p><a href="https://livehelp.solidstatelogic.com/Help/RemoteIO.html"><span class="hyperlink">远程 I/O</span></a></p>
+<p><a href="https://livehelp.solidstatelogic.com/Help/LocalMADIConfig.html"><span class="hyperlink">本地与 MADI I/O 配置</span></a></p>
+<p><a href="https://livehelp.solidstatelogic.com/Help/DanteSetup.html"><span class="hyperlink">Dante 配置</span></a></p>
+<a href="https://livehelp.solidstatelogic.com/Help/LinkIndex.html"><span class="hyperlink">索引与术语表</span></a>
+<br>
+</body>
+</html>

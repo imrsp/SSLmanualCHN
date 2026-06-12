@@ -1,0 +1,462 @@
+﻿<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>独奏</title>
+  <style>
+    body { font: 16px/1.55 Arial, sans-serif; max-width: 1080px; margin: 2rem auto; padding: 0 1.25rem; color: #202124; }
+    img { max-width: 100%; height: auto; }
+    table { border-collapse: collapse; max-width: 100%; }
+    th, td { border: 1px solid #aaa; padding: .45rem; vertical-align: top; }
+    .note { display: block; border-left: 4px solid #e0a000; background: #fff8df; padding: .75rem 1rem; margin: 1rem 0; }
+    .notetitle { font-weight: bold; }
+    .label { font-weight: bold; color: #174ea6; }
+    .source { color: #666; font-size: .9rem; }
+  </style>
+</head>
+<body>
+  <p class="source">章节：混音 | 来源： <a href="https://livehelp.solidstatelogic.com/Help/Solo.html">https://livehelp.solidstatelogic.com/Help/Solo.html</a></p>
+<h2>独奏</h2>
+
+
+<div id="accordion">
+    <div class="indexheader2">设置独奏系统</div>
+    <div style="padding: 1em 0;">
+
+        <h2>设置独奏系统</h2>
+
+        <p>SSL Live 具有 <span style="font-weight:bold;">两条独奏母线 A 和 B</span>，它们可馈送至 <span style="font-weight:bold;">三个独奏输出通道（1、2、3）。</span></p>
+
+        <p>按下推子区块上的 <span class="label">SOLO</span> 按钮时，该路径的信号会馈送至独奏母线。</p>
+
+        <p>可使用主控区块 Solo 部分的编码器调节独奏母线电平。按下编码器可将独奏母线静音或取消静音。</p>
+
+        <p>
+            独奏母线输出必须路由到 <span style="font-weight:bold;">独奏输出通道</span>，信号才能继续传输。主控区块上有一个小型 <i>独奏矩阵</i> 用于控制此路由。
+        </p>
+
+        <div class="center"><img src="https://livehelp.solidstatelogic.com/Help/images/g_SoloTile.png" alt=""></div>
+
+        <p>该 <span class="label">A</span> & <span class="label">B</span> 按钮用于选择要路由的独奏母线。请选择所需独奏母线。</p>
+
+        <p>
+            <span class="label">1</span>、<span class="label">2</span> 和 <span class="label">3</span> 按钮用于选择该独奏母线应路由到哪些 <span style="font-weight:bold;">独奏输出通道</span>。请选择要由该独奏母线馈送的独奏输出通道。
+        </p>
+
+        <p>也可通过主屏幕右侧的 <span class="label">独奏</span> 电平按钮调节独奏母线的输出路由和电平。</p>
+
+        <img style="display: block; margin: 25px auto;" src="https://livehelp.solidstatelogic.com/Help/images/g_SoloPopOut.png" alt="">
+
+
+        <p>
+            在通道视图中找到独奏输出通道（默认显示为紫色，位于所有推子区块的“Misc”库中）。在有信号的路径上按 <span class="label">独奏</span> ，并确保所用独奏母线的编码器电平已调高。推高推子后，应能在电平表中看到信号（独奏通道电平表默认为 Post All）。
+        </p>
+
+        <p>信号到达独奏通道后，还必须路由其输出。与其他路径一样，请在独奏通道详细视图的 <span class="label">Input/Routing</span> 部分中完成。</p>
+
+        <p>要将独奏通道输出路由到推子区块下方的耳机插孔，请将左侧耳机插孔路由到本地模拟输出“HP1 L”和“HP1 R”，右侧耳机插孔路由到“HP2 L”和“HP2 R”。</p>
+
+        <p>
+            <span class="note">
+                <span class="notetitle">注意： </span>对于 L300、L350、L450、L500、L500 Plus、L550 和 L650 控制台，本地模拟输出 A13-A16 还在内部与控制台的两个耳机插孔并联硬接线。因此，如果正在使用对应的耳机插孔，应避免同时使用控制台背面的 XLR 输出，否则会降低音频性能。<br>
+                对于 L100 和 L200 控制台，耳机插孔未与任何本地模拟输出硬接线，可独立工作。
+            </span>
+        </p>
+
+
+        <p>下图概述了独奏系统：</p>
+
+        <div class="center"><img src="https://livehelp.solidstatelogic.com/Help/images/g_SoloDiagram.png" alt=""></div>
+
+
+        <p>独奏通道具有与普通通道相同的处理功能，因此可按需对独奏信号进行 EQ、压缩等处理。</p>
+
+        <div class="note">
+            <span class="notetitle">提示：</span>
+            <ul>
+                <li>
+                    使用独奏通道的 <a href="https://livehelp.solidstatelogic.com/Help/PathProc.html#Delay"><span class="hyperlink">Delay</span></a> 可使 FOH 位置的耳机/近场监听与主扩声系统实现时间对齐。延迟可用米为单位输入，便于配置。
+                </li>
+                <li>
+                    可将 <a href="https://livehelp.solidstatelogic.com/Help/FXIntro.html"><span class="hyperlink">FX Rack</span></a> 
+                    中的信号分析器（例如 <a href="https://livehelp.solidstatelogic.com/Help/FXTools.html#Spectralyser"><span class="hyperlink">Spectra-lyser</span></a> 和 <a href="https://livehelp.solidstatelogic.com/Help/FXTools.html#PhaseScope"><span class="hyperlink">Phase-Scope</span></a>）插入独奏通道的 Insert 点，以便轻松监测独奏路径。
+                </li>
+            </ul>
+        </div>
+
+        <h2>发送到独奏母线的馈送点</h2>
+
+        <p>每条路径均可使用以下馈送点选项发送到独奏母线 A 和/或 B：</p>
+        <p style="margin-bottom:0px">
+            <ul>
+                <li><span class="label">Bus&nbsp;Default</span>：使用默认馈送点设置馈送到独奏母线</li>
+                <li><span class="label">None</span>：不馈送到独奏母线</li>
+                <li><span class="label">Pre&nbsp;Fader</span>：在推子前馈送到独奏母线</li>
+                <li><span class="label">Post&nbsp;All</span>：在信号链最末端馈送到独奏母线（不仅在推子后，也在路径所有其他处理单元之后）</li>
+            </ul>
+        </p>
+
+        <p>此项在详细视图的 <span class="label">Fader</span> 页面中设置。</p>
+
+        <div class="center"><img src="https://livehelp.solidstatelogic.com/Help/images/g_detailFADERsolos.png" alt=""></div>
+
+        <p>该 <b>Bus Default</b> 馈送点在以下位置设置： <span class="label">Menu</span> > <span class="label">Setup</span> > <span class="label">Options</span> > <span class="label">User</span> 选项卡。</p>
+
+        <div class="note">
+            <span class="notetitle">提示：</span>
+            <ul>
+                <li>可使用 Default Feed Point 选项在推子前监听和推子后（Post All）监听之间切换。</li>
+                <li>每条独奏母线的默认馈送点均可通过 <a href="https://livehelp.solidstatelogic.com/Help/OptionsUserKeys.html"><span class="hyperlink">User Key</span></a>切换。</li>
+            </ul>
+        </div>
+
+        <p>新建路径时，两条独奏母线馈送点均设为 <span style="font-weight:bold;">Bus Default</span>。</p>
+
+        <span class="note">
+            <span class="notetitle">注意： </span>推子在通道处理顺序中的位置并不固定，可完全由用户定义。 <i>Pre Fader</i> 馈送点是指信号链中紧邻推子之前的位置，无论推子位于何处。路径处理顺序在详细视图的 Config 页面中设置（详见 <a href="https://livehelp.solidstatelogic.com/Help/ProcOrder.html"><span class="notehyperlink">处理顺序</span></a> ）。
+        </span>
+
+
+        <br>
+
+        <h2 id="FollowPan">独奏发送的声像</h2>
+
+        <img style="display: block; margin: 25px auto;" src="https://livehelp.solidstatelogic.com/Help/images/g_SoloFollowPan.png" align="right" alt="">
+
+        <p>该 <span style="font-weight:bold;">Solo Follow Pan</span> 选项控制馈送至独奏母线的信号是否跟随路径声像。</p>
+
+        <span class="note">
+            <span class="notetitle">注意：</span><br>SSL Live 控制台路径的声像可针对每个发送单独配置。因此，声像器在信号链中不属于推子的一部分，发送至母线的 Post Fader 也不等同于 Post Pan。
+        </span>
+
+        <p>要调整 Follow Pan 设置，请前往 <span class="label">MENU</span> > <span class="label">Setup</span> > <span class="label">Options</span> > <span class="label">USER</span> 选项卡。</p>
+
+        <p>
+            在左侧 <span style="font-weight:bold;">SOLO SETUP</span> 部分有两个按钮： <span class="label">Follow&nbsp;Pan:&nbsp;Pre&nbsp;Fader&nbsp;Sends</span>
+            和 <span class="label">Follow&nbsp;Pan:&nbsp;Post&nbsp;Fader&nbsp;Sends</span>。
+        </p>
+
+        <p>
+            <span class="label">Follow&nbsp;Pan:&nbsp;Pre&nbsp;Fader&nbsp;Sends</span> 影响所有发送到独奏母线的 Pre Fader 发送。启用后，发送至独奏母线时会使用路径的主声像。
+        </p>
+        <p>
+            停用 <span class="label">Follow&nbsp;Pan:&nbsp;Pre&nbsp;Fader&nbsp;Sends</span> 后，发送至独奏母线的 Pre Fader 发送会忽略路径主声像。信号将使用默认 Folddown 设置发送到独奏母线。可在以下位置调整： <span class="label">MENU</span> > <span class="label">Setup</span> > <span class="label">Options</span> > <span class="label">SYSTEM</span> 选项卡。
+        </p>
+
+        <p>
+            例如，通道 1 为单声道，以 Pre Fader 方式馈送到独奏母线 A。独奏母线 A 又发送到立体声独奏通道 1。通道 1 的声像置于最左。启用 <span class="label">Follow&nbsp;Pan:&nbsp;Pre&nbsp;Fader&nbsp;Sends</span> 后，信号会发送到独奏通道 1 的最左侧。停用 <span class="label">Follow&nbsp;Pan:&nbsp;Pre&nbsp;Fader&nbsp;Sends</span> 后，信号会发送到独奏通道 1 的中央。
+        </p>
+
+        <p><span class="label">Follow&nbsp;Pan:&nbsp;Post&nbsp;Fader&nbsp;Sends</span> 的工作方式与对应的 Pre Fader 选项相同，但作用于 Post Fader 发送。</p>
+
+        <br>
+
+        <h2>系统模板的默认独奏设置</h2>
+
+        <p>SSL 系统模板预配置了以下独奏设置：</p>
+
+        <div>
+            <table class="insideborder" style="margin: 15px 0px;" cellpadding="4" cellspacing="1">
+                <tbody>
+                    <tr>
+                        <th class="solidborder"></th>
+                        <th class="solidborder">FOH 模板</th>
+                        <th class="solidborder">监听模板</th>
+                    </tr>
+                    <tr>
+                        <th class="solidborder">独奏母线 A 默认馈送点</th>
+                        <td class="solidborder">Post All</td>
+                        <td class="solidborder">Pre Fader</td>
+                    </tr>
+                    <tr>
+                        <th class="solidborder">独奏母线 B 默认馈送点</th>
+                        <td class="solidborder">Pre Fader</td>
+                        <td class="solidborder">Post All</td>
+                    </tr>
+                    <tr>
+                        <th class="solidborder">各路径到独奏母线 A 的馈送</th>
+                        <td class="solidborder">Bus Default</td>
+                        <td class="solidborder">Bus Default</td>
+                    </tr>
+                    <tr>
+                        <th class="solidborder">各路径到独奏母线 B 的馈送</th>
+                        <td class="solidborder">Bus Default</td>
+                        <td class="solidborder">除 IEM 外所有路径均为 Bus Default；IEM 设为 None。</td>
+                    </tr>
+                    <tr>
+                        <th class="solidborder">独奏母线 A 馈送至</th>
+                        <td class="solidborder">Solo Channels 1 & 2</td>
+                        <td class="solidborder">独奏通道 2（“Solo IEMs”）</td>
+                    </tr>
+                    <tr>
+                        <th class="solidborder">独奏母线 B 馈送至</th>
+                        <td class="solidborder">Solo Channels 1 & 2</td>
+                        <td class="solidborder">独奏通道 3（“Solo Wedge”）</td>
+                    </tr>
+                    <tr>
+                        <th class="solidborder">Solo Channel 1</th>
+                        <td class="solidborder">立体声，馈送左侧耳机插孔</td>
+                        <td class="solidborder">立体声，馈送左侧耳机插孔（用于耳机）</td>
+                    </tr>
+                    <tr>
+                        <th class="solidborder">Solo Channel 2</th>
+                        <td class="solidborder">立体声，馈送右侧耳机插孔</td>
+                        <td class="solidborder">立体声，馈送右侧耳机插孔（用于 IEM）</td>
+                    </tr>
+                    <tr>
+                        <th class="solidborder">Solo Channel 3</th>
+                        <td class="solidborder">立体声，不馈送任何位置</td>
+                        <td class="solidborder">单声道，馈送本地模拟输出 A12（用于舞台返送音箱）
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+
+
+
+    <div class="indexheader2">独奏模式</div>
+    <div style="padding: 1em 0;">
+
+        <h2>独奏模式</h2>
+        <p>SSL Live 控制台包含以下独奏模式：</p>
+        <p style="margin-bottom:0px">
+            <ul>
+                <li><span style="font-weight:bold;">互相取消（默认）</span></li>
+                <li><span style="font-weight:bold;">瞬时</span></li>
+                <li><span style="font-weight:bold;">独奏母线 A 叠加</span></li>
+                <li><span style="font-weight:bold;">独奏母线 B 叠加</span></li>
+                <li><span style="font-weight:bold;">原位独奏</span></li>
+                <li><span style="font-weight:bold;">输入独奏优先</span></li>
+                <li><span style="font-weight:bold;">广播独奏模式</span></li>
+            </ul>
+        </p>
+
+        <p>
+            要更改独奏模式，请前往 <span class="label">MENU</span> > <span class="label">Setup</span> > <span class="label">Options</span> > <span class="label">User</span> 选项卡。在 <span style="font-weight:bold;">Solo Setup</span> 区域中触摸相应的 Solo Mode 按钮。各模式详述如下。
+        </p>
+
+        <div class="center"><img src="https://livehelp.solidstatelogic.com/Help/images/g_OptionsSolo.png" alt=""></div>
+
+        <h2>叠加/互相取消独奏模式</h2>
+        <p>默认情况下， <span class="label">SOLO</span> 按钮采用互相取消方式（也称自动取消或单独独奏模式）；按下一个按钮会取消所有其他 <span class="label">SOLO</span> 按钮。</p>
+
+        <p>
+            触摸 <span class="label">Solo&nbsp;Bus&nbsp;A</span> 或 <span class="label">Solo&nbsp;Bus&nbsp;B</span> 按钮（位于 <span style="font-weight:bold;">Additive Solo Mode</span> 选项卡的 <span class="label">User</span> 部分）可为相应独奏母线开启叠加独奏模式。
+        </p>
+
+        <p>在叠加独奏模式下，按 <span class="label">SOLO</span> 按钮会锁定其开关状态，因此可同时启用多个 <span class="label">SOLO</span> 按钮。</p>
+
+        <span class="note">
+            <span class="notetitle">注意：</span><br>
+            即使在互相取消独奏模式下，也可同时独奏两个或更多通道；只需同时按下它们的 <span class="label">SOLO</span> 按钮。<br><br>
+            互相取消独奏模式会覆盖叠加独奏模式。因此，如果通道设置为同时发送到两条独奏母线，但只有一条母线设为叠加独奏模式，则独奏操作仍会采用互相取消方式。
+        </span>
+
+        <div class="note">
+            <span class="notetitle">提示：</span> 可使用 <a href="https://livehelp.solidstatelogic.com/Help/OptionsUserKeys.html"><span class="hyperlink">User Keys</span></a>切换。
+        </div>
+
+        <h2>临时瞬时模式</h2>
+        <p>要临时使用 Momentary Solo Mode，请按住推子区块上的任一 <span class="label">SOLO</span> 按钮，信号即会发送到独奏母线。</p>
+
+        <p>松开 <span class="label">SOLO</span> 按钮后，该按钮会停用，信号也会停止发送到独奏母线。</p>
+
+        <br>
+
+        <h2 id="SoloInPlace">原位独奏</h2>
+        <p>
+            独奏系统还可在 <span class="label">Solo&nbsp;In&nbsp;Place</span> （SIP）模式下工作。在此模式下，通道 <span class="label">SOLO</span> 按钮不再将该通道发送至独奏母线（标准操作），而是通过将主混音输出中的其他所有通道静音，原位监听该通道。
+        </p>
+
+        <p>在 <span class="label">Solo&nbsp;In&nbsp;Place</span> 中，<span class="label">SOLO</span> 按钮采用 <span style="font-weight:bold;">按住</span> 方式。</p>
+
+        <p>这是一项安全措施，因为 Solo In Place 属于 <span style="font-weight:bold;">破坏性</span> 操作。</p>
+
+        <p>Solo In Place 始终采用 <span style="font-weight:bold;">叠加</span> 模式。</p>
+
+        <p>处于 Solo In Place 模式时，状态栏中会出现闪烁的 <img src="https://livehelp.solidstatelogic.com/Help/images/g_SIPIcon.png" alt="yellow 'S'"> 图标。</p>
+
+        <div class="note">
+            <span class="notetitle">提示：</span> 可通过 <a href="https://livehelp.solidstatelogic.com/Help/OptionsUserKeys.html"><span class="hyperlink">User Key</span></a>切换。
+        </div>
+
+
+
+        <h3>SIP 隔离</h3>
+        <p>
+            各路径具有 <span class="label">SIP&nbsp;Isolate</span> 按钮，可防止其他通道在 SIP 模式下独奏时该路径被静音。它适用于隔离要与当前独奏通道一同监听的效果通道或子组。
+        </p>
+        <p>要开启 <span class="label">SIP&nbsp;Isolate</span>，请打开该路径的详细视图并进入 <span class="label">Fader</span> 部分，然后启用 <span class="label">SIP&nbsp;Isolate</span>。</p>
+        <p>也可在通道视图中选择 <span class="label">Fader</span> 分配按钮，从快速控制访问 SIP Isolate。</p>
+
+        <br>
+
+        <h2 id="InputSoloPriority">输入独奏优先</h2>
+        <p><span class="label">Input&nbsp;Solo&nbsp;Priority</span> 允许通道独奏暂时覆盖 Stem 和 Aux 的独奏。</p>
+
+        <p>
+            用户先独奏 Stem 或 Aux，再独奏一个或多个通道时，母线独奏会被临时覆盖。清除通道独奏后，该母线会再次独奏。
+        </p>
+
+        <p>
+            要开启输入独奏优先，请前往
+            <span class="label">MENU</span> > <span class="label">Setup</span> > <span class="label">Options</span> > <span class="label">USER</span> 选项卡。
+            在 <span style="font-weight:bold;">SOLO SETUP</span> 部分中触摸 <span class="label">Input&nbsp;Solo&nbsp;Priority</span> 以启用。
+        </p>
+
+        <p>
+            现在按 Stem 或 Aux 上的 <span class="label">SOLO</span> 按钮。Stem/Aux 信号将发送到独奏母线。母线的 <span class="label">SOLO</span> 按钮会变为黄色以指示此状态。
+        </p>
+
+        <p>
+            现在按 <span class="label">SOLO</span>。此时只有通道信号会发送到独奏母线。通道的 <span class="label">SOLO</span> 按钮会变黄。Stem/Aux 的 <span class="label">SOLO</span> 按钮会变为橙色，表示它是最近独奏的母线。
+        </p>
+
+        <p>
+            再次按通道的 <span class="label">SOLO</span> 按钮取消该通道的独奏，Stem/Aux 随即再次独奏。Stem/Aux 信号会再次发送到 <span class="label">SOLO</span> 母线，Stem/Aux 的 <span class="label">SOLO</span> 按钮会变回黄色。
+        </p>
+
+        <p>再次按 Stem/Aux 的 <span class="label">SOLO</span> 按钮可清除独奏。</p>
+
+        <p>
+            主控区块上的独奏 <span class="label">CLEAR</span> 按钮可用于清除 Input Solo Priority 模式中的独奏。当 <span class="label">Input&nbsp;Solo&nbsp;Priority</span> 启用时，<span class="label">CLEAR</span> 按钮会清除最近一次独奏。因此，如果先独奏母线再独奏通道，则需要按两次 <span class="label">CLEAR</span> 按钮才能清除两次独奏。
+        </p>
+
+        <span class="note">
+            <span class="notetitle">注意：</span> 要同时使用 <span class="label">Input Solo Priority</span> 和 <span class="label">Solo In Place</span>，请先使用推子区块上的 <span style="font-weight:bold;">SOLO</span> 按钮独奏母线，然后使用通道视图或详细视图 Fader 部分主屏幕上的 <span style="font-weight:bold;">SOLO</span> 按钮独奏通道。
+        </span>
+
+        <p>
+            要关闭 Input Solo Priority，请返回 <span class="label">MENU</span> > <span class="label">Setup</span> > <span class="label">Options</span> > <span class="label">USER</span> 选项卡，再次触摸 <span class="label">Input&nbsp;Solo&nbsp;Priority</span> 以停用。
+        </p>
+
+        <br>
+
+        <h2>广播独奏模式</h2>
+        <p>启用后，独奏通道的功能会重新配置，使输出可根据独奏通道格式用作传统监听输出，馈送单声道、立体声或 5.1 扬声器系统。</p>
+
+        <p>
+            独奏通道输出电平直接由独奏通道推子控制，该推子成为主监听电平控件。主控区块上的 <span style="font-weight: bold;">Solo A</span> 和 <span style="font-weight: bold;">Solo B</span> 控件在独奏母线已路由到独奏通道且路径独奏有效时，仍会微调各自独奏母线的电平。但是，Solo A 和 B 控件不再影响分配给独奏通道的 Default/External 监听源电平（见下文），要监听 Default 或 External 输入也不再必须将独奏母线路由到独奏通道。
+        </p>
+
+        <p>新增了独奏通道 <b>DIM</b> 功能，由独奏通道的 <span class="label">SOLO</span> 按钮控制（主控区块主推子上标为 <span class="label">Solo/Dim</span> ）。可在独奏通道 <span style="font-weight: bold;">Fader</span> 部分，通过触摸屏或控制区块的 <span class="label">Fader&nbsp;TB</span> 按钮，将 Dim 电平设为 0 至 -40 dB。</p>
+
+        <p>也可使用控制台 GPI 端口远程控制 Dim。GPI 1、3、5 分别控制独奏通道 1、2、3 的 Dim；GPI 2、4、6 则分别切换独奏通道 1、2、3 的 Mute。</p>
+
+        <p>如果使用单独的独奏扬声器，可使用 Auto Dim 功能在路径独奏有效时衰减主监听馈送。该功能也可在独奏通道 <span style="font-weight: bold;">Fader</span> 部分启用。</p>
+
+        <p>默认配置为：所有路径将 Post All 处理后的信号路由到独奏母线 A，将 Pre Fader 信号路由到独奏母线 B。默认情况下，独奏母线 A 和 B 分别馈送独奏输出 1 和 2。例如，可将独奏通道 1 路由到一组立体声监听，将独奏通道 2 路由到专用“PFL”扬声器。独奏通道 1 的 Default Input 可设为主混音输出；独奏某条路径时会覆盖该输入。</p>
+
+        <p>在独奏通道 1 的 Fader 详细信息页面启用 <span class="label">Auto&nbsp;Dim</span> 按钮。每当路径独奏到独奏通道 2 的“PFL”输出（由独奏母线 B 馈送）时，这会自动衰减独奏通道 1 到主监听输出的电平。</p>
+
+        <br>
+
+    </div>
+
+
+
+    <div class="indexheader2">独奏输出通道的默认/外部输入</div>
+    <div id="DefaultSoloSource" style="padding: 1em 0;">
+        <h2>默认独奏源</h2>
+
+        <p>
+            三个独奏输出通道都可配置为接收默认输入源。该信号源可以是控制台内的任意信号，例如主混音输出、通信系统馈送或某一路监听混音。每个独奏输出通道的默认独奏源相互独立。
+        </p>
+
+        <p>
+            进入独奏通道的详细视图，然后进入 <span class="label">Input/Routing</span>。触摸右侧的 <span class="label">Route&nbsp;Default&nbsp;Input</span> ，路由视图随即打开。
+        </p>
+
+        <p>路由 Default Input 后，在 <span class="label">Input/Routing</span> 页面的 <span style="font-weight:bold;">Solo Source Select</span> 区域中选择 <span class="label">Default&nbsp;Input</span>。</p>
+
+        <p>
+            分配给独奏通道的独奏母线将控制该通道中默认独奏源的电平，因此可通过主控区块上的独奏母线控件和主屏幕 Solo 弹出面板控制电平与静音。从独奏通道取消分配两条独奏母线会将外部输入静音。
+        </p>
+
+        <span class="note"><span class="notetitle">注意：</span> 如果两条独奏母线都分配给同一独奏通道，则两条母线将 <span style="font-weight: bold;">并行</span> 控制该通道默认独奏源的电平。</span>
+
+        <br>
+
+        <h2 id="ExternalInputs">外部输入</h2>
+        <p>
+            与上述默认独奏源类似，还可向独奏通道注入另外六个输入，用于监听混音、节目输出等。
+        </p>
+        <p>
+            可使用独奏通道 Input/Routing 详细信息页面右侧的 <span class="label">Route&nbsp;External&nbsp;Input</span> 按钮路由各外部输入。
+        </p>
+
+        <img style="display: block; margin: 10px auto;" src="https://livehelp.solidstatelogic.com/Help/images/g_ExternalSoloSelector.png" alt="">
+
+        <p>在同一页面左侧的 <span class="label">Solo Source Select</span> 部分选择 <span class="label">Ext&nbsp;Input</span>，然后使用上方的 <span class="label">Ext&nbsp;1</span> - <span class="label">Ext&nbsp;6</span> 按钮选择要监听的外部输入。如果该输入已路由到信号源，LED 条会亮绿色。</p>
+        <p>在同一页面左侧的 <span class="label">Sum&nbsp;Both</span> 可同时监听外部输入和默认信号源。</p>
+        <p>控制区块小屏幕中，独奏通道的 <span class="label">Input</span> 部分也提供外部信号源选择器。</p>
+
+        <p>
+            分配给独奏通道的独奏母线将控制该通道中外部输入的电平，因此可通过主控区块上的独奏母线控件和主屏幕 Solo 弹出面板控制电平与静音。从独奏通道取消分配两条独奏母线会将外部输入静音。
+        </p>
+
+        <h2>默认/外部输入启用状态</h2>
+
+        <p>
+            Default/External 输入可配置为始终启用，或仅在没有其他信号源独奏时启用。使用独奏通道 <span class="label">Input/Routing</span> 页面中的 <span class="label">Ext/Default&nbsp;Input&nbsp;Always&nbsp;Active</span> 按钮，决定当其他信号源通过路径/效果 <span class="label">SOLO</span> 按钮路由到独奏通道时，该信号源是保持启用（按钮按下）还是静音。
+        </p>
+
+        <p>
+            Default/External 信号源的典型示例包括：FOH 混音时的主 Master 母线（此时应关闭 <b>Ext/Default&nbsp;Input&nbsp;Always&nbsp;Active</b> 选项，以便单独独奏各路径）；或监听混音时向一组 IEM 注入技术/喊话通信系统（此时应启用<b>Ext/Default&nbsp;Input&nbsp;Always&nbsp;Active</b> 
+            ，使通信信号源与其他独奏信号相加）。
+        </p>
+    </div>
+
+
+
+    <div class="indexheader2">其他独奏选项</div>
+    <div style="padding: 1em 0;">
+
+
+        <h2>通道组件独奏配置（Misc Solo）</h2>
+
+        <p>部分通道单元具有自身的独奏功能，例如可监听微调前输入，或压缩器、门限器的键控输入。<p>
+
+        <p>这些独奏信号所用的独奏母线在每个通道的 Eyeconix 详细信息对话框中定义。双击通道底部的 Eyeconix 区域可打开该对话框：</p>
+
+        <img style="width: 84px; height: 84px;" src="https://livehelp.solidstatelogic.com/Help/images/n_MenuChanView.png" alt=""><img style="width: 74px; height: 84px;" src="https://livehelp.solidstatelogic.com/Help/images/n_arrow.png" alt=""><img style="width: 84px; height: 84px;" src="https://livehelp.solidstatelogic.com/Help/images/n_ChanSelect.png" alt=""><img style="width: 74px; height: 84px;" src="https://livehelp.solidstatelogic.com/Help/images/n_arrow.png" alt=""><img src="https://livehelp.solidstatelogic.com/Help/images/n_ChanEyecon.png" alt=""><br>
+
+        <p>将出现与下图类似的对话框：</p>
+
+        <img style="display: block; margin: 10px auto; width: 750px;" src="https://livehelp.solidstatelogic.com/Help/images/g_detailMiscSolo.png" alt="">
+
+        <span class="note">
+            <span class="notetitle">注意：</span> <br>
+            对话框左侧的按钮决定显示哪个详细信息页面。如果尚未选择 Name、Eyeconix and Colour 页面，请触摸对话框左上角的通道 Eyeconix 区域。<br>
+            可使用左上角附近的通道滚动器，将对话框滚动到其他通道。
+        </span>
+
+        <p>触摸 <span class="label">Misc&nbsp;Solo:</span> 按钮，打开母线选项子菜单；</p>
+
+        <p>然后选择 <span class="label">Solo&nbsp;A&amp;B</span>、<span class="label">Solo&nbsp;A</span>、<span class="label">Solo&nbsp;B</span> 或 <span class="label">None</span>。</p>
+
+        <br>
+
+        <h2>Effects Rack 独奏配置</h2>
+
+        <p>Effects Rack 中的部分模块也具有独奏功能。这些独奏信号所用的独奏母线按机架分别定义，请使用位于 <span style="font-weight: bold;">Effects</span> 界面右侧的 <span class="label">Misc&nbsp;Solo:</span> 按钮。</p>
+
+        <p>触摸 <span class="label">Misc&nbsp;Solo:</span> 按钮，打开母线选项子菜单；</p>
+
+        <p>然后选择 <span class="label">Solo&nbsp;A&amp;B</span>、<span class="label">Solo&nbsp;A</span>、<span class="label">Solo&nbsp;B</span> 或 <span class="label">None</span>。</p>
+
+    </div>
+
+</div>
+
+
+<h2>实用链接：</h2>
+
+<a href="https://livehelp.solidstatelogic.com/Help/OptionsUser.html"><span class="hyperlink">用户选项</span></a><br>
+<a href="https://livehelp.solidstatelogic.com/Help/MasterTile.html"><span class="hyperlink">主控区块</span></a><br>
+<a href="https://livehelp.solidstatelogic.com/Help/LinkIndex.html"><span class="hyperlink">索引与术语表</span></a><br>
+</body>
+</html>

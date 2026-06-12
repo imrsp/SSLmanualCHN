@@ -1,0 +1,237 @@
+﻿<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>静音与静音组配置</title>
+  <style>
+    body { font: 16px/1.55 Arial, sans-serif; max-width: 1080px; margin: 2rem auto; padding: 0 1.25rem; color: #202124; }
+    img { max-width: 100%; height: auto; }
+    table { border-collapse: collapse; max-width: 100%; }
+    th, td { border: 1px solid #aaa; padding: .45rem; vertical-align: top; }
+    .note { display: block; border-left: 4px solid #e0a000; background: #fff8df; padding: .75rem 1rem; margin: 1rem 0; }
+    .notetitle { font-weight: bold; }
+    .label { font-weight: bold; color: #174ea6; }
+    .source { color: #666; font-size: .9rem; }
+  </style>
+</head>
+<body>
+  <p class="source">章节：混音 | 来源： <a href="https://livehelp.solidstatelogic.com/Help/Mute.html">https://livehelp.solidstatelogic.com/Help/Mute.html</a></p>
+<h2>静音</h2>
+
+<p>每个通道都有一个 <span class="label">Mute</span> 按钮，位于通道推子上方。还可通过以下方式将通道静音：</p>
+
+<ul>
+    <li>自动化静音：通过通道已静音的自动化“场景”启用；</li>
+    <li>组静音：通过通道所属的静音组启用；</li>
+    <li>VCA 静音：使用通道所属 VCA 控制通道上的 <span class="label">Mute</span> 按钮启用。（下一篇设置帮助页面介绍 VCA。）</li>
+</ul>
+
+<p>这些 <span class="label">Mute</span> 按钮的颜色表示以下状态，详见本页后文：</p>
+
+<p><img alt="" src="https://livehelp.solidstatelogic.com/Help/images/b_MuteW.png" style="width: 36px; height: 36px;" align="middle">熄灭：未静音（可手动静音，也可由自动化或组静音）；</p>
+
+<p><img src="https://livehelp.solidstatelogic.com/Help/images/b_MuteO.png" alt="" align="middle">橙色：组静音（由静音组或 VCA 静音）；</p>
+
+<p><img src="https://livehelp.solidstatelogic.com/Help/images/b_MuteR.png" alt="" align="middle">红色：手动或自动化静音（组无法解除该通道的静音）；</p>
+
+<p><img src="https://livehelp.solidstatelogic.com/Help/images/b_MuteRF.png" alt="" align="middle">红色闪烁：安全静音（防止自动化或组解除静音）；</p>
+
+<p><img src="https://livehelp.solidstatelogic.com/Help/images/b_MuteG.png" alt="" align="middle"> 绿色：安全取消静音（防止自动化或组将其静音）。</p>
+
+<span class="note"><span class="notetitle">注意：</span> 静音不会关闭录音机输出或任何推子前 Insert 发送。</span>
+
+<br>
+<h2>静音组</h2>
+
+<span class="note"><span class="notetitle">定义： </span>静音组允许按一个按钮便将多个通道静音，例如整个管乐声部，或某一幕中的全部表演者。</span>
+
+<p>SSL Live 控制台有十个静音组，通过主控区块上的十个静音组按钮控制。</p>
+
+<p>任何类型的通道均可加入静音组，而且每个通道可同时属于任意数量的静音组。</p>
+
+<p>
+    要将静音组中的所有信号静音，只需按相应的静音组按钮。该静音组按钮以及组内所有通道的 <span class="label">MUTE</span> 按钮都会变为橙色。
+</p>
+
+<span class="note"><span class="notetitle">注意： </span>如果在通道本地使用其自身的 Mute 按钮将其静音，则无论所属静音组处于何种状态，该通道都会保持静音，按钮变红即表示此状态。<br> </span>
+
+
+<table>
+    <tbody>
+        <tr>
+            <td style="vertical-align: middle; width: 490px;"><img style="margin: 0px 20px 0px 0px;" src="https://livehelp.solidstatelogic.com/Help/images/g_miniMutegroups.png" alt=""></td>
+            <td style="vertical-align: top;">
+                <p>也可从控制区块访问静音组主按钮：</p>
+                <p>按控制区块上的 <span class="label">Home</span> 按钮，然后在 Home 屏幕中选择 <span class="label">Mute&nbsp;Groups</span> 选项。</p>
+                <p>使用屏幕按钮或按下屏幕按钮旁的旋转编码器，即可开启或关闭静音组。</p>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+
+<br>
+<h2>将通道分配给静音组</h2>
+
+<img style="margin: 0px 10px;" src="https://livehelp.solidstatelogic.com/Help/images/g_MuteGroupTile.png" align="right" alt="">
+
+<p>可使用主控区块的静音组按钮，或主屏幕、控制区块中的静音组功能，将通道分配给静音组：</p>
+
+<span class="note"><span class="notetitle">注意：</span> 如果在静音组处于启用状态时将通道加入该组，通道会立即静音。</span>
+
+<h3>主控区块静音组按钮：</h3>
+
+<p>按住所需修改组对应的主控区块静音组按钮；按钮会闪烁橙色，表示已进入配置模式。</p>
+
+<p>要将通道加入组，请按其 <span class="label">SELECT</span> 按钮；按钮闪烁橙色表示该通道已加入。</p>
+
+<p>要从组中移除通道，请按其 <span class="label">SELECT</span> 按钮；按钮会停止闪烁。</p>
+<p>也可按住范围一端通道的 <span class="label">SELECT</span> 按钮，然后按范围另一端通道的 <span class="label">SELECT</span> 按钮，以加入一段连续通道。</p>
+
+<p>再次按主控区块静音组按钮即可恢复正常操作。</p>
+
+<br>
+
+<h3>详细视图</h3>
+
+<p>静音组快速控制的扩展版本位于 <span style="font-weight: bold;">MG + VCA</span> 详细信息页面中；在 <span style="font-weight: bold;">MG</span> 或 <span style="font-weight: bold;">VCA</span> 分配按钮处于启用状态时，双击快速显示即可打开：</p>
+
+
+<p><img style="display: block; margin: 27px auto;" src="https://livehelp.solidstatelogic.com/Help/images/g_DetailMGVCA.png" alt=""></p>
+
+<p>如果页面右侧的 <span class="label">Lock</span> 按钮处于启用状态，请触摸所需静音组的选择器，然后使用屏幕底部 <span style="font-weight: bold;">MG On </span>标签下方的上快速键，将通道加入或移出该组。</p>
+
+<p>If <span style="font-weight: bold;">Lock</span> 未启用时，只需按静音组选择器即可添加或移除通道。</p>
+
+
+<br>
+
+<h3>快速控制：</h3>
+
+<img style="margin: 0px 0px 5px 20px;" src="https://livehelp.solidstatelogic.com/Help/images/g_QuickMG.png" alt="" align="right">
+
+<p>在通道条中选择 <span class="label">MG</span> 分配按钮：</p>
+
+<p>通道条的选择器区域会显示十个静音组选择器以及一个 <span class="label">MUTE SAFE</span> 按钮。 </p>
+
+<p>触摸要添加或移除当前通道的静音组选择器。 </p>
+
+<p>如果屏幕右边缘的快速控制 Lock 已启用，选择器会变为蓝色，表示该组已分配给快速控制。随后可使用上快速键将通道加入或移出该静音组；MG 选择器的数字区域变绿，表示该通道已加入该组。</p>
+
+<p>如果快速控制 Lock 未启用，则通道在分配给快速控制的同时也会加入该静音组。 </p>
+
+<p>左快速键用于通道安全功能，详见下文。</p>
+
+<p>
+    <img style="margin: 3px 10px;" src="https://livehelp.solidstatelogic.com/Help/images/b_AssignMG_on.png" alt="" align="left">
+
+    通道 <span class="label">MG</span> 分配按钮中的色条会变为橙色，表示该通道已分配给至少一个静音组。
+</p>
+
+<p>MG 选择器显示状态如下：</p>
+
+<p><img style="margin: 2px 5px;" src="https://livehelp.solidstatelogic.com/Help/images/b_SelMGOffUnsel.png" alt="" align="top">未分配且未启用；</p>
+
+<p><img style="margin: 2px 5px;" src="https://livehelp.solidstatelogic.com/Help/images/b_SelMGOffSel.png" alt="" align="top">已分配给快速控制但未启用；</p>
+
+<p><img style="margin: 2px 5px;" src="https://livehelp.solidstatelogic.com/Help/images/b_SelMGOnSel.png" alt="" align="top">已分配给快速控制且已启用；</p>
+
+<p><img style="margin: 2px 5px;" src="https://livehelp.solidstatelogic.com/Help/images/b_SelMGOnUnsel.png" alt="" align="top">未分配但已启用。</p>
+
+
+<br>
+
+<h3>控制区块</h3>
+
+<p>也可使用控制区块编辑通道的静音组分配：</p>
+
+<table>
+    <tbody>
+        <tr>
+            <td>
+                <p>按控制区块上的 <span class="label">VCA&nbsp;/&nbsp;MG</span> 按钮，将该功能分配给控件：</p>
+
+                <p>屏幕顶部显示“Selected”通道；两侧的 <span style="font-weight: bold;">Prev</span> 和 <span style="font-weight: bold;">Next</span> 箭头按钮可用于滚动浏览通道。</p>
+
+                <p>静音组选择器显示在屏幕左侧。 </p>
+
+                <p>要将当前通道分配给静音组，请确保上方的 <span class="label">Lock</span> 按钮未启用，然后触摸所需静音组的选择器。</p>
+
+                <p>如果 Lock 已启用，将无法编辑屏幕内容。</p>
+            </td>
+            <td style="width: 480px;"><img style="margin: 0px 10px;" src="https://livehelp.solidstatelogic.com/Help/images/g_miniVCAMG.png" alt=""></td>
+        </tr>
+    </tbody>
+</table>
+
+
+<br>
+
+<h2 id="MuteSafe">静音安全</h2>
+
+<p><span class="label">MUTE SAFE</span> 可覆盖可能作用于通道的任何间接静音（静音组、VCA 或自动化静音）。</p>
+
+<p>当 <span class="label">MUTE SAFE</span> 在当前已静音的路径上启用时，该路径会自动进入 <span style="font-weight:bold;">Safe Mute</span> 状态。</p>
+
+<p>当 <span class="label">MUTE SAFE</span> 在当前未静音的路径上启用时，该路径会自动进入 <span style="font-weight:bold;">Safe Unmute</span> 状态。</p>
+
+<p><img src="https://livehelp.solidstatelogic.com/Help/images/b_MuteRF.png" alt="" align="middle">红色闪烁： <span style="font-weight:bold;">Safe Mute</span> （防止自动化或组解除静音）；</p>
+
+<p><img src="https://livehelp.solidstatelogic.com/Help/images/b_MuteG.png" alt="" align="middle"> 绿色： <span style="font-weight:bold;">Safe Unmute</span> （防止自动化或组将其静音）。</p>
+
+<p>触摸 <span class="label">MUTE</span> 按钮，会使该路径在 <span style="font-weight:bold;">Safe Mute</span> 和 <span style="font-weight:bold;">Safe Unmute</span>之间切换。</p>
+
+<p>The <span class="label">MUTE SAFE</span> 功能可通过上述快速控制 MG 页面启用，也可在通道详细信息对话框或控制区块中以类似方式启用。触摸 <span class="label">MUTE SAFE</span> 可启用或停用该功能。</p>
+
+<p>另请参阅下文的 <span style="font-weight:bold;">自动静音安全</span> 和 <span style="font-weight:bold;">临时自动静音安全</span> 模式。</p>
+
+<span class="note"><span class="notetitle">注意：</span><br><span class="label">MUTE SAFE</span> 的开关状态不会存储在场景或演出文件中。</span>
+
+<h3 id="AutoMuteSafe">自动静音安全</h3>
+<p><span style="font-weight:bold;">自动静音安全</span> 可用于在任一路径上快速启用 <span style="font-weight:bold;">静音安全</span> 模式。例如演出期间乐器损坏并产生噪声时，需要将通道设为安全静音；或有人拿错麦克风时，需要设为安全取消静音。Auto Mute Safe 模式通过用户按键启用。启用后，按任意 <span class="label">MUTE</span> 按键会在该路径上启用 <span style="font-weight:bold;">静音安全</span> 模式并切换其静音状态。该路径会保持安全静音/安全取消静音，直到问题解决并手动停用 Mute Safe。
+</p>
+
+<p>
+    要使用 <span style="font-weight:bold;">自动静音安全</span> ，请先在 <a href="https://livehelp.solidstatelogic.com/Help/OptionsUserKeys.html"><span class="hyperlink">User Key</span></a> 中将其添加为 
+    <span class="label">MENU</span> > <span class="label">Setup</span> > <span class="label">Options</span> > <span class="label">USER&nbsp;KEYS</span> 选项卡中的用户按键。
+    <span class="label">自动静音安全</span> 位于用户按键选项的 <span class="label">Console Functions</span> 部分。
+</p>
+<p>
+    分配给用户按键后，按该用户按键即可启用 <span class="label">自动静音安全</span> 模式。现在按任一路径上的 <span class="label">MUTE</span> 按钮，该路径的 <span class="label">MUTE SAFE</span> 即会开启。
+    <span style="font-weight:bold;">自动静音安全</span> 会保持启用，因此可通过其他路径的 <span style="font-weight:bold;">静音安全</span> 按键将这些路径置于 <span class="label">MUTE</span> 模式。根据之前的 Mute 状态（分别为未静音或已静音），路径现在会处于 <span style="font-weight:bold;">Safe Mute</span> 或 <span style="font-weight:bold;">Safe Unmute</span> 状态。
+</p>
+
+<p>随后触摸路径的 <span class="label">MUTE</span> 按钮，会使该路径在 <span style="font-weight:bold;">Safe Mute</span> 和 <span style="font-weight:bold;">Safe Unmute</span> 
+    状态之间切换，直到手动停用 <span style="font-weight:bold;">静音安全</span> 模式。</p>
+
+<p>
+    要关闭 <span class="label">自动静音安全</span> ，请再次按用户按键。已经进入 <span class="label">MUTE SAFE</span> 的路径在 <span style="font-weight:bold;">自动静音安全</span> 停用后仍会保持该模式。请前往快速控制 MG 页面、通道视图或详细视图，关闭该路径的 <span class="label">MUTE SAFE</span> 。其他路径的 <span class="label">MUTE</span> 按钮现在会恢复正常操作。
+</p>
+
+<p><img style="display: block; margin: 0px auto;" src="https://livehelp.solidstatelogic.com/Help/images/g_AutoMuteSafe.png" alt=""></p>
+
+
+<h3 id="TempAutoMuteSafe">临时自动静音安全</h3>
+<p>
+    <span style="font-weight:bold;">临时自动静音安全</span> 扩展了上述 <span style="font-weight:bold;">自动静音安全</span> 模式。它主要用于线路检查或声音检查，只需临时覆盖静音状态时（例如从乐队静音组中单独取消某些通道的静音以确认信号）， <span style="font-weight:bold;">临时自动静音安全</span> 也可分配给用户按键。
+</p>
+
+<p>
+    要将 <span style="font-weight:bold;">临时自动静音安全</span> 分配给 <a href="https://livehelp.solidstatelogic.com/Help/OptionsUserKeys.html"><span class="hyperlink">User Key</span></a> ，请前往 
+    <span class="label">MENU</span> > <span class="label">Setup</span> > <span class="label">Options</span> > <span class="label">USER&nbsp;KEYS</span> 选项卡中的用户按键。
+    <span class="label">临时自动静音安全</span> 位于用户按键选项的 <span class="label">Console Functions</span> 用户按键选项中。分配后，按该用户按键即可启用 <span class="label">临时自动静音安全</span> 模式。
+</p>
+
+<p>
+    启用后，按任意 <span class="label">MUTE</span> 按键会使该路径进入 <span style="font-weight:bold;">静音安全</span> 模式并切换 Mute 状态（与上述 Auto Mute Safe 完全相同）。但在临时模式下，第二次按 Mute 键会直接退出 Mute Safe 模式，使 Mute 恢复到其“正确”的底层状态，而不是在 Mute Safe 模式内切换状态。停用 <span class="label">临时自动静音安全</span> 模式会取消由该模式触发的所有 Mute Safe。手动启用的 Mute Safe（无论是在 Temporary Auto Mute Safe 启用之前还是之后）在关闭临时模式时均保持不变。
+</p>
+
+<p><img style="display: block; margin: 0px auto;" src="https://livehelp.solidstatelogic.com/Help/images/g_TempAutoMuteSafe.png" alt=""></p>
+
+<h2>实用链接：</h2>
+
+<a href="https://livehelp.solidstatelogic.com/Help/Solo.html"><span class="hyperlink">独奏</span></a><br>
+<a href="https://livehelp.solidstatelogic.com/Help/LinkIndex.html"><span class="hyperlink">索引与术语表</span></a><br>
+</body>
+</html>

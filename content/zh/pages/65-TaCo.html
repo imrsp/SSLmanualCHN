@@ -1,0 +1,362 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>TaCo</title>
+  <style>
+    body { font: 16px/1.55 Arial, sans-serif; max-width: 1080px; margin: 2rem auto; padding: 0 1.25rem; color: #202124; }
+    img { max-width: 100%; height: auto; }
+    table { border-collapse: collapse; max-width: 100%; }
+    th, td { border: 1px solid #aaa; padding: .45rem; vertical-align: top; }
+    .note { display: block; border-left: 4px solid #e0a000; background: #fff8df; padding: .75rem 1rem; margin: 1rem 0; }
+    .notetitle { font-weight: bold; }
+    .label { font-weight: bold; color: #174ea6; }
+    .source { color: #666; font-size: .9rem; }
+  </style>
+</head>
+<body>
+  <p class="source">章节：设置与附加功能 | 来源： <a href="https://livehelp.solidstatelogic.com/Help/TaCo.html">https://livehelp.solidstatelogic.com/Help/TaCo.html</a></p>
+
+
+<h2 id="TaCo">TaCo 平板控制</h2>
+
+<p>
+    还可使用 <span style="font-weight:bold;">TaCo</span> （平板控制）是适用于 iPad、Mac 和 Android 的应用。
+    该应用可限制为仅控制供艺人使用的单个 Aux 混音，也可解锁以快速控制所有推子电平、发送、静音及信号路径处理参数。
+    最多可同时连接 10 台平板，为舞台上的每位表演者提供混音控制（其中最多支持 2 台处于 Engineer Mode 的平板）。
+</p>
+
+<span class="note">
+    <span class="notetitle">请注意： </span>每个 TaCo 连接至少需要 5 Mbps 无线网络带宽。
+    例如，连接 10 个 TaCo 实例时，至少需要 50 Mbps 无线网络带宽。
+</span>
+
+<div id="accordion">
+    <div class="indexheader2">安装和更新 TaCo 应用</div>
+    <div style="padding: 1em 0;">
+        <h2>安装和更新 TaCo 应用</h2>
+
+        <p>TaCo 应用可在 iPad 和 Mac 的 Apple App Store 以及 Android 设备的 Google Play Store 中找到，搜索“SSL Live TaCo”即可。</p>
+
+        <p>点击 <b>Get</b> or <b>Install</b> 以在应用商店页面开始安装。
+        该应用需要读取和修改设备存储的权限，以便在设备上保存本地设置和首选项，
+        还需要网络访问权限以连接控制台。出现提示时请允许这些权限。</p>
+
+        <p>如果已禁用应用自动更新，则需从 Apple App Store 或 Google Play Store 手动更新 TaCo。</p>
+
+        <p>要查看当前安装的 TaCo 版本，请打开 TaCo 并查看右下角的版本号。</p>
+
+        <span class="note">
+            <span class="notetitle">请注意： </span>
+            最新版 TaCo 应用兼容 V4.7 及更高版本的所有控制台软件。
+            TaCo 无法连接更早的软件版本；如使用低于 V4.7 的版本，请联系 SSL Support。
+        </span>
+    </div>
+
+    <div class="indexheader2">将 TaCo 连接到 SSL Live</div>
+    <div style="padding: 1em 0;">
+
+        <h2>将 TaCo 连接到 SSL Live</h2>
+        <ul class="tab" style="margin-top:0px;">
+            <li>从 Apple/Android 应用商店将 SSL Live TaCo 应用安装到 iPad、Mac 或 Android 平板。</li>
+            <li>
+                如果在 iPad 或 Android 平板上使用 TaCo，请将主控制台的 <span style="font-weight:bold;">Network</span> 端口连接到无线路由器或接入点。
+                如果使用 Mac 版 TaCo，则可在控制台与 Mac 之间使用有线或无线连接。
+            </li>
+            <li>
+                将平板/Mac 连接到该网络。
+
+                <span class="note">
+                    <span class="notetitle">说明： </span>TaCo 会使用检测到的第一个网络适配器。 
+                    启动 TaCo 前请禁用所有其他有线和无线网络连接，确保使用正确的网络适配器。
+                </span>
+            </li>
+            <li>
+                如果无线接入点不为已连接设备分配 IP 地址，请确保控制台 <span style="font-weight:bold;">Connectivity</span> 网络与您的设备处于同一子网。
+                例如，如果控制台的 Connectivity IP 地址为 192.168.1.1，子网掩码为 255.255.255.0，则您的设备 IP 地址应为 192.168.1.[2-254]，子网掩码同样为 255.255.255.0。
+                请在 <span class="label">MENU</span> > <span class="label">Setup</span> > <span class="label">Options</span> > <span class="label">NETWORK</span> 选项卡中调整控制台的 <span style="font-weight:bold;">Connectivity</span> 网络设置。
+            </li>
+            <li>
+                在平板/Mac 上打开 TaCo 应用。网络中检测到的所有控制台都会列出。<br />
+                <img style="display: block; margin: 25px auto;" src="https://livehelp.solidstatelogic.com/Help/images/g_tacoSetupDiscovered.png" alt="">
+            </li>
+            <li>在控制台上，于 <span class="label">MENU</span> > <span class="label">Setup</span> > <span class="label">Options</span> > <span class="label">REMOTE</span> 选项卡中设置控制台密码。</li>
+            <li>在 TaCo 的 Password 字段中输入相同密码，然后点击 <span class="label">Connect</span></li>
+            <li>
+                TaCo 的 Status 区域此时会显示 <span style="font-weight:bold;">Awaiting authorisation</span>。
+                一个闪烁的 <img style="margin: 0px;" src="https://livehelp.solidstatelogic.com/Help/images/g_ConnectivityStatusWaiting.png" alt="yellow remote status"> 图标会出现在控制台状态栏中，表示有待处理的连接。
+            </li>
+            <li>
+                转到控制台的 Remote 选项卡（<span class="label">MENU</span> > <span class="label">Setup</span> > <span class="label">Options</span> > <span class="label">REMOTE</span> 选项卡），
+                在 Tablet Controllers 区域找到正在等待授权的设备。按下 <span class="label">Awaiting&nbsp;authorisation</span>，然后选择显示的选项之一。<br />
+                <img style="display: block; margin: 25px auto;" src="https://livehelp.solidstatelogic.com/Help/images/g_TabletAwaitingAuthOptions.png" alt="">
+                <ul>
+                    <li><span class="label">Accept&nbsp;as&nbsp;Engineer</span> 将允许控制所有推子电平、静音状态、信号路径处理及母线发送电平。</li>
+                    <li>使用 <span class="label">Accept&nbsp;with</span> 按钮选择特定 Aux。TaCo 将仅能控制所选 Aux 混音（例如交给表演者控制自己的混音）。</li>
+                    <li><span class="label">Recent</span> 按钮会显示最近连接过的 Aux 列表。</li>
+                    <li>使用 <span class="label">Disconnect</span> 按钮拒绝连接请求。</li>
+                    <li>使用 <span class="label">Ban</span> 按钮拒绝请求，并阻止该设备再次请求访问。</li>
+                </ul>
+            </li>
+            <li>
+                接受后，控制台与 TaCo 的连接区域应显示 <span style="font-weight:bold;">Connected</span>
+                ，控制台状态栏会显示 <img style="margin: 0px;" src="https://livehelp.solidstatelogic.com/Help/images/g_ConnectivityStatusOK.png" alt="green remote status"> 图标。
+            </li>
+        </ul>
+        <p>
+            要断开连接，请在控制台进入 <span class="label">MENU</span> > <span class="label">Setup</span> > <span class="label">Options</span> > <span class="label">REMOTE</span> 选项卡，
+            按下 <span class="label">Connected&nbsp;OK</span> 按钮并选择 <span class="label">Disconnect</span>，或在 TaCo 的 Setup 页面点击 <span class="label">Disconnect</span>。
+        </p>
+
+        <span class="note">
+            <span class="notetitle">说明： </span>TaCo 也可连接到运行 <a href="https://livehelp.solidstatelogic.com/Help/RemoteControl.html"><span class="hyperlink">SOLSA</span></a> 的 PC 作为远程控制器
+            （仅当 SOLSA 本身不是控制台的远程端时）。请按上述步骤操作；确保 PC 与平板/Mac 处于同一子网内。
+        </span>
+    </div>
+
+    <div class="indexheader2">工程师模式</div>
+    <div style="padding: 1em 0;">
+
+
+        <h2>工程师模式</h2>
+        <p>在 <span style="font-weight:bold;">工程师模式</span> TaCo 可远程控制以下控制台参数：</p>
+        <ul class="tab" style="margin-top:0px;">
+            <li>信号路径推子、Solo 和 Mute</li>
+            <li>声像</li>
+            <li>输入控制（例如 Gain、+48V、Digital Trim 等）</li>
+            <li>信号路径 EQ 和滤波器参数</li>
+            <li>信号路径压缩器和门限参数</li>
+            <li>信号路径延时和全通滤波器参数</li>
+            <li>Stem 分配和发送电平</li>
+            <li>Aux 分配和发送电平</li>
+            <li>Master 分配</li>
+            <li>Mute Group 分配</li>
+            <li>VCA 分配</li>
+            <li>已插入的效果器机架模块参数</li>
+            <li>控制台当前选中的信号路径（可选）</li>
+        </ul>
+
+        <p>最多支持两个处于 Engineer Mode 的 TaCo 实例。</p>
+
+        <p>在 <span style="font-weight:bold;">工程师模式</span> 下，TaCo 有三个主要页面：<span style="font-weight:bold;">推子</span>、<span style="font-weight:bold;">控制</span> 和 <span style="font-weight:bold;">屏幕查询</span>，说明如下。</p>
+
+
+        <h3>推子</h3>
+        <p>要访问 <span style="font-weight:bold;">推子</span> 页面，请点击 <span class="label">MENU</span> > <span class="label">FADERS</span>。</p>
+        <p>
+            此页面可控制控制台的信号路径推子电平、Solo 和 Mute 参数。
+            点击推子帽并上下拖动以调整推子电平。按 <span class="label">M</span>（Mute）和 <span class="label">S</span>（Solo）按钮切换其状态。
+        </p>
+
+        <img style="display: block; margin: 25px auto;" src="https://livehelp.solidstatelogic.com/Help/images/g_TaCoEngineerFaders.png" alt="">
+
+        <p>任何时候最多显示 12 个推子，以对应控制台的推子区块。TaCo 首次连接到控制台时，其 Bank 和 Layer 使用 <span style="font-weight:bold;">System Layers</span>（即按 Path 顺序列出）。</p>
+        <p>在 TaCo 中，Bank 显示在右侧。点击 Bank 即可将其调到屏幕上。</p>
+        <p>Bank 按钮上方有向上和向下箭头按钮，用于循环切换各层。</p>
+        <p>
+            点击 <span class="label">Layers</span> 按钮打开导航窗口。<span class="label">Overview</span> 显示 <span style="font-weight:bold;">System Layers</span>，
+            而 <span class="label">Layers</span> 则按控制台上的布局显示 <span style="font-weight:bold;">User Layers</span> 中的 Bank。
+            点击 <span style="font-weight:bold;">User Layer</span> 中的 Bank，会将该 User Layer 的 <span style="font-weight:bold;">User Layers</span> 分配到屏幕。
+        </p>
+
+        <h4>调整 Stem 和 Aux 混音</h4>
+
+        <p>要远程控制 Stem 和 Aux 的 <span style="font-weight:bold;">发送电平</span>，请点击 <span style="font-weight:bold;">MIXES</span>。</p>
+
+        <p>控制台上的所有 Stem 和 Aux 随即显示在屏幕顶部。 点击 Stem 或 Aux 可调整 <span style="font-weight:bold;">发送电平</span> 至该母线。 在屏幕顶部向左或向右滑动，可切换查看 Stem 或 Aux。</p>
+
+        <p>
+            在 Mixes 模式下，信号路径有两种显示方式：<span class="label">Compressed&nbsp;Query</span> 或 <span class="label">Expanded&nbsp;Query</span>。
+            这些模式的行为与控制台上的 <a href="https://livehelp.solidstatelogic.com/Help/Query.html"><span class="hyperlink">Query</span></a> 模式相同。
+            要选择 <span class="label">Compressed Query</span> 或 <span class="label">Expanded&nbsp;Query</span>，请转到 <span class="label">MENU</span> &gt; <span class="label">SETUP</span>。
+            Query 模式列在页面底部。
+        </p>
+
+        <p>点击 <span class="label">MIXES</span> 可退出混音视图，返回所有信号路径主推子电平的控制。</p>
+
+        <h4>控制信号路径参数</h4>
+
+        <p>
+            双击彩色信号路径名称区域，即可访问该路径的处理参数。
+            这些参数与 <b>控制</b> 页面中的参数完全相同，详情见下文。
+        </p>
+
+        <p>点击 <span class="label">Close</span> 按钮返回 Faders 视图。</p>
+
+
+        <h3 id="Controls">控制</h3>
+
+        <p>选择 <span class="label">MENU</span> > <span class="label">CONTROLS</span> 可访问 TaCo 中的信号路径控制，也可在 <b>推子</b> 视图中双击彩色信号路径名称区域。</p>
+
+        <p>
+            左上角显示信号路径名称、颜色、编号和格式。可使用箭头键滚动浏览各路径。
+        </p>
+        <p>在 TaCo 中，可在竖屏顶部或横屏左侧选择要查看的参数。可用选项如下：</p>
+        <p style="margin-bottom:0px;">
+            <ul>
+                <li><span class="label">INPUT</span>：所有输入参数，包括模拟增益和数字微调</li>
+                <li><span class="label">DELAY/ALL&nbsp;PASS</span> - 延时控制和全通滤波器</li>
+                <li><span class="label">EQ</span> - 均衡器和滤波器</li>
+                <li><span class="label">DYN</span> - 动态处理部分，包括压缩器和门限</li>
+                <li><span class="label">PAN</span> - 声像</li>
+                <li><span class="label">STEMS</span> - Stem 分配和发送电平</li>
+                <li><span class="label">AUX</span> - Aux 分配和发送电平</li>
+                <li><span class="label">MAST</span> - Master 分配</li>
+                <li><span class="label">MG/VCA</span> - 静音组和 VCA 分配</li>
+                <li><span class="label">INS A</span> - 插入 A 的效果器单元</li>
+                <li><span class="label">INS B</span> - 插入 B 的效果器单元</li>
+            </ul>
+        <p>点击任意按钮即可显示对应部分的参数。</p>
+        <p>信号路径处理以屏幕中央的图形显示，各参数滑块环绕四周。 来自 <span class="label">效果器机架</span> 的每个效果器单元都有各自的图形和控制。</p>
+        <p>可通过点击并拖动图形上的控制点，或点击并拖动四周的滑块来调整参数。</p>
+        <p>EQ 频段 Q 值和 Dynamics Knee 可使用捏合手势调整。</p>
+        <p>
+            要启用或旁通信号路径处理或插入点，请点击相应的 <span class="label">IN</span> 按钮。
+            竖屏时这些按钮位于顶部页面按钮下方，横屏时位于页面右侧。再次点击 <span class="label">IN</span> 按钮可关闭并旁通处理器。
+        </p>
+        <p>信号路径 EQ、Dynamics 处理器以及部分插入效果也可全屏查看。为此请点击 <span class="label">FULL&nbsp;SCREEN</span>。再次点击 <span class="label">FULL&nbsp;SCREEN</span> 可返回正常视图。</p>
+
+        <p>在横屏模式下，<span class="label">Fader</span> 按钮可打开当前所选信号路径的推子。</p>
+
+        <img style="display: block; margin: 25px auto;" src="https://livehelp.solidstatelogic.com/Help/images/g_TaCoFX.png" alt="">
+
+
+        <h4>在 TaCo 中选择信号路径</h4>
+
+        <p>
+            在 Engineer 模式下，TaCo 可跟随控制台的 Selected 路径，也可独立运行，使控制台和 TaCo 能选择不同路径。
+        </p>
+
+        <p>
+            当启用 <span class="label">Follow&nbsp;Console&nbsp;Path</span> 选项时，在 TaCo 的 <b>推子</b> 和 <b>控制</b> 页面中选择路径不会影响控制台的 Selected 路径，也不会受其影响。
+            当 TaCo 远离控制台操作面使用，或作为独立控制器使用时，此工作流程很实用。
+        </p>
+
+        <p>
+            启用 <span class="label">Follow&nbsp;Console&nbsp;Path</span> 选项会将 TaCo 的 Selected 路径链接到控制台的 <b>Focus Fader</b>，后者可跟随控制台的 Selected 路径，也可锁定到单独路径。
+            这使控制台操作面与 TaCo 紧密集成，可在两者之间顺畅操作 （例如将 TaCo 放在 L100、L200 或 L450 的 Tablet Tile 上，以扩展控制台操作面）。
+        </p>
+
+        <p>
+            当 <span class="label">Follow&nbsp;Console&nbsp;Path</span> 启用且 Focus Fader 未锁定时，控制台的 <span class="label">SELECT</span> 键可为 TaCo（以及控制台 Focus Fader）选择信号路径。
+            同样，在 TaCo 的 <b>推子</b> 页面选择推子条，或使用 <b>控制</b> 页面左上角的路径选择箭头，也会改变控制台 Focus Fader 和 Selected 路径。
+        </p>
+
+        <p>
+            要将特定信号路径分配并锁定到 Focus Fader，请参阅 <a href="https://livehelp.solidstatelogic.com/Help/MasterTile.html#FocusFader"><span class="hyperlink">Master&nbsp;Tile</span></a> 部分。
+            请确保在控制台的 Surface options 页面中启用 <span class="label">Link&nbsp;Control&nbsp;Tile</span>
+            （<span class="label">MENU</span> > <span class="label">Setup</span> > <span class="label">Options</span> > <span class="label">SURFACE</span> 选项卡）。
+            此后，TaCo 会持续显示所选路径，直到 Focus Fader 解锁或其分配路径改变。
+        </p>
+
+        <span class="note"><span class="notetitle">请注意：</span><br>对于装有 Control Tile 的控制台，在启用 <span class="label">Follow&nbsp;Console&nbsp;Path</span> 时，TaCo 与 Control Tile 将始终显示相同的路径。</span>
+
+        <h4>重置参数</h4>
+        <p>某些参数可从 TaCo 重置，例如 EQ 频段增益、声像和 Stem/Aux 发送电平。 支持此功能的参数，其数值旁会显示箭头。</p>
+        <img style="display: block; margin: 25px auto;" src="https://livehelp.solidstatelogic.com/Help/images/g_TaCoReset.png" alt="">
+        <p>点击增益值会出现弹出窗口。</p>
+        <img style="display: block; margin: 25px auto;" src="https://livehelp.solidstatelogic.com/Help/images/g_TaCoReset2.png" alt="">
+        <p>点击 <span class="label">Reset</span> 按钮可将该参数重置为默认值。</p>
+
+
+        <h4>锁定发送至母线的电平</h4>
+        <p>可锁定母线发送电平，以防意外更改。 为此，请进入 Stem 或 Aux 页面。 启用挂锁可锁定，关闭挂锁可解锁。</p>
+        <img style="display: block; margin: 25px auto;" src="https://livehelp.solidstatelogic.com/Help/images/g_TaCoLock.png" alt="">
+
+
+        <h3 id="ScreenQueryTaCo">屏幕查询</h3>
+        <p><b>Screen&nbsp;Query</b> 页面（<span class="label">MENU</span> > <span class="label">QUERY</span>）允许用户从 TaCo 查询信号路径，并在控制台的所有推子区块上显示相关路径。</p>
+
+        <p>
+            使用 <span class="label">CHAN</span>、<span class="label">STEM</span>、<span class="label">AUX</span>、<span class="label">MAST</span>、<span class="label">VCA</span> 按钮。
+            一次最多可显示 36 条信号路径。点击 <span class="label">1-36</span>、<span class="label">37-72</span>、<span class="label">73-108</span> 等按钮查看更多路径。
+        </p>
+
+        <p>要了解控制台 Screen Query 的更多信息，请参阅 <a href="https://livehelp.solidstatelogic.com/Help/Query.html#ScreenQuery"><span class="hyperlink">Screen&nbsp;Query</span></a> 部分.</p>
+
+        <p>在横屏模式下，<span class="label">Fader</span> 按钮可打开当前所选信号路径的主推子。</p>
+
+        <img style="display: block; margin: 25px auto;" src="https://livehelp.solidstatelogic.com/Help/images/g_ScreenQueryTaCo.png" alt="">
+    </div>
+
+    <div class="indexheader2">Aux 模式</div>
+    <div style="padding: 1em 0;">
+
+
+        <h2>Aux 模式</h2>
+
+        <p>
+            <span style="font-weight:bold;">TaCo</span> 使用与 Live 控制台相同的 <a href="https://livehelp.solidstatelogic.com/Help/Query.html"><span class="hyperlink"><b>Compressed Query</b></span></a> 技术，因此只显示已发送到所选 Aux 的通道。
+        </p>
+
+        <img style="display: block; margin: 25px auto;" src="https://livehelp.solidstatelogic.com/Help/images/g_TaCoAux.png" alt="">
+
+        <p>
+            将 TaCo 连接到控制台时，请在控制台 Remote 页面中点击 <span class="label">Awaiting&nbsp;Authorisation</span>，然后点按 <span class="label">Accept&nbsp;with</span> 并选择要控制的 Aux
+            （见上文 <b>将 TaCo 连接到 SSL Live</b> 部分）。
+        </p>
+
+        <p>在平板/Mac 上点击 <span class="label">MENU</span> > <span class="label">FADERS</span> 以访问混音页面。</p>
+
+        <p>TaCo 会显示所有贡献路径，并可控制其发送至所选 Aux 的电平。</p>
+
+        <p>TaCo 一次显示 12 条路径。对于较长列表，请使用右侧 Bank 图标循环浏览路径。</p>
+
+        <p>Aux Mode 始终以 <span class="label">Compressed&nbsp;Query</span> 模式运行。</p>
+
+    </div>
+
+    <div class="indexheader2">设置</div>
+    <div style="padding: 1em 0;">
+
+        <h2>设置</h2>
+        <p>TaCo 提供显示选项，方便用户自定义信号路径的显示方式。这些设置位于 <span class="label">MENU</span> > <span class="label">SETUP</span>.</p>
+
+        <p>页面底部有以下按钮：</p>
+
+        <ul>
+            <li>
+                <span class="label">Compressed&nbsp;Query</span> and <span class="label">Expanded&nbsp;Query</span>: Determines the display mode to use when adjusting Mixes in Engineer mode
+                (same as <a href="https://livehelp.solidstatelogic.com/Help/Query.html"><span class="hyperlink">Compressed and Expanded Query</span></a> 功能相同）。
+            </li>
+            <li><span class="label">Stems&nbsp;之前&nbsp;Channels</span>: 启用后，在查看混音贡献路径时将 Stem 列在通道之前（仅适用于 Aux 模式和 Engineer Compressed Query 模式）。</li>
+            <li><span class="label">Left&nbsp;Justify&nbsp;Controls</span>: 将菜单移到屏幕左侧。</li>
+            <li><span class="label">Follow&nbsp;Console&nbsp;Path</span>：将 TaCo 的 Selected 路径链接到控制台 Focus Fader（Selected）路径（仅限 Engineer 模式；详见上文 Engineer Mode 章节）。</li>
+        </ul>
+
+        <p>点击任意按钮启用，再次点击关闭。</p>
+
+        <p>TaCo 的所有页面均支持竖屏和横屏。 要在竖屏和横屏之间切换，只需转动平板方向。 （请确保平板设置中未锁定屏幕方向。）</p>
+
+
+
+        <h3 id="AutoReconnect">自动重新连接</h3>
+        <p>发生断线时，Auto-Reconnect 功能会自动恢复 TaCo 与控制台的连接。</p>
+        <p>
+            TaCo 设备经控制台授权后，如果连接中断并尝试重新连接 <span style="font-weight:bold;">在断开后的 30 分钟内</span>,
+            ，TaCo 将自动重新连接到控制台。 设备会自动恢复断线前的相同授权。
+            例如，若设备仅获准调整 Aux 7 的发送，断线后重新连接时仍会自动恢复为仅授权 Aux 7。
+            在此过程中，控制台操作员可继续混音，无需重新授权断线设备。
+        </p>
+        <p>
+            如果设备因电量耗尽而断线，Auto-Reconnect 同样有效。
+            设备接通电源并重新打开 TaCo 后，只要仍在 30 分钟自动重连时限内，就会自动恢复与控制台的连接。
+        </p>
+
+        <p>要检查设备连接状态，请进入控制台的 <span class="label">MENU</span> > <span class="label">设置</span> > <span class="label">Options</span> > <span class="label">REMOTE</span> 选项卡。
+
+
+    </div>
+</div>
+
+
+
+<h2>实用链接</h2>
+
+<p><a href="https://livehelp.solidstatelogic.com/Help/RemoteControl.html"><span class="hyperlink">远程操作面</span></a></p>
+<p><a href="https://livehelp.solidstatelogic.com/Help/OptionsRemote.html"><span class="hyperlink">远程选项</span></a></p>
+
+<p><a href="https://livehelp.solidstatelogic.com/Help/LinkIndex.html"><span class="hyperlink">索引与术语表</span></a></p>
+</body>
+</html>

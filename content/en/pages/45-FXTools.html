@@ -1,0 +1,376 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Audio Tools</title>
+  <style>
+    body { font: 16px/1.55 Arial, sans-serif; max-width: 1080px; margin: 2rem auto; padding: 0 1.25rem; color: #202124; }
+    img { max-width: 100%; height: auto; }
+    table { border-collapse: collapse; max-width: 100%; }
+    th, td { border: 1px solid #aaa; padding: .45rem; vertical-align: top; }
+    .note { display: block; border-left: 4px solid #e0a000; background: #fff8df; padding: .75rem 1rem; margin: 1rem 0; }
+    .notetitle { font-weight: bold; }
+    .label { font-weight: bold; color: #174ea6; }
+    .source { color: #666; font-size: .9rem; }
+  </style>
+</head>
+<body>
+  <p class="source">Section: Mixing | Source: <a href="https://livehelp.solidstatelogic.com/Help/FXTools.html">https://livehelp.solidstatelogic.com/Help/FXTools.html</a></p>
+<p>For more information about Effects in general, please see the <a href="https://livehelp.solidstatelogic.com/Help/FXIntro.html"><span class="hyperlink">Effects Rack Overview</span></a> section.</p>
+
+
+<h2>Audio Tools</h2>
+
+<h2 id="Spectralyser">Spectra-lyser (Mono/Stereo)</h2>
+
+<p>
+    The standard Spectra-lyser view provides a fixed-point-per-octave spectrum analyser, providing high resolution analysis even at low frequencies.
+    The <b>Gain</b> control allows a level offset to be added to the incoming signal to optimise the level for display.
+    A Play/Pause button allows the graph view to be paused for further analysis.
+</p>
+
+<p>
+    <span class="note">
+        <span class="notetitle">Note: </span>
+        The <b>Gain</b> control only affects the signal sent to the analyser; the signal routed to the output of the module remains at unity gain.
+        The module can therefore be inserted transparently into paths (e.g. output bus) for feedback monitoring and other spectrum analysis applications.
+    </span>
+</p>
+
+<p><img style="display: block; margin: 20px auto;" src="https://livehelp.solidstatelogic.com/Help/images/g_FXSpectralyser.png" alt=""></p>
+
+<p>
+    Tap the arrow at the bottom of the graph area to view display options for the analyser:
+</p>
+
+<p><img style="display: block; margin: 20px auto;" src="https://livehelp.solidstatelogic.com/Help/images/g_FXSpectralyserFFTOptions.png" alt=""></p>
+
+<p>The <span class="label">Slow</span> and <span class="label">Fast</span> buttons determine the update rate and amount of averaging applied to the signal for displaying on the analyser.</p>
+
+<p>The <span class="label">R-L</span> button is only available in the stereo version of the module and shows the difference between Left and Right channels. These can be routed from two separate signals for comparison.</p>
+
+<p>Use the <span class="label">Show&nbsp;Max</span> button to display a set of crosshairs at the maximum amplitude detected.</p>
+
+<p>Use the <span class="label">Show&nbsp;User</span> button to display a set of crosshairs at a user defined frequency. Tap the graph or use the encoder beneath the screen (in <span class="label">Follow&nbsp;Detail</span> Mode) to set the frequency.</p>
+
+<p>
+    <span class="label">Spectrogram</span> mode provides a graph of frequency content over time, displayed as a heat map.
+    The same averaging (Slow/Fast), user crosshairs and difference (R-L) modes are also available in Spectrogram view. Tap the arrow at the top of the graph to view them.
+    The graph update style can also be set from here to one of two modes: <span class="label">Wipe</span> or <span class="label">Scroll</span>. 
+    In Wipe mode new values are displayed moving down the display, wrapping from one end of the graph to the other.
+    In Scroll mode, new values are displayed at the bottom of the graph, with historical values displayed moving up the graph.
+    A <span class="label">Clear</span> button clears the display.
+</p>
+
+<p><img style="display: block; margin: 20px auto;" src="https://livehelp.solidstatelogic.com/Help/images/g_FXSpectrogram.png" alt=""></p>
+
+<p>
+    The main screen, Control Tile screen (if fitted), SOLSA and TaCo displays have independent view options, allowing each screen to show either analyser or spectrogram views.
+</p>
+
+
+<p>
+    <span class="note">
+        <span class="notetitle">Note: </span>
+        This module replaces the FPPO-lyser (fixed-point-per-octave analyser).
+        All instances of the FPPO-lyser in showfiles will appear as the new Spectra-lyser module and all previously saved settings will be compatible and retained.
+    </span>
+</p>
+
+
+<h2>Function Generator (Mono)</h2>
+
+<p>The Function generator provides an oscillator of variable frequency, with a fixed option of 1 kHz, in addition to white noise and pink noise generation:</p>
+
+<p><img style="display: block; margin: 20px auto;" src="https://livehelp.solidstatelogic.com/Help/images/g_fxToolsFunctionGen.png" alt=""></p>
+
+<p>Use the <b>Gain</b> control to adjust the signal level. The <b>Freq</b> control is only available in <span class="label">Oscillator</span> mode.</p>
+
+<h2 id="SignalDetector">Signal Detector (Mono)</h2>
+
+<p>The Signal Detector module is used to trigger <b><a href="https://livehelp.solidstatelogic.com/Help/SignalSwitcher.html"><span class="hyperlink">Signal Switcher</span></a></b> input changes.</p>
+
+<p><img style="display: block; margin: 20px auto;" src="https://livehelp.solidstatelogic.com/Help/images/g_FXSignalDetector.png" alt=""></p>
+
+<p>The meter shows the level of the incoming signal to the module. It is advised that a dedicated control signal with fixed amplitude be used from the primary audio source.</p>
+
+<p>Use the <b>Threshold</b> control to set the threshold level just below the incoming signal level. When the signal drops below the threshold the Signal Switcher will switch to Input B.</p>
+
+<p>The <span class="label">Bypass</span> button can be used to suspend the control signal from the detector module to the Signal Switcher, allowing setup of the detector without triggering an input change on the switcher.</p>
+
+<h2>SPL Meter (Mono)</h2>
+
+<p><img style="display: block; margin: 20px auto;" src="https://livehelp.solidstatelogic.com/Help/images/g_FXSPLmain.png" alt=""></p>
+
+<p>Use the <span style="font-weight: bold;">Frequency Weighting</span> buttons to choose the weighting:</p>
+
+<ul>
+    <li><span class="label">Z</span> : dB(Z) - Flat frequency response (unweighted): 10 Hz to 20 kHz &plusmn;1.5 dB</li>
+    <li><span class="label">A</span> : dB(A) - Most common, shaped to model the response of the human auditory system below 100 dB SPL (based on equal loudness curves)</li>
+    <li><span class="label">C</span> : dB(C) - Commonly used for Peak SPL measurement. Flatter than dB(A), to mimic the human ear response above 100 dB</li>
+</ul>
+
+<div><img style="display: block; margin: 20px auto;" src="https://livehelp.solidstatelogic.com/Help/images/g_dBWeightingGraph.png" alt=""></div>
+
+<p>Use the <span style="font-weight: bold;">Time Weighting</span> buttons to choose the attack time constant:</p>
+<ul>
+    <li><span class="label">Fast</span> : 125 ms</li>
+    <li><span class="label">Slow</span> : 1000 ms</li>
+    <li><span class="label">Impulse</span> : 35 ms</li>
+</ul>
+
+<h3>Calibration Mode</h3>
+
+<p>The SPL Meter has three Calibration Modes. Each has a varying level of complexity to configure and is proportional to its accuracy.</p>
+
+<p>In <span class="label">Uncalibrated</span> mode the meter will read 140 dB at 0 dBFS. This is the least accurate mode.</p>
+
+<p>
+    <span class="label">Auto</span> mode uses a simple calibration routine to equate a known dB SPL level to a measured dB FS level. Connect a known dB SPL source to the console and route it to an Input Channel. 
+    Insert the SPL Meter into the Channel's Insert point and set the <span style="font-weight: bold;">Calibration Mode</span> to <span class="label">Auto</span>. Press the <span class="label">Calibrate&nbsp;(Z,&nbsp;Fast)</span> button. 
+    This will automatically set the meter's frequency and time weighting to dB(Z) and Fast respectively. Next, enter the known dB SPL level into the <span style="font-weight: bold;">Calibration Level</span> field. 
+    Once the <span style="font-weight: bold;">Equivalent FS</span> level has settled, press the <span class="label">Calibrate&nbsp;(Z,&nbsp;Fast)</span> button again. 
+    Do not change the <span style="font-weight: bold;">Calibration Mode</span> as this will reset the calibration.
+</p>
+
+<p><img style="display: block; margin: 10px auto;" src="https://livehelp.solidstatelogic.com/Help/images/g_FXSPLauto.png" alt=""></p>
+
+<p>
+    <img style="margin: 8px 10px 5px 0px;" src="https://livehelp.solidstatelogic.com/Help/images/g_FXToolsSPLMeterSensitivitySetup.png" alt="" align="right">
+    <span class="label">Sensitivity</span> mode requires information about the measurement microphone being used, specifically its sensitivity in mV/Pa. 
+    This can usually be found in the specifications section of your microphone's manual or web page.
+</p>
+
+<p>Route the measurement microphone to an Input Channel and route the Channel's Insert send to a console output. Set the Input Channel's Analogue Gain to a nominal value so that the input is not clipping and set the Digital Trim to 0 dB.</p>
+
+<p>Send an input signal of known level (A) into the channel and adjust the console's output trim (in the <a href="https://livehelp.solidstatelogic.com/Help/LocalMADIConfig.html"><span class="hyperlink">I/O Setup page</span></a>) until the output level (B) matches the known input level (you may need to adjust the input gain to achieve this).</p>
+
+<p>Do not adjust the gain structure between the input and Insert point from now on as this will invalidate the calibration procedure.</p>
+
+<p>Unroute the console output from the Channel's Insert point and insert the SPL Meter in its place. Set the <span style="font-weight: bold;">Calibration Mode</span> to <span class="label">Sensitivity</span> and enter the microphone's sensitivity into the <span style="font-weight: bold;">Mic Sensitivity</span> field.</p>
+
+<p>
+    Finally, add the console's operating level (found in <span class="label">MENU</span> > <span class="label">Setup</span> > <span class="label">System&nbsp;/&nbsp;Power</span> > <span class="label">System</span> tab) 
+    to the output trim offset that was applied to match the input and output levels and enter it into the <span style="font-weight: bold;">Output Gain</span> field of the SPL Meter module.
+</p>
+
+<p>Revert the output trim to your operational requirements and ensure that the gain structure between mic and SPL Meter remains constant (e.g. you may wish to exclude this channel from automation recall scope).
+
+<p><img style="display: block; margin: 10px auto;" src="https://livehelp.solidstatelogic.com/Help/images/g_FXSPLsens.png" alt=""></p>
+
+<h2 id="PhaseScope">Phase-Scope (Stereo/LCR)</h2>
+
+<h3>Stereo</h3>
+
+<p><img style="display: block; margin: 20px auto;" src="https://livehelp.solidstatelogic.com/Help/images/g_FXPhasescope.png" alt=""></p>
+
+<h3>LCR</h3>
+
+<p><img style="display: block; margin: 20px auto;" src="https://livehelp.solidstatelogic.com/Help/images/g_fxToolsPhaseScopeLCR.png" alt=""></p>
+
+<p>The stereo and LCR Phase Scope modules allow the phase of two or three sources to be compared in real-time.</p>
+
+<p><span style="font-weight: bold;">Type</span>: Set <span class="label">Peak</span> or <span class="label">RMS</span> sensing.</p>
+<p>
+    <span style="font-weight: bold;">Hold</span>: Set the detector hold time to <span class="label">3sec</span>onds, <span class="label">10sec</span>onds, <span class="label">Infinite</span> or <span class="label">None</span>. 
+    There is also an option to <span class="label">RESET</span> the hold indicator.
+</p>
+<p><span style="font-weight: bold;">Reference</span>: Set the reference measurement level.</p>
+<p><span style="font-weight: bold;">Integration</span>: Set integration time to <span class="label">1sec</span>onds, <span class="label">2sec</span>onds, <span class="label">10sec</span>onds, 
+    <span class="label">30sec</span>onds, <span class="label">1min</span>ute, <span class="label">2min</span>utes or <span class="label">Infinite</span>. 
+    There is also an option to <span class="label">RESET</span> the integration time.</p>
+
+<h2 id="Monitoring">Monitoring Modules (Stereo/4.0/5.1)</h2>
+
+<p><img style="display: block; margin: 10px auto;" src="https://livehelp.solidstatelogic.com/Help/images/g_FXToolsMonitoring.png" alt=""></p>
+
+<p>The Monitoring modules are designed to be inserted into Solo Channels or other output channels to provide monitor source compatibility and confidence checking.</p>
+
+<p>The Stereo Monitoring Module provides all the expected compatibility monitoring modes needed for stereo production.</p>
+
+<ul>
+    <li>
+        A Mono monitor feed can be sourced from the sum of the Stereo inputs or independently from the left or right inputs and the selected mono source can be routed to both monitor outputs or just to a single speaker 
+        by using the <span class="label">L</span>, <span class="label">R</span> and <span class="label">L+R</span> buttons in the <span style="font-weight: bold;">Mono From</span> 
+        and <span style="font-weight: bold;">Mono Tools</span> sections. Automatic gain compensation maintains a consistent monitor level regardless of the mono source and destination selection.
+    </li>
+    <li>
+        A left channel 180&deg; polarity inversion (via the <span class="label">&Oslash;L</span> button) provides stereo phase verification. As this is upstream of the Mono monitor summing, 
+        if activated in conjunction with the mono option, the stereo difference or 'S' signal is routed to the monitor outputs instead of the stereo sum.
+    </li>
+    <li>The <span class="label">LR&nbsp;Reverse</span> button helps identify whether there is an anomaly in the incoming source or an issue in the monitoring chain.</li>
+</ul>
+
+<p>The Multi Format Monitoring Module is a 4.0 or 5.1 Module that includes all the features of the Stereo Monitoring Module but with the additional elements that surround monitoring requires.</p>
+
+<ul>
+    <li>
+        5.1 to <span style="font-weight: bold;">LR Folddown</span> with a choice of the user configurable <span class="label">Main</span> (Default) or <span class="label">Alternate</span> folddown coefficients that are set in the System Options menu
+        (<span class="label">MENU</span> > <span class="label">Setup</span> > <span class="label">Options</span> > <span class="label">System</span> tab).
+    </li>
+    <li>Individual Speaker <span class="label">Mute</span> buttons which can be reassigned as Speaker <span class="label">Solo</span> keys.</li>
+    <li>
+        <span class="label">Bass&nbsp;Management</span> page for configuring enhanced low frequency monitoring in less than optimal monitor environments. 
+        The redirect frequency can be set anywhere 40 to 120 Hz and the high pass and low pass filters are independently switchable between 2nd, 3rd and 4th order filter slopes. 
+        The summed main monitor redirect signal sent to the Sub output can be trimmed by &plusmn; 10 dB.
+    </li>
+</ul>
+
+<p>
+    <span class="note"><span class="notetitle">Note: </span>As the Solo Channels include EQ, delay and All&nbsp;Pass filters, and with the option of an FX Rack graphic EQ in the other insert point, 
+    it's possible to fine tune a surround monitor setup without resorting to outboard processing or other external speaker management hardware.</span>
+</p>
+
+
+
+<h2 id="TFA">Transfer Function Analyser</h2>
+
+<p>The Transfer Function Analyser is an acoustical measurement tool for the SSL Live Effects Rack.</p>
+<img style="display: block; margin: 25px auto;" src="https://livehelp.solidstatelogic.com/Help/images/g_FXTFAMagPha.png" alt"">
+
+<p>
+    The Transfer Function Analyser is an analyser that shows the fixed-point per octave transfer function (TF) and the impulse response (IR) of a (linear time-invariant) system.
+    This can be used to measure any system from a loudspeaker to an audio processor, although the primary purpose for the Transfer Function Analyser is for measuring acoustic spaces.
+</p>
+
+<p>
+    The Transfer Function Analyser can be found in the <span class="label">Tools</span> folder and is available in
+    Stereo, LCR, 4.0, 5.1, 4-Wide, 8-Wide and 12-Wide formats.
+</p>
+
+<p>
+    First, route the inputs to the Transfer Function Analyser in the same way as with other Effects units.
+    Then tap the <span class="label">Input Select</span> button. This opens a pop out menu.
+    Tap in the appropriate crosspoint to choose the Reference and Measurement sources.
+    Tap on the <span class="label">Input Select</span> button again to close the pop out.
+    By default the Reference source is set to Input 1 and the Measurement source is set to Input 2.
+</p>
+
+<p>
+    The Transfer Function Analyser can display Transfer Functions Magnitude, Phase and Coherence as well as Impulse Response.
+    To select the measurement to display, tap on the buttons in the top left corner. Engage <span class="label">IR</span> for Impulse Response,
+    <span class="label">M</span> for Magnitude and <span class="label">P</span> for Phase.
+</p>
+
+<p>
+    Coherence is displayed as a red line at the top of the Magnitude graph.
+    If only the Phase graph is displayed, Coherence will be displayed at the top of the Phase graph.
+    Coherence threshold is displayed to the right of the screen with an arrow to indicate the Coherence threshold.
+</p>
+
+<p>
+    These buttons can be engaged or disengaged as required.
+    When only one measurement is selected, one larger graph will be displayed.
+    When two measurements are engaged, two smaller graphs are displayed.
+    Engaging a third measurement will disengage the first one selected so that only two measurements (as well as Coherence) can be displayed at one time.
+</p>
+
+<p>
+    There are two <i>views</i> that can be configured, saving time when alternating between different measurement graphs.
+    Engaging the measurement display buttons adds those graphs to the Main view. Engaging the <span class="label">Alt</span> button switches to the Alternative view.
+    Engaging the measurement display buttons here adds those graphs to the Alternative view.
+    Disengaging the <span class="label">Alt</span> button switches back to the Main view. The graphs are labelled in the bottom left corner.
+</p>
+
+
+<p>
+    The Impulse Response graph is displayed with the IR Display mode, the Reference Delay and the Measured Delay (see below).
+    Navigation controls can be brought up by tapping on the up arrow at the bottom of the Impulse Response graph.
+    There are Zoom In and Zoom Out buttons to zoom the graph area around the detected peak, as well as a <span class="label">x1</span> button to return to default zoom.
+    The Left and Right arrows allow scrolling along the x axis (when zoomed in).
+    The <span class="label">Centre on Visible Peak</span> button will centre the graph area on the peak detected within the visible graph area.
+    <span class="label">Copy Measured to Ref Delay</span> copies the Measured delay to the Reference delay.
+    This button has the same function as the <span class="label">Copy to Ref Delay</span> button in the settings menu (see below).
+    After a few moments of inactivity, this pop up will close automatically.
+</p>
+
+<img style="display: block; margin: 25px auto;" src="https://livehelp.solidstatelogic.com/Help/images/g_FXTFAIRMenu.png" alt"">
+
+<p>To reset the IR or TF measurement, press the <span class="label">Reset</span> button at the top. Now select <span class="label">IR</span> or <span class="label">TF</span>.</p>
+
+<h3>Settings</h3>
+<p>Tap on the cog symbol to open the settings menu.</p>
+
+<div><img style="margin: 0px auto;" src="https://livehelp.solidstatelogic.com/Help/images/g_FXTFASettings.png" alt""></div>
+
+<p>
+    <span style="font-weight:bold;">Impulse Response Settings</span><br>
+    <div>
+        <table class="insideborder" style="width: auto; margin: 15px 0px;" cellpadding="4" cellspacing="1">
+            <tbody>
+                <tr>
+                    <th class="solidborder">Measured Delay</th>
+                    <td class="solidborder">The delay of the system being tested. This is automatically detected and displayed here.</td>
+                </tr>
+                <tr>
+                    <th class="solidborder"><span class="label">Copy to Ref Delay</span> button</th>
+                    <td class="solidborder">Copies the Measured Delay (displayed to the left) to the Reference Delay field.</td>
+                </tr>
+                <tr>
+                    <th class="solidborder">Num Averages</th>
+                    <td class="solidborder">The number of consecutive FFTs over which to average the IR.</td>
+                </tr>
+                <tr>
+                    <th class="solidborder">FFT Length</th>
+                    <td class="solidborder">Determines the length of the IR estimate and therefore the maximum system delay that it can detect. e.g. 256k at 96 kHz sample rate gives a 2.67 seconds IR length.</td>
+                </tr>
+                <tr>
+                    <th class="solidborder">IR Display</th>
+                    <td class="solidborder">
+                        Linear displays the ray IR and preserves the positive and negative values (which can be useful for determining system polarity).<br>
+                        Log displays the log of the magnitude of the raw IR.<br>
+                        ETC stands for Energy Time Curve, which is an envelope of the Log display. It can be easier to identify the peaks using this display.
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</p>
+
+<br>
+
+<p>
+    <span style="font-weight:bold;">Transfer Function Settings</span>
+    <div>
+        <table class="insideborder" style="width: auto; margin: 15px 0px;" cellpadding="4" cellspacing="1">
+            <tbody>
+                <tr>
+                    <th class="solidborder">Ref Delay</th>
+                    <td class="solidborder">The amount by which the reference signal is delayed. This should be set to the delay through the system that is being tested. The IR can be used to automatically detect this.</td>
+                </tr>
+                <tr>
+                    <th class="solidborder">Num Averages</th>
+                    <td class="solidborder">The number of consecutive FFTs over which to average the TF</td>
+                </tr>
+                <tr>
+                    <th class="solidborder">Averaging Mode</th>
+                    <td class="solidborder">
+                        Change the Averaging Mode for Magnitude only.<br>
+                        <span style="font-weight:bold;">Magnitude</span> Averaging Mode takes a geometric mean of the magnitude values. This mode can perform better in windy conditions when the measurement signal has a variable arrival time.<br>
+                        <span style="font-weight:bold;">Magnitude & Phase</span> Averaging Mode preserves phase information and is more suited to removing noise.
+                    </td>
+                </tr>
+                <tr>
+                    <th class="solidborder">Ref Threshold</th>
+                    <td class="solidborder">The threshold at which the graph updates. Reference signal below this threshold will not update the graph and the graph will appear frozen.</td>
+                </tr>
+
+            </tbody>
+        </table>
+    </div>
+</p>
+
+<h2>Useful Links</h2>
+<a href="https://livehelp.solidstatelogic.com/Help/DetailView.html"><span class="hyperlink">Detail View</span></a><br>
+<a href="https://livehelp.solidstatelogic.com/Help/FXIntro.html"><span class="hyperlink">Effects Rack Overview</span></a><br>
+<a href="https://livehelp.solidstatelogic.com/Help/FXDelays.html"><span class="hyperlink">Delay Effects</span></a><br>
+<a href="https://livehelp.solidstatelogic.com/Help/FXDynamics.html"><span class="hyperlink">Dynamics Effects</span></a><br>
+<a href="https://livehelp.solidstatelogic.com/Help/FXEQs.html"><span class="hyperlink">EQ Effects</span></a><br>
+<a href="https://livehelp.solidstatelogic.com/Help/FXModulation.html"><span class="hyperlink">Modulation Effects</span></a><br>
+<a href="https://livehelp.solidstatelogic.com/Help/FXReverbs.html"><span class="hyperlink">Reverb Effects</span></a><br>
+<a href="https://livehelp.solidstatelogic.com/Help/FXOther.html"><span class="hyperlink">Other Effects Modules</span></a><br>
+<a href="https://livehelp.solidstatelogic.com/Help/FXAutoMix.html"><span class="hyperlink">Automix</span></a><br>
+<a href="https://livehelp.solidstatelogic.com/Help/LinkIndex.html"><span class="hyperlink">Index and Glossary</span></a><br>
+</body>
+</html>

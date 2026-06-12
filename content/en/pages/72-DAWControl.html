@@ -1,0 +1,245 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>DAW Control</title>
+  <style>
+    body { font: 16px/1.55 Arial, sans-serif; max-width: 1080px; margin: 2rem auto; padding: 0 1.25rem; color: #202124; }
+    img { max-width: 100%; height: auto; }
+    table { border-collapse: collapse; max-width: 100%; }
+    th, td { border: 1px solid #aaa; padding: .45rem; vertical-align: top; }
+    .note { display: block; border-left: 4px solid #e0a000; background: #fff8df; padding: .75rem 1rem; margin: 1rem 0; }
+    .notetitle { font-weight: bold; }
+    .label { font-weight: bold; color: #174ea6; }
+    .source { color: #666; font-size: .9rem; }
+  </style>
+</head>
+<body>
+  <p class="source">Section: Settings &amp; Extras | Source: <a href="https://livehelp.solidstatelogic.com/Help/DAWControl.html">https://livehelp.solidstatelogic.com/Help/DAWControl.html</a></p>
+<h2>DAW Control</h2>
+
+<p>
+    SSL Live software supports DAW control via the HUI&trade; protocol. This is primarily for integrating with Pro Tools but is a control option with some other DAW software.
+    8, 16, 24 or 32 DAW controller channels can be configured for up to 4 separate DAWs. Connection is via the <a href="https://livehelp.solidstatelogic.com/Help/OptionsNetwork.html#Network"><span class="hyperlink">Connectivity Network port</span></a> using ipMIDI as on other SSL DAW control products.
+</p>
+
+<h3>DAW Control Basics</h3>
+
+<p>
+    The HUI protocol was originally developed to control Pro Tools from dedicated control surfaces built by Mackie.
+    All DAW functions described below refer specifically to Pro Tools operation and use the label names of the hardware control functions that the SSL Live DAW control software emulates.
+</p>
+
+<span class="note">
+    <span class="notetitle">Note:</span> There are other DAWs that can be controlled via the HUI protocol, however most of them do not map the HUI control messages directly to equivalent functions.
+    Solid State Logic has extensively tested our HUI implementation with Pro Tools on both Mac and PC platforms but unfortunately is not able to offer support for DAWs other than Pro Tools when
+    using SSL Live's DAW control in the event that issues arise in their use of the HUI protocol.
+</span>
+
+<p>
+    DAW control can be configured in banks of 8 consecutive channels with a maximum of four banks providing 32 physical console faders for DAW Control for each DAW.
+    As there are both channel scrolling and banking keys there is no limit to the number of tracks in a Pro Tools session that can be accessed, as the tracks can be scrolled or banked on to the console faders as required.
+    Pro Tools Memory Locations can also be used to recall specific track layouts.
+</p>
+
+<p>
+    DAW control is via the SSL Live Fader Tiles with the controls mapped to the DAW mixer functions instead of the console's internal processing.
+    The faders control DAW track level and the encoders control track panning and send levels. A <b>Flip</b> function allows the faders to control send levels.
+    Track arming and automation modes can be set via the <span class="label">Q</span> switch.
+</p>
+
+<p>
+    When using SSL Live as the control surface for a Pro Tools mix session, two solutions are recommended.
+    When Pro Tools is being used as a playback source together with other live audio sources, a single HUI port setup provides 8 DAW control paths on the surface,
+    which are banked in 8 track increments like other 8-fader controllers.
+    These DAW control paths can be combined with audio paths on the console surface for a hybrid workflow.
+    Alternatively, configuring a 24 fader surface (three HUI ports) over two Fader Tiles and banking in 24 track increments is typically the most
+    favourable solution to minimise banking if DAW control is the console's primary application.
+</p>
+
+<p>
+    A DAW popout in the Channel View screen contains groups of buttons to assign the encoder function and set up track automation modes.
+    It also offers transport control, plus channel scrolling and banking buttons and other useful master functions. These are explained in detail below.
+    All of these functions, together with additional commands available in the HUI protocol, can be mapped to <a href="https://livehelp.solidstatelogic.com/Help/OptionsUserKeys.html"><span class="hyperlink">User Keys</span></a>.
+</p>
+
+<h3>Main Controller Features</h3>
+<p>
+    The following functions in Pro Tools can be controlled via dedicated front panel controls or touch screen access on the control surface:
+    <ul>
+        <li>
+            Track
+            <ul>
+                <li>Level</li>
+                <li>Mute</li>
+                <li>Solo</li>
+                <li>Stereo Pan</li>
+                <li>Track Arm</li>
+                <li>Automation Mode</li>
+                <li>Sends A-E Level, Pre/Post, Mute and Stereo Pan</li>
+                <li>Fader to 0 dB</li>
+                <li>Stereo Meters*</li>
+                <li>Channel Label</li>
+                <li>Select</li>
+            </ul>
+        </li>
+        <li>
+            Session Track Navigation
+            <ul>
+                <li>Channel Up/Down</li>
+                <li>Bank Up/Down</li>
+            </ul>
+        </li>
+        <li>
+            Automation
+            <ul>
+                <li>Automation Suspend</li>
+                <li>Fill to Start, End, Mix</li>
+            </ul>
+        </li>
+        <li>
+            Timeline
+            <ul>
+                <li>Stop, Play, Record</li>
+                <li>Return to Zero (RTZ)</li>
+                <li>Loop</li>
+                <li>Next Marker, Previous Marker</li>
+                <li>Goto Marker 1</li>
+            </ul>
+        </li>
+        <li>
+            General Functions
+            <ul>
+                <li>All Record</li>
+                <li>Group Suspend</li>
+                <li>Sends to Fader (Flip)</li>
+                <li>Modifier keys: Shift, Opt/All, Alt and Ctrl</li>
+            </ul>
+        </li>
+    </ul>
+
+    * Metering on a HUI surface is not available if EUCON has been enabled in the Pro Tools Setup > Peripherals > Ethernet Controllers menu.
+    Disable this checkbox if bi-directional control is working correctly but no metering is shown.
+</p>
+
+<p>Additional control functions are available as <a href="https://livehelp.solidstatelogic.com/Help/OptionsUserKeys.html"><span class="hyperlink">User Keys</span></a> and <a href="https://livehelp.solidstatelogic.com/Help/EventManager.html"><span class="hyperlink">Events</span></a> together with the Master functions listed above.</p>
+
+<h3>Configuring ipMIDI</h3>
+
+<p>Please refer to the <a href="https://livehelp.solidstatelogic.com/Help/ipMIDI.html"><span class="hyperlink">ipMIDI section</span></a> for instructions on configuring ipMIDI on the DAW host machine.</p>
+
+<h3>DAW Control Setup</h3>
+
+<p>
+    Select the ipMIDI ports to be used with each connected DAW via the DAW tab of the Setup > Options page.
+    A maximum of four ports per DAW is possible in Pro Tools via HUI (up to 32 DAW control faders).
+    Ports need not be consecutive but the lowest port will always be DAW channels 1-8.
+</p>
+
+<p>It is recommended that the Pro Tools host computer is booted after the ipMIDI ports have been selected on the console, or rebooted if already running.</p>
+
+<img style="display: block; margin: 5px auto; width: 790px;" src="https://livehelp.solidstatelogic.com/Help/images/g_DAW_Setup.png" alt="">
+
+<p>
+    Master transport keys are assignable to <a href="https://livehelp.solidstatelogic.com/Help/OptionsUserKeys.html"><span class="hyperlink">User Keys</span></a> and <a href="https://livehelp.solidstatelogic.com/Help/EventManager.html"><span class="hyperlink">Events</span></a>.
+    These will control whichever DAW has the <b>Transport Master</b> option selected in the setup page.
+</p>
+
+<p>
+    MTC (MIDI Timecode) source selection is also configured in this page. Use of MTC is described in the <a href="https://livehelp.solidstatelogic.com/Help/OptionsSystem.html#Timecode"><span class="hyperlink">Timecode options</span></a> section.
+</p>
+
+<span class="note">
+    <span class="notetitle">Note:</span> If using <a href="https://livehelp.solidstatelogic.com/Help/ipMIDI.html"><span class="hyperlink">ipMIDI</span></a> for DAW Control this should be a different ipMIDI port to that used for <a href="https://livehelp.solidstatelogic.com/Help/AutoIOActions.html"><span class="hyperlink">Automation Input/Output Actions</span></a>,
+    <a href="https://livehelp.solidstatelogic.com/Help/EventManager.html"><span class="hyperlink">Events</span></a> and <a href="https://livehelp.solidstatelogic.com/Help/OptionsSystem.html#Timecode"><span class="hyperlink">Timecode</span></a>.
+</span>
+
+<h3>Configuring DAW Banks</h3>
+
+<p>
+    Once the DAW ports have been enabled in the DAW Control Setup page, the DAW controller channels will be visible in the DAW Source Layer in the <a href="https://livehelp.solidstatelogic.com/Help/LayerManager.html"><span class="hyperlink">Layer Manager</span></a>.
+    Channels can then be placed in User Banks as required. Note that the DAW Channel Label shows the number of the DAW port as well as the channel number.
+    Once connection to a Pro Tools system is established this will be replaced by the four character Pro Tools track label received from the DAW.
+</p>
+
+<img style="display: block; margin: 5px auto;" src="https://livehelp.solidstatelogic.com/Help/images/g_DAW_Banks.png" alt="">
+
+<p>Note that DAW channels are not currently supported in TaCo.</p>
+
+<h3>Fader Tile Control</h3>
+
+<img style="display: block; margin: 5px auto;" src="https://livehelp.solidstatelogic.com/Help/images/g_DAW_FaderTile.png" alt="">
+
+<h3>DAW Channel Strip</h3>
+
+<img style="display: block; margin: 5px auto;" src="https://livehelp.solidstatelogic.com/Help/images/g_DAW_ChannelStrip.png" alt="">
+
+<h3>DAW Popout</h3>
+<p>
+    The DAW popout is accessed via the sidebar on the right of the Channel View page. Press the <span class="label">DAW</span> button to open the main popout. 
+    A detailed overview of the functions controlled from the popout can be found below.
+</p>
+
+<img style="display: block; margin: 5px auto;" src="https://livehelp.solidstatelogic.com/Help/images/g_DAW_Popout.png" alt="">
+
+<p>
+    Press &amp; hold the <span class="label">DAW</span> button to select which DAW is being controlled from the popout.
+    (If the popout has previously been used for User Keys then the sidebar button will be labelled <span class="label">User Keys</span>.)
+</p>
+
+<img style="display: block; margin: 5px auto; width: 200px;" src="https://livehelp.solidstatelogic.com/Help/images/g_DAW_ButtonPopout.png" alt="">
+
+<h3>DAW Pop-Out Button Modes</h3>
+
+<p>Standard touch button operation is 'one shot', i.e. when the button is released the indicated function is actioned. Button descriptions highlighted in red above operate in a different manner:</p>
+
+<h4>The Modifier Keys</h4>
+
+<img style="display: block; margin: 5px auto;" src="https://livehelp.solidstatelogic.com/Help/images/g_DAW_ModifierKeys.png" alt="">
+
+<p>These keys have a latching action so that they can be used in conjunction with other DAW functions. The first operation of the button latches the function on, and a subsequent operation cancels the function.</p>
+
+<h4>Automation Mode Control</h4>
+
+<img style="display: block; margin: 5px auto;" src="https://livehelp.solidstatelogic.com/Help/images/g_DAW_AutoModeCtrl.png" alt="">
+
+<p>
+    <span class="label">Auto Set</span> is a toggle function which changes the function of the front panel <span class="label">Q</span> switch to select automation modes in conjunction with the 6 automation mode buttons:
+    <span class="label">Off</span>, <span class="label">Read</span>, <span class="label">Write</span>, <span class="label">Latch</span>, <span class="label">Touch</span>, and <span class="label">Trim</span> (Pro Tools HD only).
+</p>
+
+<p>
+    Two modes of operation are possible:
+    <ul>
+        <li>Hold down the Fader strip <span class="label">Q</span> switch then select the required automation mode using the touch screen button. It will function in 'one shot' mode.</li>
+        <li>Push and hold an automation mode button and it will latch on. Multiple channels can then be selected to the latched mode via their <span class="label">Q</span> switches. Touch the mode button again to unlatch.</li>
+    </ul>
+</p>
+
+<p>
+    In conjunction with the Modifier Keys, multiple tracks can be set to a specific automation mode:
+    <ul>
+        <li><span class="label">Opt/All</span> + <span class="label">Auto Mode</span> sets all tracks to the selected mode.</li>
+        <li>
+            <span class="label">Shift</span> + <span class="label">Opt/All</span> + <span class="label">Auto Mode</span> sets all selected tracks
+            (tip: use the <span class="label">Q</span> key + <span class="label">Alt</span> to select multiple non contiguous tracks) to an auto mode.
+        </li>
+    </ul>
+</p>
+
+<h2>Useful Links</h2>
+
+<p><a href="https://livehelp.solidstatelogic.com/Help/OptionsUserKeys.html"><span class="hyperlink">User Keys</span></a></p>
+
+<p><a href="https://livehelp.solidstatelogic.com/Help/EventManager.html"><span class="hyperlink">Events</span></a></p>
+
+<p><a href="https://livehelp.solidstatelogic.com/Help/LayerManager.html"><span class="hyperlink">Layer Manager</span></a></p>
+
+<p><a href="https://livehelp.solidstatelogic.com/Help/ipMIDI.html"><span class="hyperlink">ipMIDI</span></a></p>
+
+<p><a href="https://livehelp.solidstatelogic.com/Help/OptionsNetwork.html"><span class="hyperlink">Network Settings</span></a></p>
+
+<p><a href="https://livehelp.solidstatelogic.com/Help/LinkIndex.html"><span class="hyperlink">Index and Glossary</span></a></p>
+</body>
+</html>

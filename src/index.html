@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#111513">
+  <title>SSL Live 中文操作手册</title>
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+  <div class="app-shell">
+    <header class="topbar">
+      <button class="icon-button menu-button" id="menuButton" type="button" aria-label="打开目录">
+        <span></span><span></span><span></span>
+      </button>
+      <a class="brand" href="#/page/Intro">
+        <span class="brand-mark">SSL</span>
+        <span class="brand-copy">
+          <strong>LIVE HELP</strong>
+          <small>中文操作手册数据库</small>
+        </span>
+      </a>
+      <div class="topbar-status">
+        <span class="status-light"></span>
+        <span id="databaseStatus">正在载入内容库</span>
+      </div>
+    </header>
+
+    <aside class="sidebar" id="sidebar">
+      <div class="search-panel">
+        <label id="searchLabel" for="searchInput">搜索全部主题</label>
+        <div class="search-box">
+          <span class="search-symbol">⌕</span>
+          <input id="searchInput" type="search" placeholder="输入功能、按钮或术语" autocomplete="off">
+          <kbd>/</kbd>
+        </div>
+        <p id="searchSummary">可搜索中英文标题与英文正文</p>
+      </div>
+      <nav class="manual-nav" id="manualNav" aria-label="手册目录"></nav>
+      <footer class="sidebar-footer">
+        <span>Powered by DMT PA Club</span>
+        <strong id="pageCounter">00 / --</strong>
+      </footer>
+    </aside>
+
+    <main class="reader">
+      <div class="reader-toolbar">
+        <div class="breadcrumbs" id="breadcrumbs"></div>
+        <div class="reader-actions">
+          <button id="outlineButton" type="button">本页目录</button>
+          <button id="languageToggle" type="button">中 / EN</button>
+        </div>
+      </div>
+
+      <div class="reader-layout">
+        <article class="document" id="document">
+          <div class="loading-state">
+            <span class="loader"></span>
+            <p>正在读取 SSL Live 手册数据库…</p>
+          </div>
+        </article>
+        <aside class="outline" id="outline" aria-label="本页目录"></aside>
+      </div>
+
+      <nav class="page-navigation" aria-label="前后章节">
+        <button id="previousPage" type="button">
+          <span>上一主题</span>
+          <strong>—</strong>
+        </button>
+        <button id="nextPage" type="button">
+          <span>下一主题</span>
+          <strong>—</strong>
+        </button>
+      </nav>
+    </main>
+  </div>
+
+  <div class="scrim" id="scrim"></div>
+  <script src="./app.js"></script>
+</body>
+</html>

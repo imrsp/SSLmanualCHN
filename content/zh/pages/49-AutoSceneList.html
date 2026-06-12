@@ -1,0 +1,132 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>自动化：场景列表</title>
+  <style>
+    body { font: 16px/1.55 Arial, sans-serif; max-width: 1080px; margin: 2rem auto; padding: 0 1.25rem; color: #202124; }
+    img { max-width: 100%; height: auto; }
+    table { border-collapse: collapse; max-width: 100%; }
+    th, td { border: 1px solid #aaa; padding: .45rem; vertical-align: top; }
+    .note { display: block; border-left: 4px solid #e0a000; background: #fff8df; padding: .75rem 1rem; margin: 1rem 0; }
+    .notetitle { font-weight: bold; }
+    .label { font-weight: bold; color: #174ea6; }
+    .source { color: #666; font-size: .9rem; }
+  </style>
+</head>
+<body>
+  <p class="source">章节：混音 | 来源： <a href="https://livehelp.solidstatelogic.com/Help/AutoSceneList.html">https://livehelp.solidstatelogic.com/Help/AutoSceneList.html</a></p>
+<h2>自动化场景列表</h2>
+
+<p>
+    进入 <span class="label">MENU</span> > <span class="label">Automation</span> 可访问场景列表。使用 <span class="label">Show&nbsp;Details</span> 按钮可在列表中显示更多或更少的行。
+</p>
+
+<p>场景列表各列为每个场景行提供以下功能：</p>
+
+<ul>
+    <li><span style="font-weight: bold;">Skip</span> 按顺序触发时跳过该场景。详情参阅 <a href="https://livehelp.solidstatelogic.com/Help/AutoTime.html"><span class="hyperlink">场景时间功能</span></a> 。点击 <span class="label">Skip</span> 列标题按钮可禁用 Skip 列。</li>
+    <li><span style="font-weight: bold;">GO</span> 将场景调用到控制台，使其成为活动场景。点击 <span class="label">Go</span> 列标题按钮可禁用列表中的 Go 按钮。</li>
+    <li><span style="font-weight: bold;">Trigger&nbsp;Time</span> 设置自动触发场景的时间码位置。详情参阅 <a href="https://livehelp.solidstatelogic.com/Help/AutoTime.html"><span class="hyperlink">场景时间功能</span></a> 。点击 <span class="label">Trigger&nbsp;Time</span> 列标题按钮可禁用时间码触发。</li>
+    <li><span style="font-weight: bold;">Input&nbsp;Actions</span> 详情参阅 <a href="https://livehelp.solidstatelogic.com/Help/AutoIOActions.html"><span class="hyperlink">场景输入和输出动作</span></a> 。点击 <span class="label">Input&nbsp;Actions</span> 列标题按钮一次可禁用所选列；再次触摸可禁用所有 Input Action 触发。</li>
+    <li><span style="font-weight: bold;">Fade&nbsp;Time</span> 详情参阅 <a href="https://livehelp.solidstatelogic.com/Help/AutoTime.html"><span class="hyperlink">场景时间功能</span></a> 。点击 <span class="label">Fade&nbsp;Time</span> 列标题按钮可禁用场景淡变。</li>
+    <li><span style="font-weight: bold;">ID</span> 表示场景在场景列表中的位置。</li>
+    <li><span style="font-weight: bold;">Scene&nbsp;Name</span> 显示用户可编辑的场景名称。</li>
+    <li><span style="font-weight: bold;">Output&nbsp;Actions</span> 详情参阅 <a href="https://livehelp.solidstatelogic.com/Help/AutoIOActions.html"><span class="hyperlink">场景输入和输出动作</span></a> 。点击 <span class="label">Output&nbsp;Actions</span> 列标题按钮一次可禁用所选列；再次触摸可禁用所有 Output Actions。</li>
+    <li><span style="font-weight: bold;">Transition</span> 设置场景持续时间；时间结束后，控制台自动过渡到列表中的下一场景。详情参阅 <a href="https://livehelp.solidstatelogic.com/Help/AutoTime.html"><span class="hyperlink">场景时间功能</span></a> 。点击 <span class="label">Transition</span> 列标题按钮可禁用 Auto Transition 模式。</li>
+    <li><span style="font-weight: bold;">Lock</span> 用于防止编辑场景。详情参阅下方 <a href="https://livehelp.solidstatelogic.com/Help/AutoSceneList.html#SceneLock"><span class="hyperlink">场景锁定</span></a> 。</li>
+    <li><span style="font-weight: bold;">Group</span> 定义各场景所属的编辑组（若有）。点击 <span class="label">Group</span> 列标题按钮一次可启用 Group All 模式；再次触摸可全局禁用 Group 模式。详情参阅 <a href="https://livehelp.solidstatelogic.com/Help/AutoGrouping.html"><span class="hyperlink">场景组</span></a> 。</li>
+</ul>
+
+<img style="display: block; margin: 27px auto;" src="https://livehelp.solidstatelogic.com/Help/images/g_autoscenelistdetail.png" alt="">
+
+<p>场景列表的最后一列用于编辑列表本身。删除、移动或复制粘贴场景的方法如下：</p>
+
+<p>触摸 <span class="label">Edit</span> 按钮（屏幕右上角附近）启用编辑功能；</p>
+
+<p>触摸行末的圆形 <span style="font-weight: bold;">Edit</span> 指示灯选择场景。指示灯变红表示该行正在编辑。</p>
+
+<p>可选择多个场景（行）。触摸 <span style="font-weight: bold;">Edit</span> 标签本身可选择所有场景。</p>
+
+<p>此时 Edit 按钮下方的三项编辑功能可用： <span class="label">Del</span> （删除）、 <span class="label">Move</span> 和 <span class="label">Copy</span>。</p>
+
+<p>如需删除场景，请触摸其 Edit 指示灯使其变红，然后按住 <span class="label">Del</span> 按钮。</p>
+
+<span class="note">
+    <span class="notetitle">注意：</span><br>
+    除非重新加载演出文件，否则删除场景无法撤销。<br>
+    不能删除活动场景。
+</span>
+
+<p>如需移动场景，请触摸其 <span style="font-weight: bold;">Edit</span> 指示灯使其变红；</p>
+
+<p>触摸 <span class="label">Move</span> 按钮 &#8211; 按钮变蓝表示已启用；</p>
+
+<p>然后触摸当前位于目标位置的场景。所移动的场景将放在被触摸场景的上方。</p>
+
+<p>所选场景会移到新位置，其他场景会移动以填补空缺。</p>
+
+<p>如需复制场景，请触摸其 <span style="font-weight: bold;">Edit</span> 指示灯使其变红；</p>
+
+<p>触摸 <span class="label">Copy</span> 按钮 &#8211; 它会变蓝并变为 <span class="label">Paste</span> 按钮。</p>
+
+<p>然后触摸当前位于新场景粘贴目标位置的场景。</p>
+
+<p>所选场景会复制到新位置，名称后附加 <span style="font-weight: bold;">Copy</span> 字样。其他场景会移动以腾出空间。</p>
+
+<p>可按常规方式重命名复制的场景（参阅 <a href="https://livehelp.solidstatelogic.com/Help/AutoNamesNotes.html"><span class="hyperlink">场景名称和备注</span></a>）。</p>
+
+<h2>场景 ID</h2>
+
+<p>Scene ID 仅用于显示，在软件中不起操作作用。选择 ID 列后， <span class="label">Auto ID</span> 按钮（位于 Detail Display 右侧）决定重新排列场景列表时 ID 编号如何变化：</p>
+
+<ul>
+    <li>按钮启用时，ID 列会直接重新编号以保持顺序。</li>
+    <li>按钮停用时，重新排序场景不会改变 Scene ID；若新场景放在旧场景之间，其 ID 会从前一个场景开始向上递增，必要时使用小数，避免与后一个场景的 ID 相同。 <br> 此后按住 <span class="label">Auto ID</span> 按钮即可按顺序重新编号场景。</li>
+</ul>
+
+<h3 id="Renumber">通过点击重新编号场景</h3>
+<span class="note"><span class="notetitle">注意：</span> 请注意，使用此功能前必须关闭 <span class="label">Auto ID</span> 。</span>
+
+<p>
+    点击 ID 列标题可启用点击重新编号。随后可按正确顺序点击场景进行编号，即第一个点击的场景编号为 1，第二个为 2，依此类推。按住 <span class="label">Reorder List</span> 会按点击顺序重新排列场景。
+</p>
+
+<span class="note">
+    <span class="notetitle">注意：</span><br>若两个场景被赋予相同编号，控制台会保留它们彼此之间的相对位置。例如，如果场景列表中“Interlude”位于“My Song”之前，之后两者都被手动编号为场景 1，则“Interlude”仍排在第一，“My Song”排在第二，但两个场景都保留场景编号 1。
+</span>
+
+<h3 id="ManualRenumber">手动设置场景编号</h3>
+
+<p>在 Scene Detail View 中双击场景编号，然后使用键盘输入所需编号，即可手动为场景编号。</p>
+
+<span class="note"><span class="notetitle">注意：</span> 请注意，使用此功能前必须关闭 <span class="label">Auto ID</span> 。</span>
+
+<h3 id="SceneLock">场景锁定</h3>
+
+<p>可将场景设为只读以防止编辑，包括 Input/Output Actions 和逐场景过滤器。</p>
+
+<p>启用 <span class="label">Edit</span> 后，点击挂锁按钮锁定场景。</p>
+
+<p>该场景此后为只读，无法编辑；触发该场景时， <span class="label">Store</span> 按钮会被禁用。</p>
+
+<p>点击 <span class="label">Lock</span> 列标题，可依次在锁定全部、不锁定和单独锁定场景之间切换。</p>
+
+
+<h2>更多自动化帮助链接：</h2>
+
+<ul>
+    <li><a href="https://livehelp.solidstatelogic.com/Help/AutoOverview.html"><span class="hyperlink">自动化概述</span></a></li>
+    <li><a href="https://livehelp.solidstatelogic.com/Help/AutoTime.html"><span class="hyperlink">场景时间功能</span></a></li>
+    <li><a href="https://livehelp.solidstatelogic.com/Help/AutoNamesNotes.html"><span class="hyperlink">场景名称和备注</span></a></li>
+    <li><a href="https://livehelp.solidstatelogic.com/Help/AutoIOActions.html"><span class="hyperlink">场景输入和输出动作</span></a></li>
+    <li><a href="https://livehelp.solidstatelogic.com/Help/AutoGrouping.html"><span class="hyperlink">场景组</span></a></li>
+    <li><a href="https://livehelp.solidstatelogic.com/Help/AutoFilters.html"><span class="hyperlink">功能过滤器</span></a></li>
+    <li><a href="https://livehelp.solidstatelogic.com/Help/AutoPreview.html"><span class="hyperlink">自动化预览模式</span></a></li>
+</ul>
+<br>
+<a href="https://livehelp.solidstatelogic.com/Help/LinkIndex.html"><span class="hyperlink">索引与术语表</span></a>
+<br>
+</body>
+</html>

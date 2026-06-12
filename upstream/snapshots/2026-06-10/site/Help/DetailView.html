@@ -1,0 +1,773 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html ng-app="sslLiveHelp">
+<head>
+    <meta content="text/html; charset=ISO-8859-1" http-equiv="content-type">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=yes">
+
+    <link href="../Help/style/style.css" rel="stylesheet">
+    <link href="../Help/style/jquery-ui-1.13.2.structure.css" rel="stylesheet">
+    <title>Detail View</title>
+    <script src="../Help/js/jquery-3.6.0.min.js"></script>
+    <script src="../Help/js/jquery-ui/1.13.2/jquery-ui.min.js"></script>
+    <!--<script type="text/javascript" src="cordova.js"></script>-->
+    <!-- Nav / search panels 2017 updates -->
+    <script>
+    window.baseDir = '../';
+    window.data = 'null';
+    </script>
+    <link rel="stylesheet" type="text/css" href="../Help/fonts/font-awesome-4.7.0/css/font-awesome.min.css" />
+    <link rel="stylesheet" type="text/css" href="../Help/style/sass-styles.css">
+    <script src="../Help/js/fastclick.js"></script>
+    <script src="../Help/js/lodash.core.min.js"></script>
+    <!--<script src="../Help/js/angular/1.2/angular.min.js"></script>-->  <!-- On a console -->
+    <script src="../Help/js/angular/1.8/angular.min.js"></script>   <!--Not on a console -->
+    <script src="../Help/js/ngStorage.min.js"></script>
+    <!--<script src="../Help/js/angular/1.2/angular-sanitize.min.js"></script>-->  <!-- On a console -->
+    <!--<script src="../Help/js/angular/1.2/angular-animate.min.js"></script>-->   <!-- On a console -->
+    <script src="../Help/js/angular/1.8/angular-sanitize.min.js"></script>  <!--Not on a console -->
+    <script src="../Help/js/angular/1.8/angular-animate.min.js"></script>   <!--Not on a console -->
+    <script src="../Help/js/lunr-2.3.min.js"></script>
+    <script src="../Help/js/menu.js"></script>
+
+</head>
+
+<body ng-controller="NavController as vm">
+
+    <!--<nav class="nav" ng-class="{ 'nav--visible' : vm.visible }" ng-if="vm.visible" role="navigation" aria-label="Primary">-->  <!-- On a console --> 
+    <nav class="nav" ng-class="{ 'nav--visible' : vm.visible }" role="navigation" aria-label="Primary"> <!--Not on a console -->
+        <!-- Search form -->
+        <div role="search">
+            <form class="nav__search" ng-if="vm.isSearchSupported">
+                <label class="nav__search-icon" for="query"><i aria-label="Search" title="Search" class="fa fa-search"></i></label>
+                <input type="search" id="query" class="nav__search-input" placeholder="Search..." ng-model="vm.query" />
+            </form>
+        </div>
+
+        <div class="nav__scroll" ng-style="vm.styleBasedOnSearchSupported">
+
+            <!-- Main nav -->
+            <ul class="main-nav" ng-hide="vm.query">
+                <li class="main-nav__item" ng-repeat="item in vm.nav">
+
+                    <!-- Link to page -->
+                    <a ng-if="item.url" ng-class="{'main-nav__link--active' : item.url===vm.currentPage}" class="main-nav__link" ng-attr-href="{{ vm.baseDir }}{{ item.url }}">
+                        {{ item.title }}
+                    </a>
+
+                    <!-- Expandable heading -->
+                    <span ng-click="vm.toggleExpanded(item.title)" ng-if="!item.url" class="main-nav__title">
+                        {{ item.title }}
+                        <span ng-if="!vm.isExpanded(item.title)" class="fa fa-caret-right"></span>
+                        <span ng-if="vm.isExpanded(item.title)" class="fa fa-caret-down"></span>
+                    </span>
+
+                    <!-- Subnav -->
+                    <ul ng-if="vm.isExpanded(item.title)" class="main-nav fx-fade">
+                        <li ng-repeat="sub in item.children" class="main-nav__item">
+
+                            <!-- Link to page -->
+                            <a ng-if="sub.url" ng-class="{'main-nav__link--active' : sub.url===vm.currentPage}" class="main-nav__link main-nav__link--level1" ng-attr-href="{{ vm.baseDir }}{{ sub.url }}">
+                                {{ sub.title }}
+                            </a>
+
+                            <!-- Expandable heading -->
+                            <span ng-click="vm.toggleExpanded(sub.title)" ng-if="!sub.url" class="main-nav__title main-nav__title--level1">
+                                {{ sub.title }}
+                                <span ng-if="!vm.isExpanded(sub.title)" class="fa fa-caret-right"></span>
+                                <span ng-if="vm.isExpanded(sub.title)" class="fa fa-caret-down"></span>
+                            </span>
+
+                            <!-- Sub-sub nav -->
+                            <ul ng-if="sub.children && vm.isExpanded(sub.title)" class="main-nav fx-fade">
+                                <li ng-repeat="subsub in sub.children" class="main-nav__item">
+
+                                    <!-- Link to page -->
+                                    <a ng-class="{'main-nav__link--active' : subsub.url===vm.currentPage}" class="main-nav__link main-nav__link--level2" ng-attr-href="{{ vm.baseDir }}{{ subsub.url }}" ng-bind-html="subsub.title">
+                                    </a>
+
+                                </li>
+                            </ul>
+
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+
+            <!-- Search results list -->
+            <ul class="search-results">
+                <li class="search-result" ng-repeat="result in vm.results">
+                    <a class="search-result__link" ng-attr-href="{{ vm.baseDir }}{{ 'Help/' + result.id }}">
+                        <h3 class="search-result__title">{{ result.title }}</h3>
+                        <p class="search-result__excerpt" ng-bind-html="result.excerpt"></p>
+                    </a>
+                </li>
+            </ul>
+
+            <!-- Keep screen on option - PhoneGap insomnia -->
+            <ul class="main-nav" ng-if="vm.isPhoneGap">
+                <li class="main-nav__item">
+                    <label class="main-nav__title">
+                        Keep Screen On
+                        <input style="display: none" type="checkbox" ng-model="vm.keepScreenOn" />
+                        <i ng-class="{'fa--cleared' : !vm.keepScreenOn, 'fa--checked' : vm.keepScreenOn}" class="fa fa-check"></i>
+                    </label>
+                </li>
+            </ul>
+
+
+        </div>
+    </nav>
+
+    <nav class="header" role="navigation" aria-label="Secondary">
+        <a ng-if="!vm.onAConsole" href="../index.html" class="header__btn" title="Home"><i class="fa fa-home"></i></a>
+        <div ng-if="!vm.onAConsole" class="header__history">
+            <a onclick="javascript:window.history.back()" class="header__btn"><i title="Back" class="fa fa-chevron-left"></i></a>
+            <a onclick="javascript:window.history.forward()" class="header__btn"><i title="Forwards" class="fa fa-chevron-right"></i></a>
+        </div>
+        <div align="right">
+            <a class="header__btn header__btn--nav" ng-click="vm.toggleVisibility()">
+                <i ng-if="!vm.visible" class="fa fa-bars"></i>
+                <i ng-if="vm.visible" class="fa fa-close"></i>
+            </a>
+        </div>
+    </nav>
+
+
+    <!-- Main content -->
+    <div id="main">
+        
+
+<div><a href="QuickControls.html"><img class="TutorialNav" src="images/n_TutPrevious.png" alt=""><span class="TutorialNav">PREVIOUS: Quick Controls</span></a></div>
+
+<h2>Detail View</h2>
+
+<p>The Detail View is used for accessing in-depth path configuration.</p>
+
+<p>The Detail View is specific to the path that has been selected (either with the tile <span class="label">Select</span> button or by touching the path in the Channel View screen).</p>
+
+<p>Double-tap the quick display 'thumbnail' in the middle of the channel strip to open the Detail View page corresponding to the function currently visible in the quick display, e.g. EQ in the example below.</p>
+
+<p><img style="display: block; margin: auto;" src="images/g_quickEQ1.png" alt=""></p>
+
+<p>Or double-tap the Eyeconix image and colour at the bottom of the Channel View to open the path colour and name (path configuration) Detail View page.</p>
+
+<p>Alternatively, double-tap the Routing (<span class="label">MG</span> (Mute Group), <span class="label">VCA</span>, <span class="label">Fader</span>, <span class="label">Master</span>, <span class="label">Stem</span>,
+  <span class="label">Aux</span>) or Processing (EQ, Dynamics, Pan, Time (Delay &amp; All Pass), Insert A or Insert B) assigner buttons or Input Section in the Channel View to open the Detail View directly to that view
+  <span style="font-weight: bold;">and</span> assign that function to the Quick Controls.</p>
+
+<p>Elements may now be adjusted by pressing or dragging the touchscreen.</p>
+
+<p><img style="display: block; margin: auto; width: 750px;" src="images/g_detailTutorial.png" alt=""></p>
+
+<p>
+    Tapping on an element (e.g. an EQ node or a fader) will give focus to that element. Controls in the lower right corner of the Detail View allow manipulation of the selected parameter(s).
+    For example, tapping the node for EQ band 2 as in the example image above has assigned the <b>Frequency</b>, <b>Q</b> and <b>Gain</b> for that EQ band to the three on-screen encoders to the right of the graph.
+    Double-tapping the text field beneath the encoders will bring up a keyboard, allowing a precise value to be entered for the last touched parameter.
+</p>
+
+<img style="margin: 0px 10px;" src="images/g_PanelQuicksBasic2.png" alt="" align="left">
+
+<span class="note">
+    <span class="notetitle">Note: </span>
+    Essential parameters in the page can be assigned to the Quick Controls beneath the screen. This requires the <span class="label">Follow Detail</span> button (bottom right corner of the Main Screen) to be engaged. Touch the button to toggle between:<br>
+    <span style="font-weight: bold;">Follow Channel</span> (button inactive): the Quick Controls below the screen follow the selected function, as per the Quick Controls on the other Fader Tiles.<br>
+    <span style="font-weight: bold;">Follow Detail</span> (button active): When the Detail View is open the Quick Controls below the screen are assigned to different functions for the selected channel.<br>
+    Changing the Detail View page when in <span style="font-weight: bold;">Follow Detail</span> mode will cause the Quick Controls beneath the screen to follow; the Quick Controls on the other Fader Tiles will remain unchanged.<br>
+    The labels across the bottom of the Detail View indicate the functions assigned to the Quick Controls directly beneath them. As a general rule only one function is assigned to each Channel's Quick Controls. 
+    Switch functions are assigned to the upper Quick Key (which will be lit if available) and continuous parameters are assigned to the Quick Encoder.<br>
+</span>
+
+<p>
+    <span class="note">
+        <span class="notetitle">Note: </span>In pages used for assigning the channel to mute groups, VCA's, or buses, the <span style="font-weight: bold;">Lock</span> button defines what happens when a selector is touched:<br>
+        If locked, the selector is assigned to the Quick Controls.<br>
+        If unlocked, the selector is assigned to the Quick Controls <b>and</b> toggled on/off.
+    </span>
+</p>
+
+<p>The following sections describe each page of the Detail View:</p>
+
+
+<div id="accordion">
+    <div class="indexheader2 accordion-section-title">Config/Eyeconix</div>
+    <div id="Eyeconix" style="padding: 1em 0;" class="accordion-section-content">
+
+        <h2>Config/Eyeconix</h2>
+
+        <img style="margin: 0px 0px 5px 25px;" src="images/g_ChanLabelScreen.png" alt="" align="right">
+
+        <p>Path names, Eyeconix and colours all provide ways of distinguishing visually between individual paths, in addition to the path number and type indication at the top of the on-screen channel strip.</p>
+
+        <p>Path names are shown in the path Label Screens above the <span class="label">Select</span> buttons in the Fader Tile.</p>
+
+        <p>By default, paths are simply named according to their type and number.</p>
+
+        <p>Path colours are shown in the Colour Bars above the path Label Screens, as well as at the top and bottom of the on-screen path in Channel View.</p>
+
+        <p>Path Eyeconix are simply graphics displayed at the bottom of the on-screen path in Channel View, symbolising the path source.</p>
+
+        <p>These path display elements can be configured in the Detail View, opened by double-tapping in the Eyeconix area at the base of the path:</p>
+
+        <div align="center">
+            <img style="width: 84px; height: 84px;" src="images/n_MenuChanView.png" alt=""><img style="width: 74px; height: 84px;" src="images/n_arrow.png" alt="">
+            <img style="width: 84px; height: 84px;" src="images/n_ChanSelect.png" alt=""><img style="width: 74px; height: 84px;" src="images/n_arrow.png" alt=""><img src="images/n_ChanEyecon.png" alt="">
+        </div>
+
+        <img style="display: block; margin: 30px auto; width: 750px;" src="images/g_DetailEyeconix.png" alt="">
+
+        <p>The <span class="label">Categories</span> button in the right side of the page allows you to filter the images and words shown according to subject &#8211; touch it and select a category from the list which appears.</p>
+
+        <p>
+            The <span class="label">Preset</span> button (bottom right corner) opens the Preset page which can be used to load or save an entire channel strip
+            of settings.
+            This preset will include the following settings:
+        </p>
+        <p style="margin-bottom:0px;">
+            <ul>
+                <li>Path Name</li>
+                <li>Eyeconix Image</li>
+                <li>Path Colour</li>
+                <li>Fader level</li>
+                <li>Filter settings</li>
+                <li>EQ settings</li>
+                <li>Compressor settings</li>
+                <li>Gate settings</li>
+                <li>Panning</li>
+                <li>Delay</li>
+                <li>All Pass Filter settings</li>
+            </ul>
+        <p>(See <a href="Presets.html"><span class="hyperlink">Presets</span></a> for more information)</p>
+
+
+        <h2>Naming a Channel</h2>
+
+        <p>By default, channels are named according to type (<span style="font-weight: bold;">CH</span> for input channel, <span style="font-weight: bold;">AUX</span>, <span style="font-weight: bold;">STEM</span> or <span style="font-weight: bold;">MASTER</span>) and number.</p>
+
+        <p>To rename the channel, double-tap the label area beneath the <span class="label">Channel&nbsp;Name</span> title &#8211; a keyboard will appear; type the new name and touch <span class="label">OK</span> (or touch the red <span style="font-weight: bold;">X</span> to close the keyboard and discard any changes).</p>
+
+        <p>The <span class="label">Next</span> and <span class="label">Prev</span> buttons on the keyboard popup (Tab and Shift+Tab respectively if using a USB keyboard) allow quick scrolling through contiguous channels without having to close and re-open the keyboard between each channel.</p>
+
+        <p>To reset the name back to the channel number and type, touch <span class="label">Reset</span> (to the left of the <span style="font-weight: bold;">Channel Name</span> title);</p>
+
+        <p>To clear the label completely, touch <span class="label">Clear</span> (to the right of the <span style="font-weight: bold;">Channel Name</span> title).</p>
+
+        <p>
+            You can also quickly insert words from the list shown below the label area &#8211; simply touch a word to insert it at the end of the current label.
+            The <span class="label">Categories</span> button in the right side of the page allows you to filter the words shown according to subject &#8211; touch it and select a category from the list which appears.
+        </p>
+
+        <h2 id="SelectingEyeconix">Selecting Eyeconix</h2>
+
+        <p>A list of images is shown in the centre of the Detail View. Simply touch on the required image to select it &#8211; it will appear in the channel Eyeconix area.</p>
+
+        <p>To scroll the image display, touch the image area and swipe up or down.</p>
+
+        <p>The <span class="label">Categories</span> button in the right side of the page allows you to filter the images shown according to subject &#8211; touch it and select a category from the list which appears.</p>
+
+        <p>To clear the currently selected image and leave the channel Eyeconix area blank, touch the <span class="label">Clear</span> button beside the <span style="font-weight: bold;">Eyeconix</span> title.</p>
+
+        <h2>Selecting Colours</h2>
+
+        <p>To select a different colour for the channel, touch on the required colour from the palette shown in the right of the Detail View &#8211; the name area at the top and bottom of the on-screen channel will change to that colour, as will the colour bar above the channel's Label Screen.</p>
+
+        <span class="note"><span class="notetitle">Note: </span>The graphic across the top of this page of the Detail View is used for altering the channel's processing order. See <a href="ProcOrder.html"><span class="notehyperlink">Processing Order</span></a> for more details.</span>
+
+        <h2>Control Tile</h2>
+
+        <img style="margin: 0px 0px 5px 20px;" src="images/g_miniChannel.png" alt="" align="right">
+
+        <p>Basic Eyeconix and Colour selection can be assigned to the Control Tile by pressing the <span class="label">Channel</span> button above and to the right of the Control Tile Screen:</p>
+
+        <p>The selected channel is shown at the top of the screen; the <span style="font-weight: bold;">Prev</span> and <span style="font-weight: bold;">Next</span> arrow buttons either side of it can be used to scroll channels.</p>
+
+        <p>Colours are listed on the right, with Eyeconix images listed on the left; swipe the screen up or down to scroll the Eyeconix list.</p>
+
+        <p>To select an image or colour, simply touch it in the screen.</p>
+
+        <p>To clear the Eyeconix image, touch the <span class="label">Clear</span> button in the top left corner (or press the adjacent encoder).</p>
+
+    </div>
+
+
+    <div class="indexheader2 accordion-section-title">Input/Routing</div>
+    <div id="Input" style="padding: 1em 0;" class="accordion-section-content">
+        <h2>Input/Routing</h2>
+        <p>You can configure and route a path's inputs and outputs in the <span style="font-weight: bold;">Input/Routing</span> page of the Detail View.</p>
+
+        <img style="display: block; margin: 29px auto; width: 750px;" src="images/g_detailINPUT.png" alt="">
+
+        <p>
+            As each Channel has two inputs, ensure that the correct input's button (<span class="label">Input&nbsp;A</span> or <span class="label">Input&nbsp;B</span>, at the top of the Detail window) is lit blue.
+            If it isn't, press &amp; hold the correct button.
+        </p>
+
+        <p>
+            Refer to the next section on <a href="Routing.html"><span class="notehyperlink">Routing</span></a> for further details on routing inputs and outputs.
+            The current route(s) are displayed to the left of the <span class="label">Route</span> buttons.
+        </p>
+
+        <p>
+            If the input signal is not what you expect it to be, activate the <span class="label">Attention!</span> button (only available when routed to an SSL stagebox).
+            This illuminates the <span style="font-weight: bold;">ATT</span> light on the stagebox socket routed to that input, providing indication to technical personnel on the stage that the input needs checking.
+            You can cancel all <span style="font-weight: bold;">ATT</span> lights by pressing <span class="label">Attention Clear All</span>.
+        </p>
+
+        <p>
+            You can use the <span class="label">Pre&nbsp;Trim&nbsp;Solo&nbsp;Input&nbsp;A</span> and <span class="label">Pre&nbsp;Trim&nbsp;Solo&nbsp;Input&nbsp;B</span> buttons to audition the incoming signal before switching inputs.
+            The <span class="label">Pre&nbsp;Trim&nbsp;Solo</span> button solos whichever input is currently active (Input A, Input B or the Live Recorder Record Return if in
+            <a href="RecordingPlayback.html"><span class="hyperlink">Rehearse Mode</span></a>).
+        </p>
+
+        <p>
+            Many of the remaining controls are only applicable if the Channel is routed to the local mic inputs or an SSL Network I/O or ML stagebox mic pre.
+            Non-SSL stageboxes, AES and analogue line inputs will have a limited set of controls. The remainder of this section assumes that a SSL mic pre is being used.
+        </p>
+
+        <p>In the main part of the page there are controls to turn on <span class="label">+48V</span> phantom power and invert the input's <span class="label">Polarity</span>.</p>
+
+        <p>
+            When using the local Analogue inputs or an ML32.32 stagebox, there are controls to insert the 20 dB <span class="label">Pad</span> and activate the analogue <span class="label">HPF</span> (70 Hz, 6 dB per octave High Pass Filter).
+            The <span class="label">High&nbsp;Gain&nbsp;Sensitivity</span> button (press &amp; hold to activate) increases the input sensitivity of the preamp by +15 dB for particularly quiet sources.
+        </p>
+
+        <p>
+            When using Net I/O Stagebox inputs, there is a <span class="label">Pad</span> (20 dB for SB&nbsp;i16 and SB&nbsp;8.8 stageboxes; 30 dB for SB&nbsp;16.12 and SB&nbsp;32.24 stageboxes),
+            a Mic/Line switch (engage <span class="label">Mic</span> for mic mode, disengage for line mode), <span class="label">Input Mute</span> and <span class="label">Aud</span> (Audition, SB&nbsp;8.8 &amp; i16 only)
+            and <span class="label">Lim</span> (Limiter, SB&nbsp;8.8 & i16 only).
+            For more information on Net I/O Stageboxes please refer to the <a href="DanteNetIO.html"><span class="hyperlink">Net I/O Stageboxes</span> section</a>.
+        </p>
+
+        <span class="note"><span class="notetitle">Note: </span>Controls which are not relevant to the input type will be greyed out. Find out how to make routes in <a href="Routing.html"><span class="notehyperlink">Routing</span></a>.</span>
+
+        <p>You can then adjust the analogue gain using the <span style="font-weight: bold;">Gain</span> control and introduce a digital signal <span style="font-weight: bold;">Trim</span> using the sliders to the right of the input buttons.</p>
+
+        <!-- Start of MultiRouteInputAutoNote Snippet -->
+        <!-- Also used in AutoFilters.html -->
+        <span class="note">
+            <span class="notetitle">Important Note: </span>If the same stagebox/local analogue input is routed into multiple Input Channels and/or Talkback Channels,
+            then each of those channels may have control of the same set of parameters associated with that analogue input (gain, pad etc.) and will therefore remain synchronised with one another.
+            Control of those parameters may be automated per-channel under the 'Input' filter section, but differences in the automated states of those shared analogue input parameters
+            may inadvertently be introduced if the channels are not dropped in or out of Store and Recall scope together.
+            Firing a scene with such differences in it may result in undesired behaviour of the analogue input's parameters.<br><br>
+
+            Data generated during the initialisation of routing analogue inputs to channels is specific to each channel, not per analogue input. Care must therefore be taken to ensure this data is explicitly stored for each channel.
+        </span>
+        <!-- End of MultiRouteInputAutoNote Snippet -->
+
+        <p>The <span style="font-weight: bold;">Balance</span> control becomes active on stereo channels and adjusts the level balance between the Left and Right input signals.</p>
+
+        <p>
+            The <span class="label">Mono&nbsp;L</span>, <span class="label">Mono&nbsp;R</span> and <span class="label">Mono&nbsp;L+R</span>
+            buttons can be used to reroute the incoming Left and Right signals to the remainder of the channel processing.
+            For example, the Left input can be routed to both halves of a stereo channel if the Right input becomes noisy.
+            Alternatively, a stereo keyboard channel could be configured in a festival situation,
+            but certain acts may only bring a mono keyboard, in which case the <span class="label">Mono&nbsp;L</span>
+            button can simply be pressed without the need to reroute or reformat the channel.
+            For stereo channels only, the <span class="label">LR Reverse</span> button will reverse the left and right input signals.
+        </p>
+
+        <p>Tap <span class="label">Route Output</span> to route the output of a channel. Note that this send is always before panning has been applied to the signal.</p>
+
+        <p id="Chop">
+            The <span style="font-weight:bold;">output feed point</span> can be adjusted by tapping <span class="label">Output:</span> and choosing one of the options
+            (<span style="font-weight:bold;">Post Trim</span>, <span style="font-weight:bold;">Pre Fader</span>, <span style="font-weight:bold;">Post Fader</span> and <span style="font-weight:bold;">Post All</span>).
+        </p>
+
+        <p>
+            The <span style="font-weight:bold;">default output feed point</span> of an Input Channel can be customised in
+            <span class="label">Menu</span> > <span class="label">Setup</span> > <span class="label">Options</span> > <span class="label">System</span> tab.
+            New Input Channels will be created with the default output feed point.
+        </p>
+
+        <h3>Quick Controls</h3>
+        <p>Head amp and trim controls are available directly on the Fader Tile Quick Controls. Tap the top section on the channel strip in the Channel View screen or press &amp; hold the Fader Tile's Quick Control <b>Up</b> arrow to assign the <b>Input</b> section to the controls.</p>
+
+        <img style="margin: 0px 0px 0px 10px;" src="images/g_QuickInput.png" align="right" alt="">
+
+        <p>Press any Quick Control encoder to cycle through the three available pages: <b>Analogue</b> (red), <b>Digital Trim</b> (blue) and <b>Routing</b> (cyan).</p>
+
+
+        <p>In the analogue and digital pages, the context display shows gain, trim, phantom, pad, polarity, etc., where applicable. The top of the main screen displays analogue gain in red or digital trim in blue when their pages are active.</p>
+
+        <p>
+            In the analogue page, the keys available are <span style="font-weight: bold;">+48V</span>, <span style="font-weight: bold;">HPF</span> (preamp's high pass filter; local I/O and MADI stageboxes only),
+            and <span style="font-weight: bold;">Pad</span>. The encoder controls analogue <span style="font-weight: bold;">Gain</span>.
+        </p>
+
+        <p>In the digital page, pre-trim <span style="font-weight: bold;">Solo</span> and <span style="font-weight: bold;">Polarity</span> are available. The encoder controls digital <span style="font-weight: bold;">Trim</span>.</p>
+
+
+        <p>
+            <span class="note">
+                <span class="notetitle">Note: </span>Analogue controls are available when an analogue input has been routed to the channel.
+                Digital trim is available on all Channels, Stems, Auxes, Masters, and Matrix output paths.
+            </span>
+        </p>
+
+        <img style="margin: 0px 10px 0px 0px;" src="images/g_QuickInput_Routing.png" align="right" alt="">
+
+        <p>
+            <b>Routing</b> provides a quick view of existing channel input and output routes in the context display across the middle of the main screen.
+            The keys switch between <span style="font-weight: bold;">Input A</span>, <span style="font-weight: bold;">Input B</span> and <span style="font-weight: bold;">Output</span> routing views.
+            Note that the keys do not switch between Inputs A and B.
+        </p>
+
+
+        <p>
+            <span class="note">
+                <span class="notetitle">Note: </span>All channel Direct Output feed points are user-definable. The default is set in the <span class="label">SYSTEM</span> tab of the <span class="label">Options</span> menu
+                and the Direct Output feed point can be set for each channel individually from the <span class="label">Input/Routing</span> page of the Detail View.
+            </span>
+        </p>
+
+
+        <h3>Control Tile</h3>
+        <img style="margin: 8px 0px 11px 19px;" src="images/g_miniInput.png" alt="" align="right">
+
+        <p>Channel path input controls are available via the Control Tile to the right of the Main Screen.</p>
+
+        <p>Press the <span class="label">Input</span> button beneath the console logo to assign Input functions to the Control Tile Screen:</p>
+
+
+        <p>The encoders around the screen are assigned to the functions in the screen area nearest to them.</p>
+
+        <p>Switches/buttons are operated by pressing the encoder. Continuous parameters are changed by turning the encoder.</p>
+
+        <p>The LED next to each encoder is lit whenever the encoder is assigned to any on-screen parameters. If the encoder is only assigned to a switch, the LED colour also indicates the state of the switch.</p>
+
+        <p>All on-screen buttons can also be controlled by touching the screen.</p>
+
+        <p>The controls around the <span class="label">Input</span> button beneath the console logo provide access to essential input elements, and these remain active regardless of whether Input functions are assigned to the Control Tile screen.</p>
+
+        <h3>Gain Sharing</h3>
+        <p>
+            MADI and Dante stagebox inputs can 'shared' by routing to multiple consoles. One console is always designated the 'Master' with control over the preamp settings.
+            Other consoles may receive the audio but will not be able to control the preamp.
+            See the <a href="Routing.html#GainSharing"><span class="hyperlink">Gain Sharing</span></a> section for further details.
+        </p>
+    </div>
+
+
+    <div class="indexheader2 accordion-section-title">EQ</div>
+    <div id="EQ" style="padding: 1em 0;" class="accordion-section-content">
+        <h2>EQ</h2>
+        <p>
+            The <span class="label">EQ</span> page contains the controls for the High and Low Pass Filters and the 4 Band Parametric EQ.
+            To find out more about the Filters and EQ please see <a href="PathProc.html#EQ"><span class="hyperlink">Path Processing</span></a>.
+        </p>
+    </div>
+
+
+    <div class="indexheader2 accordion-section-title">Comp/Gate</div>
+    <div id="Dynamics" style="padding: 1em 0;" class="accordion-section-content">
+        <h2>Comp/Gate</h2>
+
+        <p>
+            The <span class="label">Comp/Gate</span> page contains the controls for the Compressor and the Gate.
+            To find out more about the Compressor and the Gate please see <a href="PathProc.html#Dynamics"><span class="hyperlink">Path Processing</span></a>.
+        </p>
+    </div>
+
+
+    <div class="indexheader2 accordion-section-title">Panner</div>
+    <div id="Pan" style="padding: 1em 0;" class="accordion-section-content">
+        <h2>Panner</h2>
+        <p>Open the Detail View and tap on the <span class="label">Panner</span> page.</p>
+
+        <img style="display: block; margin: 30px auto;" src="images/g_detailPAN.png" alt="">
+
+        <p>The graph on the left side of the page represents the pannable area, with the blue square indicating where the audio is placed in space.</p>
+
+        <p>Drag the square around the graph to pan the signal around the space.</p>
+
+        <p>Pinch the graph area horizontally to adjust the width of the signal (not applicable to mono paths). The arrows at the edge of the blue area will be coloured red if the width has been inverted (L-R swap) or green if not inverted.</p>
+
+        <p>Sliders for all relevant pan parameters are also found in the right side of the page &#8211; drag the sliders with your finger, or use the Quick Controls beneath the screen to adjust them.</p>
+
+        <span class="note">
+            <span class="notetitle">Notes:</span><br>
+            The parameters available depends on the formats of the channel and the bus being routed to.<br><br>
+
+            The <span style="font-weight: bold;">Width</span> of a signal is limited by the value of the <span style="font-weight: bold;">Pan</span> parameter.
+            Moving the <span style="font-weight: bold;">Pan</span> slider Left/Right will automatically reduce the Width (and the Width will be restored if Panning back towards the centre if no other controls have been touched).<br><br>
+
+            Similarly, adjusting the <span style="font-weight: bold;">Front/Rear Pan</span> will automatically reduce the <span style="font-weight: bold;">Depth</span> of the signal.
+        </span>
+
+        <p>To re-centre the pan, press & hold <span class="label">Reset&nbsp;Pan</span> (towards the top right of the Detail View).</p>
+
+        <p>
+            Use the <span class="label">Pan&nbsp;Left</span> and <span class="label">Pan&nbsp;Right</span> shortcut buttons to quickly set the Pan fully Left or Right.
+            Use the <span class="label">Pan&nbsp;Centre</span> button to set the Pan back to the centre (the previous Width value will be preserved).
+        </p>
+
+        <p>
+            The <span class="label">LF Only</span> button, when engaged, will route only the LF channel to 5.1 buses.
+            <span class="label">LF Only</span> is only active when viewing a path that is not 5.1 (i.e. a path that does not contain an LF channel) and that path is routed to at least one 5.1 bus.
+        </p>
+
+        <p>
+            If a 4.0 or 5.1 path is assigned to one or more 4.0 or 5.1 buses, a Front/Rear Depth control will also be visible.
+            Pinch vertically on the panning graph to adjust Front/Rear Depth or alternatively, use the corresponding slider to the right.
+        </p>
+
+        <p>
+            <span class="note">
+                <span class="notetitle">Note: </span>Panning is applied at the point the channel is routed onto a bus.
+                This allows each Aux/Stem mix to have independent pan settings; see the <a href="BusRouting.html"><span class="hyperlink">Bus Routing & VCAs</span></a> page for more details.
+                Direct outputs and post-all meters use the 'pre'-panned signal.
+            </span>
+        </p>
+
+        <h3>Quick Controls</h3>
+
+        <p>Basic pan control is available in each channel strip. To access the basic in-channel pan controls, select the <span class="label">Pan</span> Assign button in the Channel View:</p>
+
+        <p><img style="display: block; margin: 20px auto;" src="images/b_ChanViewPan.png" alt=""></p>
+
+        <img style="margin: 20px 0px 0px 10px;" src="images/g_PanelQuickScroller.png" align="right" alt="">
+        <p>You can also scroll the Assign functions using the Quick Scroller to the right of the Fader Tile Quick Controls &#8211; the current function is shown in its Label Screen, as well as by the appropriate button being lit in the Channel View channel strip.</p>
+
+        <span class="note"><span class="notetitle">Tip:</span> Press & hold the down arrow button to jump to the Pan section.</span>
+
+        <p>Basic pan controls will appear in the Quick Control Area.</p>
+
+        <p>The Context display shows the current pan position. A simplified version of this graph is also shown in the Pan Assign button-cap, which will stay visible when the Quick Display isn't showing pan information.</p>
+
+        <p>The Quick Control buttons define the parameter assigned to the Encoder: <span style="font-weight: bold;">Pan</span> position, <span style="font-weight: bold;">Width</span>, or <span style="font-weight: bold;">Divergence</span>.</p>
+        <img style="margin: 20px 0px 0px 10px;" src="images/g_quickPAN.png" align="right" alt="">
+
+        <p>Press the Quick Control encoder on the Fader Tile (or double-tap the on-screen encoder) to access the surround pan controls; <span style="font-weight: bold;">Front/Rear</span> Pan, <span style="font-weight: bold;">Depth</span>, and <span style="font-weight: bold;">LFE Gain</span>.</p>
+
+
+        <h3>Control Tile</h3>
+
+        <p>Channel Pan configuration is available via the Control Tile to the right of the Main Screen.</p>
+
+        <p>Press the <span class="label">Pan</span> button beneath and to the right of the Control Tile Screen:</p>
+
+        <img style="display: block; margin: 25px auto;" src="images/g_miniPAN.png" alt="">
+
+    </div>
+
+
+
+    <div class="indexheader2 accordion-section-title">Delay/All Pass</div>
+    <div id="DelayAllPass" style="padding: 1em 0;" class="accordion-section-content">
+        <h2>Delay/All Pass</h2>
+
+        <p>
+            The <span class="label">Delay/All Pass</span> page contains the controls for the Delay and the All Pass Filter.
+            To find out more about the Delay and the All Pass Filter please see <a href="PathProc.html#Delay"><span class="hyperlink">Path Processing</span></a>.
+        </p>
+    </div>
+
+
+    <div class="indexheader2 accordion-section-title">MG + VCA</div>
+    <div id="MGVCA" style="padding: 1em 0;" class="accordion-section-content">
+        <h2>MG + VCA</h2>
+
+        <p>
+            A path can be assigned to a Mute Group or VCA from the <span class="label">MG + VCA</span> page.
+            To find out more please see <a href="Mute.html"><span class="hyperlink">Mute & Mute Groups</span></a> and <a href="BusRouting.html"><span class="hyperlink">Bus Routing & VCAs</span></a>.
+        </p>
+    </div>
+
+
+
+
+    <div class="indexheader2 accordion-section-title">Fader</div>
+    <div id="Fader" style="padding: 1em 0;" class="accordion-section-content">
+
+        <h2>Fader Detail</h2>
+
+        <p>Open the Detail View and tap on the <span class="label">Fader</span> page.</p>
+
+        <p><img style="display: block; margin: 25px auto;" src="images/g_detailFADER.png" alt=""></p>
+
+        <p>The <span class="label">Lock</span> button in the top right corner of the Detail page will prevent any parameters on the Fader Detail page from being changed. Ensure it is deactivated to make any necessary adjustments and re-enable once finished to prevent accidental changes.</p>
+        <img style="margin: 20px 0px 0px 10px;" src="images/g_quickFader.png" align="right" alt="">
+
+        <p>
+            <span class="note">
+                <span class="notetitle">Note: </span>This Detail page also allows you to configure the way in which the channel feeds to solo buses,
+                using the <span style="font-weight: bold;">Solo A</span> and <span style="font-weight: bold;">Solo B</span> buttons.
+                If Solo In Place mode is active, channels can also be isolated from SIP here. See <a href="Solo.html"><span class="notehyperlink">Solos</span></a> for more details.
+            </span>
+        </p>
+
+        <h3>Quick Controls</h3>
+
+        <p>It is also possible to display channel faders in the Assignment area of the Channel View. This is primarily intended for use with <a href="SOLSAOffline.html"><span class="hyperlink">SOLSA Offline Software</span></a>.</p>
+
+        <p>To view channel faders on the screen, select the <span class="label">Fader</span> Assign button in the Channel View:</p>
+
+        <p><img style="display: block; margin: 20px auto;" src="images/b_ChanViewFader.png" alt=""></p>
+
+        <p>Fader will appear on the screen, along with its Solo (<span class="label">S</span>) and Mute (<span class="label">M</span>) buttons, and a <span class="label">0&nbsp;dB</span> button which sets the fader to 0 dB.</p>
+
+        <p><span style="font-weight: bold;">Mute</span>, <span style="font-weight: bold;">Solo</span> and <span style="font-weight: bold;">Gain</span> functions will also be assigned to the channel Quick Controls, as shown on the right.</p>
+
+
+
+        <br>
+
+        <h3>Control Tile</h3>
+        <p>The Fader controls can also be shown in the Control Tile by pressing the <span class="label">Fader&nbsp;/&nbsp;TB</span> button immediately above the Control Tile Screen.</p>
+
+
+        <p>The encoders around the screen are assigned to the functions in the screen area nearest to them.</p>
+        <img style="margin: 0px 10px;" src="images/g_miniFaderTB.png" align="right" alt="">
+
+
+        <p>Switches are operated by pressing the encoder, and continuous parameters are changed by turning the encoder.</p>
+
+        <p>The LED next to each encoder is lit whenever the encoder is assigned to any on-screen parameters. If the encoder is only assigned to a switch, the LED colour also indicates the state of the switch.</p>
+
+        <p>All on-screen buttons can also be controlled by touching the screen.</p>
+
+        <p>
+            Most of these controls function exactly as they do in the Detail display, with the exception of the
+            <span class="label">Solo&nbsp;1</span> and <span class="label">Solo&nbsp;2</span> buttons which cycle through
+            <span class="label">Bus&nbsp;Default</span>, <span class="label">None</span>, <span class="label">Pre Fader</span> and <span class="label">Post All</span>, as indicated immediately above each button.
+        </p>
+
+    </div>
+
+
+
+    <div class="indexheader2 accordion-section-title">Master</div>
+    <div id="Master" style="padding: 1em 0;" class="accordion-section-content">
+        <h2>Master</h2>
+
+        <p>
+            A path can be assigned to a Master from the <span class="label">Master</span> page.
+            To find out more please see <a href="BusRouting.html"><span class="hyperlink">Bus Routing & VCAs</span></a>.
+        </p>
+    </div>
+
+    <div class="indexheader2 accordion-section-title">Stem</div>
+    <div id="Stem" style="padding: 1em 0;" class="accordion-section-content">
+        <h2>Stem</h2>
+
+        <p>
+            A path can be assigned to a Stem from the <span class="label">Stem</span> page.
+            To find out more please see <a href="BusRouting.html"><span class="hyperlink">Bus Routing & VCAs</span></a>.
+        </p>
+    </div>
+
+    <div class="indexheader2 accordion-section-title">Auxiliaries</div>
+    <div id="Aux" style="padding: 1em 0;" class="accordion-section-content">
+        <h2>Auxiliaries</h2>
+
+        <p>
+            A path can be assigned to an Aux from the <span class="label">Auxiliaries</span> page.
+            To find out more please see <a href="BusRouting.html"><span class="hyperlink">Bus Routing & VCAs</span></a>.
+        </p>
+    </div>
+
+    <div class="indexheader2 accordion-section-title">Insert A/Insert B</div>
+    <div id="Insert" style="padding: 1em 0;" class="accordion-section-content">
+        <h2>Insert A/Insert B</h2>
+
+        <p>
+            Every path has two insert points, each of which can be routed to external I/O or to the modules within the console's internal Effects Rack, as well as a variety of other locations.
+            If there is an Insert routed to either Insert A or B, the Effect can be accessed and routed using these buttons.
+        </p>
+
+
+
+        <span class="note"><span class="notetitle">Note: </span>All path types, including Dry Paths, have two insert points.</span>
+
+        <p>By default both Insert points are pre-fader.</p>
+
+        <span class="note"><span class="notetitle">Note: </span>Inserts can be moved within the processing order by going to the Eyeconix Detail View, muting the channel, unlocking the Detail View screen and dragging the channel elements in the display across the top of the page; see <a href="ProcOrder.html"><span class="notehyperlink">Processing Order</span></a> for more details.</span>
+
+        <h2 id="RoutingAnInsert">Routing an Insert</h2>
+
+        <p>Routing Inserts is covered in <a href="FXIntro.html"><span class="hyperlink">Effects Rack Overview</span></a>.</p>
+
+        <h2 id="Detailpage">Detail View Control</h2>
+
+        <p>Once a module is routed to a channel Insert, the module will appear within that Insert's Detail View, which you can access from within the page by pressing the <span class="label">Insert&nbsp;A</span> or <span class="label">Insert&nbsp;B</span> button at the bottom of the page selectors. This page is a duplicate of the Effects Rack's module page:</p>
+
+        <img style="display: block; margin: 25px auto;" src="images/g_DetailInserts.png" alt="">
+
+        <span class="note"><span class="notetitle">Note: </span>This page will be empty if nothing has been routed to the Insert point. A 'Manual Routing' graphic will be shown if not all of the send and return routes have been made or if they are routed to external devices, for which there is no internal control available.</span>
+
+        <p>Activate the insert's routing by touching the <span class="label">Insert&nbsp;IN</span> button below the routing buttons on the right. The rest of the controls are module-specific and are covered in the Effects Rack pages of these help screens.</p>
+
+        <p>The Quick Controls can also be assigned to the Detail View parameters by activating <span style="font-weight: bold;">Follow Detail</span> mode. Touch the <span style="font-weight: bold;">Follow Detail</span> button (bottom right corner of the Main Screen) to toggle between <span style="font-weight: bold;">Follow Channel</span> (button inactive) and <span style="font-weight: bold;">Follow Detail</span> (button active). The labels across the bottom of the screen indicate the function which is then assigned to the Quick Controls beneath them. As a general rule only one function is assigned to each Channel's Quick Controls. Switch functions are assigned to the Upper Quick Key (which will be lit if available) and continuous parameters are assigned to the Encoder.</p>
+
+        <span class="note">
+            <span class="notetitle">Notes:</span>
+            The Inserts can also be routed to external effects or other buses/channels within the console. In these instances the Insert Detail page will display a Manual Routing graphic to indicate that it is routed but no Detail View control is available.<br>
+            The Detail page will be blank if nothing has been routed to/from the Insert.
+        </span>
+
+
+
+        <h3>Quick Controls</h3>
+
+        <img style="margin: 5px 0px 0px 20px;" src="images/g_quickInsert.png" alt="" align="right">
+
+        <p>Once routed, inserts can be switched in and out using the Upper Quick Key:</p>
+
+        <div align="left" )>
+            <img style="margin-left: 100px;" src="images/n_MenuChanView.png" alt=""><img src="images/n_arrow.png" alt=""><img src="images/n_ChanSelect.png" alt=""><img src="images/n_arrow.png" alt=""><img src="images/n_AssignInsert.png" alt="">
+        </div>
+
+        <p>When a module from the internal Effects Rack is routed, its icon will also appear in the Context display.</p>
+
+        <img style="margin: 20px 0px 10px 20px;" src="images/g_miniINSERT.png" alt="" align="right">
+
+        <h3>Control Tile</h3>
+
+        <p>Once routed to an internal Effects Rack module, the module can also be controlled from the Control Tile. </p>
+
+        <p>Press the <span class="label">Insert</span> button below the Control Tile Screen to assign insert control to the Control Tile. </p>
+
+        <p>The <span class="label">A&nbsp;IN</span> and <span class="label">B&nbsp;IN</span> buttons in the <span style="font-weight: bold;">Insert</span> area below the screen can then be used to switch between Insert A and B. </p>
+
+
+        <p>The <span class="label">IN</span> button in the <span style="font-weight: bold;">Insert</span> area below the screen switches the currently displayed insert in and out.</p>
+
+        <p>The encoders around the screen are assigned to the functions in the screen area nearest to them. </p>
+
+        <p>Switches are operated by pressing the encoder, and continuous parameters are changed by turning the encoder.</p>
+
+        <p>The LED next to each encoder is lit whenever the encoder is assigned to any on-screen parameters. If the encoder is only assigned to a switch, the LED colour also indicates the state of the switch.</p>
+
+        <p>All on-screen buttons can also be controlled by touching the screen.</p>
+
+        <span class="note"><span class="notetitle">Note: </span>If the insert is not routed to an internal Effects Rack module the Control Tile Screen will show a 'Manual Routing' graphic and will be blank if nothing is routed to/from the Insert.</span>
+
+
+    </div>
+
+    <div class="indexheader2 accordion-section-title">External Control</div>
+    <div id="ExternalControl" style="padding: 1em 0;" class="accordion-section-content">
+        <h2>External Control</h2>
+
+        <p>
+            Control of external devices can be accessed from this page.
+            Please refer to the <a href="ExternalControl.html"><span class="hyperlink">External Control</span> section for further details</a>.
+        </p>
+    </div>
+</div>
+
+<h2>Useful Links</h2>
+<a href="ChanView.html"><span class="hyperlink">Channel View</span></a><br>
+<a href="QuickControls.html"><span class="hyperlink">Quick Controls</span></a><br>
+<a href="LinkIndex.html"><span class="hyperlink">Index and Glossary</span></a><br>
+
+<div class="TutorialNavNext"> <a href="Routing.html"><span class="TutorialNav">NEXT: Routing</span> <img class="TutorialNav" src="images/n_TutNext.png" alt=""></a></div>
+
+
+
+    </div>
+
+    <script src="../Help/js/OpenAccordionFromLink.js"></script>
+</body>
+</html>

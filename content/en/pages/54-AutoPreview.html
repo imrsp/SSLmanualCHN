@@ -1,0 +1,200 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Automation: Preview</title>
+  <style>
+    body { font: 16px/1.55 Arial, sans-serif; max-width: 1080px; margin: 2rem auto; padding: 0 1.25rem; color: #202124; }
+    img { max-width: 100%; height: auto; }
+    table { border-collapse: collapse; max-width: 100%; }
+    th, td { border: 1px solid #aaa; padding: .45rem; vertical-align: top; }
+    .note { display: block; border-left: 4px solid #e0a000; background: #fff8df; padding: .75rem 1rem; margin: 1rem 0; }
+    .notetitle { font-weight: bold; }
+    .label { font-weight: bold; color: #174ea6; }
+    .source { color: #666; font-size: .9rem; }
+  </style>
+</head>
+<body>
+  <p class="source">Section: Mixing | Source: <a href="https://livehelp.solidstatelogic.com/Help/AutoPreview.html">https://livehelp.solidstatelogic.com/Help/AutoPreview.html</a></p>
+
+
+<h2>Automation Preview Mode</h2>
+
+<p>
+    Preview mode can be used to check and change a scene's settings on the console
+    surface without affecting the audio currently passing through the console.
+    It is currently a licensed feature, please contact your SSL sales or support 
+    representative if you wish to use Scene Automation Preview mode.
+</p>
+
+<img
+  style="display: block; margin: 25px auto; width: 600px"
+  src="https://livehelp.solidstatelogic.com/Help/images/s_AutoPreview.png"
+  alt="Automation page in Preview mode"
+/>
+
+<h3>Entering and exiting Preview mode</h3>
+
+<p>
+  To enter Preview mode, select the desired scene in the list and press & hold
+  the <span class="label">Preview</span> button on the Master Tile or in the
+  <span class="label">Controls</span> section of the Automation page. The
+  console's control surface will now change to display the settings of the
+  selected scene, but the console will continue to process incoming audio based
+  on the settings of the active scene prior to entering Preview, i.e. there will
+  be no changes to the audio processing while in Preview.
+</p>
+
+<span class="note">
+  <b>Note:</b> all control surfaces connected to the console will be switched
+  into Preview mode. This includes any consoles and SOLSA instances in remote
+  mode, Live Expander surfaces and TaCo instances connected to the console.
+</span>
+
+<p>
+  The active scene (i.e. the last one that was fired before Preview mode was
+  activated) is indicated by a green Go button in the automation scene list, as
+  normal. The Previewed scene is indicated by a pink Go button, and the scene
+  name is highlighted in pink. The automation section of the status bar will
+  flash pink to indicate that Preview mode is enabled.
+</p>
+
+<p>
+  To exit Preview, either press Home to return to the active scene in the list
+  or press Preview to remain on the last selected scene in Preview mode.
+  Pressing Go at this point will then fire the selected scene (as normal).
+</p>
+
+<h3>Operating in Preview mode</h3>
+
+While in Preview most of the automation controls also work as normal.
+<ul>
+  <li>
+    Other scenes can be selected by navigating to them in the list and pressing
+    <span class="label">Go</span>.
+  </li>
+  <li>
+    Changes to scenes can be stored using the
+    <span class="label">Store</span> button (unsaved changes will be lost on
+    exiting Preview).
+  </li>
+  <li>
+    New scenes can be created using the <span class="label">New</span> button.
+  </li>
+  <li>Group changes can be made using the Group controls.</li>
+</ul>
+
+<span class="note">
+  <b>Note:</b> Entering and exiting Preview mode will reset the Undo Fire
+  functionality, meaning it is not possible to Undo Fire into/out of Preview.
+</span>
+
+<p>
+  All console functionality is available for adjustment while in Preview.
+  However, certain functionality will be suspended when entering Preview mode.
+  This includes:
+</p>
+<ul>
+  <li>
+    Scene changes triggered by Timecode, Input Actions or Transition Times
+  </li>
+  <li>Output Actions on scene recall</li>
+  <li>Communications to I/O</li>
+  <li>The ability to change settings on Network & Dante I/O devices.</li>
+</ul>
+
+<p>
+  A list of where each parameter is stored can be found
+  <a href="https://livehelp.solidstatelogic.com/Help/Storage.html"><span class="hyperlink">here</span></a
+  >.
+</p>
+
+<h3>Important Preview Notes</h3>
+
+<ul>
+  <li>
+    The operator should <b>not</b> save and load showfiles while Preview mode is
+    active.
+  </li>
+  <li>
+    Control of External Devices (OSC, L-ISA etc.) continues while in Preview
+    mode - this may change in a future release.
+  </li>
+  <li>
+    The console GUI still allows changes to Dante routing while in Preview mode.
+    These changes do not apply, even after exiting preview mode. Do
+    <b>not</b> use console managed Dante routing while in Preview mode.
+  </li>
+  <li>
+    Events linked to path/console functions will still fire when in Preview
+    mode, if those parameters are recalled by a scene. Be mindful of events with
+    external destinations (like MIDI or GPIO outputs) when firing through a
+    scene list.
+  </li>
+</ul>
+
+<p>
+  The parameters of the active scene (the scene currently running on the DSP)
+  can be edited while in Preview, either directly by making it the Previewed
+  scene, or via Group mode. However, these changes will only be applied to the
+  audio when the scene is next fired outside of Preview mode.
+</p>
+
+<p>
+  It is important to store any desired changes that are currently active
+  <b>before</b> entering Preview, so that any changes stored whilst in Preview
+  do not conflict with them. If changes are stored in Preview, the active scene
+  will show as having pending changes on exiting Preview (Store button will
+  light), because the stored parameter states will differ to the settings on the
+  console surface. Pressing Store at this point will overwrite the changes made
+  in Preview with those currently active on the surface. Care should therefore
+  be taken to ensure the correct changes are retained and not accidentally
+  overwritten.
+</p>
+
+<h2>Links to Further Automation Help:</h2>
+
+<ul>
+  <li>
+    <a href="https://livehelp.solidstatelogic.com/Help/AutoOverview.html"
+      ><span class="hyperlink">Automation Overview</span></a
+    >
+  </li>
+  <li>
+    <a href="https://livehelp.solidstatelogic.com/Help/AutoNamesNotes.html"
+      ><span class="hyperlink">Scene Names and Notes</span></a
+    >
+  </li>
+  <li>
+    <a href="https://livehelp.solidstatelogic.com/Help/AutoTime.html"
+      ><span class="hyperlink">Scene Time Functions</span></a
+    >
+  </li>
+  <li>
+    <a href="https://livehelp.solidstatelogic.com/Help/AutoIOActions.html"
+      ><span class="hyperlink">Scene Input and Output Actions</span></a
+    >
+  </li>
+  <li>
+    <a href="https://livehelp.solidstatelogic.com/Help/AutoGrouping.html"><span class="hyperlink">Scene Groups</span></a>
+  </li>
+  <li>
+    <a href="https://livehelp.solidstatelogic.com/Help/AutoFilters.html"
+      ><span class="hyperlink">Function Filters</span></a
+    >
+  </li>
+  <li>
+    <a href="https://livehelp.solidstatelogic.com/Help/AutoSceneList.html"
+      ><span class="hyperlink">Scene List Management</span></a
+    >
+  </li>
+</ul>
+
+<p>
+  <a href="https://livehelp.solidstatelogic.com/Help/LinkIndex.html"><span class="hyperlink">Index and Glossary</span></a>
+</p>
+
+
+</body>
+</html>

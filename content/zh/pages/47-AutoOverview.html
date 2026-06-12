@@ -1,0 +1,76 @@
+<h2>自动化概览</h2>
+<p>SSL Live 的自动化系统允许您存储和调用控制台设置的快照（“场景”）。这些可以手动调用，通过时间码，或使用外部 GPI/O 或 MIDI 触发器调用。</p>
+<p>过滤矩阵允许您过滤每个场景存储和调用的控制台元素，让您可以在事件中选择实时控制级别。也可以从信号路径的详细视图中直接保护信号路径免受场景调用的影响。请参阅：<a href="https://livehelp.solidstatelogic.com/Help/AutoFilters.html"><span class="hyperlink">功能过滤器</span></a></p>
+<p>每个场景也可用于通过 MIDI 触发外部事件，例如外部效果器单元的预设更改。请参阅：<a href="https://livehelp.solidstatelogic.com/Help/AutoIOActions.html"><span class="hyperlink">输入和输出操作</span></a></p>
+<h2>Master Tile 控制</h2>
+<p>控制台的 Master Tile 中有一个专用的 Automation 区域，位于两个推子之间。</p>
+<figure><img src="https://livehelp.solidstatelogic.com/Help/images/g_AutomationLabels.png" alt="图片 1"><figcaption>图片 1</figcaption></figure>
+<p>该区域底部的控件用于调用场景：</p>
+<p>使用左侧的 ▲ 和 ▼ 按钮滚动浏览场景。“选中”（高亮显示）的场景显示在其右侧的标签屏幕中，两边带有破折号。</p>
+<p>按下 GO 按钮“触发”场景（使其设置对控制台生效）。当前“活动”场景以粗体显示。</p>
+<p>注意：此描述假定为“Concert”模式；▲、▼ 和 GO 控制在“Theatre”和“Hybrid”模式下的工作方式不同。详见<a href="https://livehelp.solidstatelogic.com/Help/AutoOverview.html#ConcertTheatreHybridModes"><span class="hyperlink">下文</span></a>。</p>
+<p>可以使用主 Automation 页面中的“Lock Tile”按钮禁用这些控件（如下所述）。</p>
+<p>其余控件总结如下：</p>
+<p>Group 定义了对活动场景所做的更改是否也会对与其分组的任何场景进行更改；它旁边的 Absolute 和 Relative 按钮定义了对活动场景的更改是作为绝对位置还是相对位置复制到组中（更多详情请参阅<a href="https://livehelp.solidstatelogic.com/Help/AutoGrouping.html"><span class="hyperlink">自动化：场景组</span></a>）。</p>
+<p>New 创建一个新场景，将当前设置存储到其中，并使其成为活动场景；</p>
+<p>Store 将当前设置存储到活动场景。如果有任何未保存的更改，Store 按钮将变为紫色；</p>
+<p>如果 Auto 处于活动状态（按住以激活和停用），控制台更改将自动保存到活动场景。这将禁用 Store 按钮；</p>
+<p>要撤销场景触发，请按 Undo Fire。这将把控制台恢复到触发上一个场景之前的状态；</p>
+<p>Home 将场景列表导航到活动场景（即，使选中的场景 = 活动场景）；</p>
+<p>Preview 未使用。</p>
+<p>New、Store、GO、▲ 和 ▼ 控件也有屏幕上的控件。 可以通过点击“Lock GUI”按钮禁用这些屏幕上的控件。</p>
+<h2>Automation 屏幕概览</h2>
+<p>更高级的自动化控制和指示可通过屏幕上的 Automation 控件获得，通过选择 MENU &gt; Automation 访问：</p>
+<figure><img src="https://livehelp.solidstatelogic.com/Help/images/g_autoSceneList.png" alt="图片 2"><figcaption>图片 2</figcaption></figure>
+<p>Automation 屏幕的上半部分显示场景列表，下半部分显示所选场景的“详细信息”对话。 使用“Show Details”按钮根据需要展开和折叠详细信息区域。 帮助系统的其余部分假定详细信息区域可见。</p>
+<p>注意：Master Tile Automation 按钮也可在 Automation 屏幕中找到：选择 Automation 屏幕左侧的“Controls”按钮，硬件按钮的软件版本将出现在屏幕中。</p>
+<h3>选择一个场景</h3>
+<p>要选择一个场景，只需触摸其在场景列表中的行 - 显示的配置页面由触摸列表中的哪一列定义。触摸 GO 列中的按钮将触发该场景并选择它。</p>
+<p>在 Concert 和 Hybrid 模式（见<a href="#ConcertTheatreHybridModes"><span class="hyperlink">下文</span></a>）中，您也可以使用 ▲ 和 ▼ 控件滚动到场景。</p>
+<p>Automation 页面左下方的按钮可用于更改显示的页面。</p>
+<p>一旦选中，可以在所需时间使用 Master Tile 或 Automation 页面侧边菜单中的 GO 按钮触发场景。</p>
+<h3>创建一个新场景</h3>
+<p>要创建一个新场景，请选择您想要放置新场景在其后的场景。您可以通过触摸屏幕或使用 Master Tile Automation 区域中的 ▲ 和 ▼ 按钮滚动到它来完成此操作。 场景将被蓝色边框高亮显示。</p>
+<p>注意：在 Theatre 模式下（按钮亮绿色），▲ 和 ▼ 按钮将自动触发上一个/下一个场景 - 详见<a href="#ConcertTheatreHybridModes"><span class="hyperlink">下文</span></a>。</p>
+<p>按下主屏幕（或 Master Tile）右侧的 New 按钮。</p>
+<p>将在先前选择的场景之后创建一个新场景。它将自动成为活动场景，如其 GO 框变为绿色所示。</p>
+<p>注意：最多可以创建 500 个场景</p>
+<h3>将设置存储到现有场景</h3>
+<p>在进行更改之前，场景必须是活动场景（即已触发）。请注意，除非也存储它们，否则您将丢失对先前场景的任何更改。对活动场景进行任何必要的更改，然后按下 Store 按钮。</p>
+<p>注意：场景存储始终应用于活动场景，无论哪个场景被选中。</p>
+<h2>Control Tile</h2>
+<p>也可以在 Control Tile 屏幕中查看场景列表：</p>
+<p>按下 Control Tile 上的 Home 按钮，然后从 Home 屏幕中选择 Automation。</p>
+<figure><img src="https://livehelp.solidstatelogic.com/Help/images/g_miniAutomation.png" alt="图片 3"><figcaption>图片 3</figcaption></figure>
+<p>Control Tile Automation 屏幕有两种显示模式，通过屏幕右上角的“Scene List”按钮选择；一种显示场景列表，包含场景名称和 ID、组颜色、淡变时间和转换时间（如上图）。</p>
+<p>另一种视图在上半部分显示当前活动场景及其相关备注。下半部分显示下一个场景及其备注。如果选中的场景与活动场景不同，则选中的场景将显示在屏幕下半部分。</p>
+<p>在任一视图中，都可以使用中下方的编码器滚动浏览场景列表。</p>
+<h2 id="ConcertTheatreHybridModes">Concert、Theatre 和 Hybrid 模式</h2>
+<p>Concert/Theatre/Hybrid Mode 定义了自动化 ▲、▼ 和 GO 控件的功能。 要在不同模式之间切换，请按下 Automation 详细信息对话左侧的 Options 按钮，然后触摸 Concert、Theatre 或 Hybrid 按钮。该模式也会在 Automation 屏幕右侧的侧边栏中指示。</p>
+<h3>Concert 模式</h3>
+<p>如果 Concert 模式处于活动状态，场景仅由箭头按钮“选中”（高亮显示）。然后使用 GO 按钮触发选中的场景。 GO、▲ 和 ▼ 按钮都将亮青色以指示 Concert 模式。</p>
+<p>注意：当选中的场景已经是活动场景时按下 GO 将重新触发同一个场景，导致任何未保存的更改丢失。</p>
+<h3>Theatre 模式</h3>
+<p>如果 Theatre 模式处于活动状态，当分别使用 ▲ 和 ▼ 按钮选择上一个和下一个场景时，它们会自动被触发。 GO 按钮也会触发下一个场景。 GO、▲ 和 ▼ 按钮将亮绿色，表示它们在 Theatre 模式下会立即触发下一个/上一个场景。</p>
+<h3>Hybrid 模式</h3>
+<p>如果 Hybrid 模式处于活动状态，箭头按钮选择场景，如同 Concert 模式。如果选中的场景也是活动场景，GO 按钮会触发下一个场景，如同 Theatre 模式。 如果活动场景不是选中的场景，那么 GO 按钮将触发选中的场景。</p>
+<h2>Simple 和 Accumulative 调用模式</h2>
+<p>应用了调用过滤器的场景可以用两种不同的方式调用。</p>
+<p>“Simple”调用模式独立处理每个场景，不考虑列表中其之前或之后任何场景的调用过滤器和设置。在此模式下调用场景将仅调用该场景中设置为调用的设置。</p>
+<p>“Accumulative”调用模式会累积场景之间所做的任何更改，即使不按顺序调用它们，就好像之前和下一个场景之间的每个场景都已按顺序触发一样，因此，如果一个参数被设置为在中间场景中调用，即使活动场景对该设置的调用过滤器是关闭的，其值也会被调用。</p>
+<p>累积调用示例：吉他手在场景 5 中更换吉他，用于演出的其余部分，因此仅在场景 5 中调用不同的 EQ 设置（EQ 在任何其他场景中都不调用）。如果从场景 4 跳转到场景 6，即使场景 5 没有被触发并且 EQ 设置未设置为在场景 6 中调用，新的 EQ 设置也会被应用。</p>
+<p>要在 Simple 和 Accumulative 模式之间切换，请按下 Automation 详细信息对话左侧的 Options 按钮，然后触摸 Simple 或 Accumulative 按钮。</p>
+<h2>自动化预览模式</h2>
+<p>从 Live v6.2 开始，自动化预览模式可用。此模式允许操作员触发场景，而不影响通过控制台 DSP 运行的音频。 这在复杂或紧凑的演出排练中特别有用，需要对未来/过去的场景进行更改，同时允许音频不中断地继续。</p>
+<p>更多信息请参阅<a href="https://livehelp.solidstatelogic.com/Help/AutoPreview.html"><span class="hyperlink">自动化预览模式</span></a>页面。</p>
+<h2>更多自动化帮助链接：</h2>
+<ul>
+  <li><a href="https://livehelp.solidstatelogic.com/Help/AutoNamesNotes.html"><span class="hyperlink">场景名称和备注</span></a></li>
+  <li><a href="https://livehelp.solidstatelogic.com/Help/AutoTime.html"><span class="hyperlink">场景时间功能</span></a></li>
+  <li><a href="https://livehelp.solidstatelogic.com/Help/AutoIOActions.html"><span class="hyperlink">场景输入和输出操作</span></a></li>
+  <li><a href="https://livehelp.solidstatelogic.com/Help/AutoGrouping.html"><span class="hyperlink">场景组</span></a></li>
+  <li><a href="https://livehelp.solidstatelogic.com/Help/AutoFilters.html"><span class="hyperlink">功能过滤器</span></a></li>
+  <li><a href="https://livehelp.solidstatelogic.com/Help/AutoSceneList.html"><span class="hyperlink">场景列表管理</span></a></li>
+  <li><a href="https://livehelp.solidstatelogic.com/Help/AutoPreview.html"><span class="hyperlink">自动化预览模式</span></a></li>
+</ul>
+<p><a href="https://livehelp.solidstatelogic.com/Help/LinkIndex.html"><span class="hyperlink">索引与词汇表</span></a></p>

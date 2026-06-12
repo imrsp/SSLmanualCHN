@@ -1,0 +1,720 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>控制台配置</title>
+  <style>
+    body { font: 16px/1.55 Arial, sans-serif; max-width: 1080px; margin: 2rem auto; padding: 0 1.25rem; color: #202124; }
+    img { max-width: 100%; height: auto; }
+    table { border-collapse: collapse; max-width: 100%; }
+    th, td { border: 1px solid #aaa; padding: .45rem; vertical-align: top; }
+    .note { display: block; border-left: 4px solid #e0a000; background: #fff8df; padding: .75rem 1rem; margin: 1rem 0; }
+    .notetitle { font-weight: bold; }
+    .label { font-weight: bold; color: #174ea6; }
+    .source { color: #666; font-size: .9rem; }
+  </style>
+</head>
+<body>
+  <p class="source">章节：构建演出 | 来源：<a href="https://livehelp.solidstatelogic.com/Help/ConsoleConfig.html">https://livehelp.solidstatelogic.com/Help/ConsoleConfig.html</a></p>
+<h2>控制台配置</h2>
+
+<p>SSL Live 具有高度可配置性，可针对每场演出彻底重构。控制台提供 DSP 信号路径池，作为设计和构建控制台的基础；每条路径均可设为输入通道、Stem 编组、Aux 辅助母线或 Master 主母线。立体声、LCR、4.0 和 5.1 格式通过绑定两条或更多 DSP 路径创建。</p>
+
+
+
+<h2>信号路径类型简介</h2>
+<h3>完整路径与干路径</h3>
+
+<p>所有 SSL Live 控制台都具有<span style="font-weight:bold;">完整路径</span>，可使用通道内全部信号处理功能（EQ、动态、延迟等）。</p>
+<p>SSL Live 控制台还可具有<span style="font-weight:bold;">干路径</span>，除输入 Gain 与 Trim、Fader、Mute、Solo 和两个 Insert 点外，不包含其他信号处理。</p>
+
+<span class="note"><span class="notetitle">注意：</span>干路径虽然没有内置信号处理，但具有插入路由，并可使用 SSL Live 内部 Effects Rack 进行处理。</span>
+
+
+<h3>信号路径类型</h3>
+<p>主要有 4 种路径类型：</p>
+<p style="margin-bottom:0px">
+    <ul>
+        <li>通道</li>
+        <li>Stem 编组母线</li>
+        <li>Aux 辅助母线</li>
+        <li>Master 主母线</li>
+    </ul>
+</p>
+
+<p>本节稍后会详细介绍每种路径类型。</p>
+
+<p>另有一些独立于主路径池的信号路径，包括 VCA、Talkback、Solo 和 Matrix 通道。它们均可通过下文所述的<b>Console&nbsp;Configuration</b>页面配置。</p>
+
+<p>控制台还包含不执行信号处理、仅用于控制外部设备的路径：<a href="https://livehelp.solidstatelogic.com/Help/DAWControl.html"><span class="hyperlink">DAW&nbsp;paths</span></a>（按需自动创建）以及<a href="https://livehelp.solidstatelogic.com/Help/ExternalControl.html"><span class="hyperlink">OSC&nbsp;paths</span></a>（通过 Console Configuration 页面创建）。</p>
+
+<span class="note">
+    <span class="notetitle">请注意：</span>每种控制台型号都有可用路径总数限制，各路径类型（Full/Dry 及 Channel/Stem/Aux/Master）也分别有限制。满足以下任一条件时，控制台会阻止继续创建路径：<br>-&emsp;已达到控制台路径总数上限。<br>-&emsp;已达到某种路径类型的上限。此时仅禁止继续创建该类型路径。</span>
+
+
+<h3 id="PlusPack">Plus 处理扩展包</h3>
+
+<p>L100、L200、L350 和 L550 可通过增加 Plus 处理扩展包扩展 DSP 容量。此功能需要许可证；详情请联系当地 SSL 经销商。启用后，控制台即为 Plus 版本，状态栏中会显示<img style="vertical-align: text-bottom;" src="https://livehelp.solidstatelogic.com/Help/images/b_PlusPackIcon.png" alt="green plus">符号。其余功能与非 Plus 版本完全相同。因此除非另有说明，文中提及这些型号时同时包含 Plus 与非 Plus 版本。</p>
+
+
+<h3>控制台型号汇总</h3>
+
+<div>
+    <small>
+        <table class="insideborder" style="display: block; margin: auto; width: 95%" cellpadding="3" cellspacing="1">
+            <tbody>
+                <tr>
+                    <th rowspan="2"></th>
+                    <th>L100</th>
+                    <th>L100 Plus</th>
+                    <th>L200</th>
+                    <th>L200 Plus</th>
+                    <th colspan="3">L300</th>
+                    <th colspan="3">L350</th>
+                    <th>L350 Plus</th>
+                    <th>L450</th>
+                    <th colspan="3">L500</th>
+                    <th colspan="3">L500 Plus</th>
+                    <th colspan="3">L550</th>
+                    <th>L550 Plus</th>
+                    <th>L650</th>
+                </tr>
+                <tr>
+                    <th>全部为完整路径</th>
+                    <th>全部为完整路径</th>
+                    <th>全部为完整路径</th>
+                    <th>全部为完整路径</th>
+                    <th>完整</th>
+                    <th>干路径</th>
+                    <th>总计</th>
+                    <th>完整</th>
+                    <th>干路径</th>
+                    <th>总计</th>
+                    <th>全部为完整路径</th>
+                    <th>全部为完整路径</th>
+                    <th>完整</th>
+                    <th>干路径</th>
+                    <th>总计</th>
+                    <th>完整</th>
+                    <th>干路径</th>
+                    <th>总计</th>
+                    <th>完整</th>
+                    <th>干路径</th>
+                    <th>总计</th>
+                    <th>全部为完整路径</th>
+                    <th>全部为完整路径</th>
+                </tr>
+                <tr>
+                    <th>输入通道</th>
+                    <td>64</td>
+                    <td>96</td>
+                    <td>96</td>
+                    <td>144</td>
+                    <td>144</td>
+                    <td>48</td>
+                    <td>192</td>
+                    <td>168</td>
+                    <td>48</td>
+                    <td>216</td>
+                    <td>216</td>
+                    <td>240</td>
+                    <td>144</td>
+                    <td>48</td>
+                    <td>192</td>
+                    <td>208</td>
+                    <td>48</td>
+                    <td>256</td>
+                    <td>240</td>
+                    <td>48</td>
+                    <td>288</td>
+                    <td>288</td>
+                    <td>312</td>
+                </tr>
+                <tr>
+                    <th>Stem 编组母线</th>
+                    <td>12</td>
+                    <td>24</td>
+                    <td>24</td>
+                    <td>36</td>
+                    <td>36</td>
+                    <td>12</td>
+                    <td>48</td>
+                    <td>36</td>
+                    <td>12</td>
+                    <td>48</td>
+                    <td>48</td>
+                    <td>60</td>
+                    <td>48</td>
+                    <td>12</td>
+                    <td>60</td>
+                    <td>60</td>
+                    <td>12</td>
+                    <td>72</td>
+                    <td>72</td>
+                    <td>12</td>
+                    <td>84</td>
+                    <td>84</td>
+                    <td>96</td>
+                </tr>
+                <tr>
+                    <th>Aux 辅助母线</th>
+                    <td>36</td>
+                    <td>48</td>
+                    <td>48</td>
+                    <td>84</td>
+                    <td>96</td>
+                    <td>24</td>
+                    <td>120</td>
+                    <td>108</td>
+                    <td>24</td>
+                    <td>132</td>
+                    <td>132</td>
+                    <td>156</td>
+                    <td>96</td>
+                    <td>24</td>
+                    <td>120</td>
+                    <td>144</td>
+                    <td>48</td>
+                    <td>168</td>
+                    <td>156</td>
+                    <td>48</td>
+                    <td>204</td>
+                    <td>204</td>
+                    <td>210</td>
+                </tr>
+                <tr>
+                    <th>Master 主母线</th>
+                    <td>4</td>
+                    <td>6</td>
+                    <td>6</td>
+                    <td>8</td>
+                    <td>12</td>
+                    <td>6</td>
+                    <td>18</td>
+                    <td>12</td>
+                    <td>6</td>
+                    <td>18</td>
+                    <td>18</td>
+                    <td>24</td>
+                    <td>24</td>
+                    <td>6</td>
+                    <td>30</td>
+                    <td>24</td>
+                    <td>6</td>
+                    <td>30</td>
+                    <td>24</td>
+                    <td>6</td>
+                    <td>30</td>
+                    <td>30</td>
+                    <td>32</td>
+                </tr>
+                <tr>
+                    <th>最大路径总数</th>
+                    <td>96</td>
+                    <td>128</td>
+                    <td>144</td>
+                    <td>144</td>
+                    <td>144</td>
+                    <td>48</td>
+                    <td>192</td>
+                    <td>168</td>
+                    <td>48</td>
+                    <td>216</td>
+                    <td>216</td>
+                    <td>240</td>
+                    <td>144</td>
+                    <td>48</td>
+                    <td>192</td>
+                    <td>208</td>
+                    <td>48</td>
+                    <td>256</td>
+                    <td>240</td>
+                    <td>48</td>
+                    <td>288</td>
+                    <td>288</td>
+                    <td>312</td>
+                </tr>
+                <tr>
+                    <th>VCAs</th>
+                    <td colspan="2">12</td>
+                    <td colspan="2">24</td>
+                    <td colspan="14">36</td>
+                    <td colspan="5">48</td>
+                </tr>
+                <tr>
+                    <th>矩阵</th>
+                    <td colspan="2">4 × 32 个输入，12 个已处理输出</td>
+                    <td colspan="2">4 × 32 个输入，24 个已处理输出</td>
+                    <td colspan="19">4 × 32 个输入，36 个已处理输出</td>
+                </tr>
+                <tr>
+                    <th>最大 FX 实例数</th>
+                    <td>24</td>
+                    <td colspan="10">48</td>
+                    <td>60</td>
+                    <td colspan="11">96</td>
+                </tr>
+            </tbody>
+        </table>
+    </small>
+</div>
+
+<span class="note"><span class="notetitle">注意：</span>出于兼容性考虑，包含干路径的演出文件可加载到只有完整路径的控制台中，但可用完整路径数量会按所用干路径数量相应减少。</span>
+
+
+
+<p>下面更详细地列出各控制台型号的路径容量和路由选项：</p>
+<div id="accordion" style="width:802px; display: block; margin: auto;">
+    <div class="indexheader2">L100</div>
+    <div style="padding: 1em 0;">
+        <img style="display: block; margin: 0px; width: 800px;" src="https://livehelp.solidstatelogic.com/Help/images/g_chanTypesL100.png" alt="">
+    </div>
+    <div class="indexheader2">L100 Plus</div>
+    <div style="padding: 1em 0;">
+        <img style="display: block; margin: 0px; width: 800px;" src="https://livehelp.solidstatelogic.com/Help/images/g_chanTypesL100Plus.png" alt="">
+    </div>
+    <div class="indexheader2">L200</div>
+    <div style="padding: 1em 0;">
+        <img style="display: block; margin: 0px; width: 800px;" src="https://livehelp.solidstatelogic.com/Help/images/g_chanTypesL200.png" alt="">
+    </div>
+    <div class="indexheader2">L200 Plus</div>
+    <div style="padding: 1em 0;">
+        <img style="display: block; margin: 0px; width: 800px;" src="https://livehelp.solidstatelogic.com/Help/images/g_chanTypesL200Plus.png" alt="">
+    </div>
+    <div class="indexheader2">L300</div>
+    <div style="padding: 1em 0;">
+        <img style="display: block; margin: 0px; width: 800px;" src="https://livehelp.solidstatelogic.com/Help/images/g_chanTypesL300.png" alt="">
+    </div>
+    <div class="indexheader2">L350</div>
+    <div style="padding: 1em 0;">
+        <img style="display: block; margin: 0px; width: 800px;" src="https://livehelp.solidstatelogic.com/Help/images/g_chanTypesL350.png" alt="">
+    </div>
+    <div class="indexheader2">L350 Plus</div>
+    <div style="padding: 1em 0;">
+        <img style="display: block; margin: 0px; width: 800px;" src="https://livehelp.solidstatelogic.com/Help/images/g_chanTypesL350Plus.png" alt="">
+    </div>
+    <div class="indexheader2">L450</div>
+    <div style="padding: 1em 0;">
+        <img style="display: block; margin: 0px; width: 800px;" src="https://livehelp.solidstatelogic.com/Help/images/g_chanTypesL450.png" alt="">
+    </div>
+    <div class="indexheader2">L500</div>
+    <div style="padding: 1em 0;">
+        <img style="display: block; margin: 0px; width: 800px;" src="https://livehelp.solidstatelogic.com/Help/images/g_chanTypesL500.png" alt="">
+    </div>
+    <div class="indexheader2">L500&nbsp;Plus</div>
+    <div style="padding: 1em 0;">
+        <img style="display: block; margin: 0px; width: 800px;" src="https://livehelp.solidstatelogic.com/Help/images/g_chanTypesL500Plus.png" alt="">
+    </div>
+    <div class="indexheader2">L550</div>
+    <div style="padding: 1em 0;">
+        <img style="display: block; margin: 0px; width: 800px;" src="https://livehelp.solidstatelogic.com/Help/images/g_chanTypesL550.png" alt="">
+    </div>
+    <div class="indexheader2">L550 Plus</div>
+    <div style="padding: 1em 0;">
+        <img style="display: block; margin: 0px; width: 800px;" src="https://livehelp.solidstatelogic.com/Help/images/g_chanTypesL550Plus.png" alt="">
+    </div>
+    <div class="indexheader2">L650</div>
+    <div style="padding: 1em 0;">
+        <img style="display: block; margin: 0px; width: 800px;" src="https://livehelp.solidstatelogic.com/Help/images/g_chanTypesL650.png" alt="">
+    </div>
+</div>
+
+<br>
+
+<p>下表概述不同路径类型之间的区别：</p>
+
+<p>
+    <table class="insideborder" style="margin-left: auto; margin-right: auto; width: 95%; display: block; margin: auto;" cellpadding="3" cellspacing="1">
+        <tbody>
+            <tr>
+                <th rowspan="2"></th>
+                <th rowspan="2">路径类型</th>
+                <th rowspan="2">来源类型</th>
+                <th rowspan="2">可变发送电平</th>
+                <th colspan="4">可路由到的输出类型</th>
+                <th rowspan="2">完整与干路径<br>处理</th>
+                <th rowspan="2">对讲注入</th>
+            </tr>
+            <tr>
+                <th>Stems</th>
+                <th>Auxes</th>
+                <th>Masters</th>
+                <th>矩阵、可路由目标和物理输出</th>
+            </tr>
+            <tr>
+                <th rowspan="4">资源池路径</th>
+                <td>通道</td>
+                <td>物理输入，<br>可路由来源*</td>
+                <td></td>
+                <td>Y</td>
+                <td>Y</td>
+                <td>Y</td>
+                <td>Y</td>
+                <td>Y</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>Stem</td>
+                <td>其他 Stem、通道</td>
+                <td>Y</td>
+                <td>Y</td>
+                <td>Y</td>
+                <td>Y</td>
+                <td>Y</td>
+                <td>Y</td>
+                <td>Y</td>
+            </tr>
+            <tr>
+                <td>Aux</td>
+                <td>通道、Stem</td>
+                <td>Y</td>
+                <td></td>
+                <td></td>
+                <td>Y</td>
+                <td>Y</td>
+                <td>Y</td>
+                <td>Y</td>
+            </tr>
+            <tr>
+                <td>Master</td>
+                <td>通道、Stem、Aux</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td>Y</td>
+                <td>Y</td>
+                <td>Y</td>
+            </tr>
+            <tr>
+                <th rowspan="3">附加路径</th>
+                <td>对讲</td>
+                <td>物理输入，<br>可路由来源*</td>
+                <td></td>
+                <td>Y</td>
+                <td>Y</td>
+                <td>Y</td>
+                <td>Y</td>
+                <td>完整</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>Solo</td>
+                <td>各种控制台信号</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td>Y</td>
+                <td>完整</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>矩阵</td>
+                <td>物理输入，<br>可路由来源*</td>
+                <td>Y</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td>Y</td>
+                <td>完整<br>（无动态处理）</td>
+                <td></td>
+            </tr>
+        </tbody>
+    </table>
+</p>
+
+<p>* 物理输入：舞台接口箱、本地 I/O 等。&emsp;可路由来源：路径输出、Effects Rack 等。</p>
+
+
+<h3 id="Stems">Stem 编组母线</h3>
+
+<p>Stem 路径用于效果发送、共享信号处理、并行处理、音频子编组等。</p>
+
+<p>由于拥有独立的源发送电平，它兼具传统音频编组母线<em>和</em>Aux 发送的功能，可视为功能最全面的音频母线。</p>
+
+<p>Stem 的优势在于灵活的发送、母线分配和路由。Stem 可发送到 Aux 和其他 Stem，可汇入 Master，也可路由到 Matrix 通道或直接输出。</p>
+
+<p>Stem 的馈送点明显多于 Aux，包括 Pre Fader、Post Trim、Post Insert A、Post Insert B、Post Fader 和 Post All。</p>
+
+<span class="note">
+    <span class="notetitle">提示：</span>每条路径中的处理模块顺序（EQ、Compressor、Gate 等）均可自由更改，包括两个 Insert 点。详情参阅<a href="https://livehelp.solidstatelogic.com/Help/ProcOrder.html"><span class="notehyperlink">处理顺序</span></a>。<br>结合 Stem 可充分利用此功能。例如，将同一人声话筒通道的压缩前和压缩后信号分别发送到歌手自己的 IEM 混音（通过 Stem 1）及其他表演者的混音（通过 Stem 2）。<br>
+    <img style="display: block; margin: 10px auto 0px;" src="https://livehelp.solidstatelogic.com/Help/images/g_StemFeedPointExample.png" alt="">
+</span>
+
+<p>Stem 与对应的 Channel 路径有以下区别：</p>
+
+<ul class="tab">
+    <li>可以从 Channel、Stem 和 Aux<em>发送到</em>Stem。</li>
+    <li>它没有外部输入路由对话框，因为信号通过母线送入，而不是通过路由送入。</li>
+    <li>Stem <span class="label">Query</span>会收集所有馈入它<span style="font-weight: bold;">以及</span>由它馈送的路径，而不只是它所馈送的路径。详情参阅<a href="https://livehelp.solidstatelogic.com/Help/Query.html"><span class="hyperlink">Query</span></a>。</li>
+</ul>
+
+<h4>使用 Stem 进行监听混音</h4>
+
+<p>Stem 可作为 Aux 输出前的中间母线来管理监听混音，例如：</p>
+
+<ol>
+    <li>为经常成组使用的通道创建 Stem，例如鼓、打击乐、铜管等。当艺人要求增减整组声音时，只需在其 Aux 混音中调整 Stem，而不必逐个调整通道。不同混音可采用不同 Stem；例如鼓手混音可继续使用各鼓通道，而和声歌手混音可使用预混的“鼓”Stem。</li>
+    <li>如果多位乐手共用一个 IEM 接收包，可将 Aux 路径视为接收包而非乐手混音。改在 Stem 上创建混音，并将相应 Stem 取消静音后送往该接收包。这样可建立混音库并动态切换到 Aux 混音，甚至可用自动化系统自动切换。</li>
+    <li>播放技术人员通常需要监听未经处理的干播放轨，因此不希望听到路径处理。可将播放通道通过<b>Post Trim</b>汇入 Stem，再与其他来源（喊话系统、对讲等）一起送入其 Aux 混音。</li>
+</ol>
+
+<h3>Aux 辅助母线</h3>
+
+<p>Aux 路径用于需要独立混音的输出，例如艺人监听、通信或超低音发送。它也可作为传统效果发送，但 Stem 往往更适合，因为 Stem 可直接路由到其他 Aux。</p>
+
+<p>Aux 路径与输入通道有以下区别：</p>
+
+<ul class="tab">
+    <li>只能从 Channel 和 Stem 向其发送；没有输入源路由对话框。</li>
+    <li>不能发送到 Stem 或其他 Aux，但可汇入 Master，或路由到输出或 Matrix。</li>
+    <li>Aux <span class="label">Query</span>会收集馈入它<span style="font-weight: bold;">以及</span>由它馈送的路径，而不只是由它馈送的路径。详情参阅<a href="https://livehelp.solidstatelogic.com/Help/Query.html"><span class="hyperlink">Query</span></a>。</li>
+</ul>
+
+<p>Aux 可从源路径（Channel 或 Stem）的 Pre Fader 或 Post All 处理点馈送。</p>
+
+
+<h3>Master 主母线</h3>
+
+<p>Master 路径是混音的最终母线。所有汇入 Master 的信号均为推子后信号。Master 输出通常路由到矩阵或直接路由到外部目标。</p>
+
+<p>Master 路径与对应 Channel 路径有以下区别：</p>
+
+<ul class="tab">
+    <li><p>只能从其他路径通过母线馈入；没有输入源路由对话框。</p></li>
+    <li><p>作为信号链最后一级，不能发送到 Stem、Aux 或其他 Master。</p></li>
+    <li><p>Master <span class="label">Query</span>只收集所有馈入它的路径。详情参阅<a href="https://livehelp.solidstatelogic.com/Help/Query.html"><span class="hyperlink">Query</span></a>。</p></li>
+</ul>
+
+
+<h3>VCA</h3>
+
+<p>VCA 可通过一条控制路径控制多条路径的输出及母线发送电平。其推子条与其他路径一样显示在操作面上。Channel View 条顶部仪表区域会改为显示该 VCA 所包含的全部路径，并按路径类型列出。<br>可使用路径的 Mute Safe 功能使其不受 VCA 静音控制，详见<a href="https://livehelp.solidstatelogic.com/Help/Mute.html"><span class="hyperlink">Mute</span></a>章节。<br><br>将路径分配给 VCA 与发送到母线非常相似，两项功能均在<a href="https://livehelp.solidstatelogic.com/Help/BusRouting.html"><span class="hyperlink">母线路由与 VCA</span></a>章节中说明。</p>
+
+<p>按下 VCA 的<span class="label">Solo</span>按钮会独奏该 VCA 控制的所有路径，效果等同于分别按下每条路径的<span class="label">Solo</span>按钮。</p>
+
+<span class="note"><span class="notetitle">注意：</span>移动 VCA 推子不会使所分配路径的推子移动，但这些路径上的推子增益标签会随 VCA 值变化。</span>
+
+
+<h2 id="ConsoleConfigPage">控制台配置页面</h2>
+
+<p>可在以下位置编辑每种路径类型的数量：<span class="label">MENU</span> > <span class="label">Setup</span>
+    > <span class="label">Console&nbsp;Configuration</span>。</p>
+
+<p>此处用于将可用数字信号处理资源分配给不同路径类型。可设置各种路径格式的准确顺序，也可设置 Aux 和 Stem 取源所用的路径馈送点；还可在此界面为路径命名。</p>
+
+<p>该<span class="label">Console Configuration</span>页面主体是一张表格，显示每种类型和格式的路径数量：</p>
+
+<img style="display: block; margin: 25px auto; width: 800px;" src="https://livehelp.solidstatelogic.com/Help/images/g_consoleconfig.png" alt="">
+
+<p>屏幕顶部资源条显示完整处理路径、干路径及各资源池路径类型的可用 DSP。控制台可在各自上限内任意组合这些路径，不会发生过载；达到上限时路径数量会变红，且无法继续创建。</p>
+
+<p>各路径类型的完整处理形式列在屏幕上部，干路径形式列在其下；VCA、OSC、Matrix 和 Solo 通道列在底部。</p>
+
+<span class="note"><span class="notetitle">注意：</span>VCA、OSC、Matrix 和 Solo 通道的可配置项较少。此界面中没有可配置的 Talkback 项，因此不会显示；矩阵将在本页后文介绍。</span>
+
+<p>输入通道、Aux、Stem 和 Master 可配置为单声道、立体声、LCR、4.0 或 5.1，各格式和类型数量按列显示。单声道使用一条 DSP 路径，立体声使用两条，LCR 使用三条，4.0 使用四条，5.1 使用六条。</p>
+
+<p>每行右侧各列显示该类型路径数量（每条格式化路径计为一条）、已用 DSP 路径总数及该类型可用 DSP 路径上限。</p>
+
+
+<h2>添加/删除路径</h2>
+
+<p>要更改配置，请点击页面右侧的<span class="label">Edit</span>按钮；页面可编辑时按钮会变蓝。</p>
+
+<p>所有可编辑数字都会显示在深色框中。</p>
+
+<p>双击数字，使用弹出的数字键盘修改，然后点击<span class="label">OK</span>。</p>
+
+<span class="note"><span class="notetitle">注意：</span>如果留空或输入非数字字符，框会显示红色边线；必须更正后才能继续。</span>
+
+<p>Stem、Aux 和 Master 可从处理路径内不同馈送点取源。每条母线可设默认馈送点，并可由各路径馈送点覆盖（详见<a href="https://livehelp.solidstatelogic.com/Help/BusRouting.html"><span class="hyperlink">母线路由</span></a>）。可选默认馈送点如下：</p>
+
+<ul>
+    <li>Stem：<span class="label">Post&nbsp;Trim</span>、<span class="label">Pre&nbsp;Fader</span>、<span class="label">Post&nbsp;Insert&nbsp;A</span>、<span class="label">Post&nbsp;Insert&nbsp;B</span>、<span class="label">Post&nbsp;Fader</span> 或 <span class="label">Post&nbsp;All</span> 处理点</li>
+    <li>Aux：<span class="label">Pre&nbsp;Fader</span> 或 <span class="label">Post&nbsp;All</span> 处理点（包括推子）</li>
+    <li>Master：<span class="label">Post&nbsp;Fader</span> 或 <span class="label">Post&nbsp;All</span> 处理点</li>
+</ul>
+
+
+<p>点击各类型 <span style="font-weight: bold;">View</span> 列中的<img style="margin: 0px;" src="https://livehelp.solidstatelogic.com/Help/images/g_ConfigArrowIconEDGE.png" alt="">箭头，可展开 Aux 和 Master 行，分别显示两个馈送点选项。展开后的数字可按常规方式编辑。再次点击 View 向下箭头可折叠该类型行。每条 Stem 的馈送点则显示在展开的列表视图中（见下文）。</p>
+
+<span class="note"><span class="notetitle">注意：</span>如果添加母线路径时未指定馈送点，Stem 和 Master 将创建为<span style="font-weight: bold;">Post All</span>，Aux 将创建为<span style="font-weight: bold;">Pre Fader</span>。</span>
+
+<p>路径编号按其通过单声道、立体声、LCR、4.0 和 5.1 数字框添加的顺序分配；也可逐条编辑和添加各类型路径。</p>
+
+<p>为此，请点击<img style="margin: 0px;" src="https://livehelp.solidstatelogic.com/Help/images/g_ConfigListIconEDGE.png" alt="">列表图标，它位于<span style="font-weight: bold;">View</span>列中。（Aux 和 Master 只有在展开视图中才显示此图标。）</p>
+
+<p>相关类型的每条路径会单独显示一行，绿灯表示当前格式。点击所需格式的指示器使其变绿。已更改路径会显示 &diams; 符号。</p>
+
+<p>每个展开列表底行还可按所选格式在列表末尾添加新路径。新路径会显示 &diams; 符号。</p>
+
+<p>按住<span class="label">Apply</span>按钮（右上角）应用更改。</p>
+
+<span class="note">
+    <span class="notetitle">请注意：</span>离开<span class="label">Console Configuration</span>页面，或未按<span class="label">Edit</span>就关闭<span class="label">Apply</span>，都会取消全部更改。</span>
+
+
+<h2>矩阵配置</h2>
+
+<p>SSL Live 有四个矩阵。它们可将可见交叉点缩减为最可能使用的部分，聚焦<i>完整矩阵</i>中相关区域，无需浏览大面积无用控制项。</p>
+
+
+<p>要配置四个矩阵，请点击显示区 Matrix 区域 <span style="font-weight: bold;">View</span> 列中的<img style="margin: 0px;" src="https://livehelp.solidstatelogic.com/Help/images/g_ConfigListIconEDGE.png" alt="">列表图标。</p>
+
+<p>矩阵输入和输出上限如下：</p>
+
+<p>每个矩阵最多可有 32 个输入，不受其他矩阵配置影响。</p>
+
+<p>四个矩阵合计最多有 36 个输出（因型号而异），可按任意方式分配。</p>
+
+<span class="note"><span class="notetitle">注意：</span>矩阵输出通道具有与完整处理路径相同的 Filters、EQ、Delay 和 All Pass 处理，但没有动态处理。</span>
+
+<p>更多矩阵配置说明见<a href="https://livehelp.solidstatelogic.com/Help/Matrix.html"><span class="hyperlink">矩阵页面</span></a>。</p>
+
+<p>按住<span class="label">Apply</span>按钮（右上角），使 Console Configuration 页面中的更改在控制台上生效。</p>
+
+
+<h2>删除、移动和复制路径</h2>
+
+<p>可在路径列表中删除、移动或复制单条路径。</p>
+
+<p>展开路径列表并启用<span class="label">Edit</span>后，点击相关路径<span style="font-weight: bold;">Edit</span>列中的灰色单选按钮；每条选中路径的按钮会变红，表示正在编辑。</p>
+
+<span class="note"><span class="notetitle">注意：</span>可同时标记多条路径进行编辑。</span>
+
+<ul>
+    <li>要删除路径，请按住<span class="label">Delete</span>按钮。</li>
+    <li>要移动路径，点击<span class="label">Move</span>，再点击希望移动路径出现在其后的路径。</li>
+    <li>要复制路径，点击<span class="label">Copy</span>，再点击希望副本出现在其后的路径。<br>复制路径的名称由短横线组成；双击名称字段可重命名。<br>启用<span class="label">Apply</span>功能后会刷新路径 ID 列。<br>如果可用处理资源不足以创建所选数量的副本，<span class="label">Copy</span>按钮会禁用。<br>
+    </li>
+</ul>
+
+<span class="note"><span class="notetitle">注意：</span>这些操作会作用于最近选择的路径类型区域中所有选为 Edit 的路径，无论该区域是否展开，也无论操作时路径是否可见。</span>
+
+<p>按住右上角的 <span class="label">Apply</span> 按钮，使 Console Configuration 页面中的更改在控制台上生效。</p>
+
+
+<h2>编辑路径名称</h2>
+
+<p>展开路径列表并启用<span class="label">Edit</span>后，双击名称文字打开屏幕键盘。输入新名称并点击<span class="label">OK</span>确认。</p>
+
+<p>使用键盘中的<span class="label">Next</span>和<span class="label">Previous</span>按钮（USB 键盘分别为 Tab 和 Shift+Tab）在路径列表中导航。</p>
+
+<p>再次点击列表图标可将路径折叠回路径类型行。</p>
+
+<p>按住右上角的 <span class="label">Apply</span> 按钮，使 Console Configuration 页面中的更改在控制台上生效。</p>
+
+
+<h2 id="ImportExport">导入/导出通道名称</h2>
+
+<p>SSL Live 控制台可从 CSV 文件导入输入通道名称，也可导出到 CSV 文件。</p>
+
+<p>点击页面左上角的<span class="label">Import/Export</span>，打开类似 Showfiles 和 Presets 页面的文件管理窗口。</p>
+
+<p><span class="label">Copy</span>、<span class="label">Move</span>、<span class="label">Delete</span>、<span class="label">Rename</span> 和 <span class="label">Read Only</span> 功能的使用方式与 <span class="label">Showfiles</span> 和 <span class="label">Presets</span> 页面相同。</p>
+
+<img style="display: block; margin: 25px auto; width: 500px;" src="https://livehelp.solidstatelogic.com/Help/images/g_ImportExport.png" alt="">
+
+<img style="display: block; margin: 25px auto;" src="https://livehelp.solidstatelogic.com/Help/images/g_ImportPreview.png" align="right" alt="">
+
+<h3>导入</h3>
+
+<p>要导入通道名称，必须将通道列表电子表格保存为 <span style="font-weight:bold;">CSV 文件</span>。主流电子表格应用均可另存为 .CSV。将 CSV 保存到 USB 驱动器并接入控制台或运行 SOLSA 的 PC；导入前无需复制到控制台内部硬盘。</p>
+
+<p>在文件列表中选择 CSV 文件。下方会显示其中行列的可视化预览。使用绿色指示器标记要导入的行和列。</p>
+
+<p>然后选择<span style="font-weight:bold;">Import Mode</span>。选择<span class="label">Add to End</span>会将新通道添加到现有通道列表末尾；选择<span class="label">Overwrite</span>会删除全部现有通道名称并替换为新名称。其他通道设置保持不变，<span class="label">Overwrite</span>仅替换名称。</p>
+
+<p>然后点击<span class="label">Import</span>。</p>
+
+<p>关闭页面左上角的<span class="label">Import/Export</span>，返回<span class="label">Console Configuration</span>页面。新输入通道名称会列在 Channel 列表中。</p>
+
+<p>按住<span class="label">APPLY</span>应用更改。</p>
+
+<h3>格式化通道</h3>
+
+<p>导入工具可自动将输入通道格式化为 Stereo、LCR、4.0 和 5.1。</p>
+
+<p>例如，如果控制台将<span style="font-weight:bold;">KEYS L</span>和<span style="font-weight:bold;">KEYS R</span>识别为两个相邻通道，就会创建一个立体声<span style="font-weight:bold;">KEYS</span>通道。</p>
+
+<p>要自动格式化通道，请先启用 <span class="label">Format Channels</span>，再点击 <span class="label">Import</span>。</p>
+
+<p>对于 Stereo，相邻两个通道名称末尾必须分别为大写<span style="font-weight:bold;">L</span>和<span style="font-weight:bold;">R</span>，其余文字必须相同。导入机制也能识别 L 或 R 前的连字符（<span style="font-weight:bold;">-</span>）或下划线（<span style="font-weight:bold;">_</span>）。</p>
+
+<p style="margin-bottom:0px;">LCR、4.0 和 5.1 也适用，结尾须按以下正确顺序排列。</p>
+<ul class="tab" style="margin-top:0px;">
+    <li><span style="font-weight:bold;">LCR:</span> L, C, R</li>
+    <li><span style="font-weight:bold;">4.0:</span> L, R, LS, RS</li>
+    <li><span style="font-weight:bold;">5.1:</span> L, C, R, LS, RS, LFE</li>
+</ul>
+
+<img style="display: block; margin: 25px auto;" src="https://livehelp.solidstatelogic.com/Help/images/g_Imported.png" alt="">
+
+
+<h3>导出</h3>
+
+<p>要导出通道名称列表，先选择目标驱动器，然后点击 <span class="label">Export</span> 并命名文件。</p>
+
+<p>控制台以 CSV 文件导出通道名称列表，其中包含通道 ID、通道名称以及 Input A 和 B 路由。</p>
+
+
+<h2 id="Numbering">输入通道编号</h2>
+
+<p>输入通道有两种编号模式：<span class="label">Default</span> 和 <span class="label">Auto-Renumber</span>。</p>
+
+<p>
+    <span class="label">Default</span>表示通道 ID 编号<span style="font-weight:bold;">连续</span>，不受通道格式影响。创建多通道格式后，舞台接口箱跳线编号可能与控制台通道 ID 不一致。</p>
+
+<p>以下是<span class="label">Default</span>模式示例：</p>
+
+<img style="display: block; margin: 25px auto;" src="https://livehelp.solidstatelogic.com/Help/images/g_DefaultNumbering.png" alt="">
+<br>
+<br>
+<p><span class="label">Auto-Renumber</span>恢复输入跳线编号与输入通道 ID 的顺序，使编号<span style="font-weight:bold;">一致</span>。</p>
+
+<p>以下是<span class="label">Auto-Renumber</span>模式示例：</p>
+
+<img style="display: block; margin: 25px auto;" src="https://livehelp.solidstatelogic.com/Help/images/g_AutoRenumber.png" alt="">
+
+<p>要更改编号模式，请进入页面顶部的<span style="font-weight:bold;">Number Channels by:</span>区域，从下拉菜单选择<span class="label">Default</span>或<span class="label">Auto-Renumber</span>。按住<span class="label">APPLY</span>应用更改。</p>
+
+
+<h2 id="ModelCompatibility">兼容模式</h2>
+
+<p><span style="font-weight:bold;">演出文件在整个 SSL Live 控制台系列内交叉兼容</span>，无需额外软件或转换。</p>
+<p>在大型控制台上创建的演出文件可加载到较小型号。如果资源不足，系统会自动进入<span style="font-weight:bold;">Compatibility Mode</span>。</p>
+
+<p>控制台会尽可能创建演出文件中的路径；超出型号容量的剩余路径将被<i>禁用</i>。禁用路径不传递音频，但仍保存在演出文件中，并可调整推子和路径处理。Channel View 中显示如下：</p>
+
+<img style="display: block; margin: 25px auto;" src="https://livehelp.solidstatelogic.com/Help/images/g_CompatibilityChanView.png" alt="">
+
+<p>在<span class="label">Console Configuration</span>中也可这样识别：</p>
+
+<img style="display: block; margin: 25px auto;" src="https://livehelp.solidstatelogic.com/Help/images/g_CompatibilityConfig.png" alt="">
+<br>
+<p>Compatibility Mode 也会影响 Effects Rack 单元。禁用单元显示如下：<img style="display: block; margin: 25px auto;" src="https://livehelp.solidstatelogic.com/Help/images/g_CompatibilityFX.png" alt="">
+
+<p>也可通过<span class="label">Compatibility&nbsp;Mode</span>中的<a href="https://livehelp.solidstatelogic.com/Help/OptionsSystem.html#SystemOptions"><span class="hyperlink">System Options</span></a>按钮手动启用兼容模式。可在处理能力较小的控制台上创建最终用于大型控制台的演出文件。状态栏出现<img src="https://livehelp.solidstatelogic.com/Help/images/g_CompatibilityGreen.png" alt="green Compatibility">图标表示<span style="font-weight:bold;">Compatibility Mode</span>已启用，但当前没有处理资源被禁用。</p>
+
+<p>要创建超过当前型号容量的路径，必须先选择一些现有路径进行<i>禁用</i>。进入<span class="label">Console Configuration</span>，启用<span class="label">Edit</span>并点击右侧的<span class="label">Compatibility</span>按钮。表格中的 Edit 列会变为<span style="font-weight:bold;">Enabled</span>。展开所需路径类型，点击各路径<span style="font-weight: bold;">Enabled</span>列中的按钮。绿色表示启用，灰色空按钮表示禁用。按住<span class="label">Apply</span>确认。现在可创建更多<i>已启用</i>路径。</p>
+
+<p>要禁用效果，请进入 Effect Rack 页面（<span class="label">Menu</span> > <span class="label">Effects</span>），选择要禁用的效果模块并按住其<span class="label">Enabled</span>按钮。</p>
+
+<p>禁用路径或效果后，<span class="label">Compatibility&nbsp;Mode</span>按钮会变红，状态栏显示<img src="https://livehelp.solidstatelogic.com/Help/images/g_CompatibilityRed.png" alt="red Compatibility">图标。<span style="font-weight:bold;">Compatibility Mode</span>允许创建相当于 L550 控制台容量的路径和效果。</p>
+
+<p>只有在全部禁用路径和 FX 均已重新启用或删除后，才能关闭 Compatibility Mode。完成上述操作后，请在<a href="https://livehelp.solidstatelogic.com/Help/OptionsSystem.html#SystemOptions"><span class="hyperlink">系统选项</span></a>中关闭 <span class="label">Compatibility&nbsp;Mode</span> 按钮。</p>
+
+<p>演出文件中的禁用路径或效果下次在处理能力足够的控制台型号上加载时，会自动重新启用。</p>
+
+
+
+<h2>实用链接</h2>
+
+<p><a href="https://livehelp.solidstatelogic.com/Help/ControlSurface.html"><span class="hyperlink">控制台操作面</span></a></p>
+
+<p><a href="https://livehelp.solidstatelogic.com/Help/LinkIndex.html"><span class="hyperlink">索引和术语表</span></a></p>
+</body>
+</html>

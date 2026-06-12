@@ -1,0 +1,161 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Stageboxes</title>
+  <style>
+    body { font: 16px/1.55 Arial, sans-serif; max-width: 1080px; margin: 2rem auto; padding: 0 1.25rem; color: #202124; }
+    img { max-width: 100%; height: auto; }
+    table { border-collapse: collapse; max-width: 100%; }
+    th, td { border: 1px solid #aaa; padding: .45rem; vertical-align: top; }
+    .note { display: block; border-left: 4px solid #e0a000; background: #fff8df; padding: .75rem 1rem; margin: 1rem 0; }
+    .notetitle { font-weight: bold; }
+    .label { font-weight: bold; color: #174ea6; }
+    .source { color: #666; font-size: .9rem; }
+  </style>
+</head>
+<body>
+  <p class="source">Section: Introduction | Source: <a href="https://livehelp.solidstatelogic.com/Help/RemoteIO.html">https://livehelp.solidstatelogic.com/Help/RemoteIO.html</a></p>
+<h2>Stageboxes</h2>
+
+<p>
+    A range of stageboxes is available for use with SSL Live consoles over either MADI or Dante.
+    Once the stageboxes have been configured on the console, the workflow for controlling the mic gain and other parameters is the same for both MADI and Dante stageboxes.
+</p>
+
+<p>All SSL Stageboxes feature dual redundant power supplies.</p>
+
+<br>
+
+<h2>MADI Stageboxes</h2>
+
+<p>MADI Stageboxes connect to SSL Live consoles via BNC, or via a BLII-MADI Concentrator (see below).</p>
+<p>Up to 3 SSL Live consoles can share stageboxes with gain compensation being applied to the two slave consoles. See the <a href="https://livehelp.solidstatelogic.com/Help/Routing.html#GainSharing"><span class="hyperlink">Gain Sharing</span></a> section for further details.</p>
+
+<h3>ML 32.32</h3>
+
+<img style="display: block; margin: auto;" src="https://livehelp.solidstatelogic.com/Help/images/StageboxML.png" alt="">
+
+<p>
+    The 5U <span style="font-weight:bold;">ML 32.32</span> analogue stagebox is fitted with <span style="font-weight:bold;">32 remote controlled SSL SuperAnalogue<sup>TM</sup> mic/line inputs</span>
+    and <span style="font-weight:bold;">32 line outputs</span> on the front panel.
+</p>
+
+<p>A/D D/A conversion takes place within the stagebox and the standard unit has two pairs of coaxial MADI In/Out configured as a redundant pair on the rear panel.</p>
+
+<p>There is also an optional rear-mounting panel for <span style="font-weight:bold;">32 split analogue mic outputs</span>, which are derived before the active electronics of the mic/line amps (but after phantom power injection).</p>
+
+<p>There are sample rate and clock setup buttons and a pair of dedicated wordclock connections. MIDI and GPIO connections are also supplied for alternative remote control methods.</p>
+
+
+<p>Alternative options are available loaded with only 32 front panel input connections or 32 output connections.</p>
+
+<h3>D 32.32</h3>
+<img style="display: block; margin: auto;" src="https://livehelp.solidstatelogic.com/Help/images/StageboxD.png" alt="">
+<p>The <span style="font-weight:bold;">D 32.32</span> is a 2U digital stagebox providing <span style="font-weight:bold;">16 x AES/EBU pairs</span> of front panel XLR connectors. Sample rate conversion is available for all AES/EBU connections.</p>
+<p>The D 32.32 rear panel features exactly the same connectivity as the analogue stagebox with redundant coaxial MADI I/O, MADI output to a second console, setup controls and remote control connectivity.</p>
+
+<h3>BLII-MADI Concentrator</h3>
+<img style="display: block; margin: auto;" src="https://livehelp.solidstatelogic.com/Help/images/StageboxBLM.png" alt="">
+<p>This 2U unit is used for efficient cable connection between MADI stageboxes and an SSL Live console.</p>
+<p>
+    The <span style="font-weight:bold;">BLII-MADI Concentrator</span> features <span style="font-weight:bold;">a redundant pair of SSL's proprietary Blacklight II</span> connectors on the front panel
+    and each connection carries <span style="font-weight:bold;">256 channels of audio at 96 kHz</span>.
+</p>
+
+<p>The rear panel of the unit provides <span style="font-weight:bold;">8 redundant pairs of coaxial MADI</span> connectors.</p>
+
+
+<h2 id="NetIO">Network I/O (Dante) Stageboxes</h2>
+<p>SSL's Network I/O stageboxes connect to SSL Live consoles using a Dante network. All Network I/O units support the AES67 and SMPTE 2110-30 AoIP network transport standards.</p>
+
+<p>Gain compensation is performed within the stageboxes themselves, meaning any Dante device can receive gain compensated signals, it does not have to be an SSL device. See the <a href="https://livehelp.solidstatelogic.com/Help/DanteNetIO.html#GainShare"><span class="hyperlink">Gain Sharing</span></a> section for further details.</p>
+
+<h3>SB&nbsp;32.24</h3>
+
+<img style="display: block; margin: auto;" src="https://livehelp.solidstatelogic.com/Help/images/StageboxSB3224.png" alt="">
+
+<p>
+    The <span style="font-weight:bold;">SB&nbsp;32.24</span> is a 5U stagebox featuring <span style="font-weight:bold;">32 mic/line inputs</span>, <span style="font-weight:bold;">16 analogue line outputs</span>
+    and 8 digital inputs and outputs on <span style="font-weight:bold;">4 AES/EBU input/output pairs</span>.
+</p>
+
+<p>
+    It has a pair of redundant RJ45 Dante network connections (Network A), for connection to the main Dante network.
+    In addition, a pair of redundant user-configurable SFP ports (Network B), that can be fitted with RJ45 or fibre connectors, provide gain-compensated split outputs.
+    These SFP ports can be used in <i>linked</i> mode to make both main (uncompensated) and compensated channels available on a single network, or in <i>unlinked</i> mode to keep the gain compensated signal on a separate network.
+    A sample rate converter (SRC) on the Network B interface can be enabled to operate Network B at a different sample rate or clock domain to the main Dante interface.
+</p>
+
+
+<h3>SB&nbsp;16.12</h3>
+
+<img style="display: block; margin: auto;" src="https://livehelp.solidstatelogic.com/Help/images/StageboxSB1612.png" alt="">
+
+<p>
+    The <span style="font-weight:bold;">SB&nbsp;16.12</span> is a 3U stagebox featuring <span style="font-weight:bold;">16 mic/line inputs</span>, <span style="font-weight:bold;">8 analogue line outputs</span>
+    and 4 digital inputs and outputs on <span style="font-weight:bold;">2 AES/EBU input/output pairs</span>.
+</p>
+
+<p>Its other features are identical to the SB&nbsp;32.24 above.</p>
+
+
+<h3>SB&nbsp;8.8 &amp; i16</h3>
+
+<img style="display: block; margin: auto;" src="https://livehelp.solidstatelogic.com/Help/images/StageboxSB88.png" alt="">
+<img style="display: block; margin: auto;" src="https://livehelp.solidstatelogic.com/Help/images/StageboxSBi16.png" alt="">
+
+<p>
+    These 2RU units offer slightly different configurations but share identical features. The <span style="font-weight:bold;">SB&nbsp;8.8</span> offers <span style="font-weight:bold;">8 mic/line inputs</span>
+    and <span style="font-weight:bold;">8 line level outputs</span>. The <span style="font-weight:bold;">SB&nbsp;i16</span> offers <span style="font-weight:bold;">16 mic/ line inputs</span>.
+</p>
+<p>Both models feature a pair of redundant RJ45 Dante network connections, a pair of network extension connections and GPIO connectivity.</p>
+<p>The SB&nbsp;8.8 &amp; i16 feature <span style="font-weight:bold;">inbuilt limiters</span> and SSL's innovative <span style="font-weight:bold;">AutoPad</span> system that automatically applies a Pad according to gain setting.</p>
+
+<p>The AutoPad is applied if the gain is set at a low value that would require a pad to achieve making the entire possible mic gain range seamlessly available at all times.</p>
+
+<p>An <span style="font-weight:bold;">Audition</span> feature allows individual channels to be monitored over the network (using an SSL console or App) without the signal actually being routed to a network destination.</p>
+
+
+<h3>X-Light Bridge</h3>
+<img style="display: block; margin: auto; width: 500px;" src="https://livehelp.solidstatelogic.com/Help/images/g_XLightBridgeFront.png" alt="">
+
+<p>
+    The <span style="font-weight:bold;">Network I/O X-Light Bridge</span> is a 1U unit that provides a bi-directional bridge between SSL Live consoles and a <span style="font-weight:bold;">Dante</span> network of stageboxes.
+    The X-Light Bridge delivers <span style="font-weight:bold;">256 channels of ultra low latency 96 kHz audio in and out of a Dante network</span>.
+    It features ruggedised connections and is intended for touring use.
+</p>
+<p>Since SSL Live consoles' Local I/O is limited to 32 x 32 Dante I/O at 96 kHz (64 x 64 at 48 kHz), the X-Light Bridge can be used to expand the console's Dante I/O capability by a further to 256 x 256 channels.</p>
+
+
+<h3>BLII Bridge</h3>
+<img style="display: block; margin: auto;" src="https://livehelp.solidstatelogic.com/Help/images/StageboxBLD.png" alt="">
+
+<p>
+    The <span style="font-weight:bold;">Network I/O BLII Bridge</span> is a 1U unit that provides a bi-directional bridge between SSL Live consoles and a <span style="font-weight:bold;">Dante</span> network of stageboxes.
+    The BLII Bridge delivers <span style="font-weight:bold;">256 channels of ultra low latency 96 kHz audio in and out of a Dante network</span>.
+    It features non-ruggedised connections and is intended for install use.
+</p>
+<p>Since SSL Live consoles' Local I/O is limited to 32 x 32 Dante I/O at 96 kHz (64 x 64 at 48 kHz), the BLII Bridge can be used to expand the console's Dante I/O capability by a further to 256 x 256 channels.</p>
+
+<h2 id="DanteStageboxes">Other Dante Stageboxes</h2>
+
+These stageboxes do not carry the full feature set of the Network I/O range, but still connect to SSL Live consoles in the same way.
+
+<h3 id="MPL168">MPL 16-8</h3>
+
+<p>
+    The MPL 16-8 is a 2U stagebox featuring 16 mic/line inputs and 8 analogue line outputs.</p>
+<p>It has a pair of redundant RJ45 Dante network connections, and supports the AES67 transport standard.</p>
+
+<p>The MPL 16-8 does not feature input ownership, PSU redundancy or ST 2110.</p>
+
+<h2>Useful Links</h2>
+<p><a href="https://livehelp.solidstatelogic.com/Help/Clocking.html"><span class="hyperlink">Clocking (including system connection examples)</span></a></p>
+<p><a href="https://livehelp.solidstatelogic.com/Help/LocalIO.html"><span class="hyperlink">Local I/O</span></a></p>
+<p><a href="https://livehelp.solidstatelogic.com/Help/LocalMADIConfig.html"><span class="hyperlink">Local & MADI I/O Config</span></a></p>
+<p><a href="https://livehelp.solidstatelogic.com/Help/DanteSetup.html"><span class="hyperlink">Dante Config</span></a></p>
+<p><a href="https://livehelp.solidstatelogic.com/Help/DanteNetIO.html"><span class="hyperlink">Network I/O Stageboxes</span></a></p>
+</body>
+</html>

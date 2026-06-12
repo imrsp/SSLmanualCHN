@@ -1,0 +1,127 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>System Menu</title>
+  <style>
+    body { font: 16px/1.55 Arial, sans-serif; max-width: 1080px; margin: 2rem auto; padding: 0 1.25rem; color: #202124; }
+    img { max-width: 100%; height: auto; }
+    table { border-collapse: collapse; max-width: 100%; }
+    th, td { border: 1px solid #aaa; padding: .45rem; vertical-align: top; }
+    .note { display: block; border-left: 4px solid #e0a000; background: #fff8df; padding: .75rem 1rem; margin: 1rem 0; }
+    .notetitle { font-weight: bold; }
+    .label { font-weight: bold; color: #174ea6; }
+    .source { color: #666; font-size: .9rem; }
+  </style>
+</head>
+<body>
+  <p class="source">Section: Settings &amp; Extras | Source: <a href="https://livehelp.solidstatelogic.com/Help/System.html">https://livehelp.solidstatelogic.com/Help/System.html</a></p>
+
+
+<h2>System Settings</h2>
+
+<p>
+    To access system level functions go to the <span class="label">MENU</span> &gt; <span class="label">Setup</span> &gt; <span class="label">System&nbsp;/&nbsp;Power</span> page (labelled <span class="label">System</span> in SOLSA). These settings are saved on the console (not in the user showfile).
+    Most settings are located in the  <span class="label">System</span> tab of this page. For licensed feature, please see the Licensing section <a href="https://livehelp.solidstatelogic.com/Help/System.html#Licensing"><span class="hyperlink">below</span></a>.
+</p>
+
+<h2 id="OperatingLevel">Operating Level</h2>
+<p>Double-tap the value to alter the analogue line operating level between +12 to +24&nbsp;dBu. +24&nbsp;dBu is the default setting.</p>
+
+<p>This setting determines the dBu level that equates to 0&nbsp;dBFS in the console (all console metering is referenced to 0&nbsp;dBFS).</p>
+
+<p>For example, using the Operating Level of 24&nbsp;dBu, a 20&nbsp;dBu input signal will meter at -4&nbsp;dBFS. Similarly, outputting a -6&nbsp;dBFS signal will equate to a +18&nbsp;dBu signal on the analogue outputs.</p>
+
+<span class="note">
+    <span class="notetitle">Note:</span> The MADI stagebox and local I/O outputs can be trimmed relative to the operating level on a per-device basis.
+    This can be done by selecting the relevant stagebox or Local I/O card in the I/O Setup page and using the Output Trim slider.
+    Please see the <a href="https://livehelp.solidstatelogic.com/Help/LocalMADIConfig.html"><span class="notehyperlink">Local &amp; MADI I/O Config</span></a> section for further details.<br />
+    The operating level of SSL Network I/O Dante stageboxes can also be configured on a per-device basis.
+    Please see the <a href="https://livehelp.solidstatelogic.com/Help/DanteNetIO.html"><span class="notehyperlink">Network I/O Devices</span></a> section for further details.
+</span>
+
+
+<h2>Sample Rate</h2>
+<p>The system can operate at 96 kHz (recommended) or 48 kHz sample rates. Press &amp; hold the relevant button to change the sample rate of the console.</p>
+
+<span class="note"><span class="notetitle">Important Note: </span>Changing the sample rate of the console will cause changes to the I/O configuration and any existing routing may therefore be lost. The sample rate should therefore be set <span style="font-weight: bold;">before</span> configuring other elements of the console.</span>
+
+<p>Each stagebox must be configured to run at the same sample rate as the console. Please refer to the <a href="https://livehelp.solidstatelogic.com/Help/Clocking.html"><span class="hyperlink">Clocking</span></a> section for further information.</p>
+<span class="note"><span class="notetitle">Important:</span><br>The console <span style="font-weight:bold;">MUST</span> be power cycled following a change in Sample Rate.</span>
+
+
+<h2 id="Name">Console Name</h2>
+
+<img style="display: block; margin: 10px auto; padding-left: 10px;" src="https://livehelp.solidstatelogic.com/Help/images/g_ConsoleName.png" align="right" alt="">
+
+<p>The <span style="font-weight:bold;">Console Name</span> can be edited here. This is the name referenced when connecting to the console from a remote surface (SOLSA, TaCo or another console in remote mode).</p>
+
+<p>
+    The <span style="font-weight:bold;">Control ID</span> (visible in <span style="font-weight:bold;">MENU</span> > <span class="label">Setup</span> > <span class="label">Options</span> > <span class="label">NETWORK</span> tab)
+    is used to determine the name of the console when owning Net I/O device parameters. But the <span style="font-weight:bold;">Control ID</span> is also taken from the <span style="font-weight:bold;">Console Name</span>.
+</p>
+<p>Double tap on the name field to edit the console name, then press and hold <span class="label">Apply</span>. </p>
+<span class="note">
+    <span class="notetitle">Please Note:</span><br>Changing the console name will cause the console to power off and all Ownership of Net I/O device parameters will be lost.
+    This means any previously owned inputs (or other settings) will need to be manually re-owned before control will be re-established.
+    For instructions on owning inputs and stagebox settings please see <a href="https://livehelp.solidstatelogic.com/Help/DanteNetIO.html#Ownership"><span class="notehyperlink">Controlling Net I/O Stageboxes and Ownership</span></a>.
+</span>
+
+
+<h2>Hardware Config</h2>
+
+<p>The <span class="label">Rebuild Hardware Configuration</span> button is used to configure the console for use with Remote Tiles.</p>
+<p>For more information on setting up Remote Tiles please see <a href="https://livehelp.solidstatelogic.com/Help/RemoteTile.html"><span class="hyperlink">Setup: Remote Tile</span></a>.</p>
+
+
+<h2>Surface</h2>
+<p>These elements of the console can be restarted without affecting audio. Only use if the element is unresponsive or if instructed to do so by SSL.</p>
+<span class="note">Please note refreshing the Front Panel takes approximately two minutes, during which time there is no user control.</span>
+
+<h3>Fader Calibration</h3>
+<p>
+    If the fader position falls out of alignment from the values displayed, pressing &amp; holding <span class="label">Calibrate&nbsp;Faders</span> in <span style="font-weight: bold;">Surface</span> will recalibrate the faders.
+    Audio will continue to pass but faders will be disconnected from audio control during this process, which takes approximately 30 seconds.
+</p>
+
+
+<h2>Data Backup</h2>
+<p>Should you encounter a technical problem, SSL may request the console log files for analysis. If logs are requested, insert a USB drive (formatted at FAT32 or NTFS) into the console and press the <span class="label">Data&nbsp;Backup</span> button to save the log files and backup showfile to a timestamped folder under a 'SSL\Live\DataBackup' subfolder on the USB drive.</p>
+
+
+<h2>Admin Access</h2>
+<p>For SSL real time remote support. Press &amp; hold the <span class="label">Admin&nbsp;Access</span> button to retrieve the response code when requested by SSL.</p>
+
+
+<span class="note"><span class="notetitle">Note: </span>We strongly recommend you do not operate any other buttons in the System page without specific instructions from SSL.</span>
+
+
+<h2 id="Licensing">Licensed Features</h2>
+
+<p>Some features on the console are licensed. Please contact SSL for details. The <span class="label">Licensing</span> tab allows these licenses to be managed.</p>
+
+<p>When requested to do so by SSL, insert a USB stick (formatted as FAT32 or NTFS) and use the <span class="label">Export&nbsp;Console&nbsp;ID</span> button to copy the Console's unique ID to the USB stick.</p>
+
+<p>Send the Console ID file to SSL.</p>
+
+<p>Copy the licence file(s) received from SSL to a USB stick (formatted as FAT32 or NTFS) and use the <span class="label">Import&nbsp;Licences</span> button to copy the licence(s) from the USB stick to the console.</p>
+
+<p>Imported licences will be shown in the list. If a licence does not match the Console ID it will not be imported.</p>
+
+<img style="display: block; margin: 5px auto; width: 790px;" src="https://livehelp.solidstatelogic.com/Help/images/g_SystemLicensing.png" alt="">
+
+<p>If the console's system time and date fall outside that of the licence start and expiry dates, the licence will show as inactive and the feature will not be available.</p>
+
+<p>If the console hardware changes, the console ID will change and licenses will show as invalid (i.e. licensed features will not be available). Please contact SSL Support in this instance.</p>
+
+
+
+<h2>Useful Links</h2>
+<a href="https://livehelp.solidstatelogic.com/Help/OptionsSystem.html"><span class="hyperlink">System Options</span></a>
+<br>
+
+<a href="https://livehelp.solidstatelogic.com/Help/LinkIndex.html"><span class="hyperlink">Index and Glossary</span></a>
+<br>
+</body>
+</html>

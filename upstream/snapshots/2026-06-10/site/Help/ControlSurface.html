@@ -1,0 +1,326 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html ng-app="sslLiveHelp">
+<head>
+    <meta content="text/html; charset=ISO-8859-1" http-equiv="content-type">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=yes">
+
+    <link href="../Help/style/style.css" rel="stylesheet">
+    <link href="../Help/style/jquery-ui-1.13.2.structure.css" rel="stylesheet">
+    <title>Control Surface</title>
+    <script src="../Help/js/jquery-3.6.0.min.js"></script>
+    <script src="../Help/js/jquery-ui/1.13.2/jquery-ui.min.js"></script>
+    <!--<script type="text/javascript" src="cordova.js"></script>-->
+    <!-- Nav / search panels 2017 updates -->
+    <script>
+    window.baseDir = '../';
+    window.data = 'null';
+    </script>
+    <link rel="stylesheet" type="text/css" href="../Help/fonts/font-awesome-4.7.0/css/font-awesome.min.css" />
+    <link rel="stylesheet" type="text/css" href="../Help/style/sass-styles.css">
+    <script src="../Help/js/fastclick.js"></script>
+    <script src="../Help/js/lodash.core.min.js"></script>
+    <!--<script src="../Help/js/angular/1.2/angular.min.js"></script>-->  <!-- On a console -->
+    <script src="../Help/js/angular/1.8/angular.min.js"></script>   <!--Not on a console -->
+    <script src="../Help/js/ngStorage.min.js"></script>
+    <!--<script src="../Help/js/angular/1.2/angular-sanitize.min.js"></script>-->  <!-- On a console -->
+    <!--<script src="../Help/js/angular/1.2/angular-animate.min.js"></script>-->   <!-- On a console -->
+    <script src="../Help/js/angular/1.8/angular-sanitize.min.js"></script>  <!--Not on a console -->
+    <script src="../Help/js/angular/1.8/angular-animate.min.js"></script>   <!--Not on a console -->
+    <script src="../Help/js/lunr-2.3.min.js"></script>
+    <script src="../Help/js/menu.js"></script>
+
+</head>
+
+<body ng-controller="NavController as vm">
+
+    <!--<nav class="nav" ng-class="{ 'nav--visible' : vm.visible }" ng-if="vm.visible" role="navigation" aria-label="Primary">-->  <!-- On a console --> 
+    <nav class="nav" ng-class="{ 'nav--visible' : vm.visible }" role="navigation" aria-label="Primary"> <!--Not on a console -->
+        <!-- Search form -->
+        <div role="search">
+            <form class="nav__search" ng-if="vm.isSearchSupported">
+                <label class="nav__search-icon" for="query"><i aria-label="Search" title="Search" class="fa fa-search"></i></label>
+                <input type="search" id="query" class="nav__search-input" placeholder="Search..." ng-model="vm.query" />
+            </form>
+        </div>
+
+        <div class="nav__scroll" ng-style="vm.styleBasedOnSearchSupported">
+
+            <!-- Main nav -->
+            <ul class="main-nav" ng-hide="vm.query">
+                <li class="main-nav__item" ng-repeat="item in vm.nav">
+
+                    <!-- Link to page -->
+                    <a ng-if="item.url" ng-class="{'main-nav__link--active' : item.url===vm.currentPage}" class="main-nav__link" ng-attr-href="{{ vm.baseDir }}{{ item.url }}">
+                        {{ item.title }}
+                    </a>
+
+                    <!-- Expandable heading -->
+                    <span ng-click="vm.toggleExpanded(item.title)" ng-if="!item.url" class="main-nav__title">
+                        {{ item.title }}
+                        <span ng-if="!vm.isExpanded(item.title)" class="fa fa-caret-right"></span>
+                        <span ng-if="vm.isExpanded(item.title)" class="fa fa-caret-down"></span>
+                    </span>
+
+                    <!-- Subnav -->
+                    <ul ng-if="vm.isExpanded(item.title)" class="main-nav fx-fade">
+                        <li ng-repeat="sub in item.children" class="main-nav__item">
+
+                            <!-- Link to page -->
+                            <a ng-if="sub.url" ng-class="{'main-nav__link--active' : sub.url===vm.currentPage}" class="main-nav__link main-nav__link--level1" ng-attr-href="{{ vm.baseDir }}{{ sub.url }}">
+                                {{ sub.title }}
+                            </a>
+
+                            <!-- Expandable heading -->
+                            <span ng-click="vm.toggleExpanded(sub.title)" ng-if="!sub.url" class="main-nav__title main-nav__title--level1">
+                                {{ sub.title }}
+                                <span ng-if="!vm.isExpanded(sub.title)" class="fa fa-caret-right"></span>
+                                <span ng-if="vm.isExpanded(sub.title)" class="fa fa-caret-down"></span>
+                            </span>
+
+                            <!-- Sub-sub nav -->
+                            <ul ng-if="sub.children && vm.isExpanded(sub.title)" class="main-nav fx-fade">
+                                <li ng-repeat="subsub in sub.children" class="main-nav__item">
+
+                                    <!-- Link to page -->
+                                    <a ng-class="{'main-nav__link--active' : subsub.url===vm.currentPage}" class="main-nav__link main-nav__link--level2" ng-attr-href="{{ vm.baseDir }}{{ subsub.url }}" ng-bind-html="subsub.title">
+                                    </a>
+
+                                </li>
+                            </ul>
+
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+
+            <!-- Search results list -->
+            <ul class="search-results">
+                <li class="search-result" ng-repeat="result in vm.results">
+                    <a class="search-result__link" ng-attr-href="{{ vm.baseDir }}{{ 'Help/' + result.id }}">
+                        <h3 class="search-result__title">{{ result.title }}</h3>
+                        <p class="search-result__excerpt" ng-bind-html="result.excerpt"></p>
+                    </a>
+                </li>
+            </ul>
+
+            <!-- Keep screen on option - PhoneGap insomnia -->
+            <ul class="main-nav" ng-if="vm.isPhoneGap">
+                <li class="main-nav__item">
+                    <label class="main-nav__title">
+                        Keep Screen On
+                        <input style="display: none" type="checkbox" ng-model="vm.keepScreenOn" />
+                        <i ng-class="{'fa--cleared' : !vm.keepScreenOn, 'fa--checked' : vm.keepScreenOn}" class="fa fa-check"></i>
+                    </label>
+                </li>
+            </ul>
+
+
+        </div>
+    </nav>
+
+    <nav class="header" role="navigation" aria-label="Secondary">
+        <a ng-if="!vm.onAConsole" href="../index.html" class="header__btn" title="Home"><i class="fa fa-home"></i></a>
+        <div ng-if="!vm.onAConsole" class="header__history">
+            <a onclick="javascript:window.history.back()" class="header__btn"><i title="Back" class="fa fa-chevron-left"></i></a>
+            <a onclick="javascript:window.history.forward()" class="header__btn"><i title="Forwards" class="fa fa-chevron-right"></i></a>
+        </div>
+        <div align="right">
+            <a class="header__btn header__btn--nav" ng-click="vm.toggleVisibility()">
+                <i ng-if="!vm.visible" class="fa fa-bars"></i>
+                <i ng-if="vm.visible" class="fa fa-close"></i>
+            </a>
+        </div>
+    </nav>
+
+
+    <!-- Main content -->
+    <div id="main">
+        
+
+<div><a href="GUI.html"><img class="TutorialNav" src="images/n_TutPrevious.png" alt=""><span class="TutorialNav">PREVIOUS: Touchscreen Controls</span></a></div>
+
+<h2>Control Surface Overview</h2>
+
+<p>The LIVE control surface is made up of three <b>Fader Tiles</b>, one <b>Control Tile</b>, and one <b>Master Tile</b>. Some of these tiles are optional.</p>
+
+<p>The <b>Main Screen</b> is a multi-touch display used to access audio parameters and setup functions.</p>
+
+<p>
+    <b>Fader Tiles</b> are the primary physical interface for manipulating audio. A single 12-fader tile can address up to 360 unique faders through a series of control layers and banks (see <a href="LayerManager.html"><span class="hyperlink">Layer Manager</span></a> section). 
+    Faders can control <b>mono</b>, <b>stereo</b>, <b>LCR</b>, <b>4.0</b> or <b>5.1</b> audio <b>paths</b>.
+</p>
+
+<p class="tab"><b>Quick Controls</b> at the top of each Fader Tile provide access to most path parameters (gain, processing, pan, Auxes, bus assignment, VCA assignment, etc.) Think of these controls as a full analogue channel strip, yet ergonomically condensed within layers of soft keys.</p>
+
+<p>The <b>Control Tile</b> (L300, L350, L500, L500&nbsp;Plus, L550, L650 only) provides an alternative way of accessing these same path parameters. It is also a multi-touch display. This allows you to work how you prefer; on the touchscreen, Quick Controls, and/or a combination with the Control Tile.</p>
+
+<p>
+    The <b>Tablet Tile</b> (L100, L200, L450 only) provides an area to place a tablet running SSL's TaCo Tablet Control app.
+    The Tablet Tile features an iJack stereo input (L100, L200 only) and USB charging port. For more information on TaCo please see <a href="TaCo.html"><span class="hyperlink">TaCo: Tablet Control</span></a>.
+</p>
+
+<p>The <b>Master Tile</b> is used for automation, Masters, Solo, and Talkback.</p>
+
+<p>Click below to see each console control surface:</p>
+
+<div id="accordion">
+    <div class="indexheader2">L650</div>
+    <div style="padding: 1em 0;">
+        <img style="display: block; margin: 11px auto; width: 750px;" src="images/g_consoleoverview_L650.png" alt="">
+    </div>
+    <div class="indexheader2">L500, L500&nbsp;Plus &amp; L550</div>
+    <div style="padding: 1em 0;">
+        <img style="display: block; margin: 11px auto;" src="images/g_consoleoverview_L500.png" alt="">
+    </div>
+    <div class="indexheader2">L450</div>
+    <div style="padding: 1em 0;">
+        <img style="display: block; margin: 11px auto; width: 750px;" src="images/g_consoleoverview_L450.png" alt="">
+    </div>
+    <div class="indexheader2">L300 &amp; L350</div>
+    <div style="padding: 1em 0;">
+        <img style="display: block; margin: 11px auto;" src="images/g_consoleoverview_L300CCT.png" alt="">
+    </div>
+    <div class="indexheader2">L200</div>
+    <div style="padding: 1em 0;">
+        <img style="display: block; margin: 11px auto;" src="images/g_consoleoverview_L200.png" alt="">
+    </div>
+    <div class="indexheader2">L100</div>
+    <div style="padding: 1em 0;">
+        <img style="display: block; margin: 11px auto;" src="images/g_consoleoverview_L100.png" alt="">
+    </div>
+    <div class="indexheader2">Remote Expander</div>
+    <div style="padding: 1em 0;">
+        <img style="display: block; margin: 11px auto;" src="images/g_consoleoverview_Expander.png" alt=""><br>
+        Refer to the <a href="RemoteControl.html"><span class="hyperlink">Console Remote Control</span> page for further information.</a>
+    </div>
+    <div class="indexheader2">Remote Tile</div>
+    <div style="padding: 1em 0;">
+        <img style="display: block; margin: 11px auto;" src="images/g_RemoteTile.png" alt=""><br>
+        Refer to the <a href="RemoteTile.html"><span class="hyperlink">Remote Tile</span> page for further information.</a>
+    </div>
+</div>
+
+<p>
+    Note that L100, L200, L350 and L550 consoles can have a 'Plus' Processing Pack enabled. This enhances their processing capacity but does not otherwise alter their functionality.
+    Any references to these models include both the Plussed and non-Plussed versions unless otherwise stated.
+    Refer to the <a href="ConsoleConfig.html#PlusPack"><span class="hyperlink">Plus&nbsp;Pack</span> section for further details.</a>
+</p>
+
+<h2>Power</h2>
+
+<p>
+    To turn the console on, ensure the one/two power supply switches on the rear of the console are on and then press the <span class="label">PSU</span> button 
+    in the top of the Channel Control or Tablet Tile (on rear of surface for Remote Expander). The <span class="label">PSU</span> button colour indicates the console power state:
+</p>
+
+<div class="tab">
+    <ul>
+        <li><b>Off</b> - AC mains is not connected or not switched on.</li>
+        <li><b>Backlit white</b> - AC is present, ready for power up.</li>
+        <li><b>Cyan</b> - Console is switched on.</li>
+    </ul>
+</div>
+
+<p>The main (<span style="font-weight: bold;">A</span>) and backup (<span style="font-weight: bold;">B</span>) power supply states are indicated by the LEDs adjacent to the <span class="label">PSU</span> button (not applicable to L100):</p>
+
+<div class="tab">
+    <ul>
+        <li><b>Green</b> - on and functioning correctly.</li>
+        <li><b>Green flashing</b> - on, but power has been interrupted within the previous 20 seconds.</li>
+        <li><b>Red flashing</b> - off or there is a fault.</li>
+    </ul>
+</div>
+
+<p><span class="note"><span class="notetitle">Note:</span> The console can run on a single power supply if necessary. Changeover from one to another is seamless.</span></p>
+
+<p>
+    To <b>power off</b>, go to the <a href="System.html"><span class="hyperlink" style="font-weight: bold;">System&nbsp;page</span></a> 
+    (<span class="label">MENU</span> > <span class="label">Setup</span> > <span class="label">System&nbsp;/&nbsp;Power</span>  > <span class="label">System</span> tab).
+    Press &amp; hold the red <span class="label">Power&nbsp;Off&nbsp;Console</span> button.
+</p>
+
+<p>
+    The console software is designed to be resilient to any errors that occur and recover gracefully. 
+    However, a reset switch is located in the small hole above the <span class="label">PSU</span> button in the event that you need to restart only the front panel control surface while continuing to pass audio. 
+    Individual processes can also be restarted within the <a href="System.html"><span class="hyperlink" style="font-weight: bold;">System&nbsp;page</span></a>, 
+    e.g. if the Fader Tiles are not responding but the main screen is still responsive.
+</p>
+
+<h2>Brightness Controls</h2>
+
+<p>Near the power button on the Control Tile (where fitted) are three brightness encoders for the <span style="font-weight: bold;">touchscreens</span>, <span style="font-weight: bold;">buttons</span>, and top-trim <span style="font-weight: bold;">lights</span>:</p>
+
+<blockquote>
+    <ul>
+        <li><b>Turn</b> to change the brightness.</li>
+        <li><b>Press</b> to <b>recall</b> the stored brightness value.</li>
+        <li><b>Press & hold</b> to <b>store</b> the current value for later recall.</li>
+    </ul>
+</blockquote>
+
+<p>These controls are also available in the <a href="OptionsConsole.html"><span class="hyperlink">Console Options</span></a> tab (<span class="label">MENU</span> > <span class="label">Setup</span> > <span class="label">Options</span> > <span class="label">CONSOLE</span>).</p>
+
+<p>These settings are stored in the <a href="Showfiles.html"><span class="hyperlink">showfile</span></a> and can also be <a href="AutoOverview.html"><span class="hyperlink">automated</span></a>.</p>
+
+<h2 id="StatusBar">Status Bar</h2>
+
+<div style="text-align: center"><img src="images/g_StatusBar.png" alt=""></div>
+
+<p>
+    The top of the main screen features a status bar that shows useful information during use. 
+    Messages will appear in the left of the status bar. 
+    Information messages appear in white, warning messages in orange (as pictured) and error messages in red. 
+    Double tap the message area to open a message history window. 
+    Show critical messages will appear in purple and remain in the status bar until tapped to confirm acknowledgement. 
+    The remaining status bar sections are described below:
+</p>
+
+<table>
+    <tr>
+        <td width="180px"><img alt="" src="images/g_StatusBarIcons.png" style="margin: 2px 15px 2px 0px;" align="middle"></td>
+        <td>
+            Icons indicating <a href="Showfiles.html#StatusBarIndication"><span class="hyperlink">showfile&nbsp;saved</span></a> state,
+            <a href="RecordingPlayback.html"><span class="hyperlink">Rehearse&nbsp;Mode</span></a> state,
+            <a href="Solo.html#SoloInPlace"><span class="hyperlink">Solo&nbsp;In&nbsp;Place</span></a> state,
+            <a href="ConsoleConfig.html#ModelCompatibility"><span class="hyperlink">Compatibility&nbsp;Mode</span></a>/<a href="ConsoleConfig.html#PlusPack"><span class="hyperlink">Plus&nbsp;Pack</span></a> state,
+            <a href="RemoteControl.html"><span class="hyperlink">remote&nbsp;surface&nbsp;connection</span></a> status,
+            <a href="OptionsNetwork.html#Clash"><span class="hyperlink">IP&nbsp;Address&nbsp;Clash&nbsp;Warning</span></a>
+            and <a href="Clocking.html"><span class="hyperlink">Clock&nbsp;Source&nbsp;Warning</span></a>.
+        </td>
+    </tr>
+    <tr>
+        <td><img alt="" src="images/g_StatusBarScene.png" style="display: block; margin: 2px auto;" align="middle"></td>
+        <td>Selected <a href="AutoOverview.html"><span class="hyperlink">Automation</span></a> Scene name and number. The * indicates unsaved changes.</td>
+    </tr>
+    <tr>
+        <td><img alt="" src="images/g_StatusBarShow.png" style="display: block; margin: 2px auto;" align="middle"></td>
+        <td>Current <a href="Showfiles.html"><span class="hyperlink">Showfile</span></a> name.</td>
+    </tr>
+    <tr>
+        <td><img alt="" src="images/g_StatusBarTime.png" style="display: block; margin: 2px auto;" align="middle"></td>
+        <td>Current time or timecode value (tap to toggle).</td>
+    </tr>
+    <tr>
+        <td><img alt="" src="images/g_StatusBarPath.png" style="display: block; margin: 2px auto;" align="middle"></td>
+        <td>Currently Selected path.</td>
+    </tr>
+
+</table>
+
+<h2>Useful Links</h2>
+<p><a href="FaderTiles.html"><span class="hyperlink">Fader Tile</span></a></p>
+<p><a href="LayerManager.html"><span class="hyperlink">Layer Manager</span></a></p>
+<p><a href="ControlTile.html"><span class="hyperlink">Control Tile</span></a></p>
+<p><a href="MasterTile.html"><span class="hyperlink">Master Tile</span></a></p>
+<a href="LinkIndex.html"><span class="hyperlink">Index and Glossary</span></a><br>
+
+<div class="TutorialNavNext"> <a href="FaderTiles.html"><span class="TutorialNav">NEXT: Fader Tiles</span> <img class="TutorialNav" src="images/n_TutNext.png" alt=""></a></div>
+
+
+
+    </div>
+
+    <script src="../Help/js/OpenAccordionFromLink.js"></script>
+</body>
+</html>

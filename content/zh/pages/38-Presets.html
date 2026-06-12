@@ -1,0 +1,140 @@
+﻿<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>预设</title>
+  <style>
+    body { font: 16px/1.55 Arial, sans-serif; max-width: 1080px; margin: 2rem auto; padding: 0 1.25rem; color: #202124; }
+    img { max-width: 100%; height: auto; }
+    table { border-collapse: collapse; max-width: 100%; }
+    th, td { border: 1px solid #aaa; padding: .45rem; vertical-align: top; }
+    .note { display: block; border-left: 4px solid #e0a000; background: #fff8df; padding: .75rem 1rem; margin: 1rem 0; }
+    .notetitle { font-weight: bold; }
+    .label { font-weight: bold; color: #174ea6; }
+    .source { color: #666; font-size: .9rem; }
+  </style>
+</head>
+<body>
+  <p class="source">章节：混音 | 来源： <a href="https://livehelp.solidstatelogic.com/Help/Presets.html">https://livehelp.solidstatelogic.com/Help/Presets.html</a></p>
+<h2>预设</h2>
+
+<p>详细信息对话框中的所有通道设置都可使用预设进行保存和调用；预设既可涵盖整个通道，也可只涵盖其中较小的部分。</p>
+
+<p>
+    要打开控制台任一区域的预设列表，请在详细信息对话框中打开相应页面，然后触摸右下角附近的 <span class="label">Preset</span> 按钮。预设列表将在详细信息对话框内打开：
+</p>
+
+<img style="display: block; margin: 20px auto; width: 750px" src="https://livehelp.solidstatelogic.com/Help/images/g_detailPresets.png" alt="">
+
+<p>
+    从处理页面（例如 EQ/Filters、Panner 等）进入预设对话框时，只能从预设文件存储或调用信号路径的该处理部分。从路径 Eyeconix/Config 页面进入的预设对话框，则可使用一个预设文件存储和调用多个处理部分。
+</p>
+
+<p>
+    使用 <b>Store</b> 部分列选择要保存到预设文件的范围（启用蓝点即可允许存储）。要覆盖现有预设，请选择范围，然后按住 <span class="label">Save</span> 按钮。要保存新的预设文件，请按 <span class="label">Save&nbsp;As</span> 按钮并输入文件名。
+</p>
+
+<span class="note">
+    <span class="notetitle">注意： </span> 将处理部分保存到现有预设文件是一种追加操作。例如，若现有文件包含 Gate 设置，而预设存储范围设为 Compressor，则保存 Compressor 设置时，之前保存的 Gate 设置仍会保留在文件中。
+</span>
+
+<p>
+    使用 <b>Recall</b> 部分列选择从所选预设文件加载的范围（启用紫点即可允许调用）。Recall 列中的青色方框表示所选文件内已存储且可调用的部分。只有文件中存在且已启用调用的部分（即青色方框和紫点均启用）才会加载。按住 <span class="label">Load</span> 按钮，从预设文件加载所选部分。
+</p>
+
+<span class="note"><span class="notetitle">提示：</span> 在路径 Eyeconix/Config 的预设页面中，可使用 Store 和 Recall 列标题切换所有存储/调用范围部分的选择状态。</span>
+
+<span class="note"><span class="notetitle">注意：</span> 文件夹创建后，只能在下述主预设列表中重命名。 <a href="#PresetsPage"><span class="hyperlink">下文</span></a>.</span>
+
+
+<h3>预设备注</h3>
+
+<p>可在预设列表右侧的 Notes 显示区输入与预设有关的详细说明。</p>
+
+<p>要输入备注，请找到该预设并将其选中，使其显示青色边框。</p>
+
+<p>双击备注显示区，使用弹出的键盘输入备注，然后触摸 <span class="label">OK</span>.</p>
+
+<p>每当该预设在预设列表中高亮显示时，这些备注都会出现在备注显示区。</p>
+
+<p>再次按 <span class="label">Preset</span> 即可关闭预设列表。</p>
+
+<span class="note">
+    <span class="notetitle">旧版预设文件： </span> 请注意，V4.10 及更早版本软件保存的预设采用与 V4.11 预设不同的格式。在控制台或 SOLSA 软件中打开其所在文件夹时，旧版预设文件会自动转换为新格式。
+</span>
+
+
+
+<h2 id="PresetsPage">主预设列表</h2>
+
+<p>
+    也可打开主预设列表，查看和管理控制台中的全部预设。访问路径为 Setup 菜单： <span class="label">MENU</span> > <span class="label">Setup</span> > <span class="label">File&nbsp;Manager</span> > <span class="label">预设</span> 选项卡
+</p>
+
+<p>
+    此显示界面的操作方式与演出文件界面非常相似，主要区别是这里没有 SSL Templates。文件会显示完整扩展名。为预设指定的“用户”名称位于预设文件名的第一部分；下一部分是保存该预设时所用的通道类型；第三部分是预设类型（EQ 频段、压缩器、完整通道路径等）。
+</p>
+
+
+<h3>编辑模式 </h3>
+
+<p>与演出文件一样，部分文件夹操作仅在预设列表处于 Edit 模式时可用。</p>
+
+<p>要启用 Edit 模式，请触摸主预设列表屏幕顶部中央的 <span class="label">Edit</span> 按钮。该按钮会点亮，屏幕右侧将出现第二个导航窗格。</p>
+
+<p>要选择供两个窗格之间任一编辑操作处理的预设，请在左侧导航窗格中找到它，并触摸其列表项末端的圆圈；圆圈变红表示该预设已启用编辑。</p>
+
+<p>可选择多个预设和多个文件夹。也可触摸列表顶部的 <span style="font-weight: bold;">All</span> 圆圈，选择当前位置中的全部预设和文件夹。</p>
+
+<span class="note"><span class="notetitle">请记住： </span>Edit 模式功能始终作用于已启用编辑的预设，而不是仅被高亮显示（带青色边框）的预设。</span>
+
+
+<h3>移动和复制预设 </h3>
+
+<p>要移动或复制文件和文件夹，请在左侧窗格中进入源文件夹，并在右侧导航窗格中进入目标文件夹；</p>
+
+<p>在左侧导航窗格中，对要移动或复制的项目启用编辑；</p>
+
+<p>然后按 <span class="label">Move</span> or <span class="label">Copy</span> 按钮。项目将被移动或复制到新位置。</p>
+
+<span class="note"><span class="notetitle">注意： </span>不能将项目复制到其当前位置。</span>
+
+
+<h3>将预设设为只读</h3>
+
+<p>可将预设设为只读，以防止通过 Save 功能覆盖它们。</p>
+
+<p>要选择需设为只读的预设，请在左侧导航窗格中找到它们并启用编辑。</p>
+
+<p>然后按 <span class="label">Read&nbsp;Only</span> 按钮。文件名前将出现挂锁符号。</p>
+
+<p>要取消文件的只读状态，只需重复此过程。</p>
+
+
+<h3>重命名预设和文件夹</h3>
+
+<p>要重命名文件或文件夹，请在左侧导航窗格中找到它并启用编辑。</p>
+
+<p>然后按 <span class="label">Rename</span> 按钮，使用弹出的键盘重命名预设，然后触摸 <span class="label">OK</span>.</p>
+
+<span class="note"><span class="notetitle">注意： </span>重命名功能只允许更改文件名中的“用户”部分。</span>
+
+
+<h3>删除预设和文件夹</h3>
+
+<p>要删除预设或文件夹，请在左侧导航窗格中找到它们并启用编辑。</p>
+
+<p>然后按住 <span class="label">Delete</span> 按钮。</p>
+
+<span class="note"><span class="notetitle">注意： </span>文件夹必须为空才能删除。受 Read Only 保护的预设无法删除。</span>
+
+
+<h2>实用链接：</h2>
+
+<a href="https://livehelp.solidstatelogic.com/Help/Showfiles.html"><span class="hyperlink">演出文件</span></a>
+<br>
+<a href="https://livehelp.solidstatelogic.com/Help/LinkIndex.html"><span class="hyperlink">索引与术语表</span></a>
+<br>
+</body>
+</html>

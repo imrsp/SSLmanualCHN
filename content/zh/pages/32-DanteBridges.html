@@ -1,0 +1,400 @@
+<p>以下页面包含设置 SSL Live 控制台以用于 Dante 网络、与 Dante 设备之间进行路由以及使用 SSL Net I/O 舞台接口箱进行控制和增益共享的说明：</p>
+<ul>
+  <li><a href="https://livehelp.solidstatelogic.com/Help/DanteSetup.html"><span class="hyperlink">设置 Dante</span></a></li>
+</ul>
+<ul>
+  <li><a href="https://livehelp.solidstatelogic.com/Help/DanteVTL.html"><span class="hyperlink">虚拟跳线</span></a></li>
+</ul>
+<ul>
+  <li><a href="https://livehelp.solidstatelogic.com/Help/DanteConfig.html"><span class="hyperlink">双域路由与配置 Dante 设备</span></a></li>
+</ul>
+<ul>
+  <li><a href="https://livehelp.solidstatelogic.com/Help/DanteNetIO.html"><span class="hyperlink">网络 I/O 舞台接口箱和设备</span></a></li>
+</ul>
+<ul>
+  <li>BLII 和 X-Light 网桥（本页）</li>
+</ul>
+<div id="accordion">
+<div id="BLIIBridge" class="indexheader2">Net I/O BLII Bridge - 高容量 Dante 接口</div>
+<div>
+<figure><img src="https://livehelp.solidstatelogic.com/Help/images/g_BLIIBridgeFront.png" alt="图片 1"><figcaption>图片 1</figcaption></figure>
+<p>Net I/O BLII Bridge 是一个 1U 机架式设备，可在高通道数 Dante 和 SSL 专有的 BlackLight™ 数字多通道音频格式之间进行转换。 它为配备 BLII 和 Dante 的 Live 控制台提供 256 个冗余双向未压缩音频通道，以 24 位、96 kHz 或 48 kHz 分辨率与 Dante 网络进行传输。</p>
+<p>BLII Bridge 设计为放置在控制台附近，并且一次只能由一个控制台使用。</p>
+<p>Net I/O BLII Bridge 与所有运行软件版本 4.5 或更高版本的配备 BLII 和 Dante 的 SSL Live 控制台兼容， 并支持 AES67 和 SMPTE 2110-30 AoIP 网络传输标准。</p>
+<p class="note"><span class="notetitle">注意：</span></p>
+<p>在 Dante 网络上使用 BLII Bridge 时请注意网络带宽。 在涉及 BLII Bridge 和大量 I/O 的网络上，可能需要在交换机之间使用 10 Gigabit 上行链路。</p>
+<h3>前面板 LED</h3>
+<p>BLII Bridge 的前面板上有四个 LED 指示灯：PSU、BL S、SRC 和 NET S，用于指示电源和时钟状态。</p>
+<table>
+  <tr>
+    <th>LED</th>
+    <th>熄灭</th>
+    <th>常亮红色</th>
+    <th>红绿闪烁</th>
+    <th>绿灯闪烁</th>
+    <th>常亮绿色</th>
+  </tr>
+  <tr>
+    <td>PSU</td>
+    <td>两个 PSU 都关闭</td>
+    <td>只有一个 PSU 功能正常</td>
+    <td>不适用</td>
+    <td>不适用</td>
+    <td>两个 PSU 都功能正常</td>
+  </tr>
+  <tr>
+    <td>BL S</td>
+    <td>BLII Bridge 未设置为同步到外部 BLII 源和/或未连接到控制台</td>
+    <td>不适用</td>
+    <td>不适用</td>
+    <td>重新同步 - 正在搜索有效的时钟源</td>
+    <td>时钟锁定到 BLII 且传入时钟源存在</td>
+  </tr>
+  <tr>
+    <td>SRC</td>
+    <td>设备同步到时钟源</td>
+    <td>设备正在重新同步（搜索有效的时钟源）</td>
+    <td>不适用</td>
+    <td>不适用</td>
+    <td>不适用</td>
+  </tr>
+  <tr>
+    <td>NET S</td>
+    <td>未配置为从 Dante 网络时钟</td>
+    <td>设备设置为从 Dante 网络时钟，但没有网络连接</td>
+    <td>主要或次要网络端口未连接</td>
+    <td>重新同步 - 正在搜索有效的时钟源</td>
+    <td>设置为从 Dante 网络时钟，并检测到网络上的 Leader Clock</td>
+  </tr>
+</table>
+<p>注意：当 NetS 闪烁红色时 - 设备仅为 PTPv1 Clock Leader / AES67 禁用</p>
+<h3>前面板连接</h3>
+<p>前面板上有一对 SFP 插槽用于 Dante 网络连接：</p>
+<figure><img src="https://livehelp.solidstatelogic.com/Help/images/g_BLIIBridgeFrontCons.png" alt="图片 2"><figcaption>图片 2</figcaption></figure>
+<p>这些插槽将预装 RJ45，但也可以装填单模或多模光纤 SFP。</p>
+<p>状态 LED 含义如下：</p>
+<table>
+  <tr>
+    <th>LED</th>
+    <th>熄灭</th>
+    <th>闪烁红色</th>
+    <th>红绿闪烁</th>
+    <th>绿灯闪烁</th>
+    <th>常亮绿色</th>
+  </tr>
+  <tr>
+    <td>ACT</td>
+    <td>设备已关闭</td>
+    <td>不适用</td>
+    <td>设备已开启</td>
+    <td>不适用</td>
+    <td>不适用</td>
+  </tr>
+  <tr>
+    <td>SFP</td>
+    <td>未安装 SFP</td>
+    <td>不适用</td>
+    <td>不适用</td>
+    <td>不适用</td>
+    <td>已安装 SFP</td>
+  </tr>
+  <tr>
+    <td>GM</td>
+    <td>设备不是 GM（或 Dante Pri 和 Sec 都已断开）</td>
+    <td>仅 PTPv2 GM</td>
+    <td>不适用</td>
+    <td>仅 PTPv1 GM</td>
+    <td>PTPv1 和 PTPv2 GM</td>
+  </tr>
+  <tr>
+    <td>STAT</td>
+    <td>硬件故障</td>
+    <td>音频静音。BLII Bridge 在重新同步期间自动静音音频</td>
+    <td>不适用</td>
+    <td>硬件正常</td>
+    <td>不适用</td>
+  </tr>
+</table>
+<p>Program USB 端口用于执行设备更新。更新 BLII Bridge 的说明将随所有相关更新包一起提供。</p>
+<h3>后面板连接</h3>
+<p>BLII Bridge 包含一对冗余电源，由设备背面的 IEC 连接器供电。</p>
+<p>后面板上有两对 SFP 插槽。一对将预装多模 LC 光纤 SFP，但也可以装填单模 SFP。</p>
+<p>HC Link 1 Port A Main 和 Backup 分别用于连接到控制台的 BLII 1a 和 1b（或 2a 和 2b）端口。</p>
+<p>Port B 未使用。</p>
+<figure><img src="https://livehelp.solidstatelogic.com/Help/images/g_BLIIBridgeBackCons.png" alt="图片 3"><figcaption>图片 3</figcaption></figure>
+<p>每个端口还有一个 RX 和 SFP 状态 LED。 最左边的一对 RX 和 SFP LED 指的是 Port A Main，左边第二个指的是 Port A Backup。左边第三和第四对 LED 指的是 Port B，未使用。</p>
+<p>状态 LED 含义如下：</p>
+<table>
+  <tr>
+    <th>LED</th>
+    <th>熄灭</th>
+    <th>常亮红色</th>
+    <th>绿灯闪烁</th>
+    <th>常亮绿色</th>
+  </tr>
+  <tr>
+    <td>RX</td>
+    <td>不适用</td>
+    <td>端口未连接</td>
+    <td>端口已连接，并且是冗余连接中的活动端口</td>
+    <td>端口已连接，并且是冗余连接中的非活动端口</td>
+  </tr>
+  <tr>
+    <td>SFP</td>
+    <td>未安装 SFP</td>
+    <td>不适用</td>
+    <td>不适用</td>
+    <td>已安装 SFP</td>
+  </tr>
+</table>
+<h3>将 BLII Bridge 连接到 SSL Live 控制台</h3>
+<p>将 BLII Bridge 连接到 SSL Live 控制台需要以下设备：</p>
+<ul>
+  <li>一个 SSL Live 控制台</li>
+  <li>至少安装了一对冗余 BLII 端口</li>
+  <li>并且安装了 Dante 扩展模块（如果您对 Dante 扩展器改装感兴趣，请联系 support@solidstatelogic.com）</li>
+  <li>一个 BLII Bridge</li>
+  <li>至少一个网络交换机（非冗余）。完全冗余连接需要至少两个交换机（主要和次要）。</li>
+</ul>
+<p>通过多模 LC 光纤将控制台的 BLII 端口 1a 连接到 BLII Bridge 背面的 HC Link Port A Main。* 通过 LC 光纤将控制台的 BLII 端口 1b 连接到 BLII Bridge 背面的 HC Link Port A Backup。*</p>
+<p>*如果控制台已安装单模 BLII 端口，并且 BLII Bridge 已安装单模 SFP（非常规配置），则使用单模 LC 光纤。</p>
+<p class="note"><span class="notetitle">注意：</span></p>
+<p>如果使用带有两对 BLII 端口的 L500 Plus，可以使用任一冗余对连接到 BLII Bridge。 另一对可用于连接到 BL II-MADI Concentrator 或另一个 BLII Bridge。</p>
+<p>将 BLII Bridge 的 Dante Primary 和 Secondary 端口分别连接到主要和次要 Dante 网络交换机。</p>
+<p>将控制台的 Dante Expander Primary 和 Secondary 端口分别连接到主要和次要 Dante 网络交换机。 您还必须将 Dante 扩展器连接到 Dante 网络。Dante 设备控制无法通过 BLII 连接传递，因此连接 Dante 扩展器允许控制台控制 Dante 设备并在网络上创建路由。</p>
+<figure><img src="https://livehelp.solidstatelogic.com/Help/images/g_BLIIBridgeConnection.png" alt="图片 4"><figcaption>图片 4</figcaption></figure>
+<p>将您的网络 I/O 舞台接口箱连接到您的主要和次要 Dante 网络交换机，注意不要在任何地方交叉连接主要和次要网络。</p>
+<h3>使用 SSL Live 控制台设置 BLII Bridge</h3>
+<p>在控制台上，前往 MENU &gt; Setup &gt; I/O &gt; Local/MADI Configuration。</p>
+<p>如果连接 BLII Bridge 时相关端口中没有配置设备，BLII Bridge 将被自动检测和配置。</p>
+<p>如果相关端口中已配置设备，则需要手动配置该端口。</p>
+<p>要配置端口：</p>
+<ul>
+  <li>点击相关端口列的标题以查看该端口的设置。</li>
+  <li>在端口的详细视图中按住“Physical Port Selection:”并选择“Blacklight II”。</li>
+  <li>按住“Configure Port For:”并选择“Net I/O BLII Bridge”。</li>
+</ul>
+<figure><img src="https://livehelp.solidstatelogic.com/Help/images/g_BLIIBridgeConfig.png" alt="图片 5"><figcaption>图片 5</figcaption></figure>
+<p class="note"><span class="notetitle">警告：</span></p>
+<p>重新配置 BLII 端口时请小心，因为路由将被取消。</p>
+<ul>
+  <li>如果将 BLII 端口从 BLII-MADI Concentrator 重新配置为 BLII Bridge，则控制台与通过 BLII-MADI Concentrator 连接的设备之间的所有现有路由都将被取消。</li>
+  <li>如果将 BLII 端口从 BLII Bridge 重新配置为 BLII-MADI Concentrator，则所有 Dante 双域路由都将被取消，无论它们是路由通过 BLII Bridge 还是 Dante 扩展模块。</li>
+</ul>
+<p>到 Dante 扩展模块的虚拟跳线路由将保留。</p>
+<ul>
+  <li>更改端口配置时，控制台可能还需要重新同步时钟。请参见<a href="https://livehelp.solidstatelogic.com/Help/DanteBridges.html#Clocking"><span class="hyperlink">下面的时钟部分</span></a>。</li>
+</ul>
+<p>BLII 端口配置存储在演出文件中。</p>
+<p>为了使 BLII Bridge 正常工作，控制台上的 BLII Bridge 名称必须与 Dante Controller 中单元的名称匹配。</p>
+<p>通常，当控制台软件在网络中检测到 BLII Bridge 时，BLII Bridge 名称将自动填充。但是，如果没有发生这种情况，可以手动输入名称。</p>
+<p>首先，在计算机上打开 Dante Controller，并将其连接到 Dante 网络（或直接使用网线连接到 BLII Bridge 的 Dante Primary 端口）。</p>
+<p>检查 BLII Bridge 是否出现在 Dante Controller 中。（有关 IP 地址和将 Dante 设备连接到网络的更多信息，请参阅<a href="https://livehelp.solidstatelogic.com/Help/DanteSetup.html"><span class="hyperlink">设置 Dante</span></a>部分）。</p>
+<p>要在 Dante Controller 中编辑 BLII Bridge 名称，请双击 BLII Bridge 并转到“Device Config”选项卡。 在页面顶部的“Rename Device”下，输入名称并按“Apply”。 系统将要求您确认名称更改。单击“Yes”。请注意，更改设备的 Dante 名称会中断所有到/从此设备的现有路由。</p>
+<p>将控制台上的 BLII Bridge 名称设置为与 Dante Controller 中使用的名称完全匹配。</p>
+<figure><img src="https://livehelp.solidstatelogic.com/Help/images/g_BLIIBridgeVTL.png" alt="图片 6"><figcaption>图片 6</figcaption></figure>
+<p>重新启动控制台。</p>
+<p>PSU 状态、网络状态和采样率也显示在此处。</p>
+</div>
+<div id="XLight" class="indexheader2">Net I/O X-Light Bridge - 加固型高容量 Dante 接口</div>
+<div>
+<figure><img src="https://livehelp.solidstatelogic.com/Help/images/g_XLightBridgeFront.png" alt="图片 7"><figcaption>图片 7</figcaption></figure>
+<p>Net I/O X-Light Bridge 是一个 1U 机架式设备，可在高通道数 Dante 和 SSL 专有的 X-Light 数字多通道音频格式之间进行转换。 它为配备 X-Light 的 Live 控制台提供 256 个冗余双向未压缩音频通道，以 24 位、96 kHz 或 48 kHz 分辨率与 Dante 网络进行传输。</p>
+<p>X-Light Bridge 设计为放置在舞台上，并且一次只能由一个控制台使用。</p>
+<p>X-Light Bridge 与所有运行软件版本 4.8 或更高版本的配备 X-Light 的 SSL Live 控制台兼容， 并支持 AES67 和 SMPTE 2110-30 AoIP 网络传输标准。</p>
+<p class="note"><span class="notetitle">注意：</span></p>
+<p>在 Dante 网络上使用 X-Light Bridge 时请注意网络带宽。 在涉及 X-Light Bridge 和大量 I/O 的网络上，可能需要在交换机之间使用 10 Gigabit 上行链路。</p>
+<h3>前面板连接</h3>
+<p>前面板上有一对冗余 X-Light 端口，用于连接到 SSL Live 控制台：</p>
+<figure><img src="https://livehelp.solidstatelogic.com/Help/images/g_XLightBridgeFrontConns.png" alt="图片 8"><figcaption>图片 8</figcaption></figure>
+<h3>前面板 LED</h3>
+<p>X-Light Bridge 的前面板上有八个 LED 指示灯：PSU、XL S、SRC、NET S 用于指示电源和时钟状态...</p>
+<table>
+  <tr>
+    <th>LED</th>
+    <th>熄灭</th>
+    <th>常亮红色</th>
+    <th>红绿闪烁</th>
+    <th>绿灯闪烁</th>
+    <th>常亮绿色</th>
+  </tr>
+  <tr>
+    <td>PSU</td>
+    <td>两个 PSU 都关闭</td>
+    <td>只有一个 PSU 功能正常</td>
+    <td>不适用</td>
+    <td>不适用</td>
+    <td>两个 PSU 都功能正常</td>
+  </tr>
+  <tr>
+    <td>XL S</td>
+    <td>X-Light Bridge 未设置为同步到外部 X-Light 源和/或未连接到控制台</td>
+    <td>不适用</td>
+    <td>不适用</td>
+    <td>重新同步 - 正在搜索有效的时钟源</td>
+    <td>时钟锁定到 X-Light 且传入时钟源存在</td>
+  </tr>
+  <tr>
+    <td>SRC</td>
+    <td>设备同步到时钟源</td>
+    <td>设备正在重新同步（搜索有效的时钟源）</td>
+    <td>不适用</td>
+    <td>不适用</td>
+    <td>不适用</td>
+  </tr>
+  <tr>
+    <td>NET S</td>
+    <td>未配置为从 Dante 网络时钟</td>
+    <td>设备设置为从 Dante 网络时钟，但没有网络连接</td>
+    <td>主要或次要网络端口未连接</td>
+    <td>重新同步 - 正在搜索有效的时钟源</td>
+    <td>设置为从 Dante 网络时钟，并检测到网络上的 Leader Clock</td>
+  </tr>
+</table>
+<p>注意：当 NetS 闪烁红色时 - 设备仅为 PTPv1 Clock Leader / AES67 禁用</p>
+<p>...以及两对 AUDIO 和 LINK LED，用于显示到控制台的 MAIN 和 BACKUP X-Light 光纤连接的状态。</p>
+<table>
+  <tr>
+    <th>LED</th>
+    <th>常亮红色</th>
+    <th>绿灯闪烁</th>
+    <th>常亮绿色</th>
+  </tr>
+  <tr>
+    <td>AUDIO MAIN</td>
+    <td>没有通过 X-Light 光纤连接到控制台的主连接</td>
+    <td>到控制台的主音频连接良好，并且是活动连接</td>
+    <td>到控制台的主音频连接良好（备份）</td>
+  </tr>
+  <tr>
+    <td>LINK MAIN</td>
+    <td>不适用</td>
+    <td>到控制台的主链路连接良好</td>
+    <td>不适用</td>
+  </tr>
+  <tr>
+    <td>AUDIO BACKUP</td>
+    <td>没有通过 X-Light 光纤连接到控制台的备份连接</td>
+    <td>到控制台的备份音频连接良好，并且是活动连接</td>
+    <td>到控制台的备份音频连接良好（备份）</td>
+  </tr>
+  <tr>
+    <td>LINK BACKUP</td>
+    <td>不适用</td>
+    <td>到控制台的备份链路连接良好</td>
+    <td>不适用</td>
+  </tr>
+</table>
+<h3>后面板连接</h3>
+<p>X-Light Bridge 包含一对冗余电源，由设备背面的 IEC 连接器供电。</p>
+<p>后面板上提供两对冗余网络连接。PRI 和 SEC Dante AUDIO 对在 Dante 网络和控制台的 X-Light 端口之间传输多达 256x256 通道的音频。 另一对标记为 CONSOLE LINK PRI 和 SEC，提供来自控制台的控制链路，用于舞台接口箱控制，并将控制台的本地 Dante 音频通道以及连接到控制台本地 Dante 端口的任何设备（例如靠近控制台的回放/录音设备）暴露给网络的其余部分。</p>
+<figure><img src="https://livehelp.solidstatelogic.com/Help/images/g_XLightBridgeRearConns.png" alt="图片 9"><figcaption>图片 9</figcaption></figure>
+<p>Dante AUDIO 和 CONSOLE LINK 端口都应连接到您的网络交换机才能正常运行。</p>
+<h3>将 X-Light Bridge 连接到 SSL Live 控制台</h3>
+<p>通过 X-Light Bridge 将网络 I/O 舞台接口箱连接到 SSL Live 控制台需要以下设备：</p>
+<ul>
+  <li>一个安装了 X-Light 端口的 SSL Live 控制台</li>
+  <li>一个 X-Light Bridge</li>
+  <li>至少一个网络交换机（非冗余）。完全冗余连接需要至少两个交换机（主要和次要）</li>
+  <li>多个 <a href="https://livehelp.solidstatelogic.com/Help/RemoteIO.html#NetIO"><span class="hyperlink">SSL 网络 I/O Dante 舞台接口箱</span></a></li>
+</ul>
+<p>将控制台的 X-Light 端口 Main 连接到 X-Light Bridge 正面的 Main。 将控制台的 X-Light 端口 Backup 连接到 X-Light Bridge 正面的 Backup。 将设备背面的 X-Light Bridge 的 Dante AUDIO PRI 和 CONSOLE LINK PRI 端口连接到您的 Dante 主要网络交换机。 将设备背面的 X-Light Bridge 的 Dante AUDIO SEC 和 CONSOLE LINK SEC 端口连接到您的 Dante 次要网络交换机。</p>
+<figure><img src="https://livehelp.solidstatelogic.com/Help/images/g_XLightBridgeConnection.png" alt="图片 10"><figcaption>图片 10</figcaption></figure>
+<p>将您的网络 I/O 舞台接口箱连接到您的主要和次要 Dante 网络交换机，注意不要在任何地方交叉连接主要和次要网络。</p>
+<h3>使用 SSL Live 控制台设置 X-Light Bridge</h3>
+<p>在控制台上，前往 MENU &gt; Setup &gt; I/O &gt; Local/MADI Configuration。</p>
+<p>如果连接 X-Light Bridge 时相关端口中没有配置设备，X-Light Bridge 将被自动检测和配置。</p>
+<p>如果相关端口中已配置设备，则需要手动配置该端口。</p>
+<p>要配置端口：</p>
+<ul>
+  <li>对于 L100、L200 和 L350 控制台，点击 BLII 端口列标题以查看 BLII 端口的设置。对于 L450、L550 和 L650，点击第二个 BLII/X-Light 端口标题（I/O 页面最右侧的列）</li>
+  <li>在端口的详细视图中按住“Physical Port Selection:”并选择“X-Light”。</li>
+  <li>X-Light Bridge 将在“Configure Port For:”部分自动配置。</li>
+</ul>
+<figure><img src="https://livehelp.solidstatelogic.com/Help/images/g_BLIIBridgeConfig.png" alt="图片 11"><figcaption>图片 11</figcaption></figure>
+<p class="note"><span class="notetitle">警告：</span></p>
+<p>重新配置 BLII/X-Light 端口时请小心，因为路由将被取消。</p>
+<p>到 Dante 扩展模块的虚拟跳线路由将保留。</p>
+<p>更改端口配置时，控制台可能还需要重新同步时钟。请参见<a href="https://livehelp.solidstatelogic.com/Help/DanteBridges.html#Clocking"><span class="hyperlink">下面的时钟部分</span></a>。</p>
+<p>X-Light 端口配置存储在演出文件中。</p>
+<p>为了使 X-Light Bridge 正常工作，控制台上的 X-Light Bridge 名称必须与 Dante Controller 中单元的名称匹配。</p>
+<p>通常，当控制台软件在网络中检测到 X-Light Bridge 时，X-Light Bridge 名称将自动填充。但是，如果没有发生这种情况，可以手动输入名称。</p>
+<p>首先，在计算机上打开 Dante Controller，并将其连接到 Dante 网络（或直接使用网线连接到 X-Light Bridge 的 Dante Audio Primary 端口）。</p>
+<p>检查 X-Light Bridge 是否出现在 Dante Controller 中。（有关 IP 地址和将 Dante 设备连接到网络的更多信息，请参阅<a href="https://livehelp.solidstatelogic.com/Help/DanteSetup.html"><span class="hyperlink">设置 Dante</span></a>部分）。</p>
+<p>要在 Dante Controller 中编辑 X-Light Bridge 名称，请双击 X-Light Bridge 并转到“Device Config”选项卡。 在页面顶部的“Rename Device”下，输入名称并按“Apply”。 系统将要求您确认名称更改。单击“Yes”。请注意，更改设备的 Dante 名称会中断所有到/从此设备的现有路由。</p>
+<p>将控制台上的 X-Light Bridge 名称设置为与 Dante Controller 中使用的名称完全匹配。</p>
+<figure><img src="https://livehelp.solidstatelogic.com/Help/images/g_XLightBridgeVTL.png" alt="图片 12"><figcaption>图片 12</figcaption></figure>
+<p>重新启动控制台。</p>
+<p>PSU 状态、网络状态和采样率也显示在此处。</p>
+</div>
+</div>
+<h3>IP 地址</h3>
+<p>当 BLII/X-Light Bridges 从 SSL 发货时，它们将被设置为 DHCP。</p>
+<p>BLII/X-Light Bridge 的 IP 地址必须与 Dante 扩展器模块和控制台的 Dante 控制设置位于同一子网中。 有关 IP 地址和子网的更多信息，请参阅<a href="https://livehelp.solidstatelogic.com/Help/DanteSetup.html"><span class="hyperlink">设置 Dante</span></a>。</p>
+<p class="note"><span class="notetitle">请注意：</span></p>
+<p>控制台的 Dante 扩展器模块也必须设置为与 BLII/X-Light Bridge 和控制台的 Dante 控制设置位于同一子网内的 IP 地址。</p>
+<p><span style="font-weight:bold;">更改 BLII/X-Light Bridge 和 Dante 扩展模块的 IP 地址</span></p>
+<p>BLII/X-Light Bridge 和 Dante 扩展器的 IP 地址在 Dante Controller 中更改。 双击设备并转到“Network Config”选项卡。 选择“Obtain an IP Address Automatically”或“Manually configure an IP address”。 如果选择“Manually configure an IP address”，请输入 IP 地址和 Netmask（也称为子网掩码）。</p>
+<p>单击“Apply”。 系统将要求您确认 IP 地址配置更改。单击“Yes”。 必须重新启动 BLII Bridge 才能使这些更改生效。单击窗口底部的“Reboot”。系统将要求您确认重新启动。单击“Yes”。</p>
+<p><span style="font-weight:bold;">更改控制台 Dante 控制设置的 IP 地址</span></p>
+<p>在控制台上，前往 MENU &gt; Setup &gt; Options &gt; NETWORK 选项卡。 在“DANTE CONTROL SETTINGS”部分，列出了控制台的 Dante 控制 IP 设置。选择“DHCP”或“Fixed IP addresses”。 如果选择“Fixed”，请双击 IP 地址和 Netmask（也称为子网掩码）字段进行编辑。按住“Apply”。</p>
+<h3 id="Clocking">时钟设置</h3>
+<p>请参阅<a href="https://livehelp.solidstatelogic.com/Help/Clocking.html#DanteBridge"><span class="hyperlink">“时钟”页面中的 BLII/X-Light Bridge 部分</span></a>，以正确配置控制台、BLII/X-Light Bridge 和网络时钟以实现正常运行。</p>
+<h3>采样率</h3>
+<p>BLII/X-Light Bridge 的采样率必须与控制台的采样率匹配。</p>
+<p>采样率在 Dante Controller 中更改。 双击 BLII/X-Light Bridge 并转到“Device Config”选项卡。 在“Sample Rate”部分，单击下拉菜单并选择所需的采样率。系统将要求您确认采样率更改。单击“Yes”。</p>
+<p>必须重新启动 BLII/X-Light Bridge 才能使此更改生效。 单击窗口底部的“Reboot”。系统将要求您确认重新启动。单击“Yes”。</p>
+<div id="accordion">
+<div class="indexheader2">在多个采样率和 BLII/X-Light Bridge 下工作</div>
+<div>
+<p>如果在同一网络上使用多个采样率以及 BLII/X-Light Bridge，则必须遵循以下说明。 BLII/X-Light Bridge 和控制台必须始终以相同的采样率运行。</p>
+<p>要连接同一网络上不同采样率的设备，这些设备必须通过 Dante 扩展模块使用虚拟跳线路由到/来自控制台。</p>
+<p>前往 MENU &gt; Setup &gt; I/O &gt; Local/MADI Configuration 并点击 Dante 扩展器。 双击“Virtual Tie Lines”数量并输入 32（当控制台或 Dante 扩展器或两者都运行在 96 kHz 时的最大数量）。现在启用“SRC In”。</p>
+<p>即使需要更少的虚拟跳线，也必须创建 32 条。 这是因为控制台在选择是通过 Dante 扩展器还是 BLII/X-Light Bridge 创建双域路由时是不确定的。 因此，如果创建的虚拟跳线少于 32 条，仍会保留一些 Dante 容量，控制台可能会将其用于双域路由。 那么控制台有可能尝试建立到/来自不同采样率设备的双域路由。Dante 网络路由无法在不同采样率运行的设备之间建立，因此不会创建网络路由。</p>
+<p>在 Dante Controller 中，将控制台的 Dante 扩展器设置为与这些其他设备相同的采样率（与控制台和 BLII/X-Light Bridge 的采样率不同）。</p>
+<p>现在控制台和 BLII/X-Light Bridge 运行一种采样率。而 Dante 扩展器和网络上的其他设备运行另一种采样率。Dante 扩展器已设置为在这两种采样率之间进行采样率转换。</p>
+<p>现在通过虚拟跳线建立到/来自其他设备（与控制台采样率不同）的路由。有关如何执行此操作的说明，请参阅<a href="https://livehelp.solidstatelogic.com/Help/DanteVTL.html"><span class="hyperlink">Dante 虚拟跳线</span></a>。</p>
+<p class="note"><span class="notetitle">请注意：</span></p>
+<p>在此配置中，SSL 建议将控制台设置为从 BLII/X-Light Bridge 同步时钟，并将 BLII/X-Light Bridge 设置为从 Dante 网络同步时钟。请参阅上面的时钟说明。</p>
+</div>
+</div>
+<h3>检查最大 Dante I/O 通道数</h3>
+<p>在 MENU &gt; Setup &gt; I/O &gt; Dante Configuration 中 页面右上角是一个资源栏，列出了双域输入和输出的总数，以及当前使用的数量。</p>
+<figure><img src="https://livehelp.solidstatelogic.com/Help/images/g_BLIIBridgeResource.png" alt="图片 13"><figcaption>图片 13</figcaption></figure>
+<p>Dante 输入和输出的最大数量取决于以下因素：</p>
+<ul>
+  <li>是否安装了 Dante 扩展模块（96 kHz 时为 32 通道，48 kHz 时为 64 通道）</li>
+  <li>是否连接了 BLII/X-Light Bridge（所有采样率下均为 256 通道）</li>
+  <li>控制台的采样率</li>
+  <li>Dante 扩展模块的采样率</li>
+  <li>为 Dante 扩展模块创建的去往/来自它的虚拟跳线数量</li>
+</ul>
+<p>例如，如果控制台和 Dante 扩展器都以 96 kHz 运行，没有从 Dante 扩展模块创建虚拟跳线，并且连接了一个 BLII Bridge，则最大 Dante 通道数为：</p>
+<p>32ch (96 kHz 下无虚拟跳线的 Dante 扩展器) + 256ch (BLII Bridge) = 288ch</p>
+<p>再例如，如果控制台和 Dante 扩展器都以 48 kHz 运行，从 Dante 扩展模块创建了 10 条虚拟跳线，并且连接了两个 BLII Bridge，则最大 Dante 通道数为：</p>
+<p>64ch (48 kHz 下的 Dante 扩展器) - 10ch (来自 Dante 扩展器的 10 条虚拟跳线) + 512ch (两个 BLII Bridges) = 566</p>
+<p>最大 Dante I/O 数量为 576 通道。要实现此数量，控制台必须是配置了两个 BLII/X-Light Bridges 并安装了 Dante 扩展模块的 L450、L500 Plus、L550 或 L650。 并且控制台和 Dante 扩展模块都必须以 48 kHz 运行：</p>
+<p>64ch (48 kHz 下的 Dante 扩展器) + 512ch (两个 BLII/X-Light Bridges) = 576</p>
+<p class="note"><span class="notetitle">请注意：</span></p>
+<p>以上所有内容均受网络带宽限制。</p>
+<h3>路由</h3>
+<p><span style="font-weight:bold;">双域路由</span></p>
+<p>通过 BLII/X-Light Bridge 与 Dante 设备之间的双域路由的建立方式与通过 Dante 扩展器完全相同。 有关建立双域路由的更多信息，请参阅<a href="https://livehelp.solidstatelogic.com/Help/DanteConfig.html#DualDomain"><span class="hyperlink">使用双域路由和 Dante 配置页面</span></a>。</p>
+<p class="note"><span class="notetitle">请注意：</span></p>
+<p>当与已配置的 Dante 设备建立双域路由时， 控制台会选择是通过 Dante 扩展模块还是通过 BLII/X-Light Bridge 建立该路由。 这意味着一些路由可能通过 Dante 扩展器建立，而其他一些可能通过 BLII/X-Light Bridge 建立。当控制台启动或重新加载演出文件时，这可能会改变。 这都是完全正常的。在拔掉 BLII/X-Light Bridge 或 Dante 扩展器时，请注意现有路由。 您可以在 Dante Controller 的 Routing 选项卡中检查有多少路由正在通过 BLII/X-Light Bridge 和 Dante 扩展器。 但是，不要从 Dante Controller 建立或取消这些双域路由。</p>
+<p><span style="font-weight:bold;">虚拟跳线</span></p>
+<p>要在 BLII/X-Light Bridge 上设置虚拟跳线，请前往 MENU &gt; Setup &gt; I/O &gt; Local/MADI Configuration。 点击与 BLII/X-Light Bridge 所连接本地 BLII/X-Light 端口对应的 BLII/X-Light 端口列的顶部。 BLII/X-Light Bridge 的详细视图将出现。双击“Virtual Tie Lines”旁边的文本字段以更改虚拟跳线的数量。</p>
+<figure><img src="https://livehelp.solidstatelogic.com/Help/images/g_BLIIBridgeVTL.png" alt="图片 14"><figcaption>图片 14</figcaption></figure>
+<p>在 BLII/X-Light Bridge 上，可以分别创建虚拟跳线输入和输出。</p>
+<p>创建后，BLII/X-Light Bridge 虚拟跳线将出现在路由视图中的“Bridge Virtual Tie Lines”下。为了便于导航，路由点被分成每组 32 个通道。</p>
+<p>BLII/X-Light Bridge 上的虚拟跳线的行为与在 Dante 扩展模块上的行为相同。 有关 Dante 虚拟跳线的更多信息，请参阅<a href="https://livehelp.solidstatelogic.com/Help/DanteVTL.html"><span class="hyperlink">Dante 虚拟跳线</span></a>。</p>
+<p>请注意：无法像使用 Dante 扩展模块那样，将 BLII/X-Light Bridge 虚拟跳线组配置为 Live Recorder ID。</p>
+<h2>实用链接</h2>
+<p><a href="https://livehelp.solidstatelogic.com/Help/DanteSetup.html"><span class="hyperlink">设置 Dante</span></a></p>
+<p><a href="https://livehelp.solidstatelogic.com/Help/DanteConfig.html"><span class="hyperlink">双域路由与配置 Dante 设备</span></a></p>
+<p><a href="https://livehelp.solidstatelogic.com/Help/DanteNetIO.html"><span class="hyperlink">网络 I/O 舞台接口箱和设备</span></a></p>
+<p><a href="https://livehelp.solidstatelogic.com/Help/DanteVTL.html"><span class="hyperlink">虚拟跳线</span></a></p>
+<p><a href="https://livehelp.solidstatelogic.com/Help/LocalMADIConfig.html"><span class="hyperlink">本地/MADI I/O 配置</span></a></p>
+<p><a href="https://livehelp.solidstatelogic.com/Help/Clocking.html#Dante"><span class="hyperlink">时钟设置</span></a></p>
+<p><a href="https://livehelp.solidstatelogic.com/Help/InstallGuide.html"><span class="hyperlink">安装指南</span></a></p>
+<p><a href="https://livehelp.solidstatelogic.com/Help/LinkIndex.html"><span class="hyperlink">索引与词汇表</span></a></p>

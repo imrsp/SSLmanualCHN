@@ -1,0 +1,152 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>外接屏幕</title>
+  <style>
+    body { font: 16px/1.55 Arial, sans-serif; max-width: 1080px; margin: 2rem auto; padding: 0 1.25rem; color: #202124; }
+    img { max-width: 100%; height: auto; }
+    table { border-collapse: collapse; max-width: 100%; }
+    th, td { border: 1px solid #aaa; padding: .45rem; vertical-align: top; }
+    .note { display: block; border-left: 4px solid #e0a000; background: #fff8df; padding: .75rem 1rem; margin: 1rem 0; }
+    .notetitle { font-weight: bold; }
+    .label { font-weight: bold; color: #174ea6; }
+    .source { color: #666; font-size: .9rem; }
+  </style>
+</head>
+<body>
+  <p class="source">章节：设置与附加功能 | 来源： <a href="https://livehelp.solidstatelogic.com/Help/ExtScreen.html">https://livehelp.solidstatelogic.com/Help/ExtScreen.html</a></p>
+<h2>外接屏幕</h2>
+
+<p>可将外接显示器连接到控制台背面的 VGA 输出。 任何至少支持 1280 × 1024 像素并具有 VGA 输入的显示器均可使用。</p>
+
+<p>也可使用外接触摸屏。有关购买信息，请联系 SSL。</p>
+
+<p>
+    使用外接触摸屏时，通过 VGA 将控制台的 Monitor 输出连接到屏幕。
+    然后使用 USB 2.0 A 转 B 电缆，将屏幕的 USB 端口连接到控制台的一个 USB Expander 端口
+</p>
+
+<span class="note">
+    <span class="notetitle">说明：</span><br>External screen <span style="font-weight:bold;">VGA</span> 连接应在控制台
+    <span style="font-weight:bold;">之前</span> the 控制台 is turned on.<br />
+    <span style="font-weight:bold;">USB</span> 用于外接触摸屏的连接应在控制台 <span style="font-weight:bold;">之后</span> the 控制台 has powered on.
+</span>
+
+<p>
+    外接屏幕可显示三种不同页面。第一种是 <b>总览</b> 屏幕，用于总览每条信号路径的设置和信号电平。
+    第二个是自动化屏幕，可查看场景列表和其他自动化相关信息。
+    第三个是效果器机架，显示可插入并控制 FX 的插槽页面。
+    这些页面也都可显示在控制台主屏幕上。
+</p>
+
+<p>可从选项菜单中选择发送到外接显示器的页面。请参阅 <a href="https://livehelp.solidstatelogic.com/Help/OptionsConsole.html#ExternalScreen"><span class="hyperlink">Console Options</span></a> 了解更多信息。</p>
+
+<h2 id="Overview">总览屏幕</h2>
+
+<p>总览以缩略形式显示所有信号路径。使用右侧按钮选择不同视图。</p>
+
+<p><span class="label">Zoom</span> 按钮可增大显示器上的信号路径尺寸。</p>
+
+<p><b>View Select</b> 按钮按以下方式更改显示的信号路径：</p>
+
+<ul>
+    <li>
+        <span class="label">Overview</span>：所有信号路径类型，按 System Layer 排列（参阅 <a href="https://livehelp.solidstatelogic.com/Help/LayerManager.html"><span class="hyperlink">推子层管理器</span></a>）。排列顺序如下：
+        <ul>
+            <li>通道</li>
+            <li>Stem 编组母线</li>
+            <li>Aux 辅助母线</li>
+            <li>Master 主母线</li>
+            <li>VCA</li>
+            <li>矩阵输出</li>
+            <li>对讲信号路径</li>
+            <li>Solo 输出</li>
+        </ul>
+    </li>
+    <li><span class="label">Inputs</span>：仅输入和对讲通道</li>
+    <li><span class="label">Outputs</span>：仅输出路径（Stems、Auxes、Masters、Matrix、Solo 通道和 VCA）</li>
+    <li><span class="label">Tiles</span>：按控制台 Fader Tiles 当前活动层中的方式显示信号路径</li>
+    <li><span class="label">Remote&nbsp;Tiles</span>：按控制台 Remote Fader Tiles 当前活动层中的方式显示信号路径</li>
+</ul>
+
+<p>也可从主菜单中选择总览页面，在主屏幕上查看（<span class="label">MENU</span> &gt; <span class="label">Overview</span>）。</p>
+
+<p>
+    <span class="note">
+        <span class="notetitle">说明： </span>总览一次只能显示在一个屏幕上；在主屏幕选择总览后，它会从外接屏幕移除，反之亦然。<br />
+        <b>提示：</b>可将 <a href="https://livehelp.solidstatelogic.com/Help/OptionsUserKeys.html"><span class="hyperlink">User Keys</span></a> 分配为快速将 Overview 指派到外接屏幕或主屏幕。
+    </span>
+</p>
+
+<div class="center">
+    <img style="margin: 10px 10px;" src="https://livehelp.solidstatelogic.com/Help/images/g_OverviewScreen.png" alt="">
+</div>
+
+<p>触摸总览屏幕上的信号路径，会将其设为控制台的 Selected 路径，以便通过 Master Tile 的 Focus Fader、Control Tile（如有）等进行操作。</p>
+<p>双击电平表区域可将其展开（与 Channel View 屏幕中的电平表相同）。这会使总览条带显示更大的电平表，以及信号路径名称、颜色、Mute、Solo 和 Select 状态。</p>
+
+<p>再次双击可缩小电平表并返回先前视图。</p>
+
+<p>
+    <span class="note">
+        <span class="notetitle">说明： </span><br>
+        从总览屏幕选择路径不会改变推子区块布局，但 Selected 路径会显示在 Channel View 中，并且其 <span class="label">Select</span> 按钮在该路径恰好显示于推子区块上时会亮起。
+        如果使用推子区块的 <span class="label">Select</span> 按钮选择通道，总览屏幕中也会选中同一通道。<br>
+        控制台连接鼠标后，可使用屏幕按钮控制 Mute、Solo 等基本通道功能，也可双击电平表将其展开或收起。
+    </span>
+</p>
+
+<div class="note">
+    <span class="notetitle">提示：</span>
+    <ul>
+        <li>输入通道削波时，会在 Overview 页面闪烁红色。</li>
+        <li>在外接触摸屏上显示 Overview 页面，可让操作员快速识别削波通道并点按选择，无需离开主屏幕上的 Channel View。</li>
+        <li>使用 Overview 屏幕选择多条信号路径，供 Path Linking 或 Copy 使用。 按住 Shift 并点击，或触摸首尾条带，可选择一段连续路径。</li>
+    </ul>
+</div>
+
+<h2>自动化</h2>
+
+<p>外接显示器还可显示 <a href="https://livehelp.solidstatelogic.com/Help/AutoOverview.html"><span class="hyperlink">Automation</span></a>。</p>
+
+<p>
+    此页面上半部分列出演出文件中的所有场景。 下半部分可显示多种内容，通过屏幕左下角按钮选择。
+    如果使用非触摸式外接屏幕，应先决定下半屏显示的内容（例如 <span style="font-weight: bold;">Scene Name</span> 用于查看所选场景的名称和备注），然后再将其分配到外接显示器。
+</p>
+<p>也可随时使用 USB 鼠标更改选择并浏览自动化屏幕。</p>
+
+<p>
+    <span class="note">
+        <span class="notetitle">说明： </span>Automation 一次只能显示在一个屏幕上；在主屏幕选择后，它会从外接屏幕移除，反之亦然。<br />
+        <b>提示：</b>可将 <a href="https://livehelp.solidstatelogic.com/Help/OptionsUserKeys.html"><span class="hyperlink">User Keys</span></a> 分配为快速将 Automation 页面指派到外接屏幕或主屏幕。
+    </span>
+</p>
+
+<h2 id="EffectsExt">效果器机架</h2>
+
+<p>外接屏幕还可显示 <a href="https://livehelp.solidstatelogic.com/Help/FXIntro.html"><span class="hyperlink">Effects Rack</span></a>。</p>
+
+<p>此页面上半部分显示可用 FX 插槽及各插槽分配的效果。 可在此添加或移除效果，然后从 Channel View 进行路由。</p>
+
+<p>
+    页面下半部分显示当前所选插槽及该插槽效果的控制。
+    显示在外接屏幕时，操作员可快速访问关键效果，例如主唱处理。
+    也可在此显示 Spectra-lyser 等分析效果。
+</p>
+
+<p>
+    <span class="note">
+        <span class="notetitle">说明： </span>Effects Rack 一次只能显示在一个屏幕上；在主屏幕选择后，它会从外接屏幕移除，反之亦然。<br />
+        <b>提示：</b>可将 <a href="https://livehelp.solidstatelogic.com/Help/OptionsUserKeys.html"><span class="hyperlink">User Keys</span></a> 分配为快速将 Effects Rack 指派到外接屏幕或主屏幕。
+    </span>
+</p>
+
+<h2>实用链接</h2>
+
+
+<a href="https://livehelp.solidstatelogic.com/Help/LinkIndex.html"><span class="hyperlink">索引与术语表</span></a>
+<br>
+</body>
+</html>

@@ -1,0 +1,174 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>跳线管理器</title>
+  <style>
+    body { font: 16px/1.55 Arial, sans-serif; max-width: 1080px; margin: 2rem auto; padding: 0 1.25rem; color: #202124; }
+    img { max-width: 100%; height: auto; }
+    table { border-collapse: collapse; max-width: 100%; }
+    th, td { border: 1px solid #aaa; padding: .45rem; vertical-align: top; }
+    .note { display: block; border-left: 4px solid #e0a000; background: #fff8df; padding: .75rem 1rem; margin: 1rem 0; }
+    .notetitle { font-weight: bold; }
+    .label { font-weight: bold; color: #174ea6; }
+    .source { color: #666; font-size: .9rem; }
+  </style>
+</head>
+<body>
+  <p class="source">章节：设置与附加功能 | 来源： <a href="https://livehelp.solidstatelogic.com/Help/PatchManager.html">https://livehelp.solidstatelogic.com/Help/PatchManager.html</a></p>
+<h2>跳线管理器</h2>
+<p>
+    通过 <b>Patch Manager</b> 页面（位于 <span class="label">MENU</span> > <span class="label">Setup</span> > <span class="label">File Manager</span> >
+    <span class="label">Patch Manager</span> 页签）可用于加载和保存当前演出的输入跳线配置。
+</p>
+
+<h2>保存输入跳线</h2>
+<p>
+    默认文件位置为控制台内部驱动器。可使用驱动器和文件夹按钮（具体说明参见
+    <a href="https://livehelp.solidstatelogic.com/Help/Showfiles.html"><span class="hyperlink">演出文件浏览器</span></a>）选择其他保存位置。要保存输入跳线，只需按下 <span class="label">Save As</span> 并输入文件名。使用 <span class="label">Save</span> 按钮可覆盖之前保存的跳线文件。
+</p>
+
+<p>
+    此操作会将当前配置的输入跳线（从舞台接口箱输入到所有通道 Input A 的路由）保存为 CSV（逗号分隔值）文件。随后可在 Microsoft Excel 等电子表格应用程序中打开该文件，以便检查或编辑。
+</p>
+
+<p>
+    这样可以方便地离线编辑演出文件中的输入跳线，也可将其导入具有相同通道配置的其他演出文件（有关导入跳线表文件的更多信息，请参见下文）。该文件还可作为创建更完整跳线表的起点，进一步加入话筒、话筒架等信息。
+</p>
+
+<p>导出的跳线信息按以下字段组织：</p>
+
+<ul>
+    <li><b>Ch #</b> ——在 <a href="https://livehelp.solidstatelogic.com/Help/ConsoleConfig.html"><span class="hyperlink">控制台配置</span></a> 页面中定义的通道编号</li>
+    <li><b>Ch Leg</b> ——已格式化通道的分支编号。单声道为空；立体声通道的第一个（左）分支为 1，第二个分支为 2，以此类推。</li>
+    <li><b>Ch Name</b> ——用户定义的通道名称；多通道时会附加分支标签（L、R 等）</li>
+    <li><b>Input A Device</b> ——路由到此通道 Input A 所使用的 I/O 设备（舞台接口箱）</li>
+    <li><b>Input A Route</b> ——I/O 设备上的输入编号（如果是混合信号舞台接口箱上的 AES/EBU 输入，则前缀为 <b>AES</b> ）</li>
+    <li><b>Device Type</b> ——路由所连接的设备类型： <b>Dante</b>, <b>MADI</b> 或 <b>Local</b> （不导入）</li>
+</ul>
+
+<p>典型文件如下所示：</p>
+
+<blockquote>
+    <div>
+        <table class="insideborder" style="width: auto; margin: 15px 0px;" cellpadding="4" cellspacing="1">
+            <tbody>
+                <tr>
+                    <td colspan="6" align="left">[Information]<br>文件头信息（请勿编辑）<br>[PatchData]</td>
+                </tr>
+                <tr>
+                    <th>Ch #</th>
+                    <th>Ch Leg</th>
+                    <th>Ch Name</th>
+                    <th>Input A Device</th>
+                    <th>Input A Route</th>
+                    <th>Device Type</th>
+                </tr>
+                <tr>
+                    <td>1</td>
+                    <td></td>
+                    <td>Kick</td>
+                    <td>IO 1-32</td>
+                    <td>1</td>
+                    <td>MADI</td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td></td>
+                    <td>Snare</td>
+                    <td>IO 1-32</td>
+                    <td>2</td>
+                    <td>MADI</td>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td></td>
+                    <td>Hats</td>
+                    <td>IO 1-32</td>
+                    <td>3</td>
+                    <td>MADI</td>
+                </tr>
+                <tr>
+                    <td>4</td>
+                    <td></td>
+                    <td>Bass DI</td>
+                    <td>Backline-IO</td>
+                    <td>1</td>
+                    <td>Dante</td>
+                </tr>
+                <tr>
+                    <td>5</td>
+                    <td>1</td>
+                    <td>Pads L</td>
+                    <td>Backline-IO</td>
+                    <td>AES1</td>
+                    <td>Dante</td>
+                </tr>
+                <tr>
+                    <td>5</td>
+                    <td>2</td>
+                    <td>Pads R</td>
+                    <td>Backline-IO</td>
+                    <td>AES2</td>
+                    <td>Dante</td>
+                </tr>
+                <tr>
+                    <td>6</td>
+                    <td></td>
+                    <td>Talkback</td>
+                    <td></td>
+                    <td></td>
+                    <td>Local</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</blockquote>
+
+
+<h2>加载输入跳线</h2>
+<p>
+    跳线管理器页面也可通过 <span class="label">Load</span> 按钮加载 CSV 输入跳线文件。
+</p>
+
+<span class="note">
+    <span class="notetitle">警告：</span> 加载 CSV 跳线文件会改变通道输入路由。请务必确认跳线表与当前使用的控制台配置正确匹配。
+</span>
+
+<p>
+    请注意，加载的跳线以通道 ID 编号为依据。发生以下情况时，单条路由将 <b>不会</b> 被导入：
+</p>
+
+<ul>
+    <li>控制台上存在该通道 ID，但文件中不存在，或反之*</li>
+    <li>控制台或文件中不存在给定通道 ID 的对应通道分支</li>
+    <li>路由来源不是舞台接口箱（例如本地 I/O、其他信号路径、FX 机架等）</li>
+    <li>文件中定义的舞台接口箱名称和类型未在控制台上配置</li>
+    <li>任一条路由字段为空</li>
+    <li>控制台的路由容量已用尽</li>
+</ul>
+
+<p>* 请注意，通道 ID 编号可按以下两种方式之一显示： <b>Default</b> 或 <b>Auto-Renumber</b>，具体由 <a href="https://livehelp.solidstatelogic.com/Help/ConsoleConfig.html#Numbering"><span class="hyperlink">控制台配置页面</span></a>定义。SSL 建议在使用跳线管理器时采用 <b>Default</b> 编号方式。不建议在保存和加载跳线文件之间更改编号方案。</p>
+
+<p>
+    从文件中未导入路由的控制台通道，会在加载后保留其现有控制台路由。
+</p>
+
+<p>
+    若要明确清除通道当前的路由，必须在<b>NONE</b>值输入到 <b>Input A Route</b> 列中。 <b>Input A Device</b> 和 <b>Device Type</b> 列可以留空。
+</p>
+
+<span class="note">
+    <span class="notetitle">提示：</span> 如果演出文件是按一种场景准备、而场地采用另一种配置，可使用跳线管理器在不同舞台接口箱之间转移通道输入路由，例如从 MADI 端口转移到通过 Blacklight II 连接的舞台接口箱，或反向转移。<br />
+    首先加载包含旧舞台接口箱配置的演出文件，然后按上述方法保存跳线文件，并记下旧舞台接口箱名称。在新的 I/O 端口中创建与旧舞台接口箱同名的新舞台接口箱，并从 I/O 页面删除旧舞台接口箱。最后加载先前保存的跳线文件。系统会将路由重新建立到与旧设备同名的新舞台接口箱。<br />
+    请注意，此方法不会重新建立 Channel Input A 之外的输入路由，也不会重新建立通往舞台接口箱输出的路由。
+</span>
+
+
+<h2>实用链接</h2>
+<p><a href="https://livehelp.solidstatelogic.com/Help/GUI.html"><span class="hyperlink">触摸屏操作</span></a></p>
+
+<a href="https://livehelp.solidstatelogic.com/Help/LinkIndex.html"><span class="hyperlink">索引和术语表</span></a><br>
+</body>
+</html>

@@ -1,0 +1,307 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>路由</title>
+  <style>
+    body { font: 16px/1.55 Arial, sans-serif; max-width: 1080px; margin: 2rem auto; padding: 0 1.25rem; color: #202124; }
+    img { max-width: 100%; height: auto; }
+    table { border-collapse: collapse; max-width: 100%; }
+    th, td { border: 1px solid #aaa; padding: .45rem; vertical-align: top; }
+    .note { display: block; border-left: 4px solid #e0a000; background: #fff8df; padding: .75rem 1rem; margin: 1rem 0; }
+    .notetitle { font-weight: bold; }
+    .label { font-weight: bold; color: #174ea6; }
+    .source { color: #666; font-size: .9rem; }
+  </style>
+</head>
+<body>
+  <p class="source">章节：构建演出文件 | 来源：<a href="https://livehelp.solidstatelogic.com/Help/Routing.html">https://livehelp.solidstatelogic.com/Help/Routing.html</a></p>
+<h2>路由</h2>
+<p>
+    Live 控制台的信号路由极其灵活，几乎可以将任何信号路由到任何位置！
+    例如，舞台接口箱输入可以直接路由到<a href="https://livehelp.solidstatelogic.com/Help/FXIntro.html"><span class="hyperlink">效果器机架模块</span></a>
+    或通道的<a href="https://livehelp.solidstatelogic.com/Help/PathProc.html#Dynamics"><span class="hyperlink">动态 Key Input</span></a>，无需占用另一个控制台通道
+    （请使用 <a href="https://livehelp.solidstatelogic.com/Help/LocalMADIConfig.html"><span class="hyperlink">I/O 页面</span></a>设置前置放大器增益，如有需要）。
+</p>
+
+<p>可通过两种方式进行路由：</p>
+<p style="margin-bottom:0px">
+    <ul>
+        <li>通过 <span style="font-weight:bold;">Routing View</span>：为某条信号路径建立一条输入或输出路由</li>
+        <li>通过 <span style="font-weight:bold;">XY Routing</span>（见<a href="https://livehelp.solidstatelogic.com/Help/Routing.html#XY"><span class="hyperlink">下文</span></a>）：同时建立多条路由（例如将舞台接口箱批量路由至通道输入时）</li>
+    </ul>
+</p>
+
+<p>有关 I/O 配置的更多信息，请参阅<a href="https://livehelp.solidstatelogic.com/Help/Clocking.html"><span class="hyperlink">时钟与 I/O 连接</span></a>章节。</p>
+
+<h2>路由视图</h2>
+
+<p>
+    此 <span style="font-weight:bold;">Routing View</span> 会出现在控制台的许多位置。
+    最常见的位置包括：
+<p style="margin-bottom:0px">
+    <ul>
+        <li>
+            <span class="label">Route&nbsp;Input&nbsp;A</span>, <span class="label">Route&nbsp;Input&nbsp;B</span> and <span class="label">Route&nbsp;Output</span> buttons
+            位于 Detail View 的 <span class="label">Input/Routing</span> 区域
+        </li>
+        <li><span class="label">Route&nbsp;Send</span> 和 <span class="label">Route&nbsp;Return</span> 按钮位于 Detail View 的 <span class="label">Insert A</span>/<span class="label">Insert B</span> 区域</li>
+        <li>路由矩阵输入和输出时</li>
+        <li>为 Dynamics FX 单元路由 Key Input 时</li>
+    </ul>
+</p>
+<p>
+    <span class="note">
+        <span class="notetitle">注意：</span>输出可路由至任意数量的目标。除 Channel 外，所有信号路径类型的输出均位于全部处理（包括推子）之后；Channel 可<a href="https://livehelp.solidstatelogic.com/Help/DetailView.html#Input"><span class="hyperlink"><b>按通道设置</b></span></a>或<a href="https://livehelp.solidstatelogic.com/Help/OptionsSystem.html#Chop"><span class="hyperlink"><b>设为默认值</b></span></a>。
+    </span>
+</p>
+<p>例如，要为通道主输入（Input A）选择信号源，请触摸 <span class="label">Route&nbsp;Input&nbsp;A</span>；该按钮位于输入/路由<b>详细信息对话框</b>中。</p>
+
+<p>此时将显示 <b>Routing View</b>：</p>
+<div class="center">
+    <img style="display: block; margin: 0px auto 45px; width: 750px" src="https://livehelp.solidstatelogic.com/Help/images/g_detailRoute.png" alt="">
+</div>
+<p>触摸左列中的某个组，其内容会在下一列打开；如有需要，可继续在第三列和第四列中展开。</p>
+<p>如有需要，可滑动列中的列表以向上或向下滚动。</p>
+<p>对于舞台接口箱或通用 MADI/Dante 设备，第一列显示物理设备，第二列显示其 I/O 类型，下一列显示各个 I/O。</p>
+<p>要使用控制台内部 I/O，请触摸控制台组（显示为 <span style="font-weight: bold;">LIVE</span> 及 ID 编号），然后选择信号源类型和编号。若选择通道或母线信号，还可继续选择通道中的可用信号源点。</p>
+<p>按 <span class="label">Make</span> 完成路由。</p>
+
+<p>
+    <span class="note">
+        <span class="notetitle">注意：</span>路由多通道输入或输出（Stereo、LCR 等）时，按住 <span class="label">Make</span> 按钮，再按 <span class="label">Make&nbsp;All</span>，即可在条件允许时将信号路径的所有分支路由至连续的物理接口。<br>
+        也可使用下文介绍的 XY Routing 路由至连续接口。<br>
+        或者在 Main 屏幕上选择通道条，然后按右侧的 <span class="label">Spill</span> 按钮，依次路由各个分支。
+    </span>
+</p>
+<p>路由框的颜色含义如下：</p>
+
+<table border="0" cellpadding="0" cellspacing="10">
+    <tbody>
+        <tr>
+            <td style="vertical-align: middle; width: 120px;"><img style="margin: 0px 10px 0px 0px;" src="https://livehelp.solidstatelogic.com/Help/images/b_RouteActiveEDGE.png" alt=""></td>
+            <td style="vertical-align: top;">
+                <span style="font-weight:bold;">绿色</span>：设备或设备元素处于活动状态（已检测并锁定），且包含与此通道之间的路由；
+            </td>
+        </tr>
+        <tr>
+            <td style="vertical-align: middle; width: 120px;"><img style="margin: 0px 10px 0px 0px;" src="https://livehelp.solidstatelogic.com/Help/images/b_RouteDeviceInactiveEDGE.png" alt=""></td>
+            <td style="vertical-align: top;">
+                <span style="font-weight:bold;">青色</span>：设备或设备子类别处于活动状态并可用于路由，但自身不是可路由元素；
+            </td>
+        </tr>
+        <tr>
+            <td style="vertical-align: middle; width: 120px;"><img style="margin: 0px 10px 0px 0px;" src="https://livehelp.solidstatelogic.com/Help/images/b_RouteNumberInactive1EDGE.png" alt=""></td>
+            <td style="vertical-align: top;">
+                <span style="font-weight:bold;">蓝色</span>：可路由的设备元素处于活动状态，可与此通道建立路由；
+            </td>
+        </tr>
+        <tr>
+            <td style="vertical-align: middle; width: 120px;"><img style="margin: 0px 10px 0px 0px;" src="https://livehelp.solidstatelogic.com/Help/images/b_RouteGrey.png" alt=""></td>
+            <td style="vertical-align: top;">
+                <span style="font-weight:bold;">灰色</span>：设备或设备元素未激活（未检测到或未锁定），且不包含与此通道之间的路由。
+            </td>
+        </tr>
+        <tr>
+            <td style="vertical-align: middle; width: 120px;"><img style="margin: 0px 10px 0px 0px;" src="https://livehelp.solidstatelogic.com/Help/images/b_RouteUnavailableEDGE.png" alt=""></td>
+            <td style="vertical-align: top;">
+                <span style="font-weight:bold;">棕色</span>：设备或设备元素处于活动状态，但已被占用，因此无法用于路由。
+            </td>
+        </tr>
+        <tr>
+            <td style="vertical-align: middle; width: 120px;"><img style="margin: 0px 10px 0px 0px;" src="https://livehelp.solidstatelogic.com/Help/images/b_RouteYellow.png" alt=""></td>
+            <td style="vertical-align: top;">
+                <span style="font-weight:bold;">黄色</span>：设备或设备元素未激活但已被占用。此设备上不会有音频。
+            </td>
+        </tr>
+        <tr>
+            <td style="vertical-align: middle; width: 120px;"><img style="margin: 0px 10px 0px 0px;" src="https://livehelp.solidstatelogic.com/Help/images/b_RouteRed.png" alt=""></td>
+            <td style="vertical-align: top;">
+                <span style="font-weight:bold;">红色</span>：设备或设备元素未激活，但包含与此通道之间的路由。此设备上不会有音频。
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+<p>取消路由分为三个层级：</p>
+<p>对于 <span style="font-weight: bold;">Route In</span>：</p>
+<ul class="tab">
+    <li><span class="label">Clear&nbsp;&lt;element&gt;</span>（例如 Clear Analogue A 11）取消从所选设备元素/物理接口发出的所有路由（这些路由显示在 <span class="label">Clear&nbsp;&lt;element&gt;</span> 按钮左侧可滚动的当前路由列表中），包括已连接到其他通道的路由；</li>
+    <li><span class="label">Unmake</span> 仅取消所选通道从当前高亮（已选择）设备元素取得的输入路由。路由到同一信号源的其他通道不受影响；</li>
+    <li><span class="label">Clear&nbsp;Input&nbsp;A</span>/<span class="label">Clear&nbsp;Input&nbsp;B</span> 取消该通道的所有输入路由，即使它们当前未被选择。这包括立体声/LCR 通道的所有分量，但不包括该通道的另一路（<span style="font-weight: bold;">A</span> 或 <span style="font-weight: bold;">B</span>）输入。</li>
+</ul>
+<p>对于 <span style="font-weight: bold;">Route Out</span>：</p>
+<ul class="tab">
+    <li><span class="label">Clear&nbsp;&lt;element&gt;</span>（例如 Clear AES 5/6）取消通往所选设备元素/物理接口的所有路由；</li>
+    <li><span class="label">Unmake</span> 取消该通道通往当前高亮设备元素的输出路由；</li>
+    <li><span class="label">Clear&nbsp;Output</span> 取消该通道的所有输出路由，即使它们当前未被选择。这包括立体声/LCR 通道的所有分量。</li>
+</ul>
+<p>要关闭此显示，请选择其他 Detail 页面、取消选择 <span class="label">Route</span>，或触摸 <span class="label">Close</span> 按钮。</p>
+<p>
+    <span class="note">
+        <span class="notetitle">注意：</span>路由列上方的 <span class="label">Close</span> 按钮仅关闭路由界面，Detail 对话框仍保持打开。
+        触摸路由按钮上方的 <span class="label">Close</span> 会关闭整个 Detail 对话框。
+    </span>
+</p>
+
+<br>
+
+<h2 id="XY">XY 路由</h2>
+<img style="display: block; margin: 25px auto;" src="https://livehelp.solidstatelogic.com/Help/images/g_XYSmall.png" align="right" alt="">
+
+<p>
+    此 <span style="font-weight:bold;">XY Routing</span> 页面（<span class="label">MENU</span> > <span class="label">Setup</span>
+    > <span class="label">XY&nbsp;Routing</span>）提供网格式批量路由界面。
+</p>
+<p>XY Routing 页面可概览跳线状态，并能快速完成大量、复杂的跳线分配。</p>
+<p>
+    首先选择所需的 <span style="font-weight:bold;">Source</span> 和 <span style="font-weight:bold;">Destination</span>，二者位于页面左上角。
+    此 <span style="font-weight:bold;">Source</span> 列在 <i>y</i> 轴上，<span style="font-weight:bold;">Destination</span> 列在 <i>x</i> 轴上。
+</p>
+<p>
+    轻触任意交叉点可创建一条<span style="font-weight:bold;">待建立路由</span>（<span style="font-weight:bold;">青色</span>）。按住 <span class="label">Apply</span> 建立路由。
+    如果设备在线且已锁定，路由会变为<span style="font-weight:bold;">绿色</span>；如果设备离线或未锁定，路由会变为<span style="font-weight:bold;">红色</span>。
+</p>
+<p>
+    要同时进行多项分配，请按住第一个交叉点，再触摸最后一个交叉点，然后同时松开双指。
+    也可轻触第一个交叉点，再按 <span class="label">1:1&nbsp;From&nbsp;Selected</span>。界面会显示一系列 1:1 待建立路由（青色）。按住 <span class="label">Apply</span> 建立这些路由。
+</p>
+<p>
+    要清除路由，请轻触交叉点；交叉点将显示为空心圆（待取消路由状态）。按住 <span class="label">Apply</span> 执行更改。
+</p>
+<p>
+    也可按住 <span class="label">Clear&nbsp;All&nbsp;Routes&nbsp;From...</span>，清除来自所选信号源（例如整台舞台接口箱）的全部路由，
+    或按住 <span class="label">Clear&nbsp;All&nbsp;Routes&nbsp;To...</span>，清除通往所选目标（例如所有通道的 Input A）的全部路由。
+
+    <span class="note">
+        <span class="notetitle">注意：</span>这些 <span class="label">Clear&nbsp;All...</span> 按钮会立即取消路由，而 <span class="label">Apply</span> 按钮无需按下。
+    </span>
+</p>
+
+<table class="insideborder" style="margin: 10px 0px;" border="0" cellpadding="4" cellspacing="1">
+  <tbody>
+    <tr>
+      <td style="width: 45px; padding: 2px 5px;"><img src="https://livehelp.solidstatelogic.com/Help/images/b_XY_selected.png" alt=""></td>
+      <td>已选择单元格（青色边框）</td>
+    </tr>
+    <tr>
+      <td style="width: 45px; padding: 2px 5px;"><img src="https://livehelp.solidstatelogic.com/Help/images/b_XY_no_route.png" alt=""></td>
+      <td>无路由</td>
+    </tr>
+    <tr>
+      <td style="width: 45px; padding: 2px 5px;"><img src="https://livehelp.solidstatelogic.com/Help/images/b_XY_pending_route.png" alt=""></td>
+      <td>待建立路由</td>
+    </tr>
+    <tr>
+      <td style="width: 45px; padding: 2px 5px;"><img src="https://livehelp.solidstatelogic.com/Help/images/b_XY_pending_unroute.png" alt=""></td>
+      <td>待取消路由</td>
+    </tr>
+    <tr>
+      <td style="width: 45px; padding: 2px 5px;"><img src="https://livehelp.solidstatelogic.com/Help/images/b_XY_route_made.png" alt=""></td>
+      <td>路由已成功建立，设备可用</td>
+    </tr>
+    <tr>
+      <td style="width: 45px; padding: 2px 5px;"><img src="https://livehelp.solidstatelogic.com/Help/images/b_XY_route_unavailable.png" alt=""></td>
+      <td>路由已建立，设备不可用</td>
+    </tr>
+  </tbody>
+</table>
+
+<p id="colour">当输入或输出已与某一位置建立路由时，坐标轴上的名称会变灰。如果一个输入被路由到多个位置，坐标轴上的名称会变为橙色。</p>
+<p>如果某个输入已路由至一个或多个目标，仍可从此输入建立通往更多目标的附加路由。</p>
+<p>
+    如果某个输出已接收来自其他信号源的路由，在 <span class="label">XY&nbsp;Routing</span> 中为该输出建立新路由会覆盖原有路由。
+    只有 <span class="label">XY&nbsp;Routing</span> 可以覆盖路由。在普通路由视图中，必须先取消通往该输出的路由，才能建立来自其他信号源的新路由。
+</p>
+<p>轻触坐标轴上的信号源/目标点，可在左上角详细信息框中显示当前路由。</p>
+<p>
+    页面右侧设有导航按钮，用于浏览较长的列表。
+    <span class="label">Align&nbsp;Selected</span> 会移动网格，使所选交叉点位于左上角。
+    <span class="label">Home</span> 会将网格恢复到默认位置（网格左上角）。
+</p>
+<p>使用 <span class="label">Refresh I/O</span> 按钮刷新 XY Routing 页面。</p>
+<img style="display: block; margin: 25px auto;" src="https://livehelp.solidstatelogic.com/Help/images/g_XYFull.png" alt="">
+
+<h3 id="RoutingModes">路由模式</h3>
+<p>XY Routing 包含两种路由模式：</p>
+<ul>
+	<li><strong>Showfile Saved</strong>：标准模式。</li>
+	<li><strong>Outside of Showfile</strong>：仅用于 Dante 的持久路由。</li>
+</ul>
+<p>控制台可直接提供完整 Dante 路由。您可以选择将路由存储在演出文件内，也可以将其配置为独立的系统级 Dante 路由。控制台由此可作为功能强大的 Dante 控制器，无缝管理系统级路由。</p>
+
+<img style="display: block; margin: 0px auto 15px; width: 300px" src="https://livehelp.solidstatelogic.com/Help/images/u_RoutingXY_Modes.png" alt="">
+
+<p>SSL Live 控制台软件完整集成 Dante 路由，将跳线配置无缝嵌入演出文件，并通过单一用户界面实现完整路由控制。即使处于离线状态，也可直接在控制台上配置所有 Dante 设备并进行跳线分配。控制台的离线编辑器 SOLSA 同样具备此功能，可提前完成整场演出的准备工作。Dante 可作为控制台的可扩展延伸，使 SSL Live 提供完全受控制台管理的强大音频路由方案。</p>
+
+<p>这一功能也带来更高灵活性：可按需手动覆盖路由和 Dante 订阅，但控制台绝不会自动覆盖设置。软件采用“先到先得”的自动仲裁机制；控制台关机或演出文件卸载时会释放 Dante 订阅，为其他控制台或其他活动信号释放资源。所有内容均存储在演出文件中，可完整调用。</p>
+
+<p>需要永久信号路由时，可使用 SSL Live 的 Outside of Showfile Routing Mode。在此模式下建立的订阅，即使控制台关闭或加载其他演出文件仍会保持有效，因此无需为了持久的“场馆固定路由”而打开 Dante Controller。</p>
+
+<h3 id="Problem">故障排除</h3>
+<p>如果控制台无法建立全部或部分 Dante 路由，将出现弹窗。请查看屏幕左上角的 Status Message 区域了解详情，其中会说明路由未能建立的原因。</p>
+<p>显示的消息将是以下之一：</p>
+<div>
+    <table class="insideborder" style="width: auto; margin: 15px 0px;" cellpadding="4" cellspacing="1">
+        <tbody>
+            <tr>
+                <th class="solidborder">消息</th>
+                <th class="solidborder">含义</th>
+            </tr>
+            <tr>
+                <td class="solidborder"><span style="font-weight:bold;">Warning:&nbsp;Some&nbsp;routes&nbsp;have&nbsp;not&nbsp;been&nbsp;made:<br>Insufficient Dante dual-domain inputs.</span></td>
+                <td class="solidborder">尝试建立的路由中，一部分已成功建立，另一部分未能建立。<br>原因是剩余的双域输入不足，无法建立全部路由。</td>
+            </tr>
+            <tr>
+                <td class="solidborder"><span style="font-weight:bold;">Warning:&nbsp;Some&nbsp;routes&nbsp;have&nbsp;not&nbsp;been&nbsp;made:<br>Insufficient Dante dual-domain outputs.</span></td>
+                <td class="solidborder">尝试建立的路由中，一部分已成功建立，另一部分未能建立。<br>原因是剩余的双域输出不足，无法建立全部路由。</td>
+            </tr>
+            <tr>
+                <td class="solidborder"><span style="font-weight:bold;">Warning:&nbsp;No&nbsp;routes&nbsp;have&nbsp;been&nbsp;made:<br>Insufficient Dante dual-domain inputs.</span></td>
+                <td class="solidborder">尝试建立的路由均未建立。<br>原因是剩余的双域输入不足，无法建立任何路由。</td>
+            </tr>
+            <tr>
+                <td class="solidborder"><span style="font-weight:bold;">Warning:&nbsp;No&nbsp;routes&nbsp;have&nbsp;been&nbsp;made:<br>Insufficient Dante dual-domain outputs.</span></td>
+                <td class="solidborder">尝试建立的路由均未建立。<br>原因是剩余的双域输出不足，无法建立任何路由。</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<p>双击 Status Message 可打开 Status Message 窗口，其中显示自上次启动以来的所有状态消息。</p>
+<img style="display: block; margin: 25px auto;" src="https://livehelp.solidstatelogic.com/Help/images/g_DanteStatusMessage.png">
+<p>每条失败的 Dante 路由都会对应一条 Status Message。向下滚动列表可查看失败路由；未列出的尝试路由均已成功建立。</p>
+
+<h2 id="GainSharing">增益共享</h2>
+
+<h3>MADI 舞台接口箱</h3>
+
+<p>当多台控制台从同一 MADI 舞台接口箱接收信号时，只有一台控制台可以远程控制舞台接口箱的前置放大器。“主”控制台就是连接到舞台接口箱 MADI 输入的控制台（若通过 Blacklight II 连接，则为连接到 Blacklight Concentrator A 端口的控制台）。</p>
+
+<p>Gain Share 功能可让没有前置放大器控制权的控制台（“从”控制台）以数字方式补偿主控制台对模拟信号电平所做的任何更改，从而避免从控制台的总体输入电平发生意外变化：</p>
+
+<p>主控制台工程师确定某通道的初始模拟增益后，从控制台工程师应按下其控制台上的 <span class="label">Gain Share</span> 按钮，启用增益共享。</p>
+
+<p>此后，如果主控制台将模拟前置放大器增益降低 3 dB，从控制台的数字微调会提高 3 dB。如果从控制台未启用 Gain Sharing，则不会对模拟增益变化进行数字补偿。</p>
+<span class="note"><span class="notetitle">注意：</span>主控制台上的大幅增益变化（例如启用 Pad 或 High Gain Sensitivity 模式）可能使从控制台在应用补偿微调时产生可听见的电平变化。</span>
+
+<p>位于 <span class="label">Gain Share</span> 按钮顶部的 LED 条颜色表示关闭 Gain Sharing 后信号电平会升高还是降低。灰灯表示尚未应用数字微调偏移（即启用 Gain Sharing 后，模拟增益未发生变化）。</p>
+<p>绿灯表示关闭 Gain Sharing 会使电平降低。（模拟增益已调低，因此控制台通过调高数字微调进行补偿；关闭 Gain Sharing 会移除此偏移。）</p>
+<p>红灯表示需要谨慎操作，因为关闭 Gain Sharing 会使电平升高。</p>
+<p>Gain Share 按钮下方的文本字段显示已应用到该通道的数字微调量。</p>
+
+<span class="note">
+    <span class="notetitle">注意：</span>“主”控制台也有 Gain Share 按钮和数字微调控件。它们不会影响“从”控制台的增益；同样，“从”控制台的 Gain Share 按钮和数字微调也不会影响“主”控制台的增益。<br>
+    “主”控制台可使用自身的 Gain Share 按钮进行自增益共享，从而即使需要更改模拟增益，也能保持一致的增益结构。如果已设置压缩器、门限器阈值等参数并希望保持这些设置，此功能会很有用。
+</span>
+
+<h3>Dante 舞台接口箱</h3>
+使用 Dante 舞台接口箱时的增益共享，请参阅<a href="https://livehelp.solidstatelogic.com/Help/DanteNetIO.html#GainShare"><span class="hyperlink">网络 I/O 设备增益共享</span></a>章节。
+
+<h2>实用链接</h2>
+<a href="https://livehelp.solidstatelogic.com/Help/LocalMADIConfig.html"><span class="hyperlink">本地/MADI I/O 配置</span></a><br>
+<a href="https://livehelp.solidstatelogic.com/Help/DanteSetup.html"><span class="hyperlink">设置 Dante</span></a><br>
+<a href="https://livehelp.solidstatelogic.com/Help/LinkIndex.html"><span class="hyperlink">索引与术语表</span></a>
+</body>
+</html>

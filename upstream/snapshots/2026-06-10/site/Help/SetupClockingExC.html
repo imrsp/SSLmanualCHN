@@ -1,0 +1,190 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html ng-app="sslLiveHelp">
+<head>
+    <meta content="text/html; charset=ISO-8859-1" http-equiv="content-type">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=yes">
+
+    <link href="../Help/style/style.css" rel="stylesheet">
+    <link href="../Help/style/jquery-ui-1.13.2.structure.css" rel="stylesheet">
+    <title>Setup: Clocking - System Example C: Connecting stageboxes to two Live consoles via MADI</title>
+    <script src="../Help/js/jquery-3.6.0.min.js"></script>
+    <script src="../Help/js/jquery-ui/1.13.2/jquery-ui.min.js"></script>
+    <!--<script type="text/javascript" src="cordova.js"></script>-->
+    <!-- Nav / search panels 2017 updates -->
+    <script>
+    window.baseDir = '../';
+    window.data = 'null';
+    </script>
+    <link rel="stylesheet" type="text/css" href="../Help/fonts/font-awesome-4.7.0/css/font-awesome.min.css" />
+    <link rel="stylesheet" type="text/css" href="../Help/style/sass-styles.css">
+    <script src="../Help/js/fastclick.js"></script>
+    <script src="../Help/js/lodash.core.min.js"></script>
+    <!--<script src="../Help/js/angular/1.2/angular.min.js"></script>-->  <!-- On a console -->
+    <script src="../Help/js/angular/1.8/angular.min.js"></script>   <!--Not on a console -->
+    <script src="../Help/js/ngStorage.min.js"></script>
+    <!--<script src="../Help/js/angular/1.2/angular-sanitize.min.js"></script>-->  <!-- On a console -->
+    <!--<script src="../Help/js/angular/1.2/angular-animate.min.js"></script>-->   <!-- On a console -->
+    <script src="../Help/js/angular/1.8/angular-sanitize.min.js"></script>  <!--Not on a console -->
+    <script src="../Help/js/angular/1.8/angular-animate.min.js"></script>   <!--Not on a console -->
+    <script src="../Help/js/lunr-2.3.min.js"></script>
+    <script src="../Help/js/menu.js"></script>
+
+</head>
+
+<body ng-controller="NavController as vm">
+
+    <!--<nav class="nav" ng-class="{ 'nav--visible' : vm.visible }" ng-if="vm.visible" role="navigation" aria-label="Primary">-->  <!-- On a console --> 
+    <nav class="nav" ng-class="{ 'nav--visible' : vm.visible }" role="navigation" aria-label="Primary"> <!--Not on a console -->
+        <!-- Search form -->
+        <div role="search">
+            <form class="nav__search" ng-if="vm.isSearchSupported">
+                <label class="nav__search-icon" for="query"><i aria-label="Search" title="Search" class="fa fa-search"></i></label>
+                <input type="search" id="query" class="nav__search-input" placeholder="Search..." ng-model="vm.query" />
+            </form>
+        </div>
+
+        <div class="nav__scroll" ng-style="vm.styleBasedOnSearchSupported">
+
+            <!-- Main nav -->
+            <ul class="main-nav" ng-hide="vm.query">
+                <li class="main-nav__item" ng-repeat="item in vm.nav">
+
+                    <!-- Link to page -->
+                    <a ng-if="item.url" ng-class="{'main-nav__link--active' : item.url===vm.currentPage}" class="main-nav__link" ng-attr-href="{{ vm.baseDir }}{{ item.url }}">
+                        {{ item.title }}
+                    </a>
+
+                    <!-- Expandable heading -->
+                    <span ng-click="vm.toggleExpanded(item.title)" ng-if="!item.url" class="main-nav__title">
+                        {{ item.title }}
+                        <span ng-if="!vm.isExpanded(item.title)" class="fa fa-caret-right"></span>
+                        <span ng-if="vm.isExpanded(item.title)" class="fa fa-caret-down"></span>
+                    </span>
+
+                    <!-- Subnav -->
+                    <ul ng-if="vm.isExpanded(item.title)" class="main-nav fx-fade">
+                        <li ng-repeat="sub in item.children" class="main-nav__item">
+
+                            <!-- Link to page -->
+                            <a ng-if="sub.url" ng-class="{'main-nav__link--active' : sub.url===vm.currentPage}" class="main-nav__link main-nav__link--level1" ng-attr-href="{{ vm.baseDir }}{{ sub.url }}">
+                                {{ sub.title }}
+                            </a>
+
+                            <!-- Expandable heading -->
+                            <span ng-click="vm.toggleExpanded(sub.title)" ng-if="!sub.url" class="main-nav__title main-nav__title--level1">
+                                {{ sub.title }}
+                                <span ng-if="!vm.isExpanded(sub.title)" class="fa fa-caret-right"></span>
+                                <span ng-if="vm.isExpanded(sub.title)" class="fa fa-caret-down"></span>
+                            </span>
+
+                            <!-- Sub-sub nav -->
+                            <ul ng-if="sub.children && vm.isExpanded(sub.title)" class="main-nav fx-fade">
+                                <li ng-repeat="subsub in sub.children" class="main-nav__item">
+
+                                    <!-- Link to page -->
+                                    <a ng-class="{'main-nav__link--active' : subsub.url===vm.currentPage}" class="main-nav__link main-nav__link--level2" ng-attr-href="{{ vm.baseDir }}{{ subsub.url }}" ng-bind-html="subsub.title">
+                                    </a>
+
+                                </li>
+                            </ul>
+
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+
+            <!-- Search results list -->
+            <ul class="search-results">
+                <li class="search-result" ng-repeat="result in vm.results">
+                    <a class="search-result__link" ng-attr-href="{{ vm.baseDir }}{{ 'Help/' + result.id }}">
+                        <h3 class="search-result__title">{{ result.title }}</h3>
+                        <p class="search-result__excerpt" ng-bind-html="result.excerpt"></p>
+                    </a>
+                </li>
+            </ul>
+
+            <!-- Keep screen on option - PhoneGap insomnia -->
+            <ul class="main-nav" ng-if="vm.isPhoneGap">
+                <li class="main-nav__item">
+                    <label class="main-nav__title">
+                        Keep Screen On
+                        <input style="display: none" type="checkbox" ng-model="vm.keepScreenOn" />
+                        <i ng-class="{'fa--cleared' : !vm.keepScreenOn, 'fa--checked' : vm.keepScreenOn}" class="fa fa-check"></i>
+                    </label>
+                </li>
+            </ul>
+
+
+        </div>
+    </nav>
+
+    <nav class="header" role="navigation" aria-label="Secondary">
+        <a ng-if="!vm.onAConsole" href="../index.html" class="header__btn" title="Home"><i class="fa fa-home"></i></a>
+        <div ng-if="!vm.onAConsole" class="header__history">
+            <a onclick="javascript:window.history.back()" class="header__btn"><i title="Back" class="fa fa-chevron-left"></i></a>
+            <a onclick="javascript:window.history.forward()" class="header__btn"><i title="Forwards" class="fa fa-chevron-right"></i></a>
+        </div>
+        <div align="right">
+            <a class="header__btn header__btn--nav" ng-click="vm.toggleVisibility()">
+                <i ng-if="!vm.visible" class="fa fa-bars"></i>
+                <i ng-if="vm.visible" class="fa fa-close"></i>
+            </a>
+        </div>
+    </nav>
+
+
+    <!-- Main content -->
+    <div id="main">
+        
+
+<h2>System Example C: Connecting stageboxes to two Live consoles via MADI</h2>
+
+<ol>
+    <li>
+        Follow the instructions in <a href="SetupClockingExA.html"><span class="hyperlink">System Example A</span></a> to connect the stagebox(es) to the Master console. This console will have analogue input gain control and access to any audio outputs. 
+        The second console will be the Slave console and only be able to receive a post analogue gain signal over MADI, but can compensate for any analogue gain changes digitally to maintain a consistent gain structure 
+        (see the <a href="Routing.html#GainSharing"><span class="hyperlink">Gain Sharing</span></a> section for further details).
+    </li>
+
+    <li>
+        Connect each stagebox MADI port <span style="font-weight: bold;">3</span> (<span style="font-weight: bold;">Out</span> only) to the second (Slave) Live console using a single 75&nbsp;&#8486; BNC coax cable 
+        (max 75&nbsp;m, conforming to spec defined in the <a href="InstallGuide.html"><span class="hyperlink">Installation Guide</span></a>).<br>
+
+        <img style="display: block; margin: 10px auto;" src="images/SetupClocking/image009.png" alt="">
+    </li>
+
+    <li>
+        If a redundant MADI connection is required, ensure each stagebox MADI port <span style="font-weight: bold;">3</span> is connected to an odd numbered port on the second console and connect each stagebox MADI port 
+        <span style="font-weight: bold;">4</span> (<span style="font-weight: bold;">Out</span> only) to the next console MADI port (e.g. stagebox ports <span style="font-weight: bold;">3</span> & <span style="font-weight: bold;">4</span> 
+        to Slave console ports <span style="font-weight: bold;">A1</span> & <span style="font-weight: bold;">A2</span> respectively).<br>
+
+        <img style="display: block; margin: 10px auto;" src="images/SetupClocking/image010.png" alt="">
+    </li>
+
+    <li>Set the second (Slave) console to clock from the MADI port connected from the stagebox, as described in the main <a href="Clocking.html"><span class="hyperlink">Clocking</span></a> section.</li>
+    <li>If a redundant MADI connection is being used, turn on <span class="label">Redundancy&nbsp;Status</span> for the relevant pair of MADI ports in the second console's I/O page.</li>
+    <li>The Master console will clock the stagebox, which will in turn will clock the Slave console.</li>
+</ol>
+
+<img style="display: block; margin: 10px auto;" src="images/SetupClocking/image011.png" alt=""><br>
+
+<h2>System Examples</h2>
+<p><a href="SetupClockingExA.html"><span class="hyperlink">Setup: Clocking - System Example A: Connecting stageboxes to a Live console via MADI</span></a></p>
+<p><a href="SetupClockingExB.html"><span class="hyperlink">Setup: Clocking - System Example B: Clocking the Live console from an external source</span></a></p>
+<p>Setup: Clocking - System Example C: Connecting stageboxes to two Live consoles via MADI</p>
+<p><a href="SetupClockingExD.html"><span class="hyperlink">Setup: Clocking - System Example D: Connecting stageboxes to a Live console over Blacklight II</span></a></p>
+<p><a href="SetupClockingExE.html"><span class="hyperlink">Setup: Clocking - System Example E: Connecting stageboxes to two Live consoles over Blacklight II</span></a></p>
+<p><a href="SetupClockingExF.html"><span class="hyperlink">Setup: Clocking - System Example F: Connecting stageboxes to three Live consoles</span></a></p>
+<p><a href="SetupClockingExG.html"><span class="hyperlink">Setup: Clocking - System Example G: Daisy-chained stageboxes for 48 kHz operation</span></a></p>
+
+<h2>Useful Links</h2>
+<a href="Clocking.html"><span class="hyperlink">Clocking</span></a><br>
+<a href="LinkIndex.html"><span class="hyperlink">Index and Glossary</span></a><br>
+
+
+    </div>
+
+    <script src="../Help/js/OpenAccordionFromLink.js"></script>
+</body>
+</html>

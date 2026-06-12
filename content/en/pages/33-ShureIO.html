@@ -1,0 +1,257 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Shure Control</title>
+  <style>
+    body { font: 16px/1.55 Arial, sans-serif; max-width: 1080px; margin: 2rem auto; padding: 0 1.25rem; color: #202124; }
+    img { max-width: 100%; height: auto; }
+    table { border-collapse: collapse; max-width: 100%; }
+    th, td { border: 1px solid #aaa; padding: .45rem; vertical-align: top; }
+    .note { display: block; border-left: 4px solid #e0a000; background: #fff8df; padding: .75rem 1rem; margin: 1rem 0; }
+    .notetitle { font-weight: bold; }
+    .label { font-weight: bold; color: #174ea6; }
+    .source { color: #666; font-size: .9rem; }
+  </style>
+</head>
+<body>
+  <p class="source">Section: Building a Show | Source: <a href="https://livehelp.solidstatelogic.com/Help/ShureIO.html">https://livehelp.solidstatelogic.com/Help/ShureIO.html</a></p>
+<h2 id="Wireless">Shure ULX-D &amp; Axient Digital Wireless Mic Control &amp; Monitoring</h2>
+
+<p>For instructions on control of Shure ANI22 and ANI4IN audio interfaces please refer to the <a href="#ANI"><span class="hyperlink">ANI section below</span></a>.</p>
+
+<h3>Introduction</h3>
+<p>
+    The Shure ULX-D and Axient Digital ranges of wireless microphones are capable of being remotely controlled from the Live console interface. Battery and RF status is also reported in the console interface.
+    Note that only Dante-enabled ULX-D and Axient Digital products can be controlled by the console; this excludes the ULXD4 receiver.
+</p>
+
+<p>
+    This is a licensed feature in console software and can be enabled at the SSL factory or in the field. Please contact your local SSL office for further details.
+    If the license is not enabled then Shure wireless devices can be routed using the console interface as with any other Dante device, but cannot be remotely controlled or monitored from the console.
+</p>
+
+<img style="display: block; margin: 5px auto;" src="https://livehelp.solidstatelogic.com/Help/images/ShureAxientAD4Q_front.png" alt="">
+
+
+<h3>Device IP Addresses</h3>
+
+<p>
+    Each Shure Wireless receiver has two IP addresses; one for Dante audio and one for control. The Dante IP address is set in Dante Controller like other Dante audio devices.
+</p>
+<p>
+    The Control IP address can be found in the Shure receiver menu (refer to the relevant Shure user guide for details) or using the Inventory view in the Shure Wireless Workbench application
+    (<a class="external-link" tabindex="-1" href="https://www.shure.com/en-US/products/software/wwb6" target="_blank"><span class="hyperlink">www.shure.com/en-US/products/software/wwb6</span></a>).
+</p>
+
+
+<h3>Wireless Receiver and Console Network Configuration</h3>
+
+<p>
+    The Dante Primary network interfaces of the console and Shure wireless receiver(s) must be configured to be in the same subnet.
+    Similarly, the Dante Secondary network interfaces of the console and Shure wireless receiver(s) must be configured to be in the same subnet if used.
+    Please refer to the <a href="https://livehelp.solidstatelogic.com/Help/DanteSetup.html"><span class="hyperlink">Dante Setup</span></a> section
+    and relevant Shure receiver user guide for assistance:
+    <ul>
+        <li>ULX-D : <a class="external-link" tabindex="-1" href="https://pubs.shure.com/guide/ULXD-DQ/en-US" target="_blank"><span class="hyperlink">pubs.shure.com/guide/ULXD-DQ/en-US</span></a></li>
+        <li>Axient AD4D : <a class="external-link" tabindex="-1" href="https://pubs.shure.com/guide/AD4D/en-US" target="_blank"><span class="hyperlink">pubs.shure.com/guide/AD4D/en-US</span></a></li>
+        <li>Axient AD4Q : <a class="external-link" tabindex="-1" href="https://pubs.shure.com/guide/AD4Q/en-US" target="_blank"><span class="hyperlink">pubs.shure.com/guide/AD4Q/en-US</span></a></li>
+    </ul>
+</p>
+
+<span class="note">
+    <span class="notetitle">Note:</span> Ensure that both Dante and Control network interfaces are connected to the same network as the console.<br />
+    If the receiver is set to <b>Switched</b> mode then both Shure control and Dante audio data will co-exist on all four of its network ports; any and only one of these ports must be connected to the console's Dante network (the connection will <b>not</b> be redundant).<br />
+    If the receiver is set to <b>Split/Redundant</b> mode, Shure control and Dante audio will use separate Primary and Secondary ports as labelled on the rear of the unit.
+    Both control <b>and</b> Dante audio ports must be connected for correct operation. Ensure that all ports are connected to the correct Primary/Secondary network ports. Refer to the relevant Shure user guide for guidance.
+</span>
+
+<h4>Networks Using Dante Domain Manager</h4>
+
+<p>
+    Note that for networks containing a Dante Domain Manager (DDM) server, the console must be logged into the same domain as the Shure receiver(s) in order to make routes and control them.
+    Refer to the <a href="https://livehelp.solidstatelogic.com/Help/OptionsNetwork.html#DDM"><span class="hyperlink">Network Options</span></a> section for details on configuring the console for DDM-enabled networks.
+</p>
+
+<h3>Configuring the Shure Receiver as a Device on the Console</h3>
+
+<p>
+    In order to route and control a Shure wireless mic from the Live console it must first be added to the <b>Configured&nbsp;Devices</b> list in the console's <b>Dante Configuration</b> page (MENU&nbsp;>&nbsp;Setup&nbsp;>&nbsp;I/O&nbsp;>&nbsp;Dante&nbsp;Configuration),
+    either by moving a connected device from the <b>Connected&nbsp;Devices</b> list or by manually creating a new device using the <span class="label">Configure&nbsp;New&nbsp;Device</span> button.
+    Please refer to the <a href="https://livehelp.solidstatelogic.com/Help/DanteConfig.html"><span class="hyperlink">Configuring&nbsp;Dante&nbsp;Devices</span></a> section for further details.
+</p>
+
+<span class="note">
+    <span class="notetitle">Important:</span> If the Shure wireless receiver(s) have previously been configured as <b>Generic&nbsp;Dante</b> devices prior to V5.0 Live console software, the following steps must be taken to reconfigure them as Shure devices:
+    <ul>
+        <li>Disconnect the Shure wireless receiver(s) from the console</li>
+        <li>Reboot the console</li>
+        <li>Load the showfile containing the Shure wireless receiver(s) configured as Generic Dante device(s)</li>
+        <li>Make a note of any routes made to/from the Shure wireless receiver(s)</li>
+        <li>Delete the Shure (Generic Dante) device(s) from the <b>Configured&nbsp;Devices</b> list</li>
+        <li>Reconnect the Shure wireless receiver(s) and, once detected as the correct device type by the console, drag &amp; drop them from the <b>Connected&nbsp;Devices</b> list into the <b>Configured&nbsp;Devices</b> list</li>
+        <li>Alternatively, do not reconnect the devices and manually add them as offline Shure devices (this may be easier if multiple showfiles need to be amended)</li>
+        <li>Remake the routes to/from the device(s)</li>
+        <li>Save the showfile</li>
+    </ul>
+</span>
+
+<p>
+    Once configured, the <b>Control Address</b> of the receiver must be entered into the console's Setup page for the unit. This allows the console to communicate with the device.
+    The corresponding LED will turn from red to green when the console has successfully established communications with the device.
+</p>
+
+
+<h3>Controlling the Shure ULX-D/Axient Digital Wireless Mic</h3>
+
+<p>
+    Once configured, the Shure wireless mic inputs can be routed to console Channels in the standard way (refer to the <a href="https://livehelp.solidstatelogic.com/Help/Routing.html"><span class="hyperlink">Routing</span></a> section for further details).
+</p>
+
+<p>
+    When routed to a console Channel, <span class="label">Input&nbsp;Mute</span> (press &amp; hold) and input <b>Gain</b> parameters of each mic input can be controlled remotely from the console control surface
+    (provided the feature has been correctly licensed). The Gain is adjustable from -18 to +42&nbsp;dB in 1&nbsp;dB steps.
+</p>
+
+
+<h3>Battery and RF Status Monitoring</h3>
+
+<p>Battery and RF status information is displayed in the Channel's Input Detail View when routed to a Shure wireless mic input. This information also appears at the top of the channel strip in place of the 48V indicator.</p>
+
+<p>The battery and RF indicators will show <span class="label" style="color:#ff4500;">X</span> if the receiver is not receiving any data from mic transmitter.</p>
+
+<p>Battery and RF status is also available in the I/O device view (MENU&nbsp;>&nbsp;Setup&nbsp;>&nbsp;I/O&nbsp;>&nbsp;Dante&nbsp;Configuration).</p>
+
+<p>
+    Select the Shure device from the <b>Configured&nbsp;Devices</b> list and press the <span class="label">Inputs</span> button in the lower section of the page.
+    Input channels will be listed here, each showing the mic gain, mute state, battery level and RF power level.
+</p>
+
+<img style="display: block; margin: 5px auto; width: 800px;" src="https://livehelp.solidstatelogic.com/Help/images/g_ShureWirelessDeviceInputs.png" alt="">
+
+<p>As with other Dante devices, selecting an Input square assigns it to the sidebar for more detailed viewing. Press the <span class="label">Edit&nbsp;Settings</span> button to make parameter changes from here.</p>
+
+<span class="note">
+    <span class="notetitle">Note:</span> Parameters of Shure devices can only be changed when the device is online and connected to the console.
+</span>
+
+
+
+<h2 id="ANI">Shure ANI22 &amp; ANI4IN Control</h2>
+
+<p>For instructions on control and monitoring of Shure ULX-D and Axient Digital wireless microphones please refer to the <a href="#Wireless"><span class="hyperlink">Shure Wireless Mic section above</span></a>.</p>
+
+<h3>Introduction</h3>
+<p>
+    The Shure ANI22 is a Dante-enabled 2 x mic-in plus 2 x line-out interface. The Shure ANI4IN is a 4 x mic-in variant. Both are powered by PoE and supplied with either XLR or block audio connectors.
+</p>
+
+<img style="display: block; margin: 5px auto;" src="https://livehelp.solidstatelogic.com/Help/images/ShureANI22_front.png" alt="">
+
+<p>
+    Shure ANI input parameters can be remotely controlled from SSL Live consoles. This is a licensed feature in console software and can be enabled at the SSL factory or in the field.
+    Please contact your local SSL office for further details.
+    If the license is not enabled then Shure ANI devices can be routed using the console interface as with any other Dante device, but cannot be remotely controlled by the console.
+</p>
+
+<h3>Device IP Addresses</h3>
+
+<p>
+    Each Shure ANI device has two IP addresses; one for Dante audio and one for control. The Dante IP address is set in Dante Controller like other Dante audio devices.
+</p>
+<p>
+    The Control IP can be found by either using the Shure Web Device Discovery application
+    (<a class="external-link" tabindex="-1" href="https://www.shure.com/en-US/products/software/shure_web_device_discovery_application" target="_blank"><span class="hyperlink">www.shure.com/en-US/products/software/shure_web_device_discovery_application</span></a>), or by looking up by the DNS name.
+    The DNS name takes the structure of "[DeviceName]-[ConnectorType]-[CtrlMacAddress].local", where
+</p>
+
+<p>
+    <ul>
+        <li>[DeviceName]: <b>ANI22</b> or <b>ANI4IN</b></li>
+        <li>[ConnectorType]: <b>XLR</b> or <b>BLOCK</b></li>
+        <li>[CtrlMacAddress]: The last half (3 bytes) of the Control MAC address in lower case (the MAC address is written on the underside of the device)</li>
+    </ul>
+</p>
+
+<p>
+    For example, an ANI22 with XLR connectors and a MAC address of 00:0E:CD:40:D6:8A would be "ANI22-XLR-40d68a.local"
+</p>
+
+<h3>Stagebox and Console Network Configuration</h3>
+
+<p>
+    The Dante Primary network interfaces of the console and ANI22/ANI4IN interface(s) must be configured to be in the same subnet.
+    Please refer to the <a href="https://livehelp.solidstatelogic.com/Help/DanteSetup.html"><span class="hyperlink">Dante Setup</span></a> section
+    and Shure ANI user guide (<a class="external-link" tabindex="-1" href="https://pubs.shure.com/guide/ANI22/en-US" target="_blank"><span class="hyperlink">pubs.shure.com/guide/ANI22/en-US</span></a> or
+    <a class="external-link" tabindex="-1" href="https://pubs.shure.com/guide/ANI4IN/en-US" target="_blank"><span class="hyperlink">pubs.shure.com/guide/ANI4IN/en-US</span></a>) for assistance.
+</p>
+
+<span class="note">
+    <span class="notetitle">Note:</span> Ensure that Shure ANI device(s) are connected to the network via a PoE-enabled switch port.
+</span>
+
+<h4>Networks Using Dante Domain Manager</h4>
+
+<p>
+    Note that for networks containing a Dante Domain Manager (DDM) server, the console must be logged into the same domain as the ANI device(s) in order to make routes and control them.
+    Refer to the <a href="https://livehelp.solidstatelogic.com/Help/OptionsNetwork.html#DDM"><span class="hyperlink">Network Options</span></a> section for details on configuring the console for DDM-enabled networks.
+</p>
+
+<h3>Configuring the ANI22/ANI4IN as a Device on the Console</h3>
+
+<p>
+    In order to route and control a Shure ANI device from the Live console it must first be added to the <b>Configured Devices</b> list in the console's <b>Dante Configuration</b> page (MENU&nbsp;>&nbsp;Setup&nbsp;>&nbsp;I/O&nbsp;>&nbsp;Dante&nbsp;Configuration),
+    either by moving a connected device from the <b>Connected Devices</b> list or by manually creating a new device using the <span class="label">Configure New Device</span> button.
+    Please refer to the <a href="https://livehelp.solidstatelogic.com/Help/DanteConfig.html"><span class="hyperlink">Configuring Dante Devices</span></a> section for further details.
+</p>
+
+<span class="note">
+    <span class="notetitle">Important:</span> If the Shure ANI device(s) have previously been configured as <b>Generic&nbsp;Dante</b> devices prior to V5.0 Live console software, the following steps must be taken to reconfigure them as Shure devices:
+    <ul>
+        <li>Disconnect the Shure ANI device(s) from the console</li>
+        <li>Reboot the console</li>
+        <li>Load the showfile containing the Shure ANI device(s) configured as Generic Dante device(s)</li>
+        <li>Make a note of any routes made to/from the Shure ANI device(s)</li>
+        <li>Delete the Shure (Generic Dante) device(s) from the <b>Configured&nbsp;Devices</b> list</li>
+        <li>Reconnect the Shure ANI device(s) and, once detected as the correct device type by the console, drag &amp; drop them from the <b>Connected&nbsp;Devices</b> list into the <b>Configured&nbsp;Devices</b> list</li>
+        <li>Alternatively, do not reconnect the devices and manually add them as offline Shure devices (this may be easier if multiple showfiles need to be amended)</li>
+        <li>Remake the routes to/from the device(s)</li>
+        <li>Save the showfile</li>
+    </ul>
+</span>
+
+<p>
+    Once configured, the <b>Control Address</b> of the ANI22/ANI4IN must be entered into the console's Setup page for the unit. This allows the console to communicate with the device.
+    The corresponding LED will turn from red to green when the console has successfully established communications with the device.
+</p>
+
+
+<h3>Using the Shure ANI22/ANI4IN</h3>
+
+<p>
+    Once configured, Shure ANI mic inputs can be routed to console Channels in the standard way (refer to the <a href="https://livehelp.solidstatelogic.com/Help/Routing.html"><span class="hyperlink">Routing</span></a> section for further details).
+    Similarly console outputs can be routed to the ANI22 line outputs.
+</p>
+
+<p>
+    When routed to a console Channel, <span class="label">+48V</span> phantom power and input <b>Gain</b> parameters of each ANI mic input can be controlled remotely from the console control surface
+    (provided the feature has been correctly licensed). The Gain is adjustable in 3&nbsp;dB steps. Other parameters of the ANI22/ANI4IN (PEQ, Dante digital gains, output level trims etc.) are not available for control from the console surface
+    but can be accessed through the device's web interface.
+</p>
+
+<span class="note">
+    <span class="notetitle">Note:</span> Parameters of Shure devices can only be changed when the device is online and connected to the console.
+</span>
+
+<h2>Useful Links</h2>
+
+<p><a href="https://livehelp.solidstatelogic.com/Help/DanteSetup.html"><span class="hyperlink">Dante Setup</span></a></p>
+
+<p><a href="https://livehelp.solidstatelogic.com/Help/DanteConfig.html"><span class="hyperlink">Configuring Dante Devices</span></a></p>
+
+<p><a href="https://livehelp.solidstatelogic.com/Help/OptionsNetwork.html#DDM"><span class="hyperlink">Network Options</span></a></p>
+
+<p><a href="https://livehelp.solidstatelogic.com/Help/Routing.html"><span class="hyperlink">Routing</span></a></p>
+</body>
+</html>

@@ -1,0 +1,295 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>信号路径联动与快速设置</title>
+  <style>
+    body { font: 16px/1.55 Arial, sans-serif; max-width: 1080px; margin: 2rem auto; padding: 0 1.25rem; color: #202124; }
+    img { max-width: 100%; height: auto; }
+    table { border-collapse: collapse; max-width: 100%; }
+    th, td { border: 1px solid #aaa; padding: .45rem; vertical-align: top; }
+    .note { display: block; border-left: 4px solid #e0a000; background: #fff8df; padding: .75rem 1rem; margin: 1rem 0; }
+    .notetitle { font-weight: bold; }
+    .label { font-weight: bold; color: #174ea6; }
+    .source { color: #666; font-size: .9rem; }
+  </style>
+</head>
+<body>
+  <p class="source">章节：构建演出 | 来源：<a href="https://livehelp.solidstatelogic.com/Help/PathLink.html">https://livehelp.solidstatelogic.com/Help/PathLink.html</a></p>
+<h2>临时信号路径联动</h2>
+
+<p>
+    可以在多个信号路径之间实时<span style="font-weight: bold">联动</span>控制参数，同时保持相对偏移量。
+</p>
+<p>
+    要设置 <span style="font-weight: bold">信号路径联动</span>，请进入 Channel View，然后点按屏幕右侧的
+    <span class="label">Path&nbsp;Link</span>。
+</p>
+<p>
+    现在点按屏幕上各信号路径的 Eyeconix 或中央上下文窗口区域，或使用推子区块上的
+    <span class="label">SELECT</span> 按钮，选择要联动的信号路径。这些信号路径随即加入联动。
+</p>
+<p>
+    第一个选中的信号路径将成为控制台的<b>已选中</b>信号路径
+    （在 Channel View 中以信号路径周围的白色边框表示），并显示在 Detail View（若可见）
+    和 Focus Fader 上（若未锁定到其他信号路径）。
+</p>
+<p>
+    所有信号路径类型均支持
+    <span style="font-weight: bold">信号路径联动</span>，包括 Matrix 通道和 VCA。
+</p>
+
+<span class="note">
+    <span class="notetitle">注意：</span>只能联动相同类型的信号路径；Channel 不能与 Stem 联动，
+    完整处理 Aux 不能与 Dry Aux 联动，依此类推。
+</span>
+
+<span class="note">
+    <span class="notetitle">提示：</span>使用<span style="font-weight: bold">范围选择</span>
+    可从推子区块快速选择多个信号路径。按住第一个信号路径的
+    <span class="label">SELECT</span> 按钮，再点按范围内最后一个信号路径的
+    <span class="label">SELECT</span> 按钮，然后松开两个按钮。也可跨相邻推子区块执行此操作。<br />
+    范围选择同样适用于 Channel View 和 Overview 页面：单击第一个信号路径，按住已连接键盘上的 Shift 键，
+    再单击最后一个信号路径，即可联动两者之间所有相同类型的信号路径。
+</span>
+
+<p>
+    信号路径加入联动后，调整其中一个信号路径上的参数，其他已联动信号路径将相应更新。
+    这些是<span style="font-weight: bold">相对</span>变化。
+</p>
+
+<table style="width: 100%">
+    <tbody>
+        <tr>
+            <td style="vertical-align: top">
+                <p style="margin-bottom: 0px">
+                    按住 <span class="label">Path&nbsp;Link</span> 按钮，
+                    打开包含一系列多选选项的弹出面板：
+                </p>
+
+                <ul class="tab" style="margin-top: 0px">
+                    <li>
+                        <span class="label">Select&nbsp;All</span> - 联动所有相同类型的信号路径
+                    </li>
+                    <li>
+                        <span class="label">Active&nbsp;Banks</span> - 联动所有推子区块当前显示的全部 Bank 中，
+                        属于所选信号路径类型的所有信号路径
+                    </li>
+                    <li>
+                        <span class="label">Active&nbsp;Layers</span> - 联动所有推子区块当前启用的全部 Layer 中，
+                        属于所选信号路径类型的所有信号路径
+                    </li>
+                </ul>
+            </td>
+            <td style="vertical-align: top; width: 25%">
+                <img style="margin: 0px 0px 0px 10px"
+                     src="https://livehelp.solidstatelogic.com/Help/images/s_PathLink.png"
+                     alt="" />
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+<p>
+    可随时启用这些选项。例如，若联动中已有两个完整输入通道，按下
+    <span class="label">Select All Channels</span> 后，所有完整输入通道都会加入联动。
+</p>
+
+<p>
+    点按 <span class="label">Clear&nbsp;Selection</span> 将清除当前联动。
+    启用 <span class="label">Suspend</span> 会暂时停用联动，关闭该选项即可重新启用。
+</p>
+
+<p>
+    再次按住 <span class="label">Path&nbsp;Link</span> 可切换弹出面板的显示状态，同时保留联动。
+</p>
+
+<p>
+    完成对联动信号路径的全部调整后，点按 <span class="label">Path&nbsp;Link</span>
+    清除联动（若弹出面板已打开，也会将其关闭）。
+</p>
+
+<h3 id="PreserveOffsets">保留偏移量</h3>
+
+<p>
+    默认情况下，当联动组中的信号路径达到最大值或最小值时，信号路径之间的相对偏移量不会保留。
+    从 Live v6.2 起，Path Link 弹出面板中提供 <span class="label">Preserve Offsets</span> 按钮，
+    可用于更改此行为。
+</p>
+<p>
+    启用 <span class="label">Preserve Offsets</span> 后，只要任一联动参数值达到极限，
+    控制台就会停止增大或减小所有联动参数值。此设置为全局设置，同时适用于临时 Path Link 和 Link Group（见下文）。
+</p>
+<p>
+    若关闭 <span class="label">Preserve Offsets</span> 时仍需保留信号路径之间的相对偏移量，
+    可使用位置最低的信号路径向下调整参数；同理，可使用位置最高的信号路径向上调整。
+</p>
+
+<h2 id="FastSetup">快速设置</h2>
+
+<table>
+    <tbody>
+        <tr>
+            <td style="vertical-align: top; font-weight: normal">
+                <p>
+                    Path Link 弹出面板还包含 <span class="label">Fast&nbsp;Setup</span> 按钮。
+                    此按钮会展开弹出面板，显示用于快速设置所选信号路径参数的附加控件。
+                </p>
+
+                <p>
+                    Fast Setup 应用于单个<b>已选中</b>信号路径，但可与 Path Link 配合使用，
+                    同时更改多个信号路径。
+                </p>
+
+                <span class="note">
+                    <span class="notetitle">注意：</span>Fast Setup 可大幅调整一个或多个电平。
+                    使用此功能时请务必谨慎！
+                </span>
+
+                <p>可以执行以下操作：</p>
+                <ul>
+                    <li>将 <b>Input Trim</b> 设为 0 dB</li>
+                    <li>将 <b>Input Trim</b> 设为 X dB*</li>
+                    <li>将 <b>Fader</b> 设为 0 dB 或 -&infin; dB（关闭）</li>
+                    <li>将 <b>Fader</b> 设为 X dB*</li>
+                    <li><b>Pan</b>：将信号路径置于 100% 左侧或右侧</li>
+                    <li>将 <b>Pan</b> 设置重置为默认值（中央）</li>
+                    <li>将 <b>EQ</b>/<b>Filters</b> 切换为 In 或 Out</li>
+                    <li>重置 <b>EQ</b>/<b>Filters</b> 部分（Out 且曲线平直）</li>
+                    <li>将 <b>Compressor</b>/<b>Gate</b> 切换为 In 或 Out</li>
+                    <li>重置 <b>Compressor</b>/<b>Gate</b> 部分</li>
+                    <li>
+                        将所有 Full/Dry** <b>Stem</b>/<b>Aux</b>/<b>Master</b> 发送切换为 In 或 Out
+                    </li>
+                    <li>
+                        将所有 Full/Dry** <b>Stem</b>/<b>Aux</b> 发送设为 0 dB 或 -&infin; dB（关闭）
+                    </li>
+                    <li>将所有 Full/Dry** <b>Stem</b>/<b>Aux</b> 发送设为 X dB*</li>
+                </ul>
+
+                <p>
+                    * <span class="label">To&nbsp;...</span> 按钮会打开数字键盘，可在其中输入数值；
+                    与 Path Link 配合使用时，可按以下两种方式之一应用：
+                </p>
+                <ul>
+                    <li>
+                        在 <span class="label">Abs</span>（绝对）模式下：已选中信号路径和联动信号路径
+                        都会被设为输入的绝对值（例如，无论此前位置如何，全部设为 -3&nbsp;dB）
+                    </li>
+                    <li>
+                        在 <span class="label">Rel</span>（相对）模式下：已选中信号路径会被设为输入值，
+                        联动信号路径的数值将相对于已选中信号路径发生<b>相对</b>变化。例如，若已选中信号路径当前为
+                        -6&nbsp;dB，某联动信号路径为 -10&nbsp;dB（低 4&nbsp;dB），输入 -3&nbsp;dB 后，
+                        已选中信号路径将设为 -3&nbsp;dB，联动信号路径将设为 -7&nbsp;dB
+                        （保留相对的 -4&nbsp;dB 偏移量）。
+                    </li>
+                </ul>
+
+                <div style="text-align: center">
+                    <img src="https://livehelp.solidstatelogic.com/Help/images/s_FastSetupKeypad.png" alt="" />
+                </div>
+
+                <p>
+                    ** 使用 <span class="label">Full</span> 和 <span class="label">Dry</span>
+                    按钮，在母线发送部分的 Full 与 Dry 发送之间切换。
+                </p>
+            </td>
+            <td style="vertical-align: top; width: 25%">
+                <img style="margin: 0px 0px 0px 10px"
+                     src="https://livehelp.solidstatelogic.com/Help/images/s_FastSetup.png"
+                     alt="" />
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+<h2 id="PermanentPathLink">永久联动信号路径</h2>
+
+<table style="font-weight: normal">
+    <tbody>
+        <tr>
+            <td>
+                <p>
+                    从 Live v6.2 起，可以采用与 Path Link 相同的方式创建永久信号路径组。
+                    这种组称为 Link Group，可联动一组信号路径的参数，并通过筛选器指定哪些参数保持独立。
+                </p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <img style="display: block; margin: 5px auto"
+                src="https://livehelp.solidstatelogic.com/Help/images/s_LinkGroup_pathIcons.png"
+                alt="" />
+            </td>
+        </tr>
+        <tr>
+            <td style="vertical-align: top; font-weight: normal">
+                <h3 id="LinkGroupCreation">创建组</h3>
+                <p>
+                    要创建 Link Group，请按住 <span class="label">Path Link</span>，
+                    然后展开 <span class="label">Link Group</span> 部分。
+                    按照临时信号路径联动的相同方式，选择应包含在 Link Group 中的信号路径。
+                </p>
+
+                <p>
+                    Link Groups 图形界面会显示当前正在编辑的组编号。每个组都可设置名称和颜色。
+                    双击名称字段即可编辑；按下颜色会打开下拉菜单，可在其中更改组的颜色。
+                </p>
+                <h3 id="LinkGroupNavigation">浏览组</h3>
+
+                <p>
+                    使用弹出面板中的箭头在不同组之间浏览。共提供 48 个组。
+                    也可以双击组编号打开键盘，直接跳转到所需的组。
+                </p>
+
+                <p>
+                    使用 <span class="label">Select First Blank Group</span> 按钮可自动查找第一个不包含任何信号路径的组。
+                </p>
+                <h3 id="LinkGroupFilters">参数筛选</h3>
+
+                <p>
+                    弹出面板的 <b>Enable Links</b> 部分显示可在组内信号路径之间联动的参数集合。
+                </p>
+
+                <p>
+                    <span class="label">All</span> 将启用所有可用联动。
+                    <span class="label">None</span> 将取消选择所有集合，不保留任何联动。
+                </p>
+
+                <p>可联动的部分如下：</p>
+
+                <ul>
+                    <li>
+                        <span class="label">In</span>：启用信号路径输入部分之间的联动，包括 Gain、Trim 等
+                    </li>
+                    <li><span class="label">MgVc</span>：启用信号路径 Mute Group 和 VCA 分配之间的联动</li>
+                    <li><span class="label">Fade</span>：启用信号路径 Fader 部分之间的联动</li>
+                    <li><span class="label">Stem</span>：启用信号路径 Stem 发送之间的联动</li>
+                    <li><span class="label">Aux</span>：启用信号路径 Aux 发送之间的联动</li>
+                    <li><span class="label">Mast</span>：启用信号路径 Master 分配之间的联动</li>
+                    <li><span class="label">EqFl</span>：启用信号路径 EQ 和 Filtering 参数之间的联动</li>
+                    <li><span class="label">GCmp</span>：启用信号路径 Gate 和 Compression 参数之间的联动</li>
+                    <li><span class="label">D/AP</span>：启用信号路径 Delay 和 All Pass 滤波器参数之间的联动</li>
+                    <li><span class="label">Pan</span>：启用信号路径声像参数之间的联动</li>
+                </ul>
+
+                <p>对组所做的更改无需确认；完成所有所需设置和筛选后，直接关闭弹出面板即可。</p>
+            </td>
+            <td style="vertical-align: middle; width: 25%; text-align: center">
+                <img style="display: block; margin: 0 auto"
+                     src="https://livehelp.solidstatelogic.com/Help/images/s_PathLink-popout.png"
+                     alt="Link Group popout" />
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+<h2>实用链接</h2>
+
+<a href="https://livehelp.solidstatelogic.com/Help/Copy.html"><span class="hyperlink">复制</span></a>
+<br />
+<a href="https://livehelp.solidstatelogic.com/Help/LinkIndex.html"><span class="hyperlink">索引和术语表</span></a>
+<br />
+</body>
+</html>

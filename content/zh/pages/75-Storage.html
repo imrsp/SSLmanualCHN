@@ -1,0 +1,402 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>参数/设置存储</title>
+  <style>
+    body { font: 16px/1.55 Arial, sans-serif; max-width: 1080px; margin: 2rem auto; padding: 0 1.25rem; color: #202124; }
+    img { max-width: 100%; height: auto; }
+    table { border-collapse: collapse; max-width: 100%; }
+    th, td { border: 1px solid #aaa; padding: .45rem; vertical-align: top; }
+    .note { display: block; border-left: 4px solid #e0a000; background: #fff8df; padding: .75rem 1rem; margin: 1rem 0; }
+    .notetitle { font-weight: bold; }
+    .label { font-weight: bold; color: #174ea6; }
+    .source { color: #666; font-size: .9rem; }
+  </style>
+</head>
+<body>
+  <p class="source">章节：设置与附加功能 | 来源： <a href="https://livehelp.solidstatelogic.com/Help/Storage.html">https://livehelp.solidstatelogic.com/Help/Storage.html</a></p>
+<h2>参数/设置存储</h2>
+
+<p>本页列出了各项参数的存储位置。</p>
+
+<div id="accordion">
+    <div class="indexheader2">场景存储</div>
+    <div id="Scene" style="padding: 1em 0;">
+        <p>下列表格说明 Store/Recall 筛选网格各列和各行所包含的设置。以下信息同时适用于 Store 和 Recall 筛选器。</p>
+
+        <span class="note">
+            <span class="notetitle">注意： </span><br>
+            场景存储在演出文件中，因此下列所有参数也会存储在演出文件内，其中包括尚未存入场景的任何更改（例如，即使保存演出文件前未将某通道的最后一项 EQ 设置存入场景，该设置仍会存储在演出文件中）。<br><br>
+            其中 <a href="https://livehelp.solidstatelogic.com/Help/Copy.html"><span class="hyperlink">Copy 菜单</span></a> 中的范围按钮（EQ、Gate、Aux 等）采用与下表相同的范围。
+        </span>
+
+        <h3>列</h3>
+        <div>
+            <table class="insideborder" style="width: auto; margin: 15px 0px;" cellpadding="4" cellspacing="1">
+                <tbody>
+                    <tr>
+                        <th class="solidborder" style="width: 15%">列名称</th>
+                        <th class="solidborder" style="width: 30%">含义</th>
+                        <th class="solidborder" style="width: 55%">包含的设置</th>
+                    </tr>
+                    <tr>
+                        <th class="solidborder">Input</th>
+                        <td class="solidborder">通道与对讲通道的输入设置</td>
+                        <td class="solidborder">
+                            Channel 输入 A/B 选择<br>模拟增益<br>数字微调<br>幻象电源开/关<br>极性反转开/关<br>衰减垫开/关<br>高增益灵敏度开/关<br>话筒放大器高通滤波器开/关
+                            <br>Net I/O 舞台接口箱 Mic/Line 模式<br>Net I/O 舞台接口箱增益补偿点<br>Net I/O 舞台接口箱限幅器接入/旁路<br>单声道求和<br>平衡<br>对讲输入接入/旁路
+                        </td>
+                    </tr>
+                    <tr>
+                        <th class="solidborder">Name Eyeconix Colour</th>
+                        <td class="solidborder">信号路径基本信息</td>
+                        <td class="solidborder">路径名称<br>路径 Eyeconix 图像<br>路径颜色</td>
+                    </tr>
+                    <tr>
+                        <th class="solidborder">Fader</th>
+                        <td class="solidborder">推子电平</td>
+                        <td class="solidborder">推子电平</td>
+                    </tr>
+                    <tr>
+                        <th class="solidborder">Mute</th>
+                        <td class="solidborder">Mute 按钮状态</td>
+                        <td class="solidborder">静音开/关</td>
+                    </tr>
+                    <tr>
+                        <th class="solidborder">Panning</th>
+                        <td class="solidborder">所有馈送至多格式母线的信号路径声像设置</td>
+                        <td class="solidborder">左右声像位置<br>前后声像位置<br>宽度<br>深度<br>扩散度<br>LFE 增益<br>仅 LFE 开/关</td>
+                    </tr>
+                    <tr>
+                        <th class="solidborder">Inserts</th>
+                        <td class="solidborder">插入点接入/旁路状态</td>
+                        <td class="solidborder">Insert A 接入/旁路<br>Insert B 接入/旁路</td>
+                    </tr>
+                    <tr>
+                        <th class="solidborder">Filter</th>
+                        <td class="solidborder">信号路径滤波器</td>
+                        <td class="solidborder">滤波器接入/旁路<br>高通滤波器频率<br>低通滤波器频率<br>高通滤波器斜率类型<br>低通滤波器斜率类型</td>
+                    </tr>
+                    <tr>
+                        <th class="solidborder">EQ</th>
+                        <td class="solidborder">信号路径 EQ 值</td>
+                        <td class="solidborder">EQ 值 接入/旁路<br>增益（所有频段）<br>频率（所有频段）<br> Q 值 值（所有频段）<br>频段类型（所有频段）</td>
+                    </tr>
+                    <tr>
+                        <th class="solidborder">Gate</th>
+                        <td class="solidborder">信号路径 Gate</td>
+                        <td class="solidborder">
+                            Gate 接入/旁路<br>阈值<br>范围<br>拐点<br>启动时间<br>释放时间<br>保持时间<br>外部 Key 接入/旁路<br>Gate 滤波器接入/旁路<br>Peak 模式开/关<br>Expander 模式开/关<br>Gate 高通滤波器频率
+                            <br>Gate 低通滤波器频率
+                        </td>
+                    </tr>
+                    <tr>
+                        <th class="solidborder">Compressor</th>
+                        <td class="solidborder">信号路径 Compressor</td>
+                        <td class="solidborder">
+                            Compressor 接入/旁路<br>阈值<br>压缩比<br>拐点<br>启动时间<br>释放时间<br>保持时间<br>补偿增益<br>自动补偿增益开/关<br>Compressor 外部 Key 接入/旁路<br>Compressor 滤波器接入/旁路<br>Peak 模式开/关
+                            <br>电子管模拟接入/旁路<br>Comp 高通滤波器频率<br>Comp 低通滤波器频率
+                        </td>
+                    </tr>
+                    <tr>
+                        <th class="solidborder">All Pass Filter</th>
+                        <td class="solidborder">信号路径全通滤波器</td>
+                        <td class="solidborder">All Pass 滤波器接入/旁路<br>频率<br>Q 值<br>二阶模式开/关<br>极性反转开/关</td>
+                    </tr>
+                    <tr>
+                        <th class="solidborder">Delay</th>
+                        <td class="solidborder">信号路径延时</td>
+                        <td class="solidborder">Delay 接入/旁路<br>延迟时间<br>单位</td>
+                    </tr>
+                    <tr>
+                        <th class="solidborder">Bus Settings</th>
+                        <td class="solidborder">Stem、Aux 和 Master 的附加设置</td>
+                        <td class="solidborder">Follow Pan 开/关<br>Follow 静音开/关<br>母线默认馈送点</td>
+                    </tr>
+                    <tr>
+                        <th class="solidborder">Stem</th>
+                        <td class="solidborder">发送至完整 Stem</td>
+                        <td class="solidborder">发送接入/旁路<br>发送增益<br>发送馈送点<br>发送左右声像<br>发送前后声像<br>Send Panning 宽度<br>Send Panning 深度<br>Send Panning 扩散度<br>Send Panning LFE 增益</td>
+                    </tr>
+                    <tr>
+                        <th class="solidborder">Aux</th>
+                        <td class="solidborder">发送至完整 Aux</td>
+                        <td class="solidborder">发送接入/旁路<br>发送增益<br>发送馈送点<br>发送左右声像<br>发送前后声像<br>Send Panning 宽度<br>Send Panning 深度<br>Send Panning 扩散度<br>Send Panning LFE 增益</td>
+                    </tr>
+                    <tr>
+                        <th class="solidborder">Master</th>
+                        <td class="solidborder">发送至完整 Master</td>
+                        <td class="solidborder">发送接入/旁路<br>发送馈送点</td>
+                    </tr>
+                    <tr>
+                        <th class="solidborder">Dry Stem</th>
+                        <td class="solidborder">发送至 Dry Stem</td>
+                        <td class="solidborder">发送接入/旁路<br>发送增益<br>发送馈送点<br>发送左右声像<br>发送前后声像<br>Send Panning 宽度<br>Send Panning 深度<br>Send Panning 扩散度<br>Send Panning LFE 增益</td>
+                    </tr>
+                    <tr>
+                        <th class="solidborder">Dry Aux</th>
+                        <td class="solidborder">发送至 Dry Aux</td>
+                        <td class="solidborder">发送接入/旁路<br>发送增益<br>发送馈送点<br>发送左右声像<br>发送前后声像<br>Send Panning 宽度<br>Send Panning 深度<br>Send Panning 扩散度<br>Send Panning LFE 增益</td>
+                    </tr>
+                    <tr>
+                        <th class="solidborder">Dry Master</th>
+                        <td class="solidborder">发送至 Dry Master</td>
+                        <td class="solidborder">发送接入/旁路<br>发送馈送点</td>
+                    </tr>
+                    <tr>
+                        <th class="solidborder">Matrix</th>
+                        <td class="solidborder">矩阵设置</td>
+                        <td class="solidborder">交叉点接入/旁路<br>交叉点增益</td>
+                    </tr>
+                    <tr>
+                        <th class="solidborder">Solo</th>
+                        <td class="solidborder">全局 Solo 设置</td>
+                        <td class="solidborder">Solo Bus A 至 Solo 通道的分配<br>Solo Bus B 至 Solo 通道的分配</td>
+                    </tr>
+                    <tr>
+                        <th class="solidborder">Output</th>
+                        <td class="solidborder">通道与对讲通道的直接输出馈送点</td>
+                        <td class="solidborder">Direct Output 馈送点</td>
+                    </tr>
+                    <tr>
+                        <th class="solidborder">FX</th>
+                        <td class="solidborder">FX 机架单元设置</td>
+                        <td class="solidborder">FX 机架单元参数</td>
+                    </tr>
+                    <tr>
+                        <th class="solidborder">Display Settings</th>
+                        <td class="solidborder">亮度设置</td>
+                        <td class="solidborder">屏幕亮度<br>操作面亮度<br>照明亮度</td>
+                    </tr>
+                    <tr>
+                        <th class="solidborder">Mute Group Master</th>
+                        <td class="solidborder">静音组的开/关状态</td>
+                        <td class="solidborder">静音组开/关</td>
+                    </tr>
+                    <tr>
+                        <th class="solidborder">VCA Grouping</th>
+                        <td class="solidborder">VCA 分配</td>
+                        <td class="solidborder">VCA 成员状态</td>
+                    </tr>
+                    <tr>
+                        <th class="solidborder">Layer & Bank</th>
+                        <td class="solidborder">各推子区块所调用的 Bank（不影响 Layer Manager 配置）
+                        <td class="solidborder">调用到 Fader Tile 1 的 Bank<br>调用到 Fader Tile 2 的 Bank<br>调用到 Fader Tile 3 的 Bank<br>调用到 Remote Fader Tile 1 的 Bank<br>调用到 Remote Fader Tile 2 的 Bank</td>
+                    </tr>
+                    <tr>
+                        <th class="solidborder">External Control</th>
+                        <td class="solidborder">用于控制外部设备的参数
+                        <td class="solidborder">Sigma Fader、Solo 和 Cut<br>L-ISA 参数<br>Spacemap Go 参数<br>Generic OSC 设备的 Fader 和 Switch 参数<br></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <h3>行</h3>
+        <div>
+            <table class="insideborder" style="width: auto; margin: 15px 0px;" cellpadding="4" cellspacing="1">
+                <tbody>
+                    <tr>
+                        <th class="solidborder">行名称</th>
+                        <th class="solidborder">含义</th>
+                    </tr>
+                    <tr>
+                        <th class="solidborder">Input Channel</th>
+                        <td class="solidborder">完整输入通道</td>
+                    </tr>
+                    <tr>
+                        <th class="solidborder">Stem</th>
+                        <td class="solidborder">完整 Stem</td>
+                    </tr>
+                    <tr>
+                        <th class="solidborder">Aux</th>
+                        <td class="solidborder">完整 Aux</td>
+                    </tr>
+                    <tr>
+                        <th class="solidborder">Master</th>
+                        <td class="solidborder">完整 Master</td>
+                    </tr>
+                    <tr>
+                        <th class="solidborder">Dry Input Channel</th>
+                        <td class="solidborder">Dry 输入通道</td>
+                    </tr>
+                    <tr>
+                        <th class="solidborder">Dry Stem</th>
+                        <td class="solidborder">Dry Stem</td>
+                    </tr>
+                    <tr>
+                        <th class="solidborder">Dry Aux</th>
+                        <td class="solidborder">Dry Aux</td>
+                    </tr>
+                    <tr>
+                        <th class="solidborder">Dry Master</th>
+                        <td class="solidborder">Dry Master</td>
+                    </tr>
+                    <tr>
+                        <th class="solidborder">VCA</th>
+                        <td class="solidborder">VCA</td>
+                    </tr>
+                    <tr>
+                        <th class="solidborder">OSC Path</th>
+                        <td class="solidborder">OSC 控制路径</td>
+                    </tr>
+                    <tr>
+                        <th class="solidborder">Matrix Channel</th>
+                        <td class="solidborder">矩阵输出通道</td>
+                    </tr>
+                    <tr>
+                        <th class="solidborder">Solo Bus</th>
+                        <td class="solidborder">Solo 母线 A 和 B</td>
+                    </tr>
+                    <tr>
+                        <th class="solidborder">Solo Channel</th>
+                        <td class="solidborder">Solo 输出通道 1-3</td>
+                    </tr>
+                    <tr>
+                        <th class="solidborder">Talkback Channel</th>
+                        <td class="solidborder">对讲通道 1-2</td>
+                    </tr>
+                    <tr>
+                        <th class="solidborder">DAW Channel</th>
+                        <td class="solidborder">DAW 控制通道</td>
+                    </tr>
+                    <tr>
+                        <th class="solidborder">Rack Slot</th>
+                        <td class="solidborder">FX 机架单元</td>
+                    </tr>
+                    <tr>
+                        <th class="solidborder">Rack</th>
+                        <td class="solidborder">机架名称</td>
+                    </tr>
+                    <tr>
+                        <th class="solidborder">Console</th>
+                        <td class="solidborder">全局设置</td>
+                    </tr>
+                    <tr>
+                        <th class="solidborder">Fader Tile</th>
+                        <td class="solidborder">推子区块 1-3 和远程推子区块 1-2</td>
+                    </tr>
+                    <tr>
+                        <th class="solidborder">Local Control Surface</th>
+                        <td class="solidborder">控制台操作面设置</td>
+                    </tr>
+                    <tr>
+                        <th class="solidborder">Remote Control Surface</th>
+                        <td class="solidborder">Remote Expander/Remote Console/SOLSA 设置</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+
+    </div>
+
+
+    <div class="indexheader2">演出文件存储</div>
+    <div id="Showfile" style="padding: 1em 0;">
+
+
+        <p>自动化场景存储在演出文件中，因此存入场景的所有设置也会存储在演出文件中。</p>
+
+        <p>除上述设置外，演出文件还会存储以下设置：</p>
+
+        <div>
+            <table class="insideborder" style="width: auto; margin: 15px 0px;" cellpadding="4" cellspacing="1">
+                <tbody>
+                    <tr>
+                        <th class="solidborder">Console Options</th>
+                        <td class="solidborder">外接屏幕分配</td>
+                    </tr>
+                    <tr>
+                        <th class="solidborder">System Options</th>
+                        <td class="solidborder">
+                            时间码帧率<br>时间码输入<br>默认 Folddown 设置<br>备用 Folddown 设置<br>电平表信号源
+                        </td>
+                    </tr>
+                    <tr>
+                        <th class="solidborder">Surface Options</th>
+                        <td class="solidborder">所有 Tile Setup 选项（Screen Follow Select 等）<br />所有 Query Setup 选项（各路径类型的 Compressed/Expanded 等模式）<br />所有 Select/Solo/Q Follow Setup 选项</td>
+                    </tr>
+                    <tr>
+                        <th class="solidborder">User Options</th>
+                        <td class="solidborder">
+                            所有 Solo Setup 选项（Additive Solo Mode、Default Feed Point 等）<br />Rehearse Mode 开/关<br />所有 FFT Analyser 选项（Enable Analyser、Analyser Follows Selected Path/FX Slot）<br />锁定 VCA 对 V-Aux 和 V-Stem 的控制<br />User Key 分配
+                        </td>
+                    </tr>
+                    <tr>
+                        <th class="solidborder">External Control Options</th>
+                        <td class="solidborder">
+                            所有外部设备的 IP 地址和端口号<br />Generic OSC Fader/Switch 的控件标签、OSC 方法地址、Min/Max 值和颜色
+                        </td>
+                    </tr>
+                    <tr>
+                        <th class="solidborder">I/O</th>
+                        <td class="solidborder">
+                            BLII/X-Light 端口配置（BLII Concentrator/BLII Bridge/X-Light Bridge）<br>MADI 端口冗余状态开/关<br>本地模拟 I/O 名称<br>MADI 舞台接口箱 I/O 名称
+                            <br>MADI 舞台接口箱增益共享开/关<br>MADI 舞台接口箱增益共享补偿点
+                            <br>Dante Expander 虚拟跳线数量<br>BLII/X-Light Bridge 虚拟跳线数量
+                            <br>设备 Recorder ID<br>Device Rehearse Mode 开/关<br>Global Rehearse Mode 开/关
+                        </td>
+                    </tr>
+                    <tr>
+                        <th class="solidborder">Console Configuration</th>
+                        <td class="solidborder">Channel 编号方式：Default/Auto-Renumber<br>各路径类型的数量<br>路径格式<br>Matrix 输入和输出配置</td>
+                    </tr>
+                    <tr>
+                        <th class="solidborder">Other</th>
+                        <td class="solidborder">
+                            所选路径<br>静音组分配<br>TB to Bus 衰减<br>自动化锁定 Tile<br>自动化锁定 GUI<br />路径 Global Recall Safe 开/关 
+                            （可通过相应<a href="https://livehelp.solidstatelogic.com/Help/AutoFilters.html#RecallSafe"><span class="hyperlink">选项</span></a>存储到演出文件）
+                            <br>工作电平<br />DAW Control 设置
+                            <br>Broadcast Solo Mode 的 Solo Channel Fader Dim 开/关<br>Broadcast Solo Mode 的 Solo Channel Fader Dim 电平
+                            <br>Broadcast Solo Mode 的 Solo Channel Auto Dim 开/关<br>Broadcast Solo Mode：GPI Link from Solo Channel Mute<br>Broadcast Solo Mode：GPI Link from Solo Channel Dim
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+
+    <div class="indexheader2">控制台存储</div>
+    <div id="Console" style="padding: 1em 0;">
+        <p>以下设置存储在控制台存储区中。这表示它们不会存入场景或演出文件，并且只适用于该台控制台。</p>
+
+        <p style="margin-bottom:0px">
+            <ul>
+                <li>采样率</li>
+                <li>时钟源</li>
+                <li>Dante Expander 设备名称（控制台端，详见 <a href="https://livehelp.solidstatelogic.com/Help/DanteSetup.html"><span class="hyperlink">设置 Dante</span></a> ）</li>
+                <li>BLII/X-Light Bridge 设备名称（控制台端）</li>
+                <li>Connectivity 和 Dante Control 网络的全部设置（DHCP/Fixed、IP 地址 等）</li>
+                <li>远程操作面的 <a href="https://livehelp.solidstatelogic.com/Help/RemoteControl.html#ManualDiscovery"><span class="hyperlink">Manual Discovery</span></a> 设置</li>
+            </ul>
+        </p>
+    </div>
+
+    <div class="indexheader2">不存储</div>
+    <div id="NotStored" style="padding: 1em 0;">
+
+        <p>以下设置不会存入场景、演出文件或控制台存储区。重新启动控制台或加载新的演出文件时，这些设置将重置为默认的 OFF 状态。</p>
+
+        <p style="margin-bottom:0px">
+            <ul>
+                <li>路径 Solo 开/关</li>
+                <li>Solo In Place 开/关</li>
+                <li>Mute Safe 开/关</li>
+                <li>路径 Global Recall Safe 开/关（可通过相应<a href="https://livehelp.solidstatelogic.com/Help/AutoFilters.html#RecallSafe"><span class="hyperlink">选项</span></a>存储到演出文件）</li>
+                <li>Main/Remote Surface 模式（默认为 Main）</li>
+            </ul>
+        </p>
+
+    </div>
+</div>
+<h2>实用链接</h2>
+
+<a href="https://livehelp.solidstatelogic.com/Help/AutoFilters.html"><span class="hyperlink">自动化筛选器</span></a><br>
+<a href="https://livehelp.solidstatelogic.com/Help/Showfiles.html"><span class="hyperlink">演出文件</span></a><br>
+<a href="https://livehelp.solidstatelogic.com/Help/LinkIndex.html"><span class="hyperlink">索引和术语表</span></a><br>
+</body>
+</html>

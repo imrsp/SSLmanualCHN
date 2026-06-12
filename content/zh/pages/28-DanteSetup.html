@@ -1,0 +1,702 @@
+﻿<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Dante 设置</title>
+  <style>
+    body { font: 16px/1.55 Arial, sans-serif; max-width: 1080px; margin: 2rem auto; padding: 0 1.25rem; color: #202124; }
+    img { max-width: 100%; height: auto; }
+    table { border-collapse: collapse; max-width: 100%; }
+    th, td { border: 1px solid #aaa; padding: .45rem; vertical-align: top; }
+    .note { display: block; border-left: 4px solid #e0a000; background: #fff8df; padding: .75rem 1rem; margin: 1rem 0; }
+    .notetitle { font-weight: bold; }
+    .label { font-weight: bold; color: #174ea6; }
+    .source { color: #666; font-size: .9rem; }
+  </style>
+</head>
+<body>
+  <p class="source">章节：构建演出 | 来源：<a href="https://livehelp.solidstatelogic.com/Help/DanteSetup.html">https://livehelp.solidstatelogic.com/Help/DanteSetup.html</a></p>
+
+
+<p>
+    以下页面介绍如何配置 SSL Live 控制台以接入 Dante 网络、在 Dante 设备之间进行路由，以及控制 SSL Net I/O 舞台接口箱并共享增益：
+    <ul>
+        <li>设置 Dante（本页）</li>
+        <li><a href="https://livehelp.solidstatelogic.com/Help/DanteVTL.html"><span class="hyperlink">虚拟跳线</span></a></li>
+        <li><a href="https://livehelp.solidstatelogic.com/Help/DanteConfig.html"><span class="hyperlink">Dante 双域路由与设备配置</span></a></li>
+        <li><a href="https://livehelp.solidstatelogic.com/Help/DanteNetIO.html"><span class="hyperlink">网络 I/O 舞台接口箱和设备</span></a></li>
+        <li><a href="https://livehelp.solidstatelogic.com/Help/DanteBridges.html"><span class="hyperlink">BLII 与 X-Light 网桥</span></a></li>
+    </ul>
+</p>
+
+
+
+<h2>设置 Dante</h2>
+
+<span class="note">
+    <span class="notetitle">SSL 建议：</span>配置 Dante 系统前，建议先在 Audinate 网站完成 <span style="font-weight:bold;">Dante 认证 1 级和 2 级</span>。<br />
+    这些认证课程将为您介绍 Dante 网络，并且在设置 SSL Live Dante 系统时非常有用。<br />
+    认证课程可以在这里访问： <a class="external-link" tabindex="-1" href="https://www.audinate.com/resources/training-and-tutorials/dante-certification-training" target="_blank"><span class="hyperlink">audinate.com/resources/training-and-tutorials/dante-certification-training</span></a>
+</span>
+
+<h3>IP 地址设置</h3>
+
+<p>
+    开始配置前，需要了解 SSL Live 控制台包含<span style="font-weight:bold;">五个</span>独立的网络适配器。
+    要与外部 Dante 网络正常配合，必须正确配置以下设备：
+</p>
+
+<p style="margin-bottom:0px;">
+    <ul>
+        <li>Dante Control 主网</li>
+        <li>Dante Control 备网</li>
+        <li>Dante Expander Audio 主网</li>
+        <li>Dante Expander Audio 备网</li>
+        <li>连接控制网络</li>
+    </ul>
+
+<p>如果使用 <span style="font-weight:bold;">BLII Bridge</span> 或 <span style="font-weight:bold;">X-Light Bridge</span>，还需要配置以下网络设备：</p>
+
+<p style="margin-bottom:0px;">
+    <ul>
+        <li>BLII/X-Light Bridge Audio 主网</li>
+        <li>BLII/X-Light Bridge Audio 备网</li>
+    </ul>
+
+<p>
+    <span style="font-weight:bold;">Dante Control 主、备网</span> -
+    提供对 Dante 网络的控制，包括创建/取消路由以及控制麦克风增益等输入参数。
+    两个适配器应分别位于 Dante 主网和 Dante 备网。
+</p>
+
+<p>
+    <span style="font-weight:bold;">Dante Expander Audio 主、备网</span> -
+    通过内部 Dante Expander 模块在 Dante 网络上传输音频。Dante Expander 不负责控制路由或舞台接口箱。
+    两个适配器应分别位于 Dante 主网和 Dante 备网。
+</p>
+
+<p>
+    <span style="font-weight:bold;">连接控制网络</span> -
+    用于通过 SOLSA、远程扩展器、另一个 SSL Live 控制台或 TaCo 远程控制控制台。
+    可通过控制台背面三个标有 <span style="font-weight:bold;">NETWORK</span> 的端口之一接入该网络。
+    连接控制网络是独立于 Dante 网络的网络，Dante 操作不需要该网络。
+    但是，请务必注意其 IP 地址，如果设置不正确，可能会与您的 Dante 网络发生冲突。
+</p>
+
+<p>
+    <span style="font-weight:bold;">X-Light Bridge Console Link 主、备网</span> -
+    通过 X-Light Bridge 在 Dante 网络上传输控制台的 Dante Control 和 Dante Expander 数据。两个适配器应分别位于 Dante 主网和 Dante 备网。
+</p>
+
+<p>上述网络设备应位于 3 个独立的网络上：</p>
+
+<p>这些网络应包含以下设备。</p>
+
+<p style="margin-bottom:0px;">
+    <ul>
+        <li>
+            <span style="font-weight:bold;">Dante 主网</span>
+
+            <ul>
+                <li>控制台的 Dante Control Primary</li>
+                <li>控制台的 Dante Expander Audio Primary</li>
+                <li>BLII Bridge Audio Primary（如果使用 BLII Bridge）</li>
+                <li>X-Light Bridge Audio Primary（如果使用 X-Light Bridge）</li>
+                <li>其他 Dante 设备的 Primary 连接（例如 Net I/O 舞台接口箱、Dante Virtual Soundcard、第三方 Dante 设备）</li>
+                <li>运行 Dante Controller 的计算机</li>
+            </ul>
+        </li>
+
+        <li>
+            <span style="font-weight:bold;">Dante 备网</span>
+
+            <ul>
+                <li>控制台的 Dante Control Secondary</li>
+                <li>控制台的 Dante Expander Audio Secondary</li>
+                <li>BLII Bridge Audio Secondary（如果使用 BLII Bridge）</li>
+                <li>X-Light Bridge Audio Secondary（如果使用 X-Light Bridge）</li>
+                <li>其他 Dante 设备的 Secondary 连接（例如 Net I/O 舞台接口箱、Dante Virtual Soundcard、第三方 Dante 设备）</li>
+            </ul>
+        </li>
+
+        <li>
+            <span style="font-weight:bold;">连接控制网络</span>:
+
+            <ul>
+                <li>控制台连接控制网络</li>
+                <li>远程模式下的 SOLSA（如果使用）</li>
+                <li>运行 TaCo 的平板电脑（如果使用）</li>
+                <li>远程模式下的另一个 SSL Live 控制台（如果使用）</li>
+            </ul>
+        </li>
+
+    </ul>
+</p>
+
+<p>每个网络都应该有自己的子网。一个网络上的每台设备都必须拥有同一子网内的 IP 地址，以便这些设备能够相互通信。</p>
+
+<p>每个网络设备都需要在其连接的网络的正确子网内有一个唯一的 IP 地址。</p>
+
+<span class="note">
+    <span class="notetitle">注意：</span><br><span style="font-weight:bold;">Dante Control</span> 和 <span style="font-weight:bold;">Dante Expander Audio</span> 均可通过控制台背面的 Dante Expander Primary 和 Secondary 端口访问。
+    控制台中的内部网络交换机连接这两个独立的网络设备。然而，它们都有单独的 IP 设置。
+    例如，Dante Control Primary 和 Dante Expander Primary 必须在同一子网内具有不同的 IP 地址。
+    <br><br>
+    <span style="font-weight:bold;">Dante Control</span> 和 <span style="font-weight:bold;">Dante Expander Audio</span> 也可通过 X-Light 的 <span style="font-weight:bold;">Console Link</span> 端口访问。如果将控制台 Dante Expander 端口和 X-Light 端口接入同一网络，请避免形成网络环路。
+    <br><br>
+    要在 SSL Live 控制台上正确配置并控制 Dante，必须配置 <span style="font-weight:bold;">Dante Control</span> 和 <span style="font-weight:bold;">Dante Expander Audio</span> 网络设备。
+    <br><br>
+    要通过 BLII/X-Light Bridge 在 SSL Live 控制台上正确配置并控制 Dante，必须配置 <span style="font-weight:bold;">Dante Control</span>、<span style="font-weight:bold;">Dante Expander Audio</span>
+    和 <span style="font-weight:bold;">BLII/X-Light Bridge Audio</span> 网络设备。
+</span>
+
+<p>SSL Live 控制台出厂时具有以下 IP 地址设置：</p>
+
+<div>
+
+    <table class="insideborder" style="width: auto; margin: 15px 0px;" cellpadding="4" cellspacing="1">
+        <tbody>
+            <tr>
+                <th class="solidborder">网络接口</th>
+                <th class="solidborder">固定/DHCP</th>
+                <th class="solidborder">IP 地址</th>
+                <th class="solidborder">IP 地址配置位置</th>
+            </tr>
+            <tr>
+                <th class="solidborder">Dante Control Primary</th>
+                <td class="solidborder">Fixed</td>
+                <td class="solidborder">10.101.x.x</td>
+                <td class="solidborder"><span class="label">MENU</span> > <span class="label">Setup</span> > <span class="label">Options</span> > <span class="label">NETWORK</span> 选项卡</td>
+            </tr>
+            <tr>
+                <th class="solidborder">Dante Control Secondary</th>
+                <td class="solidborder">Fixed</td>
+                <td class="solidborder">10.102.x.x</td>
+                <td class="solidborder"><span class="label">MENU</span> > <span class="label">Setup</span> > <span class="label">Options</span> > <span class="label">NETWORK</span> 选项卡</td>
+            </tr>
+            <tr>
+                <th class="solidborder">Dante Expander Audio Primary</th>
+                <td class="solidborder">Fixed</td>
+                <td class="solidborder">10.101.x.x</td>
+                <td class="solidborder">Dante Controller（可从 Audinate 网站免费获取）</td>
+            </tr>
+            <tr>
+                <th class="solidborder">Dante Expander Audio Secondary</th>
+                <td class="solidborder">Fixed</td>
+                <td class="solidborder">10.102.x.x</td>
+                <td class="solidborder">Dante Controller（可从 Audinate 网站免费获取）</td>
+            </tr>
+            <tr>
+                <th class="solidborder">连接控制网络</th>
+                <td class="solidborder">DHCP</td>
+                <td class="solidborder">-</td>
+                <td class="solidborder"><span class="label">MENU</span> > <span class="label">Setup</span> > <span class="label">Options</span> > <span class="label">NETWORK</span> 选项卡</td>
+            </tr>
+        </tbody>
+    </table>
+
+</div>
+
+<br>
+
+<p>BLII/X-Light Bridge 出厂时具有以下 IP 地址设置：</p>
+<div>
+
+    <table class="insideborder" style="width: auto; margin: 15px 0px;" cellpadding="4" cellspacing="1">
+        <tbody>
+            <tr>
+                <th class="solidborder">网络接口</th>
+                <th class="solidborder">固定/DHCP</th>
+                <th class="solidborder">IP 地址</th>
+                <th class="solidborder">IP 地址配置位置</th>
+            </tr>
+            <tr>
+                <th class="solidborder">BLII/X-Light Bridge Audio Primary</th>
+                <td class="solidborder">DHCP</td>
+                <td class="solidborder">-</td>
+                <td class="solidborder">Dante Controller（可从 Audinate 网站免费获取）</td>
+            </tr>
+            <tr>
+                <th class="solidborder">BLII/X-Light Bridge Audio Secondary</th>
+                <td class="solidborder">DHCP</td>
+                <td class="solidborder">-</td>
+                <td class="solidborder">Dante Controller（可从 Audinate 网站免费获取）</td>
+            </tr>
+        </tbody>
+    </table>
+
+</div>
+<br>
+<p>SSL Net I/O 舞台接口箱出厂时具有以下 IP 地址设置：</p>
+<div>
+
+    <table class="insideborder" style="width: auto; margin: 15px 0px;" cellpadding="4" cellspacing="1">
+        <tbody>
+            <tr>
+                <th class="solidborder" colspan="2">舞台接口箱</th>
+                <th class="solidborder">网络接口</th>
+                <th class="solidborder">固定/DHCP</th>
+                <th class="solidborder">IP 地址</th>
+                <th class="solidborder">IP 地址配置位置</th>
+            </tr>
+            <tr>
+                <th class="solidborder" rowspan="4">SB 16.12 和 SB 32.24</th>
+                <td class="solidborder" rowspan="2">Main<br>(Net A)</td>
+                <td class="solidborder">Primary</td>
+                <td class="solidborder">DHCP</td>
+                <td class="solidborder">-</td>
+                <td class="solidborder">Dante Controller（可从 Audinate 网站免费获取）</td>
+            </tr>
+            <tr>
+                <td class="solidborder">Secondary</td>
+                <td class="solidborder">DHCP</td>
+                <td class="solidborder">-</td>
+                <td class="solidborder">Dante Controller（可从 Audinate 网站免费获取）</td>
+            <tr>
+                <td class="solidborder" rowspan="2">Comp<br>(Net B)</td>
+                <td class="solidborder">Primary</td>
+                <td class="solidborder">DHCP</td>
+                <td class="solidborder">-</td>
+                <td class="solidborder">Dante Controller（可从 Audinate 网站免费获取）</td>
+            </tr>
+            <tr>
+                <td class="solidborder">Secondary</td>
+                <td class="solidborder">DHCP</td>
+                <td class="solidborder">-</td>
+                <td class="solidborder">Dante Controller（可从 Audinate 网站免费获取）</td>
+            <tr>
+                <th class="solidborder" rowspan="2" colspan="2">SB 8.8 和 SB i16</th>
+                <td class="solidborder">Primary</td>
+                <td class="solidborder">DHCP</td>
+                <td class="solidborder">-</td>
+                <td class="solidborder">Dante Controller（可从 Audinate 网站免费获取）</td>
+            </tr>
+            <tr>
+                <td class="solidborder">Secondary</td>
+                <td class="solidborder">DHCP</td>
+                <td class="solidborder">-</td>
+                <td class="solidborder">Dante Controller（可从 Audinate 网站免费获取）</td>
+            </tr>
+        </tbody>
+    </table>
+
+</div>
+
+<br>
+
+<p>以上各 IP 地址所用的<span style="font-weight:bold;">网络掩码</span>（也称<span style="font-weight:bold;">子网掩码</span>）均为 255.255.0.0。</p>
+
+<p>需要记住的重要事项：</p>
+<p style="margin-bottom:0px;">
+    <ul>
+        <li>每个设备的 IP 地址必须是唯一的。</li>
+        <li>Dante 主网和备网绝不能进行物理连接。</li>
+        <li>同一设备上的多个网络适配器不能使用同一子网中的地址。</li>
+        <li>Dante Primary 和 Secondary 地址必须位于不同子网。</li>
+        <li>当设置为自动配置时，Dante Primary 将使用 169.254.x.x 子网。这是标准 IPv4 协议，因此与连接控制网络的行为相同。 </li>
+        <li>
+            对于除 SSL Live 控制台外的 Dante 设备（见下文“固定 IP 地址”），Secondary 设置为自动配置时会使用 172.31.x.x 子网。
+            该范围属于 IPv4 私有地址，但并非专为自动配置保留；将其用于 Secondary 自动配置是 Dante 的特定做法。
+        </li>
+        <li>除使用不同子网外，连接控制网络、Dante 主网和 Dante 备网还应视为三个物理隔离、各自拥有网络硬件的网络。*</li>
+        <li>默认网关设置必须留空，因为 Dante 当前不使用该设置。**</li>
+    </ul>
+
+<p>
+    <i>
+        * 也有例外 - 您可能有一个可配置的网络交换机，可以为多个网络提供服务，并使用 VLAN 进行分隔。
+        尽管这可行，但保持硬件分离的原因主要与故障转移有关 -
+        如果这台交换机发生故障，主网和备网会同时中断，失去冗余网络的意义，因此不建议在现场使用中采用这种方式。
+    </i>
+</p>
+
+<p><i>**默认网关用于在子网之间路由 IP 数据。 Dante 不支持此功能，输入网关设置会将主子网和辅助子网链接在一起，这是无效的。 </i></p>
+
+<h3>SSL Live 建议</h3>
+
+<span style="font-weight:bold;">SSL Live 应使用固定 IP 地址还是 DHCP？</span>
+
+<span class="note">
+    <span class="notetitle">SSL 推荐：</span><br>
+    对于包含 SSL Live 控制台的 Dante 网络，SSL 建议备网上的所有 Dante 设备使用<span style="font-weight:bold;">固定 IP 地址</span>，
+    <span style="font-weight:bold;">除非</span>网络中存在 DHCP 服务器。
+</span>
+
+<p>
+    动态主机配置协议（DHCP）允许服务器自动为预先定义的地址范围内的设备分配 IP 地址。
+    DHCP 还可以提供有关网关和 DNS 服务器的信息（如果在专用于音频传输的封闭网络中，通常不需要）。
+</p>
+
+<p>
+    如果控制台的三个控制网络适配器（连接控制网络、Dante Control Primary 和 Secondary）中有两个或更多设为 DHCP，而相应网络中没有 DHCP 服务器，
+    这些适配器可能自动配置到同一个 169.254.xx.xx 子网。这是无效配置，会使 Dante 网络、连接控制网络或两者工作异常。
+</p>
+
+<p>因此，如果所有 Dante 设备都设置为 DHCP，SSL 建议在所有使用的网络上都存在 DHCP 服务器。</p>
+
+<p>
+    另一种方法是为 Dante 主网和 Dante 备网上的所有设备设置固定 IP 地址，以防 Dante Control Primary 和 Secondary 适配器自动落入同一子网。
+    此时，只要 Dante 主网和备网的固定地址范围不与连接控制网络的 DHCP 地址池重叠，就可以将连接控制网络安全地设为 DHCP；
+    如果连接控制网络中没有 DHCP 服务器，也不要与其 169.254.xx.xx 自动配置范围重叠。
+</p>
+
+<p>
+    如果使用多个 DHCP 服务器（例如每个网络一个），则应将它们配置为在唯一子网内发布地址，以确保它们的范围不会与任何其他网络的固定/DHCP 范围重叠。
+</p>
+
+<p>
+    如果连接控制网络上没有 DHCP 服务器，请将此适配器设置为与主 Dante 网络和备 Dante 网络位于不同子网中的固定地址。
+    将连接控制网络上的所有其他设备设置为同一子网内的固定 IP 地址。有关设置连接控制网络的更多信息
+    请参阅<a href="https://livehelp.solidstatelogic.com/Help/RemoteControl.html"><span class="hyperlink">远程操作面</span></a>或<a href="https://livehelp.solidstatelogic.com/Help/TaCo.html"><span class="hyperlink">TaCo 平板控制</span></a>。
+</p>
+
+<br>
+
+<p><span style="font-weight:bold;">IP 地址冲突警告</span></p>
+
+<p>
+    如果多个控制台的网络适配器设置为同一子网内的 IP 地址，则会显示一系列警告以通知 IP 地址冲突。
+    这是无效的配置，必须解决。
+</p>
+
+<p>欲了解更多信息，请参阅 <a href="https://livehelp.solidstatelogic.com/Help/OptionsNetwork.html#Clash"><span class="hyperlink">IP 地址冲突警告</span></a>.</p>
+
+
+<br>
+
+<p id="FindingDevice"><span style="font-weight:bold;">查找设置为不同子网中固定 IP 地址的 Dante 设备</span></p>
+
+<p>Audinate 网站包含有关如何查找已设置为与计算机不同子网中的固定 IP 地址的设备的详细说明。 <a class="external-link" tabindex="-1" href="https://www.audinate.com/faq/how-can-i-locate-dante-device-static-ip-address-unknown-subnet" target="_blank"><span class="hyperlink">www.audinate.com/faq/how-can-i-locate-dante-device-static-ip-address-unknown-subnet</span></a></p>
+
+<p>也可以使用免费的 <span style="font-weight:bold;">Wireshark</span> 识别网络中设备的 IP 地址。</p>
+
+<p>首先，从他们的网站下载 Wireshark： <a class="external-link" tabindex="-1" href="https://www.wireshark.org/#download" target="_blank"><span class="hyperlink">www.wireshark.org</span></a> 并在您的计算机上安装该程序。</p>
+
+<p>Wireshark 的工作原理是报告网络上设备的所有 IP 地址。为了简化调查，请将您的计算机直接连接到相关设备上的 Dante Primary 适配器。</p>
+
+<p>打开 Wireshark。您计算机的所有网络适配器都会列出。双击用于 Dante Primary 的网络适配器。大多数笔记本电脑仅包含一个网络适配器，因此只会显示一个有线网络连接。</p>
+
+<p>网络上的所有设备现在都将按其 IP 地址显示。如果您直接连接到相关设备，则此处仅可见两个 IP 地址：相关设备和您的计算机。</p>
+
+<p>确定哪个 IP 地址是您计算机的 IP 地址。</p>
+
+<p>在 Mac 上，可前往 <span class="label">System Preferences</span> &gt; <span class="label">Network</span> 查看 IP 地址；点击左侧的以太网适配器即可显示 Mac 的 IP 地址。</p>
+
+<p>在 PC 上，打开 <span class="label">Command Prompt</span>，输入 <i>ipconfig</i> 并按 <span class="label">Enter</span>；计算机的 IP 地址显示在 <span style="font-weight:bold;">IPv4 Address</span> 旁。</p>
+
+<p>一旦确定 Wireshark 中显示的 IP 地址是您的计算机的 IP 地址，其余的 IP 地址将是相关设备的 IP 地址。</p>
+
+<p>将计算机的 IP 地址设置为与相关设备位于同一子网内，然后该设备将在 Dante Controller 中可见。更改设备的 IP 地址，使它们位于您希望用于 Dante Primary 和 Secondary 的子网内，并设置计算机的 IP 地址，使其回到您用于 Dante Primary 的范围内。</p>
+
+<h3>步骤 1：设置 Dante 控制 IP 地址</h3>
+
+<p>
+    本节介绍如何设置 Dante Control Primary 和 Secondary 网络适配器的 IP 地址。
+    这些适配器用于控制 Dante 网络，包括建立或取消路由，以及控制话筒增益等输入参数。
+    两个适配器应分别位于 Dante 主网和 Dante 备网。
+</p>
+
+<p>在控制台上转到 <span class="label">MENU</span> > <span class="label">Setup</span> > <span class="label">Options</span> > <span class="label">NETWORK</span> 选项卡。</p>
+
+<p>屏幕左侧显示连接控制网络信息，右侧显示 Dante Control 主、备网信息。</p>
+
+<span class="note">
+    <span class="notetitle">注意：</span><br>这些地址用于控制台使用的网络适配器，用于向 Dante 网络发送控制数据或从 Dante 网络接收控制数据，
+    不是 Dante 音频连接的地址。 Dante Control 网络适配器在 Dante Controller 中不可见，也无法由 Dante Controller 进行配置。
+</span>
+
+<p>在本示例中，将<span style="font-weight:bold;">主控制网络适配器</span>设为：</p>
+
+<p><span style="font-weight:bold;">IP 地址：</span> 10.101.1.1</p>
+<p><span style="font-weight:bold;">网络掩码：</span> 255.255.0.0</p>
+<p><span style="font-weight:bold;">网关：</span> 0.0.0.0</p>
+
+<p>
+    首先将适配器类型设置为 <span class="label">Fixed</span>，然后双击“IP 地址”和“网络掩码”框并输入上面的值。
+    完成此操作后，按住 <span class="label">Apply</span> 按钮并等待网络适配器重新启动。
+</p>
+
+<p>然后将<span style="font-weight:bold;">备控制网络适配器</span>设为：</p>
+
+<p><span style="font-weight:bold;">IP 地址：</span> 10.102.1.1</p>
+<p><span style="font-weight:bold;">网络掩码：</span> 255.255.0.0</p>
+<p><span style="font-weight:bold;">网关：</span> 0.0.0.0</p>
+
+<p>
+    将适配器类型设置为 <span class="label">Fixed</span>，然后双击“IP 地址”和“网络掩码”框并输入上面的值。
+    完成此操作后，按住 <span class="label">Apply</span> 按钮并等待网络适配器重新启动。
+</p>
+
+<img style="display: block; margin: 25px auto;" src="https://livehelp.solidstatelogic.com/Help/images/g_DanteControlNetIP.png" alt="">
+
+<p>
+    在我们的示例中， <span style="font-weight:bold;">连接控制网络适配器</span> 地址设置应保留为 <span class="label">DHCP</span>。
+    如果以后需要将其设置为固定 IP 地址，请确保使用与 Dante 网络不同的子网。
+</p>
+
+<img style="display: block; margin: 25px auto;" src="https://livehelp.solidstatelogic.com/Help/images/g_ConnectivityNetIP.png" alt="">
+
+<h3>步骤 2：设置 Dante 音频网络 IP 地址和名称</h3>
+
+<p>要设置控制台 Dante 音频网络设备的 IP 地址，您需要一台运行 Audinate 的 Dante 控制器应用程序的计算机，您可以在此处下载该应用程序： <a class="external-link" tabindex="-1" href="https://www.audinate.com/products/software/dante-controller" target="_blank"><span class="hyperlink">www.audinate.com/products/software/dante-controller</span></a></p>
+
+<p>
+    将计算机的网络适配器设置为固定 IP 地址 10.101.10.10，网络掩码为 255.255.0.0。
+    现在，将计算机的网络端口直接连接到控制台上的 Dante Pri 端口，然后启动 Dante Controller 应用程序。
+</p>
+
+<p>
+    在 Dante Controller 中找到控制台；本示例中的名称为 <span style="font-weight:bold;">L200-Dante-Expander</span>
+    （在初始设置时，此名称将有所不同）。
+
+    <img style="display: block; margin: 25px auto;" src="https://livehelp.solidstatelogic.com/Help/images/g_DanteControllerName.png" alt="">
+
+<p>双击设备名称，在 Device View 窗口中选择 <span class="label">Device Config</span> 选项卡。</p>
+
+<img style="display: block; margin: 25px auto;" src="https://livehelp.solidstatelogic.com/Help/images/g_DanteDeviceConfig.png" alt="">
+
+<p>
+    在 <span style="font-weight:bold;">Rename Device</span> 字段中输入合适的名称，使网络中的用户能在 Dante Controller 中轻松识别该设备。
+    控制台型号和场地位置通常就足够了（例如“L200-FOH”），除非配置非常大的网络。
+</p>
+
+<p>在我们的示例中，确保 Dante 设备采样率设置为 96 kHz，如上所示。</p>
+
+<p>接下来选择 <span class="label">Network Config</span> 选项卡。此页面显示控制台的 Dante 音频网络设备的 IP 地址。</p>
+
+<img style="display: block; margin: 25px auto;" src="https://livehelp.solidstatelogic.com/Help/images/g_DanteNetworkConfig.png" alt="">
+
+<p>在我们的示例中，我们将为主适配器使用以下 IP 地址设置：</p>
+
+<p><span style="font-weight:bold;">IP 地址：</span> 10.101.2.2</p>
+<p><span style="font-weight:bold;">网络掩码：</span> 255.255.0.0</p>
+
+<p>备网适配器使用：</p>
+
+<p><span style="font-weight:bold;">IP 地址：</span> 10.102.2.2</p>
+<p><span style="font-weight:bold;">网络掩码：</span> 255.255.0.0</p>
+
+<p>
+    按 <span class="label">Apply</span> 以使更改生效。系统将要求您确认 IP 地址更改，单击 <span class="label">Yes</span>。
+    现在必须重新启动设备才能使更改生效。点击 <span class="label">Reboot</span>。系统将要求您确认重新启动。点击 <span class="label">Yes</span>.
+</p>
+
+<span class="note">
+    <span class="notetitle">注意：</span><br>对于我们的示例，请确保 <b>虚拟跳线</b> 在 Dante Expander 详细信息视图中值设置为 0
+    （在 <span class="label">MENU</span> > <span class="label">Setup</span> > <span class="label">I/O</span> > <span class="label">Local/MADI&nbsp;Configuration</span>）。
+    这样可简化示例。有关配置虚拟跳线的更多信息，请参阅<a href="https://livehelp.solidstatelogic.com/Help/DanteVTL.html"><span class="hyperlink">使用虚拟跳线</span></a>。
+</span>
+
+<h3>步骤 3：设置 Dante 音频网络和 Dante 控制网络名称</h3>
+
+<p>为了轻松识别 Dante 网络上的控制台，控制台使用两个唯一的用户定义名称： </p>
+
+<p><span style="font-weight:bold;">Dante Device Name</span> - 标识控制台的本地 Dante 音频接口（名称在 Dante Controller 中可见并在上面的步骤 2 中设置）</p>
+<p><span style="font-weight:bold;">Control ID</span> - 将控制台标识为 Dante 设备控制器（用于 Net I/O 舞台接口箱所有权的名称）</p>
+
+<span class="note"><span class="notetitle">重要：</span>这两个名称<span style="font-weight:bold;">不得相同</span>。</span>
+
+<p>
+    <span style="font-weight:bold;">Dante Device Name</span> 位于 <span class="label">MENU</span> &gt; <span class="label">Setup</span> &gt; <span class="label">I/O</span> &gt; <span class="label">Local/MADI&nbsp;Configuration</span> &gt; <span class="label">Dante&nbsp;Expander</span>。
+    当控制台连接到 Dante 网络时，应自动填充此名称。
+    如果没有自动检测到名称，请双击 <span style="font-weight:bold;">Device Name</span> 字段，
+    并<span style="font-weight:bold;">完全按照</span> Dante Controller 中显示的名称输入。
+</p>
+
+<img style="display: block; margin: 25px auto;" src="https://livehelp.solidstatelogic.com/Help/images/g_DanteExpanderName.png" alt="">
+
+<p>
+    <span style="font-weight:bold;">Control ID</span> 位于 <span class="label">MENU</span> &gt; <span class="label">Setup</span> &gt; <span class="label">Options</span> &gt; <span class="label">NETWORK</span> 选项卡。
+    下例中的 Control ID 为 <span style="font-weight:bold;">LIVE-L200</span>。
+</p>
+
+<img style="display: block; margin: 25px auto;" src="https://livehelp.solidstatelogic.com/Help/images/g_DanteControlNetIP.png" alt="">
+
+<p>
+    Control ID 取自 Console Name。前往 <span class="label">MENU</span> &gt; <span class="label">Setup</span> &gt; <span class="label">System&nbsp;/&nbsp;Power</span> &gt; <span class="label">System</span> 选项卡，
+    在 <span style="font-weight:bold;">Console Name</span> 区域双击名称进行编辑，然后按住 <span class="label">Apply</span>。
+</p>
+
+<img style="display: block; margin: 25px auto;" src="https://livehelp.solidstatelogic.com/Help/images/g_ConsoleName.png" alt="">
+
+<span class="note">
+    <span class="notetitle">请注意：</span><br>改变 <span style="font-weight:bold;">Console Name</span> 将关闭控制台电源，并且控制台将失去所有 Net I/O 舞台接口箱参数的所有权。
+    这是因为控制台使用控制 ID（取自Console Name）来拥有自己的舞台接口箱输入和参数。
+    所有先前拥有的舞台接口箱输入和参数都需要重新拥有。
+    有关如何拥有输入和舞台接口箱参数的更多信息，请访问 <a href="https://livehelp.solidstatelogic.com/Help/DanteNetIO.html#Ownership"><span class="hyperlink">控制网络 I/O 舞台接口箱和所有权</span></a>
+</span>
+
+<h3>步骤 4：连接 SSL Net I/O 舞台接口箱（和其他 Dante 设备）</h3>
+
+<p>现在您已经配置了控制台的 Dante 设置，我们可以开始将网络交换机和其他 Dante 设备添加到网络。</p>
+
+<span class="note">
+    <span class="notetitle">注意：</span><br>主网和备网必须始终保持物理分离。
+    请勿将主网交换机与备网交换机相连，也不要将设备的 Primary 端口接入备网交换机，反之亦然。
+</span>
+
+<p>所有 SSL 舞台接口箱出厂时均配置为 <span style="font-weight:bold;">DHCP</span>。</p>
+
+<p>要在舞台接口箱上设置固定 IP 地址，请将您的计算机（配置为使用 DHCP 地址）直接连接到舞台接口箱并使用 <span class="label">Dante Controller</span> 设置固定 IP 地址（按照步骤 3 中的说明进行操作）。</p>
+
+<p>一个网络上的每台设备都必须拥有同一子网内的 IP 地址，以便这些设备能够相互通信。</p>
+
+<p>因此，对于我们的示例，连接到 Dante 主网的任何设备都必须具有如下 IP 地址：</p>
+
+<p><span style="font-weight:bold;">IP 地址：</span> 10.101.x.x</p>
+<p><span style="font-weight:bold;">网络掩码：</span> 255.255.0.0</p>
+
+<span class="note"><span class="notetitle">注意：</span><br>我们已经在主网络上使用了 IP 地址 10.101.1.1、10.101.2.2 和 10.101.10.10。这些 IP 地址不能用于网络上的其他设备。</span>
+
+<p>对于 Dante 备网，任何连接的设备都必须具有如下 IP 地址：</p>
+
+<p><span style="font-weight:bold;">IP 地址：</span> 10.102.x.x</p>
+<p><span style="font-weight:bold;">网络掩码：</span> 255.255.0.0</p>
+
+<span class="note"><span class="notetitle">注意：</span><br>我们已经在辅助网络上使用了 IP 地址 10.102.1.1 和 10.102.2.2。这些 IP 地址不能用于网络上的其他设备。</span>
+
+<p>
+    使用 Dante 控制器或控制台的 Dante I/O 设置页面，将所有连接的舞台接口箱设置为 96 kHz 采样率。这是因为我们在此示例设置过程中之前已将 Dante Expander 模块设置为 96 kHz。
+    具有不同采样率的两个设备之间无法进行 Dante 路由。因此，要在两个 Dante 设备之间创建路由，这些设备必须以相同的采样率运行。
+</p>
+
+
+<h3>Dante 时钟</h3>
+<p>请参阅<a href="https://livehelp.solidstatelogic.com/Help/Clocking.html#Dante"><span class="hyperlink">时钟章节中的 Dante 小节</span></a>，正确配置控制台和网络时钟。</p>
+
+<h3>Dante Domain Manager</h3>
+
+<!-- Start of DDM Snippet -->
+<!-- Also used in OptionsNetwork.html -->
+<p>
+    该控制台能够连接到由 Dante Domain Manager (DDM) 控制的网络内的托管域。
+    控制台必须登录到与目标 I/O 设备相同的域，才能与其进行路由或控制。
+</p>
+
+<span class="note">
+    <span class="notetitle">重要提示：</span> 控制台的本地 Dante Expander (Brooklyn II) 模块和任何 BLII 或 X-Light Bridge 必须注册到与 I/O 和控制台控制软件相同的域。
+    这是使用 Dante Domain Manager 完成的。
+</span>
+<!-- End of DDM Snippet -->
+
+<p>
+    有关将控制台登录到域的更多信息，请参阅 <a href="https://livehelp.solidstatelogic.com/Help/OptionsNetwork.html#DDM"><span class="hyperlink">网络选项</span></a> 部分。
+</p>
+
+<h2 id="Interfaces">SSL Live Dante 接口</h2>
+
+<h3>Dante Expander 模块</h3>
+
+<p>SSL Live 控制台可选装 <b>Dante Expander 模块</b>。该模块包含 Dante Brooklyn II 模块，用于与 Dante 网络建立音频连接。</p>
+
+<!-- Start of Dante Sample Rates Snippet -->
+<!-- Also used in LocalMADIConfig.html -->
+<p>
+    控制台上可用于路由的通道数量将根据控制台和 Dante 网络采样率而有所不同。
+    如果 Dante 网络以与控制台不同的采样率或在不同的时钟域中运行，请启用 <span class="label">SRC&nbsp;In</span> 按钮。
+    这将在控制台和 Dante 网络之间转换传入和传出音频的采样率。下表总结了可用的采样率组合
+    （请注意引用的数字适用于每个方向，例如 32 = 32 个输入 <b>和</b> 32 个输出）：
+</p>
+
+<div>
+    <table class="insideborder" style=\"width: auto; margin 15px 0px;\" cellpadding="4" cellspacing="1">
+        <tbody>
+            <tr>
+                <th class="solidborder">控制台采样率</th>
+                <th class="solidborder" style=\"width: 100px;\">Dante 扩展器采样率</th>
+                <th class="solidborder" style=\"width: 100px;\">Dante Expander 采样率转换</th>
+                <th class="solidborder" style=\"width: 100px;\">Dante 输入和输出的数量</th>
+            </tr>
+            <tr>
+                <td class="solidborder">96 kHz</td>
+                <td class="solidborder">192 kHz</td>
+                <td class="solidborder">SRC In</td>
+                <td class="solidborder">16</td>
+            </tr>
+            <tr>
+                <td class="solidborder">96 kHz</td>
+                <td class="solidborder">96 kHz</td>
+                <td class="solidborder">SRC Out</td>
+                <td class="solidborder">32</td>
+            </tr>
+            <tr>
+                <td class="solidborder">96 kHz</td>
+                <td class="solidborder">48 kHz</td>
+                <td class="solidborder">SRC In</td>
+                <td class="solidborder">32</td>
+            </tr>
+            <tr>
+                <td class="solidborder">48 kHz</td>
+                <td class="solidborder">192 kHz</td>
+                <td class="solidborder">SRC In</td>
+                <td class="solidborder">16</td>
+            </tr>
+            <tr>
+                <td class="solidborder">48 kHz</td>
+                <td class="solidborder">96 kHz</td>
+                <td class="solidborder">SRC In</td>
+                <td class="solidborder">32</td>
+            </tr>
+            <tr>
+                <td class="solidborder">48 kHz</td>
+                <td class="solidborder">48 kHz</td>
+                <td class="solidborder">SRC Out</td>
+                <td class="solidborder">64</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<span class="note">
+    <span class="notetitle">注意： </span>除非 <span class="label">SRC&nbsp;In</span> 按钮已按下，您必须设置 Dante Expander 的采样率以匹配控制台的采样率。
+    这可以通过运行 Dante Controller 软件且与控制台的 Dante Expander 连接到同一网络的计算机来完成。或者，从 Live v6.2 开始，可以在 Dante 配置页面的已连接设备列表中查看和更改控制台扩展器的采样率。 
+</span>
+<!-- End of Dante Sample Rates Snippet -->
+
+<p>
+    Dante Expander 模块同时支持<span style="font-weight:bold;">双域路由</span>和<span style="font-weight:bold;">虚拟跳线</span>。
+    欲了解更多信息，请参阅 <a href="https://livehelp.solidstatelogic.com/Help/DanteConfig.html"><span class="hyperlink">Dante 双域路由</span></a> 和
+    <a href="https://livehelp.solidstatelogic.com/Help/DanteVTL.html"><span class="hyperlink">Dante 虚拟跳线</span></a>.
+</p>
+
+<h3>Net I/O BLII/X-Light Bridge</h3>
+
+<p>Net I/O BLII Bridge 或 X-Light Bridge 可连接到 SSL Live 控制台，以 96 kHz 或 48 kHz 提供额外的 256 个 Dante 输入和输出。 </p>
+
+<p>SSL Live 控制台可以同时利用 BLII/X-Light Bridge 的 Dante I/O 和 Dante Expander 模块。</p>
+
+<p>
+    BLII/X-Light 桥支持双域路由和虚拟跳线。欲了解更多信息，请参阅
+    <a href="https://livehelp.solidstatelogic.com/Help/DanteConfig.html"><span class="hyperlink">Dante 双域路由</span></a>,
+    <a href="https://livehelp.solidstatelogic.com/Help/DanteVTL.html"><span class="hyperlink">Dante 虚拟跳线</span></a> 和
+    <a href="https://livehelp.solidstatelogic.com/Help/DanteBridges.html"><span class="hyperlink">BLII 与 X-Light 网桥</span></a>.
+</p>
+
+<br>
+
+
+<h2>进一步阅读</h2>
+<p>如果您想了解有关 Dante 的更多信息，可以使用以下资源：</p>
+
+<h3>SSL Live 应用说明</h3>
+<p><a href="https://livehelp.solidstatelogic.com/Help/LAN-009.html"><span class="hyperlink">LAN-009 配置SSL Live 控制台以与 Dante 配合使用</span></a></p>
+<p><a href="https://livehelp.solidstatelogic.com/Help/LAN-010.html"><span class="hyperlink">LAN-010 Live Dante VTL / DDR 概念和配置</span></a></p>
+<p><a href="https://livehelp.solidstatelogic.com/Help/LAN-012.html"><span class="hyperlink">LAN-012 SSL Live 控制台 IP 地址配置指南</span></a></p>
+<br>
+<h3>Audinate 网站</h3>
+<p><a class="external-link" tabindex="-1" href="https://www.audinate.com/resources" target="_blank"><span class="hyperlink">audinate.com/resources</span></a></p>
+<p>Audinate 网站是提供更多文档、视频教程和白皮书的绝佳资源。 Audinate 还提供在线 Dante 认证计划。</p>
+
+
+<h2>实用链接</h2>
+
+<a href="https://livehelp.solidstatelogic.com/Help/DanteConfig.html"><span class="hyperlink">Dante 双域路由与设备配置</span></a><br>
+<a href="https://livehelp.solidstatelogic.com/Help/DanteNetIO.html"><span class="hyperlink">网络 I/O 舞台接口箱和设备</span></a><br>
+<a href="https://livehelp.solidstatelogic.com/Help/DanteVTL.html"><span class="hyperlink">虚拟跳线</span></a><br>
+<a href="https://livehelp.solidstatelogic.com/Help/DanteBridges.html"><span class="hyperlink">BLII 与 X-Light 网桥</span></a><br>
+<a href="https://livehelp.solidstatelogic.com/Help/LocalMADIConfig.html"><span class="hyperlink">本地/MADI I/O 配置</span></a><br>
+<a href="https://livehelp.solidstatelogic.com/Help/InstallGuide.html"><span class="hyperlink">安装指南</span></a><br>
+<a href="https://livehelp.solidstatelogic.com/Help/LinkIndex.html"><span class="hyperlink">索引和术语表</span></a><br>
+</body>
+</html>

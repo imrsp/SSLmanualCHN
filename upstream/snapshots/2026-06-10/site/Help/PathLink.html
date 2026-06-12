@@ -1,0 +1,479 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html ng-app="sslLiveHelp">
+<head>
+    <meta content="text/html; charset=ISO-8859-1" http-equiv="content-type">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=yes">
+
+    <link href="../Help/style/style.css" rel="stylesheet">
+    <link href="../Help/style/jquery-ui-1.13.2.structure.css" rel="stylesheet">
+    <title>Path Linking &amp; Fast Setup</title>
+    <script src="../Help/js/jquery-3.6.0.min.js"></script>
+    <script src="../Help/js/jquery-ui/1.13.2/jquery-ui.min.js"></script>
+    <!--<script type="text/javascript" src="cordova.js"></script>-->
+    <!-- Nav / search panels 2017 updates -->
+    <script>
+    window.baseDir = '../';
+    window.data = 'null';
+    </script>
+    <link rel="stylesheet" type="text/css" href="../Help/fonts/font-awesome-4.7.0/css/font-awesome.min.css" />
+    <link rel="stylesheet" type="text/css" href="../Help/style/sass-styles.css">
+    <script src="../Help/js/fastclick.js"></script>
+    <script src="../Help/js/lodash.core.min.js"></script>
+    <!--<script src="../Help/js/angular/1.2/angular.min.js"></script>-->  <!-- On a console -->
+    <script src="../Help/js/angular/1.8/angular.min.js"></script>   <!--Not on a console -->
+    <script src="../Help/js/ngStorage.min.js"></script>
+    <!--<script src="../Help/js/angular/1.2/angular-sanitize.min.js"></script>-->  <!-- On a console -->
+    <!--<script src="../Help/js/angular/1.2/angular-animate.min.js"></script>-->   <!-- On a console -->
+    <script src="../Help/js/angular/1.8/angular-sanitize.min.js"></script>  <!--Not on a console -->
+    <script src="../Help/js/angular/1.8/angular-animate.min.js"></script>   <!--Not on a console -->
+    <script src="../Help/js/lunr-2.3.min.js"></script>
+    <script src="../Help/js/menu.js"></script>
+
+</head>
+
+<body ng-controller="NavController as vm">
+
+    <!--<nav class="nav" ng-class="{ 'nav--visible' : vm.visible }" ng-if="vm.visible" role="navigation" aria-label="Primary">-->  <!-- On a console --> 
+    <nav class="nav" ng-class="{ 'nav--visible' : vm.visible }" role="navigation" aria-label="Primary"> <!--Not on a console -->
+        <!-- Search form -->
+        <div role="search">
+            <form class="nav__search" ng-if="vm.isSearchSupported">
+                <label class="nav__search-icon" for="query"><i aria-label="Search" title="Search" class="fa fa-search"></i></label>
+                <input type="search" id="query" class="nav__search-input" placeholder="Search..." ng-model="vm.query" />
+            </form>
+        </div>
+
+        <div class="nav__scroll" ng-style="vm.styleBasedOnSearchSupported">
+
+            <!-- Main nav -->
+            <ul class="main-nav" ng-hide="vm.query">
+                <li class="main-nav__item" ng-repeat="item in vm.nav">
+
+                    <!-- Link to page -->
+                    <a ng-if="item.url" ng-class="{'main-nav__link--active' : item.url===vm.currentPage}" class="main-nav__link" ng-attr-href="{{ vm.baseDir }}{{ item.url }}">
+                        {{ item.title }}
+                    </a>
+
+                    <!-- Expandable heading -->
+                    <span ng-click="vm.toggleExpanded(item.title)" ng-if="!item.url" class="main-nav__title">
+                        {{ item.title }}
+                        <span ng-if="!vm.isExpanded(item.title)" class="fa fa-caret-right"></span>
+                        <span ng-if="vm.isExpanded(item.title)" class="fa fa-caret-down"></span>
+                    </span>
+
+                    <!-- Subnav -->
+                    <ul ng-if="vm.isExpanded(item.title)" class="main-nav fx-fade">
+                        <li ng-repeat="sub in item.children" class="main-nav__item">
+
+                            <!-- Link to page -->
+                            <a ng-if="sub.url" ng-class="{'main-nav__link--active' : sub.url===vm.currentPage}" class="main-nav__link main-nav__link--level1" ng-attr-href="{{ vm.baseDir }}{{ sub.url }}">
+                                {{ sub.title }}
+                            </a>
+
+                            <!-- Expandable heading -->
+                            <span ng-click="vm.toggleExpanded(sub.title)" ng-if="!sub.url" class="main-nav__title main-nav__title--level1">
+                                {{ sub.title }}
+                                <span ng-if="!vm.isExpanded(sub.title)" class="fa fa-caret-right"></span>
+                                <span ng-if="vm.isExpanded(sub.title)" class="fa fa-caret-down"></span>
+                            </span>
+
+                            <!-- Sub-sub nav -->
+                            <ul ng-if="sub.children && vm.isExpanded(sub.title)" class="main-nav fx-fade">
+                                <li ng-repeat="subsub in sub.children" class="main-nav__item">
+
+                                    <!-- Link to page -->
+                                    <a ng-class="{'main-nav__link--active' : subsub.url===vm.currentPage}" class="main-nav__link main-nav__link--level2" ng-attr-href="{{ vm.baseDir }}{{ subsub.url }}" ng-bind-html="subsub.title">
+                                    </a>
+
+                                </li>
+                            </ul>
+
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+
+            <!-- Search results list -->
+            <ul class="search-results">
+                <li class="search-result" ng-repeat="result in vm.results">
+                    <a class="search-result__link" ng-attr-href="{{ vm.baseDir }}{{ 'Help/' + result.id }}">
+                        <h3 class="search-result__title">{{ result.title }}</h3>
+                        <p class="search-result__excerpt" ng-bind-html="result.excerpt"></p>
+                    </a>
+                </li>
+            </ul>
+
+            <!-- Keep screen on option - PhoneGap insomnia -->
+            <ul class="main-nav" ng-if="vm.isPhoneGap">
+                <li class="main-nav__item">
+                    <label class="main-nav__title">
+                        Keep Screen On
+                        <input style="display: none" type="checkbox" ng-model="vm.keepScreenOn" />
+                        <i ng-class="{'fa--cleared' : !vm.keepScreenOn, 'fa--checked' : vm.keepScreenOn}" class="fa fa-check"></i>
+                    </label>
+                </li>
+            </ul>
+
+
+        </div>
+    </nav>
+
+    <nav class="header" role="navigation" aria-label="Secondary">
+        <a ng-if="!vm.onAConsole" href="../index.html" class="header__btn" title="Home"><i class="fa fa-home"></i></a>
+        <div ng-if="!vm.onAConsole" class="header__history">
+            <a onclick="javascript:window.history.back()" class="header__btn"><i title="Back" class="fa fa-chevron-left"></i></a>
+            <a onclick="javascript:window.history.forward()" class="header__btn"><i title="Forwards" class="fa fa-chevron-right"></i></a>
+        </div>
+        <div align="right">
+            <a class="header__btn header__btn--nav" ng-click="vm.toggleVisibility()">
+                <i ng-if="!vm.visible" class="fa fa-bars"></i>
+                <i ng-if="vm.visible" class="fa fa-close"></i>
+            </a>
+        </div>
+    </nav>
+
+
+    <!-- Main content -->
+    <div id="main">
+        
+
+<div>
+    <a href="BusRouting.html">
+        <img class="TutorialNav" src="images/n_TutPrevious.png" alt="" /><span class="TutorialNav">PREVIOUS: Buses &amp; VCAs</span>
+    </a>
+</div>
+
+<h2>Temporary Path Linking</h2>
+
+<p>
+    Control parameters can be <span style="font-weight: bold">linked</span> across
+    multiple paths in real time, while maintaining relative offsets.
+</p>
+<p>
+    To set up <span style="font-weight: bold">Path Linking</span> go to the
+    Channel View and tap <span class="label">Path&nbsp;Link</span> to the right of
+    the screen.
+</p>
+<p>
+    Now select the paths to link by tapping their Eyeconix or central context
+    window area on the screen or using their
+    <span class="label">SELECT</span> buttons on the Fader Tiles. These paths are
+    now in the link.
+</p>
+<p>
+    The first path selected with become the console's <b>Selected</b> path
+    (indicated by a white border around the path in Channel View), appearing in
+    the Detail View (if visible) and on the Focus Fader (if not locked to another
+    path).
+</p>
+<p>
+    All path types are compatible with
+    <span style="font-weight: bold">Path Linking</span> including Matrix channels
+    and VCAs.
+</p>
+
+<span class="note">
+    <span class="notetitle">Note:</span> Only paths of the same type can be
+    linked; Channels cannot be linked with Stems, fully processed Auxes cannot be
+    linked with Dry Auxes etc.
+</span>
+
+<span class="note">
+    <span class="notetitle">Tip:</span> Use
+    <span style="font-weight: bold">Range Select</span> to quickly select multiple
+    paths from the Fader Tiles. Hold down the
+    <span class="label">SELECT</span> button of the first path, then tap the
+    <span class="label">SELECT</span> button of the last path in the range. Now
+    release both buttons. This can also be done across neighbouring Fader
+    Tiles.<br />
+    Range Select also works on the Channel View and Overview pages; click on the
+    first path, hold down the Shift key on a connected keyboard then click the
+    last path to link all paths of the same type between the two.
+</span>
+
+<p>
+    Once the paths have been added to the link, adjust a parameter on one path in
+    the link and the other linked paths will update accordingly. These are
+    <span style="font-weight: bold">relative</span> changes.
+</p>
+
+<table style="width: 100%">
+    <tbody>
+        <tr>
+            <td style="vertical-align: top">
+                <p style="margin-bottom: 0px">
+                    Press &amp; hold the <span class="label">Path&nbsp;Link</span> button
+                    to open a popout with a series of multi-select options:
+                </p>
+
+                <ul class="tab" style="margin-top: 0px">
+                    <li>
+                        <span class="label">Select&nbsp;All</span> - link all paths of the
+                        same type
+                    </li>
+                    <li>
+                        <span class="label">Active&nbsp;Banks</span> - link all of selected
+                        path type in all banks currently displayed on all Fader Tiles
+                    </li>
+                    <li>
+                        <span class="label">Active&nbsp;Layers</span> - link all of selected
+                        path type in all layers currently active on all Fader Tiles
+                    </li>
+                </ul>
+            </td>
+            <td style="vertical-align: top; width: 25%">
+                <img style="margin: 0px 0px 0px 10px"
+                     src="images/s_PathLink.png"
+                     alt="" />
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+<p>
+    To activate these options, engage them at any time. For example, if there are
+    two full input channels in the link, and
+    <span class="label">Select All Channels</span> is pressed, all of the full
+    input channels will be added to the link.
+</p>
+
+<p>
+    Tapping <span class="label">Clear&nbsp;Selection</span> will clear the current
+    link. Engaging <span class="label">Suspend</span> will temporarily deactivate
+    the link, disengage to reactivate.
+</p>
+
+<p>
+    Press &amp; hold <span class="label">Path&nbsp;Link</span> again to toggle the
+    popout but retain the link.
+</p>
+
+<p>
+    When all adjustments have been made to the linked paths, tap
+    <span class="label">Path&nbsp;Link</span> to clear the link (and close the
+    popout if opened).
+</p>
+
+<h3 id="PreserveOffsets">Preserving Offsets</h3>
+
+<p>
+    By default, relative offsets between paths in a linked group are not retained
+    when paths reach their maximum and minimum values. As of Live v6.2, inside the
+    Path Link popout is a button, <span class="label">Preserve Offsets</span>,
+    which can change this behaviour.
+</p>
+<p>
+    When <span class="label">Preserve Offsets</span> is enabled, the console will
+    stop increasing or decreasing all linked parameter values when any one of them
+    reaches its limit. This setting applies globally, to temporary Path Links, as
+    well as Link Groups (see below).
+</p>
+<p>
+    If it's necessary to retain relative offsets between paths when
+    <span class="label">Preserve Offsets</span> is off, the lowest positioned path
+    can be used to fade down parameters, and likewise the highest positioned path
+    can be used to fade up.
+</p>
+
+<h2 id="FastSetup">Fast Setup</h2>
+
+<table>
+    <tbody>
+        <tr>
+            <td style="vertical-align: top; font-weight: normal">
+                <p>
+                    The Path Link popout also contains a
+                    <span class="label">Fast&nbsp;Setup</span> button. This expands the
+                    popout to show additional controls for quickly setting parameters of
+                    the selected path(s).
+                </p>
+
+                <p>
+                    Fast Setup is applied to a single <b>Selected</b> path, but can be
+                    used in conjunction with Path Link to make changes to multiple paths
+                    simultaneously.
+                </p>
+
+                <span class="note">
+                    <span class="notetitle">Caution:</span> Fast Setup can be used to
+                    adjust one or more levels by large amounts. Use care when using this
+                    feature!
+                </span>
+
+                <p>The following actions can be performed:</p>
+                <ul>
+                    <li>Set <b>Input Trim</b> to 0 dB</li>
+                    <li>Set <b>Input Trim</b> to X dB*</li>
+                    <li>Set <b>Fader</b> to 0 dB or -&infin; dB (off)</li>
+                    <li>Set <b>Fader</b> to X dB*</li>
+                    <li><b>Pan</b> path 100 % Left or Right</li>
+                    <li>Reset <b>Pan</b> settings to default (centre)</li>
+                    <li>Switch <b>EQ</b>/<b>Filters</b> In or Out</li>
+                    <li>Reset <b>EQ</b>/<b>Filters</b> section (Out &amp; flat)</li>
+                    <li>Switch <b>Compressor</b>/<b>Gate</b> In or Out</li>
+                    <li>Reset <b>Compressor</b>/<b>Gate</b> section</li>
+                    <li>
+                        Switch all Full/Dry** <b>Stem</b>/<b>Aux</b>/<b>Master</b> sends In
+                        or Out
+                    </li>
+                    <li>
+                        Switch all Full/Dry** <b>Stem</b>/<b>Aux</b> sends to 0 dB or
+                        -&infin; dB (Off)
+                    </li>
+                    <li>Switch all Full/Dry** <b>Stem</b>/<b>Aux</b> sends to X dB*</li>
+                </ul>
+
+                <p>
+                    * The <span class="label">To&nbsp;...</span> buttons open a keypad
+                    into which a value can be entered and applied in one of two ways when
+                    used in conjunction with Path Link:
+                </p>
+                <ul>
+                    <li>
+                        In <span class="label">Abs</span> (Absolute) terms: the Selected
+                        path and linked paths will all be set to the absolute value entered
+                        (e.g. all to -3&nbsp;dB regardless of previous position)
+                    </li>
+                    <li>
+                        In <span class="label">Rel</span> (Relative) mode: the Selected path
+                        will be set to the value entered and linked paths will change in
+                        value <b>relative</b> to the Selected path. e.g. if the Selected
+                        path is currently at -6&nbsp;dB and a linked path is at -10&nbsp;dB
+                        (-4&nbsp;dB lower), entering -3&nbsp;dB will set the Selected path
+                        to -3&nbsp;dB and the linked path to -7&nbsp;dB (retaining the
+                        relative -4&nbsp;dB offset).
+                    </li>
+                </ul>
+
+                <div style="text-align: center">
+                    <img src="images/s_FastSetupKeypad.png" alt="" />
+                </div>
+
+                <p>
+                    ** Use the <span class="label">Full</span> and
+                    <span class="label">Dry</span> buttons to switch the bus sends section
+                    between Full and Dry sends.
+                </p>
+            </td>
+            <td style="vertical-align: top; width: 25%">
+                <img style="margin: 0px 0px 0px 10px"
+                     src="images/s_FastSetup.png"
+                     alt="" />
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+<h2 id="PermanentPathLink">Permanently Linking Paths</h2>
+
+<table style="font-weight: normal">
+    <tbody>
+        <tr>
+            <td>
+                <p>
+                    As of Live v6.2, persistent groups of paths can be created in the same
+                    way as Path Links. Known as Link Groups, they are a way of linking the
+                    parameters of a set of paths, applying filters where parameters are
+                    specified to remain separate.
+                </p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <img style="display: block; margin: 5px auto"
+                src="images/s_LinkGroup_pathIcons.png"
+                alt="" />
+            </td>
+        </tr>
+        <tr>
+            <td style="vertical-align: top; font-weight: normal">
+                <h3 id="LinkGroupCreation">Creating Groups</h3>
+                <p>
+                    To create a Link Group, press and hold
+                    <span class="label">Path Link</span> and expand the
+                    <span class="label">Link Group</span> section. Select the paths that
+                    should be included in the Link Group in the same way as for temporary
+                    Path Linking.
+                </p>
+
+                <p>
+                    The Link Groups GUI will show which number group is currently being
+                    edited. Each group can have a name and a colour. Double tapping the
+                    name field allows it to be edited. Pressing the colour will open a
+                    dropdown where the group's colour can be changed.
+                </p>
+                <h3 id="LinkGroupNavigation">Navigating Groups</h3>
+
+                <p>
+                    Use the arrows in the popout to navigate between the different groups.
+                    A total of 48 groups are available. Alternatively, a double tap on the
+                    group number will open a keyboard and allow direct navigation to a
+                    desired group.
+                </p>
+
+                <p>
+                    The <span class="label">Select First Blank Group</span> button will
+                    automatically find the first group that contains no paths.
+                </p>
+                <h3 id="LinkGroupFilters">Parameter Filtering</h3>
+
+                <p>
+                    The <b>Enable Links</b> section of the popout displays the collections
+                    of parameters that can be linked across the paths in the group.
+                </p>
+
+                <p>
+                    <span class="label">All</span> will enable all possible links.
+                    <span class="label">None</span> will deselect all groups and leave
+                    nothing linked.
+                </p>
+
+                <p>Here is a list of the linkable sections:</p>
+
+                <ul>
+                    <li>
+                        <span class="label">In</span>: enables links between paths' input
+                        sections, including Gain, Trim etc...
+                    </li>
+                    <li><span class="label">MgVc</span>: enables links between paths' Mute Group and VCA assignments</li>
+                    <li><span class="label">Fade</span>: enables links between paths' Fader sections</li>
+                    <li><span class="label">Stem</span>: enables links between paths' Stem sends</li>
+                    <li><span class="label">Aux</span>: enables links between paths' Aux sends</li>
+                    <li><span class="label">Mast</span>: enables links between paths' Master assignments</li>
+                    <li><span class="label">EqFl</span>: enables links between paths' EQ and Filtering parameters</li>
+                    <li><span class="label">GCmp</span>: enables links between paths' Gate and Compression parameters</li>
+                    <li><span class="label">D/AP</span>: enables links between paths' Delay and All Pass filter parameters</li>
+                    <li><span class="label">Pan</span>: enables links between paths' Panning parameters</li>
+                </ul>
+
+                <p>No changes to groups need confirming, simply close the popout when all desired settings and filters have been set up.</p>
+            </td>
+            <td style="vertical-align: middle; width: 25%; text-align: center">
+                <img style="display: block; margin: 0 auto"
+                     src="images/s_PathLink-popout.png"
+                     alt="Link Group popout" />
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+<h2>Useful Links</h2>
+
+<a href="Copy.html"><span class="hyperlink">Copy</span></a>
+<br />
+<a href="LinkIndex.html"><span class="hyperlink">Index and Glossary</span></a>
+<br />
+<div class="TutorialNavNext">
+    <a href="Copy.html">
+        <span class="TutorialNav">NEXT: Copy</span>
+        <img class="TutorialNav" src="images/n_TutNext.png" alt="" />
+    </a>
+</div>
+
+
+    </div>
+
+    <script src="../Help/js/OpenAccordionFromLink.js"></script>
+</body>
+</html>

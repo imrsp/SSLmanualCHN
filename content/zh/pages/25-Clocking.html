@@ -1,0 +1,368 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>时钟设置</title>
+  <style>
+    body { font: 16px/1.55 Arial, sans-serif; max-width: 1080px; margin: 2rem auto; padding: 0 1.25rem; color: #202124; }
+    img { max-width: 100%; height: auto; }
+    table { border-collapse: collapse; max-width: 100%; }
+    th, td { border: 1px solid #aaa; padding: .45rem; vertical-align: top; }
+    .note { display: block; border-left: 4px solid #e0a000; background: #fff8df; padding: .75rem 1rem; margin: 1rem 0; }
+    .notetitle { font-weight: bold; }
+    .label { font-weight: bold; color: #174ea6; }
+    .source { color: #666; font-size: .9rem; }
+  </style>
+</head>
+<body>
+  <p class="source">章节：构建演出 | 来源：<a href="https://livehelp.solidstatelogic.com/Help/Clocking.html">https://livehelp.solidstatelogic.com/Help/Clocking.html</a></p>
+<h2>时钟与同步</h2>
+
+<p>控制台和所有舞台接口箱必须共用同一个数字时钟同步基准。</p>
+
+<p>通常应使用 Live 的内部时钟为控制台和舞台接口箱系统提供时钟。除非特定应用确有需要，否则无需外部时钟。任何外部时钟的采样率都<span style="font-weight: bold;">必须</span>与 Live 控制台当前运行的采样率一致（或使用 PAL 25/NTSC 29.97 视频信号）。</p>
+
+
+
+<p><span class="note"><span class="notetitle">注意：</span>如果使用外部时钟，建议只将控制台连接至时钟源，并让舞台接口箱从控制台的 MADI 或 Blacklight 数据流获取时钟。如果外部时钟源丢失，控制台会切换至下一个可用时钟源（例如内部时钟），系统其余部分仍能保持同步。因此，不建议将外部时钟分别连接至各舞台接口箱，否则在没有公共同步源时，各设备会各自独立自由运行。</span></p>
+
+
+<h2>系统示例</h2>
+
+<p>以下链接提供常见配置的连接示例。本页其余部分将更详细地说明可用的时钟功能。</p>
+
+<ul>
+    <li><a href="https://livehelp.solidstatelogic.com/Help/SetupClockingExA.html"><span class="hyperlink">A：通过 MADI 将舞台接口箱连接至一台 Live 控制台</span></a></li>
+    <li><a href="https://livehelp.solidstatelogic.com/Help/SetupClockingExB.html"><span class="hyperlink">B：让 Live 控制台从外部时钟源获取时钟</span></a></li>
+    <li><a href="https://livehelp.solidstatelogic.com/Help/SetupClockingExC.html"><span class="hyperlink">C：通过 MADI 将舞台接口箱连接至两台 Live 控制台</span></a></li>
+    <li><a href="https://livehelp.solidstatelogic.com/Help/SetupClockingExD.html"><span class="hyperlink">D：通过 Blacklight II 将舞台接口箱连接至一台 Live 控制台</span></a></li>
+    <li><a href="https://livehelp.solidstatelogic.com/Help/SetupClockingExE.html"><span class="hyperlink">E：通过 Blacklight II 将舞台接口箱连接至两台 Live 控制台</span></a></li>
+    <li><a href="https://livehelp.solidstatelogic.com/Help/SetupClockingExF.html"><span class="hyperlink">F：将舞台接口箱连接至三台 Live 控制台</span></a></li>
+    <li><a href="https://livehelp.solidstatelogic.com/Help/SetupClockingExG.html"><span class="hyperlink">G：在 48 kHz 工作模式下菊花链连接舞台接口箱</span></a></li>
+</ul>
+
+
+<h2 id="Source">时钟源</h2>
+
+
+
+<p>
+    控制台可使用内部时钟，也可通过视频、AES、字时钟、MADI、Blacklight II（双 SSL 控制台系统）或 Dante 获取外部时钟。
+    请在 <span class="label">Menu</span> &gt; <span class="label">Setup</span> &gt; <span class="label">Options</span> &gt; <span class="label">SYSTEM</span> 页签中选择。
+</p>
+
+<p>
+    可配置 <b>Main</b> 和 <b>Backup</b> 时钟源。如果 Main 时钟源丢失，控制台会自动切换至 Backup 时钟源。如果 Backup 时钟源也丢失，控制台会改用内部时钟。
+</p>
+
+<p>
+    使用箭头按钮打开 <b>Main</b> 或 <b>Backup</b> 选择菜单。选择所需时钟源，然后按住 <span class="label">APPLY</span> 按钮。
+    确认 <span style="font-weight: bold;">Current</span> 所示来源与预期时钟源一致。
+</p>
+
+
+<img style="display: block; margin: 15px auto;" src="https://livehelp.solidstatelogic.com/Help/images/g_OptionsSystemClock.png" alt="">
+
+<p>
+    如果指定的时钟源丢失，请先恢复该时钟源，再使用 <span class="label">Reclock</span> 按钮尝试重新锁定至 Main/Backup 时钟源。
+</p>
+
+<p>主屏幕顶部的状态栏会显示时钟源变更消息以提醒操作员。状态栏图标还会指示当前时钟是否已偏离所定义的 <b>Main</b> 时钟源：</p>
+
+<table border="0" cellpadding="0" cellspacing="10">
+    <tbody>
+        <tr>
+            <td style="vertical-align: middle; width: 20px;"><img style="margin: 0px 10px 0px 0px;" src="https://livehelp.solidstatelogic.com/Help/images/g_ClockIconOrange.png" alt=""></td>
+            <td style="vertical-align: top;">
+                <span style="font-weight:bold;">橙色</span>：<b>Main</b> 时钟源丢失，当前使用 <b>Backup</b> 时钟源。
+            </td>
+        </tr>
+        <tr>
+            <td style="vertical-align: middle; width: 20px;"><img style="margin: 0px 10px 10px 0px;" src="https://livehelp.solidstatelogic.com/Help/images/g_ClockIconRed.png" alt=""></td>
+            <td style="vertical-align: top;">
+                <span style="font-weight:bold;">红色</span>：<b>Main</b> 和 <b>Backup</b> 时钟源均丢失，当前使用内部时钟。
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+
+<div id="accordion">
+    <div class="indexheader2 accordion-section-title">从 Blacklight II 集线器获取时钟</div>
+    <div id="Blacklight" style="padding: 1em 0;" class="accordion-section-content">
+        <p>
+            可将两台控制台连接至 Blacklight II 集线器，共用一组舞台接口箱。
+            “主”控制台（连接至 Blacklight 集线器的 <span style="font-weight: bold;">A</span> 端口）会将其时钟分配给 Blacklight 系统
+            以及与其连接的所有舞台接口箱和控制台。因此，“从”控制台（连接至 Blacklight 集线器的 <span style="font-weight: bold;">B</span> 端口）
+            应将时钟源设为控制台后面板上对应的 <span class="label">BLII</span> 端口。
+        </p>
+
+        <p>
+            主控制台应通过 Blacklight 分配其内部时钟，或分配上述某个外部时钟源，
+            <span style="font-weight: bold;">但不能选择由其担任主设备的任何 Blacklight 端口</span>。
+            选择 <span class="label">BLII</span> 时钟源按钮后会显示一组子按钮。
+            从控制台应使用 <span class="label">Blacklight&nbsp;II</span> 选项。
+            但是，如果外部 MADI 源连接至 Blacklight 集线器上相应的 MADI 输入，主控制台<span style="font-weight: bold;">可以</span>使用某个 <span class="label">MADI</span> 选项。
+            例如，该信号可以是提供时钟的第三方设备所输出的 MADI 馈送，也可以是接收字时钟信号并设置为从外部字时钟输入获取时钟的 SSL 舞台接口箱。（请注意，字时钟不能直接连接至 BLII 集线器的 MADI 端口。）
+        </p>
+    </div>
+    <div class="indexheader2 accordion-section-title">从本机 Dante Expander 端口获取时钟</div>
+    <div id="Dante" style="padding: 1em 0;" class="accordion-section-content">
+        <p>
+            Dante 使用自身的<span style="font-weight:bold;">时钟选举</span>流程确定 Dante 网络中最合适的主时钟，并会自动选出主时钟。
+            有关 Dante 时钟选举流程的更多信息，请参阅 Audinate 网站：<a class="external-link" tabindex="-1" href="https://dev.audinate.com/GA/dante-controller/userguide/webhelp/#clock_synchronization.htm" target="_blank"><span class="hyperlink">dev.audinate.com/GA/dante-controller/userguide/webhelp/#clock_synchronization.htm</span></a>。
+        </p>
+
+        <p>
+            要手动选择主时钟，请将该设备设为 <span style="font-weight:bold;">Preferred Leader</span>。
+            为此，请打开 <span style="font-weight:bold;">Dante Controller</span> 并单击 <span class="label">Clock&nbsp;Status</span> 页签。
+            为所选主时钟勾选 <span style="font-weight:bold;">Preferred Leader</span> 复选框。
+        <p>
+
+        <p>如果网络中有多台设备被设为 <span style="font-weight:bold;">Preferred&nbsp;Leaders</span>，Dante 时钟选举流程会自动从这些 <span style="font-weight:bold;">Preferred&nbsp;Leaders</span> 中选出一台主时钟。</p>
+
+        <p>如果主时钟设备的状态发生变化，或更合适的主时钟设备上线，Dante 网络会重新执行时钟选举步骤，以确定最适合该网络的主时钟。</p>
+
+        <p>如果未使用 Dante 网络冗余，请使用主连接而非次连接，以确保准确同步。</p>
+
+        <span class="note"><span class="notetitle">SSL 建议：</span>SSL 建议将控制台设置为从 Dante 网络获取时钟（从模式），以利用 Dante 时钟选举流程。</span>
+
+
+        <br>
+
+
+        <span style="font-weight:bold;">将控制台设置为 Dante 网络的从设备</span>
+
+        <p>在此配置中，控制台以外的某台 Dante 设备担任主时钟。控制台及网络中的所有其他设备均跟随该主时钟。</p>
+
+        <p>
+            在 <span style="font-weight:bold;">Dante Controller</span> 中进入 <span class="label">Clock&nbsp;Status</span> 页签。
+            如果希望指定主时钟设备，请为该设备勾选 <span style="font-weight:bold;">Preferred Leader</span>。
+            Dante 有自己的时钟选举流程，因此并非必须设置 <span style="font-weight:bold;">Preferred Leader</span>。
+            在本示例中，请确保网络中所有其他设备均未勾选 <span style="font-weight:bold;">Preferred Leader</span> 和 <span style="font-weight:bold;">Sync to External</span>
+            （包括控制台的 Dante Expander 以及适用时的 BLII/X-Light Bridge）。
+
+        <p>
+            在控制台上进入 <span class="label">MENU</span> &gt; <span class="label">Setup</span> &gt; <span class="label">Options</span> &gt; <span class="label">SYSTEM</span> 页签。
+            在 <span style="font-weight:bold;">SYSTEM&nbsp;CLOCK</span> 区域中，选择 <span class="label">Dante&nbsp;Expander</span> 作为 <b>Main</b> 时钟源，然后按住 <span class="label">APPLY</span>。
+            确认 <span style="font-weight:bold;">Current</span> 时钟源字段显示 <span style="font-weight:bold;">Dante&nbsp;Expander</span>。
+        </p>
+
+        <img style="display: block; margin: 15px auto;" src="https://livehelp.solidstatelogic.com/Help/images/g_ClockingDante.png" alt="">
+
+        <p>
+            所选 <span style="font-weight:bold;">Preferred Leader</span>（如已设置）现为包括控制台在内的整个网络的主时钟。
+            控制台现从其 Dante Expander 模块获取时钟。Dante Expander 模块从 Dante 网络中的 <span style="font-weight:bold;">Preferred Leader</span> 获取时钟。
+            网络中的所有其他设备也都从 Dante 网络中的 <span style="font-weight:bold;">Preferred Leader</span> 获取时钟。
+        </p>
+
+        <span class="note">
+            <span class="notetitle">注意：</span><br>如果在控制台上选择 Dante 作为时钟源，
+            当 Dante 网络时钟丢失时，控制台的时钟备份机制不会回退至其他时钟源。
+            Dante Expander 模块内置时钟；根据 Dante 时钟选举流程，该时钟会成为 Dante 网络的主时钟，
+            直到网络中另一台设备被识别为更合适的主时钟。
+        </span>
+
+        <span class="note">
+            <span class="notetitle">重要：</span><br>如果 Dante 的 <span class="label">SRC&nbsp;In</span> 已启用，不建议让控制台从 Dante 获取时钟。<br>
+            不建议将通过 MADI 或字时钟从舞台接口箱获取时钟的控制台用作 Dante 网络的主时钟源。
+        </span>
+
+        <br>
+        <span style="font-weight:bold;">将控制台设置为网络主时钟</span>
+
+        <p>在此配置中，控制台是网络主时钟，网络中的所有其他设备均跟随控制台时钟。</p>
+
+        <p>
+            要进行此设置，请在控制台上进入 <span class="label">MENU</span> &gt; <span class="label">Setup</span> &gt; <span class="label">Options</span> &gt; <span class="label">SYSTEM</span> 页签。
+            在 <span style="font-weight:bold;">SYSTEM CLOCK</span> 区域中，选择 <span class="label">Int</span>（控制台内部时钟）作为 <b>Main</b> 时钟源，然后按住 <span class="label">APPLY</span>。
+            确认 <span style="font-weight:bold;">Current</span> 时钟源字段显示 <span style="font-weight:bold;">Int</span>。
+        </p>
+
+        <img style="display: block; margin: 15px auto;" src="https://livehelp.solidstatelogic.com/Help/images/g_OptionsSystemClock.png" alt="">
+
+        <p>
+            在 <span style="font-weight:bold;">Dante Controller</span> 中进入 <span class="label">Clock&nbsp;Status</span> 页签。
+            为控制台的 Dante Expander 勾选 <span style="font-weight:bold;">Preferred Leader</span> 和 <span style="font-weight:bold;">Enable Sync To External</span> 复选框。
+        </p>
+
+        <p>确保网络中所有其他设备均未勾选 <span style="font-weight:bold;">Preferred Leader</span> 和 <span style="font-weight:bold;">Sync to External</span>。</p>
+
+        <p>控制台内部时钟现已成为 Dante 网络的主时钟。控制台的 Dante Expander 模块从控制台内部时钟获取时钟，网络中的所有其他设备则跟随 Dante Expander 提供的时钟。</p>
+
+        <span class="note">
+            <span class="notetitle">重要：</span><br>由于 Dante 的时钟选举流程，之后连接至网络、同样设为 Preferred Leader 且 MAC 地址低于控制台的任何设备，都会被提升为网络主时钟。
+            在这种情况下，控制台时钟与 Dante 网络时钟将不再同步，可能导致音频中断。因此 SSL 建议<span style="font-weight:bold;">不要</span>使用此配置，因为它不提供网络时钟冗余。
+        </span>
+    </div>
+    <div class="indexheader2 accordion-section-title">通过 BLII 或 X-Light Bridge 获取时钟</div>
+    <div id="DanteBridge" style="padding: 1em 0;" class="accordion-section-content">
+        <span class="note">
+            <span class="notetitle">重要：</span>如上一节所述，SSL 建议将控制台设为从 Dante 网络获取时钟（从模式），以利用 Dante 时钟选举流程。
+            即使使用 BLII/X-Light Bridge，也应按上述方式通过<b>本机 Dante Expander</b> 端口完成此设置。
+            只要控制台和 BLII/X-Light Bridge 都持续从 Dante 网络获取时钟，两者就会保持同步。
+        </span>
+
+        <h3>将控制台设置为 Dante 网络的从设备</h3>
+
+        <p>为获得最可靠的时钟方案，SSL 建议在使用 BLII 或 X-Light Bridge 时，将控制台设置为 Dante 网络的从设备。</p>
+
+        <p>
+            在此配置中，BLII/X-Light Bridge 和控制台（通过本机 Dante Expander）均设置为从 Dante 网络获取时钟。
+            请参阅上一节，将控制台配置为从本机 <b>Dante Expander</b> 获取时钟。
+        </p>
+
+        <img style="display: block; margin: 15px auto;" src="https://livehelp.solidstatelogic.com/Help/images/g_ClockingDante.png" alt="">
+
+        <p>
+            还必须将 BLII/X-Light Bridge 配置为从 Dante 网络获取时钟。
+            确保其 <span class="label">Preferred&nbsp;Leader</span> 和 <span class="label">Enable&nbsp;Sync&nbsp;To&nbsp;External</span> 复选框在
+            <span style="font-weight:bold;">Dante&nbsp;Controller</span> 的 <span class="label">Clock&nbsp;Status</span> 页签中均<b>未勾选</b>。
+        </p>
+
+        <p>这样可确保 BLII/X-Light Bridge 不从控制台获取时钟，而是设置为接收 Dante 网络时钟。</p>
+
+        <p>如果配置正确，BLII/X-Light Bridge 上的 LED 状态应如下：</p>
+
+        <div>
+            <table class="insideborder" style="width: auto; margin: 15px 0px;" cellpadding="4" cellspacing="1">
+                <tbody>
+                    <tr>
+                        <th class="solidborder">BLII Bridge LED</th>
+                        <th class="solidborder">X-Light Bridge LED</th>
+                        <th class="solidborder">LED 含义</th>
+                        <th class="solidborder">正确配置时的状态</th>
+                    </tr>
+                    <tr>
+                        <th class="solidborder">BL S</th>
+                        <th class="solidborder">XL S</th>
+                        <td class="solidborder">通过 BLII/X-Light 连接从控制台接收同步（时钟）</td>
+                        <td class="solidborder">熄灭</td>
+                    </tr>
+                    <tr>
+                        <th colspan="2" class="solidborder">SRC</th>
+                        <td class="solidborder">当前未使用</td>
+                        <td class="solidborder">熄灭</td>
+                    </tr>
+                    <tr>
+                        <th colspan="2" class="solidborder">NET S</th>
+                        <td class="solidborder">从网络接收同步（时钟）</td>
+                        <td class="solidborder">绿色常亮</td>
+                    </tr>
+                    <tr>
+                        <th class="solidborder">GM</th>
+                        <th class="solidborder">N/A</th>
+                        <td class="solidborder">设备被选为网络 Grand Master（主时钟）</td>
+                        <td class="solidborder">熄灭</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <p>（<span style="font-weight:bold;">GM</span> LED 位于 BLII Bridge 前面板 Dante 端口的右侧。）</p>
+
+        <p><span style="font-weight:bold;">如果没有同步 LED 亮起</span></p>
+
+        <p>
+            如果系统已按上述方式正确配置，但 <span style="font-weight:bold;">BL S</span>/<span style="font-weight:bold;">XL S</span> 和 <span style="font-weight:bold;">NET S</span> 同步 LED 均熄灭，
+            则 BLII/X-Light Bridge 很可能已被选为网络主时钟（即网络中未找到其他 Preferred Leader）。这是有效的时钟方案。
+            BLII/X-Light Bridge 会使用其内部时钟为网络提供时钟，控制台再从网络获取时钟。此时 BLII Bridge 的 <span style="font-weight:bold;">GM</span> LED 会亮起。
+            Dante Controller 中的 Clock Status 页面会指示当前选出的主时钟。
+        </p>
+
+        <p>如果 LED 状态与上述说明不同，请查阅<a href="https://livehelp.solidstatelogic.com/Help/DanteBridges.html"><span class="hyperlink">使用 Dante Bridge</span></a>中的完整表格。</p>
+    </div>
+</div>
+
+
+
+
+<h2 id="SampleRate">设置采样率</h2>
+
+<p>
+    Live 系统可在 96 kHz（推荐）或 48 kHz 采样率下运行。使用 System 页面
+    （<span class="label">MENU</span> &gt; <span class="label">Setup</span> &gt; <span class="label">System&nbsp;/&nbsp;Power</span> &gt; <span class="label">System</span> 页签）中的 <span class="label">96&nbsp;kHz</span> 和 <span class="label">48&nbsp;kHz</span> 按钮更改控制台采样率。舞台接口箱也必须改为与控制台采样率一致；见下文。
+</p>
+
+<p>除 FX Loop 和可选 Dante 模块接口外，将采样率降至 48 kHz 不会增加总输入/输出数量；每个 MADI 端口在 48 kHz 下承载 64 个通道，但奇偶编号的 MADI 端口对始终互为冗余（双卡 Blacklight 集线器上的偶数编号端口会被禁用）。</p>
+
+<p><span class="note"><span class="notetitle">重要：</span>更改控制台采样率会中断音频，并因需要更改舞台接口箱配置而导致路由断开。建议在切换采样率时将所有输出静音，并在切换后继续静音 30 秒。</span></p>
+
+<p><span class="note"><span class="notetitle">重要：</span>更改采样率后，控制台<span style="font-weight:bold;">必须重新启动</span>。</span></p>
+
+<h2 id="MADIStageboxes">MADI 舞台接口箱</h2>
+
+<p>默认情况下，舞台接口箱设置为从传入的 MADI 数据流获取时钟。<span style="font-weight: bold;">这是推荐设置</span>。其他舞台接口箱时钟同步选项包括内部时钟或外部字时钟。</p>
+
+<p>可通过各舞台接口箱后面板上的实体设置控件设定时钟源和采样率。当前时钟源显示在 <span style="font-weight: bold;">SETUP</span> 区域右侧：如果两个时钟 LED 均未亮起，则舞台接口箱正使用自身内部时钟运行。</p>
+
+<p><span class="note"><span class="notetitle">注意：</span>字时钟输出会根据舞台接口箱的时钟源设置，发送该舞台接口箱当前使用的时钟信号（即该输出并非直通环回）。</span></p>
+
+<p>要更改时钟源，请同时按住 <span class="label">REMOTE</span> 和 <span class="label">CLOCK</span>，直到挂锁指示灯呈绿色闪烁。按 <span class="label">CLOCK</span>，直至 <span style="font-weight: bold;">MADI</span> 亮起。颜色含义如下：</p>
+
+<p><img style="margin: -16px 0px 5px 15px; float: right;" src="https://livehelp.solidstatelogic.com/Help/images/SetupClocking/image002.png" alt=""></p>
+
+<ul class="tab">
+    <li>红色：未检测到来自主控制台的 MADI。</li>
+    <li>红/绿闪烁：已锁定一个主 MADI 端口（非冗余布线）。</li>
+    <li>绿色：主 MADI 端口 1 和 2 均已锁定（冗余布线）。</li>
+</ul>
+
+<p>要更改舞台接口箱的采样率，请按上述方式解锁控件，然后使用 <span class="label">RATE</span> 按钮循环选择可用选项。</p>
+
+<p><span class="note"><span class="notetitle">注意：</span>目前仅支持 <span style="font-weight: bold;">48 x1</span> 和 <span style="font-weight: bold;">48 x2</span>（96 kHz）时钟速率。</span></p>
+
+<p>以 48 kHz 采样率运行的舞台接口箱可在单条 MADI 数据流上进行菊花链连接，从而利用 MADI 协议的全部 64 个通道。解锁控件后，使用 <span class="label">ID</span> 按钮在通道 <span style="font-weight: bold;">1-32</span> 和 <span style="font-weight: bold;">33-64</span> 之间切换。</p>
+
+<ul>
+    <li>将控制台或 Blacklight 集线器的 MADI <span style="font-weight: bold;">Out</span> 连接至第一台舞台接口箱（ID <span style="font-weight: bold;">1-32</span>）的 MADI <span style="font-weight: bold;">In</span>。</li>
+    <li>将第一台舞台接口箱的 MADI <span style="font-weight: bold;">Out</span> 连接至第二台舞台接口箱（ID <span style="font-weight: bold;">33-64</span>）的 MADI <span style="font-weight: bold;">In</span>。</li>
+    <li>将第二台舞台接口箱的 MADI <span style="font-weight: bold;">Out</span> 连接至控制台或 Blacklight 集线器的 MADI <span style="font-weight: bold;">In</span>。</li>
+    <li>如果采用冗余连接，请对第二组 MADI 端口重复上述步骤。</li>
+</ul>
+
+<p>更多信息请参阅系统示例部分。</p>
+
+<p><span class="note"><span class="notetitle">注意：</span>如果以 96 kHz 采样率（<span style="font-weight: bold;">48 x2</span>）运行，ID 字段必须设为 <span style="font-weight: bold;">1-32</span>。</span></p>
+
+<p>几秒后，控件会恢复为锁定状态。</p>
+
+<h2>AES/EBU</h2>
+
+<p>所有 AES/EBU 端口均提供采样率转换器（SRC）。这些转换器默认通过控制台的 I/O 菜单启用（<span class="label">MENU</span> &gt; <span class="label">Setup</span> &gt; <span class="label">I/O</span>）。</p>
+
+<p>在 I/O 页面中选择本机 I/O 或 D32.32 舞台接口箱，然后在屏幕下部选择要进行采样率转换的具体 AES/EBU 输入或输出。</p>
+
+<p>对于输入，所选端口会显示 <span class="label">SRC&nbsp;In</span> 按钮。控制台支持下表 input Fs 列中列出的输入采样率，并会将传入音频转换为 96 kHz（或 48 kHz）。</p>
+
+<p><img style="display: block; margin: 29px auto; width: 550px" src="https://livehelp.solidstatelogic.com/Help/images/SetupClocking/image003.png" alt=""></p>
+
+<p>下表列出了 AES/EBU 输出可用的采样率。AES 输出还提供如上图所示的其他控件。</p>
+
+<script type="text/javascript" src="https://livehelp.solidstatelogic.com/Help/snippets/SupportedFsTable.js"></script>
+
+<!-- Start of SupportedFsTableNotes Snippet -->
+<!-- Also used in LocalMADIConfig.html -->
+<span class="note"><span class="notetitle">注意：</span>倍频控件（<span class="label">x1</span>、<span class="label">x2</span> 和 <span class="label">x4</span>）以 44.1 或 48k 的基础采样率为参照，而不是以控制台的工作采样率（48 或 96k）为参照。</span>
+
+<p>启用 <span class="label">SRC&nbsp;In</span> 并将输出时钟设为 <span class="label">In</span> 后，AES 输出会从相应的 AES 输入获取时钟，速率为基础采样率（44.1 或 48k）的 1、2 或 4 倍。</p>
+
+<p>将输出时钟设为 <span class="label">Int</span> 时，将使用控制台作为时钟源。也可将其设为基础采样率（48k）的 <span class="label">x1</span>、<span class="label">x2</span> 或 <span class="label">x4</span>。</p>
+<!-- End of SupportedFsTableNotes Snippet -->
+
+<p>
+    <span class="note">
+        <span class="notetitle">提示：</span>将输出 SRC 设为 <span class="label">In</span> 后，该 AES 端口的输出会从相应输入获取时钟，而不是使用控制台时钟。如果外部设备难以锁定外部时钟，此设置会很有用。它允许外部设备使用内部时钟，同时让 Live 控制台的 AES SRC 锁定至外部设备，使该设备自行提供时钟，从而避免时钟错误。<br>
+        例如，使用 96 kHz 混响器时，请将混响器设为内部时钟，并将控制台输入和输出 AES/EBU 端口的 SRC 设置均设为 <b>SRC In</b>。对于输出端口，请选择 <span class="label">In</span> 和 x2（对应 96k）。
+    </span>
+</p>
+
+
+<h2>实用链接</h2>
+<a href="https://livehelp.solidstatelogic.com/Help/LocalMADIConfig.html"><span class="hyperlink">本机/MADI I/O 配置</span></a><br>
+<a href="https://livehelp.solidstatelogic.com/Help/DanteSetup.html"><span class="hyperlink">设置 Dante</span></a><br>
+<a href="https://livehelp.solidstatelogic.com/Help/InstallGuide.html"><span class="hyperlink">安装指南</span></a><br>
+<a href="https://livehelp.solidstatelogic.com/Help/LinkIndex.html"><span class="hyperlink">索引与术语表</span></a><br>
+</body>
+</html>

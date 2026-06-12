@@ -1,0 +1,342 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Local/MADI Configuration</title>
+  <style>
+    body { font: 16px/1.55 Arial, sans-serif; max-width: 1080px; margin: 2rem auto; padding: 0 1.25rem; color: #202124; }
+    img { max-width: 100%; height: auto; }
+    table { border-collapse: collapse; max-width: 100%; }
+    th, td { border: 1px solid #aaa; padding: .45rem; vertical-align: top; }
+    .note { display: block; border-left: 4px solid #e0a000; background: #fff8df; padding: .75rem 1rem; margin: 1rem 0; }
+    .notetitle { font-weight: bold; }
+    .label { font-weight: bold; color: #174ea6; }
+    .source { color: #666; font-size: .9rem; }
+  </style>
+</head>
+<body>
+  <p class="source">Section: Building a Show | Source: <a href="https://livehelp.solidstatelogic.com/Help/LocalMADIConfig.html">https://livehelp.solidstatelogic.com/Help/LocalMADIConfig.html</a></p>
+<h2>I/O Setup: Local/MADI Configuration</h2>
+
+<p><span style="font-weight: bold;">Local/MADI Configuration</span> is where you define I/O names and settings for local and MADI connections. These settings are saved with the showfile.</p>
+
+<p>To open this menu go to <span class="label">Menu</span> > <span class="label">Setup</span> > <span class="label">I/O</span> then tap <span class="label">Local/MADI Configuration</span>.</p>
+
+<img style="display: block; margin: 25px auto; width: 600px;" src="https://livehelp.solidstatelogic.com/Help/images/g_IO.png" alt="">
+
+<span class="note"><span class="notetitle">Note: </span>The above screenshot is from the L650. Other SSL Live console models have differing amounts of I/O but the principles are the same.</span>
+
+<p>Each column represents a different I/O card type:</p>
+
+<ul class="tab">
+    <li><span style="font-weight: bold;">Local</span> shows the <span style="font-weight: bold;">Internal</span> I/O, <span style="font-weight: bold;">FX Loop</span> MADI fibre and optional <span style="font-weight: bold;">Dante</span> module.</li>
+    <li><span style="font-weight: bold;">MADI</span> shows the BNC/SC fibre MADI ports on the rear of the console. These are arranged in groups of four or eight ports, identified by a letter (<span style="font-weight: bold;">A</span>, <span style="font-weight: bold;">B</span> or <span style="font-weight: bold;">C</span>) in the column title and matching the console's rear panel labelling.</li>
+    <li><span style="font-weight: bold;">BLII</span> or <span style="font-weight: bold;">X-Light</span> represent the optional Blacklight II/X-Light ports to connect to Blacklight II to MADI Concentrators, Net I/O BLII Bridges or X-Light Bridges. Up to two BLII ports may be fitted, identified by a <span style="font-weight: bold;">1</span> or <span style="font-weight: bold;">2</span> in the column heading and the console's rear panel labelling.</li>
+</ul>
+
+<span class="note"><span class="notetitle">Tip: </span>Tap the column headings to view a graphic of where each area is located on the rear of the console.</span>
+
+<h2>Configuring BLII/X-Light Ports</h2>
+
+<p>
+    Blacklight II (BLII) and X-Light are SSL proprietary high bandwidth digital audio transport protocols.
+    BLII carries 256 audio channels @ 96 kHz or 48 kHz, bi-directionally down a single or redundant pair of Neutrik OpticalCON Duo multimode fibres (singlemode fibre option also available by special order). Control data for MADI stageboxes is also carried over BLII.
+</p>
+
+<p>X-Light carries 256 audio channels @ 96 kHz or 48 kHz, bi-directionally down a single or redundant pair of Neutrik OpticalCON Quad multimode fibres. The console's Dante control signals and local Dante Expander audio is also transported over X-Light.</p>
+
+<p>
+    To use the BLII/X-Light port(s) on SSL Live consoles for MADI devices and SSL MADI Stageboxes, a <span style="font-weight:bold;">BLII to MADI Concentrator</span> must be used.
+    The BLII to MADI Concentrator box located at the stage is then used to distribute standard coaxial MADI to the analogue and AES/EBU Stageboxes, a second SSL Live console or other MADI devices.
+</p>
+
+<p>
+    To use the BLII/X-Light port(s) on SSL Live consoles for Dante devices and SSL Net I/O Dante Stageboxes in non-ruggedised and fixed install applications, a <span style="font-weight:bold;">Net I/O BLII Bridge</span> is recommended.
+    The BLII Bridge located with the console is used to expand the console's Dante I/O count.
+</p>
+
+<p>
+    To use the BLII/X-Light port(s) on SSL Live consoles for Dante devices and SSL Net I/O Dante Stageboxes in ruggedised/touring applications, a <span style="font-weight:bold;">Net I/O X-Light Bridge</span> is recommended.
+    The X-Light Bridge located on stage is used to expand the console's Dante I/O count.
+</p>
+
+<p>To configure a BLII/X-Light port, on the console go to <span class="label">MENU</span> > <span class="label">Setup</span> > <span class="label">I/O</span> > <span class="label">Local/MADI Configuration</span>. </p>
+<p>If there are no devices configured in the relevant BLII/X-Light port when the BLII to MADI Concentrator/BLII Bridge/X-Light Bridge is connected, the connected device will be automatically detected and configured.</p>
+<p>If there are already devices configured in the relevant BLII/X-Light port, the port will need to be manually configured.</p>
+
+<p>
+    To configure the BLII/X-Light port:
+    <ol>
+        <li>Tap on the relevant port column heading to view settings for the port.</li>
+        <li>
+            Press &amp; hold <span class="label">Physical Port Selection:</span> in the Detail View of the port and select Blacklight II (for <span class="label">BLII&nbsp;Concentrator</span> or <span class="label">Net&nbsp;I/O&nbsp;BLII&nbsp;Bridge</span>) or X-Light (for <span class="label">X-Light&nbsp;Bridge</span>). 
+            Note that for L450, L550 and L650, X-Light is always connected to the second BLII/X-Light port (the right-most column in the I/O page).
+        </li>
+        <li>Press &amp; hold <span class="label">Configure Port For:</span> and select the desired device if required.</li>
+    </ol>
+</p>
+
+<img style="display: block; margin: 25px auto;" src="https://livehelp.solidstatelogic.com/Help/images/g_BLIIBridgeConfig.png" alt="">
+
+<span class="note">
+    <span class="notetitle">Note:</span> L100, L200 and L350 consoles fitted with both BLII and X-Light ports can only utilise <span style="font-weight:bold;">one</span> of these port types at a time.<br>
+</span>
+
+<span class="note">
+    <span class="notetitle">Caution:</span><br>Take care when reconfiguring the BLII/X-Light ports as routes will be unmade.<br>
+    - If reconfiguring the BLII port from BLII-MADI Concentrator to BLII Bridge, all existing routes between the console and devices connected via the BLII-MADI Concentrator will be unmade.<br>
+    - If reconfiguring the BLII port from BLII Bridge to BLII-MADI Concentrator, <span style="font-weight:bold;">ALL</span> Dante dual domain routes will be unmade regardless of whether they route through the BLII Bridge or the Dante Expander Module.
+    Virtual Tie Line routes made to the Dante Expander Module will remain.
+</span>
+
+<p>BLII/X-Light port configuration is stored in showfiles.</p>
+
+<p>If using a <span style="font-weight:bold;">BLII to MADI Concentrator</span>, this device is now configured and ready for use.</p>
+<p>If using a <span style="font-weight:bold;">Net I/O BLII Bridge</span> or <span style="font-weight:bold;">X-Light Bridge</span> please see <a href="https://livehelp.solidstatelogic.com/Help/DanteBridges.html"><span class="hyperlink">Working with BLII &amp; X-Light Bridges</span></a>.</p>
+
+
+<h2>MADI and MADI over BLII</h2>
+
+<p>The following instructions apply to devices connected over MADI or via a BLII to MADI Concentrator.</p>
+
+<p>Each port will auto-detect SSL Live stageboxes. MADI and Blacklight ports provide exactly the same configuration options.</p>
+
+<span class="note"><span class="notetitle">Note: </span>Some MADI and BLII columns can be scrolled by swiping the screen up or down.</span>
+
+<p>You may also pre-configure I/O before it is connected (with SOLSA offline software for example):</p>
+
+<p>Touch the dark grey box in the top of the port and select the required device type.</p>
+
+<span class="note"><span class="notetitle">Note: </span>To change to a different device, you will need to confirm the change from the detail pane beneath the list of MADI and BLII ports.</span>
+
+<p>If the defined device doesn't match what the port detects, the box's background will go red; check your connections or change the device type manually. Confirm the device you wish to use from the Detail pane beneath the list of MADI and BLII ports.</p>
+
+<span class="note"><span class="notetitle">Note: </span>If you change to a different device once you have based further settings on the original configuration, your settings may no longer work.</span>
+
+<p>The device options are as follows:</p>
+
+<ul class="tab">
+    <li><span style="font-weight: bold;">None</span> - nothing connected</li>
+    <li><span style="font-weight: bold;">Generic MADI</span> - any third party I/O</li>
+    <li><span style="font-weight: bold;">ML 32.32</span> - 32 analogue I/O</li>
+    <li><span style="font-weight: bold;">ML I.32</span> - 32 analogue inputs only</li>
+    <li><span style="font-weight: bold;">ML O.32</span> - 32 analogue outputs only</li>
+    <li><span style="font-weight: bold;">D 32.32</span> - 16 AES I/O pairs</li>
+    <li><span style="font-weight: bold;">Live Recorder</span> - connect a MADI multitrack recorder for rehearsal mode - This option was removed in V5.2 and Generic MADI should be used instead.&nbsp;&nbsp;</li>
+</ul>
+
+<span class="note"><span class="notetitle">Note: </span>Any generic MADI device <span style="font-weight: bold;">must</span> support 96 kHz 64-channel mode (32-channels at 96 kHz) frame pattern (non-legacy framing) if the console is running at 96 kHz.</span>
+
+<p>The two LEDs beneath each port's number indicate the lock and redundancy status of the port:</p>
+
+<p>If the upper LED is green, the port's I/O unit is correctly locked; if it is red, it isn't locked.</p>
+
+<p>If the lower light is lit, it means that it is part of a redundant pair (described below).</p>
+
+<span class="note"><span class="notetitle">Note: </span>If using a 16-port Blacklight MADI concentrator, there will be four lights; one pair for each redundant hardware connection.</span>
+
+<h3>Redundancy</h3>
+
+<p>Each MADI port can function as part of a redundant pair. Ports are always in Odd/Even pairs &#8211; Port 1 will always pair with Port 2 for example.</p>
+
+<p>To define a redundant pair:</p>
+
+<p>Touch one of the Ports' box to open its detail dialogue.</p>
+
+<p>Touch the <span class="label">Redundancy&nbsp;Status</span> button to its left. It will light to indicate that the Port is now part of a redundant pair and a cyan box will appear around both Ports to indicate they are linked. The lower status lights of the two ports indicate which is the currently active port; green for the active port and red for the backup port.</p>
+
+<p>The first port's settings will now be applied to the pair of ports.</p>
+
+<span class="note">
+    <span class="notetitle">Notes:</span><br>
+    The fibre-optic connections from the console to any Blacklight II.MADI Concentrator always have redundancy available &#8211; simply plug up the second fibre-optic connection. Redundancy here refers to the MADI redundancy from the console or Blacklight II Concentrator box to further devices.<br><br>
+    If using a 16-port Blacklight II.MADI Concentrator, each port always has redundancy available so there is no need to turn on the <span class="label">Redundancy&nbsp;Status</span> button.<br><br>
+    When a 16-port Blacklight II.MADI Concentrator is connected, each port will change to have four status lights. The left pair corresponds to the lower row of MADI connectors; the right pair corresponds to the upper row of MADI connectors. As with the 8-port version, the upper lights indicate the MADI lock status (green = locked, red = not locked) and the lower lights indicate which of the redundant ports is active (green = active, red = backup).
+</span>
+
+<h2>MADI Stagebox Port Configuration</h2>
+
+<p>Touching on the box for a port or connection brings up that port's settings in the Detail dialogue in the lower half of the page.</p>
+
+<p>For stageboxes, the page buttons on the right (<span class="label">Setup</span>, <span class="label">Inputs</span> and <span class="label">Outputs</span>, or <span class="label">AES&nbsp;I/O</span> for the local AES I/O) allow you to page through the port's settings:</p>
+
+<h3>Setup:</h3>
+
+<p>
+    Double-tapping the black <span style="font-weight: bold;">name</span> box brings up a keyboard on which you can enter a name for the port.<br>
+    The <span class="label">Set&nbsp;Names</span> button can be used to select a preset name for the device. Note that this does not affect the names of individual inputs and outputs; only the device name itself.
+</p>
+
+<p>
+    The <span style="font-weight: bold;">Output Trim</span> slider introduces a global level trim on all analogue line outputs from the stagebox, relative to the console's <span style="font-weight: bold;">Operating Level</span> 
+    (set in <span style="font-weight: bold;">Menu > Setup > System&nbsp;/&nbsp;Power</span> > <span class="label">System</span> tab). Note this does not affect the optional mic split outputs (if fitted), which are always at mic level.
+</p>
+
+<p>The <span class="label">Clear&nbsp;Attention</span> button clears all of the <span style="font-weight: bold;">Att</span> lights on the local I/O. The rest of the page displays format and clocking information.</p>
+
+<h3>Inputs and Outputs:</h3>
+
+<p>Touching the <span class="label">Inputs</span> or <span class="label">Outputs</span> button brings up a display showing all of the individual connections within the stagebox. Each connection's box displays its name and essential settings. Use the <span class="label">Show&nbsp;Settings</span> and <span class="label">Show&nbsp;Routes</span> buttons to toggle the display between showing preamp settings and routing information.</p>
+
+<p>Touching a connection box will display controls on the right of the screen.</p>
+
+<p>To name a connection:</p>
+
+<ul class="tab">
+    <li>Touch the connection's box; its number (or name) will appear in the name box in the top-right of the detail display.</li>
+    <li>Double-tap the name box and use the keyboard which appears to enter a new name.</li>
+    <li>Touching <span class="label">Use&nbsp;Default</span> will return the connection name to its default name.</li>
+    <li>Alternatively, press the <span class="label">Set&nbsp;Names</span> button to pick a range of names to apply to all inputs or outputs in the stagebox. Note that using <span class="label">Set&nbsp;Names</span> for inputs does not affect output or stagebox names and vice versa.</li>
+</ul>
+
+<p>To control a preamp (analogue inputs only):</p>
+
+<ul class="tab">
+    <li>Touch the connection's box; controls for the selected input will appear to the right of the Detail display.</li>
+    <li>Use the <span class="label">Show&nbsp;Gain</span> button to toggle between displaying the analogue gain and other controllable parameters.</li>
+    <li>Use the padlock button to unlock the controls for modification.</li>
+</ul>
+
+<h3>AES I/O</h3>
+
+<p>All AES IO have sample rate converters (SRCs) available, and they are engaged by default.</p>
+
+<p>Touching the <span class="label">AES&nbsp;I/O</span> (Internal) or <span class="label">Inputs</span>/<span class="label">Outputs</span> (D32.32) button brings up a display showing all of the individual AES connections within the unit. Each connection's box displays its name and essential settings. Use the <span class="label">Show&nbsp;Settings</span> and <span class="label">Show&nbsp;Routes</span> buttons to toggle the display between showing SRC settings and routing information.</p>
+
+<p>Touching a connection box will display controls on the right of the screen.</p>
+
+<p>When selecting an AES input you will be presented with a single <span class="label">SRC&nbsp;In</span> button in the top right corner of the detail section. The console supports the input rates listed in the Input Rate column in the table below and will convert the incoming audio to 96 kHz for use within the Live system.</p>
+
+<p>The table below also shows the sample rates available for AES/EBU outputs. There are some additional controls for output connections.</p>
+
+<script type="text/javascript" src="https://livehelp.solidstatelogic.com/Help/snippets/SupportedFsTable.js"></script>
+
+<!-- Start of SupportedFsTableNotes Snippet -->
+<!-- Also used in Clocking.html -->
+<span class="note"><span class="notetitle">Note:</span> The multiplier controls (<span class="label">x1</span>, <span class="label">x2</span> and <span class="label">x4</span>) are relative to a base sample rate of 44.1 or 48k, not the operating rate of the console (48 or 96k).</span>
+
+<p>Engaging <span class="label">SRC&nbsp;In</span> and setting the output clock to <span class="label">In</span> will clock the AES output from the corresponding AES input, at 1, 2, or 4 times the base rate (44.1 or 48k).</p>
+
+<p>Setting the output clock to <span class="label">Int</span> will use the console as the clock source. This can also be set to <span class="label">x1</span>, <span class="label">x2</span>, or <span class="label">x4</span> of this base sample rate (48k).</p>
+<!-- End of SupportedFsTableNotes Snippet -->
+
+<h2>Configuring Other I/O</h2>
+
+<p>Detail Dialogues are available for other I/O ports as well:</p>
+
+<h3>Internal</h3>
+
+<p>
+    The <span style="font-weight: bold;">Internal</span> Detail Dialogue provides an <span style="font-weight: bold;">ANA OUT Trim</span> slider,
+    which introduces a global level trim on all local analogue outputs, relative to the console's <span style="font-weight: bold;">Operating Level</span>
+    (set in <span style="font-weight: bold;">Menu > Setup > System&nbsp;/&nbsp;Power</span> > <span class="label">System</span> tab).
+    The <span class="label">Clear&nbsp;Attention</span> button clears all of the <span style="font-weight: bold;">Att</span> lights on the local I/O.
+</p>
+
+<p>
+    In the right side of the window, there are boxes for each local AES connection. Touching these provides access to essential AES settings,
+    as described for <span style="font-weight: bold; font-style: italic;">AES I/O</span> above.
+</p>
+
+<p>The remaining I/O detail dialogues simply display essential information about the card or port.</p>
+
+<h3 id="Dante">Dante</h3>
+<p>A Dante Expander Module may also be fitted to the Live console. This adds up to 64 channels of Dante I/O to the console (dependent on sample rate; see below).</p>
+
+<p>
+    Select the Dante Expander Module from the left-most column in the I/O page. You will be presented with options for the Dante Expander in the lower portion of the screen.
+    The <span style="font-weight: bold;">Recorder ID</span> buttons are described in the next section:
+    <a href="https://livehelp.solidstatelogic.com/Help/RecordingPlayback.html"><span class="hyperlink">Multitrack&nbsp;Recording&nbsp;&amp;&nbsp;Playback</span></a>. Select the <span class="label">Free&nbsp;Route</span> button
+    to freely route the Dante I/O within the console routing system.
+</p>
+
+<!-- Start of Dante Sample Rates Snippet -->
+<!-- Also used in DanteSetup.html -->
+<p>
+    The number of channels available for routing on the console will vary based on the console and Dante network sample rates.
+    If the Dante network is running at a different sample rate or in a different clock domain to the console, engage the <span class="label">SRC&nbsp;In</span> button.
+    This will sample rate convert incoming and outgoing audio between the console and Dante network. The table below summarises the sample rate combinations available
+    (note the number quoted is for each direction, e.g. 32 = 32 inputs <b>AND</b> 32 outputs):
+</p>
+
+<div>
+    <table class="insideborder" style=\"width: auto; margin 15px 0px;\" cellpadding="4" cellspacing="1">
+        <tbody>
+            <tr>
+                <th class="solidborder">Console Sample Rate</th>
+                <th class="solidborder" style=\"width: 100px;\">Dante Expander Sample Rate</th>
+                <th class="solidborder" style=\"width: 100px;\">Dante Expander Sample Rate Conversion</th>
+                <th class="solidborder" style=\"width: 100px;\">Quantity of Dante Inputs and Outputs</th>
+            </tr>
+            <tr>
+                <td class="solidborder">96 kHz</td>
+                <td class="solidborder">192 kHz</td>
+                <td class="solidborder">SRC In</td>
+                <td class="solidborder">16</td>
+            </tr>
+            <tr>
+                <td class="solidborder">96 kHz</td>
+                <td class="solidborder">96 kHz</td>
+                <td class="solidborder">SRC Out</td>
+                <td class="solidborder">32</td>
+            </tr>
+            <tr>
+                <td class="solidborder">96 kHz</td>
+                <td class="solidborder">48 kHz</td>
+                <td class="solidborder">SRC In</td>
+                <td class="solidborder">32</td>
+            </tr>
+            <tr>
+                <td class="solidborder">48 kHz</td>
+                <td class="solidborder">192 kHz</td>
+                <td class="solidborder">SRC In</td>
+                <td class="solidborder">16</td>
+            </tr>
+            <tr>
+                <td class="solidborder">48 kHz</td>
+                <td class="solidborder">96 kHz</td>
+                <td class="solidborder">SRC In</td>
+                <td class="solidborder">32</td>
+            </tr>
+            <tr>
+                <td class="solidborder">48 kHz</td>
+                <td class="solidborder">48 kHz</td>
+                <td class="solidborder">SRC Out</td>
+                <td class="solidborder">64</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<span class="note">
+    <span class="notetitle">Note: </span>Unless the <span class="label">SRC&nbsp;In</span> button has been engaged, you must set the sample rate of the Dante Expander to match the console's sample rate.
+    This can be done from a computer running Dante Controller software connected on the same network as the console's Dante Expander. Alternatively, as of Live v6.2, the console Expander's sample rate can be seen and changed in the Connected Devices list in the Dante Configuration page.
+</span>
+<!-- End of Dante Sample Rates Snippet -->
+
+
+<p>
+    You should not clock the console from the Dante network with the Dante SRC engaged. For more information about clocking to or from a Dante network,
+    please refer to the <a href="https://livehelp.solidstatelogic.com/Help/Clocking.html#Dante"><span class="hyperlink">Clocking&nbsp;the&nbsp;System</span></a> section.
+</p>
+
+<p>For more information on setting up Dante, Net I/O Stageboxes or a BLII/X-Light Bridge, please see <a href="https://livehelp.solidstatelogic.com/Help/DanteConfig.html"><span class="hyperlink">I/O&nbsp;Setup:&nbsp;Dante</span></a>.</p>
+
+<h3>AES67</h3>
+
+<p>
+    AES67 is an interoperability standard for audio over IP networks. The console's Dante interfaces support AES67;
+    this can be enabled from the device's <span style="font-weight: bold;">AES67&nbsp;Config</span> tab in Dante Controller.
+    Once enabled, AES67 flows can be created using Dante Controller for transmitting audio to other compatible devices that support AES67.
+    Please refer to the Audinate Dante Controller manual for information on creating AES67 flows.
+</p>
+
+
+<h2>Useful Links:</h2>
+<a href="https://livehelp.solidstatelogic.com/Help/DanteSetup.html"><span class="hyperlink">Setting Up Dante</span></a><br>
+<a href="https://livehelp.solidstatelogic.com/Help/DanteNetIO.html"><span class="hyperlink">Network I/O Stageboxes</span></a><br>
+<a href="https://livehelp.solidstatelogic.com/Help/InstallGuide.html"><span class="hyperlink">Installation Guide</span></a><br>
+<a href="https://livehelp.solidstatelogic.com/Help/LinkIndex.html"><span class="hyperlink">Index and Glossary</span></a><br>
+</body>
+</html>

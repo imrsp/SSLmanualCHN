@@ -1,0 +1,321 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>远程操作面</title>
+  <style>
+    body { font: 16px/1.55 Arial, sans-serif; max-width: 1080px; margin: 2rem auto; padding: 0 1.25rem; color: #202124; }
+    img { max-width: 100%; height: auto; }
+    table { border-collapse: collapse; max-width: 100%; }
+    th, td { border: 1px solid #aaa; padding: .45rem; vertical-align: top; }
+    .note { display: block; border-left: 4px solid #e0a000; background: #fff8df; padding: .75rem 1rem; margin: 1rem 0; }
+    .notetitle { font-weight: bold; }
+    .label { font-weight: bold; color: #174ea6; }
+    .source { color: #666; font-size: .9rem; }
+  </style>
+</head>
+<body>
+  <p class="source">章节：设置与附加功能 | 来源： <a href="https://livehelp.solidstatelogic.com/Help/RemoteControl.html">https://livehelp.solidstatelogic.com/Help/RemoteControl.html</a></p>
+
+
+<h2>通过 SOLSA PC 软件、其他控制台和 Remote Expander 进行远程控制</h2>
+
+<p>
+    本节说明如何通过网络连接，从运行 <span style="font-weight: bold;">SOLSA</span> 的电脑、
+    另一台 <span style="font-weight: bold;">SSL Live 控制台</span>，或 <span style="font-weight: bold;">Remote Expander</span> 对控制台进行远程控制。
+    <span style="font-weight: bold;">Remote Tile</span> 通过 USB 连接到控制台，其专门说明页面如下：
+    <a href="https://livehelp.solidstatelogic.com/Help/RemoteTile.html"><span class="hyperlink">Remote Tile</span></a>。
+</p>
+
+<p>远程控制台操作面或运行 SOLSA 的计算机可通过以太网连接到主控制台，共享其音频处理能力。</p>
+<p>最多可由 2 台设备同时远程控制控制台。</p>
+
+<p>SOLSA、处于 Remote Surface 模式的另一台 SSL Live 控制台以及 Remote Expander 的连接过程基本相同。</p>
+
+
+<h2>SOLSA</h2>
+<p>
+    <span style="font-weight: bold;">SOLSA</span> （用于 PC 的 SSL 在线/离线设置应用）提供离线界面，使用户无需控制台即可准备演出文件。
+    SOLSA 也可在线远程控制任何 SSL Live 控制台。
+</p>
+
+<h2>处于 Remote Surface 模式的另一台 SSL Live 控制台</h2>
+
+<p>如果有多台 SSL Live 控制台，它们可相互远程控制。 这实际上扩展了控制台的操作面。</p>
+
+<div><span class="note"><span class="notetitle">说明：</span> 此功能会增加可控制音频处理的操作面数量，但不会增加可用音频处理能力。 将控制台配置为 Remote 会禁用其内部音频引擎。</span></div>
+
+
+<h2>Remote Expander</h2>
+
+<p><span style="font-weight: bold;">Remote Expander</span> 是 SSL Live 的专用远程操作面。</p>
+
+<img style="display: block; margin: 11px auto;" src="https://livehelp.solidstatelogic.com/Help/images/g_consoleoverview_Expander.png" alt="">
+<br>
+
+<p>与 Live 系列的其他操作面不同，Remote Expander 不具备音频处理能力；它只是连接到 Live 控制台的操作面。 Remote Expander 提供 24 或 36 推子型号，配有主触摸屏和用于外接屏幕的 VGA 输出。</p>
+
+
+<h2>连接到控制台</h2>
+
+<p>在控制台上，进入 <span class="label">MENU</span> > <span class="label">Setup</span> > <span class="label">Options</span> > <span class="label">REMOTE</span> 选项卡。</p>
+
+
+<div id="accordion">
+    <div class="indexheader2">使用 SOLSA 连接</div>
+    <div style="padding: 1em 0;">
+
+        <h2>使用 SOLSA 连接</h2>
+
+        <p>确保控制台在 <span style="font-weight: bold;">Surface Settings</span> 部分中设为 <span style="font-weight: bold;">Main Surface</span> 模式。如不是，请按住 <span class="label">Main&nbsp;Surface</span> 按钮。</p>
+
+        <img style="display: block; margin: 10px auto;" src="https://livehelp.solidstatelogic.com/Help/images/g_RemoteMainMode.png" alt="">
+
+        <p>选择一个密码并输入 <span style="font-weight: bold;">Password</span> 字段。</p>
+
+        <p>
+            将 PC 的网络端口连接到控制台背面的一个 <span style="font-weight: bold;">Network</span> 端口。<br>
+            <br>
+            如需无线连接控制台，可将无线接入点连接到控制台的一个 <span style="font-weight: bold;">Network</span> 端口。
+            然后将 PC 连接到该无线网络。
+        </p>
+
+        <div><span class="note"><span class="notetitle">说明： </span>确保使用控制台的 <span style="font-weight: bold;">Network</span> 端口；Dante 端口不能用于远程操作面控制。</span></div>
+
+        <p>
+            确认控制台 IP 地址与计算机位于同一子网。<br />
+            控制台的 IP 设置位于 <span class="label">MENU</span> > <span class="label">Setup</span> > <span class="label">Options</span> > <span class="label">Network</span> 选项卡。
+            更多信息请参阅 <a href="https://livehelp.solidstatelogic.com/Help/OptionsNetwork.html#Network"><span class="hyperlink">Network Options</span></a> 部分。<br />
+            PC 的 IP 地址在控制面板的“网络和 Internet”设置中配置。
+        </p>
+        <p>打开 SOLSA。</p>
+
+        <p>
+            在 SOLSA 中，进入 <span class="label">MENU</span> > <span class="label">Setup</span> > <span class="label">Options</span> > <span class="label">Network</span> 选项卡，
+            然后选择一个 Adapter，或选择 PC 上连接控制台的以太网端口。更改适配器后，请关闭并重新打开 SOLSA。
+        </p>
+
+        <p>在 SOLSA 中，进入 <span class="label">MENU</span> > <span class="label">Setup</span> > <span class="label">Options</span> > <span class="label">Remote</span> 选项卡。</p>
+        <p>按住 <span class="label">Remote Surface</span>。</p>
+
+        <p>
+            <span style="font-weight: bold;">SSL Live Connections</span> 区域列出网络中所有可见控制台。
+            找到要连接的控制台。其默认名称以“LIVE-”开头，可在控制台的 System 菜单中更改（<span class="label">MENU</span> > <span class="label">Setup</span> > <span class="label">System&nbsp;/&nbsp;Power</span> > <span class="label">System</span> 选项卡）。
+        </p>
+
+        <p>
+            <span style="font-weight: bold;">Status</span> 列显示网络中各控制台的连接状态。
+            点击 <span class="label">Discovered</span> 按钮并从下拉列表中选择 <span class="label">Connect</span>。
+        </p>
+
+        <img style="display: block; margin: 10px auto;" src="https://livehelp.solidstatelogic.com/Help/images/g_RemoteMode.png" alt="">
+
+        <p>一个闪烁的 <img style="margin: 0px;" src="https://livehelp.solidstatelogic.com/Help/images/g_ConnectivityStatusWaiting.png" alt="yellow remote status"> 图标会出现在控制台状态栏中，表示有待处理的连接。</p>
+
+        <p>输入密码并按 <span class="label">OK</span>。</p>
+        <img style="display: block; margin: 10px auto;" src="https://livehelp.solidstatelogic.com/Help/images/g_RemotePasswordDialogue.png" alt="">
+
+        <p>远程端的 <span style="font-weight: bold;">Status</span> 按钮此时会显示 <span class="label">Waiting&nbsp;for&nbsp;server&nbsp;response</span>。</p>
+
+        <p>
+            在控制台上，按 <span class="label">Awaiting&nbsp;authorisation</span> 按钮，再按其中一个 <span class="label">Connect to slot x</span> 按钮。
+        </p>
+        <img style="display: block; margin: 10px auto;" src="https://livehelp.solidstatelogic.com/Help/images/g_RemoteAwaitingAuthOptions.png" alt="">
+
+        <p>此时将建立连接。</p>
+
+        <p>使用 <span class="label">Disconnect</span> 按钮拒绝连接请求。</p>
+
+        <p>使用 <span class="label">Ban</span> 按钮拒绝请求，并阻止该设备再次请求访问。</p>
+
+        <p>连接后，主控制台和远程端的 <span style="font-weight: bold;">SSL Live Connections</span> 区域都会将对方显示为 <span class="label">Connected&nbsp;OK</span>，两个状态栏都会显示 <img style="margin: 0px;" src="https://livehelp.solidstatelogic.com/Help/images/g_ConnectivityStatusOK.png" alt="green remote status"> 图标。</p>
+
+        <p>要断开连接，请按 <span class="label">Connected&nbsp;OK</span> 按钮并选择 <span class="label">Disconnect</span>。</p>
+
+    </div>
+
+    <div class="indexheader2">使用另一台 SSL Live 控制台或 Remote Expander 连接</div>
+    <div style="padding: 1em 0;">
+
+        <h2>使用另一台 SSL Live 控制台或 Remote Expander 连接</h2>
+
+        <p>
+            确保负责音频处理的主控制台在 <span style="font-weight: bold;">Main Surface</span>
+            部分中设为 <span style="font-weight: bold;">Surface Settings</span> 部分.
+            如不是，请按住 <span class="label">Main&nbsp;Surface</span> 按钮。
+        </p>
+
+        <img style="display: block; margin: 10px auto;" src="https://livehelp.solidstatelogic.com/Help/images/g_RemoteMainMode.png" alt="">
+
+        <p>
+            选择一个密码并输入 <span style="font-weight: bold;">Password</span> 字段。
+        </p>
+
+        <p>
+            将主控制台背面的一个 <span style="font-weight: bold;">Network</span> 端口连接到另一台控制台/Remote Expander 的一个 <span style="font-weight: bold;">Network</span> 端口。
+        </p>
+
+        <div><span class="note"><span class="notetitle">说明： </span>确保使用控制台的 <span style="font-weight: bold;">Network</span> 端口；Dante 端口不能用于远程操作面控制。</span></div>
+
+        <p>
+            确认主控制台 IP 地址与另一台控制台/Remote Expander 位于同一子网。<br />
+            IP 设置位于 <span class="label">MENU</span> > <span class="label">Setup</span> > <span class="label">Options</span> > <span class="label">Network</span> 选项卡。
+            更多信息请参阅 <a href="https://livehelp.solidstatelogic.com/Help/OptionsNetwork.html#Network"><span class="hyperlink">Network Options</span></a> 部分。<br />
+        </p>
+
+        <p>
+            在远程控制台/Remote Expander 上进入 <span class="label">MENU</span> > <span class="label">设置</span> >
+            <span class="label">Options</span> > <span class="label">Remote</span> 选项卡。
+        </p>
+        <p>按住 <span class="label">Remote Surface</span>。</p>
+
+        <p>
+            <span style="font-weight: bold;">SSL Live Connections</span> 区域列出网络中所有可见的主控制台。
+            找到要连接的控制台。其默认名称以“LIVE-”开头，可在主控制台的 System 菜单中更改（<span class="label">MENU</span> > <span class="label">Setup</span> > <span class="label">System&nbsp;/&nbsp;Power</span> > <span class="label">System</span> 选项卡）。
+        </p>
+
+        <p>
+            <span style="font-weight: bold;">Status</span> 列显示网络中各控制台的连接状态。
+            点击 <span class="label">Discovered</span> 按钮并从下拉列表中选择 <span class="label">Connect</span>。
+        </p>
+
+        <img style="display: block; margin: 10px auto;" src="https://livehelp.solidstatelogic.com/Help/images/g_RemoteMode.png" alt="">
+
+        <p>一个闪烁的 <img style="margin: 0px;" src="https://livehelp.solidstatelogic.com/Help/images/g_ConnectivityStatusWaiting.png" alt="yellow remote status"> 图标会显示在主控制台状态栏中，表示有待处理的连接。</p>
+
+        <p>输入密码并按 <span class="label">OK</span>.</p>
+        <img style="display: block; margin: 10px auto;" src="https://livehelp.solidstatelogic.com/Help/images/g_RemotePasswordDialogue.png" alt="">
+
+        <p>远程端的 <span style="font-weight: bold;">Status</span> 按钮此时会显示 <span class="label">Waiting&nbsp;for&nbsp;server&nbsp;response</span>。</p>
+
+        <p>
+            在主控制台上，按 <span class="label">Awaiting&nbsp;authorisation</span> 按钮，再按其中一个 <span class="label">Connect to slot x</span> 按钮。
+        </p>
+        <img style="display: block; margin: 10px auto;" src="https://livehelp.solidstatelogic.com/Help/images/g_RemoteAwaitingAuthOptions.png" alt="">
+
+        <p>此时将建立连接。</p>
+
+        <p>使用 <span class="label">Disconnect</span> 按钮拒绝连接请求。</p>
+
+        <p>使用 <span class="label">Ban</span> 按钮拒绝请求，并阻止该设备再次请求访问。</p>
+
+        <p>连接后，主控制台和 SOLSA 的 <span style="font-weight: bold;">SSL Live Connections</span> 区域都会将对方显示为 <span class="label">Connected&nbsp;OK</span>，两个状态栏都会显示 <img style="margin: 0px;" src="https://livehelp.solidstatelogic.com/Help/images/g_ConnectivityStatusOK.png" alt="green remote status"> 图标。</p>
+
+        <p>要断开连接，请按 <span class="label">Connected&nbsp;OK</span> 按钮并选择 <span class="label">Disconnect</span>。</p>
+
+    </div>
+</div>
+
+<p></p>
+
+<div id="accordion">
+    <div class="indexheader2">手动发现控制台</div>
+    <div style="padding: 1em 0;" id="ManualDiscovery">
+
+        <h2>手动发现控制台</h2>
+
+        <p>
+            从远程操作面/SOLSA 实例自动检测控制台在某些网络中无法工作，例如通过虚拟专用网络（VPN）在广域网（WAN）上连接两端时。
+            即使在这种情况下，也可以通过在远程操作面中手动输入主控制台的 IP 地址来建立连接。
+        </p>
+
+        <p>
+            按照上述说明准备远程操作面，以连接控制台。
+            如果通过 VPN 连接时远程操作面未检测到控制台，请将主控制台 IP 地址输入 <b>MANUAL&nbsp;DISCOVERY</b> area of the <b>远程操作面's</b> Remote 选项页面（MENU > Setup > Options > REMOTE）。
+            控制台 IP 地址可在 Network 选项页面（MENU > Setup > Options > NETWORK）中查看。
+        </p>
+
+        <p>
+            确保远程操作面在 <b>远程操作面's</b> Network 选项页面（MENU > Setup > Options > NETWORK）。更改网络适配器后必须重启远程操作面。
+        </p>
+
+        <p>
+            在 <b>MANUAL&nbsp;DISCOVERY</b> area of the <b>主控制台's</b> Remote 选项页面（MENU > Setup > Options > REMOTE）。 默认端口号为 11973。
+            在 <b>MANUAL&nbsp;DISCOVERY</b> area of the <b>远程操作面's</b> Remote options 页面.
+        </p>
+
+        <p>例如，使用默认端口号和控制台 IP 地址 10.1.2.3 时，选项页面应如下所示：</p>
+
+        <table>
+            <tbody>
+                <tr>
+                    <td style="vertical-align: top; padding-right: 10px;">
+                        <p>Main 控制台:</p>
+                        <img style="width: 390px;" src="https://livehelp.solidstatelogic.com/Help/images/g_ManualDiscoveryMain.png" alt="">
+                    </td>
+                    <td style="vertical-align: top; padding-right: 10px;">
+                        <p>Remote 操作面:</p>
+                        <img style="width: 390px;" src="https://livehelp.solidstatelogic.com/Help/images/g_ManualDiscoveryRemote.png" alt="">
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <p>继续按照上述说明，以常规方式将远程操作面连接到控制台。</p>
+
+        <p>
+            也可将远程操作面自动授权到主控制台远程插槽 1，从而无需在主控制台手动授权（前提是输入正确密码）。
+            按住 <span class="label">Enabled</span> 按钮即可在主控制台 Remote 选项页面的 <b>MANUAL&nbsp;DISCOVERY</b> 区域启用此选项。
+        </p>
+    </div>
+</div>
+
+<p>
+    连接后，可使用主控制台 Layer Manager 中的 <span class="label">Remote&nbsp;Sync</span> 按钮
+    （<span style="font-weight: bold;">Menu > Setup > Layer Manager</span>）。每个连接到主控制台的远程操作面都对应一个 <span class="label">Remote&nbsp;Sync</span> 按钮。
+    这些按钮在同步期间会被禁用；如果要同步两个远程操作面，请等待一个完成后再开始另一个。
+    这些设置会独立于主控制台的设置存储在主 showfile 中。请注意，更新主控制台设置不会自动更新远程操作面，除非再次按相应的 Sync 按钮。
+</p>
+
+<div>
+    <span class="note">
+        <span class="notetitle">重要说明： </span><br />
+        - 控制台不提供任何 VPN 功能。 可能需要第三方 VPN 服务才能在两个远程地点之间建立网络链路。<br /><br />
+        －此功能通过网络连接提供控制台远程控制；它 <b>does not</b> 包含通过网络在控制台与远程连接之间传输音频的方法。 音频传输必须使用第三方编解码器，并与控制数据连接并行运行。<br /><br />
+        - 端到端网络延迟（例如通过 ping 控制台测量）应小于 100 ms。 这是控制信号往返控制台的最低延迟，与站点间音频延迟无关；音频延迟取决于所用编解码器。<br /><br />
+        - Remote connections <b>must</b> 通过高带宽网络建立；每个远程操作面连接控制台时最多需要 25 Mbps 带宽。<br /><br />
+        - 使用此功能时必须谨慎。 不在现场操作 PA 或监听系统存在风险，因为工程师无法直接、即时地感知场馆内产生的声音。 
+        SSL 不对使用此功能造成的设备损坏或人身伤害承担责任！<br />
+    </span>
+</div>
+
+<h3>远程控制范围</h3>
+
+<p>
+    请注意，远程操作面无法访问控制台的某些区域。 其中包括加载 <a href="https://livehelp.solidstatelogic.com/Help/Showfiles.html"><span class="hyperlink">showfiles</span></a>,
+    更改 <a href="https://livehelp.solidstatelogic.com/Help/ConsoleConfig.html"><span class="hyperlink">Console Configuration</span></a> 以及关闭控制台电源。
+</p>
+
+<p>某些项目始终由所有操作面并行控制。 其中包括所有影响音频处理的功能，例如 Solo、Mute、母线路由、自动化更改和 FX 等。</p>
+
+<p>
+    其他项目可为每个操作面独立配置，包括：
+</p>
+
+<ul>
+    <li>Fader Tile <a href="https://livehelp.solidstatelogic.com/Help/LayerManager.html"><span class="hyperlink">层和 Bank</span></a></li>
+    <li><a href="https://livehelp.solidstatelogic.com/Help/OptionsConsole.html#SurfaceBrightness"><span class="hyperlink">亮度设置</span></a></li>
+    <li><a href="https://livehelp.solidstatelogic.com/Help/OptionsConsole.html#ExternalScreen"><span class="hyperlink">外接屏幕选择</span></a></li>
+    <li><a href="https://livehelp.solidstatelogic.com/Help/OptionsConsole.html#MouseTouch"><span class="hyperlink">鼠标和触控设置</span></a></li>
+    <li><a href="https://livehelp.solidstatelogic.com/Help/OptionsConsole.html#ControlSurfaceLock"><span class="hyperlink">操作面锁定</span></a></li>
+    <li>其他设置位于 <a href="https://livehelp.solidstatelogic.com/Help/OptionsConsole.html"><span class="hyperlink">Console Options</span></a> 选项卡中，例如控制台时间、日期和键盘区域</li>
+    <li><a href="https://livehelp.solidstatelogic.com/Help/OptionsSystem.html#MeterBallistics"><span class="hyperlink">电平表响应特性</span></a> （不包括电平表信号源）</li>
+    <li><a href="https://livehelp.solidstatelogic.com/Help/OptionsSurface.html#SurfaceOptions"><span class="hyperlink">Surface Options</span></a> 选项卡中的所有项目（区块设置、Query 和 Follow 模式）</li>
+    <li><a href="https://livehelp.solidstatelogic.com/Help/OptionsUserKeys.html"><span class="hyperlink">User Keys</span></a></li>
+</ul>
+
+<p><a href="https://livehelp.solidstatelogic.com/Help/Query.html"><span class="hyperlink">Query</span></a> 按操作面独立工作，因此在一个操作面上 Query 某条路径不会影响另一个操作面。 也可在两个或更多操作面上 Query 不同信号路径。</p>
+
+<p>操作面网络配置，以及 Automation GUI 和区块锁定控制，也都按操作面独立设置。</p>
+
+<h2>实用链接</h2>
+
+<a href="https://livehelp.solidstatelogic.com/Help/TaCo.html"><span class="hyperlink">TaCo 平板控制</span></a>
+<br>
+<a href="https://livehelp.solidstatelogic.com/Help/OptionsRemote.html"><span class="hyperlink">远程选项</span></a>
+<br>
+<a href="https://livehelp.solidstatelogic.com/Help/LinkIndex.html"><span class="hyperlink">索引与术语表</span></a>
+<br>
+</body>
+</html>

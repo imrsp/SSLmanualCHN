@@ -1,0 +1,297 @@
+<p>以下页面包含设置 SSL Live 控制台以用于 Dante 网络、与 Dante 设备之间进行路由以及使用 SSL Net I/O 舞台接口箱进行控制和增益共享的说明：</p>
+<ul>
+  <li><a href="https://livehelp.solidstatelogic.com/Help/DanteSetup.html"><span class="hyperlink">设置 Dante</span></a></li>
+</ul>
+<ul>
+  <li><a href="https://livehelp.solidstatelogic.com/Help/DanteVTL.html"><span class="hyperlink">虚拟跳线</span></a></li>
+</ul>
+<ul>
+  <li><a href="https://livehelp.solidstatelogic.com/Help/DanteConfig.html"><span class="hyperlink">双域路由与配置 Dante 设备</span></a></li>
+</ul>
+<ul>
+  <li>网络 I/O 舞台接口箱和设备（本页）</li>
+</ul>
+<ul>
+  <li><a href="https://livehelp.solidstatelogic.com/Help/DanteBridges.html"><span class="hyperlink">BLII 和 X-Light 网桥</span></a></li>
+</ul>
+<h2>网络 I/O 舞台接口箱和设备</h2>
+<p>SSL Live 控制台可以远程控制以下 SSL 网络 I/O 设备：</p>
+<ul>
+  <li>SB 16.12 - 16 路模拟麦克风/线路输入，8 路模拟输出和 2 对 AES（4 个通道）</li>
+  <li>SB 32.24 - 32 路模拟麦克风/线路输入，16 路模拟输出和 4 对 AES（8 个通道）</li>
+  <li>SB 8.8 - 8 路模拟麦克风/线路输入和输出</li>
+  <li>SB i16 - 16 路模拟麦克风/线路输入</li>
+  <li>A16.D16 - 4 路模拟麦克风/线路输入，12 路模拟线路输入，16 路模拟线路输出，8 对 AES，4 个 GPIO</li>
+  <li>A32 - 32 路模拟线路输入和输出</li>
+  <li>D64 - 32 对 AES</li>
+  <li>GPIO32 - 32 个 GPIO</li>
+  <li>MADI-Bridge - MADI 和 Dante 之间的 64 通道（48k 时）网桥</li>
+</ul>
+<p>这些设备也可以由 SSL System T 控制台和用于 PC 的 Network I/O Controller 应用程序控制。</p>
+<p>所有网络 I/O 单元都支持 AES67 和 SMPTE 2110-30 AoIP 网络传输标准。</p>
+<p>Network I/O Controller 应用程序和所有网络 I/O 设备的手册可以从 <a class="external-link" tabindex="-1" href="https://www.solidstatelogic.com/live/remote-ecosystem/documents" target="_blank"><span class="hyperlink">www.solidstatelogic.com/live/remote-ecosystem/documents</span></a> 下载。</p>
+<p>可以从控制台控制和监控基于 Dante 的 Shure ULX-D 和 Axient Digital 无线麦克风。请参阅 <a href="https://livehelp.solidstatelogic.com/Help/ShureIO.html#Wireless"><span class="hyperlink">Shure Wireless Control</span></a> 部分了解更多详情。</p>
+<p>也可以远程控制 Shure ANI 设备的输入参数；请参阅 <a href="https://livehelp.solidstatelogic.com/Help/ShureIO.html#ANI"><span class="hyperlink">Shure ANI</span></a> 部分了解更多详情。</p>
+<p>注意：更改网络 I/O 设备的 IP 地址后，请通过断开设备背面的电源线并重新连接来完全重启设备。 使用 Dante Controller 中的 Reboot 按钮不能完全重启设备。</p>
+<h2>舞台接口箱重置</h2>
+<p>在新演出使用之前重置 Net I/O 舞台接口箱设置是一个好习惯。可以使用“Reset IO Settings”按钮进行重置。 该按钮位于 Dante I/O 配置页面 (MENU &gt; Setup &gt; I/O &gt; Dante Configuration) 中，点击舞台接口箱并导航到 Setup 选项卡即可找到。</p>
+<figure><img src="https://livehelp.solidstatelogic.com/Help/images/g_DanteDetailView.png" alt="图片 1"><figcaption>图片 1</figcaption></figure>
+<p>注意：您必须是舞台接口箱的所有者才能重置它。按住“Stagebox Ownership”按钮以取得所有权。</p>
+<p>警告：重置舞台接口箱将导致主通道和补偿分离通道的电平跳变。SSL 建议在执行舞台接口箱重置之前，将接收设备上所有受影响的通道静音。</p>
+<p>重置 I/O 设置会重置以下设置：</p>
+<ul>
+  <li>所有所有权状态将设置为无主（参见下面的<a href="https://livehelp.solidstatelogic.com/Help/DanteNetIO.html#Ownership"><span class="hyperlink">所有权</span></a>部分）</li>
+  <li>所有输入将设置为麦克风模式下的 +35 dB 增益</li>
+  <li>所有输入的 +48V 将关闭</li>
+  <li>所有输入的 Pad 将关闭</li>
+  <li>增益补偿点将重置为 +25 dB（低于默认 +35 dB 麦克风增益设置 10 dB）（参见下面的<a href="https://livehelp.solidstatelogic.com/Help/DanteNetIO.html#GainShare"><span class="hyperlink">增益共享</span></a>部分）</li>
+  <li>对于 SB 32.24，重置 AES 输入启用按钮，以便将所有输入设置为模拟（如果适用）</li>
+  <li>所有输入的 AES SRC 将关闭（如果适用）</li>
+  <li>AutoPad 将关闭（如果适用）</li>
+  <li>所有输入的限幅器将关闭（如果适用）</li>
+  <li>GPO 将关闭（如果适用）</li>
+  <li>输入和输出静音控制将关闭</li>
+</ul>
+<p>IP 地址、网络 A 和 B 链路状态（如果适用）、采样率和工作电平将被保留。</p>
+<p>注意：所有参数重置最多需要 30 秒。</p>
+<h2 id="Ownership">所有权</h2>
+<p>Net I/O 舞台接口箱可以由 SSL Live 或 System T 控制台以及用于 PC 的 Network I/O Controller 应用程序控制。</p>
+<p>引入了所有权的概念，为每个舞台接口箱输入和 GPO 分配一个所有者，以避免控制冲突。 舞台接口箱的常规设置也有一个所有者，负责控制工作电平和其它整个舞台接口箱的设置（包括 SB 32.24 上的 AES/模拟输入切换）。</p>
+<p>因此，在您能够远程控制舞台接口箱之前，您必须成为该参数的所有者。所有权状态存储在舞台接口箱中。</p>
+<p class="note"><span class="notetitle">请注意：</span></p>
+<p>只能控制 Main 舞台接口箱设备。 Comp 设备永远不能被控制或拥有。 有关 Main 和 Comp 设备的更多信息，请参阅<a href="https://livehelp.solidstatelogic.com/Help/DanteNetIO.html#GainShare"><span class="hyperlink">使用 Net I/O 舞台接口箱进行增益共享</span></a>。</p>
+<p>首先，确保您要控制的舞台接口箱在“Configured Devices”列表中（参见<a href="https://livehelp.solidstatelogic.com/Help/DanteConfig.html"><span class="hyperlink">配置 Dante 设备</span></a>）。</p>
+<p>有以下所有权选项：</p>
+<ul>
+  <li><strong>Stagebox Ownership</strong>：更改工作电平，在 AES 和模拟输入之间选择，打开 AES 输入 SRC，以及打开或关闭 AutoPad</li>
+  <li><strong>Input Ownership</strong>：仅控制输入参数</li>
+  <li><strong>GPO Ownership</strong>：控制所有 GPO 参数和设置</li>
+</ul>
+<div id="accordion">
+<div class="indexheader2">Stagebox Ownership</div>
+<div>
+<p>Stagebox Ownership 提供对以下参数的控制：</p>
+<ul>
+  <li>工作电平</li>
+  <li>启用 AES 输入（仅限 SB 32.24）</li>
+  <li>打开 AES 输入 SRC（仅限 SB 16.12 和 SB 32.24）</li>
+  <li>打开或关闭 AutoPad（仅限 SB 8.8 或 i16）</li>
+  <li>启用<a href="#NetBSRC"><span class="hyperlink">网络 B SRC</span></a>（仅限 SB 16.12 和 SB 32.24）</li>
+  <li>重置舞台接口箱设置</li>
+</ul>
+<p>Stagebox Owner 无法控制输入。 舞台接口箱并不总是需要 Stagebox Owner，因此如果您不需要调整上述设置，Stagebox Ownership 可以保持无主状态。</p>
+<p>要成为 Stagebox owner，请在 Dante 配置页面中点击舞台接口箱，舞台接口箱的详细视图将出现在底部。 按住“Stagebox Ownership”。</p>
+<p>Stagebox owner 显示在此按钮左侧，呈青色。</p>
+<p>要释放 Stagebox ownership，请再次按住“Stagebox Ownership”以解除。</p>
+</div>
+<div class="indexheader2">Input Ownership</div>
+<div>
+<p>输入的所有者可以控制所有输入参数，包括增益、Pad、Mic/Line 和 +48V。</p>
+<p>当舞台接口箱输入被路由到控制台上通道的输入，并且该输入没有所有者时， 控制台将自动成为该输入的所有者。</p>
+<p>但是，如果该输入已被另一台设备拥有，控制台不会自动从该设备夺取所有权。必须手动取得所有权。</p>
+<p>Net I/O 舞台接口箱的输入设置可以在通道详细视图的 Input/Routing 页面中查看 （如果该输入已路由到通道）或在 Dante 配置页面的舞台接口箱详细视图中查看。</p>
+<p>要查看舞台接口箱输入设置，请在 Dante 配置页面中点击舞台接口箱， 然后点击右侧的 Inputs（下图中标注 1）。 控制台拥有的任何输入将以绿色背景显示。由另一台设备拥有的任何输入将显示为紫色。无主的输入显示为黑色。</p>
+<figure><img src="https://livehelp.solidstatelogic.com/Help/images/g_DanteInputs.png" alt="图片 2"><figcaption>图片 2</figcaption></figure>
+<figure><img src="https://livehelp.solidstatelogic.com/Help/images/g_DanteTake.png" alt="图片 3"><figcaption>图片 3</figcaption></figure>
+<p>点击任何输入（标注 2），然后点击“Edit Settings”（标注 3）以在弹出的窗口中查看该输入的设置。</p>
+<p>以下说明适用于在通道视图或 Dante 配置中查看输入设置。</p>
+<p>要拥有一个输入，请导航到该输入的设置，您将看到一个带有按钮和显示框的“Ownership”部分。</p>
+<p>“Ownership”部分中的按钮将根据输入的所有权状态更改其功能。</p>
+<p>如果输入当前没有所有者，按钮将显示“Own”。框中不会显示任何内容。按住“Own”，您的控制台将成为该输入的所有者。</p>
+<p>如果输入已有所有者，按钮将显示“Take”。当前所有者的设备名称将显示在框中。 按住“Take”，您的控制台将从先前所有者那里取得该输入的所有权。</p>
+<p>如果您的控制台已经是所有者，按钮将显示“Release”。您的控制台名称将显示在框中。 按住“Release”，您的控制台将释放所有权，使该输入没有所有者。</p>
+<p class="note"><span class="notetitle">注意：</span></p>
+<p>在夺取所有权之前无需释放所有权。</p>
+<p>一旦您的控制台拥有所有权，就可以调整增益和输入设置。</p>
+<p>如果您的控制台不是输入的所有者，您将看到控件呈灰色，无法进行任何更改。</p>
+<figure><img src="https://livehelp.solidstatelogic.com/Help/images/g_DanteTakeAll.png" alt="图片 4"><figcaption>图片 4</figcaption></figure>
+<p>可以通过一次操作取得或释放网络 I/O 舞台接口箱所有输入的所有权。为此，请前往 MENU &gt; Setup &gt; I/O &gt; Dante Configuration。 点击舞台接口箱以在其详细视图中查看设置。</p>
+<p>在舞台接口箱的 Setup 部分，按住“Inputs Ownership”。有三个选项可用：</p>
+<table>
+  <tr>
+    <th>Own All</th>
+    <th>成为所有无主输入的所有者</th>
+  </tr>
+  <tr>
+    <td>Take All</td>
+    <td>成为所有输入的所有者（包括由不同设备拥有的输入）</td>
+  </tr>
+  <tr>
+    <td>Release All</td>
+    <td>释放控制台拥有的所有输入的所有权</td>
+  </tr>
+</table>
+<p>多个控制设备可以同时拥有单个舞台接口箱的不同输入。 但是同一个输入永远不能有多个所有者。</p>
+</div>
+<div class="indexheader2">GPO Ownership</div>
+<div>
+<figure><img src="https://livehelp.solidstatelogic.com/Help/images/g_GPOOwn.png" alt="图片 5"><figcaption>图片 5</figcaption></figure>
+<p>一些 Net I/O 设备具有可以从控制台访问的 GPIO 端口。GPO 所有权设置必须从 Dante 配置页面调整。 点击舞台接口箱，其详细视图将出现。点击舞台接口箱详细视图右侧的 GPIO。 要成为特定 GPO 的所有者，请视情况按住“Own”或“Take”。 按住“Rel”以释放所有权。</p>
+<p>按住“GPO Ownership”，然后选择“Own All”以成为所有先前无主 GPO 的所有者。</p>
+<p>使用“Take All”选项取得所有 GPO 的所有权，包括已被其他设备拥有的 GPO。</p>
+<p>使用“Release All”选项释放控制台拥有的所有 GPO 的所有权。</p>
+<p>多个控制设备可以同时拥有舞台接口箱的不同 GPO。但是同一个 GPO 永远不能有多个所有者。</p>
+</div>
+</div>
+<h3>加载演出文件</h3>
+<p>舞台接口箱设置会保留在 Live 控制台演出文件中，因此可以通过加载演出文件来调用它们。 保存演出文件时，控制台还会保存它是否是每个输入（和其他设置）的“所有者”。</p>
+<p>加载演出文件时，控制台将尝试成为保存演出文件时它是所有者的所有输入（和其他设置）的所有者。只有当该输入（或其他设置）没有所有者， 或者在加载演出文件时由控制台拥有时，控制台才会成功。 如果该输入（或其他设置）由另一台设备拥有，控制台将无法取得所有权。</p>
+<p>但是，在使用“Load with Owner Override”时情况并非如此。此功能允许在加载演出文件时从其他设备取得所有权。请参阅<a href="#LoadOverride"><span class="hyperlink">下文此部分</span></a>。</p>
+<p>注意：因此，建议用户在加载演出文件之前清除他们希望使用的所有舞台接口箱输入的所有权。 一旦用户希望使用的所有输入都无主或由用户的控制台拥有，就可以加载演出文件，并且演出文件的增益设置将被相应地应用。</p>
+<p>下表显示了在不同演出文件加载场景下舞台接口箱所有权状态的表现。</p>
+<table>
+  <tr>
+    <th>演出文件加载前的参数所有权状态</th>
+    <th>演出文件加载后的参数所有权状态</th>
+    <th>是否将演出文件中的参数设置推送到舞台接口箱？</th>
+  </tr>
+  <tr>
+    <td>由控制台拥有</td>
+    <td>由控制台拥有</td>
+    <td>是</td>
+  </tr>
+  <tr>
+    <td>无所有者</td>
+    <td>由控制台拥有</td>
+    <td>是</td>
+  </tr>
+  <tr>
+    <td>由另一台设备拥有</td>
+    <td>仍由另一台设备拥有</td>
+    <td>否</td>
+  </tr>
+</table>
+<p class="note"><span class="notetitle">请注意：</span></p>
+<p>如果在保存演出文件时控制台不是输入（或其他设置）的所有者， 那么当重新加载演出文件时， 控制台不会尝试成为此输入（或其他设置）的所有者，并且它不会受到演出文件加载的影响。</p>
+<p class="note"><span class="notetitle">例如：</span></p>
+<p>一个 L500 是 SB 32.24 上输入 1、2 和 3 的所有者，并且保存了演出文件。</p>
+<table>
+  <tr>
+    <th>通道 1 所有者</th>
+    <th>通道 2 所有者</th>
+    <th>通道 3 所有者</th>
+  </tr>
+  <tr>
+    <td>L500</td>
+    <td>L500</td>
+    <td>L500</td>
+  </tr>
+</table>
+<p>保存演出文件后，一名使用 L200 的操作员取得了输入 1 的所有权。 使用 L500 的操作员释放了输入 2 的所有权，并保留了对输入 3 的所有权。</p>
+<table>
+  <tr>
+    <th>通道 1 所有者</th>
+    <th>通道 2 所有者</th>
+    <th>通道 3 所有者</th>
+  </tr>
+  <tr>
+    <td>L200</td>
+    <td>无</td>
+    <td>L500</td>
+  </tr>
+</table>
+<p>L500 操作员重新加载演出文件，将发生以下情况：</p>
+<p>输入 1：L500 尝试成为所有者，但输入 1 由 L200 拥有。 因此 L500 无法取得所有权。任何增益设置、+48V、Pad 等输入设置都不会从 L500 演出文件推送到舞台接口箱的输入 1。输入 1 保留其先前的增益和输入设置。</p>
+<p>输入 2：L500 尝试成为所有者。输入 2 没有被任何设备拥有，因此 L500 成功成为所有者。 任何增益设置、+48V、Pad 等输入设置将从 L500 演出文件推送到舞台接口箱的输入 2。</p>
+<p>输入 3：L500 尝试成为所有者。输入 3 已由 L500 拥有。任何增益设置、+48V、Pad 等输入设置将从 L500 演出文件推送到舞台接口箱的输入 3。</p>
+<table>
+  <tr>
+    <th>通道 1 所有者</th>
+    <th>通道 2 所有者</th>
+    <th>通道 3 所有者</th>
+  </tr>
+  <tr>
+    <td>L200</td>
+    <td>L500</td>
+    <td>L500</td>
+  </tr>
+</table>
+<p>在加载包含输入设置存储的演出文件之前，请注意舞台接口箱上每个输入的当前所有权状态。 如果其他设备拥有某些输入的所有权，您的控制台将无法在加载演出文件时自动取得这些输入的所有权。</p>
+<p>在加载演出文件之前，前往 MENU &gt; Setup &gt; I/O &gt; Dante Configuration，将舞台接口箱添加到“Configured Devices”列表。 点击舞台接口箱，其详细视图将出现。要取得所有输入的所有权，请在“Setup”选项卡中按住“Inputs Ownership”按钮并选择“Take All”。</p>
+<p>要取得单个输入的所有权，请在“Inputs”选项卡中选择您希望拥有的第一个输入，然后点击“Edit Settings”。 如果输入由另一台设备（不是您的控制台）拥有，请按住“Take”以取得所有权。如有必要，请事先与当前所有者确认！ 如果输入没有所有者，或者控制台已经是所有者，请继续处理下一个输入。 对您希望控制的所有输入重复此操作。每个输入应该要么没有所有者，要么您的控制台应该是所有者。</p>
+<p>确保舞台接口箱名称与演出文件中存储的名称匹配。</p>
+<p class="note"><span class="notetitle">请注意：</span></p>
+<p>Dante 路由与设备名称相关联。 因此更改 Dante 设备名称将删除所有路由。重命名设备应在 Dante Controller 中进行，而不是在控制台上。 在更改设备名称之前，Dante Controller 中会出现一个警告对话框，通知用户音频路由将中断。</p>
+<p>然后加载演出文件，所有适当的输入将被拥有，并且设置将从演出文件成功推送到舞台接口箱。</p>
+<p>当控制台正常关机时，它将释放其拥有的所有舞台接口箱参数的所有权。</p>
+<h3 id="LoadOverride">使用所有者覆盖加载演出文件</h3>
+<p>从 Live 6.1 开始，可以加载演出文件并覆盖现有的网络所有权状态。上面列出的任何条件都将被忽略，并且会发生以下情况：</p>
+<ul>
+  <li>订阅/路由创建</li>
+  <li>如果任何 Dante 设备上的 Rx 点已有订阅，并且演出文件中包含新的订阅，则演出文件将成功建立此订阅。</li>
+  <li>如果网络上的 Rx 订阅与演出文件建立的订阅不重叠，则它们将保持加载演出文件之前的状态。</li>
+</ul>
+<ul>
+  <li>舞台接口箱上的参数控制（或任何具有所有权能力的其他设备）</li>
+  <li>如果音频输入、输出、GPI、GPO 或整个舞台接口箱已被拥有，但此演出文件会在无所有者时取得所有权，则使用此模式加载将取得所有权。</li>
+  <li>如果网络上的某些输入/设备由另一台设备拥有，但演出文件中未包含对这些输入/设备的所有权，则所有权状态将保持加载演出文件之前的状态。</li>
+</ul>
+<h2>控制</h2>
+<p>对于 Net I/O 舞台接口箱，当点击设备时，所有参数和设置将显示在 Dante 配置页面的详细视图中。</p>
+<p>点击“Inputs”或“Outputs”将显示每个输入/输出的设置。</p>
+<p>点击输入可控制输入参数（前提是输入是拥有的（参见上面的“所有权”部分））。</p>
+<p>当来自 SSL 网络 I/O 舞台接口箱的输入被路由到通道的输入时，输入参数也将显示在详细视图的 Input/Routing 部分。 然后可以通过快速控制、控制区块和 TaCo 应用程序控制这些参数。</p>
+<p><strong>SB 32.24 模拟与 AES 输入</strong></p>
+<p>在 96 kHz 下运行的 Net I/O SB 32.24 舞台接口箱最多有 32 个可用输入。输入可以是模拟（最多 32 个）或 AES（最多 4 对；8 个通道）。用户可以按对进行定义。</p>
+<p>要在模拟和 AES 输入之间进行选择，请前往 Dante 配置页面，点击 SB 32.24 Main 设备以调出设备的详细视图。</p>
+<p>按住“Stagebox Ownership”以成为 Stagebox 的所有者。</p>
+<p>点击“AES I/O”，然后点击 AES 对。</p>
+<p>按住“AES Input Enabled”按钮以启用 AES 输入并禁用相应的模拟输入对。 舞台接口箱正面上对应的 AES IN ACT LED 将亮起绿色，表示 AES 端口处于活动状态。</p>
+<p>在 48 kHz 下，SB 32.24 的所有模拟和 AES 输入可同时使用。</p>
+<h2 id="GainShare">使用 Net I/O 舞台接口箱进行增益共享</h2>
+<h3>什么是增益补偿输出？</h3>
+<p>SSL Net I/O 舞台接口箱为每个麦克风放大器输入提供两个 Dante 输出；一个是主输出，另一个是提供恒定信号电平的增益补偿输出。</p>
+<p>当两个控制台需要接收相同的麦克风放大器输入时，增益补偿输出非常有用。在 FOH 和监听控制台的示例中，FOH 控制台接收主输出，监听工程师接收补偿输出。这样，FOH 工程师可以调节其控制台所用麦克风放大器的增益，而不会影响监听控制台接收到的信号电平。</p>
+<p>从舞台接口箱的“Compensated output”接收信号的设备可以是任何支持 Dante 的设备（它们不必是 SSL 设备）。</p>
+<h3>增益补偿输出如何工作？</h3>
+<p>模拟麦克风放大器电路的输出馈送到 A 到 D 转换器。然后该数字数据被馈送到两条路径。 第一条路径将数字音频路由到 Dante 主输出。 第二条路径将数据传递通过数字增益控制，该控制通过施加反比例的增益来自动补偿对模拟音频电平所做的任何更改。</p>
+<p>因此，例如，如果模拟麦克风电平增加了 3 dB，则补偿输出的数字增益控制将减少 3 dB 以保持恒定的信号电平。</p>
+<figure><img src="https://livehelp.solidstatelogic.com/Help/images/g_GainShareFlow.png" alt="图片 6"><figcaption>图片 6</figcaption></figure>
+<h3>Main 和 Comp 设备</h3>
+<p>当 SSL 网络 I/O 舞台接口箱连接到 Dante 网络时，它将在控制台上显示为两个独立的 Dante 设备：</p>
+<ul>
+  <li>Main uncompensated/gain dependant 设备</li>
+  <li>Comp gain compensated 设备</li>
+</ul>
+<figure><img src="https://livehelp.solidstatelogic.com/Help/images/g_CompUncomp.png" alt="图片 7"><figcaption>图片 7</figcaption></figure>
+<p>注意：只有 SB 16.12 和 SB 32.24 舞台接口箱会在 Dante Controller 中显示为两个独立的设备。其他 Net I/O 设备在 Dante Controller 中将显示为单个设备。</p>
+<p>Main 设备接收未补偿/依赖增益的信号，并控制舞台接口箱。</p>
+<p>Comp 设备接收增益补偿的信号，并且从不拥有控制权。</p>
+<p>选择您网络上的哪个控制台应接收未补偿信号并需要增益控制。 此控制台将需要从 Main 舞台接口箱设备进行路由。要使用增益共享，这必须是 SSL 控制台。</p>
+<p>选择哪些 Dante 设备应接收增益补偿信号。这些设备将需要从 Comp 舞台接口箱设备进行路由。</p>
+<p>当 Main 设备更改增益时，Main 设备上的信号电平将根据所应用的增益而变化。 Comp 设备上的信号电平不会改变，因为将应用适当的增益补偿。</p>
+<h3>调整校准点</h3>
+<p>在舞台接口箱输入的增益推子上有一个 γ 符号。这表示数字增益补偿或校准点的参考点。</p>
+<p>当增益推子移动到校准点上方或下方时， Comp 设备上对应的输入将根据增益值与校准点位置之间的差值进行微调。</p>
+<p>例如，如果主控制台将增益设置为高于 γ 点 3 dB，则 -3 dB 的数字微调将应用于 Comp 设备。 因此 Comp 设备上的信号电平不会改变。 如果主控制台将增益设置精确设置在 γ 点，则不会对 Comp 设备应用增益补偿。</p>
+<p>Main 设备控制校准点。Main 设备可以重置校准点或手动调整它。</p>
+<p>重新校准会重置 γ 点，从而重置增益跟踪点。只有在粗略增益水平已经设置好之后，才应使用重新校准。</p>
+<p>当输入处于 Line 模式时，重新校准会将 γ 点移动到模拟增益推子的确切位置。</p>
+<p>当输入处于 Mic 模式时，重新校准会将 γ 点移动到模拟增益推子位置下方 10 dB 处。 这样做的原因是麦克风电平信号可能比线路电平信号更具动态性，并且需要添加更多增益。这是为了提供余量并确保补偿输入不会过载。</p>
+<p>可以使用 + 或 - 3 dB 按钮以 3 dB 的步长更紧密地对齐校准点。下次输入增益重新校准时，此操作将被重置。</p>
+<figure><img src="https://livehelp.solidstatelogic.com/Help/images/g_GainComp3dB.png" alt="图片 8"><figcaption>图片 8</figcaption></figure>
+<h3>实际应用</h3>
+<p>增益共享的主要实际应用是在 Front of House 控制台和 Monitor 控制台之间共享 I/O 时。</p>
+<p>其中一个控制台拥有输入的所有权，因此可以控制增益并接收依赖增益的信号。这必须是 SSL 控制台。</p>
+<p>另一个控制台从增益补偿的分路输出接收信号。这不一定是 SSL 控制台，可以是任何支持 Dante 的设备。</p>
+<p>拥有舞台接口箱输入所有权/控制权的控制台将设置系统的增益结构。在更改校准点之前，此控制台应设置粗略增益。</p>
+<p>一旦系统的增益结构设置完毕，应在每个输入上按下“Recalibrate”按钮。这将为增益补偿创建一个参考点或校准点。</p>
+<p>在按下“Recalibrate”按钮之前，补偿输入不会设置其增益。</p>
+<p>可以一次性重新校准特定设备的所有已拥有输入。前往 Dante I/O 配置页面 (MENU &gt; Setup &gt; I/O &gt; Dante Configuration) 并点击 Main 舞台接口箱设备。 现在按住“Recalibrate All Owned Inputs”。</p>
+<p>可以使用 IO Functions &gt; Recalibrate All <a href="https://livehelp.solidstatelogic.com/Help/OptionsUserKeys.html"><span class="hyperlink">User Key</span></a> 重新校准所有已拥有输入（跨所有设备）。</p>
+<p>如果在演出前某个特定输入的增益结构发生巨大变化，可以再次使用重新校准来重置校准点。</p>
+<p class="note"><span class="notetitle">警告：</span></p>
+<p>在演出期间不要在打开的通道上使用重新校准， 因为这会导致 Comp 设备上的增益发生变化。</p>
+<p>SSL 建议在按下重新校准之前，将任何接收增益补偿信号的设备上的所有输出静音， 因为这可能会导致增益跳变。</p>
+<h2 id="NetBSRC">Net I/O SB 32.24 和 SB 16.12 舞台接口箱网络 B 连接上的 SRC</h2>
+<p>SB 32.24 和 SB 16.12 舞台接口箱的网络 B 上提供了一个采样率转换器 (SRC)，允许增益补偿的分路输出以不同的采样率或在不同的时钟域中运行。</p>
+<p>使用设备“Setup”页面中的“Net B SRC In”按钮来启用 SRC（您必须是设备所有者才能启用此按钮）。 使用 Dante Controller 设置网络 B 模块的采样率。</p>
+<p>示例：用于演出的 FOH 现场控制台也用于广播。现场控制台和整个 I/O 基础设施可以以 96 kHz 运行，以获得最佳音频质量和低延迟。 可以将 Net B 分路输出连接采样率转换为 48 kHz，以馈送给广播车。</p>
+<h2>实用链接</h2>
+<p><a href="https://livehelp.solidstatelogic.com/Help/DanteSetup.html"><span class="hyperlink">设置 Dante</span></a></p>
+<p><a href="https://livehelp.solidstatelogic.com/Help/DanteConfig.html"><span class="hyperlink">双域路由与配置 Dante 设备</span></a></p>
+<p><a href="https://livehelp.solidstatelogic.com/Help/DanteNetIO.html"><span class="hyperlink">网络 I/O 舞台接口箱和设备</span></a></p>
+<p><a href="https://livehelp.solidstatelogic.com/Help/DanteVTL.html"><span class="hyperlink">虚拟跳线</span></a></p>
+<p><a href="https://livehelp.solidstatelogic.com/Help/LocalMADIConfig.html"><span class="hyperlink">本地/MADI I/O 配置</span></a></p>
+<p><a href="https://livehelp.solidstatelogic.com/Help/InstallGuide.html"><span class="hyperlink">安装指南</span></a></p>
+<p><a href="https://livehelp.solidstatelogic.com/Help/LinkIndex.html"><span class="hyperlink">索引与词汇表</span></a></p>

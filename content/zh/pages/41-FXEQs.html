@@ -1,0 +1,102 @@
+﻿<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>EQ 效果</title>
+  <style>
+    body { font: 16px/1.55 Arial, sans-serif; max-width: 1080px; margin: 2rem auto; padding: 0 1.25rem; color: #202124; }
+    img { max-width: 100%; height: auto; }
+    table { border-collapse: collapse; max-width: 100%; }
+    th, td { border: 1px solid #aaa; padding: .45rem; vertical-align: top; }
+    .note { display: block; border-left: 4px solid #e0a000; background: #fff8df; padding: .75rem 1rem; margin: 1rem 0; }
+    .notetitle { font-weight: bold; }
+    .label { font-weight: bold; color: #174ea6; }
+    .source { color: #666; font-size: .9rem; }
+  </style>
+</head>
+<body>
+  <p class="source">章节：混音 | 来源： <a href="https://livehelp.solidstatelogic.com/Help/FXEQs.html">https://livehelp.solidstatelogic.com/Help/FXEQs.html</a></p>
+<p>有关效果器的一般信息，请参阅 <a href="https://livehelp.solidstatelogic.com/Help/FXIntro.html"><span class="hyperlink">效果器机架概述</span></a> 章节。</p>
+
+<h2>EQ 效果</h2>
+
+<h2 id="GFlexEQ">G-Flex 图示均衡器</h2>
+
+<p>G-Flex EQ 提供完整的 32 段图示均衡。32 滤波器版本可同时使用全部频段，操作方式与传统模拟 32 段图示均衡器相同。</p>
+  
+<p>为节省处理资源，还提供 8、16 和 24 滤波器版本。这些模块可从 32 个可用频段中同时启用 8、16 或 24 个滤波器。滤波器启用时，其滑块下方的按钮会亮青色。达到上限后（DSP 图表达到 100%，其他滑块被禁用），必须点按已启用滤波器滑块下方的对应按钮将其移除并释放 DSP 资源，之后才能继续应用 EQ。</p>
+  
+<img style="display: block; margin: 30px auto;" src="https://livehelp.solidstatelogic.com/Help/images/g_FXEQGraphic.png" alt="">
+
+<p>使用 <span style="font-weight: bold;">Mode</span> 按钮选择频段滑块的增益范围：±<span class="label">6 dB</span>, <span class="label">12 dB</span> 和 <span class="label">18 dB</span>.</p>
+
+<p>该 <span class="label">Const</span> （恒定 Q）与 <span class="label">Prop</span> （比例 Q）按钮用于定义 Q 曲线随增益变化的方式：</p>
+  
+<p>在 Constant 模式下，无论频段增益如何变化，Q 曲线形状均保持不变；</p>
+
+<p>在 Proportional 模式下，增益偏离 0 dB 越多，钟形曲线越窄。</p>
+
+<p>通常认为比例 Q 均衡器比恒定 Q 均衡器更具音乐性。 </p>
+
+<p>此时可拖动各频段滑块进行调整。</p>
+
+<p>如果启用了 <span class="label">Follow&nbsp;Detail</span> ，EQ 频段中亮起并带蓝色边框的部分会分配给屏幕下方的 Quick Controls。</p>
+
+<p>拖动模块右上角的大滑块可调整信号的总输出增益。</p>
+  
+<p>按下相应滑块下方的数字按钮可重置单个频段。</p>
+
+<h2 id="ContourEQ">Contour-EQ</h2>
+
+<img style="display: block; margin: 30px auto;" src="https://livehelp.solidstatelogic.com/Help/images/g_FXEQgraphicPlus.png" alt="">
+
+<p>Contour-EQ 是一种新型智能图示均衡器，通过生成更平滑的 EQ 曲线并分配 Node（节点）来加快控制：</p>
+
+<p>Node 是增益已被锁定的频段；移动某个频段滑块时，其周围频段也会随之移动，以被移动频段两侧的 Node 为支点，使整体 EQ 曲线尽可能平滑。</p>
+
+<p>每次移动频段滑块后，该频段都会被设为 Node；除非明确调整，否则它不会再自动移动。</p>
+
+<p>只需触摸频段下方的编号框，即可在不改变增益的情况下创建 Node 频段；编号框变为绿色表示该频段已成为 Node。</p>
+
+<p>再次触摸编号框可取消频段的 Node 分配；该频段及其周围频段会根据最近 Node 的位置重新移动。</p>
+
+<p>白线精确显示当前配置产生的整体效果。</p>
+
+<span class="note"><span class="notetitle">提示： </span>将中心频率 Node 设为所需增益，并在中心频率两侧以不同距离创建 Node，可获得非对称 EQ 曲线。靠近中心的 Node 一侧曲线更陡，较远 Node 一侧曲线更缓。</span>
+
+<p>为管理 Contour-EQ 使用的 DSP 资源，左上角设有 DSP 表。当该表接近 100%，且一个或多个 Node 按钮亮黄（表示无法达到所需增益）时，说明 EQ 曲线过于复杂；需简化 EQ 形状，直到 DSP 占用下降。</p>
+
+<p>如果启用了 <span class="label">Follow&nbsp;Detail</span> ，EQ 频段中亮起并带蓝色边框的部分会分配给屏幕下方的 Quick Controls。</p>
+
+<p>拖动模块右上角的大滑块可调整信号的总输出增益。</p>
+
+<h2 id="ParametricEQ">参数均衡器</h2>
+
+<img style="display: block; margin: 10px auto; width: 550px" src="https://livehelp.solidstatelogic.com/Help/images/g_FXEQparam.png" alt="">
+
+<p>参数 EQ 的功能与 <a href="https://livehelp.solidstatelogic.com/Help/PathProc.html#EQ"><span class="hyperlink">通道 EQ 详细视图</span></a>基本相同，不同之处是该模块可提供四段或八段参数 EQ，另加两个滤波器。</p>
+
+<p>如果启用了 <span class="label">Follow&nbsp;Detail</span> ，所有 EQ 类型的频段均可分配给屏幕下方的 Quick Controls；还可使用 Fader Tile 的 <span class="label">Flip</span> 按钮将其翻转至推子。</p>
+
+<p>
+    启用 <span class="label">Analyser</span> 按钮可在 EQ 图上叠加频谱分析仪。按下 <span class="label">Analyser&nbsp;Settings</span> 按钮可调整分析仪的偏移量，并选择显示 EQ 前或 EQ 后信号。
+</p>
+
+<p><span class="note"><span class="notetitle">注意：</span> 频谱分析仪仅适用于单声道和立体声 EQ FX 模块。</span></p>
+
+更多信息请参阅 <a href="https://livehelp.solidstatelogic.com/Help/PathProc.html#EQ"><span class="hyperlink">信号路径 EQ 处理</span></a> 章节。
+  
+<h2>实用链接</h2>
+<a href="https://livehelp.solidstatelogic.com/Help/DetailView.html"><span class="hyperlink">详细视图</span></a><br>
+<a href="https://livehelp.solidstatelogic.com/Help/FXIntro.html"><span class="hyperlink">效果器机架概述</span></a><br>
+<a href="https://livehelp.solidstatelogic.com/Help/FXDelays.html"><span class="hyperlink">延迟效果</span></a><br>
+<a href="https://livehelp.solidstatelogic.com/Help/FXDynamics.html"><span class="hyperlink">动态效果</span></a><br>
+<a href="https://livehelp.solidstatelogic.com/Help/FXModulation.html"><span class="hyperlink">调制效果</span></a><br>
+<a href="https://livehelp.solidstatelogic.com/Help/FXReverbs.html"><span class="hyperlink">混响效果</span></a><br>
+<a href="https://livehelp.solidstatelogic.com/Help/FXOther.html"><span class="hyperlink">其他效果器模块</span></a><br>
+<a href="https://livehelp.solidstatelogic.com/Help/FXTools.html"><span class="hyperlink">音频工具</span></a><br>
+<a href="https://livehelp.solidstatelogic.com/Help/FXAutoMix.html"><span class="hyperlink">自动混音</span></a><br>
+<a href="https://livehelp.solidstatelogic.com/Help/LinkIndex.html"><span class="hyperlink">索引与术语表</span></a><br>
+</body>
+</html>

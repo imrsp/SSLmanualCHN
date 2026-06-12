@@ -1,0 +1,369 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Clocking</title>
+  <style>
+    body { font: 16px/1.55 Arial, sans-serif; max-width: 1080px; margin: 2rem auto; padding: 0 1.25rem; color: #202124; }
+    img { max-width: 100%; height: auto; }
+    table { border-collapse: collapse; max-width: 100%; }
+    th, td { border: 1px solid #aaa; padding: .45rem; vertical-align: top; }
+    .note { display: block; border-left: 4px solid #e0a000; background: #fff8df; padding: .75rem 1rem; margin: 1rem 0; }
+    .notetitle { font-weight: bold; }
+    .label { font-weight: bold; color: #174ea6; }
+    .source { color: #666; font-size: .9rem; }
+  </style>
+</head>
+<body>
+  <p class="source">Section: Building a Show | Source: <a href="https://livehelp.solidstatelogic.com/Help/Clocking.html">https://livehelp.solidstatelogic.com/Help/Clocking.html</a></p>
+<h2>Clocking & Sync</h2>
+
+<p>The console and stageboxes must all share a common digital clock sync reference.</p>
+
+<p>Live's internal clock should generally be used to clock a system of console(s) and stageboxes. No external clock is needed unless a specific application requires it. Any external clock <span style="font-weight: bold;">must</span> match the sample rate at which the Live console is running (or PAL 25/NTSC 29.97 video).</p>
+
+
+
+<p><span class="note"><span class="notetitle">Note:</span> If an external clock is used, we recommend that only the console be connected to the clock source and the stageboxes clocked from the console's MADI or Blacklight streams. If the external clock source is lost, the console will revert to the next available clock source (e.g. its internal clock) and the rest of the system will remain in sync. We therefore do not recommend connecting external clocks to each of the individual stageboxes as each unit will free run independently without a common sync source.</span></p>
+
+
+<h2>System Examples</h2>
+
+<p>The links below provide connection examples for common configurations. The rest of this page describes the clocking functionality available in further detail.</p>
+
+<ul>
+    <li><a href="https://livehelp.solidstatelogic.com/Help/SetupClockingExA.html"><span class="hyperlink">A: Connecting stageboxes to a Live console via MADI</span></a></li>
+    <li><a href="https://livehelp.solidstatelogic.com/Help/SetupClockingExB.html"><span class="hyperlink">B: Clocking the Live console from an external source</span></a></li>
+    <li><a href="https://livehelp.solidstatelogic.com/Help/SetupClockingExC.html"><span class="hyperlink">C: Connecting stageboxes to two Live consoles via MADI</span></a></li>
+    <li><a href="https://livehelp.solidstatelogic.com/Help/SetupClockingExD.html"><span class="hyperlink">D: Connecting stageboxes to a Live console over Blacklight II</span></a></li>
+    <li><a href="https://livehelp.solidstatelogic.com/Help/SetupClockingExE.html"><span class="hyperlink">E: Connecting stageboxes to two Live consoles over Blacklight II</span></a></li>
+    <li><a href="https://livehelp.solidstatelogic.com/Help/SetupClockingExF.html"><span class="hyperlink">F: Connecting stageboxes to three Live consoles</span></a></li>
+    <li><a href="https://livehelp.solidstatelogic.com/Help/SetupClockingExG.html"><span class="hyperlink">G: Daisy-chained stageboxes for 48 kHz operation</span></a></li>
+</ul>
+
+
+<h2 id="Source">Clock Source</h2>
+
+
+
+<p>
+    The console may be clocked internally, or externally via video, AES, wordclock, MADI, Blacklight II (in a dual SSL console system) or Dante. 
+    This is chosen in <span class="label">Menu</span> > <span class="label">Setup</span> > <span class="label">Options</span> > <span class="label">SYSTEM</span> tab.
+</p>
+
+<p>
+    <b>Main</b> and <b>Backup</b> clock sources can be configured. If the Main clock source is lost, the console will automatically switch to the Backup clock source. If the Backup source is lost, the console will revert to its internal clock.
+</p>
+
+<p>
+    Use the arrow buttons to open the <b>Main</b> or <b>Backup</b> selection menus. Select the required clock source then press & hold the <span class="label">APPLY</span> button. 
+    Ensure that the <span style="font-weight: bold;">Current</span> source matches the expected clock source.
+</p>
+
+
+<img style="display: block; margin: 15px auto;" src="https://livehelp.solidstatelogic.com/Help/images/g_OptionsSystemClock.png" alt="">
+
+<p>
+    If the requested clock source is lost, ensure the clock source is restored then use the <span class="label">Reclock</span> button to attempt reclocking to the Main/Backup source.
+</p>
+
+<p>The status bar at the top of the main screen will show a clock source change message to warn the operator. A status bar icon also indicates if the clock has deviated from the defined <b>Main</b> clock source:</p>
+
+<table border="0" cellpadding="0" cellspacing="10">
+    <tbody>
+        <tr>
+            <td style="vertical-align: middle; width: 20px;"><img style="margin: 0px 10px 0px 0px;" src="https://livehelp.solidstatelogic.com/Help/images/g_ClockIconOrange.png" alt=""></td>
+            <td style="vertical-align: top;">
+                <span style="font-weight:bold;">Orange</span>: <b>Main</b> clock source lost. Running on <b>Backup</b> clock source.
+            </td>
+        </tr>
+        <tr>
+            <td style="vertical-align: middle; width: 20px;"><img style="margin: 0px 10px 10px 0px;" src="https://livehelp.solidstatelogic.com/Help/images/g_ClockIconRed.png" alt=""></td>
+            <td style="vertical-align: top;">
+                <span style="font-weight:bold;">Red</span>: <b>Main</b> and <b>Backup</b> clock sources lost. Running on internal clock.
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+
+<div id="accordion">
+    <div class="indexheader2 accordion-section-title">Clocking from a Blacklight II Concentrator</div>
+    <div id="Blacklight" style="padding: 1em 0;" class="accordion-section-content">
+        <p>
+            Two consoles may be connected to a Blacklight II Concentrator for sharing a set of stageboxes. 
+            The 'Master' console (designated as such by connecting to the Blacklight Concentrator's <span style="font-weight: bold;">A</span> ports) will distribute its clock to the Blacklight system 
+            and any stageboxes and consoles connected to it. The 'Slave' console (designated by connecting to the Blacklight Concentrator's <span style="font-weight: bold;">B</span> ports) 
+            should therefore set its clock source to the corresponding <span class="label">BLII</span> port on the rear of the console.
+        </p>
+
+        <p>
+            The Master console should distribute either its internal clock over Blacklight, or one of the external clock source options listed above, 
+            <span style="font-weight: bold;">with the exception of any Blacklight port of which it is the Master</span>. 
+            Selecting the <span class="label">BLII</span> clock source button will reveal a subset of buttons. 
+            The Slave console should use the <span class="label">Blacklight&nbsp;II</span> option. 
+            However, the Master console <span style="font-weight: bold;">may</span> use one of the <span class="label">MADI</span> options if an external MADI source is connected 
+            to the corresponding MADI input on the Blacklight Concentrator. For example, this could be a MADI feed from a third party device providing clock, 
+            or an SSL stagebox fed with a wordclock signal and set to clock from its external wordclock input. (Note that wordclock cannot be connected directly to a BLII Concentrator's MADI ports.)
+        </p>
+    </div>
+    <div class="indexheader2 accordion-section-title">Clocking from the local Dante Expander port</div>
+    <div id="Dante" style="padding: 1em 0;" class="accordion-section-content">
+        <p>
+            Dante uses its own <span style="font-weight:bold;">Clock Election</span> process to determine the most appropriate Leader Clock for the Dante network and a Leader Clock will be chosen automatically.
+            For more information on the Dante Clock Election process please see the Audinate website: <a class="external-link" tabindex="-1" href="https://dev.audinate.com/GA/dante-controller/userguide/webhelp/#clock_synchronization.htm" target="_blank"><span class="hyperlink">dev.audinate.com/GA/dante-controller/userguide/webhelp/#clock_synchronization.htm</span></a>.
+        </p>
+
+        <p>
+            To choose a Leader Clock manually, set this device to be the <span style="font-weight:bold;">Preferred Leader</span>.
+            To do this, open <span style="font-weight:bold;">Dante Controller</span> and click on the <span class="label">Clock&nbsp;Status</span> tab.
+            Check the <span style="font-weight:bold;">Preferred Leader</span> checkbox for your chosen Leader Clock.
+        <p>
+
+        <p>If multiple devices on the network are <span style="font-weight:bold;">Preferred&nbsp;Leaders</span>, the Dante Clock Election process will automatically choose a Leader Clock from the multiple <span style="font-weight:bold;">Preferred&nbsp;Leaders</span>.</p>
+
+        <p>If the Leader Clock device's status changes, or a more suitable Leader Clock comes online, the Dante network will go through the Clock Election steps again to determine the most suitable Leader Clock for the network.</p>
+
+        <p>If you are not using Dante network redundancy, please use the primary connection (rather than the secondary) to ensure accurate synchronisation.</p>
+
+        <span class="note"><span class="notetitle">SSL Recommends: </span>SSL recommends that the console is set to clock from the Dante network (slave mode) to benefit from the Dante clock election process.</span>
+
+
+        <br>
+
+
+        <span style="font-weight:bold;">Setting up the Console as a Slave of the Dante Network</span>
+
+        <p>In this configuration, a Dante device other than the console is the Leader Clock. The console and all other devices on the network will clock to this Leader.</p>
+
+        <p>
+            In <span style="font-weight:bold;">Dante Controller</span>, go to the <span class="label">Clock&nbsp;Status</span> tab.
+            Check the <span style="font-weight:bold;">Preferred Leader</span> checkbox for the Leader Clock device(s) if you wish to set one.
+            Dante has its own clock election process, so it is not necessary to set a <span style="font-weight:bold;">Preferred Leader</span>.
+            For this example, ensure that <span style="font-weight:bold;">Preferred Leader</span> and <span style="font-weight:bold;">Sync to External</span> are unchecked for all other devices on the network 
+            (including the console's Dante Expander and BLII/X-Light Bridge as applicable).
+
+        <p>
+            On the console, go to <span class="label">MENU</span> > <span class="label">Setup</span> > <span class="label">Options</span> > <span class="label">SYSTEM</span> tab.
+            In the <span style="font-weight:bold;">SYSTEM&nbsp;CLOCK</span> section, select <span class="label">Dante&nbsp;Expander</span> as the <b>Main</b> clock source and press &amp; hold <span class="label">APPLY</span>.
+            Ensure that the <span style="font-weight:bold;">Current</span> clock source field displays <span style="font-weight:bold;">Dante&nbsp;Expander</span>.
+        </p>
+
+        <img style="display: block; margin: 15px auto;" src="https://livehelp.solidstatelogic.com/Help/images/g_ClockingDante.png" alt="">
+
+        <p>
+            The chosen <span style="font-weight:bold;">Preferred Leader</span> (if set) is now the Leader Clock of the network, including the console.
+            The console is now clocking from its Dante Expander module. The Dante Expander module is clocking from the <span style="font-weight:bold;">Preferred Leader</span> on the Dante network.
+            All other devices on the network are clocking from the <span style="font-weight:bold;">Preferred Leader</span> on the Dante network.
+        </p>
+
+        <span class="note">
+            <span class="notetitle">Notes:</span><br>If selecting Dante as a clock source on the console,
+            the console clock backup scheme will not drop back to another clock source if the Dante network clock is lost.
+            The Dante Expander module incorporates an internal clock which will become the Leader Clock of the Dante network as determined by Dante's clock election process
+            until another device on the network is identified as a more suitable Leader Clock.
+        </span>
+
+        <span class="note">
+            <span class="notetitle">Important:</span><br>It is not recommended to clock the console from Dante if the Dante <span class="label">SRC&nbsp;In</span> is engaged.<br>
+            Consoles clocked from stageboxes via MADI or Wordclock are not recommended to be used as Dante network Leader Clock sources.
+        </span>
+
+        <br>
+        <span style="font-weight:bold;">Setting Up the Console as Leader Clock of the Network</span>
+
+        <p>In this configuration the console is the Leader Clock of the network and all other devices on the network will clock to the console.</p>
+
+        <p>
+            To set this up, on the console, go to <span class="label">MENU</span> > <span class="label">Setup</span> > <span class="label">Options</span> > <span class="label">SYSTEM</span> tab.
+            In the <span style="font-weight:bold;">SYSTEM CLOCK</span> section select <span class="label">Int</span> (the console's internal clock) as the <b>Main</b> clock source and press &amp; hold <span class="label">APPLY</span>.
+            Ensure that the <span style="font-weight:bold;">Current</span> clock source field displays <span style="font-weight:bold;">Int</span>.
+        </p>
+
+        <img style="display: block; margin: 15px auto;" src="https://livehelp.solidstatelogic.com/Help/images/g_OptionsSystemClock.png" alt="">
+
+        <p>
+            In <span style="font-weight:bold;">Dante Controller</span> go to the <span class="label">Clock&nbsp;Status</span> tab.
+            Check the <span style="font-weight:bold;">Preferred Leader</span> and <span style="font-weight:bold;">Enable Sync To External</span> checkboxes for the console's Dante Expander.
+        </p>
+
+        <p>Ensure that <span style="font-weight:bold;">Preferred Leader</span> and <span style="font-weight:bold;">Sync to External</span> are unchecked for all other devices on the network.</p>
+
+        <p>The console's internal clock is now the Leader Clock of the Dante network. The console's Dante Expander module is clocking from the console's internal clock, and all other devices on the network are following the clock from the Dante Expander.</p>
+
+        <span class="note">
+            <span class="notetitle">Important:</span><br>Due to Dante's clock election process, any device subsequently connecting to the network which is also set to Preferred Leader and has a lower MAC address than the console will be elevated to network Leader Clock.
+            In this scenario the console and Dante network clocks will no longer be in sync and could cause loss of audio. SSL therefore recommends that this configuration is <span style="font-weight:bold;">not</span> used as it does not offer network clock redundancy.
+        </span>
+    </div>
+    <div class="indexheader2 accordion-section-title">Clocking over a BLII or X-Light Bridge</div>
+    <div id="DanteBridge" style="padding: 1em 0;" class="accordion-section-content">
+        <span class="note">
+            <span class="notetitle">Important:</span> As detailed in the previous section, SSL recommends that the console is set to clock from the Dante network (slave mode) to benefit from the Dante clock election process.
+            This should be done using the <b>local Dante Expander</b> port as described above, even if using a BLII/X-Light Bridge.
+            Provided both the console and BLII/X-Light Bridge remain clocked to the Dante network they will remain synchronous.
+        </span>
+
+        <h3>Setting up the Console as a Slave of the Dante Network</h3>
+
+        <p>For the most reliable clocking scheme, SSL recommends that the console is set to be a slave of the Dante network when using a BLII or X-Light Bridge.</p>
+
+        <p>
+            In this configuration, both the BLII/X-Light Bridge and console (via the local Dante Expander) are set to clock from the Dante Network.
+            Refer to the previous section to configure the console to clock from its local <b>Dante Expander</b>.
+        </p>
+
+        <img style="display: block; margin: 15px auto;" src="https://livehelp.solidstatelogic.com/Help/images/g_ClockingDante.png" alt="">
+
+        <p>
+            The BLII/X-Light Bridge must also be configured so that it clocks from the Dante network.
+            Ensure that its <span class="label">Preferred&nbsp;Leader</span> and <span class="label">Enable&nbsp;Sync&nbsp;To&nbsp;External</span>
+            checkboxes in <span style="font-weight:bold;">Dante&nbsp;Controller</span>'s <span class="label">Clock&nbsp;Status</span> tab are <b>not checked</b>.
+        </p>
+
+        <p>This ensures that the BLII/X-Light Bridge is not being clocked from the console and that it is set to receive clock from the Dante network.</p>
+
+        <p>If configured correctly the following LEDs will be seen on the BLII/X-Light Bridge:</p>
+
+        <div>
+            <table class="insideborder" style="width: auto; margin: 15px 0px;" cellpadding="4" cellspacing="1">
+                <tbody>
+                    <tr>
+                        <th class="solidborder">BLII Bridge LED</th>
+                        <th class="solidborder">X-Light Bridge LED</th>
+                        <th class="solidborder">LED Meaning</th>
+                        <th class="solidborder">If configured correctly will light</th>
+                    </tr>
+                    <tr>
+                        <th class="solidborder">BL S</th>
+                        <th class="solidborder">XL S</th>
+                        <td class="solidborder">Receiving sync (clock) from console via BLII/X-Light connection</td>
+                        <td class="solidborder">Off</td>
+                    </tr>
+                    <tr>
+                        <th colspan="2" class="solidborder">SRC</th>
+                        <td class="solidborder">Not currently used</td>
+                        <td class="solidborder">Off</td>
+                    </tr>
+                    <tr>
+                        <th colspan="2" class="solidborder">NET S</th>
+                        <td class="solidborder">Receiving sync (clock) from network</td>
+                        <td class="solidborder">Solid Green</td>
+                    </tr>
+                    <tr>
+                        <th class="solidborder">GM</th>
+                        <th class="solidborder">N/A</th>
+                        <td class="solidborder">Device elected as network Grand Master (Leader Clock)</td>
+                        <td class="solidborder">Off</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <p>(The <span style="font-weight:bold;">GM</span> LED is located to the right of the Dante ports on the front of the BLII Bridge.)</p>
+
+        <p><span style="font-weight:bold;">If no Sync LEDs lit</span></p>
+
+        <p>
+            If the system has been configured correctly as above but both the <span style="font-weight:bold;">BL S</span>/<span style="font-weight:bold;">XL S</span> and <span style="font-weight:bold;">NET S</span> sync LEDs are off then the
+            BLII/X-Light Bridge has likely been elected Leader clock of the network (i.e. no other Preferred Leaders were found on the network). This is a valid clocking scheme.
+            The BLII/X-Light Bridge will clock the network from its internal clock and in turn the console will clock from the network. The BLII Bridge's <span style="font-weight:bold;">GM</span> LED will light in this scenario.
+            The Clock Status page in Dante Controller will indicate the currently elected Leader clock.
+        </p>
+
+        <p>If the LED states differ from the above please consult the full tables in <a href="https://livehelp.solidstatelogic.com/Help/DanteBridges.html"><span class="hyperlink">Working with a Dante Bridge</span></a>.</p>
+    </div>
+</div>
+
+
+
+
+<h2 id="SampleRate">Setting the Sample Rate</h2>
+
+<p>
+    The Live system can run at 96 kHz (recommended) or 48 kHz sample rates. Use the <span class="label">96&nbsp;kHz</span> and <span class="label">48&nbsp;kHz</span> buttons in the System page
+    (<span class="label">MENU</span> > <span class="label">Setup</span> > <span class="label">System&nbsp;/&nbsp;Power</span> > <span class="label">System</span> tab) to change the console's sample rate. The stageboxes must also be changed to match the console's sample rate; see below.
+</p>
+
+<p>Aside from the FX Loop and optional Dante module interfaces, decreasing the sample rate to 48 kHz does not increase the total input/output count; each MADI port carries 64 channels at 48 kHz but odd-even MADI port pairs are always redundant (even-numbered ports on twin card Blacklight Concentrator are disabled).</p>
+
+<p><span class="note"><span class="notetitle">Important:</span> Changing the console's sample rate will interrupt audio and cause routes to be dropped as stagebox configurations will need to be changed. Muting all outputs to switch sample rate and for a further 30 seconds is recommended.</span></p>
+
+<p><span class="note"><span class="notetitle">Important:</span> The console <span style="font-weight:bold;">must be rebooted</span> following a change in Sample Rate.</span></p>
+
+<h2 id="MADIStageboxes">MADI Stageboxes</h2>
+
+<p>By default stageboxes are set to clock from the incoming MADI stream. <span style="font-weight: bold;">This is the recommended setting</span>. Other stagebox clock sync options are internal or external wordclock.</p>
+
+<p>The clock source and sample rate can be set from the physical setup controls on the rear of each stagebox. The current clock source is displayed to the right of the <span style="font-weight: bold;">SETUP</span> area: if neither clock LED is lit, the stagebox is running on its own internal clock.</p>
+
+<p><span class="note"><span class="notetitle">Note:</span> The wordclock output transmits the clock signal currently in use by the stagebox (i.e. it is not a loop through), depending on the stagebox's clock source setting).</span></p>
+
+<p>To change the clock source, press & hold <span class="label">REMOTE</span> and <span class="label">CLOCK</span> simultaneously until the padlock flashes green. Press <span class="label">CLOCK</span> until <span style="font-weight: bold;">MADI</span> is lit. The colour shows the following:</p>
+
+<p><img style="margin: -16px 0px 5px 15px; float: right;" src="https://livehelp.solidstatelogic.com/Help/images/SetupClocking/image002.png" alt=""></p>
+
+<ul class="tab">
+    <li>Red: no MADI from master console detected.</li>
+    <li>Red/green flashing: a single master MADI port is locked (non-redundant cabling).</li>
+    <li>Green: both master MADI ports 1 & 2 are locked (redundant cabling).</li>
+</ul>
+
+<p>To change the sample rate of the stagebox, unlock the controls as described above then use the <span class="label">RATE</span> button to cycle through the available options.</p>
+
+<p><span class="note"><span class="notetitle">Note:</span> Only <span style="font-weight: bold;">48 x1</span> and <span style="font-weight: bold;">48 x2</span> (96 kHz) clock rates are currently supported.</span></p>
+
+<p>Stageboxes running at 48 kHz sample rate can be daisy-chained on a single MADI stream, allowing all 64 channels of the MADI protocol to be utilised. With the controls unlocked, use the <span class="label">ID</span> button to toggle between channels <span style="font-weight: bold;">1-32</span> and <span style="font-weight: bold;">33-64</span>.</p>
+
+<ul>
+    <li>Connect the MADI <span style="font-weight: bold;">Out</span> from the console or Blacklight Concentrator to the MADI <span style="font-weight: bold;">In</span> of the first stagebox (ID <span style="font-weight: bold;">1-32</span>).</li>
+    <li>Connect the MADI <span style="font-weight: bold;">Out</span> from the first stagebox to the MADI <span style="font-weight: bold;">In</span> of the second stagebox (ID <span style="font-weight: bold;">33-64</span>).</li>
+    <li>Connect the MADI <span style="font-weight: bold;">Out</span> from the second stagebox to the MADI <span style="font-weight: bold;">In</span> of the console or Blacklight Concentrator.</li>
+    <li>Repeat the above steps for the second set of MADI ports if connecting redundantly.</li>
+</ul>
+
+<p>Refer to the System Examples section below for further information.</p>
+
+<p><span class="note"><span class="notetitle">Note:</span> If running at 96 kHz sample rate (<span style="font-weight: bold;">48 x2</span>), the ID field must be set to <span style="font-weight: bold;">1-32</span>.</span></p>
+
+<p>The controls will return to their locked state after a few seconds.</p>
+
+<h2>AES/EBU</h2>
+
+<p>All AES/EBU ports have sample rate converters (SRCs) available. These are enabled by default via the console's I/O menu (<span class="label">MENU</span> > <span class="label">Setup</span> > <span class="label">I/O</span>).</p>
+
+<p>Select the local I/O or D32.32 stagebox in the I/O page and select the specific AES/EBU input or output you wish to sample rate convert from the lower section of the screen.</p>
+
+<p>For inputs, you will be presented with a <span class="label">SRC&nbsp;In</span> button for the selected port. The console supports the input rates listed in the input Fs column in the table below and will convert the incoming audio to 96 kHz (or 48 kHz).</p>
+
+<p><img style="display: block; margin: 29px auto; width: 550px" src="https://livehelp.solidstatelogic.com/Help/images/SetupClocking/image003.png" alt=""></p>
+
+<p>The table below shows sample rates available for AES/EBU outputs. There are additional controls for AES outputs, as shown above.</p>
+
+<script type="text/javascript" src="https://livehelp.solidstatelogic.com/Help/snippets/SupportedFsTable.js"></script>
+
+<!-- Start of SupportedFsTableNotes Snippet -->
+<!-- Also used in LocalMADIConfig.html -->
+<span class="note"><span class="notetitle">Note:</span> The multiplier controls (<span class="label">x1</span>, <span class="label">x2</span> and <span class="label">x4</span>) are relative to a base sample rate of 44.1 or 48k, not the operating rate of the console (48 or 96k).</span>
+
+<p>Engaging <span class="label">SRC&nbsp;In</span> and setting the output clock to <span class="label">In</span> will clock the AES output from the corresponding AES input, at 1, 2, or 4 times the base rate (44.1 or 48k).</p>
+
+<p>Setting the output clock to <span class="label">Int</span> will use the console as the clock source. This can also be set to <span class="label">x1</span>, <span class="label">x2</span>, or <span class="label">x4</span> of this base sample rate (48k).</p>
+<!-- End of SupportedFsTableNotes Snippet -->
+
+<p>
+    <span class="note">
+        <span class="notetitle">Tip: </span>Setting the output SRC to <span class="label">In</span> will set this AES port's output to clock from the corresponding input rather than the console clock. This is useful if the external device has issues clocking to an external clock. This setting will allow the external device to use its internal clock, with the Live console's AES SRC locked to the external device, allowing the device to clock itself thus avoiding clocking errors.<br>
+        For example, if using a 96 kHz reverb, set it to internal clock and set the console's SRC settings to <b>SRC In</b> for both input and output AES/EBU ports. For the output port, select <span class="label">In</span> and x2 (for 96k).
+    </span>
+</p>
+
+
+<h2>Useful Links</h2>
+<a href="https://livehelp.solidstatelogic.com/Help/LocalMADIConfig.html"><span class="hyperlink">Local/MADI I/O Configuration</span></a><br>
+<a href="https://livehelp.solidstatelogic.com/Help/DanteSetup.html"><span class="hyperlink">Setting Up Dante</span></a><br>
+<a href="https://livehelp.solidstatelogic.com/Help/InstallGuide.html"><span class="hyperlink">Installation Guide</span></a><br>
+<a href="https://livehelp.solidstatelogic.com/Help/LinkIndex.html"><span class="hyperlink">Index and Glossary</span></a><br>
+</body>
+</html>

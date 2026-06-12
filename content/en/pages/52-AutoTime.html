@@ -1,0 +1,141 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Automation: Scene Time Functions</title>
+  <style>
+    body { font: 16px/1.55 Arial, sans-serif; max-width: 1080px; margin: 2rem auto; padding: 0 1.25rem; color: #202124; }
+    img { max-width: 100%; height: auto; }
+    table { border-collapse: collapse; max-width: 100%; }
+    th, td { border: 1px solid #aaa; padding: .45rem; vertical-align: top; }
+    .note { display: block; border-left: 4px solid #e0a000; background: #fff8df; padding: .75rem 1rem; margin: 1rem 0; }
+    .notetitle { font-weight: bold; }
+    .label { font-weight: bold; color: #174ea6; }
+    .source { color: #666; font-size: .9rem; }
+  </style>
+</head>
+<body>
+  <p class="source">Section: Mixing | Source: <a href="https://livehelp.solidstatelogic.com/Help/AutoTime.html">https://livehelp.solidstatelogic.com/Help/AutoTime.html</a></p>
+<h2>Scene Time Functions</h2>
+<p>In addition to triggering Scenes manually from the Master Tile or Main Screen (as described in the <span class="hyperlink">Automation Overview</span>), they can also be triggered using time functions.</p>
+<p>Scenes can be triggered automatically when the console's timecode reaches a specific value.</p>
+<p>To set a trigger time for a Scene:</p>
+<p>Touch the timecode display in the <span style="font-weight: bold;">Trigger Time</span> column for the required Scene. The Trigger Time configuration page will open in the bottom half of the screen.</p>
+<span class="note"><span class="notetitle">Note:</span> To navigate from a different Configuration page, touch the <span style="font-weight: bold;">Trigger Time</span> button in the left of the screen.</span>
+<p>Insert the required timecode into the Time clock readout by touching each field's up and down arrows to increment and decrement them.</p>
+<p>You can also clear the time to 0 by touching <span class="label">Clear&nbsp;Time</span>, or insert the current timecode value by touching <span class="label">Capture</span>.</p>
+<p>Now touch <span class="label">Apply</span>, and the timecode value will appear in the Scene's <span style="font-weight: bold;">Trigger Time</span> column.</p>
+<p>Finally, the Trigger Time needs to be Armed by touching <span class="label">Arm</span>. A green 'light' in the top left corner of the Scene's Trigger Time entry indicates that it is active.</p>
+<p>If the <span class="label">One&nbsp;Shot</span> button is activated, the Scene will be triggered next time its timecode is reached, but will then disarm to prevent further timecode triggering.</p>
+<p>The <span style="font-weight: bold;">Trigger&nbsp;Time</span> function column can be globally disabled by touching the column title &#8211; it will go red and the column contents will become greyed out, indicating that the column is inactive. All Scenes with Trigger Times will now not be triggered when their timecode is reached.</p>
+
+<h2 id="FadeTime">Fade Time</h2>
+<p>The <span style="font-weight: bold;">Fade&nbsp;Time</span> field in the scene list displays how long the complete fade into the Scene will take. Because fades are defined for each element, this number is not editable.</p>
+
+<p>To change the fade time for the elements of the Scene:</p>
+
+<p>Select the Scene and touch the <span class="label">Fade&nbsp;Timers</span> button at the top of the automation page. A fade timers grid will appear, with path types listed as rows in the grid and individual path elements listed as columns, similar to the below:</p>
+
+<img style="display: block; margin: 20px auto;" src="https://livehelp.solidstatelogic.com/Help/images/g_autoFadeTimes.png" alt="">
+
+<p>Select <span class="label">Default</span> or <span class="label">Scene&nbsp;Mode</span> at the top of the screen to edit the default fade times for new scenes or fade times for the currently selected scene respectively.</p>
+<span class="note"><span class="notetitle">Note:</span> <span style="font-weight: bold;">Default</span> Fade Times are only applied to new Scenes; they do not affect fade timers for existing Scenes, including the currently selected one.</span>
+<p>Enable the <span class="label">Edit</span> button on the right of the screen.</p>
+<p>If in <span style="font-weight: bold;">Scene&nbsp;Mode</span>, changes can be made to the Selected scene only, all scenes within the same Group (see <a href="https://livehelp.solidstatelogic.com/Help/AutoGrouping.html"><span class="hyperlink">Scene Groups</span></a>) or all scenes by changing the edit range mode; Press & hold the button located just above the <span class="label">Edit</span> button and choose <span class="label">Edit&nbsp;Single</span> (default), <span class="label">Edit&nbsp;Group</span> or <span class="label">Edit&nbsp;All</span>. Subsequent Fade Time changes will now be applied to the defined range of scenes.</p>
+<p>To see individual paths, select the path type row (e.g. Input Channel) and use the <span class="label">Show&nbsp;Details</span> button at the top of the screen to open a detailed list of paths.</p>
+
+<p>Double-tap a time field to open up a display of that element's timings; there are three times:</p>
+
+<img style="display: block; margin: 20px auto;" src="https://livehelp.solidstatelogic.com/Help/images/g_FadeTimePopup.png" alt="">
+
+<p><span style="font-weight: bold;">Start time:</span> The delay between the scene fire and the start of the fade.</p>
+<p><span style="font-weight: bold;">Duration:</span> The length of time the fade then takes.</p>
+<p><span style="font-weight: bold;">Switch At:</span> The delay between the scene fire and when the switches change their status.</p>
+
+<p>Tap on the <span class="label">?</span> button in the top right of the screen to view these definitions on the console.</p>
+
+<p>Use the <span class="label">-</span> and <span class="label">+</span> buttons to change the times in 0.5 second steps, or double-tap a value to type in a value directly. Press <span class="label">OK</span> to confirm the times entered. Tap outside of the popup to cancel changes.</p>
+
+<p>The Scene's Fade Time displayed in the scene list will be the longest element fade (which is defined as the longest <span style="font-weight: bold;">Start time</span> + <span style="font-weight: bold;">Duration</span> combined, or <span style="font-weight: bold;">Switch At</span> time).</p>
+
+<p>Press the <span class="label">Scene&nbsp;View</span> button at the top of the screen to return to the scene list.</p>
+
+<p>When the Scene is fired, a progress bar below its <span style="font-weight: bold;">Fade Time</span> display in the List indicates the proportion of the Fade time that has passed.</p>
+
+<h3>Multiple Fade Time Edit</h3>
+
+<p>The ability to change multiple fade times (or other continuous functions) with a single numerical entry in the <span class="label">Scene Automation</span>, <span class="label">Fade Timers</span> menu. Allowing the user to efficiently set the fade time for subset of total channel paths (e.g. channel 1 to 32 of 64 channels). Or provide a way to set the fade time of all parameters in a channel, or all parameters in all channels, or a set of parameters in all path types.</p>
+
+<p><strong>Multi Cell Edit Mode</strong>. Within the <strong>Fade Time</strong> UI (User Interface), the sidebar includes a <strong>Grid Cell Edit</strong> section. A <strong>Multi Cell Edit</strong> button sets both the upper 'path type grid' and the lower show details grid (when displayed) into a multi select mode, where a set of parameters across multiple paths of all types can be preselected to apply common absolute changes. The changes are applied to all cells in both grids added to the 'selected edit set.' The selected edit set is a temporary multi selection that is lost when the user turns <strong>Multi Cell Edit</strong> mode off. Within the grid, each square that is part of the currently selected edit set indicates to it is selected for editing with a cyan triangle in the top right corner. <strong>Multi Cell Edit</strong> set can be combined with <strong>Multi Scene Edit</strong> range mode to set multiple time values in a single, group or all existing scenes in <strong>Scene Mode</strong>. Or be used in <strong>Default</strong> mode to ensure time values are used for any new scene created.</p>
+
+<img style="display: block; margin: 20px auto;" src="https://livehelp.solidstatelogic.com/Help/images/u_Multi_Fade_Time_Edit.png" alt="">
+
+<p><strong>Selecting Cells to be Part of the Edit Set.</strong> When in <strong>Multi Cell Edit</strong> mode cells in both grids can be individually selected with a single tap. A cell that is currently in the selected edit set can be removed from the set with a single tap. Cells in upper 'path type' section will select all paths of that type. If the section is made from the path type section of the UI, the cells in the associated <strong>Detail View</strong> grid (when opened) will also indicate they are included in the currently selected set with a cyan triangle. Cells in the <strong>Show Details </strong>grid will only select that specific function in that specific path to be part of the set. If a user manually selected ALL the parameters of all the paths of a certain type, the corresponding box in the top path type section would show as part of the selected set.</p>
+
+<p><strong>Row/Column Edit Functions</strong>      
+
+To allow very quick selection of all parameters for individual paths, or all parameters on all paths of a certain type, every row in both grids includes a 'row <strong>Edit</strong>' column on the right-hand side. This column is only visible when <strong>Multi Cell Edit</strong> mode is enabled. In addition, both grids include a 'column <strong>Edit</strong>' row at the top of the grid, again this is only visible when in <strong>Multi Cell Edit</strong> mode. This column edit option is there to provide a method for putting all parameters of the same type across all paths into the selected edit set.</p>  
+
+<p>The <strong>Set All</strong>, <strong>Toggle</strong> and <strong>Clear All</strong> side bar edit function buttons are used to put fader/switch time parameters cells into the selected edit set. In the F<strong>ade Timers</strong> GUI using the row/column edit function keys only changes what cells are to be edited as part of a selected set, they do not actually change any states or values.</p>
+
+<p>The 'row <strong>Edit</strong>' column header can be used to put multiple rows of the grid into edit mode. In addition, the 'column <strong>Edit</strong>' row heading can be used to set all columns into edit.</p>
+
+<p><strong>Changes to Fade Time Values&nbsp;</strong>At any point, any cell in the selected set can be double-tapped to open the pop up for Start Time, Duration and Switch at entry.</p>
+
+<p>With <strong>Multi Cell Edit</strong> disabled, entry in the pop-up operates as:</p>
+
+<ul>
+	<li>Only editing that cell </li>
+    <li>Greying out the inputs that are not valid </li>
+    <li>Showing the current numbers for the single cell.</li>
+		<ul>
+			<li>If no changes are made to all numbers, then no changes are applied when OK is actioned, even if the cell covers multiple paths with different current values.</li>
+			<li>If a change is made to one of the numbers, then all 3 numbers are applied to the cell and any multiple paths covered by the cell. This means you cannot change the fade time on all channel's whiles keeping the start time set differently on different channels.</li>
+		</ul>
+	 <li>Title based on the cell being edited.</li>
+</ul>
+
+<p>With <strong>Multi Cell Edit</strong> enabled, the pop-up behaves slightly differently:</p>
+
+<ul>
+	<li>All 3-input options are always available - even if the selected set does not have one option, the option will just not apply to the selected set cells.</li>
+    <li>The title reads Multi Cells Selected for Editing. </li>
+    <li>The "-" symbol is shown for all numbers in the popup signifying that multiple cells are being edited. </li>
+		<ul>
+			<li>If no changes are made to all the numbers no changes are applied when OK is actioned, even if the cell covers multiple paths with different current values.</li>
+			<li>It is possible to edit any parameter and apply only one of the 3 fields, keeping the values of the other two fields intact for the selected set.</li>
+		</ul>
+</ul>
+
+
+<h2>Transition Time</h2>
+<p>You can also define how long a Scene lasts, at the end of which the console will automatically move onto the next Scene in the display (that is not skipped; see below). This is the Transition time.</p>
+<p>To set a Transition time for a Scene:</p>
+<p>Touch the time display in the <span style="font-weight: bold;">Transition</span> column for the required Scene. The Auto Transition time configuration page will open in the bottom half of the screen. </p>
+<span class="note"><span class="notetitle">Note:</span> To navigate from a different Configuration page, touch the <span style="font-weight: bold;">Auto Transition</span> button in the left of the screen.</span>
+
+<p>Insert the required time into the <span style="font-weight: bold;">Auto Transition</span> time readout by touching each field's up and down the arrows to increment or decrement them.</p>
+<p>You can also clear the time to 0 by touching <span class="label">Clear&nbsp;Time</span>.</p>
+<p>Now touch <span class="label">Apply</span>, and the time value will appear in the Scene's <span style="font-weight: bold;">Transition</span> column.</p>
+<p>When that Scene is Active, a progress bar below its <span style="font-weight: bold;">Transition</span> time display in the List indicates the proportion of the Transition time that has passed. When the Transition time is reached, the next Scene in the List will automatically become active.</p>
+<p>The <span style="font-weight: bold;">Transition</span> function column can be disabled by touching the column title &#8211; it will go red and the column contents will become greyed out, indicating that the column is inactive. Scenes with Transition times will now stay active until a different Scene is triggered by another method.</p>
+<h2>Skipping a Scene</h2>
+<p>If you want to prevent a Scene from being triggered as part of a sequence, touch its <span style="font-weight: bold;">Skip</span> button (at the left edge of the Scene List). It will go blue to indicate that the Scene will be skipped each time it is reached. This also 'hides' the scene when navigating through the scene list using the arrow buttons and prevents the scene from being fired by any <a href="https://livehelp.solidstatelogic.com/Help/AutoIOActions.html"><span class="hyperlink">Input Actions</span></a> or Trigger Time (see above).</p>
+<span class="note"><span class="notetitle">Note:</span> You can still trigger the scene manually by touching its GO button.</span>
+<p>The <span style="font-weight: bold;">Skip</span> function column can be disabled by touching the column title &#8211; it will go red and the column contents will become greyed out, indicating that the column is inactive. Scenes with <span style="font-weight: bold;">Skip</span> selected will now be triggered when they are reached.</p>
+<h2>Links to Further Automation Help:</h2>
+
+<ul>
+	<li><a href="https://livehelp.solidstatelogic.com/Help/AutoOverview.html"><span class="hyperlink">Automation Overview</span></a></li>
+	<li><a href="https://livehelp.solidstatelogic.com/Help/AutoNamesNotes.html"><span class="hyperlink">Scene Names and Notes</span></a></li>
+	<li><a href="https://livehelp.solidstatelogic.com/Help/AutoIOActions.html"><span class="hyperlink">Scene Input and Output Actions</span></a></li>
+	<li><a href="https://livehelp.solidstatelogic.com/Help/AutoGrouping.html"><span class="hyperlink">Scene Groups</span></a></li>
+	<li><a href="https://livehelp.solidstatelogic.com/Help/AutoFilters.html"><span class="hyperlink">Function Filters</span></a></li>
+	<li><a href="https://livehelp.solidstatelogic.com/Help/AutoSceneList.html"><span class="hyperlink">Scene List Management</span></a></li>
+	<li><a href="https://livehelp.solidstatelogic.com/Help/AutoPreview.html"><span class="hyperlink">Automation Preview Mode</span></a></li>
+</ul>
+<br>
+<a href="https://livehelp.solidstatelogic.com/Help/LinkIndex.html"><span class="hyperlink">Index and Glossary</span></a><br>
+</body>
+</html>

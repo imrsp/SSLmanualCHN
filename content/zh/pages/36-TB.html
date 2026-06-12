@@ -1,0 +1,197 @@
+﻿<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>对讲</title>
+  <style>
+    body { font: 16px/1.55 Arial, sans-serif; max-width: 1080px; margin: 2rem auto; padding: 0 1.25rem; color: #202124; }
+    img { max-width: 100%; height: auto; }
+    table { border-collapse: collapse; max-width: 100%; }
+    th, td { border: 1px solid #aaa; padding: .45rem; vertical-align: top; }
+    .note { display: block; border-left: 4px solid #e0a000; background: #fff8df; padding: .75rem 1rem; margin: 1rem 0; }
+    .notetitle { font-weight: bold; }
+    .label { font-weight: bold; color: #174ea6; }
+    .source { color: #666; font-size: .9rem; }
+  </style>
+</head>
+<body>
+  <p class="source">章节：混音 | 来源： <a href="https://livehelp.solidstatelogic.com/Help/TB.html">https://livehelp.solidstatelogic.com/Help/TB.html</a></p>
+<h2>对讲</h2>
+
+<p>
+    SSL Live 控制台配有两个对讲通道，每个通道有两个输入和两类输出，因此可运行两套独立的对讲系统。例如，可将对讲通道 1 用于后台提示扬声器，将对讲通道 2 用于向乐手的入耳式监听发送讲话。
+</p>
+
+<p>两个对讲通道均具有完整的通道控制和完整的信号处理功能。</p>
+
+<img style="margin: 8px 20px 0px 7px;" src="https://livehelp.solidstatelogic.com/Help/images/g_TBtile.png" alt="" align="left">
+
+<p>
+    基本的对讲控制位于主控区块右上角的 <span style="font-weight: bold;">对讲</span> 区域（如左图所示）。<br>
+    旋转 <span style="font-weight: bold;">TB1</span> 和 <span style="font-weight: bold;">TB2</span> 编码器可改变对讲通道的推子电平；按下编码器可将相应对讲通道静音。
+</p>
+
+
+
+<p>两类对讲输出概述如下：</p>
+
+
+
+
+<h3>对讲输出</h3>
+
+<img style="display: block; margin: 25px auto;" src="https://livehelp.solidstatelogic.com/Help/images/g_TBdiagDirectOut.png" alt="">
+
+<p>
+    主对讲输出用于馈送可能没有其他音频路由到达的远端扬声器或耳机，例如后台提示扬声器或另一位工程师的耳机。也可将其馈送到控制台的矩阵，以便向矩阵输出注入对讲信号。
+</p>
+
+<p>
+    主对讲输出使用主控区块 <span class="label">OUT&nbsp;1</span> 和 <span class="label">OUT&nbsp;2</span>
+    区域中的按键启用或关闭。 <span style="font-weight: bold;">对讲</span> 这些按钮也可在对讲通道的 <span class="label">Input/Routing</span> 详细视图页面中使用（见下文）。
+</p>
+
+<p>
+    这些 <b>OUT</b> 硬件按键短按时会锁定开启；按住时则暂时启用，松开按键后自动关闭。
+</p>
+
+
+<h3>母线注入</h3>
+
+<img style="display: block; margin: 25px auto;" src="https://livehelp.solidstatelogic.com/Help/images/g_TBdiagAuxSolo.png" alt="">
+
+<p>
+    也可将对讲信号发送到单独的 Aux 母线（见上图）、Stem 和 Master。向母线发送对讲信号时，使用相应母线 <span class="label">TB&nbsp;IN</span> 中的按钮启用， <span style="font-weight: bold;">Fader/TB</span> 可在快速控制或详细视图页面中操作，详见本页后文。
+</p>
+
+
+<h2>启用对讲输入</h2>
+
+<p>每个对讲通道的两个输入均可在该通道的详细信息对话框中接入或断开：</p>
+
+<p>将出现与下图类似的页面（如果显示的是其他对话框页面，请按 <span class="label">Input/Routing</span> 按钮）：</p>
+
+<img style="display: block; margin: 25px auto;" src="https://livehelp.solidstatelogic.com/Help/images/g_detTBinput.png" alt="">
+
+<p>
+    两个输入的控制分别位于对话框两侧。每个输入都具有完整的输入配置控件，与输入通道
+    <span style="font-weight: bold;">Input</span> 详细信息对话框中的控件相同，相关介绍见 <a href="https://livehelp.solidstatelogic.com/Help/DetailView.html"><span class="hyperlink">Detail View</span></a> 章节。
+</p>
+
+<p>
+    此外，每个输入都有一个较大的 <span class="label">Input&nbsp;IN</span> 按钮，用于接入或断开该输入（输入接入时按钮呈蓝色亮起）。借此可让一个或两个 TB 输入馈送至 TB 通道输出。
+</p>
+
+
+<h2>路由对讲输入和输出</h2>
+
+<p>
+    控制台前缓冲区下方的 XLR 输入可用于对讲麦克风；左侧硬接线至本地输入 A15，右侧硬接线至本地输入 A16。在模板演出文件中，这两个输入分别路由至对讲通道 1 和 2 的 Input A。
+</p>
+
+<p>
+    对于 L300、L350、L450、L500、L500 Plus、L550 和 L650 控制台，对讲 XLR 输入还在内部与控制台后面板的 XLR 输入 A15 和 A16 并联硬接线。
+</p>
+
+<span class="note">
+    <span class="notetitle">注意：</span> 如果相应的前缓冲区输入已经接入信号源，应避免再将信号源接入控制台背面的同一 XLR 输入，否则会降低音频性能。
+</span>
+
+<p>
+    路由在对讲通道的详细信息对话框（<span style="font-weight: bold;">Input/Routing</span> 页面）中完成。要更改 Input A 的信号源，请按
+    <span class="label">Route&nbsp;Input&nbsp;A</span> 按钮，然后使用出现的标准路由对话框（详见 <a href="https://livehelp.solidstatelogic.com/Help/Routing.html"><span class="hyperlink">路由章节</span></a> ）。对于 Input B，请使用 <span class="label">Route&nbsp;Input&nbsp;B</span> 按钮。主对讲输出（通过屏幕上的 <span class="label">TALKBACK&nbsp;OUT</span> 按钮或主控区块
+    <span class="label">OUT 1</span>/<span class="label">OUT 2</span> 中的 <span style="font-weight: bold;">对讲</span> 按钮启用）使用 <span class="label">Route&nbsp;Output</span> 按钮进行路由。<br>
+    使用 <span class="label">Output&nbsp;Feed</span> 按钮下方的 <span class="label">Route&nbsp;Output</span> 按钮，选择主输出在信号路径中的取样位置： <span class="label">Post&nbsp;Trim</span>, <span class="label">Pre&nbsp;Fader</span>, <span class="label">Post&nbsp;Fader</span> 或 <span class="label">Post&nbsp;All</span>。这不会影响 TB 通道到 Aux/Stem/Master 的发送，这些发送始终取自 <span style="font-weight: bold;">Post All</span> 处理之后。
+</p>
+
+
+<h2>发送到母线</h2>
+
+<p>默认情况下，两个对讲通道都会路由到所有 Stem、Aux 和 Master 母线，发送增益设为 0 dB。</p>
+
+<p>可使用对讲通道中的标准母线发送控件，通过快速控制、详细信息对话框或控制区块更改这些设置。</p>
+
+<span class="note"><span class="notetitle">注意：</span> 在控制台配置中新增的母线，其来自两个对讲通道的发送会自动切换为 IN，并提升到 0 dB。</span>
+
+<p>随后可在各母线路径内启用对单独母线的对讲（也可通过对讲组启用；见 <a href="https://livehelp.solidstatelogic.com/Help/TB.html#Groups"><span class="hyperlink">下文</span></a>）。</p>
+
+<p>要访问这些控件，请选择所需的 Aux/Stem/Master 路径，然后按通道视图中的 <span style="font-weight: bold;">Fader/TB</span> 分配按钮。</p>
+
+<p>
+    现在可按通道视图区屏幕推子左侧的 <span class="label">TB</span> 按钮，或详细信息对话框 <span class="label">TB&nbsp;to&nbsp;Bus</span> 中的 <span style="font-weight: bold;">Fader/TB</span> 按钮，以启用或停用对讲注入。
+</p>
+
+<p>
+    <span style="font-weight: bold;">TB&nbsp;to&nbsp;Bus</span> 也可从快速控制的 Fader 部分启用。按 Aux/Stem/Master 推子区块的快速控制编码器（或双击屏幕编码器），可在母线主推子控件和对讲控件之间切换快速控制页面。
+</p>
+
+<img style="display:block; margin: 10px auto;" src="https://livehelp.solidstatelogic.com/Help/images/g_ChanViewAuxFaderTB.png" alt="">
+
+<p>
+    另有 <span style="font-weight: bold;">TB&nbsp;Dim</span> 控件，可在 <span style="font-weight: bold;">TB&nbsp;to&nbsp;Bus</span> 启用时衰减主母线信号。每条母线都有各自的 TB Dim 电平，因此可根据艺人的偏好调整每个混音。
+</p>
+
+<img style="display:block; margin: 10px auto; width: 750px;" src="https://livehelp.solidstatelogic.com/Help/images/g_detAuxFADERTB.png" alt="">
+
+<p>对讲可同时注入多条母线；只需为所需的 Aux/Stem/Master 启用 <span style="font-weight: bold;">TB&nbsp;to&nbsp;Bus</span> 。</p>
+
+<p>
+    单独的 <span style="font-weight: bold;">TB&nbsp;to&nbsp;Bus</span> 功能也可分配给用户按键，以便快速访问。更多信息请参阅 <a href="https://livehelp.solidstatelogic.com/Help/OptionsUserKeys.html"><span class="hyperlink">用户按键</span></a> 选项页面。
+</p>
+
+<p>
+    <span style="font-weight: bold;">TB&nbsp;to&nbsp;Bus</span> 功能分配到硬件按键后，短按会锁定开启；按住则暂时启用，松开按键后自动关闭。
+</p>
+
+<span class="note">
+    <span class="notetitle">注意：</span> 这些 <span style="font-weight: bold;">TB&nbsp;to&nbsp;Bus</span> 的启用状态是临时状态，不会存储到演出文件或场景中。这样可避免对讲麦克风意外保持开启并发送到母线。 <span style="font-weight: bold;">TB&nbsp;Dim</span> 电平会存储在演出文件中。
+</span>
+
+
+<h2 id="Groups">对讲组</h2>
+
+<p>系统提供十个对讲组，每个组可分配任意数量的母线，因此只需一个按钮或用户按键，即可将对讲注入多个 Aux/Stem/Master。</p>
+
+<p>
+    同一条母线可分配给多个对讲组。例如，歌手的 Aux 混音可同时包含在“Band”和“Backing Vocals”两个 TB 组中。任一已分配的对讲组开启时，该母线的对讲即会开启；所有已分配的对讲组均关闭后，对讲才会关闭。单独的 <span style="font-weight: bold;">TB&nbsp;to&nbsp;Bus</span> 功能在分配到对讲组后仍可用于切换单独的 TB 到母线发送。
+</p>
+
+<p>
+    要将母线分配给对讲组，请进入 Aux/Stem/Master 的 <span style="font-weight: bold;">Fader/TB</span> 详细视图页面，并在 <span style="font-weight: bold;">TB&nbsp;Groups</span> 部分启用十个按钮中的一个或多个。另请参阅下文所述的对讲组页面。
+</p>
+
+<p>配置完成后，可将 TB 组分配给用户按键以便快速访问。更多信息请参阅 <a href="https://livehelp.solidstatelogic.com/Help/OptionsUserKeys.html"><span class="hyperlink">用户按键</span></a> 选项页面。</p>
+
+<p>
+    <span style="font-weight: bold;">TB&nbsp;Group</span> 功能分配到硬件按键后，短按会锁定开启；按住则暂时启用，松开按键后自动关闭。
+</p>
+
+
+<h3>对讲组页面</h3>
+
+<p>
+    这些 <span style="font-weight: bold;">Talkback&nbsp;Groups</span> 页面可用于查看、命名、分配和启用对讲组。访问路径为 <span class="label">MENU</span> > <span class="label">Tools</span> > <span class="label">Talkback&nbsp;Groups</span>.
+</p>
+
+<img style="display:block; margin: 10px auto; width: 750px;" src="https://livehelp.solidstatelogic.com/Help/images/g_TBGroupPage.png" alt="">
+
+<p>
+    页面上半部分包含对讲组控件。按住 <span class="label">TB&nbsp;Group&nbsp;Assign</span> 按钮进入分配模式。使用推子区块上的 Select 按键，将 Aux/Stem/Master 分配给所选对讲组。按所需范围的第一个和最后一个 Select 按键，可选择一段连续母线。再次按 <span class="label">TB&nbsp;Group&nbsp;Assign</span> 按钮退出分配模式。
+</p>
+
+<p>双击名称字段（默认为“Group N”），输入用户自定义的对讲组名称。将 TB 组分配给用户按键时会使用此名称。</p>
+
+<p>名称字段下方列出分配给各 TB 组的所有母线。如果单个组分配了大量母线，可滑动此列表进行滚动。</p>
+
+<p>另有 <span class="label">TB&nbsp;Group&nbsp;IN</span> 按钮，可将对讲注入该组所列的全部母线。</p>
+
+<p>页面下半部分包含所选路径的详细视图。与通道视图屏幕一样，可在此查看任一路径的处理和路由详情。</p>
+
+
+<h2>实用链接</h2>
+
+<a href="https://livehelp.solidstatelogic.com/Help/ConsoleConfig.html"><span class="hyperlink">控制台配置</span></a><br>
+<a href="https://livehelp.solidstatelogic.com/Help/LinkIndex.html"><span class="hyperlink">索引与术语表</span></a><br>
+</body>
+</html>

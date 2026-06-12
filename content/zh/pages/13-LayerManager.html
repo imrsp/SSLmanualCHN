@@ -1,0 +1,185 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>推子层管理器</title>
+  <style>
+    body { font: 16px/1.55 Arial, sans-serif; max-width: 1080px; margin: 2rem auto; padding: 0 1.25rem; color: #202124; }
+    img { max-width: 100%; height: auto; }
+    table { border-collapse: collapse; max-width: 100%; }
+    th, td { border: 1px solid #aaa; padding: .45rem; vertical-align: top; }
+    .note { display: block; border-left: 4px solid #e0a000; background: #fff8df; padding: .75rem 1rem; margin: 1rem 0; }
+    .notetitle { font-weight: bold; }
+    .label { font-weight: bold; color: #174ea6; }
+    .source { color: #666; font-size: .9rem; }
+  </style>
+</head>
+<body>
+  <p class="source">章节：构建演出 | 来源：<a href="https://livehelp.solidstatelogic.com/Help/LayerManager.html">https://livehelp.solidstatelogic.com/Help/LayerManager.html</a></p>
+<h2>推子层管理器</h2>
+
+<p>SSL Live 控制台<span style="font-weight:bold;">没有固定的 Layer 或 Bank</span>。其布局<span style="font-weight:bold;">完全灵活</span>，可按您偏好的工作方式排列各种音频信号路径。</p>
+
+<p>强烈建议先在<span class="label">Console Configuration</span>页面中完成所有更改，再安排Layer和 Bank，因为<span class="label">Console Configuration</span>决定<span class="label">Layer Manager</span>中可用的信号路径。</p>
+
+<p>
+    <span class="note">
+        <span class="notetitle">定义：System Layer与User Layer</span><br>Layer分为两种：<span style="font-weight:bold;">系统</span>和<span style="font-weight:bold;">用户</span>。<br><br>这些<span style="font-weight:bold;">System Layer</span>按类型顺序包含控制台中存在的每一条音频信号路径。可将System Layer视为构建User Layer所用的路径库。System Layer不可编辑，也不能直接调用到推子区块。<br><br>这些<span style="font-weight:bold;">User Layer</span>允许以任意配置排列System Layer中的路径；实际调用到操作面的是这些Layer。每条路径可在任意数量的User Layer中重复出现。</span>
+</p>
+
+<p>
+    <span class="note">
+        <span class="notetitle">定义：Layer/Bank</span><br>每个推子区块都有自己的User Layer。每个区块最多可有<span style="font-weight:bold;">六个Layer</span>，且<span style="font-weight:bold;">每个Layer可包含五个由 12 根推子组成的 Bank</span>。使用<span style="font-weight: bold;">Solo</span>按钮右侧的箭头滚动到相应Layer，再按推子右侧对应 Bank 的<span style="font-weight: bold;">Call</span>按钮，即可将 Bank 调用到操作面。</span>
+</p>
+
+<p>User Layer的排列路径为<span class="label">MENU</span> > <span class="label">Setup</span> > <span class="label">Layer Manager</span>。</p>
+
+
+<img style="display: block; margin: 25px auto; width: 800px;" src="https://livehelp.solidstatelogic.com/Help/images/g_layermanager.png" alt="">
+
+<p>Layer配置采用拖放方式，将路径从System Layer或User Layer中的当前位置复制到新的User Layer位置。</p>
+
+<p>该<span class="label">Layer Manager</span>界面分为上下两部分：上半部显示复制来源 Bank（<span style="font-weight: bold;">Source</span>），下半部显示正在构建的 Bank（<span style="font-weight: bold;">Destination</span>）。</p>
+
+<p>来源Layer可按整个Layer、整个 Bank，或 Bank 内选定的单条路径进行复制。</p>
+
+<h2>设置User Layer</h2>
+
+<h3>选择目标</h3>
+
+<p>点击屏幕右下角（<span class="label">Fader Tile</span>区域内）的<span style="font-weight: bold;">Destination</span>按钮，然后在弹出的子菜单中选择包含待配置目标 Bank 的区块。</p>
+
+<p>不同控制台型号的区块布局如下：</p>
+
+<p>
+    <table class="insideborder" style="width: 95%; display: block; margin: auto;" cellpadding="3" cellspacing="1">
+        <tbody>
+            <tr>
+                <th class="solidborder"></th>
+                <th class="solidborder"><span style="font-weight:bold;">推子区块 1</span></th>
+                <th class="solidborder"><span style="font-weight:bold;">推子区块 2</span></th>
+                <th class="solidborder"><span style="font-weight:bold;">推子区块 3</span></th>
+            </tr>
+            <tr>
+                <th class="solidborder"><span style="font-weight:bold;">L650</span></th>
+                <td class="solidborder">左侧</td>
+                <td class="solidborder">中央<br>（屏幕下方）</td>
+                <td class="solidborder">右侧</td>
+            </tr>
+            <tr>
+                <th class="solidborder"><span style="font-weight:bold;">L550, L500&nbsp;Plus &amp; L500</span></th>
+                <td class="solidborder">右下<br>（屏幕下方）</td>
+                <td class="solidborder">左下</td>
+                <td class="solidborder">左上</td>
+            </tr>
+            <tr>
+                <th class="solidborder"><span style="font-weight:bold;">L450</span></th>
+                <td class="solidborder">左侧</td>
+                <td class="solidborder">中央<br>（屏幕下方）</td>
+                <td class="solidborder">右侧</td>
+            </tr>
+            <tr>
+                <th class="solidborder"><span style="font-weight:bold;">L350 &amp; L300</span></th>
+                <td class="solidborder">右下</td>
+                <td class="solidborder">左下<br>（屏幕下方）</td>
+                <td class="solidborder">不适用<br>仅安装 2 个区块</td>
+            </tr>
+            <tr>
+                <th class="solidborder"><span style="font-weight:bold;">L200</span></th>
+                <td class="solidborder">左侧</td>
+                <td class="solidborder">中央<br>（屏幕下方）</td>
+                <td class="solidborder">右侧</td>
+            </tr>
+            <tr>
+                <th class="solidborder"><span style="font-weight:bold;">L100</span></th>
+                <td class="solidborder">屏幕下方</td>
+                <td class="solidborder" colspan="2">不适用<br>仅安装 1 个区块</td>
+            </tr>
+        </tbody>
+    </table>
+</p>
+
+<p>区块列表中还可能出现远程推子区块。这些附加推子区块可通过 USB 连接到控制台。更多信息请参阅<a href="https://livehelp.solidstatelogic.com/Help/RemoteTile.html"><span class="hyperlink">远程区块</span></a>章节。</p>
+
+<p>点击<span style="font-weight: bold;">Layer</span>区域中的<span style="font-weight: bold;">Destination</span>按钮。按钮会变为青色，其 Bank 会显示在下方。</p>
+
+<p>点击所需的目标<span style="font-weight: bold;">Bank</span>按钮。其当前布局会显示在屏幕底部。</p>
+
+<h3>选择来源</h3>
+
+<p>点击屏幕右上角的<span class="label">System&nbsp;Layers</span>或<span class="label">User&nbsp;Layers</span>按钮，指定上半部显示哪一组Layer。</p>
+
+<p>如果来源为System Layer，请通过<span class="label">Channels</span>按钮选择路径类型。如果来源为User Layer（用于在区块间复制），请通过出现的<span class="label">Fader Tile</span>按钮选择来源区块。</p>
+
+<h3>复制整个Layer和 Bank</h3>
+
+<p>要复制整个 Layer（包括其中所有 Bank 和路径），请将 <span style="font-weight: bold;">Source</span> Layer 图标拖到 <span style="font-weight: bold;">Destination</span> 区域中所需的 <span style="font-weight: bold;">Layer</span> 位置。</p>
+
+<p>要复制 Layer 中的单个 Bank，请点击 <span style="font-weight: bold;">Source</span> 区域中相应的 Layer 图标，其 Bank 会显示在下方。将 <span style="font-weight: bold;">Source</span> Bank 图标拖到 <span style="font-weight: bold;">Destination</span> 区域中所需的 <span style="font-weight: bold;">Bank</span> 位置。</p>
+
+<h3>复制单条路径</h3>
+<p>要从 Bank 复制一条或多条路径，请点击相应的<span style="font-weight: bold;">Source Bank</span>图标。其路径会显示在下方。点击要复制的路径使其高亮。</p>
+
+<p><span class="note"><span class="notetitle">注意：</span>所选路径不必连续，但复制后会占用连续插槽，并覆盖这些位置原有的分配。</span></p>
+
+<p>将所选路径拖入屏幕底部的 12 个插槽之一。如果可用空间足以容纳插入的路径数量，目标区域中的插槽会亮起青色。</p>
+
+<p>将拖动图标置于第一个目标插槽上方。适合放置时，图标轮廓会由红变绿，第一个插槽会变蓝。</p>
+
+<h2>删除Layer、Bank 和路径</h2>
+
+<p>要删除整个Layer（及其中所有 Bank）或单个 Bank，只需将相应Layer或 Bank 图标拖到屏幕右侧的回收站<img src="https://livehelp.solidstatelogic.com/Help/images/g_layermanagerBin.png" alt="bin">图标上。</p>
+
+<p>要删除单条路径，点击要删除的路径并拖到<img src="https://livehelp.solidstatelogic.com/Help/images/g_layermanagerBin.png" alt="bin">图标上。</p>
+
+<p><span class="note"><span class="notetitle">注意：</span>修改Layer和 Bank 后无法撤销。</span></p>
+
+<h2>重新排列目标 Bank</h2>
+
+<p>可使用与创建时相同的拖放方式，重新排列目标区域中的路径。</p>
+
+<p>在目标区域点击要移动的一条或多条路径，并拖到 Bank 内其他插槽。可用插槽会亮起青色；拖动经过时，当前选定插槽会高亮为蓝色。将路径放到新位置。</p>
+
+<h2>在区块之间复制</h2>
+
+<p>配置好一个区块后，可将其 Layer 和 Bank 复制到其他区块。在 <span style="font-weight: bold;">Source</span> 区域中选择 <span class="label">User Layers</span>，再选择来源区块以查看可用的 Layer 和 Bank。</p>
+<p>在屏幕下半部选择目标区块。</p>
+
+<p>按照上述从System Layer复制的方法，将整个Layer（包括 Bank）拖入目标区块的Layer，或将单个 Bank 拖入目标 Bank 图标。</p>
+
+<p>同样，也可按照从System Layer复制路径的步骤，在区块之间复制单条路径。</p>
+
+<h2>命名Layer和 Bank 并设置颜色</h2>
+
+<p>每个User Layer和 Bank 都可自定义颜色和名称。其颜色和名称会显示在操作面上的Layer或 Bank 选择按钮内部及上方。</p>
+
+<p>Layer和 Bank 的 Name 与 Colour 选择器位于Layer Manager中Layer和 Bank 图标的右侧，并作用于其左侧当前高亮的Layer和 Bank。</p>
+
+<h3>名称</h3>
+
+<p>System Layer和 Bank 根据其内容命名。User Layer和 Bank 可按以下方式指定自定义名称：</p>
+
+<p>按上述说明，在<span style="font-weight: bold;">Destination</span>区域选择区块和Layer（以及相关 Bank）。</p>
+
+<p>双击所选<span style="font-weight: bold;">Layer</span>或<span style="font-weight: bold;">Bank</span>右侧相应的 Name 文本框。随后会出现用于输入名称的键盘。</p>
+
+<p>如有需要，使用红色箭头按钮删除现有文字。</p>
+
+<p>输入新名称，然后点击<span class="label">OK</span>。</p>
+
+<span class="note"><span class="notetitle">注意：</span>直接复制自System Layer/Bank 的User Layer或 Bank，初始名称和颜色与对应System Layer/Bank 相同。</span>
+
+<h3>颜色</h3>
+
+<p>要更改Layer颜色：</p>
+
+<p>按上述说明，在<span style="font-weight: bold;">Destination</span>区域选择区块和Layer（以及相关 Bank）。</p>
+
+<p>点击相应的 Colour 选择器，然后从出现的下拉列表中选择颜色。</p>
+
+<h2>实用链接</h2>
+<a href="https://livehelp.solidstatelogic.com/Help/FaderTiles.html"><span class="hyperlink">推子区块</span></a><br>
+<a href="https://livehelp.solidstatelogic.com/Help/LinkIndex.html"><span class="hyperlink">索引和术语表</span></a><br>
+</body>
+</html>

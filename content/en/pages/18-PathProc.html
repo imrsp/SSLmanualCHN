@@ -1,0 +1,578 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Path Processing</title>
+  <style>
+    body { font: 16px/1.55 Arial, sans-serif; max-width: 1080px; margin: 2rem auto; padding: 0 1.25rem; color: #202124; }
+    img { max-width: 100%; height: auto; }
+    table { border-collapse: collapse; max-width: 100%; }
+    th, td { border: 1px solid #aaa; padding: .45rem; vertical-align: top; }
+    .note { display: block; border-left: 4px solid #e0a000; background: #fff8df; padding: .75rem 1rem; margin: 1rem 0; }
+    .notetitle { font-weight: bold; }
+    .label { font-weight: bold; color: #174ea6; }
+    .source { color: #666; font-size: .9rem; }
+  </style>
+</head>
+<body>
+  <p class="source">Section: Building a Show | Source: <a href="https://livehelp.solidstatelogic.com/Help/PathProc.html">https://livehelp.solidstatelogic.com/Help/PathProc.html</a></p>
+<h2>Path Processing</h2>
+
+<p>Fully processed paths (or Full Paths) include EQ, Dynamics and Delay sections as well as an All Pass Filter.</p>
+<br>
+<div id="accordion">
+
+    <div class="indexheader2 accordion-section-title">EQ</div>
+    <div id="EQ" style="padding: 1em 0;" class="accordion-section-content">
+        <h2>EQ</h2>
+
+        <p>All Full paths have a 4 Band Parametric EQ and a High Pass and a Low Pass Filter.</p>
+
+
+        <p>To access the EQ, open the Detail View and select the <span class="label">EQ</span> page.</p>
+
+        <img style="display: block; margin: 20px auto; width: 750px;" src="https://livehelp.solidstatelogic.com/Help/images/g_DetailEQ.png" alt="">
+
+
+        <p>To switch the EQ or filters in or out, touch the <span class="label">EQ&nbsp;IN</span> or <span class="label">Filter&nbsp;IN</span> button (in the top-right of the page) &#8211; each button 'lights' when it is switched in.</p>
+
+        <p>You can drag the nodes within the EQ graph using a finger or the mouse button. To change the Q value, use the pinch gesture narrow or widen the shape of the curve.</p>
+
+        <h2>EQ Shapes</h2>
+
+        <p>Each band of EQ and filters has three shape options, which are different for each type of band. </p>
+
+        <p>On filter bands, these options allow you to select the filter gradient between <span style="font-weight: bold;">12 dB</span>, <span style="font-weight: bold;">18 dB</span> or <span style="font-weight: bold;">24 dB</span> attenuation per octave.</p>
+
+        <p>On EQ bands, the following shapes are available:</p>
+
+        <p>Band 1 (LF): <span style="font-weight: bold;">Low Shelf</span> (with adjustable Q allowing overshoot/undershoot at corner frequency), <span style="font-weight: bold;">ConstantQ</span> (where the Q is adjustable but constant as gain is changed) or <span style="font-weight: bold;">Legacy</span> (which emulates the Q behaviour of a typical SSL G-Series EQ).</p>
+
+        <p>Band 2 (LMF) and Band 3 (HMF): <span style="font-weight: bold;">ConstantQ</span>, <span style="font-weight: bold;">Legacy</span> or <span style="font-weight: bold;">Notch</span> (set to maximum gain reduction at the centre frequency; Q and frequency can be adjusted in the usual way).</p>
+
+        <p>Band 4 (HF): <span style="font-weight: bold;">High Shelf</span> (with adjustable Q allowing overshoot/undershoot at corner frequency), <span style="font-weight: bold;">ConstantQ</span> or <span style="font-weight: bold;">Legacy</span>.</p>
+
+        <p>To change the band's shape:</p>
+
+        <p>Touch the relevant band's node &#8211; it will be coloured to indicate it is selected;</p>
+
+        <p>Touch the button to the right of the graph, below the <span class="label">Filter&nbsp;IN</span> button to open a menu with the shape options and select the desired shape.</p>
+
+        <h2>FFT Analyser</h2>
+
+        <p>The Detail View's EQ graph provides a very precise display of the frequency response of the EQ and filters, both as individual bands and as an overall effect.</p>
+
+        <p>
+            Use the <span class="label">Analyser</span> button to view a spectrum analysis of the signal.
+            Note this is a fixed-point-per-octave analyser, which provides equally detailed resolution across the frequency range, even at low frequencies.
+        </p>
+
+        <p>
+            The <span class="label">Analyser&nbsp;Settings</span> popout can be used to customise the analyser display.
+            <ul>
+                <li><b>Display</b> <span class="label">Slow</span>/<span class="label">Fast</span> is a global setting and determines the update rate of the analyser.</li>
+                <li>
+                    <b>Feed Point</b> <span class="label">Pre&nbsp;Filter</span>/<span class="label">Post&nbsp;Filter</span>/<span class="label">Pre&nbsp;EQ</span>/<span class="label">Post&nbsp;EQ</span>
+                    sets the source signal for the analyser. This is a per-path setting. Note that the Filter and EQ blocks can be moved freely in the <a href="https://livehelp.solidstatelogic.com/Help/ProcOrder.html"><span class="hyperlink">path processing order</span></a>.
+                </li>
+                <li><b>Offset</b> adjusts the level of the signal going to the analyser. This is a per-path setting. Note that this does not affect the audible signal level of the path.</li>
+            </ul>
+        </p>
+
+        <img style="display: block; margin: 20px auto;" src="https://livehelp.solidstatelogic.com/Help/images/g_EQAnalyserSettings.png" alt="">
+
+        <p>
+            Live supports the connection of multiple surfaces for remote control of its audio engine, including other console surfaces and the SOLSA PC application
+            (see the <a href="https://livehelp.solidstatelogic.com/Help/RemoteControl.html"><span class="hyperlink">Remote Control</span></a> section for further details).
+            Each 'surface' (including SOLSA) supports showing the EQ analyser on a selected path. However, the analyser is only available on one path at a time.
+            You may therefore wish to disable the Analyser view on surfaces other than the primary surface, to prevent other users changing which path the analyser is assigned to.
+            This can be done in the User Options page (<span class="label">MENU</span> > <span class="label">Setup</span> > <span class="label">Options</span> > <span class="label">USER</span>).
+            See the <a href="https://livehelp.solidstatelogic.com/Help/OptionsUser.html#Analyser"><span class="hyperlink">User Options</span></a> section for further details and options.
+        </p>
+
+        <p><span class="note"><span class="notetitle">Note:</span> The analyser is only available on mono and stereo paths.</span></p>
+
+
+        <h2 id="ResettingEQ">Resetting the EQ</h2>
+
+        <p>To reset individual EQ or filter bands, press the <span class="label">Band&nbsp;Reset</span> button to the right of the EQ graph and select the required band from the drop-down list.</p>
+
+        <p>To reset the entire EQ and/or filters to flat, press & hold the <span class="label">EQ&nbsp;IN</span> or <span class="label">Filter&nbsp;IN</span> button and select the <span class="label">Reset</span> option from the drop-down list that appears.</p>
+
+
+
+        <br>
+
+
+        <h2>Quick Controls</h2>
+
+        <h3>Follow Detail</h3>
+
+        <p>
+            The Quick Controls beneath the screen can also be assigned to the Detail View parameters.
+            This requires the <span style="font-weight: bold;">Follow Detail</span> button (bottom right corner of the Main Screen) to be activated.
+        </p>
+
+        <img style="width: 147px; height: 116px; margin: 0px 0px 5px 15px;" src="https://livehelp.solidstatelogic.com/Help/images/g_PanelQuicksBasic2.png" alt="" align="right">
+
+        <p>
+            With <span class="label">Follow Detail</span> on, the Quick Controls below the screen are assigned to different functions for the selected channel
+            (only applicable when the Detail View is open). The Quick Controls on other Fader Tiles are unaffected.
+        </p>
+
+        <p>
+            The labels across the bottom of the Detail View indicate the functions assigned to the Quick Controls directly beneath them.
+            As a general rule only one function is assigned to each Channel's Quick Controls.
+            Switch functions are assigned to the Upper Quick Key (which will be lit if available) and continuous parameters are assigned to the Encoder.
+        </p>
+
+        <h3>Follow Channel Quick Control Mode</h3>
+
+        <p>Tap once on the EQ section of the Channel View or the Detail View to send the Filters/EQ to the Quick Controls.</p>
+
+        <img style="margin: 0px 0px 10px 19px;" src="https://livehelp.solidstatelogic.com/Help/images/g_quickEQ1.png" alt="" align="right">
+
+        <p>Press the Fader Tile Encoder (or double-tap the Screen Encoder) to cycle the controls between the four EQ bands (cyan) and two filter bands (purple);</p>
+
+        <p>Switch the EQ into circuit by pressing the In button in any of the four equaliser band pages. Similarly, to switch the filters into circuit, press the <span style="font-weight: bold;">In</span> button in the filters page;</p>
+
+        <p>For equaliser bands, use the bottom two Quick Control buttons to switch the Encoder's parameter between the band's frequency (left button lit), gain (right button lit) and Q (neither button lit);</p>
+
+        <p>For filter bands, use the bottom two Quick Control buttons to switch the Encoder's parameter between hi-pass frequency and lo-pass frequency;</p>
+
+        <p>Now drag the Encoder to adjust the selected parameter.</p>
+
+        <p>The Context display displays the current EQ settings. A simplified version of this graph is also shown in the EQ button-cap, which will stay visible when the Context Display isn't displaying EQ.</p>
+
+        <p>Double-tap in the Context display to open the channel EQ Detail View, where you can edit more advanced EQ parameters.</p>
+
+        <p>If the gain control for an EQ band is greyed out, its band is probably set to 'notch'.</p>
+
+        <img style="margin: 10px 0px 10px 21px;" src="https://livehelp.solidstatelogic.com/Help/images/g_miniEQ.png" alt="" align="right">
+
+
+        <h2>Control Tile</h2>
+
+
+        <p>To switch the four EQ bands in or out, press the <span style="font-weight: bold;">EQ</span><span> </span><span class="label">IN</span> button in the <span style="font-weight: bold;">EQ</span> area beneath the screen; To switch the filters in or out, touch the <span style="font-weight: bold;">Filters</span><span> </span><span class="label">IN</span> button.</p>
+
+        <p>To reset the EQ bands or Filters, press & hold the appropriate <span class="label">IN</span> button until it flashes.</p>
+
+        <p>The graph in the middle of the screen indicate the current EQ and filter settings. </p>
+
+        <p>You can also adjust the graphic using touch.</p>
+
+        <p>The encoders down each side of the screen are assigned to the frequency, Q and gain of the four EQ bands, as indicated in the screen area nearest to them; to change a band's EQ shape, press its Q encoder and cycle through the settings which appear below the Q value bar.</p>
+
+        <p>The filter frequencies are controlled at the bottom of the screen; touch the buttons above each frequency value bar to select the filter slope.</p>
+
+
+        <p>All on-screen buttons can be controlled by touching the screen.</p>
+
+
+    </div>
+
+
+
+
+
+
+
+    <div class="indexheader2 accordion-section-title">Dynamics</div>
+    <div id="Dynamics" style="padding: 1em 0;" class="accordion-section-content">
+        <h2>Dynamics</h2>
+
+        <p>All Full paths have a Compressor and a Gate/Expander.</p>
+
+
+        <p>To access the Dynamics section, open the Detail View and select the <span class="label">Comp Gate</span> page.</p>
+
+
+        <img style="display: block; margin: 25px auto;" src="https://livehelp.solidstatelogic.com/Help/images/g_detailCOMPGATE.png" alt="">
+
+
+        <p>To switch the Compressor or Gate in or out, touch the <span class="label">Comp&nbsp;IN</span> or <span class="label">Gate&nbsp;IN</span> button (in the top-right of the page) &#8211; each button 'lights' when its dynamics element is switched in.</p>
+
+        <p>You can drag the nodes within the graphs displayed using a finger. </p>
+
+        <p>When two nodes are on top of each other, double-tap them to switch which one is selected.</p>
+
+        <p>To change the compressor or gate Hold value, use two fingers to pinch the <span style="font-weight: bold;">Comp Time</span> or <span style="font-weight: bold;">Gate Time</span> graph.</p>
+
+        <p>To change the compressor or gate (expander mode only) knee value, use two fingers to pinch the <span style="font-weight: bold;">CT</span> or <span style="font-weight: bold;">GT</span> node in the main graph.</p>
+
+        <h2>Display Options</h2>
+
+        <p>The buttons above the left-hand graph define which parameters are displayed, summarised as follows:</p>
+
+        <ul>
+            <li><span class="label">Compressor</span>: Threshold and Ratio on the left of the page, gain in the middle, time parameters and Compressor Setup on the right;</li>
+            <li><span class="label">Compressor</span> AND <span class="label">Comp&nbsp;Filters</span>: Filter frequencies on the left, Compressor gain in the middle, time parameters and Compressor Setup on the right;</li>
+            <li><span class="label">Gate</span>: Threshold and Range on the left, time parameters and Gate Setup on the right;</li>
+            <li><span class="label">Gate</span> AND <span class="label">Gate&nbsp;Filters</span>: Filter frequencies on the left, time parameters and Gate Setup on the right.</li>
+            <li><span class="label">Compressor</span> AND <span class="label">Gate</span>: Both Thresholds and Ratios on the left, Compressor gain in the middle, Compressor and Gate time parameters on the right.</li>
+        </ul>
+
+        <h2>The Dynamics Displays</h2>
+
+        <p>A 'traffic light' gate meter is shown in the top of the graph whenever the gate is active: Red means signal is not being passed, green means that the gate is open, and amber means the gate is at the threshold level.</p>
+
+        <p>The basic routing of the module is mapped in the Setup pages for each dynamics module; each element shown can be activated by touching it, and goes green to indicate that it is active.</p>
+
+
+        <h2>Compressor Gain</h2>
+
+        <p>To adjust the compressor's make-up gain manually, ensure the Compressor is active in the page, and drag the <span style="font-weight: bold;">COMP</span> slider (in the middle of the page) up and down. You will see the left-hand graph change to reflect the gain introduced.</p>
+
+        <p>You can also allow the console to set the make-up gain automatically: Touch the <span class="label">Auto&nbsp;Gain</span> button (above the <span style="font-weight: bold;">COMP</span> slider) &#8211; it will 'light' to indicate that it is active, and the slider will be deactivated.</p>
+
+        <h2>Compressor Mix Control</h2>
+
+        <p>A <strong>Comp Mix</strong> control in the path dynamics sections provides simple access to parallel compression processing on any path. </p>
+
+        <p>The compressed signal can be blended in parallel with the uncompressed signal. When set to 100% only the compressed signal is used. At 0% only the dry, uncompressed signal passes. 50% provides equal contribution of compressed and uncompressed signals. The percentage can be set using the on-screen fader or associated quick control encoder when <strong>Follow Detail</strong> is enabled.</p>
+
+        <p>Comp Mix cannot be used when tube compressions emulation is in circuit. When Tube is engaged the mix control fader cap is removed, and mix is automatically set and shown as 100%. The previous mix percentage value is retained for when Tube is disabled.</p>
+
+        <h2>Side-chain</h2>
+
+        <p>The gate and compressor both have side-chains with filters and external input routing.</p>
+
+        <p>To insert high- and low- pass filters into the Compressor and/or Gate side-chains:</p>
+
+        <p>Touch the <span class="label">Filters</span> button within the Compressor or Gate Setup display &#8211; it will 'light' to indicate that it is active;</p>
+
+        <p>Touch the <span class="label">Comp&nbsp;Filters</span> or <span class="label">Gate&nbsp;Filters</span> button above the left-hand graph &#8211; a frequency graph with <span style="font-weight: bold;">HPF</span> and <span style="font-weight: bold;">LPF</span> nodes will appear.</p>
+
+        <p>Drag the nodes to change the -3 dB points of each filter.</p>
+
+        <p>To route a different signal to the Compressor or Gate side-chain, touch the <span class="label">Comp&nbsp;Key&nbsp;Route</span> or <span class="label">Gate&nbsp;Key&nbsp;Route</span> button (to the right of the right-hand graphs) and locate the signal using the standard routing display which appears. (See <a href="https://livehelp.solidstatelogic.com/Help/Routing.html"><span class="hyperlink">Routing</span></a> for instructions regarding the Routing displays.)</p>
+
+        <p>Now touch the <span class="label">Ext&nbsp;Key</span> button in the Compressor or Gate Setup display to activate the external side-chain &#8211; it will 'light' to indicate that it is active.</p>
+
+        <p>To listen to the Compressor or Gate side-chain, touch the <span class="label">Comp&nbsp;Key&nbsp;Solo</span> or <span class="label">Gate&nbsp;Key&nbsp;Solo</span> button (above the right-hand graphs).</p>
+
+        <span class="note"><span class="notetitle">Note: </span>The Key Listen Solo signals are routed to the Solo bus(es) specified under the channel's Misc Solo setting; see <a href="https://livehelp.solidstatelogic.com/Help/Solo.html"><span class="notehyperlink">Solo</span></a> for details.</span>
+
+        <h2>Tube Emulation</h2>
+
+        <p>You can introduce tube compressor emulation into the compression circuit:</p>
+
+        <p>Touch the <span class="label">Tube</span> button within the Compressor Setup display &#8211; it will 'light' to indicate that it is active.</p>
+
+        <h2>Peak Mode</h2>
+
+        <p>There are two types of detection available for the path compressor, RMS and Peak.</p>
+
+        <p>RMS is the default detection mode. To enable Peak detection, press the <span class="label">Peak Mode</span> button in the Compressor Setup display.</p>
+
+        <h2>Expander Mode</h2>
+
+        <p>The Gate can be switched into Expander mode by touching the <span class="label">Exp</span> button in the Gate setup display. </p>
+
+        <h2>Duck Mode</h2>
+
+        <!-- Start of Duck mode snippet -->
+        <!-- Also used in FXDynamics.html -->
+        <p>
+            Engage the <span class="label">Duck</span> button to turn the Gate into a Ducker.
+            This inverts the operation of the Gate's sidechain threshold logic, allowing the incoming signal to be attenuated by the <b>Range</b> amount
+            when the sidechain (key) input signal exceeds the <b>Threshold</b>, e.g. to duck the music when a DJ speaks.
+        </p>
+        <!-- End of Duck mode snippet -->
+
+        <h2>Presets</h2>
+
+        <p>To load a dynamics Preset for the channel, touch the <span class="label">Preset</span> button (bottom-right of the page) and select a preset using the standard LIVE Preset page which appears.</p>
+
+        <h2>Resetting dynamics values</h2>
+
+        <p>To reset the compressor or gate to 1:1, press & hold the <span class="label">Comp&nbsp;IN</span> or <span class="label">Gate&nbsp;IN</span> button and select the <span class="label">Reset</span> option from the drop-down list that appears.</p>
+
+        <br>
+
+        <h2>Quick Controls</h2>
+
+        <h3>Follow Detail</h3>
+
+        <p>
+            The Quick Controls beneath the screen can also be assigned to the Detail View parameters.
+            This requires the <span style="font-weight: bold;">Follow Detail</span> button (bottom right corner of the Main Screen) to be activated.
+        </p>
+
+        <img style="width: 147px; height: 116px; margin: 0px 0px 5px 15px;" src="https://livehelp.solidstatelogic.com/Help/images/g_PanelQuicksBasic2.png" alt="" align="right">
+
+        <p>
+            With <span class="label">Follow Detail</span> on, the Quick Controls below the screen are assigned to different functions for the selected channel
+            (only applicable when the Detail View is open). The Quick Controls on other Fader Tiles are unaffected.
+        </p>
+
+        <p>
+            The labels across the bottom of the Detail View indicate the functions assigned to the Quick Controls directly beneath them.
+            As a general rule only one function is assigned to each Channel's Quick Controls.
+            Switch functions are assigned to the Upper Quick Key (which will be lit if available) and continuous parameters are assigned to the Encoder.
+        </p>
+
+        <h3>Follow Channel Quick Control Mode</h3>
+
+        <p>Tap once on the Dynamics section of the Channel View or the Detail View to send the Comp/Gate to the Quick Controls.</p>
+
+        <img style="margin: 0px 0px 10px 19px;" src="https://livehelp.solidstatelogic.com/Help/images/g_quickCOMPGATE.png" alt="" align="right">
+
+        <p>Press the Fader Tile Encoder (or double-tap the Screen Encoder) to cycle the controls between the Compressor (green) and Gate (light green);</p>
+
+        <p>Switch the Compressor or Gate into circuit by pressing the <span style="font-weight: bold;">In</span> button;</p>
+
+        <p>Use the Lower Quick Controls to switch the Encoder's parameter between <span style="font-weight: bold;">CT</span> and <span style="font-weight: bold;">CR</span> (Compressor Threshold and Ratio), or <span style="font-weight: bold;">GT</span> and <span style="font-weight: bold;">GR</span> (Gate Threshold and Range);</p>
+
+        <p>Now drag/turn the Encoder to adjust the dynamics.</p>
+
+        <p>The Context display displays the current gate and compressor settings. A simplified version of this graph is also shown in the Compressor/Gate button-cap, which will stay visible when the Context Display isn't displaying dynamics.</p>
+
+        <p>The actual gain reduction action is shown in the <span style="font-weight: bold;">COMP</span> and <span style="font-weight: bold;">GATE</span> meters on the console surface, to the right of the channel's fader.</p>
+
+        <p>Double-tap in the graph area to open the expanded display, where you can edit more advanced dynamics parameters.</p>
+
+
+
+        <img style="margin: 17px 0px 0px 20px;" src="https://livehelp.solidstatelogic.com/Help/images/g_miniDYN.png" alt="" align="right">
+
+
+        <h2>Control Tile</h2>
+
+        <p>Dynamics controls can be assigned to the Control Tile (to the right of the Main Screen) by pressing the <span class="label">DYN</span> button in the <span style="font-weight: bold;">Dynamics</span> area beneath the Control Tile Screen:</p>
+
+
+        <p>To switch the Compressor or Gate in or out, press the <span style="font-weight: bold;">Comp</span> or <span><span style="font-weight: bold;">Gate</span> </span><span class="label">IN</span> button in the <span style="font-weight: bold;">Dynamics</span> area beneath the screen.</p>
+
+        <p>To reset the Compressor or Gate, press & hold the appropriate <span class="label">IN</span> button until it flashes.</p>
+
+        <p>You can also adjust the graphic using touch.</p>
+
+        <p>All on-screen buttons can be controlled by touching the screen.</p>
+
+        <p>The encoders around the screen are assigned to the functions in the screen area nearest to them, with the compressor controls down the left and the gate controls down the right.</p>
+
+        <p>Switches are operated by pressing the encoder, and continuous parameters are changed by turning the encoder.</p>
+
+
+
+    </div>
+
+
+    <div class="indexheader2">Delay</div>
+    <div id="Delay" style="padding: 1em 0;" class="accordion-section-content">
+        <h2>Delay</h2>
+        <p>The signal on each Full Path in Live can be delayed by up to 2 seconds.</p>
+
+
+        <p>Open the Detail View and tap on the <span class="label">Delay All Pass</span> page.</p>
+
+        <img style="display: block; margin: 25px auto;" src="https://livehelp.solidstatelogic.com/Help/images/g_detailDELAY.png" alt="">
+
+        <p>To switch the Delay in or out, touch the <span class="label">Delay&nbsp;IN</span> button (in the top-right of the page) &#8211; the button goes blue when it is switched in.</p>
+
+        <p>You can drag the <span style="font-weight: bold;">Del</span> node within the graph using a finger. </p>
+
+        <p>There is a scrollbar below the graph. The display will scroll if you attempt to drag the node beyond the left or right border.</p>
+
+        <p>You can change the delay by dragging the scroller. This will leave the node in its position in the display and scroll the graph behind it.</p>
+
+        <p>To zoom in and out, use two fingers and draw them together or apart.</p>
+
+        <p>The delay amount is shown in the top left of the graph. The <span class="label">Time</span> and <span class="label">Distance</span> buttons to the right of the graph define the units, with each button cycling through relevant units (samples/milliseconds/seconds, and centimetres/metres).</p>
+
+        <span class="note"><span class="notetitle">Note: </span>The delay value is always stored in <span style="font-weight: bold;">samples</span>. Changing the sample rate of the console will alter the delay time in other units.</span>
+
+        <p>To set a precise delay amounts you can use the Delay Time &#8211; and + buttons below the unit buttons to increment the delay by a sample at a time. Alternatively, select the <span style="font-weight: bold;">Del</span> node, double-tap the value box in the bottom right corner and use the keyboard which appears.</p>
+
+        <span class="note">
+            <span class="notetitle">Tip: </span>You may find the following to be the most efficient way to operate the graph:<br>
+            - Zoom in quite close on the graph and leave the <span style="font-weight: bold;">Del</span> node in the centre;<br>
+            - Use the Scroller to set the rough delay value;<br>
+            - Now move the <span style="font-weight: bold;">Del</span> node to perform fine adjustments to the value.
+        </span>
+
+
+        <span class="note"><span class="notetitle">Note: </span>The path delay is used for delaying the entire signal, not for creating delay effects. Delay effects can be routed to the path inserts from the console's effects engine. See <a href="https://livehelp.solidstatelogic.com/Help/FXIntro.html"><span class="notehyperlink">Effects Racks</span></a> for more details.</span>
+
+        <br>
+
+        <h2>Quick Controls</h2>
+
+        <h3>Follow Detail</h3>
+
+        <p>The Quick Controls beneath the screen can also be assigned to the Detail View parameters. This requires the <span style="font-weight: bold;">Follow Detail</span> button (bottom right corner of the Main Screen) to be activated. Touch the button to toggle between:</p>
+
+        <img style="width: 147px; height: 116px; margin: 0px 0px 5px 20px;" src="https://livehelp.solidstatelogic.com/Help/images/g_PanelQuicksBasic2.png" alt="" align="right">
+
+        <p>
+            The Quick Controls below the screen are assigned to different functions for the selected channel
+            (only applicable when the Detail View is open). The Quick Controls on other Fader Tiles are unaffected.
+        </p>
+
+        <p>The labels across the bottom of the Detail View indicate the functions assigned to the Quick Controls directly beneath them. As a general rule only one function is assigned to each Channel's Quick Controls. Switch functions are assigned to the Upper Quick Key (which will be lit if available) and continuous parameters are assigned to the Encoder.</p>
+
+        <p>To reset the delay unit to 0, press & hold the <span class="label">Delay&nbsp;IN</span> button (in the Detail View) and select the <span class="label">Reset</span> option from the drop-down list that appears.</p>
+
+        <p>To close the Detail View, touch the Close button in the top right-hand corner.</p>
+
+
+        <h3>Follow Channel Quick Control Mode</h3>
+
+
+        <p>Tap once on the Delay section of the Channel View or the Detail View to send the Delay/All Pass to the Quick Controls.</p>
+
+        <img style="margin: 0px 0px 0px 20px;" src="https://livehelp.solidstatelogic.com/Help/images/g_quickDelay.png" alt="" align="right">
+
+        <p>Press the Fader Tile Encoder (or double-tap the Screen Encoder) to cycle the controls between the Delay (magenta) and All Pass (pink);</p>
+
+        <p>Switch the Delay or All Pass into circuit by pressing the <span style="font-weight: bold;">In</span> button;</p>
+
+        <p>Turn the Encoder to adjust the delay.</p>
+
+        <p>
+            The delay amount is shown above the Quick Key display. The lower Quick Keys switch between
+            <span style="font-weight: bold;">Time</span> and <span style="font-weight: bold;">Distance</span> measurements,
+            with each button cycling through relevant units (samples/milliseconds/seconds, and centimetres/metres).
+        </p>
+
+
+
+        <h2>Control Tile</h2>
+
+        <img style="margin: 10px 0px 15px 20px;" src="https://livehelp.solidstatelogic.com/Help/images/g_miniTime.png" alt="" align="right">
+
+        <p>To switch the delay in or out, press the <span style="font-weight: bold;">Delay</span><span> </span><span class="label">IN</span> button in the <span style="font-weight: bold;">Time</span> area above the screen.</p>
+
+        <p>To reset the delay, press & hold the <span class="label">IN</span> button until it flashes.</p>
+
+        <p>Delay controls are assigned to the top half of the screen, with All&nbsp;Pass filter controls assigned to the bottom half.</p>
+
+        <p>The delay amount is shown in the top left of the screen, and can be changed using the encoder to its left.</p>
+
+        <p>The <span class="label">Time</span> and <span class="label">Distance</span> buttons below that define the units; press the adjacent encoder to cycle through all relevant units (samples/milliseconds/seconds, and centimetres/metres). You can also press these buttons directly in the screen.</p>
+
+        <p>The <span style="font-weight: bold;">Samples</span> <span class="label">&#8211;</span> and <span class="label">+</span> buttons allow you to make incremental changes to the delay value.
+
+        <p>The <span style="font-weight: bold;">Delay</span> graph indicates the current settings. </p>
+
+        <p>You can drag the <span style="font-weight: bold;">Del</span> (delay) node within the graph using a finger.</p>
+
+        <p>The display will scroll if you attempt to drag the node beyond the left or right border.</p>
+
+        <p>You can also change the delay by dragging the scroller beneath the graph; this will leave the node in its position in the display and scroll the graph behind it.</p>
+
+        <p>To zoom in and out, use two fingers and draw them together or apart.</p>
+
+
+    </div>
+
+
+    <div class="indexheader2">All Pass Filter</div>
+    <div id="AllPass" style="padding: 1em 0;" class="accordion-section-content">
+        <h2>All Pass Filter</h2>
+
+        <p>
+            The All Pass Filter can be used to adjust the phase of a specific range of frequencies.
+            The All Pass Filter is particularly useful to solve feedback issues in wedge monitors or when working with multiple microphones on the same instrument.
+            A simple <span class="label">&#216;</span> invert button is most useful in  situations where the phase relationship of two signals is close to exactly opposite, but often this is not the case.
+            The All Pass Filter is a far more accurate tool to solve phase-related issues.
+        </p>
+
+
+        <p>Open the Detail View and tap on the <span class="label">Delay All Pass</span> button.</p>
+
+        <img style="display: block; margin: 25px auto;" src="https://livehelp.solidstatelogic.com/Help/images/g_detailALLPASS.png" alt="">
+
+        <p>To switch the All Pass Filter in or out, touch the <span class="label">All&nbsp;Pass&nbsp;IN</span> button (in the top-right of the page) &#8211; the button goes blue when it is switched in.</p>
+
+        <p>Define the filter type using the <span class="label">2nd&nbsp;Order</span> and <span class="label">All&nbsp;Pass&nbsp;&Oslash;</span> buttons.</p>
+
+        <p>You can drag the <span style="font-weight: bold;">AllP</span> node within the graph using a finger or the mouse button.</p>
+
+        <p>To change the Q (when in 2nd order), use the pinch gesture.</p>
+
+        <p>The filter's Q and centre frequency are shown in the top left of the graph.</p>
+
+        <p>To reset the filter to its default values, press & hold the <span class="label">All&nbsp;Pass&nbsp;IN</span> button (in the Detail View) and select the <span class="label">Reset</span> option from the drop-down list that appears.</p>
+
+
+
+        <h2>Quick Controls</h2>
+
+        <h3>Follow Detail</h3>
+
+        <p>The Quick Controls beneath the screen can also be assigned to the Detail View parameters. This requires the <span style="font-weight: bold;">Follow Detail</span> button (bottom right corner of the Main Screen) to be activated. Touch the button to toggle between:</p>
+
+        <img style="width: 147px; height: 116px; margin: 0px 0px 5px 18px;" src="https://livehelp.solidstatelogic.com/Help/images/g_PanelQuicksBasic2.png" alt="" align="right">
+
+
+        <p>
+            The Quick Controls below the screen are assigned to different functions for the selected channel (only applicable when the Detail View is open).
+            The Quick Controls on other Fader Tiles are unaffected.
+        </p>
+
+        <p>
+            The labels across the bottom of the Detail View indicate the functions assigned to the Quick Controls directly beneath them.
+            As a general rule only one function is assigned to each Channel's Quick Controls. Switch functions are assigned to the Upper Quick Key (which will be lit if available) and continuous parameters are assigned to the Encoder.
+        </p>
+
+        <h3>Follow Channel Quick Control Mode</h3>
+
+        <p>Tap once on the Delay section of the Channel View or the Detail View to send the Delay/All Pass to the Quick Controls.</p>
+
+        <img style="margin: 20px 0px 10px 20px;" src="https://livehelp.solidstatelogic.com/Help/images/g_quickAllPass.png" alt="" align="right">
+
+        <p>Press the Fader Tile Encoder (or double-tap the Screen Encoder) to cycle the controls between the Delay (magenta) and All Pass (pink);</p>
+
+        <p>Switch the Delay or All Pass into circuit by pressing the <span style="font-weight: bold;">In</span> button;</p>
+
+        <p>Turn the Encoder to adjust the frequency.</p>
+
+
+
+
+        <p>The channel Quick Controls cycle between Delay and All&nbsp;Pass filter controls &#8211; press the Fader Tile Encoder (or double-tap the on-screen Encoder) to switch to the correct display.</p>
+
+        <p>In the All&nbsp;Pass display, switch the filter into circuit by pressing the <span style="font-weight: bold;">In</span> button.</p>
+
+        <p>
+            The lower left button (<span style="font-weight: bold;">Freq</span>) define the parameter assigned to the encoder;
+            if it is deselected, the Encoder controls the filter's <span style="font-weight: bold;">Q</span>.
+        </p>
+
+        <p>The lower right button controls the <span class="label">All Pass &Oslash;</span> button.</p>
+
+        <h2>Control Tile</h2>
+
+        <p>All Pass filter controls can be assigned to the Control Tile by pressing the <span class="label">Time</span> button above the Control Tile Screen:</p>
+
+        <img style="margin: 0px 10px;" src="https://livehelp.solidstatelogic.com/Help/images/g_miniTime.png" alt="" align="right">
+
+        <p>To switch the All Pass filter in or out, press the <span style="font-weight: bold;">AllPass</span><span> </span><span class="label">IN</span> button in the <span style="font-weight: bold;">Time</span> area above the screen.</p>
+
+        <p>To reset the All Pass filter, press and hold the <span class="label">IN</span> button until it flashes.</p>
+
+        <p>Filter controls are assigned to the bottom half of the screen, with Delay controls assigned to the top half.</p>
+
+        <p>Encoders to the left of the <span style="font-weight: bold;">All-Pass Filter</span> graph can be used to change the filter frequency and Q, as indicated by the value bars adjacent to them inside the screen.</p>
+
+        <p>You can also drag the <span style="font-weight: bold;">AllP</span> node left or right to change the centre frequency.</p>
+
+        <p>Buttons in the bottom left corner allow you to change the order and phase of the filter.</p>
+    </div>
+</div>
+
+<!--<p><a href="#EQ"><span class="hyperlink">Accordion test</span></a></p>-->
+
+<h2>Useful Links</h2>
+<a href="https://livehelp.solidstatelogic.com/Help/DetailView.html"><span class="hyperlink">Detail View</span></a>
+<br>
+<a href="https://livehelp.solidstatelogic.com/Help/FXIntro.html"><span class="hyperlink">Effects Rack</span></a>
+<br>
+<a href="https://livehelp.solidstatelogic.com/Help/LinkIndex.html"><span class="hyperlink">Index and Glossary</span></a>
+<br>
+</body>
+</html>

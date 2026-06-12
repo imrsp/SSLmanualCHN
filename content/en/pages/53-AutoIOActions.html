@@ -1,0 +1,292 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Automation: Input &amp; Output Actions</title>
+  <style>
+    body { font: 16px/1.55 Arial, sans-serif; max-width: 1080px; margin: 2rem auto; padding: 0 1.25rem; color: #202124; }
+    img { max-width: 100%; height: auto; }
+    table { border-collapse: collapse; max-width: 100%; }
+    th, td { border: 1px solid #aaa; padding: .45rem; vertical-align: top; }
+    .note { display: block; border-left: 4px solid #e0a000; background: #fff8df; padding: .75rem 1rem; margin: 1rem 0; }
+    .notetitle { font-weight: bold; }
+    .label { font-weight: bold; color: #174ea6; }
+    .source { color: #666; font-size: .9rem; }
+  </style>
+</head>
+<body>
+  <p class="source">Section: Mixing | Source: <a href="https://livehelp.solidstatelogic.com/Help/AutoIOActions.html">https://livehelp.solidstatelogic.com/Help/AutoIOActions.html</a></p>
+<p>LIVE's Automation Input and Output Actions allow scenes to be triggered remotely and also allow the console to control external events such as outboard effects unit patch changes.</p>
+
+<h2 id="InputActions">Input Actions</h2>
+
+<p>
+    Input Actions allow a scene to be triggered from the console's <a href="https://livehelp.solidstatelogic.com/Help/EventManager.html"><span class="hyperlink">Event&nbsp;Manager</span></a>
+    or an external event; either a GPI (General Purpose Input) or a specific MIDI message.
+</p>
+
+<p>
+    To enable Input Action triggering for a scene, touch one of the <span style="font-weight: bold;">Input&nbsp;Action</span> boxes to the left of the <span style="font-weight: bold;">Scene&nbsp;Name</span> in the scene list,
+    so that the box is highlighted (turns cyan). (You can also touch the <span class="label">Input&nbsp;Actions</span> button in the left side of the Automation detail dialogue to open the configuration page for that action.)
+</p>
+
+<p>Now touch the button beneath the <span style="font-weight: bold;">TYPE</span> label and select <span class="label">GPIO</span>, <span class="label">MIDI</span> or <span class="label">Event</span> from the submenu.</p>
+
+<span class="note"><span class="notetitle">Please Note: </span>L100 does not have local GPIO or MIDI ports; only Input/Output Actions using ipMIDI or remote stagebox GPIO and MIDI can be configured on L100.</span>
+
+<div id="accordion">
+    <div class="indexheader2">GPIO Input Actions</div>
+    <div>
+        <p>Selecting <span class="label">GPIO</span> from the Input Actions <span style="font-weight: bold;">TYPE</span> list will display a detail dialogue like this:</p>
+
+        <div><img style="display: block; margin: 25px auto; width: 700px;" src="https://livehelp.solidstatelogic.com/Help/images/g_autoGPIO.png" alt=""></div>
+
+        <p>Press <span class="label">Apply</span> to enable the Route Input button. Pressing <span class="label">Route Input</span> will bring up a routing menu, showing all available GPI sources.</p>
+
+        <p>Selecting one of these and pressing <span class="label">Make</span> will assign that GPI pin to the input action's first trigger. It is also possible to <span class="label">Make All</span> on an entire GPI connection, which routes each GPI pin to a separate trigger.</p>
+
+        <p>The twelve sections that take up the main part of the GUI are the triggers. If one GPI pin has been routed, only the first one is relevant. Each trigger has two buttons: </p>
+
+        <p>The left button defines what kind of input transition will trigger the action: a rising edge or a falling edge.</p>
+
+        <p>The right button is used to switch each trigger <span class="label">In</span>. Multiple GPI pins can be switched <span class="label">In</span> for a single Input Action, so that the scene will fire from <span style="font-weight: bold;">any</span> of the routed GPI sources.</p>
+    </div>
+    <div class="indexheader2">MIDI Input Actions</div>
+    <div>
+        <p>Selecting <span class="label">MIDI</span> from the Input Actions <span style="font-weight: bold;">TYPE</span> list will display a detail dialogue similar to the one below:</p>
+
+        <div><img style="display: block; margin: 20px auto; width: 700px;" src="https://livehelp.solidstatelogic.com/Help/images/g_autoEventsMIDI.png" alt=""></div>
+
+        <p>
+            First, select the MIDI message type that you want to trigger the scene from; <span class="label">Note&nbsp;On</span>, <span class="label">Note&nbsp;Off</span>, <span class="label">PRG&nbsp;Change</span> (Program Change)
+            or <span class="label">CTRL&nbsp;Change</span> (Control Change, also known as a MIDI CC message). Selecting <span class="label">Note&nbsp;On</span> will display the page above with the following options:
+        </p>
+
+        <ul>
+            <li><span class="label">All&nbsp;Channels</span> button: If active, listens for the defined message parameters on all MIDI channels. Deactivating this button will introduce another value field for entering a specific <span style="font-weight: bold;">Channel</span> number, between 1 and 16.</li>
+            <li><span style="font-weight: bold;">Note&nbsp;Number</span>: A numeric value between 0 and 127 representing the note (Note Number 60 = C3). Automatically updates the Note Name field described below.</li>
+            <li><span style="font-weight: bold;">Note&nbsp;Name</span>: The note name (C, C#, D etc.) and octave number (limited by the Middle C value described above). Automatically updates the Note Number field described above.</li>
+            <li><span style="font-weight: bold;">Velocity</span>: The note velocity value, between 1 and 127.</li>
+        </ul>
+
+        <p>Selecting <span class="label">Note&nbsp;Off</span> will display the same options as <span class="label">Note&nbsp;On</span>, but excludes a <span style="font-weight: bold;">Velocity</span> parameter.</p>
+
+        <p>Selecting <span class="label">PRG&nbsp;Change</span> will give you the option to specify a <span style="font-weight: bold;">Program&nbsp;Number</span> in the range 1 to 128 and to listen on <span class="label">All&nbsp;Channels</span> or a specific MIDI Channel number.</p>
+
+        <p>
+            Selecting <span class="label">CTRL&nbsp;Change</span> will give you the option to specify a <span style="font-weight: bold;">Control&nbsp;Number</span> in the range 0 to 119,
+            a <span style="font-weight: bold;">Control&nbsp;Value</span> in the range 0 to 127 and to listen on <span class="label">All&nbsp;Channels</span> or a specific MIDI Channel number.
+        </p>
+
+        <span class="note">
+            <span class="notetitle">Note:</span> If using <a href="https://livehelp.solidstatelogic.com/Help/ipMIDI.html"><span class="hyperlink">ipMIDI</span></a> for MIDI Input Actions this should be a different ipMIDI port to that used for <a href="https://livehelp.solidstatelogic.com/Help/OptionsSystem.html#Timecode"><span class="hyperlink">Timecode</span></a>,
+            <a href="https://livehelp.solidstatelogic.com/Help/DAWControl.html"><span class="hyperlink">DAW Control</span></a> and <a href="https://livehelp.solidstatelogic.com/Help/EventManager.html"><span class="hyperlink">Events</span></a>.
+        </span>
+    </div>
+    <div class="indexheader2">Event Input Actions</div>
+    <div>
+        <p>Selecting <span class="label">Event</span> from the Input Actions <span style="font-weight: bold;">TYPE</span> list will display a detail dialogue similar to the one below:</p>
+
+        <div><img style="display: block; margin: 20px auto; width: 700px;" src="https://livehelp.solidstatelogic.com/Help/images/g_autoEvents.png" alt=""></div>
+
+        <p>Select an event from the <b>LINKABLE EVENTS</b> list. Only events that have an <b>Automation&nbsp;Output</b> event source will appear in this list.</p>
+    </div>
+</div>
+
+<p>Touch <span class="label">Apply</span> to apply your configuration. This will add an icon to the Input Action box in the scene list to indicate that the scene may be fired from an Input Action.</p>
+
+<p>
+    <span class="note">
+        <span class="notetitle">Important Note: </span>After pressing <span class="label">Apply</span>, you must choose a source for your incoming MIDI/GPI data.
+        This could be the local ports on the rear of the control surface (if fitted), remote ports on a stagebox or ipMIDI via the Connectivity network port
+        (refer to the <a href="https://livehelp.solidstatelogic.com/Help/ipMIDI.html"><span class="hyperlink">ipMIDI section</span></a> for configuration instructions).
+        Press the <span class="label">Route&nbsp;Input</span> button to open the appropriate dialogue.
+        Select a source from those listed and press <span class="label">Make</span>.
+    </span>
+</p>
+
+<p>Press <span class="label">Arm</span> to allow the Input Action to fire this scene.</p>
+
+<p>
+    If you want the Input Action to stay armed once it has been triggered, leave <span class="label">One&nbsp;Shot</span> inactive;
+    If you want the Input Action disarmed after it has been triggered once, activate the <span class="label">One&nbsp;Shot</span> button.
+    This will trigger the scene only the first time an Input Action condition is met.
+</p>
+
+<p>You can now configure other Input Actions for that scene or other scenes. Up to three Input Actions can be defined per scene.</p>
+
+<p>
+    All Input Actions across all scenes can be Armed/Disarmed in bulk using the <span class="label">Arm&nbsp;All&nbsp;Input&nbsp;Actions</span> and <span class="label">Disarm&nbsp;All&nbsp;Input&nbsp;Actions</span>
+    buttons in the Automation <span class="label">Controls</span> page. These actions can also be triggered using the <a href="https://livehelp.solidstatelogic.com/Help/EventManager.html"><span class="hyperlink">Event&nbsp;Manager</span></a>.
+</p>
+
+<p>To remove an Input Action from a scene, select <span class="label">None</span> from the Input Actions <span style="font-weight: bold;">TYPE</span> list and press <span class="label">Apply</span>.</p>
+
+<p><span class="note"><span class="notetitle">Note: </span>Input Actions operate on an 'OR' basis; the scene change will occur whenever any one of the Input Actions is triggered. Multiple GPIO inputs can be enabled within one Input Action, again operating on an 'OR' basis.</span></p>
+
+<h2 id="OutputActions">Output Actions</h2>
+
+<p>Output Actions allow the console to send messages to external devices when a scene is triggered; either through a GPO (General Purpose Output) or a specific MIDI message.</p>
+
+<p>
+    To create a GPO, MIDI or Event-driven trigger as part of a scene, touch one of the <span style="font-weight: bold;">Output Actions</span> boxes to the right of the <span style="font-weight: bold;">Scene Name</span> in the scene list,
+    so that the box is highlighted (turns cyan). (You can also touch the <span class="label">Output Actions</span> button in the left side of the Automation detail dialogue to open the configuration page for that action.)
+</p>
+
+<p>
+    Select the action type by touching the button beneath the <span style="font-weight: bold;">TYPE</span> label and select
+    <span class="label">GPIO</span>, <span class="label">MIDI</span> or <span class="label">Event</span> from the submenu.
+</p>
+
+<p>
+    The <span class="label">At</span> button beneath the action type button can be used to select when the Output Action is fired in relation to the scene:
+</p>
+
+<ul>
+    <li><span class="label">At&nbsp;Fade&nbsp;Start</span> : At the very beginning of the scene, as soon as it has been fired</li>
+    <li><span class="label">At&nbsp;Fade&nbsp;End</span> : After all parameters have finished fading in/out</li>
+    <li><span class="label">At&nbsp;Scene&nbsp;End</span> : On leaving the scene (i.e. upon firing the next scene)</li>
+</ul>
+
+<div id="accordion">
+    <div class="indexheader2">GPIO Output Actions</div>
+    <div>
+        <p>
+            The <span class="label">GPIO</span> Output Actions detail dialogue looks similar to the GPIO Input Actions page (described <a href="https://livehelp.solidstatelogic.com/Help/AutoIOActions.html#InputActions"><span class="hyperlink">above</span></a>),
+            with the addition of <span class="label">Test</span> buttons for each GPO.
+        </p>
+
+        <p>The routing works in the same way. With only one GPO routed, only the first trigger is relevant. When the <span class="label">Make All</span> button has been used, each trigger corresponds to a routed GPO pin.</p>
+
+        <p>The lower left button defines what kind of GPO will be fired: a rising edge, a falling edge, a positive pulse or a 'negative' (+12V -> 0V -> +12V) pulse. The green 'light' in the corner of the button is green when the GPO is set to +12V and grey when 0V.</p>
+
+        <p>The lower right button is used to switch each GPO pin <span class="label">In</span>. Multiple GPO pins can be activated for a single Output Action by switching them all <span class="label">In</span>.</p>
+
+        <p>The <span class="label">Test</span> button toggles the voltage on the GPO pin, allowing you to check that the output is working.</p>
+    </div>
+    <div class="indexheader2">MIDI Output Actions</div>
+    <div>
+        <p>
+            The <span class="label">MIDI</span> Output Actions detail dialogue looks similar to the MIDI Input Actions page (described <a href="https://livehelp.solidstatelogic.com/Help/AutoIOActions.html#InputActions"><span class="hyperlink">above</span></a>)
+            and features the same parameters for each MIDI message type:
+        </p>
+
+        <ul>
+            <li><span class="label">Note&nbsp;On</span> messages have <span style="font-weight: bold;">Note Number</span> (0-127), <span style="font-weight: bold;">Note Name</span> and <span style="font-weight: bold;">Velocity</span> (1-127) parameters. These can be sent on <span class="label">All&nbsp;Channels</span> if the button is active, or an a specific <span style="font-weight: bold;">Channel</span> (1-16) if the button is deactivated.</li>
+            <li><span class="label">Note&nbsp;Off</span> messages have <span style="font-weight: bold;">Note Number</span> (0-127) and <span style="font-weight: bold;">Note Name</span> parameters. These can be sent on <span class="label">All&nbsp;Channels</span> if the button is active, or an a specific <span style="font-weight: bold;">Channel</span> (1-16) if the button is deactivated.</li>
+            <li><span class="label">PGM&nbsp;Change</span> messages have only the <span style="font-weight: bold;">Channel</span> number and <span style="font-weight: bold;">Program Number</span> (1-128) parameters.</li>
+            <li><span class="label">CTRL&nbsp;Change</span> messages have the <span style="font-weight: bold;">Channel</span> number, <span style="font-weight: bold;">Control Number</span> (0-119) and <span style="font-weight: bold;">Control Value</span> (0-127) parameters.</li>
+        </ul>
+    </div>
+    <div class="indexheader2">Event Output Actions</div>
+    <div>
+        <p>The <span class="label">Event</span> Output Actions detail dialogue looks similar to the Event Input Actions page (described <a href="https://livehelp.solidstatelogic.com/Help/AutoIOActions.html#InputActions"><span class="hyperlink">above</span></a>).</p>
+
+        <p>Select an event from the <b>LINKABLE EVENTS</b> list. Only events that have an <b>Automation&nbsp;Input</b> event destination will appear in this list.</p>
+    </div>
+</div>
+
+<p>Touch <span class="label">Apply</span> to apply your configuration.</p>
+
+<p>
+    <span class="note">
+        <span class="notetitle">Important Note: </span>After pressing <span class="label">Apply</span>, you must choose a destination for your MIDI/GPO data.
+        This could be the local ports on the rear of the control surface (if fitted), remote ports on a stagebox or ipMIDI via the Connectivity network port
+        (refer to the <a href="https://livehelp.solidstatelogic.com/Help/ipMIDI.html"><span class="hyperlink">ipMIDI section</span></a> for configuration instructions).
+        Press the <span class="label">Route&nbsp;Output</span> button to open the appropriate dialogue.
+        Select a destination from those listed and press <span class="label">Make</span>.
+    </span>
+</p>
+
+<p>Press the <span class="label">Arm</span> button to enable the Output Action to be fired with this scene.</p>
+
+<p>If you want the Output Action to fire each time the scene is recalled, leave <span class="label">One&nbsp;Shot</span> inactive; If you want the Output Action disarmed after it has been triggered once, activate the <span class="label">One&nbsp;Shot</span> button. This will send the Output Action only the first time the scene is recalled.</p>
+
+<p>You can now configure other Output Actions for that scene or other scenes. Up to nine Output Actions can be defined per scene, all of which will be fired with the scene.</p>
+
+<p>
+    All Output Actions across all scenes can be Armed/Disarmed in bulk using the <span class="label">Arm&nbsp;All&nbsp;Output&nbsp;Actions</span> and <span class="label">Disarm&nbsp;All&nbsp;Output&nbsp;Actions</span>
+    buttons in the Automation <span class="label">Controls</span> page. These actions can also be triggered using the <a href="https://livehelp.solidstatelogic.com/Help/EventManager.html"><span class="hyperlink">Event&nbsp;Manager</span></a>.
+</p>
+
+<h2>Scene List</h2>
+
+<div><img style="display: block; margin: 10px auto; width: 790px;" src="https://livehelp.solidstatelogic.com/Help/images/g_autoScenedetail.png" alt=""></div>
+
+<p>The configured Input and Output Actions will be displayed in the relevant columns of the scene list using the following icons:</p>
+
+<table style="text-align: left; width: 790px; margin: 10px 0px">
+    <tbody>
+        <tr>
+            <td style="width: 40px; padding: 0px 5px;"><img src="https://livehelp.solidstatelogic.com/Help/images/g_autoActionsIcons_Selected.png" alt=""></td>
+            <td>Selected Input/Output Action</td>
+        </tr>
+        <tr>
+            <td style="width: 40px; padding: 0px 5px;"><img src="https://livehelp.solidstatelogic.com/Help/images/g_autoActionsIcons_GPIONotArmed.png" alt=""></td>
+            <td>GPI/O: configured, not armed</td>
+        </tr>
+        <tr>
+            <td style="width: 40px; padding: 0px 5px;"><img src="https://livehelp.solidstatelogic.com/Help/images/g_autoActionsIcons_GPIOArmed.png" alt=""></td>
+            <td>GPI/O: configured, armed</td>
+        </tr>
+        <tr>
+            <td style="width: 40px; padding: 0px 5px;"><img src="https://livehelp.solidstatelogic.com/Help/images/g_autoActionsIcons_MIDINoteOnNotArmed.png" alt=""></td>
+            <td>MIDI Note On: configured, not armed</td>
+        </tr>
+        <tr>
+            <td style="width: 40px;padding: 0px 5px;"><img src="https://livehelp.solidstatelogic.com/Help/images/g_autoActionsIcons_MIDINoteOnArmed.png" alt=""></td>
+            <td>MIDI Note On: configured, armed</td>
+        </tr>
+        <tr>
+            <td style="width: 40px; padding: 0px 5px;"><img src="https://livehelp.solidstatelogic.com/Help/images/g_autoActionsIcons_MIDINoteOffNotArmed.png" alt=""></td>
+            <td>MIDI Note Off: configured, not armed</td>
+        </tr>
+        <tr>
+            <td style="width: 40px; padding: 0px 5px;"><img src="https://livehelp.solidstatelogic.com/Help/images/g_autoActionsIcons_MIDINoteOffArmed.png" alt=""></td>
+            <td>MIDI Note Off: configured, armed</td>
+        </tr>
+        <tr>
+            <td style="width: 40px; padding: 0px 5px;"><img src="https://livehelp.solidstatelogic.com/Help/images/g_autoActionsIcons_MIDIPgmNotArmed.png" alt=""></td>
+            <td>MIDI Program Change: configured, not armed</td>
+        </tr>
+        <tr>
+            <td style="width: 40px; padding: 0px 5px;"><img src="https://livehelp.solidstatelogic.com/Help/images/g_autoActionsIcons_MIDIPgmArmed.png" alt=""></td>
+            <td>MIDI Program Change: configured, armed</td>
+        </tr>
+        <tr>
+            <td style="width: 40px; padding: 0px 5px;"><img src="https://livehelp.solidstatelogic.com/Help/images/g_autoActionsIcons_MIDICCNotArmed.png" alt=""></td>
+            <td>MIDI Control Change: configured, not armed</td>
+        </tr>
+        <tr>
+            <td style="width: 40px; padding: 0px 5px;"><img src="https://livehelp.solidstatelogic.com/Help/images/g_autoActionsIcons_MIDICCArmed.png" alt=""></td>
+            <td>MIDI Control Change: configured, armed</td>
+        </tr>
+        <tr>
+            <td style="width: 40px; padding: 0px 5px;"><img src="https://livehelp.solidstatelogic.com/Help/images/g_autoActionsIcons_EventNotArmed.png" alt=""></td>
+            <td>Event: configured, not armed</td>
+        </tr>
+        <tr>
+            <td style="width: 40px; padding: 0px 5px;"><img src="https://livehelp.solidstatelogic.com/Help/images/g_autoActionsIcons_EventArmed.png" alt=""></td>
+            <td>Event: configured, armed</td>
+        </tr>
+    </tbody>
+</table>
+
+
+<h2>Links to Further Automation Help:</h2>
+
+<ul>
+    <li><a href="https://livehelp.solidstatelogic.com/Help/AutoOverview.html"><span class="hyperlink">Automation Overview</span></a></li>
+    <li><a href="https://livehelp.solidstatelogic.com/Help/AutoTime.html"><span class="hyperlink">Scene Time Functions</span></a></li>
+    <li><a href="https://livehelp.solidstatelogic.com/Help/AutoNamesNotes.html"><span class="hyperlink">Scene Names and Notes</span></a></li>
+    <li><a href="https://livehelp.solidstatelogic.com/Help/AutoGrouping.html"><span class="hyperlink">Scene Groups</span></a></li>
+    <li><a href="https://livehelp.solidstatelogic.com/Help/AutoFilters.html"><span class="hyperlink">Function Filters</span></a></li>
+    <li><a href="https://livehelp.solidstatelogic.com/Help/AutoSceneList.html"><span class="hyperlink">Scene List Management</span></a></li>
+    <li><a href="https://livehelp.solidstatelogic.com/Help/AutoPreview.html"><span class="hyperlink">Automation Preview Mode</span></a></li>
+</ul>
+<br>
+<a href="https://livehelp.solidstatelogic.com/Help/LinkIndex.html"><span class="hyperlink">Index and Glossary</span></a>
+<br>
+</body>
+</html>

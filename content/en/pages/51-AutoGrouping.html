@@ -1,0 +1,83 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Automation: Scene Groups</title>
+  <style>
+    body { font: 16px/1.55 Arial, sans-serif; max-width: 1080px; margin: 2rem auto; padding: 0 1.25rem; color: #202124; }
+    img { max-width: 100%; height: auto; }
+    table { border-collapse: collapse; max-width: 100%; }
+    th, td { border: 1px solid #aaa; padding: .45rem; vertical-align: top; }
+    .note { display: block; border-left: 4px solid #e0a000; background: #fff8df; padding: .75rem 1rem; margin: 1rem 0; }
+    .notetitle { font-weight: bold; }
+    .label { font-weight: bold; color: #174ea6; }
+    .source { color: #666; font-size: .9rem; }
+  </style>
+</head>
+<body>
+  <p class="source">Section: Mixing | Source: <a href="https://livehelp.solidstatelogic.com/Help/AutoGrouping.html">https://livehelp.solidstatelogic.com/Help/AutoGrouping.html</a></p>
+<h2>Automation Groups</h2>
+
+<p>If you want changes made to the active scene to be reflected in a selection of other scenes (or all scenes), those scenes can be placed in a scene group. Whenever you make changes, you can select whether or not to make those changes across all scenes in the group, and whether or not those changes should be relative to each scene's previous values or absolute across all scenes in the group. Scene groups are distinguished by their colours.</p>
+
+<p>To place scenes into a group:</p>
+
+<p>Touch the <span style="font-weight: bold;">Group</span> column for one of the scenes to be grouped. The group configuration page will open in the bottom half of the screen.</p>
+
+<img style="display: block; margin: 25px auto; width: 800px" src="https://livehelp.solidstatelogic.com/Help/images/g_autoSceneGroups.png" alt="">
+
+<span class="note"><span class="notetitle">Note: </span>To navigate from a different Configuration page, touch the <span style="font-weight: bold;">Group</span> button in the left of the screen.</span>
+
+<p>Touch one of the coloured boxes which appears. This is now the colour for that scene group, and it will appear in the scene list <span style="font-weight: bold;">Group</span> box for that scene.</p>
+
+<p>The colour bar above the automation LCD in the Master Tile will also light to show the group colour of the currently selected scene.</p>
+
+<p>Repeat the process for all other scenes to be put into that group, selecting the same colour each time.</p>
+
+<p>To create another group, simply repeat this process with a different colour.</p>
+
+
+<h2>Group All</h2>
+
+<p>To apply changes to all scenes, tap the <span style="font-weight: bold;">Group</span> column heading until it turns green. All scene group buttons will turn cyan. This will override any specific colour groups and propagate changes to every scene in the list.</p>
+
+
+<h2>Enabling Group Changes</h2>
+
+<img style="margin: 14px 0px 5px 21px;" src="https://livehelp.solidstatelogic.com/Help/images/g_AutomationNoLabels.png" alt="" align="right">
+
+<p>The <span class="label">Group</span> button in the <span style="font-weight: bold;">Automation</span> area of the Master Tile defines whether or not changes made to the active scene are also made to any scenes grouped with it.</p>
+
+<p>
+    Press the <span class="label">Group</span> button to activate Group mode. The button will flash in the colour of the Group being worked on (i.e. that of the active scene; or cyan if in Group All mode). The active Group's scene list <span style="font-weight: bold;">Group</span> boxes will also 'light' when the group is active. Any changes made from the point at which Group mode was engaged will be applied to the active scene and all scenes in the Group when the <span class="label">Store</span> button is pressed, which will light yellow to indicate when Group changes are pending.<br>
+    Alternatively, press & hold the <span class="label">Group</span> button to carry over all changes made in the active scene to the Grouped scenes when pressing <span class="label">Store</span>, i.e. changes made both before and after the <span class="label">Group</span> button was engaged.
+</p>
+
+<p>Whenever the <span class="label">Group</span> button is unlit, changes stored to the active Scene will only affect that scene.</p>
+
+<p>When the <span class="label">Group</span> button is active, the <span class="label">Absolute</span> and <span class="label">Relative</span> buttons next to it define whether changes to the active scene are copied as absolute positions (the new position in the changed scene becomes the new position in all the grouped scenes) or as relative positions (each grouped scene is changed up or down by the same amount).</p>
+
+<p>For example, a fader is at -6 dB in the active scene and at -20 dB in a scene within its group. If that fader is moved to -3 dB in the active scene (i.e. up by 3 dB), the fader position for the grouped scene will become -3 dB if Absolute mode is selected, or -17 dB (-20 dB + 3 dB) if Relative mode is selected.</p>
+
+<p>The group function can be globally disabled by touching the <span style="font-weight: bold;">Group</span> column title in the Automation screen until it turns red. The column contents will also become greyed out, indicating that the column is inactive and no group changes will occur.</p>
+
+<span class="note"><span class="notetitle">Note: </span>The Master Tile <span style="font-weight: bold;">Automation</span> buttons are duplicated in the main screen: select the <span style="font-weight: bold;">Controls</span> button in the left side of the configuration page, and soft versions of the hardware buttons will appear.</span>
+
+<h2>Links to Further Automation Help:</h2>
+
+<ul>
+    <li><a href="https://livehelp.solidstatelogic.com/Help/AutoOverview.html"><span class="hyperlink">Automation Overview</span></a></li>
+    <li><a href="https://livehelp.solidstatelogic.com/Help/AutoTime.html"><span class="hyperlink">Scene Time Functions</span></a></li>
+    <li><a href="https://livehelp.solidstatelogic.com/Help/AutoNamesNotes.html"><span class="hyperlink">Scene Names and Notes</span></a></li>
+    <li><a href="https://livehelp.solidstatelogic.com/Help/AutoIOActions.html"><span class="hyperlink">Scene Input and Output Actions</span></a></li>
+    <li><a href="https://livehelp.solidstatelogic.com/Help/AutoFilters.html"><span class="hyperlink">Function Filters</span></a></li>
+    <li><a href="https://livehelp.solidstatelogic.com/Help/AutoSceneList.html"><span class="hyperlink">Scene List Management</span></a></li>
+    <li><a href="https://livehelp.solidstatelogic.com/Help/AutoPreview.html"><span class="hyperlink">Automation Preview Mode</span></a></li>
+</ul>
+<br>
+
+<a href="https://livehelp.solidstatelogic.com/Help/LinkIndex.html"><span class="hyperlink">Index and Glossary</span></a>
+<br>
+</body>
+</html>

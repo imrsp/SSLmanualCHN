@@ -1,0 +1,397 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Bus Routing &amp; VCAs</title>
+  <style>
+    body { font: 16px/1.55 Arial, sans-serif; max-width: 1080px; margin: 2rem auto; padding: 0 1.25rem; color: #202124; }
+    img { max-width: 100%; height: auto; }
+    table { border-collapse: collapse; max-width: 100%; }
+    th, td { border: 1px solid #aaa; padding: .45rem; vertical-align: top; }
+    .note { display: block; border-left: 4px solid #e0a000; background: #fff8df; padding: .75rem 1rem; margin: 1rem 0; }
+    .notetitle { font-weight: bold; }
+    .label { font-weight: bold; color: #174ea6; }
+    .source { color: #666; font-size: .9rem; }
+  </style>
+</head>
+<body>
+  <p class="source">Section: Building a Show | Source: <a href="https://livehelp.solidstatelogic.com/Help/BusRouting.html">https://livehelp.solidstatelogic.com/Help/BusRouting.html</a></p>
+<h2>Buses & VCAs</h2>
+
+<p>This page describes how to send a path to a bus or assign to a VCA. More information about the different bus types can be found in the <a href="https://livehelp.solidstatelogic.com/Help/ConsoleConfig.html"><span class="hyperlink"><span style="font-weight: bold;">Console Configuration</span></span></a> section.</p>
+
+<p style="margin-bottom:0px">
+    <ul>
+        <li><span style="font-weight:bold;">Channels</span> can send to Stems, Auxes and Masters.</li>
+        <li><span style="font-weight:bold;">Stems</span> can send to other Stems, Auxes and Masters.</li>
+        <li><span style="font-weight:bold;">Auxes</span> can send to Masters. They cannot send to Stems or other Auxes.</li>
+        <li><span style="font-weight:bold;">Masters</span> cannot send to Stems, Auxes or other Masters.</li>
+    </ul>
+</p>
+
+<p>Sends to Stems and Auxes have an In/Out control as well as level contribution.</p>
+<p>Sends to Masters/VCA assignments only have an In/Out control, they do not have level contribution.</p>
+
+<p>Sends can be adjusted in 4 different ways:</p>
+<p style="margin-bottom:0px">
+    <ul>
+        <li>Using Query</li>
+        <li>From the Detail View</li>
+        <li>From the Channel View & Quick Controls</li>
+        <li>From the Control Tile</li>
+    </ul>
+</p>
+
+<span class="note">
+    <span class="notetitle">Notes: </span>
+    Query is the quickest and easiest way to send paths to buses/assign to VCAs and this can be done without using the touchscreen.
+</span>
+<br />
+
+<div id="accordion">
+
+    <div class="indexheader2">Using Query for Bus Routing/VCA assignments</div>
+    <div style="padding: 1em 0;">
+
+        <h2>Using Query for Bus Routing/VCA assignments</h2>
+
+        <p>Sends can be configured quickly and easily using SSL Live's handy look-up feature, <a href="https://livehelp.solidstatelogic.com/Help/Query.html"><span class="hyperlink">Query</span></a>. First, use <span style="font-weight:bold;">Query Assign</span> to route to the bus/assign to a VCA. Then use Compressed or Expanded Query modes to adjust the send level.</p>
+
+        <!-- Start of QueryAssign Snippet -->
+        <!-- Also used in Query.html -->
+
+        <h3>Query Assign</h3>
+        <p>Query Assign can be used to quickly assign paths to the Queried path.</p>
+
+        <p>Press & hold a path's <span class="label">Q</span> button to enter Query Assign. Now use the <span class="label">SELECT</span> buttons of other paths to turn them on or off to the Queried path.</p>
+
+        <p>While in Query Assign, the <span class="label">Q</span> button of the Queried path will flash purple. The Control Mode will match what has been set for that path type.</p>
+
+        <p>Press the Queried path's <span class="label">Q</span> button again to exit Query Assign.</p>
+
+        <span class="note">
+            <span class="notetitle">Tip: </span>It is also possible to select a range of paths by holding down the <span class="label">SELECT</span> button of the first path
+            then pressing the last path's <span class="label">SELECT</span> button. All paths on the Fader Tile between these two will be selected. It is also possible to Range Select across more than one Fader Tile.
+        </span>
+
+        <!-- End of QueryAssign Snippet -->
+
+        <h3>Adjusting Sends Using Query</h3>
+        <p>Press the <span class="label">Q</span> button once on a path. All of the buses the path is sending to, paths that are feeding the path and any VCAs the path is assigned to will be displayed.</p>
+
+        <span class="note">
+            <span class="notetitle">Please Note: </span>Depending on the <a href="https://livehelp.solidstatelogic.com/Help/Query.html#Mode"><span class="hyperlink">Query Mode</span></a>, the contributions will either be displayed as the only paths on the other tiles (<span style="font-weight:bold;">Compressed</span>),
+            or using the <span class="label">Q</span> button light colours to show those paths feeding to the Queried path (green) and being fed from the Queried path (red) (<span style="font-weight:bold;">Expanded</span>).
+        </span>
+
+        <p>
+            If the <a href="https://livehelp.solidstatelogic.com/Help/Query.html#Control"><span class="hyperlink">Query Control Mode</span></a> is set to <span style="font-weight:bold;">Quick Controls</span>, the Quick Control encoders on the tiles displaying the
+            contributions can be used to raise or lower the send level.
+        </p>
+
+        <p>
+            If the <span style="font-weight:bold;">Query Control Mode</span> is set to <span style="font-weight:bold;">Faders</span>, the faders will have automatically flipped when you pressed the <span class="label">Q</span> button
+            and the faders can now be used to raise of lower the send level.
+        </p>
+
+        <p>To learn more about Query and Query Modes please see the <a href="https://livehelp.solidstatelogic.com/Help/Query.html"><span class="hyperlink">Query</span></a> page.</p>
+
+    </div>
+
+
+    <div class="indexheader2">Detail View</div>
+    <div id="DetailView" style="padding: 1em 0;">
+
+        <h2>Routing to buses/Assigning to VCAs from the Detail View</h2>
+
+        <p>Open the Detail View and tap on the <span class="label">Stems</span>, <span class="label">Auxiliaries</span>, <span class="label">Masters</span> or <span class="label">MG + VCA</span> page.</p>
+
+        <img style="display: block; margin: 25px auto; width: 750px;" src="https://livehelp.solidstatelogic.com/Help/images/g_detailAUX.png" alt="">
+
+
+        <p>
+            Buttons for all buses of that type will be listed in the left half of the page.
+            If there are more buses than can be displayed at one time, use the numbered buttons in the right edge of the page to select which page of buses is shown.
+        </p>
+
+        <p>The <span class="label">Lock</span> button in the top right of the page defines what happens when a bus is touched: </p>
+        <p style="margin-bottom:0px">
+            <ul>
+                <li>If Lock is <span style="font-weight:bold;">on</span>, the bus/VCA is assigned to the Quick Controls</li>
+                <li>If Lock is <span style="font-weight:bold;">off</span>, the bus/VCA is assigned to the Quick Controls and the send is turned in or out</li>
+            </ul>
+        </p>
+
+        <p>
+            When a bus is selected, sliders for any available parameters are shown in the right half of the screen.
+            These can be dragged with a finger on the touchscreen or adjusted using the Quick Control assignments beneath the relevant labels at the base of the screen.
+            Only controls relevant to the selected bus will be shown, e.g. if the bus has been set to <span style="font-weight:bold;">Follow&nbsp;Pan</span> (see <a href="#FollowPan"><span class="hyperlink">below</span></a>) then no Pan controls will be shown,
+            or if routing from a mono channel to a stereo bus with <span style="font-weight:bold;">Follow&nbsp;Pan</span> disabled then only the Left/Right Pan control will be visible.
+        </p>
+        <p>Press the <span class="label">IN</span> button (or the upper Quick Control button) to switch the send in and out.</p>
+        <p>Press the <span class="label">0&nbsp;dB</span> button to set the send level to 0 dB.</p>
+        <p>Use the <span class="label">Pan&nbsp;Left</span>, <span class="label">Pan&nbsp;Centre</span> and <span class="label">Pan&nbsp;Right</span> buttons to quickly set the send's Pan settings.</p>
+        <p>
+            Use the <span class="label">Copy&nbsp;Main&nbsp;Path&nbsp;Pan&nbsp;to&nbsp;[Bus]&nbsp;Send&nbsp;Pan</span> to copy the path's pan settings to the selected bus send pan section 
+            (applied only when the selected bus is <b>not</b> set to <a href="https://livehelp.solidstatelogic.com/Help/BusRouting.html#FollowPan"><span class="hyperlink">Follow&nbsp;Pan</span></a>, else the main path pan is used). 
+            <a href="https://livehelp.solidstatelogic.com/Help/PathLink.html"><span class="hyperlink">Path&nbsp;Link</span></a> can be used to copy multiple path's Pan settings to the selected bus.
+            See also the <a href="https://livehelp.solidstatelogic.com/Help/BusRouting.html#CopyBusPans"><span class="hyperlink">Copy&nbsp;Send&nbsp;Pans&nbsp;from&nbsp;Main&nbsp;Path&nbsp;Pans</span></a> feature below to copy on a entire bus basis.
+        </p>
+
+
+        <span class="note">
+            <span class="notetitle">Note: </span><span class="label">IN</span> is the only control that is displayed in the right side of the dialogue when configuring Sends to Master buses.<br>
+        </span>
+
+        <p>
+            You can choose the selected feed point for this send by touching the <span class="label">Feed:</span> button below the <span class="label">Lock</span> button, and selecting the source from the menu which appears.
+            The options are as follows:
+        </p>
+
+        <ul>
+            <li>Sends to Master Buses: <span style="font-weight: bold;">Default</span>, <span style="font-weight: bold;">Post Fader</span> (before any processing elements which have been placed after the fader) and <span style="font-weight: bold;">Post All</span> (after any processing elements which have been placed after the fader);</li>
+            <li>Sends to Auxiliaries: <span style="font-weight: bold;">Default</span>, <span style="font-weight: bold;">Pre Fader</span> and <span style="font-weight: bold;">Post All</span>; </li>
+            <li>Sends to Stems: <span style="font-weight: bold;">Default</span>, <span style="font-weight: bold;">Pre Fader</span>, <span style="font-weight: bold;">Post Trim</span>, <span style="font-weight: bold;">Post Ins</span>ert<span style="font-weight: bold;"> A</span>, <span style="font-weight: bold;">Post Ins</span>ert <span style="font-weight: bold;">B</span>, <span style="font-weight: bold;">Post Fader</span>, or <span style="font-weight: bold;">Post All</span></li>
+        </ul>
+
+        <span class="note">
+            <span class="notetitle">Note: </span>When Sends are sourced from the Default point, they follow whichever setting is set as the default in the <span class="label">Console Configuration</span> page.
+            See <a href="https://livehelp.solidstatelogic.com/Help/ConsoleConfig.html"><span class="notehyperlink">Console Configuration</span></a> for details.
+        </span>
+
+        <p>
+            Bus sends that are fed from before the channel's fader (Post Trim, Pre Fader or Post Insert A/B if the insert point is before the fader in the channel's processing order) have an indicator to the
+            <span style="font-weight:bold;">left</span> of the send level:
+        </p>
+        <div style="text-align: center"><img src="https://livehelp.solidstatelogic.com/Help/images/b_auxsend_onPRE.png" alt=""></div>
+
+        <p>
+            Bus sends that are fed from after the channel's fader (Post Fader, Post All or Post Insert A/B if the insert point is after the fader in the channel's processing order) have an indicator to the
+            <span style="font-weight:bold;">right</span> of the send level:
+        </p>
+        <div style="text-align: center"><img src="https://livehelp.solidstatelogic.com/Help/images/b_auxsend_onUNSEL.png" alt=""></div>
+
+        <p>The status of Bus Selectors is indicated as follows:</p>
+
+        <table>
+            <tr>
+                <td colspan="2"><h3>Masters/VCAs:</h3></td>
+                <td colspan="2"><h3>Stems and Auxes:</h3></td>
+            </tr>
+            <tr>
+                <td style="width: 63px;"><img alt="" src="https://livehelp.solidstatelogic.com/Help/images/b_SelectorMasterOff.png" style="margin: 2px 10px 2px 0px;"></td>
+                <td style="width: 337px;">Bus is unselected and switched out;</td>
+                <td style="width: 63px;"><img alt="" src="https://livehelp.solidstatelogic.com/Help/images/b_auxsend_unsel.png" style="margin: 2px 10px 2px 0px;"></td>
+                <td style="width: 337px;">Bus is unselected and switched out;</td>
+            </tr>
+            <tr>
+                <td style="width: 63px;"><img alt="" src="https://livehelp.solidstatelogic.com/Help/images/b_SelectorMasterOffSel.png" style="margin: 2px 10px 2px 0px;"></td>
+                <td style="width: 337px;">Bus is assigned to Quick Controls and switched out;</td>
+                <td style="width: 63px;"><img alt="" src="https://livehelp.solidstatelogic.com/Help/images/b_auxsend_sel.png" style="margin: 2px 10px 2px 0px;"></td>
+                <td style="width: 337px;">Bus is assigned to Quick Controls and switched out;</td>
+            </tr>
+            <tr>
+                <td style="width: 63px;"><img alt="" src="https://livehelp.solidstatelogic.com/Help/images/b_SelectorMasterOnSel.png" style="margin: 2px 10px 2px 0px;"></td>
+                <td style="width: 337px;">Bus is assigned to Quick Controls and switched in;</td>
+                <td rowspan="2" style="width: 63px;"><img alt="" src="https://livehelp.solidstatelogic.com/Help/images/b_auxsend_on.png" style="margin: 2px 10px 2px 0px;"></td>
+                <td rowspan="2" style="width: 337px;">Bus is assigned to Quick Controls and switched in. The bottom half of the Selector shows its level. The top half shows panning information if applicable.</td>
+            </tr>
+            <tr>
+                <td style="width: 63px;"><img alt="" src="https://livehelp.solidstatelogic.com/Help/images/b_SelectorMasterOnUnsel.png" style="margin: 2px 10px 2px 0px;" align="top"></td>
+                <td style="width: 337px;">The bus is unselected and switched in.</td>
+            </tr>
+        </table>
+
+        <p>The Mute Groups and VCAs Detail View page looks slightly different but the functionality is the same; tap the buttons to assign the path to Mute Groups and VCAs.</p>
+
+        <p><img style="display: block; margin: 27px auto;" src="https://livehelp.solidstatelogic.com/Help/images/g_DetailMGVCA.png" alt=""></p>
+    </div>
+
+
+    <div class="indexheader2">Channel View & Quick Controls</div>
+    <div style="padding: 1em 0;">
+        <h2>Routing to buses/Assigning to VCAs from the Channel View & Quick Controls</h2>
+
+        <p>
+            To map the bus send to the Quick Controls, go to the <span class="label">Channel View</span>, tap on a bus assign button
+            (<span class="label">Master</span>, <span class="label">Stem</span> or <span class="label">Aux</span>) and then tap on the bus:
+        </p>
+
+        <div align="center">
+            <img style="width: 84px; height: 84px;" src="https://livehelp.solidstatelogic.com/Help/images/n_MenuChanView.png" alt=""><img style="width: 74px; height: 84px;" src="https://livehelp.solidstatelogic.com/Help/images/n_arrow.png" alt=""><img src="https://livehelp.solidstatelogic.com/Help/images/n_ChanSelect.png" alt=""><img src="https://livehelp.solidstatelogic.com/Help/images/n_arrow.png" alt=""><img style="width: 84px; height: 84px;" src="https://livehelp.solidstatelogic.com/Help/images/n_AssignButtons.png" alt=""><img src="https://livehelp.solidstatelogic.com/Help/images/n_arrow.png" alt=""><img src="https://livehelp.solidstatelogic.com/Help/images/n_SelSendsAll.png" alt="">
+        </div>
+
+        <img style="margin: 0px 0px 0px 20px;" src="https://livehelp.solidstatelogic.com/Help/images/g_PanelQuickScroller.png" alt="" align="right">
+
+        <p>You can view which bus is currently mapped to the Quick Controls by checking the Quick Control label display in the top right of the Fader Tile.</p>
+        <br>
+        <img style="margin: 37px 27px 5px 0px;" src="https://livehelp.solidstatelogic.com/Help/images/g_quickALLbuses.png" alt="" align="left">
+
+        <p>Bus selectors for all buses of that type will be listed below the channel meters. If there are more buses than can be displayed at one time, use the numbered buttons in the right edge of the screen (shown right) to select which page of Selectors is shown.</p>
+
+        <p>The <span class="label">Lock</span> button in the top right of the page defines what happens when a bus is touched: </p>
+        <p style="margin-bottom:0px">
+            <ul>
+                <li>If Lock is <span style="font-weight:bold;">on</span>, the bus is assigned to the Quick Controls</li>
+                <li>If Lock is <span style="font-weight:bold;">off</span>, the bus is assigned to the Quick Controls and the send is turned in or out</li>
+            </ul>
+        </p>
+
+        <p>The controls available for each send type are as follows:</p>
+
+        <h3>Masters</h3>
+
+        <img style="margin: 0px 0px 10px 25px;" src="https://livehelp.solidstatelogic.com/Help/images/g_PanelQuicksBasic.png" alt="" align="right">
+
+        <p>The upper key toggles send in and out. There are no other controls because Masters do not have level contribution.</p>
+
+        <h3>Stems & Auxes</h3>
+
+        <ul class="tab">
+            <li>The upper key toggles the send in and out.</li>
+            <li>Pressing the rotary encoder changes the function of the lower right button between Pan, Width, Divergence, Front/Rear, Depth and LF Gain.</li>
+            <li>In gain/pan, the left and right keys switch the encoder between Gain and Pan respectively.</li>
+        </ul>
+
+        <span class="note"><span class="notetitle">Note: </span>Pan, Width, and Divergence are only active if Follow Pan mode for that bus is off <span style="font-weight: bold;">and</span> the channel and bus formatting is such that the controls are required.</span>
+
+        <p>The quick display (labelled <span style="font-weight: bold;">Assigned</span>) lists the routes from the channel to all buses of that type.</p>
+
+        <p>To select a different bus, simply tap on another bus in the <span class="label">Channel View</span> on the Main Screen.</p>
+
+        <p>
+            Alternatively, the <span class="label">&#9650;</span>/<span class="label">&#9660;</span> buttons above the <span class="label">Enter</span> button can be used to scroll within the bus path type, by first activating the <span class="label">Enter</span> button on the Fader Tile. 
+            A brief press of the arrows navigates through the list. Holding an arrow will jump up or down by eight buses, allowing for fast navigation. Turning off <span class="label">Enter</span> exits you from the paths and back to the other assign functions.
+        </p>
+
+        <p>The indicator in the bus button is off when the channel is feeding no buses of that type, and green when it is feeding at least one bus of that type (orange for VCAs).</p>
+
+        <p>
+            <img src="https://livehelp.solidstatelogic.com/Help/images/b_AssignAux_on.png">
+        </p>
+    </div>
+
+
+    <div class="indexheader2">Control Tile</div>
+    <div style="padding: 1em 0;">
+        <img style="margin: 15px 0px 5px 20px;" src="https://livehelp.solidstatelogic.com/Help/images/g_miniSENDS.png" alt="" align="right">
+
+        <h2>Routing to buses from the Control Tile</h2>
+
+        <p>Control of channel sends to Stems and Auxes, and bussing to Masters, is available via the Control Tile.</p>
+
+        <p>Press the <span class="label">Aux</span>, <span class="label">Stem</span>, <span class="label">Master</span> or <span class="label">VCA MG</span> button above the Control Tile Screen:</p>
+
+
+        <p>The page and parameter buttons in the middle of the screen define what is assigned to the encoders down either side.
+
+        <p>Buttons which are available are shown with blue labelling; buttons which aren't relevant are shown with grey labelling; the active buttons are lit blue.</p>
+
+        <p>Select which page of twelve sends is active using the page buttons towards the right;</p>
+
+        <p>Select which parameter is assigned to the rotary encoders using the Parameter buttons towards the left. </p>
+
+        <p>The parameters which are available will depend on the formats of the channel and bus in question.</p>
+
+        <p>The rotary encoders down either side of the screen can then be used to alter the selected parameter for the bus indicated in the screen area nearest to them. Sends can be switched on and off by pressing on the relevant encoder.</p>
+
+        <p>All on-screen buttons can also be controlled by touching the screen.</p>
+
+    </div>
+</div>
+
+
+<h2 id="FollowPan">Follow Pan</h2>
+
+<p>You can define whether or not sends to Stems or Auxes follow the channel Pan using the <span class="label">Follow&nbsp;Pan</span> button in the Eyeconix page of the Aux or Stem's Detail dialogue.</p>
+
+<p>When <b>Follow Pan</b> is off, Pan controls are added to the send controls in the sending channel's Detail Dialogue for that Aux/Stem. Only the Pan controls relevant to the combination of source channel format and Aux/Stem format will be available.</p>
+
+<span class="note">
+    <span class="notetitle">Note: </span> Turning <b>Follow Pan</b> on or off may result in a change to the panning settings applied from the source path to the bus.
+</span>
+
+<h2 id="CopyBusPans">Copy Send Pans from Main Path Pans</h2>
+
+<p>
+    When <b>Follow Pan</b> is disengaged, the pan settings for each path onto the selected bus will act independently to the path's main pan controls.
+    The independent per-send pan parameters default to unpanned. However, the send pan settings from each path to the selected bus may be copied 
+    from the main path pan settings by pressing &amp; holding the <span class="label">Copy&nbsp;Send&nbsp;Pans&nbsp;from&nbsp;Main&nbsp;Path&nbsp;Pans</span> button.
+    This has the same effect as pressing the <span class="label">Copy&nbsp;Main&nbsp;Path&nbsp;Pan&nbsp;to&nbsp;[Bus]&nbsp;Send&nbsp;Pan</span> 
+    (described in the Detail View section above) on every single source path to the bus.
+</p>
+
+<h2>Follow Mute</h2>
+
+<p>By default, all Stem and Aux sends are muted by the channel <span class="label">Mute</span> button, regardless of whether they are pre-fade (and therefore pre-mute) or post-fade. To leave pre-fade sends unmuted when the channel <span class="label">Mute</span> button is on, deselect <span class="label">Follow&nbsp;Mute</span> in the Aux/Stem's detail dialogue.</p>
+
+<img style="display: block; margin: 25px auto; width: 750px;" src="https://livehelp.solidstatelogic.com/Help/images/g_detailAuxEyeconix.png" alt="">
+
+<h2 id="VcaBusSends">VCA Control of Bus Send Levels (V-Aux &amp; V-Stem Controls)</h2>
+
+<p>
+    V-Auxes and V-Stems provide an efficient way of making mix adjustments to groups of channels from VCAs.
+    Adjusting a V-Aux or V-Stem send from a VCA path will trim sends to the Aux/Stem from all paths that are members of that VCA.
+</p>
+<p>
+    For example, a 'Drums' VCA might contain 10 channels (Kick, Snare, Hi-Hats etc.).
+    These channels are routed to a monitor mix using Aux&nbsp;1 and initial send levels are set to achieve a good balance.
+    Setting the Aux&nbsp;1 send of the Drum VCA to -3 dB will attenuate the level of all 10 member channels contributing to Aux&nbsp;1 accordingly, while maintaining their relative levels.
+</p>
+
+<div style="text-align: center"><img src="https://livehelp.solidstatelogic.com/Help/images/g_VcaMemberSends.png" alt=""></div>
+
+<p>
+    The Aux and Stem bus indicators in the Channel and Detail Views show both the path's discrete level and the level with the VCA offset applied.
+    The magenta/dark blue bar indicates the discrete ('local') Aux/Stem send level of the source path to the bus.
+</p>
+<p>
+    If the VCA portion of the send level is positive, a light cyan bar is added to the end of the local Aux/Stem level bar. The end of the combined bar indicates the overall level.
+</p>
+<p>
+    If the VCA portion of the send level is negative, a dark cyan bar is subtracted from the local Aux/Stem level bar. The end of the lighter local Aux/Stem level bar indicates the overall level.
+</p>
+
+<div style="text-align: center"><img src="https://livehelp.solidstatelogic.com/Help/images/g_V-Aux.png" alt=""></div>
+
+<span class="note">
+    <span class="notetitle">Note: </span>
+    Paths can be controlled by multiple VCAs, e.g. 'Drums' and 'Band' VCAs, each applying their own V-Aux/V-Stem offsets to their respective member paths.
+    The light/dark cyan bar shown for each path send shows the overall V-Aux/V-Stem offset from all controlling VCAs.
+</span>
+
+<p>The VCA contribution to a mix can be automated using the Stem and Aux columns for VCA paths in the <a href="https://livehelp.solidstatelogic.com/Help/AutoFilters.html"><span class="hyperlink">Automation Filters</span></a> page.</p>
+
+
+<h3>Using VCA Query to adjust mixes</h3>
+
+<p>
+    Querying a mix or path ordinarily results in the VCA faders controlling the VCA <b>master</b> level on the console surface.
+    However, enabling the <b>VCA Control</b> option for the relevant bus type in the <a href="https://livehelp.solidstatelogic.com/Help/OptionsSurface.html#Query"><span class="hyperlink">Surface options</span></a> (Menu > Setup > Options > Surface tab)
+    will enable control of bus sends from the VCA's fader (if the bus is set to Query on Faders mode) or Quick Control encoder (if set to Query on Quick Controls mode).
+</p>
+
+<span class="note">
+    <span class="notetitle">Note: </span>
+    V-Aux and V-Stem sends from VCAs have no feed point options; they are 'virtual' controls and simply provide an offset to the send levels of the audio paths assigned to the VCA, at the feed points defined in each path.
+    V-Auxes and V-Stems are always <b>IN</b>.
+</span>
+
+<h3>Locking V-Aux and V-Stem contributions</h3>
+
+<p>
+    It is possible to lock V-Aux and V-Stem contributions so that they cannot be changed, e.g. if they should always remain at 0 dB.
+    This option is accessed in the <a href="https://livehelp.solidstatelogic.com/Help/OptionsUser.html"><span class="hyperlink">User options</span></a> page and is stored in showfiles.
+</p>
+
+<span class="note">
+    <span class="notetitle">Note: </span> This option is enabled by default, even if loading a show from an older version of software.
+</span>
+
+
+<h2>Useful Links</h2>
+<a href="https://livehelp.solidstatelogic.com/Help/Routing.html"><span class="hyperlink">Routing</span></a><br>
+<a href="https://livehelp.solidstatelogic.com/Help/DetailView.html"><span class="hyperlink">Detail View</span></a><br>
+</body>
+</html>

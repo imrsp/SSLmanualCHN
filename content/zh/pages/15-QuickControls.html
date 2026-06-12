@@ -1,0 +1,106 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>快速控制</title>
+  <style>
+    body { font: 16px/1.55 Arial, sans-serif; max-width: 1080px; margin: 2rem auto; padding: 0 1.25rem; color: #202124; }
+    img { max-width: 100%; height: auto; }
+    table { border-collapse: collapse; max-width: 100%; }
+    th, td { border: 1px solid #aaa; padding: .45rem; vertical-align: top; }
+    .note { display: block; border-left: 4px solid #e0a000; background: #fff8df; padding: .75rem 1rem; margin: 1rem 0; }
+    .notetitle { font-weight: bold; }
+    .label { font-weight: bold; color: #174ea6; }
+    .source { color: #666; font-size: .9rem; }
+  </style>
+</head>
+<body>
+  <p class="source">章节：构建演出 | 来源： <a href="https://livehelp.solidstatelogic.com/Help/QuickControls.html">https://livehelp.solidstatelogic.com/Help/QuickControls.html</a></p>
+<h2>快速控制</h2>
+
+  <p>快速控制由每个推子区块顶部的实体编码器和三个按钮组成。通过这些控制项，可以快速访问输入增益、微调与路由显示、信号处理、发送、声像，以及 VCA 和静音组分配。它们当前的软件功能始终显示在主屏幕通道视图底部。</p>
+
+  <img style="margin: 10px 0px 10px 21px;" src="https://livehelp.solidstatelogic.com/Help/images/g_QuickKeysLabel.png" alt="" align="right">
+
+  <p>也可以使用推子区块上 <span class="label">Enter</span> 键上方的 <span class="label">&#9650;</span>/<span class="label">&#9660;</span> 按钮，直接在区块上循环切换快速控制。</p>
+
+  
+  <div class="note">
+    <span class="notetitle">注意：</span>
+      <ul>
+          <li>将常用部分（例如 Gain、Pan）分配给<a href="https://livehelp.solidstatelogic.com/Help/OptionsUserKeys.html"><span class="hyperlink">用户按键</span></a>，以便快速访问。</li>
+          <li>按住<a href="https://livehelp.solidstatelogic.com/Help/ControlTile.html"><span class="hyperlink">控制区块</span></a>的处理功能键，可将该部分同时分配给快速控制和控制区块屏幕。</li>
+      </ul>
+  </div>
+
+  <p>要向快速控制分配功能，请<b>触摸</b>主屏幕上的某个<b>分配</b>按钮：</p>
+
+  <ul>
+    <li>触摸屏幕通道条最顶部的区块可分配 Input 参数。</li>
+    <li><span class="label">MG</span> 和 <span class="label">VCA</span> 控制信号路径向静音组和 VCA 组的分配。</li>
+    <li><span class="label">Fader</span> 复现硬件信号路径推子，主要供 SOLSA 离线软件使用。</li>
+    <li><span class="label">Master</span>、<span class="label">Stem</span> 和 <span class="label">Aux</span> 控制信号路径向这些母线的发送。</li>
+    <li>屏幕快速控制下方左上按钮用于访问 <b>EQ</b>；</li>
+    <li>右上按钮用于访问 <b>Dynamics</b>。</li>
+    <li>左中按钮用于访问 <b>Pan</b>；</li>
+    <li>右中按钮用于访问 <b>Delay</b> 和 <b>All&nbsp;Pass filter</b>。</li>
+    <li>底部按钮用于访问 <b>Insert A</b> 和 <b>B</b>。
+  </ul>
+  
+  <span class="note"><span class="notetitle">注意：</span>并非所有按钮都适用于所有信号路径。例如，Aux 不会发送至 Stem。</span>
+
+  <p>通道条顶部区块会显示蓝色的 Digital Trim 或红色的 Analogue Gain，具体取决于最近一次在输入快速控制中选择的参数。</p>
+
+  <p>选择 <span class="label">MG</span>、<span class="label">VCA</span>、<span class="label">Master</span>、<span class="label">Stem</span> 或 <span class="label">Aux</span> 时，需要从分配按钮上方出现的各个“选择器”中选定要访问的具体母线或组。</p>
+
+  <img style="margin: 20px 21px 20px 0px;" src="https://livehelp.solidstatelogic.com/Help/images/g_SelectorPage.png" alt="" align="left">
+
+  <p>主屏幕右侧的 <span class="label">Lock</span> 决定触摸选择器时执行的操作：</p>
+  <ul>
+	  <li><b>锁定</b>时，选择器只会分配给快速控制。这是<b>最安全</b>的锁定模式。</li>
+	  <li>未锁定时，选择器会被分配，<i>同时</i>其状态也会被<b>切换</b>。此模式适合快速设置，但操作时务必小心！</li>
+	  <li>如果某一类型超过八个（例如 16 个 Stem），可使用 <span class="label">Lock</span> 下方的编号按钮浏览。如果选择器数量超过页面按钮所能显示的范围，请按 <span class="label">Page</span>，在 1-48、49-96 和 97-144 三组页面按钮之间切换。</li>
+  </ul>
+
+  <span class="note">
+      <span class="notetitle">注意：</span><br>
+      每个推子区块上的 <span class="label">&#9650;</span>/<span class="label">&#9660;</span> 按钮可用于滚动浏览快速控制；当前项目显示在区块右侧的涂写显示屏中。<br /><br />
+      按住 <span class="label">&#9650;</span> 键可跳至 <b>Input</b>，进行增益/微调调节。按住 <span class="label">&#9660;</span> 键可跳至 <b>Pan</b>。<br /><br />
+      当快速控制分配给发送、VCA 或静音组时，<span class="label">Enter</span> 按钮用于切换 <span class="label">&#9650;</span>/<span class="label">&#9660;</span> 键的滚动对象：功能“分配器”（Aux、EQ 等）或组/发送“选择器”（Aux 1、Aux 2 等）。<br /><br />
+      当 <span class="label">Enter</span> 启用时按住 <span class="label">&#9650;</span> 或 <span class="label">&#9660;</span>，可让组/发送选择器每次跳过八项，便于快速浏览较长列表。
+  </span>
+
+  <p>可通过主屏幕或推子区块调整快速控制。要旋转屏幕编码器，请触摸并向上/向右拖动以增大参数值，或向下/向左拖动以减小参数值。</p>
+
+  <p>每项功能可能有多页快速控制；<b>按下</b>任一实体快速编码器，或双击屏幕编码器，即可循环切换这些页面。</p>
+
+  <p>例如，<b>Input</b> 快速控制可在模拟 <b>Gain</b>、数字 <b>Trim</b> 或 <b>Route</b> 信息之间切换。EQ 快速控制会循环显示四个频段和滤波器；<b>Dynamics</b> 会在 <b>Compressor</b> 与 <b>Gate</b> 之间切换，其他功能以此类推。</p>
+
+  <p>这些开关用于切换参数状态，或向编码器分配功能。要查看特定功能如何分配给快速控制，请前往 SSL Live 帮助系统中该功能对应的页面。</p>
+
+  <span class="note"><span class="notetitle">注意：</span>推子区块的 <span class="label">Flip</span> 按钮会将快速编码器功能“翻转”到推子上，同时把推子功能分配给快速编码器。此功能非常适合使用推子快速建立发送。</span>
+
+  <p>屏幕快速控制上方是快速显示区，用于显示当前调节内容的信息。双击快速显示区可打开通道详细信息对话框，在其中调节更详细的参数。</p>
+
+  <div class="note"><span class="notetitle">注意：</span><br>
+    分配按钮的 LED 指示状态：
+    <ul>
+      <li><span style="font-weight: bold;">MG</span> 和 <span style="font-weight: bold;">VCA</span> 显示橙灯，表示至少有一个组处于启用状态。</li>
+      <li><b>Stem</b> 和 <b>Aux</b> 从红色变为绿色，表示发送已启用。</li>
+      <li>信号路径静音时，<b>Fader</b> 从绿色变为红色。</li>
+      <li><b>EQ</b>、<b>Dynamics</b> 和 <b>Pan</b> 会显示其图形的简化版本。</li>
+      <li><b>Delay</b> 和 <b>Insert</b> 启用后会显示颜色。</li>
+    </ul>
+  </div>
+
+  <span class="note"><span class="notetitle">注意：</span>打开详细视图时，屏幕下方区块上的快速控制可与该区块中对应的推子配合使用
+  （<span class="label">Follow Detail</span> 关闭）；也可以使用全部快速控制，同时控制所选信号路径同一效果的多个参数（<span class="label">Follow Detail</span> 开启）。
+  </span>
+  
+  <h2>实用链接</h2>
+  <p><a href="https://livehelp.solidstatelogic.com/Help/DetailView.html"><span class="hyperlink">详细视图</span></a></p>
+  <p><a href="https://livehelp.solidstatelogic.com/Help/LinkIndex.html"><span class="hyperlink">索引与术语表</span></a></p>
+  <p><a href="https://livehelp.solidstatelogic.com/Help/ChanView.html"><span class="hyperlink">通道视图</span></a></p>
+</body>
+</html>

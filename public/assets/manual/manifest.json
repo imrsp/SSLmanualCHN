@@ -1,0 +1,3149 @@
+[
+  {
+    "sourceUrl": "http://livehelp.solidstatelogic.com/Docs/InstallInfo.pdf",
+    "localPath": "assets/manual/Docs/InstallInfo.pdf",
+    "bytes": 9761915,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/b_Arrow.png",
+    "localPath": "assets/manual/Help/images/b_Arrow.png",
+    "bytes": 630,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/b_AssignAux_on.png",
+    "localPath": "assets/manual/Help/images/b_AssignAux_on.png",
+    "bytes": 1187,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/b_AssignMG_on.png",
+    "localPath": "assets/manual/Help/images/b_AssignMG_on.png",
+    "bytes": 965,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/b_automationEDGE.png",
+    "localPath": "assets/manual/Help/images/b_automationEDGE.png",
+    "bytes": 942,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/b_auxsend_on.png",
+    "localPath": "assets/manual/Help/images/b_auxsend_on.png",
+    "bytes": 1874,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/b_auxsend_onPRE.png",
+    "localPath": "assets/manual/Help/images/b_auxsend_onPRE.png",
+    "bytes": 1285,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/b_auxsend_onUNSEL.png",
+    "localPath": "assets/manual/Help/images/b_auxsend_onUNSEL.png",
+    "bytes": 1288,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/b_auxsend_sel.png",
+    "localPath": "assets/manual/Help/images/b_auxsend_sel.png",
+    "bytes": 1797,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/b_auxsend_unsel.png",
+    "localPath": "assets/manual/Help/images/b_auxsend_unsel.png",
+    "bytes": 1319,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/b_chanviewEDGE.png",
+    "localPath": "assets/manual/Help/images/b_chanviewEDGE.png",
+    "bytes": 965,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/b_ChanViewFader.png",
+    "localPath": "assets/manual/Help/images/b_ChanViewFader.png",
+    "bytes": 1799,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/b_ChanViewPan.png",
+    "localPath": "assets/manual/Help/images/b_ChanViewPan.png",
+    "bytes": 1255,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/b_effectsEDGE.png",
+    "localPath": "assets/manual/Help/images/b_effectsEDGE.png",
+    "bytes": 807,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/b_EventAuto.png",
+    "localPath": "assets/manual/Help/images/b_EventAuto.png",
+    "bytes": 735,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/b_EventFader.png",
+    "localPath": "assets/manual/Help/images/b_EventFader.png",
+    "bytes": 741,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/b_EventFunction.png",
+    "localPath": "assets/manual/Help/images/b_EventFunction.png",
+    "bytes": 746,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/b_EventFunctionDisabled.png",
+    "localPath": "assets/manual/Help/images/b_EventFunctionDisabled.png",
+    "bytes": 763,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/b_EventFunctionOn.png",
+    "localPath": "assets/manual/Help/images/b_EventFunctionOn.png",
+    "bytes": 975,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/b_EventGPIO.png",
+    "localPath": "assets/manual/Help/images/b_EventGPIO.png",
+    "bytes": 1084,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/b_EventMIDI.png",
+    "localPath": "assets/manual/Help/images/b_EventMIDI.png",
+    "bytes": 1007,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/b_EventNone.png",
+    "localPath": "assets/manual/Help/images/b_EventNone.png",
+    "bytes": 519,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/b_EventUserKey.png",
+    "localPath": "assets/manual/Help/images/b_EventUserKey.png",
+    "bytes": 733,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/b_HelpEDGE.png",
+    "localPath": "assets/manual/Help/images/b_HelpEDGE.png",
+    "bytes": 1010,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/b_LISA_WarningTriangle.png",
+    "localPath": "assets/manual/Help/images/b_LISA_WarningTriangle.png",
+    "bytes": 759,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/b_matrixEDGE.png",
+    "localPath": "assets/manual/Help/images/b_matrixEDGE.png",
+    "bytes": 797,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/b_menuEDGE.png",
+    "localPath": "assets/manual/Help/images/b_menuEDGE.png",
+    "bytes": 826,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/b_MenuEventManager.png",
+    "localPath": "assets/manual/Help/images/b_MenuEventManager.png",
+    "bytes": 1208,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/b_MenuSetupConfigEDGE.png",
+    "localPath": "assets/manual/Help/images/b_MenuSetupConfigEDGE.png",
+    "bytes": 1268,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/b_MenuSetupFileMgrEDGE.png",
+    "localPath": "assets/manual/Help/images/b_MenuSetupFileMgrEDGE.png",
+    "bytes": 948,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/b_MenuSetupIOEDGE.png",
+    "localPath": "assets/manual/Help/images/b_MenuSetupIOEDGE.png",
+    "bytes": 663,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/b_MenuSetupLayerEDGE.png",
+    "localPath": "assets/manual/Help/images/b_MenuSetupLayerEDGE.png",
+    "bytes": 1019,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/b_MenuSetupOptionsEDGE.png",
+    "localPath": "assets/manual/Help/images/b_MenuSetupOptionsEDGE.png",
+    "bytes": 861,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/b_MenuSetupTBGroupsEDGE.png",
+    "localPath": "assets/manual/Help/images/b_MenuSetupTBGroupsEDGE.png",
+    "bytes": 1005,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/b_MenuSetupXYRoutingEDGE.png",
+    "localPath": "assets/manual/Help/images/b_MenuSetupXYRoutingEDGE.png",
+    "bytes": 967,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/b_MenuSignalSwitcher.png",
+    "localPath": "assets/manual/Help/images/b_MenuSignalSwitcher.png",
+    "bytes": 1272,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/b_MenuSystemPower.png",
+    "localPath": "assets/manual/Help/images/b_MenuSystemPower.png",
+    "bytes": 1393,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/b_MenuTools.png",
+    "localPath": "assets/manual/Help/images/b_MenuTools.png",
+    "bytes": 801,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/b_MuteG.png",
+    "localPath": "assets/manual/Help/images/b_MuteG.png",
+    "bytes": 1017,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/b_MuteO.png",
+    "localPath": "assets/manual/Help/images/b_MuteO.png",
+    "bytes": 1135,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/b_MuteR.png",
+    "localPath": "assets/manual/Help/images/b_MuteR.png",
+    "bytes": 1045,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/b_MuteRF.png",
+    "localPath": "assets/manual/Help/images/b_MuteRF.png",
+    "bytes": 873,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/b_MuteW.png",
+    "localPath": "assets/manual/Help/images/b_MuteW.png",
+    "bytes": 582,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/b_overviewEDGE.png",
+    "localPath": "assets/manual/Help/images/b_overviewEDGE.png",
+    "bytes": 830,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/b_PlusPackIcon.png",
+    "localPath": "assets/manual/Help/images/b_PlusPackIcon.png",
+    "bytes": 283,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/b_RouteActiveEDGE.png",
+    "localPath": "assets/manual/Help/images/b_RouteActiveEDGE.png",
+    "bytes": 1237,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/b_RouteDeviceInactiveEDGE.png",
+    "localPath": "assets/manual/Help/images/b_RouteDeviceInactiveEDGE.png",
+    "bytes": 1352,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/b_RouteGrey.png",
+    "localPath": "assets/manual/Help/images/b_RouteGrey.png",
+    "bytes": 914,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/b_RouteNumberInactive1EDGE.png",
+    "localPath": "assets/manual/Help/images/b_RouteNumberInactive1EDGE.png",
+    "bytes": 756,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/b_RouteRed.png",
+    "localPath": "assets/manual/Help/images/b_RouteRed.png",
+    "bytes": 812,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/b_RouteUnavailableEDGE.png",
+    "localPath": "assets/manual/Help/images/b_RouteUnavailableEDGE.png",
+    "bytes": 608,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/b_RouteYellow.png",
+    "localPath": "assets/manual/Help/images/b_RouteYellow.png",
+    "bytes": 825,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/b_ScreenQueryEDGE.png",
+    "localPath": "assets/manual/Help/images/b_ScreenQueryEDGE.png",
+    "bytes": 940,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/b_SelectorMasterOff.png",
+    "localPath": "assets/manual/Help/images/b_SelectorMasterOff.png",
+    "bytes": 1595,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/b_SelectorMasterOffSel.png",
+    "localPath": "assets/manual/Help/images/b_SelectorMasterOffSel.png",
+    "bytes": 2694,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/b_SelectorMasterOnSel.png",
+    "localPath": "assets/manual/Help/images/b_SelectorMasterOnSel.png",
+    "bytes": 2527,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/b_SelectorMasterOnUnsel.png",
+    "localPath": "assets/manual/Help/images/b_SelectorMasterOnUnsel.png",
+    "bytes": 1619,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/b_SelMGOffSel.png",
+    "localPath": "assets/manual/Help/images/b_SelMGOffSel.png",
+    "bytes": 1864,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/b_SelMGOffUnsel.png",
+    "localPath": "assets/manual/Help/images/b_SelMGOffUnsel.png",
+    "bytes": 919,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/b_SelMGOnSel.png",
+    "localPath": "assets/manual/Help/images/b_SelMGOnSel.png",
+    "bytes": 1887,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/b_SelMGOnUnsel.png",
+    "localPath": "assets/manual/Help/images/b_SelMGOnUnsel.png",
+    "bytes": 971,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/b_setupEDGE.png",
+    "localPath": "assets/manual/Help/images/b_setupEDGE.png",
+    "bytes": 798,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/b_XY_no_route.png",
+    "localPath": "assets/manual/Help/images/b_XY_no_route.png",
+    "bytes": 900,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/b_XY_pending_route.png",
+    "localPath": "assets/manual/Help/images/b_XY_pending_route.png",
+    "bytes": 1608,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/b_XY_pending_unroute.png",
+    "localPath": "assets/manual/Help/images/b_XY_pending_unroute.png",
+    "bytes": 857,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/b_XY_route_made.png",
+    "localPath": "assets/manual/Help/images/b_XY_route_made.png",
+    "bytes": 1610,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/b_XY_route_unavailable.png",
+    "localPath": "assets/manual/Help/images/b_XY_route_unavailable.png",
+    "bytes": 1581,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/b_XY_selected.png",
+    "localPath": "assets/manual/Help/images/b_XY_selected.png",
+    "bytes": 960,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_autoActionsIcons_EventArmed.png",
+    "localPath": "assets/manual/Help/images/g_autoActionsIcons_EventArmed.png",
+    "bytes": 836,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_autoActionsIcons_EventNotArmed.png",
+    "localPath": "assets/manual/Help/images/g_autoActionsIcons_EventNotArmed.png",
+    "bytes": 894,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_autoActionsIcons_GPIOArmed.png",
+    "localPath": "assets/manual/Help/images/g_autoActionsIcons_GPIOArmed.png",
+    "bytes": 1314,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_autoActionsIcons_GPIONotArmed.png",
+    "localPath": "assets/manual/Help/images/g_autoActionsIcons_GPIONotArmed.png",
+    "bytes": 1224,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_autoActionsIcons_MIDICCArmed.png",
+    "localPath": "assets/manual/Help/images/g_autoActionsIcons_MIDICCArmed.png",
+    "bytes": 1186,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_autoActionsIcons_MIDICCNotArmed.png",
+    "localPath": "assets/manual/Help/images/g_autoActionsIcons_MIDICCNotArmed.png",
+    "bytes": 1171,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_autoActionsIcons_MIDINoteOffArmed.png",
+    "localPath": "assets/manual/Help/images/g_autoActionsIcons_MIDINoteOffArmed.png",
+    "bytes": 1148,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_autoActionsIcons_MIDINoteOffNotArmed.png",
+    "localPath": "assets/manual/Help/images/g_autoActionsIcons_MIDINoteOffNotArmed.png",
+    "bytes": 1163,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_autoActionsIcons_MIDINoteOnArmed.png",
+    "localPath": "assets/manual/Help/images/g_autoActionsIcons_MIDINoteOnArmed.png",
+    "bytes": 1015,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_autoActionsIcons_MIDINoteOnNotArmed.png",
+    "localPath": "assets/manual/Help/images/g_autoActionsIcons_MIDINoteOnNotArmed.png",
+    "bytes": 1146,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_autoActionsIcons_MIDIPgmArmed.png",
+    "localPath": "assets/manual/Help/images/g_autoActionsIcons_MIDIPgmArmed.png",
+    "bytes": 1121,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_autoActionsIcons_MIDIPgmNotArmed.png",
+    "localPath": "assets/manual/Help/images/g_autoActionsIcons_MIDIPgmNotArmed.png",
+    "bytes": 1129,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_autoActionsIcons_Selected.png",
+    "localPath": "assets/manual/Help/images/g_autoActionsIcons_Selected.png",
+    "bytes": 1380,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_autoEvents.png",
+    "localPath": "assets/manual/Help/images/g_autoEvents.png",
+    "bytes": 100530,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_autoEventsLinked.png",
+    "localPath": "assets/manual/Help/images/g_autoEventsLinked.png",
+    "bytes": 106228,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_autoEventsMIDI.png",
+    "localPath": "assets/manual/Help/images/g_autoEventsMIDI.png",
+    "bytes": 79746,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_autoFadeTimes.png",
+    "localPath": "assets/manual/Help/images/g_autoFadeTimes.png",
+    "bytes": 344604,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_autoGlobalRecallFiltmain.png",
+    "localPath": "assets/manual/Help/images/g_autoGlobalRecallFiltmain.png",
+    "bytes": 206597,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_autoGlobalRecallFiltopen.png",
+    "localPath": "assets/manual/Help/images/g_autoGlobalRecallFiltopen.png",
+    "bytes": 135279,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_autoGPIO.png",
+    "localPath": "assets/manual/Help/images/g_autoGPIO.png",
+    "bytes": 172139,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_AutomationLabels.png",
+    "localPath": "assets/manual/Help/images/g_AutomationLabels.png",
+    "bytes": 259371,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_AutomationNoLabels.png",
+    "localPath": "assets/manual/Help/images/g_AutomationNoLabels.png",
+    "bytes": 20095,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_AutomationRecallProtect.png",
+    "localPath": "assets/manual/Help/images/g_AutomationRecallProtect.png",
+    "bytes": 40848,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_AutoMuteSafe.png",
+    "localPath": "assets/manual/Help/images/g_AutoMuteSafe.png",
+    "bytes": 34852,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_autoRecallFilterDots_Disabled.png",
+    "localPath": "assets/manual/Help/images/g_autoRecallFilterDots_Disabled.png",
+    "bytes": 752,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_autoRecallFilterDots_Enabled.png",
+    "localPath": "assets/manual/Help/images/g_autoRecallFilterDots_Enabled.png",
+    "bytes": 933,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_autoRecallFilterDots_SceneAndGlobalDisabled.png",
+    "localPath": "assets/manual/Help/images/g_autoRecallFilterDots_SceneAndGlobalDisabled.png",
+    "bytes": 845,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_autoRecallFilterDots_SceneAndGlobalSomeEnabled.png",
+    "localPath": "assets/manual/Help/images/g_autoRecallFilterDots_SceneAndGlobalSomeEnabled.png",
+    "bytes": 964,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_autoRecallFilterDots_SceneEnabledGlobalDisabled.png",
+    "localPath": "assets/manual/Help/images/g_autoRecallFilterDots_SceneEnabledGlobalDisabled.png",
+    "bytes": 922,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_autoRecallFilterDots_SomeEnabled.png",
+    "localPath": "assets/manual/Help/images/g_autoRecallFilterDots_SomeEnabled.png",
+    "bytes": 971,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_AutoRecallProtChanView.png",
+    "localPath": "assets/manual/Help/images/g_AutoRecallProtChanView.png",
+    "bytes": 61169,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_AutoRecallProtOverview.png",
+    "localPath": "assets/manual/Help/images/g_AutoRecallProtOverview.png",
+    "bytes": 12271,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_AutoRenumber.png",
+    "localPath": "assets/manual/Help/images/g_AutoRenumber.png",
+    "bytes": 59564,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_autoScenedetail.png",
+    "localPath": "assets/manual/Help/images/g_autoScenedetail.png",
+    "bytes": 65622,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_autoSceneGroups.png",
+    "localPath": "assets/manual/Help/images/g_autoSceneGroups.png",
+    "bytes": 478143,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_autoSceneList.png",
+    "localPath": "assets/manual/Help/images/g_autoSceneList.png",
+    "bytes": 327176,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_autoscenelistdetail.png",
+    "localPath": "assets/manual/Help/images/g_autoscenelistdetail.png",
+    "bytes": 65993,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_autoStoreFilterDots_Enabled.png",
+    "localPath": "assets/manual/Help/images/g_autoStoreFilterDots_Enabled.png",
+    "bytes": 978,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_autoStoreFilterDots_SceneAndGlobalSomeEnabled.png",
+    "localPath": "assets/manual/Help/images/g_autoStoreFilterDots_SceneAndGlobalSomeEnabled.png",
+    "bytes": 974,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_autoStoreFilterDots_SceneEnabledGlobalDisabled.png",
+    "localPath": "assets/manual/Help/images/g_autoStoreFilterDots_SceneEnabledGlobalDisabled.png",
+    "bytes": 947,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_autoStoreFilterDots_SomeEnabled.png",
+    "localPath": "assets/manual/Help/images/g_autoStoreFilterDots_SomeEnabled.png",
+    "bytes": 995,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_BLIIBridgeBackCons.png",
+    "localPath": "assets/manual/Help/images/g_BLIIBridgeBackCons.png",
+    "bytes": 28023,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_BLIIBridgeConfig.png",
+    "localPath": "assets/manual/Help/images/g_BLIIBridgeConfig.png",
+    "bytes": 66025,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_BLIIBridgeConnection.png",
+    "localPath": "assets/manual/Help/images/g_BLIIBridgeConnection.png",
+    "bytes": 262843,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_BLIIBridgeFront.png",
+    "localPath": "assets/manual/Help/images/g_BLIIBridgeFront.png",
+    "bytes": 16887,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_BLIIBridgeFrontCons.png",
+    "localPath": "assets/manual/Help/images/g_BLIIBridgeFrontCons.png",
+    "bytes": 44924,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_BLIIBridgeResource.png",
+    "localPath": "assets/manual/Help/images/g_BLIIBridgeResource.png",
+    "bytes": 17849,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_BLIIBridgeVTL.png",
+    "localPath": "assets/manual/Help/images/g_BLIIBridgeVTL.png",
+    "bytes": 97732,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_ChanLabelScreen.png",
+    "localPath": "assets/manual/Help/images/g_ChanLabelScreen.png",
+    "bytes": 14779,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_ChannelSpill.png",
+    "localPath": "assets/manual/Help/images/g_ChannelSpill.png",
+    "bytes": 69600,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_chanTypesL100.png",
+    "localPath": "assets/manual/Help/images/g_chanTypesL100.png",
+    "bytes": 212398,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_chanTypesL100Plus.png",
+    "localPath": "assets/manual/Help/images/g_chanTypesL100Plus.png",
+    "bytes": 216896,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_chanTypesL200.png",
+    "localPath": "assets/manual/Help/images/g_chanTypesL200.png",
+    "bytes": 217399,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_chanTypesL200Plus.png",
+    "localPath": "assets/manual/Help/images/g_chanTypesL200Plus.png",
+    "bytes": 200004,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_chanTypesL300.png",
+    "localPath": "assets/manual/Help/images/g_chanTypesL300.png",
+    "bytes": 221041,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_chanTypesL350.png",
+    "localPath": "assets/manual/Help/images/g_chanTypesL350.png",
+    "bytes": 209913,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_chanTypesL350Plus.png",
+    "localPath": "assets/manual/Help/images/g_chanTypesL350Plus.png",
+    "bytes": 200641,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_chanTypesL450.png",
+    "localPath": "assets/manual/Help/images/g_chanTypesL450.png",
+    "bytes": 201652,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_chanTypesL500.png",
+    "localPath": "assets/manual/Help/images/g_chanTypesL500.png",
+    "bytes": 222092,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_chanTypesL500Plus.png",
+    "localPath": "assets/manual/Help/images/g_chanTypesL500Plus.png",
+    "bytes": 210805,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_chanTypesL550.png",
+    "localPath": "assets/manual/Help/images/g_chanTypesL550.png",
+    "bytes": 209505,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_chanTypesL550Plus.png",
+    "localPath": "assets/manual/Help/images/g_chanTypesL550Plus.png",
+    "bytes": 200934,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_chanTypesL650.png",
+    "localPath": "assets/manual/Help/images/g_chanTypesL650.png",
+    "bytes": 201810,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_ChanViewAuxFaderTB.png",
+    "localPath": "assets/manual/Help/images/g_ChanViewAuxFaderTB.png",
+    "bytes": 45430,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_chanviewlabel1.png",
+    "localPath": "assets/manual/Help/images/g_chanviewlabel1.png",
+    "bytes": 48367,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_ClockIconOrange.png",
+    "localPath": "assets/manual/Help/images/g_ClockIconOrange.png",
+    "bytes": 463,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_ClockIconRed.png",
+    "localPath": "assets/manual/Help/images/g_ClockIconRed.png",
+    "bytes": 382,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_ClockingDante.png",
+    "localPath": "assets/manual/Help/images/g_ClockingDante.png",
+    "bytes": 16473,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_CompatibilityChanView.png",
+    "localPath": "assets/manual/Help/images/g_CompatibilityChanView.png",
+    "bytes": 8935,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_CompatibilityConfig.png",
+    "localPath": "assets/manual/Help/images/g_CompatibilityConfig.png",
+    "bytes": 12108,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_CompatibilityFX.png",
+    "localPath": "assets/manual/Help/images/g_CompatibilityFX.png",
+    "bytes": 23489,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_CompatibilityGreen.png",
+    "localPath": "assets/manual/Help/images/g_CompatibilityGreen.png",
+    "bytes": 506,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_CompatibilityRed.png",
+    "localPath": "assets/manual/Help/images/g_CompatibilityRed.png",
+    "bytes": 515,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_CompUncomp.png",
+    "localPath": "assets/manual/Help/images/g_CompUncomp.png",
+    "bytes": 12066,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_ConfigArrowIconEDGE.png",
+    "localPath": "assets/manual/Help/images/g_ConfigArrowIconEDGE.png",
+    "bytes": 633,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_ConfigListIconEDGE.png",
+    "localPath": "assets/manual/Help/images/g_ConfigListIconEDGE.png",
+    "bytes": 822,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_ConnectivityNetIP.png",
+    "localPath": "assets/manual/Help/images/g_ConnectivityNetIP.png",
+    "bytes": 43347,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_ConnectivityStatusOK.png",
+    "localPath": "assets/manual/Help/images/g_ConnectivityStatusOK.png",
+    "bytes": 552,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_ConnectivityStatusWaiting.png",
+    "localPath": "assets/manual/Help/images/g_ConnectivityStatusWaiting.png",
+    "bytes": 606,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_consoleconfig.png",
+    "localPath": "assets/manual/Help/images/g_consoleconfig.png",
+    "bytes": 275137,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_ConsoleName.png",
+    "localPath": "assets/manual/Help/images/g_ConsoleName.png",
+    "bytes": 20668,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_consoleoverview_Expander.png",
+    "localPath": "assets/manual/Help/images/g_consoleoverview_Expander.png",
+    "bytes": 155721,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_consoleoverview_L100.png",
+    "localPath": "assets/manual/Help/images/g_consoleoverview_L100.png",
+    "bytes": 81498,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_consoleoverview_L200.png",
+    "localPath": "assets/manual/Help/images/g_consoleoverview_L200.png",
+    "bytes": 122190,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_consoleoverview_L300CCT.png",
+    "localPath": "assets/manual/Help/images/g_consoleoverview_L300CCT.png",
+    "bytes": 138554,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_consoleoverview_L450.png",
+    "localPath": "assets/manual/Help/images/g_consoleoverview_L450.png",
+    "bytes": 194959,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_consoleoverview_L500.png",
+    "localPath": "assets/manual/Help/images/g_consoleoverview_L500.png",
+    "bytes": 187912,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_consoleoverview_L650.png",
+    "localPath": "assets/manual/Help/images/g_consoleoverview_L650.png",
+    "bytes": 222918,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_DanteAssign.png",
+    "localPath": "assets/manual/Help/images/g_DanteAssign.png",
+    "bytes": 31519,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_DanteControllerName.png",
+    "localPath": "assets/manual/Help/images/g_DanteControllerName.png",
+    "bytes": 23270,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_DanteControlNetIP.png",
+    "localPath": "assets/manual/Help/images/g_DanteControlNetIP.png",
+    "bytes": 76676,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_DanteDetailView.png",
+    "localPath": "assets/manual/Help/images/g_DanteDetailView.png",
+    "bytes": 130018,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_DanteDeviceConfig.png",
+    "localPath": "assets/manual/Help/images/g_DanteDeviceConfig.png",
+    "bytes": 50172,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_DanteDevices.png",
+    "localPath": "assets/manual/Help/images/g_DanteDevices.png",
+    "bytes": 42679,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_DanteExpanderName.png",
+    "localPath": "assets/manual/Help/images/g_DanteExpanderName.png",
+    "bytes": 142710,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_DanteInputs.png",
+    "localPath": "assets/manual/Help/images/g_DanteInputs.png",
+    "bytes": 79421,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_DanteLEDs.png",
+    "localPath": "assets/manual/Help/images/g_DanteLEDs.png",
+    "bytes": 6127,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_DanteLiveRec.png",
+    "localPath": "assets/manual/Help/images/g_DanteLiveRec.png",
+    "bytes": 154928,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_DanteNetworkConfig.png",
+    "localPath": "assets/manual/Help/images/g_DanteNetworkConfig.png",
+    "bytes": 99579,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_DantePlus.png",
+    "localPath": "assets/manual/Help/images/g_DantePlus.png",
+    "bytes": 19088,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_DanteResourceBar.png",
+    "localPath": "assets/manual/Help/images/g_DanteResourceBar.png",
+    "bytes": 16889,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_DanteStatusMessage.png",
+    "localPath": "assets/manual/Help/images/g_DanteStatusMessage.png",
+    "bytes": 44246,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_DanteTake.png",
+    "localPath": "assets/manual/Help/images/g_DanteTake.png",
+    "bytes": 47812,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_DanteTakeAll.png",
+    "localPath": "assets/manual/Help/images/g_DanteTakeAll.png",
+    "bytes": 38879,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_DAW_AutoModeCtrl.png",
+    "localPath": "assets/manual/Help/images/g_DAW_AutoModeCtrl.png",
+    "bytes": 4190,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_DAW_Banks.png",
+    "localPath": "assets/manual/Help/images/g_DAW_Banks.png",
+    "bytes": 66811,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_DAW_ButtonPopout.png",
+    "localPath": "assets/manual/Help/images/g_DAW_ButtonPopout.png",
+    "bytes": 12771,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_DAW_ChannelStrip.png",
+    "localPath": "assets/manual/Help/images/g_DAW_ChannelStrip.png",
+    "bytes": 308192,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_DAW_FaderTile.png",
+    "localPath": "assets/manual/Help/images/g_DAW_FaderTile.png",
+    "bytes": 363701,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_DAW_ModifierKeys.png",
+    "localPath": "assets/manual/Help/images/g_DAW_ModifierKeys.png",
+    "bytes": 2910,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_DAW_Popout.png",
+    "localPath": "assets/manual/Help/images/g_DAW_Popout.png",
+    "bytes": 332898,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_DAW_Setup.png",
+    "localPath": "assets/manual/Help/images/g_DAW_Setup.png",
+    "bytes": 133359,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_dBWeightingGraph.png",
+    "localPath": "assets/manual/Help/images/g_dBWeightingGraph.png",
+    "bytes": 15866,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_deesserdiag.png",
+    "localPath": "assets/manual/Help/images/g_deesserdiag.png",
+    "bytes": 20137,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_DefaultNumbering.png",
+    "localPath": "assets/manual/Help/images/g_DefaultNumbering.png",
+    "bytes": 57240,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_detailALLPASS.png",
+    "localPath": "assets/manual/Help/images/g_detailALLPASS.png",
+    "bytes": 130465,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_detailAUX.png",
+    "localPath": "assets/manual/Help/images/g_detailAUX.png",
+    "bytes": 454709,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_detailAuxEyeconix.png",
+    "localPath": "assets/manual/Help/images/g_detailAuxEyeconix.png",
+    "bytes": 468468,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_detailCOMPGATE.png",
+    "localPath": "assets/manual/Help/images/g_detailCOMPGATE.png",
+    "bytes": 148604,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_detailDELAY.png",
+    "localPath": "assets/manual/Help/images/g_detailDELAY.png",
+    "bytes": 131122,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_DetailEQ.png",
+    "localPath": "assets/manual/Help/images/g_DetailEQ.png",
+    "bytes": 288956,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_DetailEyeconix.png",
+    "localPath": "assets/manual/Help/images/g_DetailEyeconix.png",
+    "bytes": 478219,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_detailFADER.png",
+    "localPath": "assets/manual/Help/images/g_detailFADER.png",
+    "bytes": 85485,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_detailFADERsolos.png",
+    "localPath": "assets/manual/Help/images/g_detailFADERsolos.png",
+    "bytes": 72309,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_detailFX1.png",
+    "localPath": "assets/manual/Help/images/g_detailFX1.png",
+    "bytes": 439799,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_detailINPUT.png",
+    "localPath": "assets/manual/Help/images/g_detailINPUT.png",
+    "bytes": 345418,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_DetailInserts.png",
+    "localPath": "assets/manual/Help/images/g_DetailInserts.png",
+    "bytes": 154981,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_DetailMGVCA.png",
+    "localPath": "assets/manual/Help/images/g_DetailMGVCA.png",
+    "bytes": 162451,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_detailMiscSolo.png",
+    "localPath": "assets/manual/Help/images/g_detailMiscSolo.png",
+    "bytes": 439374,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_detailPAN.png",
+    "localPath": "assets/manual/Help/images/g_detailPAN.png",
+    "bytes": 103466,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_detailPresets.png",
+    "localPath": "assets/manual/Help/images/g_detailPresets.png",
+    "bytes": 398553,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_DetailProcOrder.png",
+    "localPath": "assets/manual/Help/images/g_DetailProcOrder.png",
+    "bytes": 440578,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_detailRoute.png",
+    "localPath": "assets/manual/Help/images/g_detailRoute.png",
+    "bytes": 290436,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_detailTutorial.png",
+    "localPath": "assets/manual/Help/images/g_detailTutorial.png",
+    "bytes": 270472,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_detAuxFADERTB.png",
+    "localPath": "assets/manual/Help/images/g_detAuxFADERTB.png",
+    "bytes": 251177,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_detTBinput.png",
+    "localPath": "assets/manual/Help/images/g_detTBinput.png",
+    "bytes": 127371,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_DiskGreen.png",
+    "localPath": "assets/manual/Help/images/g_DiskGreen.png",
+    "bytes": 228,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_DiskOrange.png",
+    "localPath": "assets/manual/Help/images/g_DiskOrange.png",
+    "bytes": 227,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_DiskWhite.png",
+    "localPath": "assets/manual/Help/images/g_DiskWhite.png",
+    "bytes": 223,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_DiskYellow.png",
+    "localPath": "assets/manual/Help/images/g_DiskYellow.png",
+    "bytes": 228,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_EQAnalyserSettings.png",
+    "localPath": "assets/manual/Help/images/g_EQAnalyserSettings.png",
+    "bytes": 20466,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_EventManager.png",
+    "localPath": "assets/manual/Help/images/g_EventManager.png",
+    "bytes": 292356,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_EventMgr_AutoDestBtn.png",
+    "localPath": "assets/manual/Help/images/g_EventMgr_AutoDestBtn.png",
+    "bytes": 3865,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_EventMgr_AutoSrcBtn.png",
+    "localPath": "assets/manual/Help/images/g_EventMgr_AutoSrcBtn.png",
+    "bytes": 4164,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_EventMgr_ConsoleFunctionInput.png",
+    "localPath": "assets/manual/Help/images/g_EventMgr_ConsoleFunctionInput.png",
+    "bytes": 34355,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_EventMgr_ConsoleFunctionOutput.png",
+    "localPath": "assets/manual/Help/images/g_EventMgr_ConsoleFunctionOutput.png",
+    "bytes": 77941,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_EventMgr_FaderInput.png",
+    "localPath": "assets/manual/Help/images/g_EventMgr_FaderInput.png",
+    "bytes": 75799,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_EventMgr_FaderOutput.png",
+    "localPath": "assets/manual/Help/images/g_EventMgr_FaderOutput.png",
+    "bytes": 59802,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_EventMgr_GPI.png",
+    "localPath": "assets/manual/Help/images/g_EventMgr_GPI.png",
+    "bytes": 61412,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_EventMgr_GPO.png",
+    "localPath": "assets/manual/Help/images/g_EventMgr_GPO.png",
+    "bytes": 64302,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_EventMgr_MIDIInput.png",
+    "localPath": "assets/manual/Help/images/g_EventMgr_MIDIInput.png",
+    "bytes": 112319,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_EventMgr_MIDIOutput.png",
+    "localPath": "assets/manual/Help/images/g_EventMgr_MIDIOutput.png",
+    "bytes": 105422,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_EventMgr_UserKeyInput.png",
+    "localPath": "assets/manual/Help/images/g_EventMgr_UserKeyInput.png",
+    "bytes": 34808,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_ExternalSoloSelector.png",
+    "localPath": "assets/manual/Help/images/g_ExternalSoloSelector.png",
+    "bytes": 12431,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_FaderTile.png",
+    "localPath": "assets/manual/Help/images/g_FaderTile.png",
+    "bytes": 227201,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_FadeTimePopup.png",
+    "localPath": "assets/manual/Help/images/g_FadeTimePopup.png",
+    "bytes": 8501,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_FlipButton.png",
+    "localPath": "assets/manual/Help/images/g_FlipButton.png",
+    "bytes": 26154,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_focuscontrols.png",
+    "localPath": "assets/manual/Help/images/g_focuscontrols.png",
+    "bytes": 85958,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_fxAutomix.png",
+    "localPath": "assets/manual/Help/images/g_fxAutomix.png",
+    "bytes": 73880,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_FXAutoPan.png",
+    "localPath": "assets/manual/Help/images/g_FXAutoPan.png",
+    "bytes": 60992,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_FXAutoPanC-L.png",
+    "localPath": "assets/manual/Help/images/g_FXAutoPanC-L.png",
+    "bytes": 3197,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_FXAutoPanC-R.png",
+    "localPath": "assets/manual/Help/images/g_FXAutoPanC-R.png",
+    "bytes": 3180,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_FXAutoPanFrmL.png",
+    "localPath": "assets/manual/Help/images/g_FXAutoPanFrmL.png",
+    "bytes": 3161,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_FXAutoPanFrmR.png",
+    "localPath": "assets/manual/Help/images/g_FXAutoPanFrmR.png",
+    "bytes": 3160,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_FXdegen.png",
+    "localPath": "assets/manual/Help/images/g_FXdegen.png",
+    "bytes": 53868,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_FXDelTempoControls.png",
+    "localPath": "assets/manual/Help/images/g_FXDelTempoControls.png",
+    "bytes": 30375,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_FXDenoiser.png",
+    "localPath": "assets/manual/Help/images/g_FXDenoiser.png",
+    "bytes": 83013,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_FXDynBlitzer.png",
+    "localPath": "assets/manual/Help/images/g_FXDynBlitzer.png",
+    "bytes": 233134,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_FXDynBuscomp.png",
+    "localPath": "assets/manual/Help/images/g_FXDynBuscomp.png",
+    "bytes": 204256,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_FXDynDeEsser.png",
+    "localPath": "assets/manual/Help/images/g_FXDynDeEsser.png",
+    "bytes": 79727,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_FXDynDynEQ.png",
+    "localPath": "assets/manual/Help/images/g_FXDynDynEQ.png",
+    "bytes": 131764,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_FXDynEQThumb.png",
+    "localPath": "assets/manual/Help/images/g_FXDynEQThumb.png",
+    "bytes": 55931,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_FXdynGate.png",
+    "localPath": "assets/manual/Help/images/g_FXdynGate.png",
+    "bytes": 69666,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_FXDynListen.png",
+    "localPath": "assets/manual/Help/images/g_FXDynListen.png",
+    "bytes": 65430,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_FXDynMultiBand.png",
+    "localPath": "assets/manual/Help/images/g_FXDynMultiBand.png",
+    "bytes": 152386,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_FXDynSourcerer.png",
+    "localPath": "assets/manual/Help/images/g_FXDynSourcerer.png",
+    "bytes": 272361,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_FXDynTransient.png",
+    "localPath": "assets/manual/Help/images/g_FXDynTransient.png",
+    "bytes": 74526,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_FXechodelay.png",
+    "localPath": "assets/manual/Help/images/g_FXechodelay.png",
+    "bytes": 94795,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_FXEQGraphic.png",
+    "localPath": "assets/manual/Help/images/g_FXEQGraphic.png",
+    "bytes": 112547,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_FXEQgraphicPlus.png",
+    "localPath": "assets/manual/Help/images/g_FXEQgraphicPlus.png",
+    "bytes": 117549,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_FXEQparam.png",
+    "localPath": "assets/manual/Help/images/g_FXEQparam.png",
+    "bytes": 169753,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_FXLeverb.png",
+    "localPath": "assets/manual/Help/images/g_FXLeverb.png",
+    "bytes": 52745,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_FXmodBandCh.png",
+    "localPath": "assets/manual/Help/images/g_FXmodBandCh.png",
+    "bytes": 73423,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_fxModBandFlanger.png",
+    "localPath": "assets/manual/Help/images/g_fxModBandFlanger.png",
+    "bytes": 52822,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_fxModClassicFlanger.png",
+    "localPath": "assets/manual/Help/images/g_fxModClassicFlanger.png",
+    "bytes": 62196,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_fxModClassicPhaser.png",
+    "localPath": "assets/manual/Help/images/g_fxModClassicPhaser.png",
+    "bytes": 18132,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_fxModEnvelopeFlanger.png",
+    "localPath": "assets/manual/Help/images/g_fxModEnvelopeFlanger.png",
+    "bytes": 61354,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_fxModGuitCh.png",
+    "localPath": "assets/manual/Help/images/g_fxModGuitCh.png",
+    "bytes": 69525,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_fxModPanFlanger.png",
+    "localPath": "assets/manual/Help/images/g_fxModPanFlanger.png",
+    "bytes": 62033,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_FXmodStCh.png",
+    "localPath": "assets/manual/Help/images/g_FXmodStCh.png",
+    "bytes": 59911,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_FXmodVoxCh.png",
+    "localPath": "assets/manual/Help/images/g_FXmodVoxCh.png",
+    "bytes": 59379,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_FXMultidelay.png",
+    "localPath": "assets/manual/Help/images/g_FXMultidelay.png",
+    "bytes": 115006,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_fxOtherAmpCab.png",
+    "localPath": "assets/manual/Help/images/g_fxOtherAmpCab.png",
+    "bytes": 51891,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_fxOtherBassAmp.png",
+    "localPath": "assets/manual/Help/images/g_fxOtherBassAmp.png",
+    "bytes": 52566,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_fxOtherEnhancer.png",
+    "localPath": "assets/manual/Help/images/g_fxOtherEnhancer.png",
+    "bytes": 52876,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_fxOtherPitch.png",
+    "localPath": "assets/manual/Help/images/g_fxOtherPitch.png",
+    "bytes": 45843,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_fxOtherVHD.png",
+    "localPath": "assets/manual/Help/images/g_fxOtherVHD.png",
+    "bytes": 88608,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_FXPhasescope.png",
+    "localPath": "assets/manual/Help/images/g_FXPhasescope.png",
+    "bytes": 74128,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_FXpingpongdelay.png",
+    "localPath": "assets/manual/Help/images/g_FXpingpongdelay.png",
+    "bytes": 99710,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_FXPlate.png",
+    "localPath": "assets/manual/Help/images/g_FXPlate.png",
+    "bytes": 54685,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_FXRevERAmbient.png",
+    "localPath": "assets/manual/Help/images/g_FXRevERAmbient.png",
+    "bytes": 55358,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_FXRevERAmbientERPage.png",
+    "localPath": "assets/manual/Help/images/g_FXRevERAmbientERPage.png",
+    "bytes": 57374,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_fxRevGate.png",
+    "localPath": "assets/manual/Help/images/g_fxRevGate.png",
+    "bytes": 57637,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_FXSignalDetector.png",
+    "localPath": "assets/manual/Help/images/g_FXSignalDetector.png",
+    "bytes": 20169,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_FXSpectralyser.png",
+    "localPath": "assets/manual/Help/images/g_FXSpectralyser.png",
+    "bytes": 68531,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_FXSpectralyserFFTOptions.png",
+    "localPath": "assets/manual/Help/images/g_FXSpectralyserFFTOptions.png",
+    "bytes": 25737,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_FXSpectrogram.png",
+    "localPath": "assets/manual/Help/images/g_FXSpectrogram.png",
+    "bytes": 164230,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_FXSPLauto.png",
+    "localPath": "assets/manual/Help/images/g_FXSPLauto.png",
+    "bytes": 69915,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_FXSPLmain.png",
+    "localPath": "assets/manual/Help/images/g_FXSPLmain.png",
+    "bytes": 65032,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_FXSPLsens.png",
+    "localPath": "assets/manual/Help/images/g_FXSPLsens.png",
+    "bytes": 71978,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_FXSubmoniX.PNG",
+    "localPath": "assets/manual/Help/images/g_FXSubmoniX.PNG",
+    "bytes": 114706,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_FXTapeecho.png",
+    "localPath": "assets/manual/Help/images/g_FXTapeecho.png",
+    "bytes": 112458,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_FXTFAIRMenu.png",
+    "localPath": "assets/manual/Help/images/g_FXTFAIRMenu.png",
+    "bytes": 72615,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_FXTFAMagPha.png",
+    "localPath": "assets/manual/Help/images/g_FXTFAMagPha.png",
+    "bytes": 88762,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_FXTFASettings.png",
+    "localPath": "assets/manual/Help/images/g_FXTFASettings.png",
+    "bytes": 3774,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_fxToolsFunctionGen.png",
+    "localPath": "assets/manual/Help/images/g_fxToolsFunctionGen.png",
+    "bytes": 55103,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_FXToolsMonitoring.png",
+    "localPath": "assets/manual/Help/images/g_FXToolsMonitoring.png",
+    "bytes": 35008,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_fxToolsPhaseScopeLCR.png",
+    "localPath": "assets/manual/Help/images/g_fxToolsPhaseScopeLCR.png",
+    "bytes": 55832,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_FXToolsSPLMeterSensitivitySetup.png",
+    "localPath": "assets/manual/Help/images/g_FXToolsSPLMeterSensitivitySetup.png",
+    "bytes": 6478,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_GainComp3dB.png",
+    "localPath": "assets/manual/Help/images/g_GainComp3dB.png",
+    "bytes": 21977,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_GainShareFlow.png",
+    "localPath": "assets/manual/Help/images/g_GainShareFlow.png",
+    "bytes": 22929,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_GenericOscDetailView.png",
+    "localPath": "assets/manual/Help/images/g_GenericOscDetailView.png",
+    "bytes": 29556,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_GPOOwn.png",
+    "localPath": "assets/manual/Help/images/g_GPOOwn.png",
+    "bytes": 36100,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_GUIsignalproc.png",
+    "localPath": "assets/manual/Help/images/g_GUIsignalproc.png",
+    "bytes": 18624,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_Imported.png",
+    "localPath": "assets/manual/Help/images/g_Imported.png",
+    "bytes": 75185,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_ImportExport.png",
+    "localPath": "assets/manual/Help/images/g_ImportExport.png",
+    "bytes": 37440,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_ImportPreview.png",
+    "localPath": "assets/manual/Help/images/g_ImportPreview.png",
+    "bytes": 36792,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_IO.png",
+    "localPath": "assets/manual/Help/images/g_IO.png",
+    "bytes": 292300,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_keyboard.png",
+    "localPath": "assets/manual/Help/images/g_keyboard.png",
+    "bytes": 87518,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_KLANG_ChanAuxCrosspoint.png",
+    "localPath": "assets/manual/Help/images/g_KLANG_ChanAuxCrosspoint.png",
+    "bytes": 166564,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_KLANG_ExtCtrl_Setup.png",
+    "localPath": "assets/manual/Help/images/g_KLANG_ExtCtrl_Setup.png",
+    "bytes": 70393,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_KLANG_MADI_Setup.png",
+    "localPath": "assets/manual/Help/images/g_KLANG_MADI_Setup.png",
+    "bytes": 65514,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_KLANG_noVLAN_Dante_Setup.png",
+    "localPath": "assets/manual/Help/images/g_KLANG_noVLAN_Dante_Setup.png",
+    "bytes": 63611,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_KLANG_VLAN_Dante_Setup.png",
+    "localPath": "assets/manual/Help/images/g_KLANG_VLAN_Dante_Setup.png",
+    "bytes": 101368,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_KLANGAudioRoutingDiagram.png",
+    "localPath": "assets/manual/Help/images/g_KLANGAudioRoutingDiagram.png",
+    "bytes": 90043,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_LayerBankTile.png",
+    "localPath": "assets/manual/Help/images/g_LayerBankTile.png",
+    "bytes": 105917,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_layermanager.png",
+    "localPath": "assets/manual/Help/images/g_layermanager.png",
+    "bytes": 160745,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_layermanagerBin.png",
+    "localPath": "assets/manual/Help/images/g_layermanagerBin.png",
+    "bytes": 613,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_ManualDiscoveryMain.png",
+    "localPath": "assets/manual/Help/images/g_ManualDiscoveryMain.png",
+    "bytes": 13158,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_ManualDiscoveryRemote.png",
+    "localPath": "assets/manual/Help/images/g_ManualDiscoveryRemote.png",
+    "bytes": 8493,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_MasterTile.png",
+    "localPath": "assets/manual/Help/images/g_MasterTile.png",
+    "bytes": 112457,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_matrix.png",
+    "localPath": "assets/manual/Help/images/g_matrix.png",
+    "bytes": 186951,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_MaxGRdiag.png",
+    "localPath": "assets/manual/Help/images/g_MaxGRdiag.png",
+    "bytes": 6551,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_MeterScreen.png",
+    "localPath": "assets/manual/Help/images/g_MeterScreen.png",
+    "bytes": 8887,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_miniAutomation.png",
+    "localPath": "assets/manual/Help/images/g_miniAutomation.png",
+    "bytes": 79971,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_miniChannel.png",
+    "localPath": "assets/manual/Help/images/g_miniChannel.png",
+    "bytes": 85033,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_miniDYN.png",
+    "localPath": "assets/manual/Help/images/g_miniDYN.png",
+    "bytes": 77868,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_miniEQ.png",
+    "localPath": "assets/manual/Help/images/g_miniEQ.png",
+    "bytes": 83958,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_miniFaderTB.png",
+    "localPath": "assets/manual/Help/images/g_miniFaderTB.png",
+    "bytes": 48865,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_miniHOME.png",
+    "localPath": "assets/manual/Help/images/g_miniHOME.png",
+    "bytes": 53269,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_miniInput.png",
+    "localPath": "assets/manual/Help/images/g_miniInput.png",
+    "bytes": 53104,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_miniINSERT.png",
+    "localPath": "assets/manual/Help/images/g_miniINSERT.png",
+    "bytes": 64606,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_miniMutegroups.png",
+    "localPath": "assets/manual/Help/images/g_miniMutegroups.png",
+    "bytes": 49931,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_miniPAN.png",
+    "localPath": "assets/manual/Help/images/g_miniPAN.png",
+    "bytes": 54377,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_miniSENDS.png",
+    "localPath": "assets/manual/Help/images/g_miniSENDS.png",
+    "bytes": 56083,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_miniTime.png",
+    "localPath": "assets/manual/Help/images/g_miniTime.png",
+    "bytes": 69532,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_miniVCAMG.png",
+    "localPath": "assets/manual/Help/images/g_miniVCAMG.png",
+    "bytes": 85388,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_MuteGroupTile.png",
+    "localPath": "assets/manual/Help/images/g_MuteGroupTile.png",
+    "bytes": 16398,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_NetworkIPHighlight.png",
+    "localPath": "assets/manual/Help/images/g_NetworkIPHighlight.png",
+    "bytes": 82532,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_NetworkIPIcon.png",
+    "localPath": "assets/manual/Help/images/g_NetworkIPIcon.png",
+    "bytes": 4377,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_NetworkIPMessage.png",
+    "localPath": "assets/manual/Help/images/g_NetworkIPMessage.png",
+    "bytes": 15104,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_NetworkIPResolve.png",
+    "localPath": "assets/manual/Help/images/g_NetworkIPResolve.png",
+    "bytes": 10893,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_NetworkOptions.png",
+    "localPath": "assets/manual/Help/images/g_NetworkOptions.png",
+    "bytes": 74043,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_OptionsBrightness.png",
+    "localPath": "assets/manual/Help/images/g_OptionsBrightness.png",
+    "bytes": 20123,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_OptionsDDM.png",
+    "localPath": "assets/manual/Help/images/g_OptionsDDM.png",
+    "bytes": 27231,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_OptionsDirectOut.png",
+    "localPath": "assets/manual/Help/images/g_OptionsDirectOut.png",
+    "bytes": 37113,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_OptionsExternalKeyboard.png",
+    "localPath": "assets/manual/Help/images/g_OptionsExternalKeyboard.png",
+    "bytes": 16210,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_OptionsExternalScreen.png",
+    "localPath": "assets/manual/Help/images/g_OptionsExternalScreen.png",
+    "bytes": 12434,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_optionsFFTAnalyser.png",
+    "localPath": "assets/manual/Help/images/g_optionsFFTAnalyser.png",
+    "bytes": 13535,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_OptionsFolddown.png",
+    "localPath": "assets/manual/Help/images/g_OptionsFolddown.png",
+    "bytes": 39790,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_OptionsFollowSetup.png",
+    "localPath": "assets/manual/Help/images/g_OptionsFollowSetup.png",
+    "bytes": 87381,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_OptionsMeterSources.png",
+    "localPath": "assets/manual/Help/images/g_OptionsMeterSources.png",
+    "bytes": 30862,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_OptionsModel.png",
+    "localPath": "assets/manual/Help/images/g_OptionsModel.png",
+    "bytes": 15968,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_OptionsMouseTouch.png",
+    "localPath": "assets/manual/Help/images/g_OptionsMouseTouch.png",
+    "bytes": 6804,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_OptionsSolo.png",
+    "localPath": "assets/manual/Help/images/g_OptionsSolo.png",
+    "bytes": 33154,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_OptionsSurfaceLock.png",
+    "localPath": "assets/manual/Help/images/g_OptionsSurfaceLock.png",
+    "bytes": 4688,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_OptionsSystemClock.png",
+    "localPath": "assets/manual/Help/images/g_OptionsSystemClock.png",
+    "bytes": 14564,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_OptionsTileSetup.png",
+    "localPath": "assets/manual/Help/images/g_OptionsTileSetup.png",
+    "bytes": 19400,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_OptionsTime.png",
+    "localPath": "assets/manual/Help/images/g_OptionsTime.png",
+    "bytes": 8577,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_OptionsTimecode.png",
+    "localPath": "assets/manual/Help/images/g_OptionsTimecode.png",
+    "bytes": 13574,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_OptionsUserButtons.png",
+    "localPath": "assets/manual/Help/images/g_OptionsUserButtons.png",
+    "bytes": 24570,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_OptionsVCAControl.png",
+    "localPath": "assets/manual/Help/images/g_OptionsVCAControl.png",
+    "bytes": 8323,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_OSCdetailLISA.png",
+    "localPath": "assets/manual/Help/images/g_OSCdetailLISA.png",
+    "bytes": 211651,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_OSCdetailSMG.png",
+    "localPath": "assets/manual/Help/images/g_OSCdetailSMG.png",
+    "bytes": 49267,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_OSCdetailSMGsnapshot.png",
+    "localPath": "assets/manual/Help/images/g_OSCdetailSMGsnapshot.png",
+    "bytes": 198338,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_OSCsetupGenericDeviceConfig.png",
+    "localPath": "assets/manual/Help/images/g_OSCsetupGenericDeviceConfig.png",
+    "bytes": 16642,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_OSCsetupGenericEnabled.png",
+    "localPath": "assets/manual/Help/images/g_OSCsetupGenericEnabled.png",
+    "bytes": 25869,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_OSCsetupGenericMethodsConfig.png",
+    "localPath": "assets/manual/Help/images/g_OSCsetupGenericMethodsConfig.png",
+    "bytes": 20790,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_OSCsetupGenericMethodsSwitchesConfig.png",
+    "localPath": "assets/manual/missing-image.svg",
+    "bytes": 0,
+    "status": "placeholder",
+    "error": "远程服务器返回错误: (404) 未找到。"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_OSCsetupGenericSelected.png",
+    "localPath": "assets/manual/Help/images/g_OSCsetupGenericSelected.png",
+    "bytes": 24338,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_OSCsetupLISADeviceConfig.png",
+    "localPath": "assets/manual/Help/images/g_OSCsetupLISADeviceConfig.png",
+    "bytes": 13662,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_OSCsetupLISAEnabled.png",
+    "localPath": "assets/manual/Help/images/g_OSCsetupLISAEnabled.png",
+    "bytes": 24975,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_OSCsetupLISASelected.png",
+    "localPath": "assets/manual/Help/images/g_OSCsetupLISASelected.png",
+    "bytes": 24081,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_OSCsetupSigmaDeviceConfig.png",
+    "localPath": "assets/manual/Help/images/g_OSCsetupSigmaDeviceConfig.png",
+    "bytes": 13198,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_OSCsetupSigmaEnabled.png",
+    "localPath": "assets/manual/Help/images/g_OSCsetupSigmaEnabled.png",
+    "bytes": 25225,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_OSCsetupSigmaSelected.png",
+    "localPath": "assets/manual/Help/images/g_OSCsetupSigmaSelected.png",
+    "bytes": 24364,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_OSCsetupSpacemapDeviceConfig.png",
+    "localPath": "assets/manual/Help/images/g_OSCsetupSpacemapDeviceConfig.png",
+    "bytes": 14688,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_OSCsetupSpacemapEnabled.png",
+    "localPath": "assets/manual/Help/images/g_OSCsetupSpacemapEnabled.png",
+    "bytes": 24589,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_OSCsetupSpacemapSelected.png",
+    "localPath": "assets/manual/Help/images/g_OSCsetupSpacemapSelected.png",
+    "bytes": 24044,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_OverviewScreen.png",
+    "localPath": "assets/manual/Help/images/g_OverviewScreen.png",
+    "bytes": 162837,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_PanelMasterFaders.png",
+    "localPath": "assets/manual/Help/images/g_PanelMasterFaders.png",
+    "bytes": 37142,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_panelMeter.png",
+    "localPath": "assets/manual/Help/images/g_panelMeter.png",
+    "bytes": 19876,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_PanelQuicksBasic.png",
+    "localPath": "assets/manual/Help/images/g_PanelQuicksBasic.png",
+    "bytes": 22750,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_PanelQuicksBasic2.png",
+    "localPath": "assets/manual/Help/images/g_PanelQuicksBasic2.png",
+    "bytes": 8483,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_PanelQuickScroller.png",
+    "localPath": "assets/manual/Help/images/g_PanelQuickScroller.png",
+    "bytes": 8972,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_PressAndHold2EDGE.png",
+    "localPath": "assets/manual/Help/images/g_PressAndHold2EDGE.png",
+    "bytes": 1190,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_PressAndHoldEDGE.png",
+    "localPath": "assets/manual/Help/images/g_PressAndHoldEDGE.png",
+    "bytes": 1031,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/G_Qbutton.png",
+    "localPath": "assets/manual/Help/images/G_Qbutton.png",
+    "bytes": 23986,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_QFocusFader.png",
+    "localPath": "assets/manual/Help/images/g_QFocusFader.png",
+    "bytes": 56425,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_quickALLbuses.png",
+    "localPath": "assets/manual/Help/images/g_quickALLbuses.png",
+    "bytes": 100652,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_quickAllPass.png",
+    "localPath": "assets/manual/Help/images/g_quickAllPass.png",
+    "bytes": 29255,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_quickCOMPGATE.png",
+    "localPath": "assets/manual/Help/images/g_quickCOMPGATE.png",
+    "bytes": 34872,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_quickDelay.png",
+    "localPath": "assets/manual/Help/images/g_quickDelay.png",
+    "bytes": 27670,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_quickEQ1.png",
+    "localPath": "assets/manual/Help/images/g_quickEQ1.png",
+    "bytes": 31304,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_quickFader.png",
+    "localPath": "assets/manual/Help/images/g_quickFader.png",
+    "bytes": 13466,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_QuickInput_Routing.png",
+    "localPath": "assets/manual/Help/images/g_QuickInput_Routing.png",
+    "bytes": 27051,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_QuickInput.png",
+    "localPath": "assets/manual/Help/images/g_QuickInput.png",
+    "bytes": 36750,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_quickInsert.png",
+    "localPath": "assets/manual/Help/images/g_quickInsert.png",
+    "bytes": 22760,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_QuickKeysLabel.png",
+    "localPath": "assets/manual/Help/images/g_QuickKeysLabel.png",
+    "bytes": 145311,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_QuickMG.png",
+    "localPath": "assets/manual/Help/images/g_QuickMG.png",
+    "bytes": 50962,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_quickPAN.png",
+    "localPath": "assets/manual/Help/images/g_quickPAN.png",
+    "bytes": 20471,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_RehearseModeIcon.png",
+    "localPath": "assets/manual/Help/images/g_RehearseModeIcon.png",
+    "bytes": 868,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_RehearseModeIconWhite.png",
+    "localPath": "assets/manual/Help/images/g_RehearseModeIconWhite.png",
+    "bytes": 570,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_RemoteAwaitingAuthOptions.png",
+    "localPath": "assets/manual/Help/images/g_RemoteAwaitingAuthOptions.png",
+    "bytes": 11540,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_RemoteMainMode.png",
+    "localPath": "assets/manual/Help/images/g_RemoteMainMode.png",
+    "bytes": 17720,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_RemoteMode.png",
+    "localPath": "assets/manual/Help/images/g_RemoteMode.png",
+    "bytes": 12722,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_RemoteOptions.png",
+    "localPath": "assets/manual/Help/images/g_RemoteOptions.png",
+    "bytes": 78165,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_RemotePasswordDialogue.png",
+    "localPath": "assets/manual/Help/images/g_RemotePasswordDialogue.png",
+    "bytes": 23885,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_RemoteTile.png",
+    "localPath": "assets/manual/Help/images/g_RemoteTile.png",
+    "bytes": 117043,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_SBSetup.png",
+    "localPath": "assets/manual/Help/images/g_SBSetup.png",
+    "bytes": 71566,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_ScreenQuery.png",
+    "localPath": "assets/manual/Help/images/g_ScreenQuery.png",
+    "bytes": 185517,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_ScreenQueryTaCo.png",
+    "localPath": "assets/manual/Help/images/g_ScreenQueryTaCo.png",
+    "bytes": 172271,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_SelectorPage.png",
+    "localPath": "assets/manual/Help/images/g_SelectorPage.png",
+    "bytes": 19669,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_Show1.png",
+    "localPath": "assets/manual/Help/images/g_Show1.png",
+    "bytes": 250652,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_ShureWirelessDeviceInputs.png",
+    "localPath": "assets/manual/Help/images/g_ShureWirelessDeviceInputs.png",
+    "bytes": 42985,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_SignalSwitcher.png",
+    "localPath": "assets/manual/Help/images/g_SignalSwitcher.png",
+    "bytes": 279723,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_SIPIcon.png",
+    "localPath": "assets/manual/Help/images/g_SIPIcon.png",
+    "bytes": 778,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_SKI.png",
+    "localPath": "assets/manual/Help/images/g_SKI.png",
+    "bytes": 123892,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_snmpOptions.png",
+    "localPath": "assets/manual/Help/images/g_snmpOptions.png",
+    "bytes": 25568,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_SoloDiagram.png",
+    "localPath": "assets/manual/Help/images/g_SoloDiagram.png",
+    "bytes": 100759,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_SoloFollowPan.png",
+    "localPath": "assets/manual/Help/images/g_SoloFollowPan.png",
+    "bytes": 45913,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_SoloPopOut.png",
+    "localPath": "assets/manual/missing-image.svg",
+    "bytes": 0,
+    "status": "placeholder",
+    "error": "远程服务器返回错误: (404) 未找到。"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_SoloTile.png",
+    "localPath": "assets/manual/Help/images/g_SoloTile.png",
+    "bytes": 12304,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_SSStarIcon.png",
+    "localPath": "assets/manual/Help/images/g_SSStarIcon.png",
+    "bytes": 1321,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_StatusBar.png",
+    "localPath": "assets/manual/Help/images/g_StatusBar.png",
+    "bytes": 7612,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_StatusBarIcons.png",
+    "localPath": "assets/manual/Help/images/g_StatusBarIcons.png",
+    "bytes": 3033,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_StatusBarPath.png",
+    "localPath": "assets/manual/Help/images/g_StatusBarPath.png",
+    "bytes": 1227,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_StatusBarScene.png",
+    "localPath": "assets/manual/Help/images/g_StatusBarScene.png",
+    "bytes": 1199,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_StatusBarShow.png",
+    "localPath": "assets/manual/Help/images/g_StatusBarShow.png",
+    "bytes": 1641,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_StatusBarTime.png",
+    "localPath": "assets/manual/Help/images/g_StatusBarTime.png",
+    "bytes": 1067,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_StemFeedPointExample.png",
+    "localPath": "assets/manual/Help/images/g_StemFeedPointExample.png",
+    "bytes": 14285,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_SystemLicensing.png",
+    "localPath": "assets/manual/Help/images/g_SystemLicensing.png",
+    "bytes": 27359,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_TabletAwaitingAuthOptions.png",
+    "localPath": "assets/manual/Help/images/g_TabletAwaitingAuthOptions.png",
+    "bytes": 34066,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_TaCoAux.png",
+    "localPath": "assets/manual/Help/images/g_TaCoAux.png",
+    "bytes": 86118,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_TaCoEngineerFaders.png",
+    "localPath": "assets/manual/Help/images/g_TaCoEngineerFaders.png",
+    "bytes": 104435,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_TaCoFX.png",
+    "localPath": "assets/manual/Help/images/g_TaCoFX.png",
+    "bytes": 698580,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_TaCoLock.png",
+    "localPath": "assets/manual/Help/images/g_TaCoLock.png",
+    "bytes": 106845,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_TaCoReset.png",
+    "localPath": "assets/manual/Help/images/g_TaCoReset.png",
+    "bytes": 17629,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_TaCoReset2.png",
+    "localPath": "assets/manual/Help/images/g_TaCoReset2.png",
+    "bytes": 21712,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_tacoSetupDiscovered.png",
+    "localPath": "assets/manual/Help/images/g_tacoSetupDiscovered.png",
+    "bytes": 7613,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_TBdiagAuxSolo.png",
+    "localPath": "assets/manual/Help/images/g_TBdiagAuxSolo.png",
+    "bytes": 88420,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_TBdiagDirectOut.png",
+    "localPath": "assets/manual/Help/images/g_TBdiagDirectOut.png",
+    "bytes": 41086,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_TBGroupPage.png",
+    "localPath": "assets/manual/Help/images/g_TBGroupPage.png",
+    "bytes": 643391,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_TBtile.png",
+    "localPath": "assets/manual/Help/images/g_TBtile.png",
+    "bytes": 7520,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_TempAutoMuteSafe.png",
+    "localPath": "assets/manual/Help/images/g_TempAutoMuteSafe.png",
+    "bytes": 35031,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_TransientDiag.png",
+    "localPath": "assets/manual/Help/images/g_TransientDiag.png",
+    "bytes": 12157,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_UserKeysPopout.png",
+    "localPath": "assets/manual/Help/images/g_UserKeysPopout.png",
+    "bytes": 43063,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_V-Aux.png",
+    "localPath": "assets/manual/Help/images/g_V-Aux.png",
+    "bytes": 32989,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_VcaMemberSends.png",
+    "localPath": "assets/manual/Help/images/g_VcaMemberSends.png",
+    "bytes": 31454,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_VirtualTieLines.png",
+    "localPath": "assets/manual/Help/images/g_VirtualTieLines.png",
+    "bytes": 119780,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_VTL1.png",
+    "localPath": "assets/manual/Help/images/g_VTL1.png",
+    "bytes": 32289,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_VTL2.png",
+    "localPath": "assets/manual/Help/images/g_VTL2.png",
+    "bytes": 17307,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_VTL3.png",
+    "localPath": "assets/manual/Help/images/g_VTL3.png",
+    "bytes": 239692,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_VTL4.png",
+    "localPath": "assets/manual/Help/images/g_VTL4.png",
+    "bytes": 24123,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_XLightBridgeConnection.png",
+    "localPath": "assets/manual/Help/images/g_XLightBridgeConnection.png",
+    "bytes": 105368,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_XLightBridgeFront.png",
+    "localPath": "assets/manual/Help/images/g_XLightBridgeFront.png",
+    "bytes": 20025,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_XLightBridgeFrontConns.png",
+    "localPath": "assets/manual/Help/images/g_XLightBridgeFrontConns.png",
+    "bytes": 18961,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_XLightBridgeRearConns.png",
+    "localPath": "assets/manual/Help/images/g_XLightBridgeRearConns.png",
+    "bytes": 50538,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_XLightBridgeVTL.png",
+    "localPath": "assets/manual/Help/images/g_XLightBridgeVTL.png",
+    "bytes": 51698,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_XYFull.png",
+    "localPath": "assets/manual/Help/images/g_XYFull.png",
+    "bytes": 275165,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_XYSmall.png",
+    "localPath": "assets/manual/Help/images/g_XYSmall.png",
+    "bytes": 45754,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/n_arrow.png",
+    "localPath": "assets/manual/Help/images/n_arrow.png",
+    "bytes": 652,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/n_AssignButtons.png",
+    "localPath": "assets/manual/Help/images/n_AssignButtons.png",
+    "bytes": 7420,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/n_AssignInsert.png",
+    "localPath": "assets/manual/Help/images/n_AssignInsert.png",
+    "bytes": 4738,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/n_ChanEyecon.png",
+    "localPath": "assets/manual/Help/images/n_ChanEyecon.png",
+    "bytes": 6460,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/n_ChanSelect.png",
+    "localPath": "assets/manual/Help/images/n_ChanSelect.png",
+    "bytes": 6926,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/n_MenuChanView.png",
+    "localPath": "assets/manual/Help/images/n_MenuChanView.png",
+    "bytes": 5024,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/n_SelSendsAll.png",
+    "localPath": "assets/manual/Help/images/n_SelSendsAll.png",
+    "bytes": 5888,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/s_AutoPreview.png",
+    "localPath": "assets/manual/Help/images/s_AutoPreview.png",
+    "bytes": 271576,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/s_ChannelViewmain.png",
+    "localPath": "assets/manual/Help/images/s_ChannelViewmain.png",
+    "bytes": 854266,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/s_ChannelViewsidebar.png",
+    "localPath": "assets/manual/Help/images/s_ChannelViewsidebar.png",
+    "bytes": 840980,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/s_CopyBusMenu.png",
+    "localPath": "assets/manual/Help/images/s_CopyBusMenu.png",
+    "bytes": 25794,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/s_CopyChannelMenu.png",
+    "localPath": "assets/manual/Help/images/s_CopyChannelMenu.png",
+    "bytes": 51045,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/s_FastSetup.png",
+    "localPath": "assets/manual/Help/images/s_FastSetup.png",
+    "bytes": 87575,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/s_FastSetupKeypad.png",
+    "localPath": "assets/manual/Help/images/s_FastSetupKeypad.png",
+    "bytes": 20121,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/s_FXRackFull.png",
+    "localPath": "assets/manual/Help/images/s_FXRackFull.png",
+    "bytes": 174924,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/s_FXSolidPitch.png",
+    "localPath": "assets/manual/Help/images/s_FXSolidPitch.png",
+    "bytes": 305391,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/s_LinkGroup_pathIcons.png",
+    "localPath": "assets/manual/Help/images/s_LinkGroup_pathIcons.png",
+    "bytes": 26658,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/s_LISA_ConfigError.png",
+    "localPath": "assets/manual/Help/images/s_LISA_ConfigError.png",
+    "bytes": 62833,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/s_LISA_ConfigErrorNotification.png",
+    "localPath": "assets/manual/Help/images/s_LISA_ConfigErrorNotification.png",
+    "bytes": 46110,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/s_LISA_DesklinkOff.png",
+    "localPath": "assets/manual/Help/images/s_LISA_DesklinkOff.png",
+    "bytes": 194915,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/s_LISA_DesklinkOn.png",
+    "localPath": "assets/manual/Help/images/s_LISA_DesklinkOn.png",
+    "bytes": 194463,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/s_MeyerConsoleSettings.png",
+    "localPath": "assets/manual/Help/images/s_MeyerConsoleSettings.png",
+    "bytes": 50719,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/s_PathLink-popout.png",
+    "localPath": "assets/manual/Help/images/s_PathLink-popout.png",
+    "bytes": 52219,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/s_PathLink.png",
+    "localPath": "assets/manual/Help/images/s_PathLink.png",
+    "bytes": 17731,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/s_SetupScreen_LockMainKeysOn2.png",
+    "localPath": "assets/manual/Help/images/s_SetupScreen_LockMainKeysOn2.png",
+    "bytes": 8890,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/s_SigmaProtocolOptions.png",
+    "localPath": "assets/manual/Help/images/s_SigmaProtocolOptions.png",
+    "bytes": 14092,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/SetupClocking/image002.png",
+    "localPath": "assets/manual/Help/images/SetupClocking/image002.png",
+    "bytes": 57284,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/SetupClocking/image003.png",
+    "localPath": "assets/manual/Help/images/SetupClocking/image003.png",
+    "bytes": 183711,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/ShureANI22_front.png",
+    "localPath": "assets/manual/Help/images/ShureANI22_front.png",
+    "bytes": 180242,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/ShureAxientAD4Q_front.png",
+    "localPath": "assets/manual/Help/images/ShureAxientAD4Q_front.png",
+    "bytes": 222595,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/StageboxBLD.png",
+    "localPath": "assets/manual/Help/images/StageboxBLD.png",
+    "bytes": 51550,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/StageboxBLM.png",
+    "localPath": "assets/manual/Help/images/StageboxBLM.png",
+    "bytes": 84205,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/StageboxD.png",
+    "localPath": "assets/manual/Help/images/StageboxD.png",
+    "bytes": 115701,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/StageboxML.png",
+    "localPath": "assets/manual/Help/images/StageboxML.png",
+    "bytes": 293813,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/StageboxMPL16-8.png",
+    "localPath": "assets/manual/missing-image.svg",
+    "bytes": 0,
+    "status": "placeholder",
+    "error": "远程服务器返回错误: (404) 未找到。"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/StageboxSB1612.png",
+    "localPath": "assets/manual/Help/images/StageboxSB1612.png",
+    "bytes": 114420,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/StageboxSB3224.png",
+    "localPath": "assets/manual/Help/images/StageboxSB3224.png",
+    "bytes": 275783,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/StageboxSB88.png",
+    "localPath": "assets/manual/Help/images/StageboxSB88.png",
+    "bytes": 109713,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/StageboxSBi16.png",
+    "localPath": "assets/manual/Help/images/StageboxSBi16.png",
+    "bytes": 113246,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/t_OSCdetailsDBS.png",
+    "localPath": "assets/manual/Help/images/t_OSCdetailsDBS.png",
+    "bytes": 115226,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/t_OSCsetupdbSelected.png",
+    "localPath": "assets/manual/Help/images/t_OSCsetupdbSelected.png",
+    "bytes": 186167,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/t_Rehearse_bulk.png",
+    "localPath": "assets/manual/Help/images/t_Rehearse_bulk.png",
+    "bytes": 712203,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/t_Rehearse_mode.png",
+    "localPath": "assets/manual/Help/images/t_Rehearse_mode.png",
+    "bytes": 90644,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/t_Rehearse_pathdetail.png",
+    "localPath": "assets/manual/Help/images/t_Rehearse_pathdetail.png",
+    "bytes": 535942,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/t_Rehearse_status.png",
+    "localPath": "assets/manual/Help/images/t_Rehearse_status.png",
+    "bytes": 34220,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/u_DanteConfig_Allowed_dev_list.png",
+    "localPath": "assets/manual/Help/images/u_DanteConfig_Allowed_dev_list.png",
+    "bytes": 269031,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/u_FXOther_Fusion_HFComp.png",
+    "localPath": "assets/manual/Help/images/u_FXOther_Fusion_HFComp.png",
+    "bytes": 118781,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/u_FXOther_Fusion_STImg.png",
+    "localPath": "assets/manual/Help/images/u_FXOther_Fusion_STImg.png",
+    "bytes": 118469,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/u_FXOther_Fusion_Transformer.png",
+    "localPath": "assets/manual/Help/images/u_FXOther_Fusion_Transformer.png",
+    "bytes": 118028,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/u_FXOther_Fusion_VintDriv.png",
+    "localPath": "assets/manual/Help/images/u_FXOther_Fusion_VintDriv.png",
+    "bytes": 116352,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/u_FXOther_Fusion_VioletEQ.png",
+    "localPath": "assets/manual/Help/images/u_FXOther_Fusion_VioletEQ.png",
+    "bytes": 119640,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/u_Multi_Fade_Time_Edit.png",
+    "localPath": "assets/manual/Help/images/u_Multi_Fade_Time_Edit.png",
+    "bytes": 206244,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/u_OptionsMeterOptions.png",
+    "localPath": "assets/manual/Help/images/u_OptionsMeterOptions.png",
+    "bytes": 28880,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/u_RoutingXY_Modes.png",
+    "localPath": "assets/manual/Help/images/u_RoutingXY_Modes.png",
+    "bytes": 474370,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/LANs/LAN-009/LAN-009.2%20Configuring%20Dante%20for%20Live%20Consoles/Image_001.png",
+    "localPath": "assets/manual/Help/LANs/LAN-009/images/Image_001.png",
+    "bytes": 4974,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/LANs/LAN-009/LAN-009.2%20Configuring%20Dante%20for%20Live%20Consoles/Image_002.png",
+    "localPath": "assets/manual/Help/LANs/LAN-009/images/Image_002.png",
+    "bytes": 130,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/LANs/LAN-009/LAN-009.2%20Configuring%20Dante%20for%20Live%20Consoles/Image_003.jpg",
+    "localPath": "assets/manual/Help/LANs/LAN-009/images/Image_003.jpg",
+    "bytes": 47421,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/LANs/LAN-009/LAN-009.2%20Configuring%20Dante%20for%20Live%20Consoles/Image_004.jpg",
+    "localPath": "assets/manual/Help/LANs/LAN-009/images/Image_004.jpg",
+    "bytes": 20786,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/LANs/LAN-009/LAN-009.2%20Configuring%20Dante%20for%20Live%20Consoles/Image_005.jpg",
+    "localPath": "assets/manual/Help/LANs/LAN-009/images/Image_005.jpg",
+    "bytes": 24785,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/LANs/LAN-009/LAN-009.2%20Configuring%20Dante%20for%20Live%20Consoles/Image_006.jpg",
+    "localPath": "assets/manual/Help/LANs/LAN-009/images/Image_006.jpg",
+    "bytes": 40843,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/LANs/LAN-009/LAN-009.2%20Configuring%20Dante%20for%20Live%20Consoles/Image_007.jpg",
+    "localPath": "assets/manual/Help/LANs/LAN-009/images/Image_007.jpg",
+    "bytes": 30540,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/LANs/LAN-009/LAN-009.2%20Configuring%20Dante%20for%20Live%20Consoles/Image_008.jpg",
+    "localPath": "assets/manual/Help/LANs/LAN-009/images/Image_008.jpg",
+    "bytes": 36967,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/LANs/LAN-009/LAN-009.2%20Configuring%20Dante%20for%20Live%20Consoles/Image_009.jpg",
+    "localPath": "assets/manual/Help/LANs/LAN-009/images/Image_009.jpg",
+    "bytes": 81794,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/LANs/LAN-009/LAN-009.2%20Configuring%20Dante%20for%20Live%20Consoles/Image_010.jpg",
+    "localPath": "assets/manual/Help/LANs/LAN-009/images/Image_010.jpg",
+    "bytes": 63338,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/LANs/LAN-009/LAN-009.2%20Configuring%20Dante%20for%20Live%20Consoles/Image_011.jpg",
+    "localPath": "assets/manual/Help/LANs/LAN-009/images/Image_011.jpg",
+    "bytes": 40615,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/LANs/LAN-009/LAN-009.2%20Configuring%20Dante%20for%20Live%20Consoles/Image_012.jpg",
+    "localPath": "assets/manual/Help/LANs/LAN-009/images/Image_012.jpg",
+    "bytes": 49251,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/LANs/LAN-009/LAN-009.2%20Configuring%20Dante%20for%20Live%20Consoles/Image_013.jpg",
+    "localPath": "assets/manual/Help/LANs/LAN-009/images/Image_013.jpg",
+    "bytes": 73823,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/LANs/LAN-010/images/image1.png",
+    "localPath": "assets/manual/Help/LANs/LAN-010/images/image1.png",
+    "bytes": 97732,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/LANs/LAN-010/images/image2.png",
+    "localPath": "assets/manual/Help/LANs/LAN-010/images/image2.png",
+    "bytes": 68471,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/LANs/LAN-010/images/image3.png",
+    "localPath": "assets/manual/Help/LANs/LAN-010/images/image3.png",
+    "bytes": 19088,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/LANs/LAN-010/images/image4.png",
+    "localPath": "assets/manual/Help/LANs/LAN-010/images/image4.png",
+    "bytes": 119780,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/LANs/LAN-010/images/image5.png",
+    "localPath": "assets/manual/Help/LANs/LAN-010/images/image5.png",
+    "bytes": 16889,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/LANs/LAN-012/images/image1.png",
+    "localPath": "assets/manual/Help/LANs/LAN-012/images/image1.png",
+    "bytes": 10645,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/LANs/LAN-012/images/image2.png",
+    "localPath": "assets/manual/Help/LANs/LAN-012/images/image2.png",
+    "bytes": 12364,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://www.solidstatelogic.com/assets/uploads/downloads/sigma/SSL-Sigma-User-Guide.pdf",
+    "localPath": "assets/manual/external/www.solidstatelogic.com/assets/uploads/downloads/sigma/SSL-Sigma-User-Guide.pdf",
+    "bytes": 13023218,
+    "status": "downloaded"
+  }
+]

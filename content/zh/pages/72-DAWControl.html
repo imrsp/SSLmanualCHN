@@ -1,0 +1,245 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>DAW 控制</title>
+  <style>
+    body { font: 16px/1.55 Arial, sans-serif; max-width: 1080px; margin: 2rem auto; padding: 0 1.25rem; color: #202124; }
+    img { max-width: 100%; height: auto; }
+    table { border-collapse: collapse; max-width: 100%; }
+    th, td { border: 1px solid #aaa; padding: .45rem; vertical-align: top; }
+    .note { display: block; border-left: 4px solid #e0a000; background: #fff8df; padding: .75rem 1rem; margin: 1rem 0; }
+    .notetitle { font-weight: bold; }
+    .label { font-weight: bold; color: #174ea6; }
+    .source { color: #666; font-size: .9rem; }
+  </style>
+</head>
+<body>
+  <p class="source">章节：设置与附加功能 | 来源：<a href="https://livehelp.solidstatelogic.com/Help/DAWControl.html">https://livehelp.solidstatelogic.com/Help/DAWControl.html</a></p>
+<h2>DAW 控制</h2>
+
+<p>
+    SSL Live 软件支持通过 HUI&trade; 协议控制 DAW。此功能主要用于与 Pro Tools 集成，但也可作为部分其他 DAW 软件的控制方式。
+    最多可为 4 个独立 DAW 分别配置 8、16、24 或 32 个 DAW 控制器通道。连接方式与其他 SSL DAW 控制产品相同，使用 ipMIDI 并通过 <a href="https://livehelp.solidstatelogic.com/Help/OptionsNetwork.html#Network"><span class="hyperlink">Connectivity Network 端口</span></a>连接。
+</p>
+
+<h3>DAW 控制基础</h3>
+
+<p>
+    HUI 协议最初用于通过 Mackie 制造的专用控制器操作 Pro Tools。
+    下文介绍的所有 DAW 功能均特指 Pro Tools 操作，并采用 SSL Live DAW 控制软件所模拟的硬件控制功能标签名称。
+</p>
+
+<span class="note">
+    <span class="notetitle">注意：</span>还有其他 DAW 可通过 HUI 协议控制，但其中大多数不会将 HUI 控制消息直接映射至对应功能。
+    Solid State Logic 已在 Mac 和 PC 平台上对 Pro Tools 广泛测试其 HUI 实现；但遗憾的是，如果其他 DAW 使用 HUI 协议时出现问题，
+    SSL Live 的 DAW 控制不提供 Pro Tools 以外其他 DAW 的支持。
+</span>
+
+<p>
+    DAW 控制可以按连续的 8 个通道为一组进行配置，每个 DAW 最多使用四组，在控制台上提供 32 个用于 DAW Control 的实体推子。
+    系统同时提供通道滚动键和推子库切换键，因此可访问的 Pro Tools Session 音轨数量不受限制；可根据需要滚动音轨或按推子库将其调入控制台推子。
+    也可使用 Pro Tools Memory Locations 调用特定音轨布局。
+</p>
+
+<p>
+    DAW 通过 SSL Live Fader Tiles 控制，此时各控件映射至 DAW 混音器功能，而非控制台内部处理功能。
+    推子控制 DAW 音轨电平，编码器控制音轨声像和发送电平。<b>Flip</b> 功能可让推子控制发送电平。
+    可通过 <span class="label">Q</span> 开关设置音轨录音预备和自动化模式。
+</p>
+
+<p>
+    使用 SSL Live 作为 Pro Tools 混音 Session 的控制器时，推荐采用两种方案。
+    当 Pro Tools 与其他现场音频源一起用作播放源时，可设置一个 HUI 端口，在操作面上提供 8 条 DAW 控制路径，
+    并与其他 8 推子控制器一样以 8 条音轨为增量切换推子库。
+    这些 DAW 控制路径可与控制台操作面上的音频路径组合，形成混合工作流程。
+    或者，如果 DAW 控制是控制台的主要用途，通常更适合在两个 Fader Tile 上配置 24 推子操作面（三个 HUI 端口），
+    并以 24 条音轨为增量切换推子库，从而尽量减少推子库切换操作。
+</p>
+
+<p>
+    Channel View 屏幕中的 DAW 弹出面板包含多组按钮，可用于分配编码器功能及设置音轨自动化模式。
+    该面板还提供走带控制、通道滚动及推子库切换按钮，以及其他实用的主控功能。下文将详细说明这些功能。
+    所有这些功能以及 HUI 协议中提供的其他命令，均可映射至 <a href="https://livehelp.solidstatelogic.com/Help/OptionsUserKeys.html"><span class="hyperlink">User Keys</span></a>。
+</p>
+
+<h3>主要控制器功能</h3>
+<p>
+    可通过控制器操作面上的专用前面板控件或触摸屏访问并控制 Pro Tools 中的以下功能：
+    <ul>
+        <li>
+            音轨
+            <ul>
+                <li>电平</li>
+                <li>静音</li>
+                <li>独奏</li>
+                <li>立体声声像</li>
+                <li>音轨录音预备</li>
+                <li>自动化模式</li>
+                <li>发送 A-E 的电平、Pre/Post、静音和立体声声像</li>
+                <li>将推子设为 0 dB</li>
+                <li>立体声电平表*</li>
+                <li>通道标签</li>
+                <li>选择</li>
+            </ul>
+        </li>
+        <li>
+            Session 音轨导航
+            <ul>
+                <li>Channel Up/Down</li>
+                <li>Bank Up/Down</li>
+            </ul>
+        </li>
+        <li>
+            自动化
+            <ul>
+                <li>Automation Suspend</li>
+                <li>Fill to Start、End、Mix</li>
+            </ul>
+        </li>
+        <li>
+            时间线
+            <ul>
+                <li>Stop、Play、Record</li>
+                <li>Return to Zero (RTZ)</li>
+                <li>Loop</li>
+                <li>Next Marker、Previous Marker</li>
+                <li>Goto Marker 1</li>
+            </ul>
+        </li>
+        <li>
+            常规功能
+            <ul>
+                <li>All Record</li>
+                <li>Group Suspend</li>
+                <li>Sends to Fader (Flip)</li>
+                <li>修饰键：Shift、Opt/All、Alt 和 Ctrl</li>
+            </ul>
+        </li>
+    </ul>
+
+    * 如果已在 Pro Tools 的 Setup &gt; Peripherals &gt; Ethernet Controllers 菜单中启用 EUCON，则 HUI 控制器上无法显示电平。
+    如果双向控制工作正常但没有显示电平，请清除此复选框。
+</p>
+
+<p>除上述主控功能外，其他控制功能也可用作 <a href="https://livehelp.solidstatelogic.com/Help/OptionsUserKeys.html"><span class="hyperlink">User Keys</span></a> 和 <a href="https://livehelp.solidstatelogic.com/Help/EventManager.html"><span class="hyperlink">Events</span></a>。</p>
+
+<h3>配置 ipMIDI</h3>
+
+<p>有关在 DAW 主机上配置 ipMIDI 的说明，请参阅 <a href="https://livehelp.solidstatelogic.com/Help/ipMIDI.html"><span class="hyperlink">ipMIDI 章节</span></a>。</p>
+
+<h3>DAW 控制设置</h3>
+
+<p>
+    在 Setup &gt; Options 页面的 DAW 选项卡中，选择每台已连接 DAW 要使用的 ipMIDI 端口。
+    在 Pro Tools 中，每台 DAW 通过 HUI 最多可使用四个端口（最多 32 个 DAW 控制推子）。
+    端口不必连续，但编号最低的端口始终对应 DAW 通道 1-8。
+</p>
+
+<p>建议在控制台上选好 ipMIDI 端口后再启动 Pro Tools 主机；如果主机已在运行，则将其重新启动。</p>
+
+<img style="display: block; margin: 5px auto; width: 790px;" src="https://livehelp.solidstatelogic.com/Help/images/g_DAW_Setup.png" alt="">
+
+<p>
+    主走带控制键可分配给 <a href="https://livehelp.solidstatelogic.com/Help/OptionsUserKeys.html"><span class="hyperlink">User Keys</span></a> 和 <a href="https://livehelp.solidstatelogic.com/Help/EventManager.html"><span class="hyperlink">Events</span></a>。
+    这些按键将控制设置页面中选中 <b>Transport Master</b> 选项的 DAW。
+</p>
+
+<p>
+    MTC（MIDI Timecode）源也在此页面中选择。MTC 的使用方法见 <a href="https://livehelp.solidstatelogic.com/Help/OptionsSystem.html#Timecode"><span class="hyperlink">Timecode 选项</span></a>章节。
+</p>
+
+<span class="note">
+    <span class="notetitle">注意：</span>如果使用 <a href="https://livehelp.solidstatelogic.com/Help/ipMIDI.html"><span class="hyperlink">ipMIDI</span></a> 进行 DAW Control，应使用不同于以下功能所用端口的 ipMIDI 端口：<a href="https://livehelp.solidstatelogic.com/Help/AutoIOActions.html"><span class="hyperlink">Automation Input/Output Actions</span></a>、
+    <a href="https://livehelp.solidstatelogic.com/Help/EventManager.html"><span class="hyperlink">Events</span></a> 和 <a href="https://livehelp.solidstatelogic.com/Help/OptionsSystem.html#Timecode"><span class="hyperlink">Timecode</span></a>。
+</span>
+
+<h3>配置 DAW 推子库</h3>
+
+<p>
+    在 DAW Control Setup 页面中启用 DAW 端口后，DAW 控制器通道将显示在 <a href="https://livehelp.solidstatelogic.com/Help/LayerManager.html"><span class="hyperlink">推子层管理器</span></a> 的 DAW Source Layer 中。
+    随后可根据需要将通道放入 User Banks。请注意，DAW Channel Label 会同时显示 DAW 端口编号和通道编号。
+    与 Pro Tools 系统建立连接后，该标签将替换为从 DAW 接收的四字符 Pro Tools 音轨标签。
+</p>
+
+<img style="display: block; margin: 5px auto;" src="https://livehelp.solidstatelogic.com/Help/images/g_DAW_Banks.png" alt="">
+
+<p>请注意，TaCo 目前不支持 DAW 通道。</p>
+
+<h3>Fader Tile 控制</h3>
+
+<img style="display: block; margin: 5px auto;" src="https://livehelp.solidstatelogic.com/Help/images/g_DAW_FaderTile.png" alt="">
+
+<h3>DAW 通道条</h3>
+
+<img style="display: block; margin: 5px auto;" src="https://livehelp.solidstatelogic.com/Help/images/g_DAW_ChannelStrip.png" alt="">
+
+<h3>DAW 弹出面板</h3>
+<p>
+    可通过 Channel View 页面右侧的侧边栏访问 DAW 弹出面板。按下 <span class="label">DAW</span> 按钮打开主弹出面板。
+    下文详细介绍可从该弹出面板控制的各项功能。
+</p>
+
+<img style="display: block; margin: 5px auto;" src="https://livehelp.solidstatelogic.com/Help/images/g_DAW_Popout.png" alt="">
+
+<p>
+    长按 <span class="label">DAW</span> 按钮可选择由弹出面板控制的 DAW。
+    （如果该弹出面板此前用于 User Keys，则侧边栏按钮将标记为 <span class="label">User Keys</span>。）
+</p>
+
+<img style="display: block; margin: 5px auto; width: 200px;" src="https://livehelp.solidstatelogic.com/Help/images/g_DAW_ButtonPopout.png" alt="">
+
+<h3>DAW 弹出面板按钮模式</h3>
+
+<p>标准触摸按钮采用“一次触发”操作，即松开按钮时执行所示功能。上图中以红色突出显示的按钮说明采用不同的操作方式：</p>
+
+<h4>修饰键</h4>
+
+<img style="display: block; margin: 5px auto;" src="https://livehelp.solidstatelogic.com/Help/images/g_DAW_ModifierKeys.png" alt="">
+
+<p>这些按键具有锁定功能，因此可以与其他 DAW 功能配合使用。第一次操作按钮会锁定并开启该功能，再次操作则取消该功能。</p>
+
+<h4>自动化模式控制</h4>
+
+<img style="display: block; margin: 5px auto;" src="https://livehelp.solidstatelogic.com/Help/images/g_DAW_AutoModeCtrl.png" alt="">
+
+<p>
+    <span class="label">Auto Set</span> 是一个切换功能，可改变前面板 <span class="label">Q</span> 开关的作用，使其与 6 个自动化模式按钮配合选择自动化模式：
+    <span class="label">Off</span>、<span class="label">Read</span>、<span class="label">Write</span>、<span class="label">Latch</span>、<span class="label">Touch</span> 和 <span class="label">Trim</span>（仅限 Pro Tools HD）。
+</p>
+
+<p>
+    可采用两种操作模式：
+    <ul>
+        <li>按住推子条的 <span class="label">Q</span> 开关，然后使用触摸屏按钮选择所需自动化模式。该按钮将以“一次触发”模式工作。</li>
+        <li>按住一个自动化模式按钮，该模式将保持锁定。随后可通过多个通道各自的 <span class="label">Q</span> 开关，将这些通道设为已锁定的模式。再次触摸模式按钮可解除锁定。</li>
+    </ul>
+</p>
+
+<p>
+    与修饰键配合使用时，可将多条音轨设为指定的自动化模式：
+    <ul>
+        <li><span class="label">Opt/All</span> + <span class="label">Auto Mode</span> 可将所有音轨设为所选模式。</li>
+        <li>
+            <span class="label">Shift</span> + <span class="label">Opt/All</span> + <span class="label">Auto Mode</span> 可将所有选中的音轨设为自动化模式
+            （提示：使用 <span class="label">Q</span> 键 + <span class="label">Alt</span> 可选择多条不连续的音轨）。
+        </li>
+    </ul>
+</p>
+
+<h2>实用链接</h2>
+
+<p><a href="https://livehelp.solidstatelogic.com/Help/OptionsUserKeys.html"><span class="hyperlink">用户按键</span></a></p>
+
+<p><a href="https://livehelp.solidstatelogic.com/Help/EventManager.html"><span class="hyperlink">事件</span></a></p>
+
+<p><a href="https://livehelp.solidstatelogic.com/Help/LayerManager.html"><span class="hyperlink">推子层管理器</span></a></p>
+
+<p><a href="https://livehelp.solidstatelogic.com/Help/ipMIDI.html"><span class="hyperlink">ipMIDI</span></a></p>
+
+<p><a href="https://livehelp.solidstatelogic.com/Help/OptionsNetwork.html"><span class="hyperlink">网络设置</span></a></p>
+
+<p><a href="https://livehelp.solidstatelogic.com/Help/LinkIndex.html"><span class="hyperlink">索引和术语表</span></a></p>
+</body>
+</html>

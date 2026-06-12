@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>主控区块</title>
+  <style>
+    body { font: 16px/1.55 Arial, sans-serif; max-width: 1080px; margin: 2rem auto; padding: 0 1.25rem; color: #202124; }
+    img { max-width: 100%; height: auto; }
+    table { border-collapse: collapse; max-width: 100%; }
+    th, td { border: 1px solid #aaa; padding: .45rem; vertical-align: top; }
+    .note { display: block; border-left: 4px solid #e0a000; background: #fff8df; padding: .75rem 1rem; margin: 1rem 0; }
+    .notetitle { font-weight: bold; }
+    .label { font-weight: bold; color: #174ea6; }
+    .source { color: #666; font-size: .9rem; }
+  </style>
+</head>
+<body>
+  <p class="source">章节：入门介绍 | 来源：<a href="https://livehelp.solidstatelogic.com/Help/MasterTile.html">https://livehelp.solidstatelogic.com/Help/MasterTile.html</a></p>
+<h2>主控区块</h2>
+<p>Master Tile 用于执行下图概括的全局功能：</p>
+<div class="center"><img src="https://livehelp.solidstatelogic.com/Help/images/g_MasterTile.png" alt=""></div>
+
+<span class="note"><span class="notetitle">注意：</span>L100、L200、L300 和 L350 控制台上的控制器布局与上图略有不同，但功能完全相同。</span>
+
+<h2>数字键盘</h2>
+
+<p>
+    左上角的数字键盘可用于输入数值；回车键的功能与屏幕数字键盘中的 <span class="label">OK</span> 按钮相同。
+    这些按键也可分配为 User Keys；配置详情请参阅 <a href="https://livehelp.solidstatelogic.com/Help/OptionsUserKeys.html"><span class="hyperlink">User Key Options</span></a>。
+</p>
+
+<img style="margin: 0px 10px;" src="https://livehelp.solidstatelogic.com/Help/images/g_PanelMasterFaders.png" align="right" alt="">
+
+
+<h2>主推子</h2>
+<p>Master Tile 右侧的推子可分配给控制台上的任意输入或输出通道。无论该通道当前是否在 Fader Tile 上启用，都可以持续控制其电平。通常可将其用于某条 Master Bus、主唱电平或 Solo 返送音箱电平；也可以分配给一个 VCA，由该 VCA 控制一组母线。</p>
+<p>要将通道分配给 Main Fader：</p>
+<p>将包含待分配通道的 Bank 调到某个 Fader Tile 上；</p>
+<p>按住 Main Fader 上方的 <span class="label">Call</span> 按钮，直到该按钮闪烁青色。当前所分配通道的 <span class="label">Select</span> 按钮也会闪烁；</p>
+<p>按下要分配通道的 <span class="label">Select</span> 按钮 &#8211; 该按钮会闪烁青色，而原分配通道的按钮会停止闪烁；</p>
+<p>再次按 <span class="label">Call</span>，退出分配功能。</p>
+
+
+<h2 id="FocusFader">Focus Fader</h2>
+
+<p>Focus Fader 及其对应的 <span class="label">Mute</span>、<span class="label">Q</span> 和 <span class="label">Solo</span> 按钮，以及 Control Tile 左下角的 Quick Controls（如配备），始终作用于“Focused”（聚焦）信号路径。</p>
+<p>Focus Fader 通常跟随当前所选信号路径，但也可“分配”给某条特定路径，例如需要快速访问的重要输入通道、VCA、Solo 通道或附加 Master。</p>
+
+<p>Focus Fader 的分配方法与 Main Fader 相同（按住 Focus Fader 的 <span class="label">Call</span> 按钮，然后选择信号路径，再按 <span class="label">Call</span> 确认选择）。</p>
+
+<p>要快速访问所分配的信号路径，按一次 Focus Fader 的 <span class="label">CALL</span> 按钮。</p>
+
+<p>还可将 Focus Fader 锁定到所分配的信号路径。双击 <span class="label">CALL</span> 按钮，按钮变为绿色即表示已锁定。再次双击 <span class="label">CALL</span> 可恢复正常操作。</p>
+
+
+<h2 id="MuteUserButtons">Mute 与 User Keys</h2>
+
+<p>Mute/User 按键可在 <b>Mute Groups</b>（静音组）或 <b>User</b> 按键之间切换，方法是使用 <span class="label">MODE</span> 按钮。有关 Mute Groups 的更多信息，请参阅 <a href="https://livehelp.solidstatelogic.com/Help/Mute.html"><span class="hyperlink">静音与静音组</span></a>。</p>
+
+<p>User Keys 可由用户自定义，并可在 <a href="https://livehelp.solidstatelogic.com/Help/OptionsUserKeys.html"><span class="hyperlink">用户按键选项</span></a> 中配置。</p>
+
+<h2>实用链接</h2>
+<p><a href="https://livehelp.solidstatelogic.com/Help/ControlSurface.html"><span class="hyperlink">控制台操作面</span></a></p>
+<p><a href="https://livehelp.solidstatelogic.com/Help/FaderTiles.html"><span class="hyperlink">推子区块</span></a></p>
+<p><a href="https://livehelp.solidstatelogic.com/Help/ControlTile.html"><span class="hyperlink">控制区块</span></a></p>
+<a href="https://livehelp.solidstatelogic.com/Help/LinkIndex.html"><span class="hyperlink">索引与术语表</span></a><br>
+</body>
+</html>

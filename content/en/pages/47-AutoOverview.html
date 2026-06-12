@@ -1,0 +1,198 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Automation: Overview</title>
+  <style>
+    body { font: 16px/1.55 Arial, sans-serif; max-width: 1080px; margin: 2rem auto; padding: 0 1.25rem; color: #202124; }
+    img { max-width: 100%; height: auto; }
+    table { border-collapse: collapse; max-width: 100%; }
+    th, td { border: 1px solid #aaa; padding: .45rem; vertical-align: top; }
+    .note { display: block; border-left: 4px solid #e0a000; background: #fff8df; padding: .75rem 1rem; margin: 1rem 0; }
+    .notetitle { font-weight: bold; }
+    .label { font-weight: bold; color: #174ea6; }
+    .source { color: #666; font-size: .9rem; }
+  </style>
+</head>
+<body>
+  <p class="source">Section: Mixing | Source: <a href="https://livehelp.solidstatelogic.com/Help/AutoOverview.html">https://livehelp.solidstatelogic.com/Help/AutoOverview.html</a></p>
+<h2>Automation Overview</h2>
+
+<p>SSL Live's automation system allows you to store and recall snapshots ('Scenes') of the console's settings. These can be recalled ('fired') manually, via timecode, or using external GPI/O or MIDI triggers.</p>
+
+<p>Filter matrices allow you to filter what elements of the console are stored and recalled as part of each scene, allowing you to choose your level of real-time control within the event. Paths can also be protected from Scene recall directly from the path's Detail View. See: <a href="https://livehelp.solidstatelogic.com/Help/AutoFilters.html"><span class="hyperlink">Function Filters</span></a></p>
+
+<p>Each Scene can also be used to trigger external events such as outboard effects unit patch changes via MIDI. See: <a href="https://livehelp.solidstatelogic.com/Help/AutoIOActions.html"><span class="hyperlink">Input and Output Actions</span></a></p>
+
+
+<h2 id="MasterTileControls">Master Tile Controls</h2>
+
+<p>There is a dedicated <span style="font-weight: bold;">Automation</span> area in the console's Master Tile, between the two faders.</p>
+
+<p><img style="display: block; margin: 20px auto; width: 600px;" src="https://livehelp.solidstatelogic.com/Help/images/g_AutomationLabels.png" alt=""></p>
+
+<p>The controls towards the bottom of the area are used for recalling Scenes:</p>
+
+<p>Use the <span class="label">&#9650;</span> and <span class="label">&#9660;</span> buttons on the left to scroll through the Scenes. The 'Selected' (highlighted) Scene is shown in the label screen to their right with dashes either side.</p>
+
+<p>Press the <span class="label">GO</span> button to 'fire' the Scene (making its settings active on the console). The currently 'Active' Scene is shown in bold.</p>
+
+<span class="note">
+    <span class="notetitle">Note: </span>This description assumes 'Concert' mode; the &#9650;, &#9660; and <b>GO</b> controls work differently in 'Theatre' and 'Hybrid' modes.
+    See <a href="https://livehelp.solidstatelogic.com/Help/AutoOverview.html#ConcertTheatreHybridModes"><span class="hyperlink">below</span></a> for more details.
+</span>
+
+
+<p>These controls can be disabled using the <span class="label">Lock&nbsp;Tile</span> button in the main Automation page (described below).</p>
+
+<p>The rest of the controls are summarised as follows:</p>
+
+<p>
+    <span class="label">Group</span> defines whether or not changes made to the Active Scene are also made to any Scenes grouped with it; the <span class="label">Absolute</span> and <span class="label">Relative</span>
+    buttons next to it define whether changes to the Active Scene are copied as absolute or relative positions to the group (See <a href="https://livehelp.solidstatelogic.com/Help/AutoGrouping.html"><span class="hyperlink">Automation: Scene Groups</span></a> for more details).
+</p>
+
+<p><span class="label">New</span> creates a new scene, stores the current settings to it and makes it the Active Scene;</p>
+
+<p><span class="label">Store</span> stores the current settings to the Active Scene. The <span class="label">Store</span> button will turn purple if there are any unsaved changes;</p>
+
+<p>If <span class="label">Auto</span> is active (press & hold to activate and deactivate), console changes are automatically saved to the Active Scene. This will disable the <span class="label">Store</span> button;</p>
+
+<p>To undo a Scene fire, press <span class="label">Undo&nbsp;Fire</span>. This will restore the console to its state prior to the last scene being fired;</p>
+
+<p><span class="label">Home</span> navigates the Scene list to the Active Scene (i.e. makes Selected Scene = Active Scene);</p>
+
+<p><span class="label">Preview</span> is unused.</p>
+
+<p>
+    There are also on-screen controls for <span class="label">New</span>, <span class="label">Store</span>, <span class="label">GO</span>, <span class="label">&#9650;</span> and <span class="label">&#9660;</span> controls.
+    These on-screen controls can be disabled by tapping the <span class="label">Lock GUI</span> button.
+</p>
+
+<h2>Automation Screen Overview</h2>
+
+<p>More advanced Automation controls and indication are available via the on-screen Automation controls, accessed by selecting <span class="label">MENU</span> > <span class="label">Automation</span>:</p>
+
+<p><img style="display: block; margin: 20px auto; width: 700px;" src="https://livehelp.solidstatelogic.com/Help/images/g_autoSceneList.png" alt=""></p>
+
+<p>
+    The top half of the Automation screen displays the Scenes List, while the bottom half displays the 'Detail dialogue' for the Selected Scene.
+    Use the <span class="label">Show&nbsp;Details</span> button to expand and collapse the Detail area as desired.
+    The rest of the Help system assumes that the detail area is visible.
+</p>
+
+<p><span class="note"><span class="notetitle">Note: </span>The Master Tile Automation buttons are also available in the Automation Screen: select the <span style="font-weight: bold;">Controls</span> button in the left side of the Automation screen, and soft versions of the hardware buttons will appear in the screen.</span></p>
+
+<h3>Selecting a Scene</h3>
+
+<p>To select a Scene, simply touch its row in the Scenes List - the configuration page which is shown is defined by which column in the list is touched. Touching the button in the <b>GO</b> column will fire the scene as well as selecting it.</p>
+
+<p>In Concert and Hybrid modes (see <a href="#ConcertTheatreHybridModes"><span class="hyperlink">below</span></a>) you can also scroll to the Scene with the &#9650; and &#9660; controls.</p>
+
+<p>The buttons in the lower left of the Automation page can be used to change which page is displayed.</p>
+
+<p>Once selected, a scene can be fired at the desired time using the <span class="label">GO</span> button either on the Master Tile or in the side menu of the Automation page.</p>
+
+
+<h3>Creating a New Scene</h3>
+
+<p>
+    To create a new Scene, select the Scene after which you want to place the new Scene. You can do this by touching the screen, or by scrolling to it using the
+    <span class="label">&#9650;</span> and <span class="label">&#9660;</span> buttons in the Master Tile <span style="font-weight: bold;">Automation</span> area.
+    The Scene will be highlighted with a blue surround.
+</p>
+
+<p>
+    <span class="note">
+        <span class="notetitle">Note: </span>The <span class="label">&#9650;</span> and <span class="label">&#9660;</span> buttons will automatically fire the previous/next scene if in Theatre mode (buttons lit green) -
+        see <a href="#ConcertTheatreHybridModes"><span class="hyperlink">below</span></a> for details.
+    </span>
+</p>
+
+<p>Press the <span class="label">New</span> button in the right-hand side of the Main Screen (or on the Master Tile).</p>
+
+<p>A new Scene will be created after the previously selected one. It will automatically be made the Active Scene, as indicated by its <span style="font-weight: bold;">GO</span> box going green.</p>
+
+<span class="note"><b>Note:</b> A maximum of 500 scenes can be created</span>
+
+<h3>Storing Settings to an Existing Scene</h3>
+
+<p>The Scene must be the Active Scene (i.e. fired) before changes can be made. Note you will lose any changes to the previous scene unless they too are stored. Make any necessary changes to the Active Scene and press the <span class="label">Store</span> button.</p>
+
+<p><span class="note"><span class="notetitle">Note: </span>Scene Stores are always applied to the Active Scene, regardless of which Scene is Selected.</span></p>
+
+<h2 id="ControlTile">Control Tile</h2>
+
+<p>It is also possible to view the Scene List within the Control Tile screen:</p>
+
+<p>Press the <span class="label">Home</span> button on the Control Tile then select <span class="label">Automation</span> from the Home screen.</p>
+
+<p><img style="display: block; margin: 21px auto;" src="https://livehelp.solidstatelogic.com/Help/images/g_miniAutomation.png" alt=""></p>
+
+<p>The Control Tile Automation screen has two display modes, chosen using the <span class="label">Scene&nbsp;List</span> button in the top right corner of the screen; one shows the Scene List, complete with Scene Names and IDs, Group colours, Fade Times and Transition Times (as above).</p>
+
+<p>The other view displays the currently Active Scene and its associated notes in the top half of the display. The lower half of the display shows the next Scene and its notes. If the Selected Scene is not the same as the Active Scene, the Selected Scene is displayed in the lower half of the screen instead.</p>
+
+<p>The lower middle encoder can be used to scroll through the scene list in either view.</p>
+
+<h2 id="ConcertTheatreHybridModes">Concert, Theatre &amp; Hybrid Modes</h2>
+
+<p>
+    The Concert/Theatre/Hybrid Mode defines how the automation <b>&#9650;</b>, <b>&#9660;</b> and <b>GO</b> controls function.
+    To switch between the different modes, press the <span class="label">Options</span> button on the left of the Automation Detail Dialogue and touch the <span class="label">Concert</span>
+    <span class="label">Theatre</span> or <span class="label">Hybrid</span> button. The mode is also indicated in the sidebar to the right of the Automation screen.
+</p>
+
+<h3>Concert Mode</h3>
+<p>If Concert mode is active, Scenes are only 'Selected' (highlighted) by the arrow buttons. The Selected Scene is then fired using the <span class="label">GO</span> button.</p>
+<p>The <span class="label">GO</span>, <span class="label">&#9650;</span> and <span class="label">&#9660;</span> buttons will all light cyan to indicate Concert mode.</p>
+
+<span class="note">
+    <span class="notetitle">Note: </span>Pressing <span class="label">GO</span> when the Selected scene is already the active scene will re-fire the same scene, resulting in the loss of any unsaved changes.
+</span>
+
+<h3>Theatre Mode</h3>
+<p>
+    If Theatre mode is active, the previous and next Scenes are automatically fired when they are selected with the <span class="label">&#9650;</span> and <span class="label">&#9660;</span> buttons respectively.
+    The <span class="label">GO</span> button also fires the next Scene.
+</p>
+<p>The <span class="label">GO</span>, <span class="label">&#9650;</span> and <span class="label">&#9660;</span> buttons will light green to indicate that they will immediately fire the next/previous Scene in Theatre mode.</p>
+
+<h3>Hybrid Mode</h3>
+<p>
+    If Hybrid mode is active, the arrow buttons select Scenes, as per Concert mode. If the selected Scene is also the active Scene, the <span class="label">GO</span> button fires the <b>next</b> Scene, as per Theatre mode.
+    If the active Scene is not the selected Scene then the <span class="label">GO</span> button will fire the <b>Selected</b> Scene.
+</p>
+
+<h2 id="SimpleAccumulativeRecall">Simple and Accumulative Recall Modes</h2>
+
+<p>Scenes that have recall filters applied to them can be recalled in two different ways.</p>
+<p>'Simple' recall mode treats each scene independently and disregards the recall filters and settings from any scenes before or after it in the list. Recalling a scene in this mode will recall only the settings set to recall in that scene.</p>
+<p>'Accumulative' recall mode accumulates any changes that have been made between scenes even if recalling them out of order, as if each scene between the previous and next scene have been fired in sequence, so that if a parameter is set to be recalled in an intermediate scene, its value will be recalled even if the Active Scene's recall filter is off for that setting.</p>
+<p>Accumulative Recall Example: The guitarist changes guitar in scene 5 for use in the rest of the show, so a different EQ setting is recalled in scene 5 only (EQ not recalled in any other scene). If jumping from scene 4 to scene 6, the new EQ setting is applied, even though scene 5 has not been fired and the EQ setting is not set to recall in scene 6.</p>
+
+<p>To switch between Simple and Accumulative modes, press the <span class="label">Options</span> button on the left of the Automation Detail Dialogue and touch the <span class="label">Simple</span> or <span class="label">Accumulative</span> button.</p>
+
+<h2 id="PreviewMode">Preview Mode</h2>
+
+<p>As of Live v6.2, Preview mode is available. This mode allows the operator to fire into scenes without affecting the audio running through the console's DSP.</p>
+<p>This is especially useful in complex or tight show rehearsals, where changes need to be made to future/past scenes, while allowing the audio to continue uninterrupted.</p>
+
+<p>Please see the <a href="https://livehelp.solidstatelogic.com/Help/AutoPreview.html"><span class="hyperlink">Automation Preview Mode</span> page</a> for more information.</p>
+
+<h2>Links to Further Automation Help:</h2>
+
+<ul>
+    <li><a href="https://livehelp.solidstatelogic.com/Help/AutoNamesNotes.html"><span class="hyperlink">Scene Names and Notes</span></a></li>
+    <li><a href="https://livehelp.solidstatelogic.com/Help/AutoTime.html"><span class="hyperlink">Scene Time Functions</span></a></li>
+    <li><a href="https://livehelp.solidstatelogic.com/Help/AutoIOActions.html"><span class="hyperlink">Scene Input and Output Actions</span></a></li>
+    <li><a href="https://livehelp.solidstatelogic.com/Help/AutoGrouping.html"><span class="hyperlink">Scene Groups</span></a></li>
+    <li><a href="https://livehelp.solidstatelogic.com/Help/AutoFilters.html"><span class="hyperlink">Function Filters</span></a></li>
+    <li><a href="https://livehelp.solidstatelogic.com/Help/AutoSceneList.html"><span class="hyperlink">Scene List Management</span></a></li>
+    <li><a href="https://livehelp.solidstatelogic.com/Help/AutoPreview.html"><span class="hyperlink">Automation Preview Mode</span></a></li>
+</ul>
+
+<p><a href="https://livehelp.solidstatelogic.com/Help/LinkIndex.html"><span class="hyperlink">Index and Glossary</span></a></p>
+</body>
+</html>

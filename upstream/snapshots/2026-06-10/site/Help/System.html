@@ -1,0 +1,257 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html ng-app="sslLiveHelp">
+<head>
+    <meta content="text/html; charset=ISO-8859-1" http-equiv="content-type">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=yes">
+
+    <link href="../Help/style/style.css" rel="stylesheet">
+    <link href="../Help/style/jquery-ui-1.13.2.structure.css" rel="stylesheet">
+    <title>System Menu</title>
+    <script src="../Help/js/jquery-3.6.0.min.js"></script>
+    <script src="../Help/js/jquery-ui/1.13.2/jquery-ui.min.js"></script>
+    <!--<script type="text/javascript" src="cordova.js"></script>-->
+    <!-- Nav / search panels 2017 updates -->
+    <script>
+    window.baseDir = '../';
+    window.data = 'null';
+    </script>
+    <link rel="stylesheet" type="text/css" href="../Help/fonts/font-awesome-4.7.0/css/font-awesome.min.css" />
+    <link rel="stylesheet" type="text/css" href="../Help/style/sass-styles.css">
+    <script src="../Help/js/fastclick.js"></script>
+    <script src="../Help/js/lodash.core.min.js"></script>
+    <!--<script src="../Help/js/angular/1.2/angular.min.js"></script>-->  <!-- On a console -->
+    <script src="../Help/js/angular/1.8/angular.min.js"></script>   <!--Not on a console -->
+    <script src="../Help/js/ngStorage.min.js"></script>
+    <!--<script src="../Help/js/angular/1.2/angular-sanitize.min.js"></script>-->  <!-- On a console -->
+    <!--<script src="../Help/js/angular/1.2/angular-animate.min.js"></script>-->   <!-- On a console -->
+    <script src="../Help/js/angular/1.8/angular-sanitize.min.js"></script>  <!--Not on a console -->
+    <script src="../Help/js/angular/1.8/angular-animate.min.js"></script>   <!--Not on a console -->
+    <script src="../Help/js/lunr-2.3.min.js"></script>
+    <script src="../Help/js/menu.js"></script>
+
+</head>
+
+<body ng-controller="NavController as vm">
+
+    <!--<nav class="nav" ng-class="{ 'nav--visible' : vm.visible }" ng-if="vm.visible" role="navigation" aria-label="Primary">-->  <!-- On a console --> 
+    <nav class="nav" ng-class="{ 'nav--visible' : vm.visible }" role="navigation" aria-label="Primary"> <!--Not on a console -->
+        <!-- Search form -->
+        <div role="search">
+            <form class="nav__search" ng-if="vm.isSearchSupported">
+                <label class="nav__search-icon" for="query"><i aria-label="Search" title="Search" class="fa fa-search"></i></label>
+                <input type="search" id="query" class="nav__search-input" placeholder="Search..." ng-model="vm.query" />
+            </form>
+        </div>
+
+        <div class="nav__scroll" ng-style="vm.styleBasedOnSearchSupported">
+
+            <!-- Main nav -->
+            <ul class="main-nav" ng-hide="vm.query">
+                <li class="main-nav__item" ng-repeat="item in vm.nav">
+
+                    <!-- Link to page -->
+                    <a ng-if="item.url" ng-class="{'main-nav__link--active' : item.url===vm.currentPage}" class="main-nav__link" ng-attr-href="{{ vm.baseDir }}{{ item.url }}">
+                        {{ item.title }}
+                    </a>
+
+                    <!-- Expandable heading -->
+                    <span ng-click="vm.toggleExpanded(item.title)" ng-if="!item.url" class="main-nav__title">
+                        {{ item.title }}
+                        <span ng-if="!vm.isExpanded(item.title)" class="fa fa-caret-right"></span>
+                        <span ng-if="vm.isExpanded(item.title)" class="fa fa-caret-down"></span>
+                    </span>
+
+                    <!-- Subnav -->
+                    <ul ng-if="vm.isExpanded(item.title)" class="main-nav fx-fade">
+                        <li ng-repeat="sub in item.children" class="main-nav__item">
+
+                            <!-- Link to page -->
+                            <a ng-if="sub.url" ng-class="{'main-nav__link--active' : sub.url===vm.currentPage}" class="main-nav__link main-nav__link--level1" ng-attr-href="{{ vm.baseDir }}{{ sub.url }}">
+                                {{ sub.title }}
+                            </a>
+
+                            <!-- Expandable heading -->
+                            <span ng-click="vm.toggleExpanded(sub.title)" ng-if="!sub.url" class="main-nav__title main-nav__title--level1">
+                                {{ sub.title }}
+                                <span ng-if="!vm.isExpanded(sub.title)" class="fa fa-caret-right"></span>
+                                <span ng-if="vm.isExpanded(sub.title)" class="fa fa-caret-down"></span>
+                            </span>
+
+                            <!-- Sub-sub nav -->
+                            <ul ng-if="sub.children && vm.isExpanded(sub.title)" class="main-nav fx-fade">
+                                <li ng-repeat="subsub in sub.children" class="main-nav__item">
+
+                                    <!-- Link to page -->
+                                    <a ng-class="{'main-nav__link--active' : subsub.url===vm.currentPage}" class="main-nav__link main-nav__link--level2" ng-attr-href="{{ vm.baseDir }}{{ subsub.url }}" ng-bind-html="subsub.title">
+                                    </a>
+
+                                </li>
+                            </ul>
+
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+
+            <!-- Search results list -->
+            <ul class="search-results">
+                <li class="search-result" ng-repeat="result in vm.results">
+                    <a class="search-result__link" ng-attr-href="{{ vm.baseDir }}{{ 'Help/' + result.id }}">
+                        <h3 class="search-result__title">{{ result.title }}</h3>
+                        <p class="search-result__excerpt" ng-bind-html="result.excerpt"></p>
+                    </a>
+                </li>
+            </ul>
+
+            <!-- Keep screen on option - PhoneGap insomnia -->
+            <ul class="main-nav" ng-if="vm.isPhoneGap">
+                <li class="main-nav__item">
+                    <label class="main-nav__title">
+                        Keep Screen On
+                        <input style="display: none" type="checkbox" ng-model="vm.keepScreenOn" />
+                        <i ng-class="{'fa--cleared' : !vm.keepScreenOn, 'fa--checked' : vm.keepScreenOn}" class="fa fa-check"></i>
+                    </label>
+                </li>
+            </ul>
+
+
+        </div>
+    </nav>
+
+    <nav class="header" role="navigation" aria-label="Secondary">
+        <a ng-if="!vm.onAConsole" href="../index.html" class="header__btn" title="Home"><i class="fa fa-home"></i></a>
+        <div ng-if="!vm.onAConsole" class="header__history">
+            <a onclick="javascript:window.history.back()" class="header__btn"><i title="Back" class="fa fa-chevron-left"></i></a>
+            <a onclick="javascript:window.history.forward()" class="header__btn"><i title="Forwards" class="fa fa-chevron-right"></i></a>
+        </div>
+        <div align="right">
+            <a class="header__btn header__btn--nav" ng-click="vm.toggleVisibility()">
+                <i ng-if="!vm.visible" class="fa fa-bars"></i>
+                <i ng-if="vm.visible" class="fa fa-close"></i>
+            </a>
+        </div>
+    </nav>
+
+
+    <!-- Main content -->
+    <div id="main">
+        
+
+<div><a href="Storage.html"><img class="TutorialNav" src="images/n_TutPrevious.png" alt=""><span class="TutorialNav"> PREVIOUS: Parameter &amp; Settings Storage</span></a></div>
+
+<h2>System Settings</h2>
+
+<p>
+    To access system level functions go to the <span class="label">MENU</span> &gt; <span class="label">Setup</span> &gt; <span class="label">System&nbsp;/&nbsp;Power</span> page (labelled <span class="label">System</span> in SOLSA). These settings are saved on the console (not in the user showfile).
+    Most settings are located in the  <span class="label">System</span> tab of this page. For licensed feature, please see the Licensing section <a href="System.html#Licensing"><span class="hyperlink">below</span></a>.
+</p>
+
+<h2 id="OperatingLevel">Operating Level</h2>
+<p>Double-tap the value to alter the analogue line operating level between +12 to +24&nbsp;dBu. +24&nbsp;dBu is the default setting.</p>
+
+<p>This setting determines the dBu level that equates to 0&nbsp;dBFS in the console (all console metering is referenced to 0&nbsp;dBFS).</p>
+
+<p>For example, using the Operating Level of 24&nbsp;dBu, a 20&nbsp;dBu input signal will meter at -4&nbsp;dBFS. Similarly, outputting a -6&nbsp;dBFS signal will equate to a +18&nbsp;dBu signal on the analogue outputs.</p>
+
+<span class="note">
+    <span class="notetitle">Note:</span> The MADI stagebox and local I/O outputs can be trimmed relative to the operating level on a per-device basis.
+    This can be done by selecting the relevant stagebox or Local I/O card in the I/O Setup page and using the Output Trim slider.
+    Please see the <a href="LocalMADIConfig.html"><span class="notehyperlink">Local &amp; MADI I/O Config</span></a> section for further details.<br />
+    The operating level of SSL Network I/O Dante stageboxes can also be configured on a per-device basis.
+    Please see the <a href="DanteNetIO.html"><span class="notehyperlink">Network I/O Devices</span></a> section for further details.
+</span>
+
+
+<h2>Sample Rate</h2>
+<p>The system can operate at 96 kHz (recommended) or 48 kHz sample rates. Press &amp; hold the relevant button to change the sample rate of the console.</p>
+
+<span class="note"><span class="notetitle">Important Note: </span>Changing the sample rate of the console will cause changes to the I/O configuration and any existing routing may therefore be lost. The sample rate should therefore be set <span style="font-weight: bold;">before</span> configuring other elements of the console.</span>
+
+<p>Each stagebox must be configured to run at the same sample rate as the console. Please refer to the <a href="Clocking.html"><span class="hyperlink">Clocking</span></a> section for further information.</p>
+<span class="note"><span class="notetitle">Important:</span><br>The console <span style="font-weight:bold;">MUST</span> be power cycled following a change in Sample Rate.</span>
+
+
+<h2 id="Name">Console Name</h2>
+
+<img style="display: block; margin: 10px auto; padding-left: 10px;" src="images/g_ConsoleName.png" align="right" alt="">
+
+<p>The <span style="font-weight:bold;">Console Name</span> can be edited here. This is the name referenced when connecting to the console from a remote surface (SOLSA, TaCo or another console in remote mode).</p>
+
+<p>
+    The <span style="font-weight:bold;">Control ID</span> (visible in <span style="font-weight:bold;">MENU</span> > <span class="label">Setup</span> > <span class="label">Options</span> > <span class="label">NETWORK</span> tab)
+    is used to determine the name of the console when owning Net I/O device parameters. But the <span style="font-weight:bold;">Control ID</span> is also taken from the <span style="font-weight:bold;">Console Name</span>.
+</p>
+<p>Double tap on the name field to edit the console name, then press and hold <span class="label">Apply</span>. </p>
+<span class="note">
+    <span class="notetitle">Please Note:</span><br>Changing the console name will cause the console to power off and all Ownership of Net I/O device parameters will be lost.
+    This means any previously owned inputs (or other settings) will need to be manually re-owned before control will be re-established.
+    For instructions on owning inputs and stagebox settings please see <a href="DanteNetIO.html#Ownership"><span class="notehyperlink">Controlling Net I/O Stageboxes and Ownership</span></a>.
+</span>
+
+
+<h2>Hardware Config</h2>
+
+<p>The <span class="label">Rebuild Hardware Configuration</span> button is used to configure the console for use with Remote Tiles.</p>
+<p>For more information on setting up Remote Tiles please see <a href="RemoteTile.html"><span class="hyperlink">Setup: Remote Tile</span></a>.</p>
+
+
+<h2>Surface</h2>
+<p>These elements of the console can be restarted without affecting audio. Only use if the element is unresponsive or if instructed to do so by SSL.</p>
+<span class="note">Please note refreshing the Front Panel takes approximately two minutes, during which time there is no user control.</span>
+
+<h3>Fader Calibration</h3>
+<p>
+    If the fader position falls out of alignment from the values displayed, pressing &amp; holding <span class="label">Calibrate&nbsp;Faders</span> in <span style="font-weight: bold;">Surface</span> will recalibrate the faders.
+    Audio will continue to pass but faders will be disconnected from audio control during this process, which takes approximately 30 seconds.
+</p>
+
+
+<h2>Data Backup</h2>
+<p>Should you encounter a technical problem, SSL may request the console log files for analysis. If logs are requested, insert a USB drive (formatted at FAT32 or NTFS) into the console and press the <span class="label">Data&nbsp;Backup</span> button to save the log files and backup showfile to a timestamped folder under a 'SSL\Live\DataBackup' subfolder on the USB drive.</p>
+
+
+<h2>Admin Access</h2>
+<p>For SSL real time remote support. Press &amp; hold the <span class="label">Admin&nbsp;Access</span> button to retrieve the response code when requested by SSL.</p>
+
+
+<span class="note"><span class="notetitle">Note: </span>We strongly recommend you do not operate any other buttons in the System page without specific instructions from SSL.</span>
+
+
+<h2 id="Licensing">Licensed Features</h2>
+
+<p>Some features on the console are licensed. Please contact SSL for details. The <span class="label">Licensing</span> tab allows these licenses to be managed.</p>
+
+<p>When requested to do so by SSL, insert a USB stick (formatted as FAT32 or NTFS) and use the <span class="label">Export&nbsp;Console&nbsp;ID</span> button to copy the Console's unique ID to the USB stick.</p>
+
+<p>Send the Console ID file to SSL.</p>
+
+<p>Copy the licence file(s) received from SSL to a USB stick (formatted as FAT32 or NTFS) and use the <span class="label">Import&nbsp;Licences</span> button to copy the licence(s) from the USB stick to the console.</p>
+
+<p>Imported licences will be shown in the list. If a licence does not match the Console ID it will not be imported.</p>
+
+<img style="display: block; margin: 5px auto; width: 790px;" src="images/g_SystemLicensing.png" alt="">
+
+<p>If the console's system time and date fall outside that of the licence start and expiry dates, the licence will show as inactive and the feature will not be available.</p>
+
+<p>If the console hardware changes, the console ID will change and licenses will show as invalid (i.e. licensed features will not be available). Please contact SSL Support in this instance.</p>
+
+
+
+<h2>Useful Links</h2>
+<a href="OptionsSystem.html"><span class="hyperlink">System Options</span></a>
+<br>
+
+<a href="LinkIndex.html"><span class="hyperlink">Index and Glossary</span></a>
+<br>
+
+<div class="TutorialNavNext"> <a href="Maintenance.html"><span class="TutorialNav">NEXT: Maintenance</span> <img class="TutorialNav" src="images/n_TutNext.png" alt=""></a></div>
+
+
+
+
+    </div>
+
+    <script src="../Help/js/OpenAccordionFromLink.js"></script>
+</body>
+</html>

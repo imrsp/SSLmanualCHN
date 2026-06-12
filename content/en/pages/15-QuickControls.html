@@ -1,0 +1,106 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Quick Controls</title>
+  <style>
+    body { font: 16px/1.55 Arial, sans-serif; max-width: 1080px; margin: 2rem auto; padding: 0 1.25rem; color: #202124; }
+    img { max-width: 100%; height: auto; }
+    table { border-collapse: collapse; max-width: 100%; }
+    th, td { border: 1px solid #aaa; padding: .45rem; vertical-align: top; }
+    .note { display: block; border-left: 4px solid #e0a000; background: #fff8df; padding: .75rem 1rem; margin: 1rem 0; }
+    .notetitle { font-weight: bold; }
+    .label { font-weight: bold; color: #174ea6; }
+    .source { color: #666; font-size: .9rem; }
+  </style>
+</head>
+<body>
+  <p class="source">Section: Building a Show | Source: <a href="https://livehelp.solidstatelogic.com/Help/QuickControls.html">https://livehelp.solidstatelogic.com/Help/QuickControls.html</a></p>
+<h2>Quick Controls</h2>
+
+  <p>Quick controls are the physical encoder & three buttons at the top of each Fader Tile. These controls provide quick access to input gain, trim, & route displays, signal processing, sends, pan, and VCA and mute group assignment. Their soft function is always displayed at the bottom of the main screen channel view.</p>
+
+  <img style="margin: 10px 0px 10px 21px;" src="https://livehelp.solidstatelogic.com/Help/images/g_QuickKeysLabel.png" alt="" align="right">
+
+  <p>Quick Controls can also be cycled through directly on the tile using the Fader Tile's <span class="label">&#9650;</span>/<span class="label">&#9660;</span> buttons above the <span class="label">Enter</span> key.</p>
+
+  
+  <div class="note">
+    <span class="notetitle">Tips:</span>
+      <ul>
+          <li>Assign frequently used sections (e.g. Gain, Pan) to <a href="https://livehelp.solidstatelogic.com/Help/OptionsUserKeys.html"><span class="hyperlink">User Keys</span></a> for easy access.</li>
+          <li>Press &amp; hold the <a href="https://livehelp.solidstatelogic.com/Help/ControlTile.html"><span class="hyperlink">Control Tile</span></a> processing function keys to assign that section to the Quick Controls as well as the Control Tile screen.</li>
+      </ul>
+  </div>
+
+  <p>To assign a function to the Quick Controls, <b>touch</b> one of the <b>assigner</b> buttons on the main screen:</p>
+
+  <ul>
+    <li>Input parameters are assigned by touching the top-most block of the strip on the screen.</li>
+    <li><span class="label">MG</span> and <span class="label">VCA</span> control the path assignment to mute and VCA groups.</li>
+    <li><span class="label">Fader</span> replicates the hardware path fader, primarily for the SOLSA offline software.</li>
+    <li><span class="label">Master</span>, <span class="label">Stem</span> and <span class="label">Aux</span> control the path's send to these buses.</li>
+    <li>Below the on-screen Quick Controls, the top-left button accesses <b>EQ</b>;</li>
+    <li>Top-right accesses <b>Dynamics</b>.</li>
+    <li>The middle-left button accesses <b>Pan</b>;</li>
+    <li>Middle-right accesses <b>Delay</b> and <b>All&nbsp;Pass filter</b>.</li>
+    <li>The lower buttons access <b>Insert A</b> & <b>B</b>.
+  </ul>
+  
+  <span class="note"><span class="notetitle">Note: </span>Not all buttons will be active for all paths. For example, Auxes do not send to Stems.</span>
+
+  <p>The top block of the channel strip displays Digital Trim in blue or Analogue Gain in red, depending on which parameter was last selected to the input Quick Controls.</p>
+
+  <p>When selecting <span class="label">MG</span>, <span class="label">VCA</span>, <span class="label">Master</span>, <span class="label">Stem</span> or <span class="label">Aux</span>, the precise bus or group you want to access needs to be selected from the individual 'selectors' that appear above the assigner buttons.</p>
+
+  <img style="margin: 20px 21px 20px 0px;" src="https://livehelp.solidstatelogic.com/Help/images/g_SelectorPage.png" alt="" align="left">
+
+  <p><span class="label">Lock</span> on the right of the main screen defines what happens when a selector is touched:</p>
+  <ul>
+	  <li>When <b>locked</b>, the selector is assigned to the Quick Controls only. This is the <b>safest</b> mode of lock.</li>
+	  <li>If unlocked the selector is assigned <i>and</i> <b>toggled</b>. Great for fast setup but be careful operating in this mode!</li>
+	  <li>If there are more than eight of a type (for instance 16 Stems), they are navigated using the numbered buttons below <span class="label">Lock</span>. If there are more selectors than appear in the page buttons, press <span class="label">Page</span> to toggle the page buttons between 1-48, 49-96 and 97-144.</li>
+  </ul>
+
+  <span class="note">
+      <span class="notetitle">Notes: </span><br>
+      The <span class="label">&#9650;</span>/<span class="label">&#9660;</span> buttons on each Fader Tile can be used to scroll through the Quick Controls, indicated in the scribble display to the right of the tile.<br /><br />
+      Holding the <span class="label">&#9650;</span> key will jump to <b>Input</b> for gain/trim adjustments. Holding the <span class="label">&#9660;</span> key will jump to <b>Pan</b>.<br /><br />
+      When the Quick Controls are assigned to sends, VCA's, or mute groups, the <span class="label">Enter</span> button switches whether the <span class="label">&#9650;</span>/<span class="label">&#9660;</span> keys scroll the function 'assigners' (Aux, EQ, etc.) or the group/send 'selectors' (Aux 1, Aux 2, etc.).<br /><br />
+      Holding <span class="label">&#9650;</span> or <span class="label">&#9660;</span> when <span class="label">Enter</span> is active will jump the group/send selectors in blocks of eight for quick navigation through large lists.
+  </span>
+
+  <p>Quick Controls are altered via the main screen or the Fader Tile. To rotate on-screen encoders, touch them and drag up/right to increase or down/left to decrease the parameter value.</p>
+
+  <p>There may be multiple pages of Quick Controls per function; these pages can be cycled by <b>pressing</b> any physical quick encoder, or double-tapping the on-screen encoder.</p>
+
+  <p>For example, <b>input</b> Quick Controls can toggle between analogue <b>gain</b>, digital <b>trim</b>, or <b>route</b> information. EQ Quick Controls will cycle through the four bands and filters. <b>Dynamics</b> toggles between <b>compressor</b> or <b>gate</b>, and so on...</p>
+
+  <p>The switches are used to switch states of a parameter or to assign functions to the encoder. To view the way specific functions are assigned to the Quick Controls, please go to that function's page within the SSL Live Help System.</p>
+
+  <span class="note"><span class="notetitle">Note: </span>The Fader Tile <span class="label">Flip</span> button 'flips' the quick encoder function onto the fader, and the fader function is assigned to the quick encoder. This is great for building sends quickly on faders.</span>
+
+  <p>Above the screen Quick Controls is the quick display, which displays information about whatever is being adjusted. Double-tapping the Quick display opens up the channel detail dialogue, where more detailed parameters can be adjusted.</p>
+
+  <div class="note"><span class="notetitle">Notes: </span><br>
+    The assigner button LED indicates status:
+    <ul>
+      <li><span style="font-weight: bold;">MG</span> and <span style="font-weight: bold;">VCA</span> display an orange light to indicate there is at least one active group.</li>
+      <li><b>Stem</b> & <b>Aux</b> go from red to green indicating a send is active.</li>
+      <li><b>Fader</b> goes from green to red when the path is muted.</li>
+      <li><b>EQ</b>, <b>Dynamics</b>, and <b>Pan</b> display a simple version of their graph.</li>
+      <li><b>Delay</b> and <b>Insert</b> become coloured when they are engaged.</li>
+    </ul>
+  </div>
+
+  <span class="note"><span class="notetitle">Note: </span>When the Detail View is open, the Quick Controls on the tile below the screen can be used with their corresponding faders on the tile
+  (<span class="label">Follow Detail</span> off). Or all of the Quick Controls can be used to control multiple parameters of the same Effect of the selected path (<span class="label">Follow Detail</span> on).
+  </span>
+  
+  <h2>Useful Links</h2>
+  <p><a href="https://livehelp.solidstatelogic.com/Help/DetailView.html"><span class="hyperlink">Detail View</span></a></p>
+  <p><a href="https://livehelp.solidstatelogic.com/Help/LinkIndex.html"><span class="hyperlink">Index and Glossary</span></a></p>
+  <p><a href="https://livehelp.solidstatelogic.com/Help/ChanView.html"><span class="hyperlink">Channel View</span></a></p>
+</body>
+</html>

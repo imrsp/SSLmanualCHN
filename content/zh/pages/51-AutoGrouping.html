@@ -1,0 +1,83 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>自动化：场景组</title>
+  <style>
+    body { font: 16px/1.55 Arial, sans-serif; max-width: 1080px; margin: 2rem auto; padding: 0 1.25rem; color: #202124; }
+    img { max-width: 100%; height: auto; }
+    table { border-collapse: collapse; max-width: 100%; }
+    th, td { border: 1px solid #aaa; padding: .45rem; vertical-align: top; }
+    .note { display: block; border-left: 4px solid #e0a000; background: #fff8df; padding: .75rem 1rem; margin: 1rem 0; }
+    .notetitle { font-weight: bold; }
+    .label { font-weight: bold; color: #174ea6; }
+    .source { color: #666; font-size: .9rem; }
+  </style>
+</head>
+<body>
+  <p class="source">章节：混音 | 来源： <a href="https://livehelp.solidstatelogic.com/Help/AutoGrouping.html">https://livehelp.solidstatelogic.com/Help/AutoGrouping.html</a></p>
+<h2>自动化场景组</h2>
+
+<p>如果希望对活动场景所做的更改同时反映到选定的其他场景（或全部场景），可将这些场景加入场景组。每次进行更改时，可以选择是否将更改应用到组内所有场景，并选择更改是相对于各场景原有数值，还是在组内所有场景中采用相同的绝对值。不同场景组用不同颜色区分。</p>
+
+<p>将场景加入组的方法如下：</p>
+
+<p>触摸待分组场景的 <span style="font-weight: bold;">Group</span> 列。组配置页面会在屏幕下半部分打开。</p>
+
+<img style="display: block; margin: 25px auto; width: 800px" src="https://livehelp.solidstatelogic.com/Help/images/g_autoSceneGroups.png" alt="">
+
+<span class="note"><span class="notetitle">注意： </span>如需从其他 Configuration 页面进入，请触摸屏幕左侧的 <span style="font-weight: bold;">Group</span> 按钮。</span>
+
+<p>触摸显示的某个彩色方框。该颜色即成为这个场景组的颜色，并会显示在场景列表中该场景的 <span style="font-weight: bold;">Group</span> 方框内。</p>
+
+<p>Master Tile 上自动化 LCD 上方的彩色条也会亮起，显示当前所选场景的组颜色。</p>
+
+<p>对所有需要加入该组的其他场景重复此操作，每次选择相同颜色。</p>
+
+<p>如需创建另一个组，只需使用不同颜色重复上述过程。</p>
+
+
+<h2>全部分组</h2>
+
+<p>如需将更改应用到所有场景，请点击 <span style="font-weight: bold;">Group</span> 列标题直至其变为绿色。所有场景组按钮都会变为青色。这会覆盖各个特定颜色组，并将更改传递到列表中的每个场景。</p>
+
+
+<h2>启用组更改</h2>
+
+<img style="margin: 14px 0px 5px 21px;" src="https://livehelp.solidstatelogic.com/Help/images/g_AutomationNoLabels.png" alt="" align="right">
+
+<p>Master Tile 的 <span class="label">Automation</span> 区域中的 <span style="font-weight: bold;">Group</span> 按钮决定对活动场景所做的更改是否也应用到与其同组的场景。</p>
+
+<p>
+    按下 <span class="label">Group</span> 按钮启用 Group 模式。按钮会以当前操作组的颜色闪烁，即活动场景所属组的颜色；在 Group All 模式下则为青色。活动组在场景列表中的 <span style="font-weight: bold;">Group</span> 方框也会在组启用时亮起。从启用 Group 模式起所做的任何更改，在按下 <span class="label">Store</span> 按钮时都会应用到活动场景及组内所有场景；存在待存储的组更改时，该按钮会亮黄。<br>
+    也可以按住 <span class="label">Group</span> 按钮，这样在按下 <span class="label">Store</span>时，会把活动场景中的所有更改带到同组场景，即包括启用 <span class="label">Group</span> 按钮之前和之后所做的更改。
+</p>
+
+<p>只要 <span class="label">Group</span> 按钮未亮起，存储到活动场景的更改就只影响该场景。</p>
+
+<p>启用 <span class="label">Group</span> 按钮后，旁边的 <span class="label">Absolute</span> 和 <span class="label">Relative</span> 按钮决定活动场景的更改是按绝对位置复制（已更改场景中的新位置成为组内所有场景的新位置），还是按相对位置复制（每个组内场景都以相同幅度增加或减少）。</p>
+
+<p>例如，活动场景中的某推子位于 -6 dB，同组另一场景中的该推子位于 -20 dB。如果活动场景中的推子移到 -3 dB（即提高 3 dB），选择 Absolute 模式时，同组场景的推子位置将变为 -3 dB；选择 Relative 模式时则变为 -17 dB（-20 dB + 3 dB）。</p>
+
+<p>反复触摸 Automation 屏幕中的 <span style="font-weight: bold;">Group</span> 列标题直至其变为红色，可全局禁用组功能。列内容也会变灰，表示该列未启用，不会发生任何组更改。</p>
+
+<span class="note"><span class="notetitle">注意： </span>Master Tile 的 <span style="font-weight: bold;">Automation</span> 按钮也复制到了主屏幕中：选择配置页面左侧的 <span style="font-weight: bold;">Controls</span> 按钮，即会显示硬件按钮的软件版本。</span>
+
+<h2>更多自动化帮助链接：</h2>
+
+<ul>
+    <li><a href="https://livehelp.solidstatelogic.com/Help/AutoOverview.html"><span class="hyperlink">自动化概述</span></a></li>
+    <li><a href="https://livehelp.solidstatelogic.com/Help/AutoTime.html"><span class="hyperlink">场景时间功能</span></a></li>
+    <li><a href="https://livehelp.solidstatelogic.com/Help/AutoNamesNotes.html"><span class="hyperlink">场景名称和备注</span></a></li>
+    <li><a href="https://livehelp.solidstatelogic.com/Help/AutoIOActions.html"><span class="hyperlink">场景输入和输出动作</span></a></li>
+    <li><a href="https://livehelp.solidstatelogic.com/Help/AutoFilters.html"><span class="hyperlink">功能过滤器</span></a></li>
+    <li><a href="https://livehelp.solidstatelogic.com/Help/AutoSceneList.html"><span class="hyperlink">场景列表管理</span></a></li>
+    <li><a href="https://livehelp.solidstatelogic.com/Help/AutoPreview.html"><span class="hyperlink">自动化预览模式</span></a></li>
+</ul>
+<br>
+
+<a href="https://livehelp.solidstatelogic.com/Help/LinkIndex.html"><span class="hyperlink">索引与术语表</span></a>
+<br>
+</body>
+</html>

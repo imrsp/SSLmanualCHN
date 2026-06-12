@@ -1,0 +1,119 @@
+﻿<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>调制效果</title>
+  <style>
+    body { font: 16px/1.55 Arial, sans-serif; max-width: 1080px; margin: 2rem auto; padding: 0 1.25rem; color: #202124; }
+    img { max-width: 100%; height: auto; }
+    table { border-collapse: collapse; max-width: 100%; }
+    th, td { border: 1px solid #aaa; padding: .45rem; vertical-align: top; }
+    .note { display: block; border-left: 4px solid #e0a000; background: #fff8df; padding: .75rem 1rem; margin: 1rem 0; }
+    .notetitle { font-weight: bold; }
+    .label { font-weight: bold; color: #174ea6; }
+    .source { color: #666; font-size: .9rem; }
+  </style>
+</head>
+<body>
+  <p class="source">章节：混音 | 来源： <a href="https://livehelp.solidstatelogic.com/Help/FXModulation.html">https://livehelp.solidstatelogic.com/Help/FXModulation.html</a></p>
+<p>有关效果器的一般信息，请参阅 <a href="https://livehelp.solidstatelogic.com/Help/FXIntro.html"><span class="hyperlink">效果器机架概述</span></a> 章节。</p>
+  
+  <h2>调制效果</h2>
+  
+  <h2>分频合唱</h2>
+
+  <p>在此合唱模块中，信号按 200 Hz 和 3 kHz 分频点划分为三个频段。每个频段使用不同的合唱处理，从而减少宽频谱声音中可感知的周期性“模式”。</p>
+
+  <p><img class="center" src="https://livehelp.solidstatelogic.com/Help/images/g_FXmodBandCh.png" alt=""></p>
+
+  <p><span style="font-weight: bold;">Band Mix</span> 控制三个频段之间的混合比例：</p>
+  
+  <p>设为 50% 时，三个频段等量混合；向下移动滑块会增加低频段权重，向上移动则增加高频段权重。</p>
+
+  <p>其余参数含义直观。</p>
+
+  <h2>吉他合唱</h2>
+
+  <p>此合唱效果器带有音色控制，非常适合弦乐器。</p>
+
+  <p><img class="center" src="https://livehelp.solidstatelogic.com/Help/images/g_fxModGuitCh.png" alt=""></p>
+
+  <p>提高 <span style="font-weight: bold;">Lo Tone</span> 可增加吉他的丰满度；降低可减轻吉他的低频轰鸣；</p>
+  <p>提高<span style="font-weight: bold;"> Mid Tone</span> 可增强吉他的起音，或增强贝司的拨弦质感；</p>
+  <p>提高 <span style="font-weight: bold;">Hi Tone </span>可增加吉他的锐度或空气感。</p>
+  <p>如果 <span class="label">Bass</span> <span style="font-weight: bold;">Mode</span> 已开启，则不会对信号的低频部分加入合唱。这可为贝司吉他添加合唱效果，同时避免低频变得浑浊。</p>
+
+  <p>其余参数含义直观。</p>
+
+  <h2>立体声合唱</h2>
+
+  <p>这是一种效果较明显的合唱，非常适合将单声道信号扩展为宽阔的立体声信号。所有参数含义直观：</p>
+
+  <p><img class="center" src="https://livehelp.solidstatelogic.com/Help/images/g_FXmodStCh.png" alt=""></p>
+
+  <h2>人声合唱</h2>
+
+  <p>这是一种专为人声设计的细腻合唱，也很适合使乐器音色更丰满。所有参数含义直观：</p>
+
+  <p><img class="center" src="https://livehelp.solidstatelogic.com/Help/images/g_FXmodVoxCh.png" alt=""></p>
+
+  <h2> 分频镶边</h2>
+
+  <p>该效果器提供八个镶边频段，分频点为 50、100、200、400、800、1600 和 3200 Hz，各频段使用不同延迟，以获得更“干净”的声音并减少特定波长产生的伪影。</p>
+
+  <p><img class="center" src="https://livehelp.solidstatelogic.com/Help/images/g_fxModBandFlanger.png" alt=""></p>
+
+  <p>其余参数含义直观。</p>
+
+  <h2>经典镶边</h2>
+
+  <p>Classic Flanger 模拟早期经典镶边音色。</p>
+
+  <p><img class="center" src="https://livehelp.solidstatelogic.com/Help/images/g_fxModClassicFlanger.png" alt=""></p>
+
+  <p>其余参数含义直观。</p>
+
+  <h2> 包络镶边</h2>
+
+  <p>Envelope Flanger 的响应取决于信号包络。</p>
+  <p><span style="font-weight: bold;">Sensitivity</span> 决定效果跟随声音包络的平滑程度；</p>
+  <p><span style="font-weight: bold;">Threshold</span> 决定开始引入镶边效果的电平。</p>
+
+  <p><img class="center" src="https://livehelp.solidstatelogic.com/Help/images/g_fxModEnvelopeFlanger.png" alt=""></p>
+
+  <p>其余参数含义直观。</p>
+
+  <h2> 声像镶边</h2>
+
+  <p>这是一个在输出端带自动声像器的镶边效果器。</p>
+  
+  <p><span style="font-weight: bold;">Rate</span> 为振荡速度， <span style="font-weight: bold;">Depth</span> 为摆动宽度。</p>
+
+  <p><img class="center" src="https://livehelp.solidstatelogic.com/Help/images/g_fxModPanFlanger.png" alt=""></p>
+
+  <p>其余参数含义直观。</p>
+
+  <h2>经典移相器</h2>
+
+  <p>Classic Phaser 模拟经典老式移相器音色。</p>
+
+  <p><img class="center" src="https://livehelp.solidstatelogic.com/Help/images/g_fxModClassicPhaser.png" alt=""></p>
+
+  <p>Poles 表示所用极点数量（即相位改变级数），用于控制产生的相位陷波数量。</p>
+  
+  <p>其余参数含义直观。</p>
+  
+  <h2>实用链接</h2>
+    <a href="https://livehelp.solidstatelogic.com/Help/DetailView.html"><span class="hyperlink">详细视图</span></a><br>
+  <a href="https://livehelp.solidstatelogic.com/Help/FXIntro.html"><span class="hyperlink">效果器机架概述</span></a><br>
+  <a href="https://livehelp.solidstatelogic.com/Help/FXDelays.html"><span class="hyperlink">延迟效果</span></a><br>
+  <a href="https://livehelp.solidstatelogic.com/Help/FXDynamics.html"><span class="hyperlink">动态效果</span></a><br>
+  <a href="https://livehelp.solidstatelogic.com/Help/FXEQs.html"><span class="hyperlink">EQ 效果</span></a><br>
+  <a href="https://livehelp.solidstatelogic.com/Help/FXReverbs.html"><span class="hyperlink">混响效果</span></a><br>
+  <a href="https://livehelp.solidstatelogic.com/Help/FXOther.html"><span class="hyperlink">其他效果器模块</span></a><br>
+  <a href="https://livehelp.solidstatelogic.com/Help/FXTools.html"><span class="hyperlink">音频工具</span></a><br>
+  <a href="https://livehelp.solidstatelogic.com/Help/FXAutoMix.html"><span class="hyperlink">自动混音</span></a><br>
+    <a href="https://livehelp.solidstatelogic.com/Help/LinkIndex.html"><span class="hyperlink">索引与术语表</span></a><br>
+</body>
+</html>

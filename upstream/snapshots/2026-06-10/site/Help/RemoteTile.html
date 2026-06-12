@@ -1,0 +1,223 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html ng-app="sslLiveHelp">
+<head>
+    <meta content="text/html; charset=ISO-8859-1" http-equiv="content-type">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=yes">
+
+    <link href="../Help/style/style.css" rel="stylesheet">
+    <link href="../Help/style/jquery-ui-1.13.2.structure.css" rel="stylesheet">
+    <title>Remote Tile</title>
+    <script src="../Help/js/jquery-3.6.0.min.js"></script>
+    <script src="../Help/js/jquery-ui/1.13.2/jquery-ui.min.js"></script>
+    <!--<script type="text/javascript" src="cordova.js"></script>-->
+    <!-- Nav / search panels 2017 updates -->
+    <script>
+    window.baseDir = '../';
+    window.data = 'null';
+    </script>
+    <link rel="stylesheet" type="text/css" href="../Help/fonts/font-awesome-4.7.0/css/font-awesome.min.css" />
+    <link rel="stylesheet" type="text/css" href="../Help/style/sass-styles.css">
+    <script src="../Help/js/fastclick.js"></script>
+    <script src="../Help/js/lodash.core.min.js"></script>
+    <!--<script src="../Help/js/angular/1.2/angular.min.js"></script>-->  <!-- On a console -->
+    <script src="../Help/js/angular/1.8/angular.min.js"></script>   <!--Not on a console -->
+    <script src="../Help/js/ngStorage.min.js"></script>
+    <!--<script src="../Help/js/angular/1.2/angular-sanitize.min.js"></script>-->  <!-- On a console -->
+    <!--<script src="../Help/js/angular/1.2/angular-animate.min.js"></script>-->   <!-- On a console -->
+    <script src="../Help/js/angular/1.8/angular-sanitize.min.js"></script>  <!--Not on a console -->
+    <script src="../Help/js/angular/1.8/angular-animate.min.js"></script>   <!--Not on a console -->
+    <script src="../Help/js/lunr-2.3.min.js"></script>
+    <script src="../Help/js/menu.js"></script>
+
+</head>
+
+<body ng-controller="NavController as vm">
+
+    <!--<nav class="nav" ng-class="{ 'nav--visible' : vm.visible }" ng-if="vm.visible" role="navigation" aria-label="Primary">-->  <!-- On a console --> 
+    <nav class="nav" ng-class="{ 'nav--visible' : vm.visible }" role="navigation" aria-label="Primary"> <!--Not on a console -->
+        <!-- Search form -->
+        <div role="search">
+            <form class="nav__search" ng-if="vm.isSearchSupported">
+                <label class="nav__search-icon" for="query"><i aria-label="Search" title="Search" class="fa fa-search"></i></label>
+                <input type="search" id="query" class="nav__search-input" placeholder="Search..." ng-model="vm.query" />
+            </form>
+        </div>
+
+        <div class="nav__scroll" ng-style="vm.styleBasedOnSearchSupported">
+
+            <!-- Main nav -->
+            <ul class="main-nav" ng-hide="vm.query">
+                <li class="main-nav__item" ng-repeat="item in vm.nav">
+
+                    <!-- Link to page -->
+                    <a ng-if="item.url" ng-class="{'main-nav__link--active' : item.url===vm.currentPage}" class="main-nav__link" ng-attr-href="{{ vm.baseDir }}{{ item.url }}">
+                        {{ item.title }}
+                    </a>
+
+                    <!-- Expandable heading -->
+                    <span ng-click="vm.toggleExpanded(item.title)" ng-if="!item.url" class="main-nav__title">
+                        {{ item.title }}
+                        <span ng-if="!vm.isExpanded(item.title)" class="fa fa-caret-right"></span>
+                        <span ng-if="vm.isExpanded(item.title)" class="fa fa-caret-down"></span>
+                    </span>
+
+                    <!-- Subnav -->
+                    <ul ng-if="vm.isExpanded(item.title)" class="main-nav fx-fade">
+                        <li ng-repeat="sub in item.children" class="main-nav__item">
+
+                            <!-- Link to page -->
+                            <a ng-if="sub.url" ng-class="{'main-nav__link--active' : sub.url===vm.currentPage}" class="main-nav__link main-nav__link--level1" ng-attr-href="{{ vm.baseDir }}{{ sub.url }}">
+                                {{ sub.title }}
+                            </a>
+
+                            <!-- Expandable heading -->
+                            <span ng-click="vm.toggleExpanded(sub.title)" ng-if="!sub.url" class="main-nav__title main-nav__title--level1">
+                                {{ sub.title }}
+                                <span ng-if="!vm.isExpanded(sub.title)" class="fa fa-caret-right"></span>
+                                <span ng-if="vm.isExpanded(sub.title)" class="fa fa-caret-down"></span>
+                            </span>
+
+                            <!-- Sub-sub nav -->
+                            <ul ng-if="sub.children && vm.isExpanded(sub.title)" class="main-nav fx-fade">
+                                <li ng-repeat="subsub in sub.children" class="main-nav__item">
+
+                                    <!-- Link to page -->
+                                    <a ng-class="{'main-nav__link--active' : subsub.url===vm.currentPage}" class="main-nav__link main-nav__link--level2" ng-attr-href="{{ vm.baseDir }}{{ subsub.url }}" ng-bind-html="subsub.title">
+                                    </a>
+
+                                </li>
+                            </ul>
+
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+
+            <!-- Search results list -->
+            <ul class="search-results">
+                <li class="search-result" ng-repeat="result in vm.results">
+                    <a class="search-result__link" ng-attr-href="{{ vm.baseDir }}{{ 'Help/' + result.id }}">
+                        <h3 class="search-result__title">{{ result.title }}</h3>
+                        <p class="search-result__excerpt" ng-bind-html="result.excerpt"></p>
+                    </a>
+                </li>
+            </ul>
+
+            <!-- Keep screen on option - PhoneGap insomnia -->
+            <ul class="main-nav" ng-if="vm.isPhoneGap">
+                <li class="main-nav__item">
+                    <label class="main-nav__title">
+                        Keep Screen On
+                        <input style="display: none" type="checkbox" ng-model="vm.keepScreenOn" />
+                        <i ng-class="{'fa--cleared' : !vm.keepScreenOn, 'fa--checked' : vm.keepScreenOn}" class="fa fa-check"></i>
+                    </label>
+                </li>
+            </ul>
+
+
+        </div>
+    </nav>
+
+    <nav class="header" role="navigation" aria-label="Secondary">
+        <a ng-if="!vm.onAConsole" href="../index.html" class="header__btn" title="Home"><i class="fa fa-home"></i></a>
+        <div ng-if="!vm.onAConsole" class="header__history">
+            <a onclick="javascript:window.history.back()" class="header__btn"><i title="Back" class="fa fa-chevron-left"></i></a>
+            <a onclick="javascript:window.history.forward()" class="header__btn"><i title="Forwards" class="fa fa-chevron-right"></i></a>
+        </div>
+        <div align="right">
+            <a class="header__btn header__btn--nav" ng-click="vm.toggleVisibility()">
+                <i ng-if="!vm.visible" class="fa fa-bars"></i>
+                <i ng-if="vm.visible" class="fa fa-close"></i>
+            </a>
+        </div>
+    </nav>
+
+
+    <!-- Main content -->
+    <div id="main">
+        
+
+<div><a href="RemoteControl.html"><img class="TutorialNav" src="images/n_TutPrevious.png" alt=""><span class="TutorialNav"> PREVIOUS: Remote Surfaces</span></a></div>
+
+<img style="display: block; margin: 25px auto;" src="images/g_RemoteTile.png" align="right" alt="">
+
+
+<h2>Remote Tile</h2>
+<p>
+    The <span style="font-weight:bold;">Remote Tile</span> is a single Fader Tile of 12 faders that can be used as a remote surface for any SSL Live console.
+    The Remote Tile functions exactly as the Fader Tiles on the console.
+</p>
+
+<p>Up to 2 Remote Tiles can be connected to a console at one time.</p>
+
+
+
+
+<br>
+<h2 id="Connecting">Connecting a Remote Tile to the Console</h2>
+
+<p>
+    The Remote Tile connects to the console via USB and contains its own internal power supply.
+    Connect the Remote Tile to power. Connect the Remote Tile to the console's <span style="font-weight:bold;">USB Expander ports</span> on the rear, using a USB A to B cable.
+</p>
+
+<span class="note"><span class="notetitle">Please Note: </span>The Remote Tile <span style="font-weight:bold;">MUST</span> be connected to the console via the <span style="font-weight:bold;">USB Expander</span> ports on the rear of the console.
+Please do not connect the Remote Tile via any other USB port.</span>
+
+<p>
+    If this is the first time the Remote Tile has been connected to the console, go to the System page (<span class="label">MENU</span> > <span class="label">Setup</span> > <span class="label">System&nbsp;/&nbsp;Power</span> > <span class="label">System</span> tab).
+    Press and hold <span class="label">Rebuild&nbsp;Hardware&nbsp;Configuration</span>. Reboot the console.
+    This will enable the console to be used with Remote Tiles. The Hardware Configuration only needs to be rebuilt once and the Remote Tile can now simply be plugged into the console the next time it is used.
+</p>
+
+<p>
+    Choose which side of the console the Remote Tile is going to be located. On the back of the Remote Tile there is an encoder which allows you assign a location ID to the Remote Tile.
+</p>
+
+<p>If the Remote Tile is to the left of the console, choose position 1.</p>
+<p>If the Remote Tile is to the right of the console, choose position 2.</p>
+<p>Positions 3 and 4 are not in use.</p>
+
+<br />
+
+<h2>Configuring Layers and Banks</h2>
+
+<p>
+    Go to the <span class="label">Layer Manager</span> and in the User Layers "Remote Fader Tile 1" (Left) and "Remote Fader Tile 2" (Right) have now been added to the list of available Fader Tiles.
+    Configure Layers and Banks for the Remote Tile just as you would for the Fader Tiles on the console. See the <a href="LayerManager.html"><span class="hyperlink">Layer Manager</span></a> section for more information.
+</p>
+
+<br />
+<h2 id="SOLSA">Using SOLSA with a Remote Tile</h2>
+
+<p>SOLSA can also be used with up to two Remote Tiles when running in offline or online mode.</p>
+
+<p>To do this, follow the steps above in <a href="RemoteTile.html#Connecting"><span class="hyperlink">Connecting a Remote Tile to the Console</span></a>.
+    After using the <span class="label">Rebuild&nbsp;Hardware&nbsp;Configuration</span> button, close SOLSA and reopen it. You do not need to reboot your computer.</p>
+	
+	<span class="note"><span class="notetitle">Please Note: </span>It is not necessary to connect the tile in order to use <span class="label">Rebuild Hardware Configuration</span>.
+	If you wish to configure a showfile involving a Remote Tile without the tile being available, simply follow the above steps without connecting the Remote Tile.</span>
+
+<p>When using the Remote Tile with SOLSA, "Remote Tile 1" (i.e. when the Remote Tile position encoder is set to position "1") can be used with <span class="label">Follow Detail</span>.</p>
+
+<span class="note"><span class="notetitle">Please Note: </span>If the Remote Tile's tile ID (the position encoder on the rear of the unit) needs to be changed, the console must be rebooted
+or SOLSA must be restarted for the ID change to take effect.</span>
+
+<p>To alter the brightness of the tile screens and LEDs, use the <b>Surface Tiles</b> setting in the <span class="label">MENU</span> > <span class="label">Setup</span> > <span class="label">Options</span> > <span class="label">Console</span> tab</p>
+
+
+<h2>Useful Links</h2>
+
+<a href="RemoteControl.html"><span class="hyperlink">Remote Surfaces</span></a><br>
+<a href="SOLSAOffline.html"><span class="hyperlink">SOLSA Offline Software</span></a><br>
+<a href="LinkIndex.html"><span class="hyperlink">Index and Glossary</span></a><br>
+
+<div class="TutorialNavNext"> <a href="ExtScreen.html"><span class="TutorialNav">NEXT: External Screen</span> <img class="TutorialNav" src="images/n_TutNext.png" alt=""></a></div>
+
+    
+    </div>
+
+    <script src="../Help/js/OpenAccordionFromLink.js"></script>
+</body>
+</html>

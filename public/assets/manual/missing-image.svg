@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="220" viewBox="0 0 900 220">
+  <rect width="900" height="220" fill="#171c19"/>
+  <rect x="2" y="2" width="896" height="216" fill="none" stroke="#ffba43" stroke-width="4"/>
+  <path d="M54 155 112 77l48 58 31-36 56 56H54Z" fill="none" stroke="#ffba43" stroke-width="5"/>
+  <circle cx="190" cy="66" r="14" fill="#ffba43"/>
+  <text x="285" y="97" fill="#f0f5f1" font-family="Arial, sans-serif" font-size="28" font-weight="700">原网站图片已失效</text>
+  <text x="285" y="137" fill="#9aa59e" font-family="Arial, sans-serif" font-size="20">该图片链接在 SSL 官方服务器上无法下载，正文说明已完整保留。</text>
+</svg>

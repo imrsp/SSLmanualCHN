@@ -1,0 +1,68 @@
+{
+  "generatedAt": "2026-06-12T08:32:00.021Z",
+  "glossaryTerms": 51,
+  "translatedPagesScanned": 80,
+  "duplicateTerms": [],
+  "findings": [
+    {
+      "file": "pages/02-GettingStarted.html",
+      "found": "推子层管理器",
+      "preferred": "Layer Manager",
+      "count": 1
+    },
+    {
+      "file": "pages/03-Menu.html",
+      "found": "推子层管理器",
+      "preferred": "Layer Manager",
+      "count": 1
+    },
+    {
+      "file": "pages/05-ControlSurface.html",
+      "found": "推子层管理器",
+      "preferred": "Layer Manager",
+      "count": 2
+    },
+    {
+      "file": "pages/06-FaderTiles.html",
+      "found": "推子层管理器",
+      "preferred": "Layer Manager",
+      "count": 1
+    },
+    {
+      "file": "pages/13-LayerManager.html",
+      "found": "推子层管理器",
+      "preferred": "Layer Manager",
+      "count": 2
+    },
+    {
+      "file": "pages/59-OptionsUserKeys.html",
+      "found": "推子层管理器",
+      "preferred": "Layer Manager",
+      "count": 2
+    },
+    {
+      "file": "pages/67-RemoteTile.html",
+      "found": "推子层管理器",
+      "preferred": "Layer Manager",
+      "count": 1
+    },
+    {
+      "file": "pages/68-ExtScreen.html",
+      "found": "推子层管理器",
+      "preferred": "Layer Manager",
+      "count": 1
+    },
+    {
+      "file": "pages/72-DAWControl.html",
+      "found": "推子层管理器",
+      "preferred": "Layer Manager",
+      "count": 2
+    },
+    {
+      "file": "pages/73-ExternalControl.html",
+      "found": "推子层管理器",
+      "preferred": "Layer Manager",
+      "count": 6
+    }
+  ]
+}

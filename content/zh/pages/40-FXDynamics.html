@@ -1,0 +1,366 @@
+﻿<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>动态效果</title>
+  <style>
+    body { font: 16px/1.55 Arial, sans-serif; max-width: 1080px; margin: 2rem auto; padding: 0 1.25rem; color: #202124; }
+    img { max-width: 100%; height: auto; }
+    table { border-collapse: collapse; max-width: 100%; }
+    th, td { border: 1px solid #aaa; padding: .45rem; vertical-align: top; }
+    .note { display: block; border-left: 4px solid #e0a000; background: #fff8df; padding: .75rem 1rem; margin: 1rem 0; }
+    .notetitle { font-weight: bold; }
+    .label { font-weight: bold; color: #174ea6; }
+    .source { color: #666; font-size: .9rem; }
+  </style>
+</head>
+<body>
+  <p class="source">章节：混音 | 来源： <a href="https://livehelp.solidstatelogic.com/Help/FXDynamics.html">https://livehelp.solidstatelogic.com/Help/FXDynamics.html</a></p>
+<p>有关效果器的一般信息，请参阅 <a href="https://livehelp.solidstatelogic.com/Help/FXIntro.html"><span class="hyperlink">效果器机架概述</span></a> 章节。</p>
+
+<h2>动态效果</h2>
+
+
+<h2 id="Blitzer">Blitzer™</h2>
+
+<p><img class="center" style="width: 500px;" src="https://livehelp.solidstatelogic.com/Help/images/g_FXDynBlitzer.png" alt=""></p>
+
+<p>
+    Blitzer 是一款用途极广的压缩器，既能产生柔和的饱和压缩，也能实现强烈的砖墙式限制。它还提供可调瞬态塑形和复古风格谐波 Drive 选项，用于为声音增添色彩。
+</p>
+
+<p>使用 <b>INPUT</b> 增益控件调整进入压缩器的信号电平，并使用 <b>OUTPUT</b> 增益微调压缩器输出电平。</p>
+
+<p>
+    该 <span class="label">Auto</span> Output Gain 按钮会自动施加一定的输出补偿增益，以补偿所用 Input 增益和压缩比。由于压缩曲线取决于多项因素，用于抵消 Input 增益的补偿量只是近似值；启用 <span class="label">Auto</span> 并设置其他压缩参数后，仍可手动进一步调整 Output 增益，使湿声（压缩后）与干声的电平匹配得更准确。使用下述 Mix 控件混合两路信号时，这一点尤其重要。
+</p>
+
+<p><b>ATTACK</b> 和 <b>RELEASE</b> 控件用于调整压缩器的包络特性。</p>
+
+<p>
+    使用 <b>RATIO</b> 按钮选择压缩比。 <span class="label">1:1</span> 模式可在不改变动态范围的情况下为信号增加个性，而 <span class="label">BLITZ!</span> 模式则提供极为强烈的压缩效果。
+</p>
+
+<p>
+    <b>TRANSIENTS</b> 和 <b>DRIVE</b> 提供多种染色选项，可塑造信号瞬态并增加温暖的谐波。对应的电平表会指示加入信号的染色量。
+</p>
+
+<p>该 <b>DETECTION SIDECHAIN</b> 控件可改变触发压缩器的 Key 信号频率内容，例如滤除低频，避免底鼓瞬态触发压缩器而产生抽吸效应。</p>
+
+<p><b>MIX</b> 控制压缩后湿声与未压缩干声的比例。顺时针旋至 100% 时，压缩器输出为全湿声。</p>
+
+
+<h2 id="BusComp">母线压缩器</h2>
+
+<p><img class="center" style="width: 622px;" src="https://livehelp.solidstatelogic.com/Help/images/g_FXDynBuscomp.png" alt=""></p>
+
+<p>
+    Bus Compressor 插件基于 SSL 大型模拟调音台中央区域中久负盛名的母线压缩器。它提供高品质立体声压缩，可精确控制音频信号的动态范围。
+</p>
+
+<p>
+    可将 Bus Compressor 插入立体声混音，使各元素更好地“粘合”在一起，同时保持宏大的声音。它也能有效控制鼓组吊麦或整套鼓的动态。由于提供立体声和单声道版本，几乎所有需要高品质压缩的场景均可使用。
+</p>
+
+<p>该 <b>In Gain</b> 和 <b>Threshld</b> 控件可改变进入压缩器的信号电平，从而调整压缩量。</p>
+
+<p>
+    该 <b>Makeup</b> 增益控件用于微调离开压缩电路的信号，补偿压缩器造成的电平衰减。
+</p>
+
+<p><b>Attack</b>, <b>Release</b> 和 <b>Ratio</b> 控件用于改变压缩器特性。</p>
+
+<p>
+    请注意，由 <span style="font-weight:bold;">Threshold</span> 控件设置的压缩拐点会有意随 <span style="font-weight:bold;">Ratio</span> 设置而变化。降低 <span style="font-weight:bold;">Ratio</span> 设置会降低实际阈值，从而维持压缩信号的主观响度。
+</p>
+
+<p>
+    效果器顶部区域的模拟式表头显示当前施加的增益衰减量。
+</p>
+
+<p><b>Mix</b> 控制压缩湿声与未压缩干声的比例。</p>
+
+<h3>侧链选项</h3>
+
+<p>
+    正常工作时，Bus Compressor 检测部分（侧链）接收的信号与模块正在处理的音频相同。也可将其他信号路由到侧链输入，使通过效果器的信号根据外部 Key 信号的特性进行处理。使用 <span class="label">Key&nbsp;Route</span> 按钮路由 Key 输入信号，并启用 <span class="label">Ext&nbsp;Key</span> 按钮以开启 External Key 模式。
+</p>
+
+<p>
+    侧链还包含高通滤波器（HPF），可滤除低频，防止底鼓等低频瞬态使压缩器产生抽吸效应。使用 <b>HPF Freq</b> 推子调整滤波器截止频率；置于最低位置可完全旁通 HPF。
+</p>
+
+<p>
+    使用侧链 <span class="label">Solo</span> 按钮监听压缩器使用的 Key 信号（位于 <b>Ext Key</b> 和 <b>HPF</b> 选项之后）。
+</p>
+
+
+<h2 id="LMC">监听话筒压缩器</h2>
+
+<p><img class="center" src="https://livehelp.solidstatelogic.com/Help/images/g_FXDynListen.png" alt=""></p>
+
+<p>Listen Mic Compressor 模拟 SSL E 系列调音台监听话筒的声音。它最初用于防止录音棚通话话筒返送过载，其固定 Attack 和 Release 曲线也非常适合鼓组环境话筒，因此成为经典制作工具。</p>
+
+<p><span style="font-weight: bold;">Mix</span> 控制压缩后湿声与未压缩干声的比例。请注意， <span style="font-weight: bold;">MakeUp</span> 仅作用于信号的湿声部分。</p>
+
+<p><span style="font-weight: bold;">Comp</span> 控制压缩量，范围为 0 至 100%。</p>
+
+<p><span style="font-weight: bold;">MakeUp</span> 控制对增益衰减的电平补偿。</p>
+
+<p>要模拟原始窄带监听话筒特性，请启用 <span class="label">EQ</span> 按钮；若要在全频段使用压缩器，则保持 <span class="label">EQ</span> 关闭。</p>
+
+<p><span class="note"><span class="notetitle">注意： </span>Listen Mic Compressor 的时间常数非常快，因此处理低频素材时很容易产生失真。</span></p>
+
+
+<h2 id="Multiband">多段压缩器</h2>
+
+<p><img class="center" style="width: 706px;" src="https://livehelp.solidstatelogic.com/Help/images/g_FXDynMultiBand.png" alt=""></p>
+
+<p>Multi-Band Compressor 提供三个压缩频段；触摸左上角的 <span class="label">Low</span>, <span class="label">Mid</span> 或 <span class="label">High</span> 按钮，选择窗口其余区域当前编辑的频段。按钮右侧的滑块用于设置 <span style="font-weight: bold;">Low</span> 与 Mid 之间，以及 Mid 与 <span style="font-weight: bold;">High</span> 频段之一的处理后位置。</p>
+
+<table>
+    <tbody>
+        <tr>
+            <td>
+                <p>各频段的大多数控件含义直观，可能需要说明的是 <span style="font-weight: bold;">Max GR</span> ，它限制最大增益衰减量；即使峰值远高于阈值，也只会衰减到 <span style="font-weight: bold;">Max GR</span> 设定值，其余动态范围保持不变，并按其他控件设置正常工作。</p>
+
+                <p>要重置某个频段，请按住对应的 <span class="label">Low</span>/<span class="label">Mid</span>/<span class="label">High</span> 按钮并选择 <span class="label">Reset</span>;</p>
+                <p>要重置整个模块，请按住 <span class="label">Reset&nbsp;FX</span>.</p>
+            </td>
+            <td style="width: 140px;"><img style="margin: 0px 10px;" src="https://livehelp.solidstatelogic.com/Help/images/g_MaxGRdiag.png" alt=""></td>
+        </tr>
+    </tbody>
+</table>
+
+<h3>侧链</h3>
+<p>
+    正常工作时，Multi-Band Compressor 检测部分（侧链）接收的信号与模块正在处理的音频相同。也可将其他信号路由到侧链输入，使效果器依据外部 Key 信号特性进行处理。使用 <span class="label">Key&nbsp;Route</span> 按钮路由 Key 输入信号，并启用 <span class="label">Ext&nbsp;Key</span> 按钮以开启 External Key 模式。
+</p>
+
+<p>
+    可在多个位置 Solo 侧链信号。使用 <span class="label">Solo:</span> 按钮选择 Solo 源点：全频段 <span class="label">Pre-Filter</span> 点，或 <span class="label">Low</span>, <span class="label">Mid</span> 或 <span class="label">High</span> 频段之一的处理后位置。
+</p>
+
+
+<h2>齿音消除器</h2>
+
+<p><img class="center" src="https://livehelp.solidstatelogic.com/Help/images/g_FXDynDeEsser.png" alt=""></p>
+
+<p>De-Esser 是一套压缩与滤波系统，可去除齿音或其他与频率相关的异常声音。</p>
+
+<p><span class="note"><span class="notetitle">定义： </span>齿音是人声话筒中常见的共振现象，会使“S”等辅音过于突出。</span></p>
+
+<table>
+    <tbody>
+        <tr>
+            <td>
+                <p>首先选择 De-Esser 配置。左侧图示说明 <span class="label">Broad&nbsp;Band</span> 和 <span class="label">Band&nbsp;Split</span> 两种齿音消除配置之间的区别。</p>
+
+                <p>设置 <span style="font-weight: bold;">Filter Type</span> 和 <span style="font-weight: bold;">Freq</span>uency（频率），确保 De-Esser 响应正确的频率范围。</p>
+
+                <p><span class="note"><span class="notetitle">注意：</span> De-Esser 中滤波器的位置取决于压缩器配置，如左图所示。 </span></p>
+
+                <p>调整 <span style="font-weight: bold;">Threshold</span> 控件，将检测电平设为仅对齿音峰值起作用。</p>
+
+                <p>调整 <span style="font-weight: bold;">Ratio</span> 旋钮控制齿音移除量。</p>
+            </td>
+            <td style="width: 272px;"><img style="margin: 0px 10px;" src="https://livehelp.solidstatelogic.com/Help/images/g_deesserdiag.png" alt=""></td>
+        </tr>
+    </tbody>
+</table>
+
+<p>若只监听被移除的齿音，请按 <span class="label">Solo</span> 按钮。这对于确认 Threshold 是否设置正确非常有帮助。</p>
+
+<p>在<span style="font-weight: bold;">Attn</span>）衰减表位于 <span class="label">Solo</span> 按钮。</p>
+
+
+<h2 id="DynamicEQ">动态 EQ</h2>
+
+<p>
+    Dynamic EQ 提供 1、2 或 4 段版本，各频段使用颜色编码。每个频段对频率的提升或衰减最多达到 <span style="font-weight: bold;">up to</span> 最大 <span style="font-weight: bold;">Range</span> 值。该增益由压缩侧链电路按比例控制，侧链响应由 <span style="font-weight: bold;">Threshold</span>, <span style="font-weight: bold;">Ratio</span> 及其他动态控件调整。
+</p>
+
+<p><img class="center" src="https://livehelp.solidstatelogic.com/Help/images/g_FXDynDynEQ.png" alt=""></p>
+
+<p>每个频段提供以下控件：</p>
+
+<ul>
+    <li><b>Filter Type</b> ：EQ 滤波器形状； <span class="label">Bell</span>, <span class="label">Low&nbsp;Shelf</span> 或 <span class="label">High&nbsp;Shelf</span></li>
+    <li><b>触发模式</b> ：决定动态 EQ 以哪种方式工作： <b>Above&nbsp;Threshold</b>, <b>Below&nbsp;Threshold</b> 或 <b>Auto</b> （取决于 Range；参见 <a href="#TriggerMode"><span class="hyperlink">下文</span></a>)</li>
+    <li><b>Frequency</b> ：EQ 频段的中心频率</li>
+    <li><b>Q</b> ：EQ 频段宽度</li>
+    <li><b>Gain</b> ：动态 EQ 变化所基于的基准增益</li>
+    <li><b>Range</b> ：相对于基准 Gain 可施加的最大提升或衰减</li>
+    <li><b>Threshold</b> ：动态 EQ 频段开始工作的电平阈值（高于或低于取决于模式）</li>
+    <li><b>Ratio</b> ：动态部分启用时的增益衰减比例</li>
+    <li><b>Attack</b> &amp; <b>Release</b> ：动态部分的起音与释放时间</li>
+</ul>
+
+<p><span class="note"><span class="notetitle">注意： </span>Dynamic EQ 使用自动拐点：压缩比为 1:1 时拐点为 12 dB，压缩比为 ∞:1 时变为 0 dB；即 Ratio 越高，拐点越硬。</span></p>
+
+<p>该 <b>View</b> 显示屏顶部的 View 按钮决定图表下方编码器可控制的参数；如果启用了 <span class="label">Follow&nbsp;Detail</span> ，也会决定 Quick Controls 的参数。具体如下：</p>
+
+<ul>
+    <li><span class="label">Band&nbsp;View</span> ：显示 <b>Freq</b>, <b>Q</b>, <b>Gain</b>, <b>Range</b>, <b>Threshld</b>, <b>Ratio</b>, <b>Attack</b> 和 <b>Release</b> ，用于所选频段</li>
+    <li><span class="label">Thresh&nbsp;View</span> ：显示 <b>Freq</b> 和 <b>Threshld</b> ，用于所有频段</li>
+    <li><span class="label">Range&nbsp;View</span> ：显示 <b>Freq</b> 和 <b>Range</b> ，用于所有频段</li>
+    <li><span class="label">Gain&nbsp;View</span> ：显示 <b>Freq</b> 和 <b>Gain</b> ，用于所有频段</li>
+</ul>
+
+<h3 id="TriggerMode">触发模式</h3>
+
+<p>每个频段的 <b>Threshold Trigger</b> 模式可使阈值触发器按以下三种方式之一工作：</p>
+<ol>
+    <li><span class="label">Auto</span> ：Range 为负且信号高于 Threshold 时执行衰减；Range 为正且信号低于 Threshold 时执行提升</li>
+    <li><span class="label">Above&nbsp;Threshold</span> ：侧链信号高于 Threshold 时触发动态 EQ，与 Range 设置无关</li>
+    <li><span class="label">Below&nbsp;Threshold</span> ：侧链信号低于 Threshold 时触发动态 EQ，与 Range 设置无关</li>
+</ol>
+
+<h3>使用图表</h3>
+
+<p>
+    靶心形控制点表示各频段在未施加动态 EQ 时的基准 <b>Gain</b> 。圆形控制点调整各频段的 <b>Range</b> （最大提升/衰减）。触摸任一控制点时会出现水平虚线，表示可调范围；高亮控制点时捏合图表可调整该频段的 <b>Q</b> 。
+</p>
+
+<p><img class="center" src="https://livehelp.solidstatelogic.com/Help/images/g_FXDynEQThumb.png" alt=""></p>
+
+<p>
+    白色短划线和点线分别表示 Above Threshold 与 Below Threshold 限值。白色实线在两条限值线之间实时绘制当前施加的 EQ。
+</p>
+<p>
+    例如，当 Trigger 模式设为 Above Threshold 时，在信号超过 Threshold 前，EQ 实线会位于由基准 Gain 参数设定的 Below Threshold 点线上；超过 Threshold 后，EQ 实线会根据当前信号电平以及 Threshold、Ratio 和其他侧链动态参数，移向由 Range 参数设定的 Above Threshold 短划线。
+</p>
+
+<p>
+    上图示例中设置了正 Gain，且频段处于 Above Threshold 模式，因此信号低于 Threshold 时该频段被提升；一旦信号超过 Threshold，负 Range 参数便使该频段开始衰减，最大衰减量由 Range 值决定。
+</p>
+
+<p><span class="note"><span class="notetitle">提示： </span>使用 <span class="label">Reset</span> 按钮重置单个频段，或按住 <span class="label">FX&nbsp;Reset</span> 按钮重置整个效果器模块（所有频段）。</span></p>
+
+<h3>侧链选项</h3>
+
+<p>
+    正常工作时，Dynamic EQ 检测部分（侧链）接收的信号与模块正在处理的音频相同。也可将其他信号路由到侧链输入，使效果器根据外部 Key 信号特性进行处理。使用 <span class="label">Key&nbsp;Route</span> 按钮路由 Key 输入信号，并启用 <span class="label">Ext&nbsp;Key</span> 按钮以开启 External Key 模式。
+</p>
+
+<p>
+    要监听全频段侧链输入或某个频段，请使用 <span class="label">Solo</span> 按钮。点按可开关 Solo；按住可选择 Solo 源（<span class="label">Pre-EQ</span>, <span class="label">Band&nbsp;1</span>, <span class="label">Band&nbsp;2</span>, <span class="label">Band&nbsp;3</span> 或 <span class="label">Band&nbsp;4</span>).
+</p>
+
+
+<h2 id="Gate">噪声门</h2>
+
+<p><img class="center" src="https://livehelp.solidstatelogic.com/Help/images/g_FXdynGate.png" alt=""></p>
+
+<p>要启用 Gate，请将 <span style="font-weight: bold;">Range</span> 向下拖至合适电平。 <span style="font-weight: bold;">Range</span> 控制噪声门工作的动态范围。</p>
+
+<p>左上角按钮用于选择 <span class="label">RMS</span> 和 <span class="label">Peak</span> 响应模式。</p>
+
+<p>该 <span style="font-weight: bold;">Threshld</span> 控件定义噪声门开启并允许音频通过的电平。</p>
+
+<p>
+    <span class="note">
+        <span class="notetitle">注意： </span>噪声门开启电平高于再次关闭的电平。换言之，噪声门打开后，会保持开启直到信号降至更低的关闭阈值。这称为迟滞，可使乐器衰减更自然。 <span style="font-weight: bold;">Threshld</span> 控件指的是开启阈值。
+    </span>
+</p>
+
+<p>
+    <span style="font-weight: bold;">Hold</span> 控制信号电平再次开始下降前的保持时间， <span style="font-weight: bold;">Release</span> 控制随后电平下降的速度。
+    <span style="font-weight: bold;">Attack</span> 控制信号超过开启阈值后 Gate 完成“恢复”的时间。1.5 ms（每 40 dB）是良好的 Attack 起点，但打击乐声音可能需要约 0.1 ms。
+</p>
+
+<!-- Start of Duck mode snippet -->
+<!-- Also used in PathProc.html -->
+<p>
+    启用 <span class="label">Duck</span> 按钮可将 Gate 变为 Ducker。这会反转噪声门的侧链阈值逻辑：当侧链 Key 输入超过 <b>Range</b> 时，将输入信号衰减 <b>Threshold</b>，例如在 DJ 讲话时自动压低音乐。
+</p>
+<!-- End of Duck mode snippet -->
+
+<p>左上方的“交通灯”指示 Gate 状态：红色表示关闭（无音频通过），绿色表示开启（音频以全电平通过），黄色表示正在开启或关闭。</p>
+
+<p>模块右侧的电平表显示输入和输出电平。</p>
+
+
+<h2 id="Sourcerer">Sourcerer™ - 主声源隔离器</h2>
+
+<p><img class="center"style="width: 750px;"  src="https://livehelp.solidstatelogic.com/Help/images/g_FXDynSourcerer.png" alt=""></p>
+
+<p>Sourcerer 是一款动态模块，可显著降低甚至消除开放话筒产生的反馈和舞台串音，使通道主声源更加清晰。</p>
+
+<p>Sourcerer 可插入单个 Channel，也可借助 Stem 或 Aux 母线跨多个 Channel 组使用。</p>
+
+<p>调整 <b>THRESHOLD</b> 控件，使环境信号不会令 <b>SIDECHAIN&nbsp;LEVEL</b> 表超过蓝色阴影区域。</p>
+
+<p>
+    初始设置时，将 <b>TIME</b> 模式设为 <span class="label">Slow</span> 或 <span class="label">Medium</span> 或 
+    <b>DETECT</b> ，将 <span class="label">Peak</span> ，并将 <b>LPF</b> 和 <b>HPF</b> 滤波器设为 <b>Off</b> （分别完全顺时针和完全逆时针）。
+</p>
+
+<p>提高 <b>DEPTH</b> 控件，直到环境噪声充分降低。降噪量显示在 <b>GAIN REDUCTION</b> 表上。</p>
+
+<p>
+    要获得理想的 Sourcerer 响应，需要反复试听调整。如果主声源信号被过早衰减，请选择较慢的 <b>Time</b> 模式；如果从环境声切换到目标声源段落时增益衰减响应不够快，则选择较快模式。
+</p>
+
+<p>
+    使用 <b>HPF</b> 和 <b>LPF</b> 控件限制进入检测电路的频率范围（不会影响主信号），从而进一步提高侧链对环境噪声和反馈的检测灵敏度。 <span class="label">Sidechain&nbsp;Solo</span> 按钮可用于监听滤波后的侧链信号。
+</p>
+
+<p>
+    启用 <span class="label">Ext&nbsp;Key</span> 按钮可使用不同于待隔离信号路径的另一信号触发检测电路。此时仅当 Key 输入低于 Threshold 时，Sourcerer 才衰减主信号。例如在一个组（如和声歌手）上插入 Sourcerer，并使用组内某人的专用话筒触发时，这项功能非常有用。
+</p>
+
+
+<h2>瞬态塑形器</h2>
+
+<p><img class="center" src="https://livehelp.solidstatelogic.com/Help/images/g_FXDynTransient.png" alt=""></p>
+
+<p>Transient Shaper 使用扩展器提高信号起音部分的幅度，在保持衰减不变的同时增强打击乐声音开头的起音。</p>
+
+<table>
+    <tbody>
+        <tr>
+            <td style="vertical-align: middle; width: 319px;"><img src="https://livehelp.solidstatelogic.com/Help/images/g_TransientDiag.png" alt=""></td>
+            <td style="vertical-align: top;">
+                <span style="font-weight: bold;">I/P Gain</span> 控制控制信号的检测电平，应设置为只检测需要塑形的瞬态。设置过低时 Shaper 不起作用；设置过高则会检测过多瞬态，导致处理过度、起音显得过长。默认 0 dB 是良好的起点。<br>
+
+                <span class="note"><span class="notetitle">注意：</span> <span style="font-weight: bold;">I/P Gain</span> 不会直接影响输出信号增益。</span>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+<p><span style="font-weight: bold;">Amount</span> 控制加入未处理信号中的处理后信号量。此处理可能显著提高信号峰值，请密切观察输出表。</p>
+
+<p><span style="font-weight: bold;">Speed</span> 控制附加起音达到峰值后回落至正常信号电平所需的时间。</p>
+
+<p>按下 <span style="font-weight: bold;">Invert</span> 可反转处理后信号，使其从未处理信号中相减。这样会柔化起音，使打击乐声音更具厚度。</p>
+
+<p><span style="font-weight: bold;">Solo</span> 可监听处理后信号，帮助完成参数设置。</p>
+
+<p><span class="note"><span class="notetitle">注意： </span>当 <span style="font-weight: bold;">Invert</span> 和 <span style="font-weight: bold;">Solo</span> 按钮同时按下时，信号不会反相。</span></p>
+
+
+
+<h2>实用链接</h2>
+<a href="https://livehelp.solidstatelogic.com/Help/FXIntro.html"><span class="hyperlink">效果器机架概述</span></a>
+<br>
+<a href="https://livehelp.solidstatelogic.com/Help/FXDelays.html"><span class="hyperlink">延迟效果</span></a>
+<br>
+<a href="https://livehelp.solidstatelogic.com/Help/FXEQs.html"><span class="hyperlink">EQ 效果</span></a>
+<br>
+<a href="https://livehelp.solidstatelogic.com/Help/FXModulation.html"><span class="hyperlink">调制效果</span></a>
+<br>
+<a href="https://livehelp.solidstatelogic.com/Help/FXReverbs.html"><span class="hyperlink">混响效果</span></a>
+<br>
+<a href="https://livehelp.solidstatelogic.com/Help/FXOther.html"><span class="hyperlink">其他效果器模块</span></a>
+<br>
+<a href="https://livehelp.solidstatelogic.com/Help/FXTools.html"><span class="hyperlink">音频工具</span></a>
+<br>
+<a href="https://livehelp.solidstatelogic.com/Help/FXAutoMix.html"><span class="hyperlink">自动混音</span></a>
+<br>
+<a href="https://livehelp.solidstatelogic.com/Help/LinkIndex.html"><span class="hyperlink">索引与术语表</span></a>
+<br>
+</body>
+</html>

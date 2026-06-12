@@ -1,0 +1,293 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html ng-app="sslLiveHelp">
+<head>
+    <meta content="text/html; charset=ISO-8859-1" http-equiv="content-type">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=yes">
+
+    <link href="../Help/style/style.css" rel="stylesheet">
+    <link href="../Help/style/jquery-ui-1.13.2.structure.css" rel="stylesheet">
+    <title>Stageboxes</title>
+    <script src="../Help/js/jquery-3.6.0.min.js"></script>
+    <script src="../Help/js/jquery-ui/1.13.2/jquery-ui.min.js"></script>
+    <!--<script type="text/javascript" src="cordova.js"></script>-->
+    <!-- Nav / search panels 2017 updates -->
+    <script>
+    window.baseDir = '../';
+    window.data = 'null';
+    </script>
+    <link rel="stylesheet" type="text/css" href="../Help/fonts/font-awesome-4.7.0/css/font-awesome.min.css" />
+    <link rel="stylesheet" type="text/css" href="../Help/style/sass-styles.css">
+    <script src="../Help/js/fastclick.js"></script>
+    <script src="../Help/js/lodash.core.min.js"></script>
+    <!--<script src="../Help/js/angular/1.2/angular.min.js"></script>-->  <!-- On a console -->
+    <script src="../Help/js/angular/1.8/angular.min.js"></script>   <!--Not on a console -->
+    <script src="../Help/js/ngStorage.min.js"></script>
+    <!--<script src="../Help/js/angular/1.2/angular-sanitize.min.js"></script>-->  <!-- On a console -->
+    <!--<script src="../Help/js/angular/1.2/angular-animate.min.js"></script>-->   <!-- On a console -->
+    <script src="../Help/js/angular/1.8/angular-sanitize.min.js"></script>  <!--Not on a console -->
+    <script src="../Help/js/angular/1.8/angular-animate.min.js"></script>   <!--Not on a console -->
+    <script src="../Help/js/lunr-2.3.min.js"></script>
+    <script src="../Help/js/menu.js"></script>
+
+</head>
+
+<body ng-controller="NavController as vm">
+
+    <!--<nav class="nav" ng-class="{ 'nav--visible' : vm.visible }" ng-if="vm.visible" role="navigation" aria-label="Primary">-->  <!-- On a console --> 
+    <nav class="nav" ng-class="{ 'nav--visible' : vm.visible }" role="navigation" aria-label="Primary"> <!--Not on a console -->
+        <!-- Search form -->
+        <div role="search">
+            <form class="nav__search" ng-if="vm.isSearchSupported">
+                <label class="nav__search-icon" for="query"><i aria-label="Search" title="Search" class="fa fa-search"></i></label>
+                <input type="search" id="query" class="nav__search-input" placeholder="Search..." ng-model="vm.query" />
+            </form>
+        </div>
+
+        <div class="nav__scroll" ng-style="vm.styleBasedOnSearchSupported">
+
+            <!-- Main nav -->
+            <ul class="main-nav" ng-hide="vm.query">
+                <li class="main-nav__item" ng-repeat="item in vm.nav">
+
+                    <!-- Link to page -->
+                    <a ng-if="item.url" ng-class="{'main-nav__link--active' : item.url===vm.currentPage}" class="main-nav__link" ng-attr-href="{{ vm.baseDir }}{{ item.url }}">
+                        {{ item.title }}
+                    </a>
+
+                    <!-- Expandable heading -->
+                    <span ng-click="vm.toggleExpanded(item.title)" ng-if="!item.url" class="main-nav__title">
+                        {{ item.title }}
+                        <span ng-if="!vm.isExpanded(item.title)" class="fa fa-caret-right"></span>
+                        <span ng-if="vm.isExpanded(item.title)" class="fa fa-caret-down"></span>
+                    </span>
+
+                    <!-- Subnav -->
+                    <ul ng-if="vm.isExpanded(item.title)" class="main-nav fx-fade">
+                        <li ng-repeat="sub in item.children" class="main-nav__item">
+
+                            <!-- Link to page -->
+                            <a ng-if="sub.url" ng-class="{'main-nav__link--active' : sub.url===vm.currentPage}" class="main-nav__link main-nav__link--level1" ng-attr-href="{{ vm.baseDir }}{{ sub.url }}">
+                                {{ sub.title }}
+                            </a>
+
+                            <!-- Expandable heading -->
+                            <span ng-click="vm.toggleExpanded(sub.title)" ng-if="!sub.url" class="main-nav__title main-nav__title--level1">
+                                {{ sub.title }}
+                                <span ng-if="!vm.isExpanded(sub.title)" class="fa fa-caret-right"></span>
+                                <span ng-if="vm.isExpanded(sub.title)" class="fa fa-caret-down"></span>
+                            </span>
+
+                            <!-- Sub-sub nav -->
+                            <ul ng-if="sub.children && vm.isExpanded(sub.title)" class="main-nav fx-fade">
+                                <li ng-repeat="subsub in sub.children" class="main-nav__item">
+
+                                    <!-- Link to page -->
+                                    <a ng-class="{'main-nav__link--active' : subsub.url===vm.currentPage}" class="main-nav__link main-nav__link--level2" ng-attr-href="{{ vm.baseDir }}{{ subsub.url }}" ng-bind-html="subsub.title">
+                                    </a>
+
+                                </li>
+                            </ul>
+
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+
+            <!-- Search results list -->
+            <ul class="search-results">
+                <li class="search-result" ng-repeat="result in vm.results">
+                    <a class="search-result__link" ng-attr-href="{{ vm.baseDir }}{{ 'Help/' + result.id }}">
+                        <h3 class="search-result__title">{{ result.title }}</h3>
+                        <p class="search-result__excerpt" ng-bind-html="result.excerpt"></p>
+                    </a>
+                </li>
+            </ul>
+
+            <!-- Keep screen on option - PhoneGap insomnia -->
+            <ul class="main-nav" ng-if="vm.isPhoneGap">
+                <li class="main-nav__item">
+                    <label class="main-nav__title">
+                        Keep Screen On
+                        <input style="display: none" type="checkbox" ng-model="vm.keepScreenOn" />
+                        <i ng-class="{'fa--cleared' : !vm.keepScreenOn, 'fa--checked' : vm.keepScreenOn}" class="fa fa-check"></i>
+                    </label>
+                </li>
+            </ul>
+
+
+        </div>
+    </nav>
+
+    <nav class="header" role="navigation" aria-label="Secondary">
+        <a ng-if="!vm.onAConsole" href="../index.html" class="header__btn" title="Home"><i class="fa fa-home"></i></a>
+        <div ng-if="!vm.onAConsole" class="header__history">
+            <a onclick="javascript:window.history.back()" class="header__btn"><i title="Back" class="fa fa-chevron-left"></i></a>
+            <a onclick="javascript:window.history.forward()" class="header__btn"><i title="Forwards" class="fa fa-chevron-right"></i></a>
+        </div>
+        <div align="right">
+            <a class="header__btn header__btn--nav" ng-click="vm.toggleVisibility()">
+                <i ng-if="!vm.visible" class="fa fa-bars"></i>
+                <i ng-if="vm.visible" class="fa fa-close"></i>
+            </a>
+        </div>
+    </nav>
+
+
+    <!-- Main content -->
+    <div id="main">
+        
+
+
+<div><a href="LocalIO.html"><img class="TutorialNav" src="images/n_TutPrevious.png" alt=""><span class="TutorialNav">PREVIOUS: Local I/O</span></a></div>
+
+<h2>Stageboxes</h2>
+
+<p>
+    A range of stageboxes is available for use with SSL Live consoles over either MADI or Dante.
+    Once the stageboxes have been configured on the console, the workflow for controlling the mic gain and other parameters is the same for both MADI and Dante stageboxes.
+</p>
+
+<p>All SSL Stageboxes feature dual redundant power supplies.</p>
+
+<br>
+
+<h2>MADI Stageboxes</h2>
+
+<p>MADI Stageboxes connect to SSL Live consoles via BNC, or via a BLII-MADI Concentrator (see below).</p>
+<p>Up to 3 SSL Live consoles can share stageboxes with gain compensation being applied to the two slave consoles. See the <a href="Routing.html#GainSharing"><span class="hyperlink">Gain Sharing</span></a> section for further details.</p>
+
+<h3>ML 32.32</h3>
+
+<img style="display: block; margin: auto;" src="images/StageboxML.png" alt="">
+
+<p>
+    The 5U <span style="font-weight:bold;">ML 32.32</span> analogue stagebox is fitted with <span style="font-weight:bold;">32 remote controlled SSL SuperAnalogue<sup>TM</sup> mic/line inputs</span>
+    and <span style="font-weight:bold;">32 line outputs</span> on the front panel.
+</p>
+
+<p>A/D D/A conversion takes place within the stagebox and the standard unit has two pairs of coaxial MADI In/Out configured as a redundant pair on the rear panel.</p>
+
+<p>There is also an optional rear-mounting panel for <span style="font-weight:bold;">32 split analogue mic outputs</span>, which are derived before the active electronics of the mic/line amps (but after phantom power injection).</p>
+
+<p>There are sample rate and clock setup buttons and a pair of dedicated wordclock connections. MIDI and GPIO connections are also supplied for alternative remote control methods.</p>
+
+
+<p>Alternative options are available loaded with only 32 front panel input connections or 32 output connections.</p>
+
+<h3>D 32.32</h3>
+<img style="display: block; margin: auto;" src="images/StageboxD.png" alt="">
+<p>The <span style="font-weight:bold;">D 32.32</span> is a 2U digital stagebox providing <span style="font-weight:bold;">16 x AES/EBU pairs</span> of front panel XLR connectors. Sample rate conversion is available for all AES/EBU connections.</p>
+<p>The D 32.32 rear panel features exactly the same connectivity as the analogue stagebox with redundant coaxial MADI I/O, MADI output to a second console, setup controls and remote control connectivity.</p>
+
+<h3>BLII-MADI Concentrator</h3>
+<img style="display: block; margin: auto;" src="images/StageboxBLM.png" alt="">
+<p>This 2U unit is used for efficient cable connection between MADI stageboxes and an SSL Live console.</p>
+<p>
+    The <span style="font-weight:bold;">BLII-MADI Concentrator</span> features <span style="font-weight:bold;">a redundant pair of SSL's proprietary Blacklight II</span> connectors on the front panel
+    and each connection carries <span style="font-weight:bold;">256 channels of audio at 96 kHz</span>.
+</p>
+
+<p>The rear panel of the unit provides <span style="font-weight:bold;">8 redundant pairs of coaxial MADI</span> connectors.</p>
+
+
+<h2 id="NetIO">Network I/O (Dante) Stageboxes</h2>
+<p>SSL's Network I/O stageboxes connect to SSL Live consoles using a Dante network. All Network I/O units support the AES67 and SMPTE 2110-30 AoIP network transport standards.</p>
+
+<p>Gain compensation is performed within the stageboxes themselves, meaning any Dante device can receive gain compensated signals, it does not have to be an SSL device. See the <a href="DanteNetIO.html#GainShare"><span class="hyperlink">Gain Sharing</span></a> section for further details.</p>
+
+<h3>SB&nbsp;32.24</h3>
+
+<img style="display: block; margin: auto;" src="images/StageboxSB3224.png" alt="">
+
+<p>
+    The <span style="font-weight:bold;">SB&nbsp;32.24</span> is a 5U stagebox featuring <span style="font-weight:bold;">32 mic/line inputs</span>, <span style="font-weight:bold;">16 analogue line outputs</span>
+    and 8 digital inputs and outputs on <span style="font-weight:bold;">4 AES/EBU input/output pairs</span>.
+</p>
+
+<p>
+    It has a pair of redundant RJ45 Dante network connections (Network A), for connection to the main Dante network.
+    In addition, a pair of redundant user-configurable SFP ports (Network B), that can be fitted with RJ45 or fibre connectors, provide gain-compensated split outputs.
+    These SFP ports can be used in <i>linked</i> mode to make both main (uncompensated) and compensated channels available on a single network, or in <i>unlinked</i> mode to keep the gain compensated signal on a separate network.
+    A sample rate converter (SRC) on the Network B interface can be enabled to operate Network B at a different sample rate or clock domain to the main Dante interface.
+</p>
+
+
+<h3>SB&nbsp;16.12</h3>
+
+<img style="display: block; margin: auto;" src="images/StageboxSB1612.png" alt="">
+
+<p>
+    The <span style="font-weight:bold;">SB&nbsp;16.12</span> is a 3U stagebox featuring <span style="font-weight:bold;">16 mic/line inputs</span>, <span style="font-weight:bold;">8 analogue line outputs</span>
+    and 4 digital inputs and outputs on <span style="font-weight:bold;">2 AES/EBU input/output pairs</span>.
+</p>
+
+<p>Its other features are identical to the SB&nbsp;32.24 above.</p>
+
+
+<h3>SB&nbsp;8.8 &amp; i16</h3>
+
+<img style="display: block; margin: auto;" src="images/StageboxSB88.png" alt="">
+<img style="display: block; margin: auto;" src="images/StageboxSBi16.png" alt="">
+
+<p>
+    These 2RU units offer slightly different configurations but share identical features. The <span style="font-weight:bold;">SB&nbsp;8.8</span> offers <span style="font-weight:bold;">8 mic/line inputs</span>
+    and <span style="font-weight:bold;">8 line level outputs</span>. The <span style="font-weight:bold;">SB&nbsp;i16</span> offers <span style="font-weight:bold;">16 mic/ line inputs</span>.
+</p>
+<p>Both models feature a pair of redundant RJ45 Dante network connections, a pair of network extension connections and GPIO connectivity.</p>
+<p>The SB&nbsp;8.8 &amp; i16 feature <span style="font-weight:bold;">inbuilt limiters</span> and SSL's innovative <span style="font-weight:bold;">AutoPad</span> system that automatically applies a Pad according to gain setting.</p>
+
+<p>The AutoPad is applied if the gain is set at a low value that would require a pad to achieve making the entire possible mic gain range seamlessly available at all times.</p>
+
+<p>An <span style="font-weight:bold;">Audition</span> feature allows individual channels to be monitored over the network (using an SSL console or App) without the signal actually being routed to a network destination.</p>
+
+
+<h3>X-Light Bridge</h3>
+<img style="display: block; margin: auto; width: 500px;" src="images/g_XLightBridgeFront.png" alt="">
+
+<p>
+    The <span style="font-weight:bold;">Network I/O X-Light Bridge</span> is a 1U unit that provides a bi-directional bridge between SSL Live consoles and a <span style="font-weight:bold;">Dante</span> network of stageboxes.
+    The X-Light Bridge delivers <span style="font-weight:bold;">256 channels of ultra low latency 96 kHz audio in and out of a Dante network</span>.
+    It features ruggedised connections and is intended for touring use.
+</p>
+<p>Since SSL Live consoles' Local I/O is limited to 32 x 32 Dante I/O at 96 kHz (64 x 64 at 48 kHz), the X-Light Bridge can be used to expand the console's Dante I/O capability by a further to 256 x 256 channels.</p>
+
+
+<h3>BLII Bridge</h3>
+<img style="display: block; margin: auto;" src="images/StageboxBLD.png" alt="">
+
+<p>
+    The <span style="font-weight:bold;">Network I/O BLII Bridge</span> is a 1U unit that provides a bi-directional bridge between SSL Live consoles and a <span style="font-weight:bold;">Dante</span> network of stageboxes.
+    The BLII Bridge delivers <span style="font-weight:bold;">256 channels of ultra low latency 96 kHz audio in and out of a Dante network</span>.
+    It features non-ruggedised connections and is intended for install use.
+</p>
+<p>Since SSL Live consoles' Local I/O is limited to 32 x 32 Dante I/O at 96 kHz (64 x 64 at 48 kHz), the BLII Bridge can be used to expand the console's Dante I/O capability by a further to 256 x 256 channels.</p>
+
+<h2 id="DanteStageboxes">Other Dante Stageboxes</h2>
+
+These stageboxes do not carry the full feature set of the Network I/O range, but still connect to SSL Live consoles in the same way.
+
+<h3 id="MPL168">MPL 16-8</h3>
+
+<p>
+    The MPL 16-8 is a 2U stagebox featuring 16 mic/line inputs and 8 analogue line outputs.</p>
+<p>It has a pair of redundant RJ45 Dante network connections, and supports the AES67 transport standard.</p>
+
+<img style="display: block; margin: auto; width: 500px" src="images/StageboxMPL16-8.png" alt="">
+
+<p>The MPL 16-8 does not feature input ownership, PSU redundancy or ST 2110.</p>
+
+<h2>Useful Links</h2>
+<p><a href="Clocking.html"><span class="hyperlink">Clocking (including system connection examples)</span></a></p>
+<p><a href="LocalIO.html"><span class="hyperlink">Local I/O</span></a></p>
+<p><a href="LocalMADIConfig.html"><span class="hyperlink">Local & MADI I/O Config</span></a></p>
+<p><a href="DanteSetup.html"><span class="hyperlink">Dante Config</span></a></p>
+<p><a href="DanteNetIO.html"><span class="hyperlink">Network I/O Stageboxes</span></a></p>
+<div class="TutorialNavNext"> <a href="Showfiles.html"><span class="TutorialNav">NEXT: Building a Show - Loading &amp; Saving Showfiles</span> <img class="TutorialNav" src="images/n_TutNext.png" alt=""></a></div>
+
+
+    </div>
+
+    <script src="../Help/js/OpenAccordionFromLink.js"></script>
+</body>
+</html>

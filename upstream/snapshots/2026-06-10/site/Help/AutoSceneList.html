@@ -1,0 +1,270 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html ng-app="sslLiveHelp">
+<head>
+    <meta content="text/html; charset=ISO-8859-1" http-equiv="content-type">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=yes">
+
+    <link href="../Help/style/style.css" rel="stylesheet">
+    <link href="../Help/style/jquery-ui-1.13.2.structure.css" rel="stylesheet">
+    <title>Automation: Scene List</title>
+    <script src="../Help/js/jquery-3.6.0.min.js"></script>
+    <script src="../Help/js/jquery-ui/1.13.2/jquery-ui.min.js"></script>
+    <!--<script type="text/javascript" src="cordova.js"></script>-->
+    <!-- Nav / search panels 2017 updates -->
+    <script>
+    window.baseDir = '../';
+    window.data = 'null';
+    </script>
+    <link rel="stylesheet" type="text/css" href="../Help/fonts/font-awesome-4.7.0/css/font-awesome.min.css" />
+    <link rel="stylesheet" type="text/css" href="../Help/style/sass-styles.css">
+    <script src="../Help/js/fastclick.js"></script>
+    <script src="../Help/js/lodash.core.min.js"></script>
+    <!--<script src="../Help/js/angular/1.2/angular.min.js"></script>-->  <!-- On a console -->
+    <script src="../Help/js/angular/1.8/angular.min.js"></script>   <!--Not on a console -->
+    <script src="../Help/js/ngStorage.min.js"></script>
+    <!--<script src="../Help/js/angular/1.2/angular-sanitize.min.js"></script>-->  <!-- On a console -->
+    <!--<script src="../Help/js/angular/1.2/angular-animate.min.js"></script>-->   <!-- On a console -->
+    <script src="../Help/js/angular/1.8/angular-sanitize.min.js"></script>  <!--Not on a console -->
+    <script src="../Help/js/angular/1.8/angular-animate.min.js"></script>   <!--Not on a console -->
+    <script src="../Help/js/lunr-2.3.min.js"></script>
+    <script src="../Help/js/menu.js"></script>
+
+</head>
+
+<body ng-controller="NavController as vm">
+
+    <!--<nav class="nav" ng-class="{ 'nav--visible' : vm.visible }" ng-if="vm.visible" role="navigation" aria-label="Primary">-->  <!-- On a console --> 
+    <nav class="nav" ng-class="{ 'nav--visible' : vm.visible }" role="navigation" aria-label="Primary"> <!--Not on a console -->
+        <!-- Search form -->
+        <div role="search">
+            <form class="nav__search" ng-if="vm.isSearchSupported">
+                <label class="nav__search-icon" for="query"><i aria-label="Search" title="Search" class="fa fa-search"></i></label>
+                <input type="search" id="query" class="nav__search-input" placeholder="Search..." ng-model="vm.query" />
+            </form>
+        </div>
+
+        <div class="nav__scroll" ng-style="vm.styleBasedOnSearchSupported">
+
+            <!-- Main nav -->
+            <ul class="main-nav" ng-hide="vm.query">
+                <li class="main-nav__item" ng-repeat="item in vm.nav">
+
+                    <!-- Link to page -->
+                    <a ng-if="item.url" ng-class="{'main-nav__link--active' : item.url===vm.currentPage}" class="main-nav__link" ng-attr-href="{{ vm.baseDir }}{{ item.url }}">
+                        {{ item.title }}
+                    </a>
+
+                    <!-- Expandable heading -->
+                    <span ng-click="vm.toggleExpanded(item.title)" ng-if="!item.url" class="main-nav__title">
+                        {{ item.title }}
+                        <span ng-if="!vm.isExpanded(item.title)" class="fa fa-caret-right"></span>
+                        <span ng-if="vm.isExpanded(item.title)" class="fa fa-caret-down"></span>
+                    </span>
+
+                    <!-- Subnav -->
+                    <ul ng-if="vm.isExpanded(item.title)" class="main-nav fx-fade">
+                        <li ng-repeat="sub in item.children" class="main-nav__item">
+
+                            <!-- Link to page -->
+                            <a ng-if="sub.url" ng-class="{'main-nav__link--active' : sub.url===vm.currentPage}" class="main-nav__link main-nav__link--level1" ng-attr-href="{{ vm.baseDir }}{{ sub.url }}">
+                                {{ sub.title }}
+                            </a>
+
+                            <!-- Expandable heading -->
+                            <span ng-click="vm.toggleExpanded(sub.title)" ng-if="!sub.url" class="main-nav__title main-nav__title--level1">
+                                {{ sub.title }}
+                                <span ng-if="!vm.isExpanded(sub.title)" class="fa fa-caret-right"></span>
+                                <span ng-if="vm.isExpanded(sub.title)" class="fa fa-caret-down"></span>
+                            </span>
+
+                            <!-- Sub-sub nav -->
+                            <ul ng-if="sub.children && vm.isExpanded(sub.title)" class="main-nav fx-fade">
+                                <li ng-repeat="subsub in sub.children" class="main-nav__item">
+
+                                    <!-- Link to page -->
+                                    <a ng-class="{'main-nav__link--active' : subsub.url===vm.currentPage}" class="main-nav__link main-nav__link--level2" ng-attr-href="{{ vm.baseDir }}{{ subsub.url }}" ng-bind-html="subsub.title">
+                                    </a>
+
+                                </li>
+                            </ul>
+
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+
+            <!-- Search results list -->
+            <ul class="search-results">
+                <li class="search-result" ng-repeat="result in vm.results">
+                    <a class="search-result__link" ng-attr-href="{{ vm.baseDir }}{{ 'Help/' + result.id }}">
+                        <h3 class="search-result__title">{{ result.title }}</h3>
+                        <p class="search-result__excerpt" ng-bind-html="result.excerpt"></p>
+                    </a>
+                </li>
+            </ul>
+
+            <!-- Keep screen on option - PhoneGap insomnia -->
+            <ul class="main-nav" ng-if="vm.isPhoneGap">
+                <li class="main-nav__item">
+                    <label class="main-nav__title">
+                        Keep Screen On
+                        <input style="display: none" type="checkbox" ng-model="vm.keepScreenOn" />
+                        <i ng-class="{'fa--cleared' : !vm.keepScreenOn, 'fa--checked' : vm.keepScreenOn}" class="fa fa-check"></i>
+                    </label>
+                </li>
+            </ul>
+
+
+        </div>
+    </nav>
+
+    <nav class="header" role="navigation" aria-label="Secondary">
+        <a ng-if="!vm.onAConsole" href="../index.html" class="header__btn" title="Home"><i class="fa fa-home"></i></a>
+        <div ng-if="!vm.onAConsole" class="header__history">
+            <a onclick="javascript:window.history.back()" class="header__btn"><i title="Back" class="fa fa-chevron-left"></i></a>
+            <a onclick="javascript:window.history.forward()" class="header__btn"><i title="Forwards" class="fa fa-chevron-right"></i></a>
+        </div>
+        <div align="right">
+            <a class="header__btn header__btn--nav" ng-click="vm.toggleVisibility()">
+                <i ng-if="!vm.visible" class="fa fa-bars"></i>
+                <i ng-if="vm.visible" class="fa fa-close"></i>
+            </a>
+        </div>
+    </nav>
+
+
+    <!-- Main content -->
+    <div id="main">
+        
+
+<div><a href="AutoNamesNotes.html"><img class="TutorialNav" src="images/n_TutPrevious.png" alt=""><span class="TutorialNav">PREVIOUS: Scene Names &amp; Notes</span></a></div>
+
+
+<h2>Automation Scene List</h2>
+
+<p>
+    Navigate to <span class="label">MENU</span> > <span class="label">Automation</span> to access the Scene list.
+    Use the <span class="label">Show&nbsp;Details</span> button to show more/fewer rows in the list.
+</p>
+
+<p>The following functions are available for each Scene row using the columns of the Scene List:</p>
+
+<ul>
+    <li><span style="font-weight: bold;">Skip</span> Causes the Scene to be skipped when triggered in sequence. See <a href="AutoTime.html"><span class="hyperlink">Scene Time Functions</span></a> for details. Tap the <span class="label">Skip</span> heading button to disable the Skip column.</li>
+    <li><span style="font-weight: bold;">GO</span> Recalls the Scene to the console, making it the Active Scene. Tap the <span class="label">Go</span> heading button to disable the Go buttons in the list.</li>
+    <li><span style="font-weight: bold;">Trigger&nbsp;Time</span> Sets a timecode location at which the Scene is automatically triggered. See <a href="AutoTime.html"><span class="hyperlink">Scene Time Functions</span></a> for details.  Tap the <span class="label">Trigger&nbsp;Time</span> heading button to disable triggering from timecode.</li>
+    <li><span style="font-weight: bold;">Input&nbsp;Actions</span> See <a href="AutoIOActions.html"><span class="hyperlink">Scene Input and Output Actions</span></a> for details. Tap the <span class="label">Input&nbsp;Actions</span> heading button once to disable the selected column. Touch again to disable all Input Action triggering.</li>
+    <li><span style="font-weight: bold;">Fade&nbsp;Time</span> See <a href="AutoTime.html"><span class="hyperlink">Scene Time Functions</span></a> for details. Tap the <span class="label">Fade&nbsp;Time</span> heading button to disable scene fading.</li>
+    <li><span style="font-weight: bold;">ID</span> Indicates the Scene's position in the Scene List.</li>
+    <li><span style="font-weight: bold;">Scene&nbsp;Name</span> Indicates the Scene's user editable name.</li>
+    <li><span style="font-weight: bold;">Output&nbsp;Actions</span> See <a href="AutoIOActions.html"><span class="hyperlink">Scene Input and Output Actions</span></a> for details. Tap the <span class="label">Output&nbsp;Actions</span> heading button once to disable the selected column. Touch again to disable all Output Actions.</li>
+    <li><span style="font-weight: bold;">Transition</span> Sets a Scene duration, after which time the console automatically transitions to the next Scene in the List. See <a href="AutoTime.html"><span class="hyperlink">Scene Time Functions</span></a> for details. Tap the <span class="label">Transition</span> heading button to disable Auto Transition mode.</li>
+    <li><span style="font-weight: bold;">Lock</span> prevents the scene from being edited. See <a href="AutoSceneList.html#SceneLock"><span class="hyperlink">Scene Lock</span></a> below for details.</li>
+    <li><span style="font-weight: bold;">Group</span> Defines what edit Group each Scene is part of, if any. Tap the <span class="label">Group</span> heading button once to engage Group All mode. Touch again to disable Group mode globally. See <a href="AutoGrouping.html"><span class="hyperlink">Scene Groups</span></a> for details.</li>
+</ul>
+
+<img style="display: block; margin: 27px auto;" src="images/g_autoscenelistdetail.png" alt="">
+
+<p>The final column in the Scene List is used for editing the List itself. To delete, move or copy+paste Scenes:</p>
+
+<p>Enable the Edit function by touching the <span class="label">Edit</span> button (near the top right corner of the screen);</p>
+
+<p>Touch the round <span style="font-weight: bold;">Edit</span> indicator at the end of a row to select the scene. The indicator will go red to indicate that its row is being edited.</p>
+
+<p>Multiple scenes (rows) can be selected. All scenes can be selected by touching the <span style="font-weight: bold;">Edit</span> label itself.</p>
+
+<p>The three edit functions listed below the Edit button will now be available: <span class="label">Del</span> (Delete), <span class="label">Move</span> and <span class="label">Copy</span>.</p>
+
+<p>To delete Scenes, touch their Edit indicators so that they go red, then press & hold the <span class="label">Del</span> button.</p>
+
+<span class="note">
+    <span class="notetitle">Notes:</span><br>
+    Scene deletion cannot be undone without reloading your showfile.<br>
+    The Active Scene cannot be deleted.
+</span>
+
+<p>To move Scenes, touch their <span style="font-weight: bold;">Edit</span> indicators so that they go red;</p>
+
+<p>Touch the <span class="label">Move</span> button &#8211; it will go blue to indicate that it is active;</p>
+
+<p>Now touch the Scene which is in the position you wish to put the Moved Scene(s). The Scenes will be placed above the Scene you touched.</p>
+
+<p>The Scenes will move to the new location. The other Scenes will move to close up any gaps.</p>
+
+<p>To copy Scenes, touch their <span style="font-weight: bold;">Edit</span> indicators so that they go red;</p>
+
+<p>Touch the <span class="label">Copy</span> button &#8211; it will go blue and become a <span class="label">Paste</span> button.</p>
+
+<p>Now touch the Scene which is in the position you wish to paste the new Scenes.</p>
+
+<p>The Scenes will be duplicated at the new location, with the word <span style="font-weight: bold;">Copy</span> appended to their names. The other Scenes will move to create space for them.</p>
+
+<p>You can rename the copied Scenes in the usual way (See <a href="AutoNamesNotes.html"><span class="hyperlink">Scene Names and Notes</span></a>).</p>
+
+<h2>Scene ID</h2>
+
+<p>Scene ID is for display purposes only and serve no operational purpose within the software. The <span class="label">Auto ID</span> button (in the right side of the Detail Display when the ID column is selected) defines what happens to ID numbers when the Scene list is re-arranged:</p>
+
+<ul>
+    <li>When the button is active, the ID column is simply renumbered to stay in order.</li>
+    <li>When the button is inactive, Scene IDs will not change when Scenes are re-ordered; if new Scenes are placed in between old ones, their IDs will increment upwards from the Scene before, using decimals if necessary to prevent their IDs from matching the Scene after. <br> Pressing & holding the <span class="label">Auto ID</span> button can then be used to renumber the Scenes in order.</li>
+</ul>
+
+<h3 id="Renumber">Renumber Scenes with Tap</h3>
+<span class="note"><span class="notetitle">Note:</span> Please note that <span class="label">Auto ID</span> must be off to use this feature.</span>
+
+<p>
+    Tapping on the column header for the ID column enables renumbering Scenes with a tap.
+    The user can now tap on the scenes in the correct order to renumber them.
+    i.e. the first scene tapped will receive number 1 and the second number 2 etc.
+    Pressing and holding <span class="label">Reorder List</span> will now reorder the scenes so they are in the order that you tapped them in.
+</p>
+
+<span class="note">
+    <span class="notetitle">Note:</span><br>If two scenes are given the same number, the console will retain their relative positions against each other.
+    For example if "Interlude" and "My Song" scenes appeared in that order in the scene list, and they were subsequently both manually numbered with scene number 1, "Interlude" would be first, and "My Song" would be second.
+    But both scenes would retain the scene number 1.
+</span>
+
+<h3 id="ManualRenumber">Manual Scene Numbering</h3>
+
+<p>Scenes can be numbered manually by double tapping on the scene number in the Scene Detail View and entering the desired number using the keyboard.</p>
+
+<span class="note"><span class="notetitle">Note:</span> Please note that <span class="label">Auto ID</span> must be off to use this feature.</span>
+
+<h3 id="SceneLock">Scene Lock</h3>
+
+<p>Scenes can be made read only to prevent edits (including Input/Output Actions and per-scene filters).</p>
+
+<p>With <span class="label">Edit</span> engaged, tap on the padlock button to lock a scene.</p>
+
+<p>This scene is now read only. It cannot be edited and when it is fired, the <span class="label">Store</span> button will be disabled.</p>
+
+<p>Tap the <span class="label">Lock</span> column heading to cycle between locking all/none/individual scenes.</p>
+
+
+<h2>Links to Further Automation Help:</h2>
+
+<ul>
+    <li><a href="AutoOverview.html"><span class="hyperlink">Automation Overview</span></a></li>
+    <li><a href="AutoTime.html"><span class="hyperlink">Scene Time Functions</span></a></li>
+    <li><a href="AutoNamesNotes.html"><span class="hyperlink">Scene Names and Notes</span></a></li>
+    <li><a href="AutoIOActions.html"><span class="hyperlink">Scene Input and Output Actions</span></a></li>
+    <li><a href="AutoGrouping.html"><span class="hyperlink">Scene Groups</span></a></li>
+    <li><a href="AutoFilters.html"><span class="hyperlink">Function Filters</span></a></li>
+    <li><a href="AutoPreview.html"><span class="hyperlink">Automation Preview Mode</span></a></li>
+</ul>
+<br>
+<a href="LinkIndex.html"><span class="hyperlink">Index and Glossary</span></a>
+<br>
+
+<div class="TutorialNavNext"> <a href="AutoFilters.html"><span class="TutorialNav">NEXT: Store &amp; Recall Filters</span> <img class="TutorialNav" src="images/n_TutNext.png" alt=""></a></div>
+
+
+
+    </div>
+
+    <script src="../Help/js/OpenAccordionFromLink.js"></script>
+</body>
+</html>

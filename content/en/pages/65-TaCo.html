@@ -1,0 +1,362 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>TaCo</title>
+  <style>
+    body { font: 16px/1.55 Arial, sans-serif; max-width: 1080px; margin: 2rem auto; padding: 0 1.25rem; color: #202124; }
+    img { max-width: 100%; height: auto; }
+    table { border-collapse: collapse; max-width: 100%; }
+    th, td { border: 1px solid #aaa; padding: .45rem; vertical-align: top; }
+    .note { display: block; border-left: 4px solid #e0a000; background: #fff8df; padding: .75rem 1rem; margin: 1rem 0; }
+    .notetitle { font-weight: bold; }
+    .label { font-weight: bold; color: #174ea6; }
+    .source { color: #666; font-size: .9rem; }
+  </style>
+</head>
+<body>
+  <p class="source">Section: Settings &amp; Extras | Source: <a href="https://livehelp.solidstatelogic.com/Help/TaCo.html">https://livehelp.solidstatelogic.com/Help/TaCo.html</a></p>
+
+
+<h2 id="TaCo">TaCo Tablet Control</h2>
+
+<p>
+    The console can also be controlled wirelessly using the <span style="font-weight:bold;">TaCo</span> (Tablet Control) app for iPad, Mac and Android.
+    The app can be limited to control an individual Aux mix for artists or unlocked to quickly and easily control all fader levels, sends and mutes as well as path processing parameters.
+    Up to 10 tablets can be connected simultaneously for providing mix capabilities to each performer on stage (of which up to 2 tablets in Engineer Mode are supported).
+</p>
+
+<span class="note">
+    <span class="notetitle">Please Note: </span>A minimum of 5Mbps of wireless network bandwidth is required for each TaCo connection.
+    e.g. if 10 TaCo instances are connected, a minimum of 50Mbps of wireless network bandwidth will be required.
+</span>
+
+<div id="accordion">
+    <div class="indexheader2">Installing and Updating the TaCo App</div>
+    <div style="padding: 1em 0;">
+        <h2>Installing and Updating the TaCo App</h2>
+
+        <p>The TaCo app can be found in the Apple App Stores for iPad and Mac, and the Google Play Store for Android devices. Just search for "SSL Live TaCo".</p>
+
+        <p>Tap <b>Get</b> or <b>Install</b> in the app store listing to begin the installation process.
+        The app requires permission to read and modify the device's storage to store local settings and preferences on the device,
+        and network access to connect to the console. Accept these permissions if prompted to do so.</p>
+
+        <p>If automatic updating of apps has been disabled, the TaCo app will need to be updated manually from the Apple App Store or Google Play Store.</p>
+
+        <p>To check which version of TaCo is currently installed, open TaCo and check the version number in the bottom right corner.</p>
+
+        <span class="note">
+            <span class="notetitle">Please Note: </span>
+            The latest TaCo app is compatible with all console software versions from V4.7 onwards.
+            TaCo will not connect to earlier software versions; please contact SSL Support if running software older than V4.7.
+        </span>
+    </div>
+
+    <div class="indexheader2">Connecting TaCo to SSL Live</div>
+    <div style="padding: 1em 0;">
+
+        <h2>Connecting TaCo to SSL Live</h2>
+        <ul class="tab" style="margin-top:0px;">
+            <li>Install the SSL Live TaCo app from the Apple/Android App Store onto your iPad, Mac or Android tablet.</li>
+            <li>
+                If using TaCo on an iPad or Android tablet, connect the main console's <span style="font-weight:bold;">Network</span> port to a wireless router or access point.
+                If using the Mac version of TaCo, a wired or wireless connection between the console and Mac may be used.
+            </li>
+            <li>
+                Connect the tablet/Mac to the network.
+
+                <span class="note">
+                    <span class="notetitle">Note: </span>TaCo will use the first network adapter detected. 
+                    Disable all other wired and wireless network connections before starting TaCo to ensure the correct network adapter is used.
+                </span>
+            </li>
+            <li>
+                If your wireless access point does not issue IP addresses to connected devices, ensure the IP address of the console's <span style="font-weight:bold;">Connectivity</span> network is in the same subnet as that of your device
+                e.g. If the console's Connectivity IP address is 192.168.1.1, subnet mask 255.255.255.0, your device's IP address should be 192.168.1.[2-254], subnet mask 255.255.255.0.
+                Adjust the console's <span style="font-weight:bold;">Connectivity</span> network settings in <span class="label">MENU</span> > <span class="label">Setup</span> > <span class="label">Options</span> > <span class="label">NETWORK</span> tab.
+            </li>
+            <li>
+                Open the TaCo app on the tablet/Mac. Any consoles detected on the network will be listed.<br />
+                <img style="display: block; margin: 25px auto;" src="https://livehelp.solidstatelogic.com/Help/images/g_tacoSetupDiscovered.png" alt="">
+            </li>
+            <li>On the console, set a console password in <span class="label">MENU</span> > <span class="label">Setup</span> > <span class="label">Options</span> > <span class="label">REMOTE</span> tab.</li>
+            <li>Type the same password into the Password field in TaCo and tap <span class="label">Connect</span></li>
+            <li>
+                The Status area in TaCo will now display <span style="font-weight:bold;">Awaiting authorisation</span>.
+                A flashing <img style="margin: 0px;" src="https://livehelp.solidstatelogic.com/Help/images/g_ConnectivityStatusWaiting.png" alt="yellow remote status"> icon will appear on the console's status bar to indicate a pending connection.
+            </li>
+            <li>
+                Navigate to the console's Remote tab (<span class="label">MENU</span> > <span class="label">Setup</span> > <span class="label">Options</span> > <span class="label">REMOTE</span> tab)
+                and locate the device in the Tablet Controllers area that is awaiting authorisation. Press <span class="label">Awaiting&nbsp;authorisation</span> and select one of the options presented.<br />
+                <img style="display: block; margin: 25px auto;" src="https://livehelp.solidstatelogic.com/Help/images/g_TabletAwaitingAuthOptions.png" alt="">
+                <ul>
+                    <li><span class="label">Accept&nbsp;as&nbsp;Engineer</span> will provide control of all fader levels, mute status, path processing and send levels to buses.</li>
+                    <li>Use the <span class="label">Accept&nbsp;with</span> button to select a specific Aux. TaCo will be limited to control of the selected Aux mix (e.g. for giving to a performer to control their own mix).</li>
+                    <li>The <span class="label">Recent</span> button provides a list of Auxes that have been connected to most recently.</li>
+                    <li>Use the <span class="label">Disconnect</span> button to decline the connection request.</li>
+                    <li>Use the <span class="label">Ban</span> button to decline the request and prevent the device requesting further access.</li>
+                </ul>
+            </li>
+            <li>
+                Once accepted, the console and TaCo connection areas should now show <span style="font-weight:bold;">Connected</span>
+                and the console's status bar will show a <img style="margin: 0px;" src="https://livehelp.solidstatelogic.com/Help/images/g_ConnectivityStatusOK.png" alt="green remote status"> icon.
+            </li>
+        </ul>
+        <p>
+            To disconnect, on the console go to <span class="label">MENU</span> > <span class="label">Setup</span> > <span class="label">Options</span> > <span class="label">REMOTE</span> tab
+            and press the <span class="label">Connected&nbsp;OK</span> button and select <span class="label">Disconnect</span>, or tap <span class="label">Disconnect</span> in TaCo's Setup page.
+        </p>
+
+        <span class="note">
+            <span class="notetitle">Note: </span>TaCo can also be connected to a PC running <a href="https://livehelp.solidstatelogic.com/Help/RemoteControl.html"><span class="hyperlink">SOLSA</span></a> to act as a remote controller
+            (only when SOLSA is not itself a remote to a console). Follow the steps above; ensure the PC and tablet/Mac are in the same subnet.
+        </span>
+    </div>
+
+    <div class="indexheader2">Engineer Mode</div>
+    <div style="padding: 1em 0;">
+
+
+        <h2>Engineer Mode</h2>
+        <p>In <span style="font-weight:bold;">Engineer Mode</span> TaCo has remote control over the following console parameters:</p>
+        <ul class="tab" style="margin-top:0px;">
+            <li>Path Fader, Solo and Mute</li>
+            <li>Panning</li>
+            <li>Input Controls (e.g. Gain, +48V, Digital Trim etc.)</li>
+            <li>Path EQ and Filter parameters</li>
+            <li>Path Compressor and Gate parameters</li>
+            <li>Path Delay and All Pass Filter parameters</li>
+            <li>Stems assignments and send levels</li>
+            <li>Aux assignments and send levels</li>
+            <li>Master assignments</li>
+            <li>Mute Group assignments</li>
+            <li>VCA assignments</li>
+            <li>Inserted Effects Rack module parameters</li>
+            <li>Console's Selected path (optional)</li>
+        </ul>
+
+        <p>Up to two instances of TaCo in Engineer Mode are supported.</p>
+
+        <p>In <span style="font-weight:bold;">Engineer Mode</span> TaCo has three main pages: <span style="font-weight:bold;">Faders</span>, <span style="font-weight:bold;">Controls</span> and <span style="font-weight:bold;">Screen Query</span>, described below.</p>
+
+
+        <h3>Faders</h3>
+        <p>To access the <span style="font-weight:bold;">Faders</span> page tap <span class="label">MENU</span> > <span class="label">FADERS</span>.</p>
+        <p>
+            Control of the console's path fader levels, Solo and Mute parameters is available from this page.
+            Tap on the fader cap and drag up/down to adjust the fader level. Press the <span class="label">M</span> (Mute) and <span class="label">S</span> (Solo) buttons to toggle their state.
+        </p>
+
+        <img style="display: block; margin: 25px auto;" src="https://livehelp.solidstatelogic.com/Help/images/g_TaCoEngineerFaders.png" alt="">
+
+        <p>A maximum of 12 faders are displayed at any time, to match the console's fader tiles. When TaCo is first connected to a console, TaCo's banks and layers are <span style="font-weight:bold;">System Layers</span> (i.e. listed in Path order).</p>
+        <p>In TaCo, the banks are displayed to the right. Tap on a bank to bring it to the screen.</p>
+        <p>Above the bank buttons are up and a down arrow buttons to cycle through the layers.</p>
+        <p>
+            Tap the <span class="label">Layers</span> button to open the navigation window. <span class="label">Overview</span> shows all the banks available in <span style="font-weight:bold;">System Layers</span>,
+            and <span class="label">Layers</span> shows the banks laid out in <span style="font-weight:bold;">User Layers</span> as they are on the console.
+            Tapping on a bank within a <span style="font-weight:bold;">User Layer</span> will assign that Tile's <span style="font-weight:bold;">User Layers</span> to the screen.
+        </p>
+
+        <h4>Adjusting Stem &amp; Aux Mixes</h4>
+
+        <p>To remote control <span style="font-weight:bold;">send levels</span> to Stems and Auxes, tap <span style="font-weight:bold;">MIXES</span>.</p>
+
+        <p>All Stems and Auxes on the console are now displayed at the top of the screen. Tap a Stem or an Aux to adjust <span style="font-weight:bold;">send levels</span> to that bus. Swipe left of right at the top of the screen to switch between viewing Stems or Auxes.</p>
+
+        <p>
+            Paths can be displayed in two different ways when in Mixes mode: <span class="label">Compressed&nbsp;Query</span> or <span class="label">Expanded&nbsp;Query</span>.
+            These modes behave in the same way as the <a href="https://livehelp.solidstatelogic.com/Help/Query.html"><span class="hyperlink">Query</span></a> modes on the console. 
+            To choose <span class="label">Compressed Query</span> or <span class="label">Expanded&nbsp;Query</span>, go to <span class="label">MENU</span> > <span class="label">SETUP</span>.
+            The Query modes are listed at the bottom of the page.
+        </p>
+
+        <p>Tap <span class="label">MIXES</span> again to exit the mix view and return to controlling the main fader levels for all paths.</p>
+
+        <h4>Controlling Path Parameters</h4>
+
+        <p>
+            Double-tap on the coloured path name area to access processing parameters for that path.
+            These are identical to those available from the <b>Controls</b> page and described in more detail below.
+        </p>
+
+        <p>Tap the <span class="label">Close</span> button to return to the Faders view.</p>
+
+
+        <h3 id="Controls">Controls</h3>
+
+        <p>Select <span class="label">MENU</span> > <span class="label">CONTROLS</span> to access the path controls in TaCo, or double-tap on the coloured path name area in the <b>Faders</b> view.</p>
+
+        <p>
+            The path name, colour, number and format is displayed in the top left corner. The arrow keys can be used to scroll through paths.
+        </p>
+        <p>In TaCo, at the top (when in portrait) or to the left (when in landscape) select which parameters to view. The options are:</p>
+        <p style="margin-bottom:0px;">
+            <ul>
+                <li><span class="label">INPUT</span> - All Input parameters including analogue gain and digital trim</li>
+                <li><span class="label">DELAY/ALL&nbsp;PASS</span> - Delay control and All Pass Filter</li>
+                <li><span class="label">EQ</span> - Equaliser and Filters</li>
+                <li><span class="label">DYN</span> - Dynamics section including Compressor and Gate</li>
+                <li><span class="label">PAN</span> - Panning</li>
+                <li><span class="label">STEMS</span> - Stem assignment and send levels</li>
+                <li><span class="label">AUX</span> - Aux assignment and send levels</li>
+                <li><span class="label">MAST</span> - Master assignment</li>
+                <li><span class="label">MG/VCA</span> - Mute Group and VCA assignment</li>
+                <li><span class="label">INS A</span> - Effects Unit inserted on Insert A</li>
+                <li><span class="label">INS B</span> - Effects Unit inserted on Insert B</li>
+            </ul>
+        <p>Tapping any of these buttons will display the parameters for each section.</p>
+        <p>Path processing is laid out with a graphic in the centre of the screen, surrounded by sliders for each parameter. Each Effects Unit from the <span class="label">Effects Rack</span> has its own visuals and controls.</p>
+        <p>Parameters can be adjusted by tapping and dragging the points on the graphic, or by tapping and dragging the sliders around the sides.</p>
+        <p>EQ band Q controls and Dynamics Knee can be adjusted using the pinch gesture.</p>
+        <p>
+            To switch path processing or inserts in/out, tap the corresponding <span class="label">IN</span> button.
+            These buttons are located below the page buttons at the top in portrait, or to the right of the page in landscape. Tap the <span class="label">IN</span> button again to disengage and switch the processor out.
+        </p>
+        <p>The path EQ and Dynamics processors and some inserted Effects can also be viewed in full screen. To do this tap <span class="label">FULL&nbsp;SCREEN</span>. Tap <span class="label">FULL&nbsp;SCREEN</span> again to return to the normal view.</p>
+
+        <p>In landscape, the <span class="label">Fader</span> button in the Menu bar opens the fader for the currently selected path.</p>
+
+        <img style="display: block; margin: 25px auto;" src="https://livehelp.solidstatelogic.com/Help/images/g_TaCoFX.png" alt="">
+
+
+        <h4>Selecting Paths in TaCo</h4>
+
+        <p>
+            In Engineer mode TaCo can be linked to follow the console's Selected path, or operate independently to allow different paths to be selected on the console and TaCo.
+        </p>
+
+        <p>
+            With the <span class="label">Follow&nbsp;Console&nbsp;Path</span> option turned off in TaCo's Setup page, selecting paths in TaCo's <b>Faders</b> and <b>Controls</b> pages will not affect or be affected by the console's Selected path.
+            This is a useful workflow if TaCo is used away from the console surface or as an independent controller to the console.
+        </p>
+
+        <p>
+            Engaging the <span class="label">Follow&nbsp;Console&nbsp;Path</span> option will link TaCo's Selected path to the console's <b>Focus Fader</b>, which in turn can follow the console's Selected path or be locked to an individual path.
+            This provides close integration between the console surface and TaCo, allowing a smooth workflow between the two (e.g. if TaCo is located on the Tablet Tile of an L100, L200 or L450 to augment the console's control surface).
+        </p>
+
+        <p>
+            With <span class="label">Follow&nbsp;Console&nbsp;Path</span> engaged and the Focus Fader unlocked, the console's <span class="label">SELECT</span> keys can be used to select paths to TaCo (as well as the console's Focus Fader). 
+            Similarly, selecting a fader strip in TaCo's <b>Faders</b> page or using the path select arrows in the top left corner of the <b>Controls</b> page will also change the console's Focus Fader and Selected path.
+        </p>
+
+        <p>
+            To assign and lock a specific path to the Focus Fader, refer to the instructions in the <a href="https://livehelp.solidstatelogic.com/Help/MasterTile.html#FocusFader"><span class="hyperlink">Master&nbsp;Tile</span></a> section.
+            Ensure that <span class="label">Link&nbsp;Control&nbsp;Tile</span> is enabled in the console's Surface options page
+            (<span class="label">MENU</span> > <span class="label">Setup</span> > <span class="label">Options</span> > <span class="label">SURFACE</span> tab).
+            TaCo will now remain displaying the chosen path until the Focus Fader is unlocked or its assigned path is changed.
+        </p>
+
+        <span class="note"><span class="notetitle">Please note:</span><br>For consoles with the Control Tile fitted, TaCo and the Control Tile will always display the same path when <span class="label">Follow&nbsp;Console&nbsp;Path</span> is engaged.</span>
+
+        <h4>Resetting Parameters</h4>
+        <p>Some parameters, such as EQ band gain, panning and Stem/Aux send level, can be reset from TaCo. Parameters with this feature enabled have an arrow beside their value.</p>
+        <img style="display: block; margin: 25px auto;" src="https://livehelp.solidstatelogic.com/Help/images/g_TaCoReset.png" alt="">
+        <p>Tap on the gain value and a pop up will appear.</p>
+        <img style="display: block; margin: 25px auto;" src="https://livehelp.solidstatelogic.com/Help/images/g_TaCoReset2.png" alt="">
+        <p>Tap the <span class="label">Reset</span> button that appears to reset that parameter to its default values.</p>
+
+
+        <h4>Locking Sends to Buses</h4>
+        <p>Send levels to buses can be locked to prevent accidental changes. To do this navigate to either the Stem or Aux pages. Engage the padlock to lock, and disengage to unlock.</p>
+        <img style="display: block; margin: 25px auto;" src="https://livehelp.solidstatelogic.com/Help/images/g_TaCoLock.png" alt="">
+
+
+        <h3 id="ScreenQueryTaCo">Screen Query</h3>
+        <p>The <b>Screen&nbsp;Query</b> page (<span class="label">MENU</span> > <span class="label">QUERY</span>) allows users to query a path from TaCo and use all of the console's Fader Tiles to display the contributions.</p>
+
+        <p>
+            Choose a path type using the <span class="label">CHAN</span>, <span class="label">STEM</span>, <span class="label">AUX</span>, <span class="label">MAST</span>, <span class="label">VCA</span> buttons.
+            Up to 36 paths can be displayed at one time. Tap the <span class="label">1-36</span>, <span class="label">37-72</span>, <span class="label">73-108</span> etc. buttons to view more paths.
+        </p>
+
+        <p>To find out more about ScreenQuery on the console, please see the <a href="https://livehelp.solidstatelogic.com/Help/Query.html#ScreenQuery"><span class="hyperlink">Screen&nbsp;Query</span></a> section.</p>
+
+        <p>In landscape, the <span class="label">Fader</span> button in the Menu bar opens the master fader for the currently selected path.</p>
+
+        <img style="display: block; margin: 25px auto;" src="https://livehelp.solidstatelogic.com/Help/images/g_ScreenQueryTaCo.png" alt"">
+    </div>
+
+    <div class="indexheader2">Aux Mode</div>
+    <div style="padding: 1em 0;">
+
+
+        <h2>Aux Mode</h2>
+
+        <p>
+            <span style="font-weight:bold;">TaCo</span> utilises the same <a href="https://livehelp.solidstatelogic.com/Help/Query.html"><span class="hyperlink"><b>Compressed Query</b></span></a> technology as the Live console, meaning only the channels turned on to the selected Aux are displayed.
+        </p>
+
+        <img style="display: block; margin: 25px auto;" src="https://livehelp.solidstatelogic.com/Help/images/g_TaCoAux.png" alt="">
+
+        <p>
+            When connecting TaCo to the console, tap <span class="label">Awaiting&nbsp;Authorisation</span> in the console's Remote page and tap <span class="label">Accept&nbsp;with</span> then choose the desired Aux to control 
+            (see <b>Connecting TaCo to SSL Live</b> section above).
+        </p>
+
+        <p>On the tablet/Mac tap <span class="label">MENU</span> > <span class="label">FADERS</span> to access the mix page.</p>
+
+        <p>TaCo will display all contributing paths and provide control of their send levels to the selected Aux.</p>
+
+        <p>TaCo displays 12 paths at a time. For large lists, use the bank icons to the right to cycle through paths.</p>
+
+        <p>Aux Mode always displays contributing Channels and Stems in <span class="label">Compressed&nbsp;Query</span> mode.</p>
+
+    </div>
+
+    <div class="indexheader2">Setup</div>
+    <div style="padding: 1em 0;">
+
+        <h2>Setup</h2>
+        <p>There are display options for TaCo to help the user customise how paths are displayed. These settings are in <span class="label">MENU</span> > <span class="label">SETUP</span>.</p>
+
+        <p>At the bottom of the page are the following buttons:</p>
+
+        <ul>
+            <li>
+                <span class="label">Compressed&nbsp;Query</span> and <span class="label">Expanded&nbsp;Query</span>: Determines the display mode to use when adjusting Mixes in Engineer mode
+                (same as <a href="https://livehelp.solidstatelogic.com/Help/Query.html"><span class="hyperlink">Compressed and Expanded Query</span></a> functionality on the console).
+            </li>
+            <li><span class="label">Stems&nbsp;before&nbsp;Channels</span>: Engage to list Stems before Channels when viewing Mix contributions (applicable to Aux mode and Engineer Compressed Query mode only).</li>
+            <li><span class="label">Left&nbsp;Justify&nbsp;Controls</span>: To move the Menu to the left side of the screen.</li>
+            <li><span class="label">Follow&nbsp;Console&nbsp;Path</span>: Links TaCo's Selected path to the console's Focus Fader (Selected) path (Engineer mode only; see Engineer Mode section above for further details).</li>
+        </ul>
+
+        <p>Tap on any of these buttons to engage them. Tap again to disengage.</p>
+
+        <p>All TaCo pages work in either portrait or landscape. To switch between portrait and landscape simply tilt your tablet to a different orientation. (For this to work please ensure that you have not locked orientation in your tablet's settings).</p>
+
+
+
+        <h3 id="AutoReconnect">Auto-Reconnect</h3>
+        <p>An Auto-Reconnect feature automatically reconnects TaCo connections with the console in the event of a disconnection.</p>
+        <p>
+            Once a TaCo device has been authorised by the console, if it loses its connection to the console and tries to reconnect <span style="font-weight:bold;">within a 30-minute period of the disconnection</span>,
+            TaCo will automatically be reconnected to the console. The device will automatically receive the same authorisation as it had before the disconnection.
+            So if the device was authorised to adjust sends to Aux 7 only and it loses connection, when it reconnects it will automatically be re-authorised to Aux 7 only.
+            The console operator can continue to mix during this process without needing to re-authorise devices that lose connection.
+        </p>
+        <p>
+            Auto-Reconnect will also work if the device loses connection due to battery loss.
+            When the device is plugged into power, and TaCo is reopened, the connection to the console will be automatically restored (providing this is within the 30 minute Auto-Reconnect period).
+        </p>
+
+        <p>To check the connection status of a device go to the console's <span class="label">MENU</span> > <span class="label">Setup</span> > <span class="label">Options</span> > <span class="label">REMOTE</span> tab.
+
+
+    </div>
+</div>
+
+
+
+<h2>Useful Links</h2>
+
+<p><a href="https://livehelp.solidstatelogic.com/Help/RemoteControl.html"><span class="hyperlink">Remote Surfaces</span></a></p>
+<p><a href="https://livehelp.solidstatelogic.com/Help/OptionsRemote.html"><span class="hyperlink">Remote Options</span></a></p>
+
+<p><a href="https://livehelp.solidstatelogic.com/Help/LinkIndex.html"><span class="hyperlink">Index and Glossary</span></a></p>
+</body>
+</html>

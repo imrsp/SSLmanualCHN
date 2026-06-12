@@ -1,0 +1,218 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>网络选项</title>
+  <style>
+    body { font: 16px/1.55 Arial, sans-serif; max-width: 1080px; margin: 2rem auto; padding: 0 1.25rem; color: #202124; }
+    img { max-width: 100%; height: auto; }
+    table { border-collapse: collapse; max-width: 100%; }
+    th, td { border: 1px solid #aaa; padding: .45rem; vertical-align: top; }
+    .note { display: block; border-left: 4px solid #e0a000; background: #fff8df; padding: .75rem 1rem; margin: 1rem 0; }
+    .notetitle { font-weight: bold; }
+    .label { font-weight: bold; color: #174ea6; }
+    .source { color: #666; font-size: .9rem; }
+  </style>
+</head>
+<body>
+  <p class="source">章节：设置与附加功能 | 来源： <a href="https://livehelp.solidstatelogic.com/Help/OptionsNetwork.html">https://livehelp.solidstatelogic.com/Help/OptionsNetwork.html</a></p>
+<p>选项位于 <span class="label">MENU</span> > <span class="label">设置</span> > <span class="label">Options</span>.</p>
+
+<p>
+    以下页面分别说明各个 <span class="label">Options</span> 选项卡：<br>
+    <a href="https://livehelp.solidstatelogic.com/Help/OptionsConsole.html"><span class="hyperlink">CONSOLE Options</span></a><br>
+    <a href="https://livehelp.solidstatelogic.com/Help/OptionsSystem.html"><span class="hyperlink">SYSTEM Options</span></a><br>
+    <a href="https://livehelp.solidstatelogic.com/Help/OptionsSurface.html"><span class="hyperlink">SURFACE Options</span></a><br>
+    <a href="https://livehelp.solidstatelogic.com/Help/OptionsUser.html"><span class="hyperlink">USER Options</span></a><br>
+    <a href="https://livehelp.solidstatelogic.com/Help/OptionsUserKeys.html"><span class="hyperlink">USER KEYS Options</span></a><br>
+    <a href="https://livehelp.solidstatelogic.com/Help/OptionsRemote.html"><span class="hyperlink">REMOTE Options</span></a><br>
+    <a href="https://livehelp.solidstatelogic.com/Help/OptionsNetwork.html"><span class="hyperlink">NETWORK Options</span></a> （本页）<br>
+    <a href="https://livehelp.solidstatelogic.com/Help/OptionsDAW.html"><span class="hyperlink">DAW Options</span></a><br>
+    <a href="https://livehelp.solidstatelogic.com/Help/OptionsExtCtrl.html"><span class="hyperlink">外部控制选项</span></a><br>
+</p>
+
+<h2 id="Network">网络选项</h2>
+
+<p>这些设置与控制台本地网络和 Dante IP 配置有关。</p>
+
+<p>网络选项位于 <span class="label">MENU</span> > <span class="label">设置</span> > <span class="label">Options</span> > <span class="label">NETWORK</span> 选项卡。</p>
+
+<img style="display: block; margin: 15px auto;" src="https://livehelp.solidstatelogic.com/Help/images/g_NetworkOptions.png" alt="">
+
+<p>本页包含以下控制台网络设备的 IP 设置：</p>
+
+<p>
+    <span style="font-weight:bold;">连接控制网络</span>
+</p>
+<p>
+    用于通过 SOLSA、Remote Expander、另一台 SSL Live 控制台或 TaCo 远程控制控制台。 还用于与 DAW 和其他 ipMIDI 设备通信。
+    此网络通过控制台背面三个标有 <span style="font-weight:bold;">NETWORK</span> 的端口之一接入。
+</p>
+<p>
+    要将设备连接到 Connectivity 网络，该设备的 IP 地址必须与本页所列 Connectivity 网络位于同一子网。
+</p>
+
+<p>
+    <span style="font-weight:bold;">Dante 主控制网络</span> -
+    提供 Dante 网络的主控制连接，包括建立或取消路由，以及控制麦克风增益等输入参数。
+</p>
+<p>
+    <span style="font-weight:bold;">Dante 次控制网络</span> -
+    提供 Dante 网络的次控制连接。
+</p>
+<p>
+    要在控制台上使用 Dante，控制台 Dante Control 的主、次 IP 地址必须分别与 Dante 网络中的其他设备处于相同子网。
+    Dante 主网络和次网络必须使用不同子网。
+</p>
+
+<p>控制台的三个网络设备（Connectivity、Dante Primary Control 和 Dante Secondary Control）的 IP 地址必须分别位于不同子网。</p>
+
+<p>
+    选择 <span class="label">DHCP</span> or <span class="label">Fixed</span> ，为每个网络选择合适的方式。
+    Double tapping on any <b>IP Address</b>, <b>Netmask</b> or <b>Gateway</b> 字段可调出屏幕键盘，以输入固定地址。
+    正确输入设置后，按住 <span class="label">Apply</span>.
+</p>
+
+<p>
+    请注意，屏幕上的绿色 LED 只表示网络已连接，并不表示 IP 设置正确。
+</p>
+
+<span class="note">
+    <span class="notetitle">请注意： </span>如果这些控制台网络设备中的任意一个设为 <span class="label">DHCP</span> ，且该网络中没有 DHCP 服务器，IP 地址将自动配置在 <span style="font-weight:bold;">169.254.x.x</span> 子网内。
+    如果多个控制台网络设备设为 <span class="label">DHCP</span> 且这些网络中均无 DHCP 服务器，则这些网络设备都会自动配置为 <span style="font-weight:bold;">169.254.x.x</span> 子网内。
+    这会使网络互相连通，属于无效配置。 因此，SSL 建议在没有 DHCP 服务器时使用 <span class="label">Fixed</span> IP 地址。
+</span>
+
+<p>有关 Dante IP 配置的更多信息，请参阅 <a href="https://livehelp.solidstatelogic.com/Help/DanteSetup.html"><span class="hyperlink">Setting Up Dante</span></a>.</p>
+<p>有关将远程操作面或 TaCo 连接到 Connectivity 网络的更多信息，请参阅 <a href="https://livehelp.solidstatelogic.com/Help/RemoteControl.html"><span class="hyperlink">远程操作面</span></a> and <a href="https://livehelp.solidstatelogic.com/Help/TaCo.html"><span class="hyperlink">TaCo 平板控制</span></a>.</p>
+
+
+
+<h3 id="Clash">IP 地址冲突警告</h3>
+
+<p>
+    Network Options 中新增了 IP 地址冲突警告（<span class="label">MENU</span> > <span class="label">设置</span> > <span class="label">Options</span> > <span class="label">NETWORK</span> tab)
+    to notify of when multiple network adapters on the 控制台 have IP addresses within the same 子网内。
+</p>
+
+<p>需要更改 IP 地址的适配器会以红色突出显示。</p>
+
+<img style="display: block; margin: 15px auto;" src="https://livehelp.solidstatelogic.com/Help/images/g_NetworkIPHighlight.png" alt"">
+
+<p>同时还会显示状态消息。</p>
+
+<img style="margin: 15px 0px;" src="https://livehelp.solidstatelogic.com/Help/images/g_NetworkIPMessage.png" alt"">
+
+<p>状态栏中也会显示网络错误图标。</p>
+
+<img style="margin: 15px 0px;" src="https://livehelp.solidstatelogic.com/Help/images/g_NetworkIPIcon.png" alt"">
+
+<p>
+    当某个适配器的 IP 地址被改为与另一适配器处于同一子网时，会出现警告。
+    如果出现这些警告消息，说明控制台网络适配器的当前配置无效，必须更改相应适配器的 IP 地址以解决冲突。
+</p>
+
+<p>警告按以下优先级排列：
+
+
+<p style="margin-bottom:0px;">
+    <ol>
+        <li>Dante Control Primary</li>
+        <li>Dante Control Secondary</li>
+        <li>连接控制网络</li>
+    </ol>
+
+<p>
+    例如，如果 Connectivity 适配器和 Dante 主网均被设置在 169.254.x.x 子网中，
+    警告会显示在优先级较低的 Connectivity 适配器上。
+</p>
+
+<p>IP 地址冲突解决后，网络错误图标将消失，并显示以下状态消息：</p>
+
+<img style="margin: 15px 0px;" src="https://livehelp.solidstatelogic.com/Help/images/g_NetworkIPResolve.png" alt"">
+
+
+<h2 id="SNMP">SNMP 日志记录</h2>
+
+<p>简单网络管理协议（SNMP）用于记录网络中设备的信息。 要使用此功能，控制台的 <span style="font-weight:bold;">Connectivity</span> 网络中必须有外部 SNMP“管理器”服务。</p>
+
+<img style="display: block; margin: 15px auto;" src="https://livehelp.solidstatelogic.com/Help/images/g_snmpOptions.png" alt="">
+
+<p>填写 <span style="font-weight:bold;">Username</span>、<span style="font-weight:bold;">Authentication</span> 和 <span style="font-weight:bold;">Privacy</span> 字段以配置控制台的 SNMP 代理服务，并注意各字段的最短字符数。</p>
+
+<p>使用各字段右侧的 <span class="label">Protocol</span> 按钮，设置 <span style="font-weight:bold;">Authentication</span> 和 <span style="font-weight:bold;">Privacy</span> 的加密方案。</p>
+
+<p>要启动控制台的 SNMP 代理服务，请启用 <span class="label">Enabled</span> button in the <span style="font-weight:bold;">SNMP Configuration</span> 部分中的按钮。关闭该按钮即可停止服务。</p>
+
+<p>使用 <span class="label">Export MIB</span> 按钮可导出一个 MIB 文件，其中包含启用 SNMP 时控制台公开的参数。 可将该文件导入 SNMP 管理器数据库，以便配置。</p>
+
+<p>控制台会报告以下状态：</p>
+
+<ul>
+    <li>控制台连接控制网络状态</li>
+    <li>控制台 Dante 主网络状态</li>
+    <li>控制台 Dante 次网络状态</li>
+</ul>
+
+
+<h2 id="DDM">Dante Domain Manager 登录</h2>
+
+<!-- Start of DDM Snippet -->
+<!-- Also used in DanteSetup.html -->
+<p>
+    控制台可连接到由 Dante Domain Manager（DDM）管理的网络域。
+    控制台必须与要进行路由或控制的 I/O 设备登录到同一个域。
+</p>
+
+<span class="note">
+    <span class="notetitle">重要说明：</span> 控制台的 Local Dante Expander（Brooklyn II）模块以及所有 BLII 或 X-Light Bridge，必须与 I/O 和控制台控制软件加入同一个域。
+    此操作通过 Dante Domain Manager 完成。
+</span>
+<!-- End of DDM Snippet -->
+
+<p>
+    要将控制台连接到 Dante Domain Manager 服务器，请在 <b>DDM Sever Name/IP Address</b> 字段中输入服务器的 IP 地址或主机名。
+    在相应字段中输入 DDM <b>User Name</b> 和 <b>Password</b>。连接期间，<b>DDM Server Connection Status</b> 指示灯会闪烁绿色；成功连接到 DDM 服务器后，指示灯变为常亮绿色。
+</p>
+
+<span class="note">
+    <span class="notetitle">说明：</span> DDM 用户账户必须具备路由权限，因此应在所用域中设为 Operator 或 Administrator 角色。此设置在 DDM 中完成。
+</span>
+
+<p>
+    使用 <b>Selected&nbsp;Domain</b> 部分，从 DDM 服务器上配置的域列表中选择一个域。
+    未加入特定域的任何 I/O 设备都会自动放入 <span class="label">&lt;unmanaged&gt;</span> 域，以便发现、路由和控制。
+    如果网络中配置了 DDM，建议将设备加入某个域。
+    更改 DDM 设置后，建议重启控制台。
+</p>
+
+<p>
+    <b>Current Domain</b> 字段显示控制台当前所在域的名称。
+    如果 DDM 服务器权限发生变化，导致控制台从 <b>Selected Domain</b> 中移除，此处显示的域可能与 <b>Selected Domain</b> 不同。
+</p>
+
+<img style="display: block; margin: 15px auto;" src="https://livehelp.solidstatelogic.com/Help/images/g_OptionsDDM.png" alt="">
+
+<p>
+    如果连接 DDM 域失败，控制台会自动重试数次。
+    也可使用 <span class="label">Attempt&nbsp;Reconnection</span> 按钮手动尝试重新连接（例如确认凭据正确后）。
+</p>
+
+
+<h2>实用链接</h2>
+
+<a href="https://livehelp.solidstatelogic.com/Help/OptionsConsole.html"><span class="hyperlink">CONSOLE Options</span></a><br>
+<a href="https://livehelp.solidstatelogic.com/Help/OptionsSystem.html"><span class="hyperlink">SYSTEM Options</span></a><br>
+<a href="https://livehelp.solidstatelogic.com/Help/OptionsSurface.html"><span class="hyperlink">SURFACE Options</span></a><br>
+<a href="https://livehelp.solidstatelogic.com/Help/OptionsUser.html"><span class="hyperlink">USER Options</span></a><br>
+<a href="https://livehelp.solidstatelogic.com/Help/OptionsUserKeys.html"><span class="hyperlink">USER KEYS Options</span></a><br>
+<a href="https://livehelp.solidstatelogic.com/Help/OptionsRemote.html"><span class="hyperlink">REMOTE Options</span></a><br>
+<a href="https://livehelp.solidstatelogic.com/Help/OptionsDAW.html"><span class="hyperlink">DAW Options</span></a><br>
+<a href="https://livehelp.solidstatelogic.com/Help/OptionsExtCtrl.html"><span class="hyperlink">EXTERNAL CONTROL Options</span></a><br>
+<a href="https://livehelp.solidstatelogic.com/Help/DanteSetup.html"><span class="hyperlink">Setting Up Dante</span></a><br>
+
+
+<a href="https://livehelp.solidstatelogic.com/Help/LinkIndex.html"><span class="hyperlink">索引与术语表</span></a><br>
+</body>
+</html>

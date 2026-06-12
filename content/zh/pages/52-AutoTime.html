@@ -1,0 +1,141 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>自动化：场景时间功能</title>
+  <style>
+    body { font: 16px/1.55 Arial, sans-serif; max-width: 1080px; margin: 2rem auto; padding: 0 1.25rem; color: #202124; }
+    img { max-width: 100%; height: auto; }
+    table { border-collapse: collapse; max-width: 100%; }
+    th, td { border: 1px solid #aaa; padding: .45rem; vertical-align: top; }
+    .note { display: block; border-left: 4px solid #e0a000; background: #fff8df; padding: .75rem 1rem; margin: 1rem 0; }
+    .notetitle { font-weight: bold; }
+    .label { font-weight: bold; color: #174ea6; }
+    .source { color: #666; font-size: .9rem; }
+  </style>
+</head>
+<body>
+  <p class="source">章节：混音 | 来源： <a href="https://livehelp.solidstatelogic.com/Help/AutoTime.html">https://livehelp.solidstatelogic.com/Help/AutoTime.html</a></p>
+<h2>场景时间功能</h2>
+<p>除了从 Master Tile 或主屏幕手动触发场景（如 <span class="hyperlink">自动化概述</span>中所述），还可使用时间功能触发场景。</p>
+<p>当控制台时间码到达指定值时，可自动触发场景。</p>
+<p>为场景设置触发时间的方法如下：</p>
+<p>触摸所需场景 <span style="font-weight: bold;">Trigger Time</span> 列中的时间码显示。Trigger Time 配置页面会在屏幕下半部分打开。</p>
+<span class="note"><span class="notetitle">注意：</span> 如需从其他 Configuration 页面进入，请触摸屏幕左侧的 <span style="font-weight: bold;">Trigger Time</span> 按钮。</span>
+<p>触摸各字段的上下箭头增减数值，在 Time 时钟读数中输入所需时间码。</p>
+<p>也可触摸 <span class="label">Clear&nbsp;Time</span>将时间清零，或触摸 <span class="label">Capture</span>填入当前时间码值。</p>
+<p>然后触摸 <span class="label">Apply</span>，时间码值会显示在该场景的 <span style="font-weight: bold;">Trigger Time</span> 列中。</p>
+<p>最后，触摸 <span class="label">Arm</span>将 Trigger Time 设为待命。场景 Trigger Time 项左上角的绿色指示灯表示该功能已启用。</p>
+<p>如果启用 <span class="label">One&nbsp;Shot</span> 按钮，场景会在下次到达其时间码时触发，随后解除待命，以防再次由时间码触发。</p>
+<p>该 <span style="font-weight: bold;">Trigger&nbsp;Time</span> 功能列可通过触摸列标题全局禁用 &#8211; 标题会变红，列内容变灰，表示该列未启用。此后，即使到达时间码，带 Trigger Time 的场景也不会触发。</p>
+
+<h2 id="FadeTime">淡变时间</h2>
+<p>场景列表中的 <span style="font-weight: bold;">Fade&nbsp;Time</span> 字段显示完整淡入该场景所需的时间。由于淡变按各元素分别定义，因此该数值不能直接编辑。</p>
+
+<p>更改场景各元素淡变时间的方法如下：</p>
+
+<p>选择场景并触摸 Automation 页面顶部的 <span class="label">Fade&nbsp;Timers</span> 按钮。随后会显示淡变计时器网格；信号路径类型按行排列，各信号路径元素按列排列，类似下图：</p>
+
+<img style="display: block; margin: 20px auto;" src="https://livehelp.solidstatelogic.com/Help/images/g_autoFadeTimes.png" alt="">
+
+<p>在屏幕顶部选择 <span class="label">Default</span> 或 <span class="label">Scene&nbsp;Mode</span> ，分别编辑新场景的默认淡变时间或当前所选场景的淡变时间。</p>
+<span class="note"><span class="notetitle">注意：</span> <span style="font-weight: bold;">Default</span> 淡变时间只应用于新场景，不影响现有场景（包括当前所选场景）的淡变计时器。</span>
+<p>启用屏幕右侧的 <span class="label">Edit</span> 按钮。</p>
+<p>在 <span style="font-weight: bold;">Scene&nbsp;Mode</span>中，可通过更改编辑范围模式，将更改仅应用于 Selected 场景、同一 Group 中的全部场景（参阅 <a href="https://livehelp.solidstatelogic.com/Help/AutoGrouping.html"><span class="hyperlink">场景组</span></a>）或全部场景；按住 <span class="label">Edit</span> 按钮正上方的按钮，然后选择 <span class="label">Edit&nbsp;Single</span> （默认）、 <span class="label">Edit&nbsp;Group</span> 或 <span class="label">Edit&nbsp;All</span>。之后对 Fade Time 的更改会应用到所定义的场景范围。</p>
+<p>如需查看单独的信号路径，请选择路径类型行（例如 Input Channel），然后使用屏幕顶部的 <span class="label">Show&nbsp;Details</span> 按钮打开详细路径列表。</p>
+
+<p>双击时间字段可打开该元素的时间设置，其中有三项时间：</p>
+
+<img style="display: block; margin: 20px auto;" src="https://livehelp.solidstatelogic.com/Help/images/g_FadeTimePopup.png" alt="">
+
+<p><span style="font-weight: bold;">Start time：</span> 从触发场景到淡变开始之间的延迟。</p>
+<p><span style="font-weight: bold;">Duration：</span> 淡变过程持续的时间。</p>
+<p><span style="font-weight: bold;">Switch At：</span> 从触发场景到开关改变状态之间的延迟。</p>
+
+<p>点击屏幕右上角的 <span class="label">?</span> 按钮可在控制台上查看这些定义。</p>
+
+<p>使用 <span class="label">-</span> 和 <span class="label">+</span> 按钮以 0.5 秒为步长更改时间，或双击数值直接输入。按 <span class="label">OK</span> 确认输入的时间。点击弹窗外部可取消更改。</p>
+
+<p>场景列表中显示的 Fade Time 是最长的元素淡变时间，即最长的 <span style="font-weight: bold;">Start time</span> + <span style="font-weight: bold;">Duration</span> 之和，或 <span style="font-weight: bold;">Switch At</span> 时间。</p>
+
+<p>按屏幕顶部的 <span class="label">Scene&nbsp;View</span> 按钮返回场景列表。</p>
+
+<p>触发场景后，列表中其 <span style="font-weight: bold;">Fade Time</span> 显示下方的进度条表示已经过的淡变时间比例。</p>
+
+<h3>多项淡变时间编辑</h3>
+
+<p>在 <span class="label">Scene Automation</span>的 <span class="label">Fade Timers</span> 菜单中，可通过一次数值输入更改多个淡变时间（或其他连续功能）。这样可高效设置全部通道路径的某个子集（例如 64 个通道中的通道 1 至 32）的淡变时间，也可设置一个通道的全部参数、所有通道的全部参数，或所有信号路径类型中的一组参数。</p>
+
+<p><strong>多单元格编辑模式</strong>在 <strong>Fade Time</strong> 用户界面中，侧栏包含 <strong>Grid Cell Edit</strong> 区域。 <strong>Multi Cell Edit</strong> 按钮可将上方的“路径类型网格”和下方的 Show Details 网格（显示时）都设为多选模式，从而预选所有类型的多条路径中的一组参数，并应用共同的绝对值更改。更改会应用到两个网格中所有加入“所选编辑集”的单元格。所选编辑集是一种临时多选；用户关闭 <strong>Multi Cell Edit</strong> 模式后即会丢失。网格中属于当前所选编辑集的每个方格会在右上角显示青色三角形，表示已选中进行编辑。 <strong>Multi Cell Edit</strong> 编辑集可与 <strong>Multi Scene Edit</strong> 范围模式结合使用，在 <strong>Scene Mode</strong>下为单个场景、一个组或全部现有场景一次设置多个时间值；也可在 <strong>Default</strong> 模式下使用，确保这些时间值应用于之后创建的任何新场景。</p>
+
+<img style="display: block; margin: 20px auto;" src="https://livehelp.solidstatelogic.com/Help/images/u_Multi_Fade_Time_Edit.png" alt="">
+
+<p><strong>选择要加入编辑集的单元格</strong> 在 <strong>Multi Cell Edit</strong> 模式下，可单击分别选择两个网格中的单元格；再次单击已在所选编辑集中的单元格即可将其移除。上方“路径类型”区域中的单元格会选择该类型的所有路径。如果从用户界面的路径类型区域进行选择，关联的 <strong>Detail View</strong> 网格（打开时）中的单元格也会显示青色三角形，表示它们已包含在当前所选编辑集中。 <strong>Show Details </strong>网格中的单元格只会将指定路径中的指定功能加入编辑集。如果用户手动选择了某一类型所有路径的全部参数，上方路径类型区域中对应的方框也会显示为所选编辑集的一部分。</p>
+
+<p><strong>行/列编辑功能</strong>      
+
+为了快速选择单独路径的全部参数，或某一类型全部路径的全部参数，两个网格的每一行右侧都包含“行 <strong>Edit</strong>”列。该列仅在启用 <strong>Multi Cell Edit</strong> 模式时可见。此外，两个网格顶部都包含“列 <strong>Edit</strong>”行，同样仅在 <strong>Multi Cell Edit</strong> 模式下可见。列编辑选项用于将所有路径中同一类型的全部参数加入所选编辑集。</p>  
+
+<p>侧栏中的 <strong>Set All</strong>、 <strong>Toggle</strong> 和 <strong>Clear All</strong> 编辑功能按钮用于将推子/开关时间参数单元格加入所选编辑集。在 F<strong>ade Timers</strong> GUI 中，使用行/列编辑功能键只会更改哪些单元格属于所选编辑集，并不会实际改变任何状态或数值。</p>
+
+<p>“行 <strong>Edit</strong>”列标题可将网格中的多行设为编辑模式；“列 <strong>Edit</strong>”行标题则可将所有列设为编辑状态。</p>
+
+<p><strong>更改淡变时间值</strong>任何时候都可双击所选编辑集中的任意单元格，打开用于输入 Start Time、Duration 和 Switch At 的弹窗。</p>
+
+<p>禁用 <strong>Multi Cell Edit</strong> 时，弹窗中的输入操作如下：</p>
+
+<ul>
+	<li>只编辑该单元格。 </li>
+    <li>无效的输入项会变灰。 </li>
+    <li>显示单个单元格的当前数值。</li>
+		<ul>
+			<li>如果所有数值都未更改，则按 OK 时不会应用任何更改，即使该单元格覆盖当前值不同的多条路径。</li>
+			<li>如果更改其中一个数值，则三个数值都会应用到该单元格以及该单元格覆盖的所有路径。这意味着，不能在更改所有通道淡变时间的同时，保留不同通道各自不同的开始时间。</li>
+		</ul>
+	 <li>标题根据正在编辑的单元格显示。</li>
+</ul>
+
+<p>启用 <strong>Multi Cell Edit</strong> 时，弹窗行为略有不同：</p>
+
+<ul>
+	<li>三个输入选项始终可用，即使所选编辑集不具备其中某项，该选项也只是不应用到这些单元格。</li>
+    <li>标题显示 Multi Cells Selected for Editing。 </li>
+    <li>弹窗中所有数值均显示“-”符号，表示正在编辑多个单元格。 </li>
+		<ul>
+			<li>如果所有数值都未更改，则按 OK 时不会应用任何更改，即使单元格覆盖当前值不同的多条路径。</li>
+			<li>可以编辑任意参数并只应用三个字段中的一个，同时保持所选编辑集中另外两个字段的值不变。</li>
+		</ul>
+</ul>
+
+
+<h2>过渡时间</h2>
+<p>还可定义场景持续多长时间；时间结束时，控制台会自动移到显示列表中的下一场景（未设为跳过的场景，见下文）。这就是 Transition 时间。</p>
+<p>为场景设置 Transition 时间的方法如下：</p>
+<p>触摸所需场景 <span style="font-weight: bold;">Transition</span> 列中的时间显示。Auto Transition 时间配置页面会在屏幕下半部分打开。 </p>
+<span class="note"><span class="notetitle">注意：</span> 如需从其他 Configuration 页面进入，请触摸屏幕左侧的 <span style="font-weight: bold;">Auto Transition</span> 按钮。</span>
+
+<p>触摸各字段的上下箭头增减数值，在 <span style="font-weight: bold;">Auto Transition</span> 时间读数中输入所需时间。</p>
+<p>也可触摸 <span class="label">Clear&nbsp;Time</span>将时间清零。</p>
+<p>然后触摸 <span class="label">Apply</span>，时间值会显示在该场景的 <span style="font-weight: bold;">Transition</span> 列中。</p>
+<p>当该场景处于活动状态时，列表中其 <span style="font-weight: bold;">Transition</span> 时间显示下方的进度条表示已经过的 Transition 时间比例。到达 Transition 时间后，列表中的下一场景会自动变为活动场景。</p>
+<p>该 <span style="font-weight: bold;">Transition</span> 功能列可通过触摸列标题禁用 &#8211; 标题会变红，列内容变灰，表示该列未启用。此后，带 Transition 时间的场景会保持活动状态，直至通过其他方法触发不同场景。</p>
+<h2>跳过场景</h2>
+<p>如需防止某个场景作为序列的一部分被触发，请触摸其 <span style="font-weight: bold;">Skip</span> 按钮（位于场景列表左侧边缘）。按钮变蓝表示每次到达该场景时都会将其跳过。这也会在使用箭头按钮浏览场景列表时“隐藏”该场景，并防止任何 <a href="https://livehelp.solidstatelogic.com/Help/AutoIOActions.html"><span class="hyperlink">Input Actions</span></a> 或 Trigger Time（见上文）触发该场景。</p>
+<span class="note"><span class="notetitle">注意：</span> 仍可触摸场景的 GO 按钮手动触发该场景。</span>
+<p>该 <span style="font-weight: bold;">Skip</span> 功能列可通过触摸列标题禁用 &#8211; 标题会变红，列内容变灰，表示该列未启用。此后，到达已选择 <span style="font-weight: bold;">Skip</span> 的场景时仍会触发该场景。</p>
+<h2>更多自动化帮助链接：</h2>
+
+<ul>
+	<li><a href="https://livehelp.solidstatelogic.com/Help/AutoOverview.html"><span class="hyperlink">自动化概述</span></a></li>
+	<li><a href="https://livehelp.solidstatelogic.com/Help/AutoNamesNotes.html"><span class="hyperlink">场景名称和备注</span></a></li>
+	<li><a href="https://livehelp.solidstatelogic.com/Help/AutoIOActions.html"><span class="hyperlink">场景输入和输出动作</span></a></li>
+	<li><a href="https://livehelp.solidstatelogic.com/Help/AutoGrouping.html"><span class="hyperlink">场景组</span></a></li>
+	<li><a href="https://livehelp.solidstatelogic.com/Help/AutoFilters.html"><span class="hyperlink">功能过滤器</span></a></li>
+	<li><a href="https://livehelp.solidstatelogic.com/Help/AutoSceneList.html"><span class="hyperlink">场景列表管理</span></a></li>
+	<li><a href="https://livehelp.solidstatelogic.com/Help/AutoPreview.html"><span class="hyperlink">自动化预览模式</span></a></li>
+</ul>
+<br>
+<a href="https://livehelp.solidstatelogic.com/Help/LinkIndex.html"><span class="hyperlink">索引与术语表</span></a><br>
+</body>
+</html>

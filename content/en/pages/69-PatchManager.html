@@ -1,0 +1,183 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Patch Manager</title>
+  <style>
+    body { font: 16px/1.55 Arial, sans-serif; max-width: 1080px; margin: 2rem auto; padding: 0 1.25rem; color: #202124; }
+    img { max-width: 100%; height: auto; }
+    table { border-collapse: collapse; max-width: 100%; }
+    th, td { border: 1px solid #aaa; padding: .45rem; vertical-align: top; }
+    .note { display: block; border-left: 4px solid #e0a000; background: #fff8df; padding: .75rem 1rem; margin: 1rem 0; }
+    .notetitle { font-weight: bold; }
+    .label { font-weight: bold; color: #174ea6; }
+    .source { color: #666; font-size: .9rem; }
+  </style>
+</head>
+<body>
+  <p class="source">Section: Settings &amp; Extras | Source: <a href="https://livehelp.solidstatelogic.com/Help/PatchManager.html">https://livehelp.solidstatelogic.com/Help/PatchManager.html</a></p>
+<h2>Patch Manager</h2>
+<p>
+    The <b>Patch Manager</b> page (located under <span class="label">MENU</span> > <span class="label">Setup</span> > <span class="label">File Manager</span> >
+    <span class="label">Patch Manager</span> tab) can be used to load and save the input patch for your show.
+</p>
+
+<h2>Input Patch Save</h2>
+<p>
+    The default file location is on the console's internal drive. Use the drive and folder buttons (as described in the
+    <a href="https://livehelp.solidstatelogic.com/Help/Showfiles.html"><span class="hyperlink">showfiles browser</span></a>) to select a different destination if desired.
+    To save your input patch, simply press <span class="label">Save As</span> and enter a filename.
+    Use the <span class="label">Save</span> button to overwrite the previously saved patch file.
+</p>
+
+<p>
+    This will save the currently configured input patch (all Channel Input A routes from stagebox inputs) to a CSV (comma-separated values) file.
+    This file can then be opened in a spreadsheet application such as Microsoft Excel for review or editing.
+</p>
+
+<p>
+    This allows the input patch from a showfile to be easily edited offline, or even imported into another showfile with the same channel configuration
+    (see below for more information on importing patch list files).
+    This file can also be a useful starting point for creating a more complete patch list file, augmented with microphone and mic stand information etc.
+</p>
+
+<p>The exported patch information is organised into the following fields:</p>
+
+<ul>
+    <li><b>Ch #</b> - the channel number as defined in the <a href="https://livehelp.solidstatelogic.com/Help/ConsoleConfig.html"><span class="hyperlink">Console Configuration</span></a> page</li>
+    <li><b>Ch Leg</b> - the leg number of formatted channels. Blank for mono, 1 for the first (left) leg of a stereo channel, 2 for the 2nd leg etc.</li>
+    <li><b>Ch Name</b> - the user defined channel name, appended with the leg label if multichannel (L, R etc.)</li>
+    <li><b>Input A Device</b> - the I/O device (stagebox) used for the Input A route to this channel</li>
+    <li><b>Input A Route</b> - the input number on the I/O device (prefixed with <b>AES</b> if an AES/EBU input on a mixed signal stagebox)</li>
+    <li><b>Device Type</b> - the type of device routed to; <b>Dante</b>, <b>MADI</b> or <b>Local</b> (not imported)</li>
+</ul>
+
+<p>A typical file will look something like:</p>
+
+<blockquote>
+    <div>
+        <table class="insideborder" style="width: auto; margin: 15px 0px;" cellpadding="4" cellspacing="1">
+            <tbody>
+                <tr>
+                    <td colspan="6" align="left">[Information]<br>File header information (do not edit)<br>[PatchData]</td>
+                </tr>
+                <tr>
+                    <th>Ch #</th>
+                    <th>Ch Leg</th>
+                    <th>Ch Name</th>
+                    <th>Input A Device</th>
+                    <th>Input A Route</th>
+                    <th>Device Type</th>
+                </tr>
+                <tr>
+                    <td>1</td>
+                    <td></td>
+                    <td>Kick</td>
+                    <td>IO 1-32</td>
+                    <td>1</td>
+                    <td>MADI</td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td></td>
+                    <td>Snare</td>
+                    <td>IO 1-32</td>
+                    <td>2</td>
+                    <td>MADI</td>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td></td>
+                    <td>Hats</td>
+                    <td>IO 1-32</td>
+                    <td>3</td>
+                    <td>MADI</td>
+                </tr>
+                <tr>
+                    <td>4</td>
+                    <td></td>
+                    <td>Bass DI</td>
+                    <td>Backline-IO</td>
+                    <td>1</td>
+                    <td>Dante</td>
+                </tr>
+                <tr>
+                    <td>5</td>
+                    <td>1</td>
+                    <td>Pads L</td>
+                    <td>Backline-IO</td>
+                    <td>AES1</td>
+                    <td>Dante</td>
+                </tr>
+                <tr>
+                    <td>5</td>
+                    <td>2</td>
+                    <td>Pads R</td>
+                    <td>Backline-IO</td>
+                    <td>AES2</td>
+                    <td>Dante</td>
+                </tr>
+                <tr>
+                    <td>6</td>
+                    <td></td>
+                    <td>Talkback</td>
+                    <td></td>
+                    <td></td>
+                    <td>Local</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</blockquote>
+
+
+<h2>Input Patch Load</h2>
+<p>
+    The Patch Manager page can also be used to load a CSV input patch file using the <span class="label">Load</span> button.
+</p>
+
+<span class="note">
+    <span class="notetitle">Warning:</span> Loading CSV patch files will change channel input routes. Care should be taken that the patch list correctly matches the console configuration currently in use.
+</span>
+
+<p>
+    Note that the loaded patch is based on channel ID number. Individual routes will <b>not</b> be imported if:
+</p>
+
+<ul>
+    <li>The channel ID exists on the console but not in the file or vice versa*</li>
+    <li>The individual channel leg does not exist for a given channel ID on the console or in the file</li>
+    <li>The route is from anything other than a stagebox (local I/O, other paths, FX rack etc.)</li>
+    <li>The stagebox name and type defined in the file is not configured on the console</li>
+    <li>Any of the routing fields are blank</li>
+    <li>The console runs out of routing capacity</li>
+</ul>
+
+<p>* Note that the channel ID numbers may be reported in one of two ways; <b>Default</b> or <b>Auto-Renumber</b>, as defined in the <a href="https://livehelp.solidstatelogic.com/Help/ConsoleConfig.html#Numbering"><span class="hyperlink">Console Config page</span></a>. 
+    SSL recommend the use of <b>Default</b> numbering when using the Patch Manager. Changing the numbering scheme between Saving and Loading a patch file is not recommended.</p>
+
+<p>
+    Any console channels whose routes are not imported from the file will retain their existing console route(s) on load.
+</p>
+
+<p>
+    To explicitly clear a channel of its current route, "<b>NONE</b>" must be entered into the <b>Input A Route</b> column. The <b>Input A Device</b> and <b>Device Type</b> columns can be left blank.
+</p>
+
+<span class="note">
+    <span class="notetitle">Tip:</span> The Patch Manager can be used to transfer channel input routes from one stagebox to another,
+    e.g. from a MADI port to a Blacklight II connected stagebox or vice versa if a showfile has been prepared for one scenario but the venue is configured for another.<br />
+    First, load the showfile containing the old stagebox configuration then save a patch file as described above. Make a note of the old stagebox names.
+    Create new stageboxes in the new I/O ports with the same names as the old stageboxes and delete the old stageboxes from the I/O page.
+    Finally, load the patch file saved previously. This will remake the routes to the new stageboxes with the same names as the old ones.<br />
+    Note that input routes other than to Channel Input A and routes to stagebox outputs will not be remade using this method.
+</span>
+
+
+<h2>Useful Links</h2>
+<p><a href="https://livehelp.solidstatelogic.com/Help/GUI.html"><span class="hyperlink">Touchscreen Controls</span></a></p>
+
+<a href="https://livehelp.solidstatelogic.com/Help/LinkIndex.html"><span class="hyperlink">Index and Glossary</span></a><br>
+</body>
+</html>

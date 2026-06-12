@@ -1,0 +1,220 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>效果机架：概览</title>
+  <style>
+    body { font: 16px/1.55 Arial, sans-serif; max-width: 1080px; margin: 2rem auto; padding: 0 1.25rem; color: #202124; }
+    img { max-width: 100%; height: auto; }
+    table { border-collapse: collapse; max-width: 100%; }
+    th, td { border: 1px solid #aaa; padding: .45rem; vertical-align: top; }
+    .note { display: block; border-left: 4px solid #e0a000; background: #fff8df; padding: .75rem 1rem; margin: 1rem 0; }
+    .notetitle { font-weight: bold; }
+    .label { font-weight: bold; color: #174ea6; }
+    .source { color: #666; font-size: .9rem; }
+  </style>
+</head>
+<body>
+  <p class="source">章节：构建演出 | 来源：<a href="https://livehelp.solidstatelogic.com/Help/FXIntro.html">https://livehelp.solidstatelogic.com/Help/FXIntro.html</a></p>
+<h2>效果机架概览</h2>
+
+<p>
+    SSL Live 控制台的<b>六个</b>效果机架提供了丰富的信号处理功能，并可路由至任意路径类型的插入点。
+    要打开效果机架页面，请触摸 <span class="label">Menu</span> &gt; <span class="label">Effects</span>。
+</p>
+
+<p><b>六个</b>机架以<b>列</b>的形式显示。每个机架列包含 16 个模块槽位，每次可见其中四个；滑动可滚动至编号更高的槽位。</p>
+
+<p>各控制台型号可装载效果模块的最大槽位数量如下：</p>
+
+<div>
+    <table class="insideborder" style="display: block; margin: auto;" cellpadding="3" cellspacing="1">
+        <tbody>
+            <tr>
+                <th>L650</th>
+                <th>L550 Plus</th>
+                <th>L550</th>
+                <th>L500 Plus</th>
+                <th>L500</th>
+                <th>L450</th>
+                <th>L350 Plus</th>
+                <th>L350</th>
+                <th>L300</th>
+                <th>L200 Plus</th>
+                <th>L200</th>
+                <th>L100 Plus</th>
+                <th>L100</th>
+            </tr>
+            <tr>
+                <td colspan="5">96</td>
+                <td>60</td>
+                <td colspan="6">48</td>
+                <td>24</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<p>每个机架和槽位都有编号，例如 3-4 表示机架 3 的槽位 4。触摸槽位可将其选入详细信息区域：</p>
+
+<div style="text-align: center; margin: 25px 0px;"><img src="https://livehelp.solidstatelogic.com/Help/images/s_FXRackFull.png" alt=""><br></div>
+
+<p>要重命名机架，请双击其标题中的文本框。这些名称会显示在路由菜单中，便于识别。</p>
+
+
+<h2 id="LoadingModules">将效果模块装入机架</h2>
+
+<p>任意效果均可装入任意槽位，但建议建立按用途组织机架的工作流程，例如将混响和延迟放在一个机架中，将动态处理放在另一个机架中，再将主处理放在另一个机架中。</p>
+<p>要添加或更改效果槽位：</p>
+
+<ul class="tab">
+    <li>触摸槽位中的箭头。</li>
+
+    <li>选择效果格式，例如 <span style="font-weight: bold;">Mono</span>、<span style="font-weight: bold;">Stereo</span>、<span style="font-weight: bold;">LCR</span> 等。</li>
+
+    <li>选择类型类别，然后选择具体效果。</li>
+</ul>
+
+
+<p>要为槽位命名，只需双击效果名称，然后使用弹出的键盘输入自定义名称。对效果机架进行输入或输出路由时，这些名称会显示在 Routing View 中，便于选择正确的效果。请注意，只能为已装载效果的槽位命名。</p>
+
+<span class="note"><span class="notetitle">注意：</span>也可使用 FX Detail View 左侧的模块控件，为当前所选槽位装载模块并命名。</span>
+
+<span class="note"><span class="notetitle">注意：</span><span style="font-weight: bold;">Recent</span> 子菜单可快速访问最近使用的 10 个效果模块（包括格式），便于添加同一效果的多个实例。</span>
+
+
+<h2 id="DetailView">效果详细视图</h2>
+
+<p>左侧显示机架编号、槽位编号以及用户定义的名称。</p>
+
+<p>使用光标键可导航至其他机架和槽位。</p>
+
+<p>右侧电平表显示效果的输入和输出电平。</p>
+
+<img style="display: block; margin: 24px auto; width: 795px;" src="https://livehelp.solidstatelogic.com/Help/images/g_detailFX1.png" alt="">
+
+<p>按住 <span class="label">Reset FX</span> 可恢复默认设置。</p>
+
+<p>按 <span class="label">View</span> 并使用下拉菜单，选择查看多通道效果所有声道分支的全局控件（<span style="font-weight: bold;">Master</span>），或查看其中某个独立组件。</p>
+
+<p>要输入精确数值，请先触摸屏幕上的参数，然后双击电平表下方的数值框。</p>
+
+<p>如果左下角的 DSP 使用率图表接近 100%，可重新配置槽位以释放处理能力；也可考虑使用所有完整路径类型内置的处理功能。</p>
+
+
+<p>屏幕左下角的 DSP 使用情况指示器直观显示当前占用的处理资源：</p>
+<ul>
+    <li><span style="font-weight: bold;">FX Instance DSP</span>：所选模块使用的效果处理总量</li>
+    <li><span style="font-weight: bold;">FX Type DSP</span>：所选效果类型的所有实例使用的效果处理总量</li>
+    <li><span style="font-weight: bold;">FX Type Legs</span>：已使用的该效果类型实例数量</li>
+    <li><span style="font-weight: bold;">Racks Total DSP</span>：效果机架中所有模块使用的处理总量</li>
+    <li><span style="font-weight: bold;">Racks Total Slots</span>：已使用的效果机架槽位数量</li>
+</ul>
+
+
+<h2 id="RoutingModules">将效果路由至路径插入点</h2>
+
+<span class="note">
+    <span class="notetitle">注意：</span>效果槽位/模块可设置为 mono、stereo、LCR 等格式。该格式适用于效果的输入、输出及键控（如适用）路由。
+</span>
+
+<p>可使用路径 Detail View 中的 Insert Routing 显示界面，或通过 Effects 菜单（<span class="label">MENU</span> &gt; <span class="label">Effects</span>）将效果路由至路径插入点。</p>
+
+<p>
+    按 <span class="label">Route Send</span> 将打开 Routing View，以便将插入发送路由至效果。轻触控制台（名称以“LIVE...”开头），然后轻触
+    <span class="label">Effects Rack</span>。选择效果，轻触 <span class="label">Input</span>，再按 <span class="label">Make</span> 或 <span class="label">Make All</span>（取决于效果格式）。
+</p>
+
+<p>
+    按住 <span class="label">Route Return</span> 并选择 <span class="label">Auto-route</span>，可自动从发送所用的同一效果路由返回。
+    如果返回并非来自发送所用的同一效果，也可按一次 <span class="label">Route Return</span> 打开 Routing View。
+</p>
+
+<p>路径的插入发送和返回路由至某个效果后，该效果会出现在该插入点的路径详细对话框中，并可通过 Channel View 屏幕或效果机架屏幕进行完整控制。</p>
+
+
+<span class="note"><span class="notetitle">注意：</span>对于 mono、stereo、LCR、4.0 和 5.1 效果，效果模块格式应与其插入通道的格式一致。要路由效果的所有声道分支，只需选择模块名称，然后在路由页面按 <span class="label">Make</span>。如果在按 <span class="label">Make</span> 前明确选择 L/C/R 分支，则只会路由所选分支。</span>
+
+<p>
+    也可直接从效果机架槽位进行路由。使用 <span class="label">In&nbsp;Route</span>、<span class="label">Out&nbsp;Route</span> 和 <span class="label">Key&nbsp;Route</span> 按钮打开相应的路由页面。此方法还允许将效果模块“菊花链式”连接：先将一个模块的输出路由至下一个模块的输入，再将最后一个模块路由回通道。<br>
+    如果在一个插入点上对单个效果进行往返路由，请先建立输入路由，然后按住 <span class="label">Out&nbsp;Route</span> 按钮并选择 <span class="label">Auto-route&nbsp;Output</span>，将效果输出路由至同一插入点。
+</p>
+
+<span class="note"><span class="notetitle">注意：</span>如果将菊花链式连接的效果模块插入通道插入点，通道的 Insert 页面只会显示链中的最后一个模块。</span>
+
+<p>有关路由页面的更多信息，请参阅<a href="https://livehelp.solidstatelogic.com/Help/Routing.html"><span class="hyperlink">路由</span></a>。</p>
+
+
+<h2>将 Stem 用作效果通道</h2>
+
+<p>对于混响和延迟，SSL Live 控制台完全支持传统的 Aux Send &gt; Effect &gt; Channel Return 工作流程。不过，将 Stem 用作<i>效果通道</i>可能更具优势。</p>
+
+<p>在此工作流程中：</p>
+<p><span style="font-weight:bold;">发送至 Stem 的信号即为效果发送。</span></p>
+
+<p><span style="font-weight:bold;">效果插入在 Stem 的某个插入点上。</span></p>
+
+<p><span style="font-weight:bold;">Stem 推子充当效果返回。</span></p>
+
+<p>此工作流程具有许多优势：</p>
+<p style="margin-bottom:0px">
+    <ul>
+        <li>可从 Stem Detail View 的 Insert 区域轻松访问效果。</li>
+        <li>效果发送和返回全部位于同一条路径中，意味着需要管理的推子更少，DSP 占用也更低。</li>
+        <li>Stem 提供的馈送点选项远多于 Aux。</li>
+    </ul>
+</p>
+
+<span class="note">
+    <span class="notetitle">提示：</span>如果希望采用传统的 Aux Send &gt; Effect &gt; Channel Return 工作方式，
+    建议将效果输出路由至通道的 <b>Insert Return</b>（不要忘记启用 <span class="label">Insert In</span>），
+    并可根据需要将插入点移至通道处理顺序的开头。
+    这样便可在 Detail View 的通道 Insert 页面中看到板载效果的控件。<br>
+    如果将效果输出路由至通道的 <b>Input</b>，则只能返回 Effects Rack 页面调节效果参数。
+</span>
+
+
+<h2 id="Presets">效果预设</h2>
+
+<p>效果设置可以存储为预设。预设既可针对单个效果保存，也可针对整个机架保存。</p>
+
+<p>预设的加载和保存方式与<a href="https://livehelp.solidstatelogic.com/Help/Showfiles.html#LoadSave"><span class="hyperlink">演出文件</span></a>相同。</p>
+
+<p>要访问预设，请先加载效果，然后触摸详细对话框右下角的 <span class="label">Preset</span>。</p>
+
+<p>
+    使用 <span class="label">SSL&nbsp;Presets</span> 按钮可访问当前所显示效果模块的出厂预设。
+    这些预设可为常见用途（例如鼓或人声混响）提供实用起点。
+    请注意，并非所有效果类型都提供 SSL 预设。
+</p>
+
+<p>
+    要访问整个机架的预设列表，请触摸详细对话框中的 <span class="label">Racks&nbsp;Preset</span>。
+    机架预设包含整个效果机架中所有效果模块的类型和格式。
+    加载机架预设会使用预设文件中的模块替换所有现有模块。
+    如果覆盖格式相同的现有模块，则会保留效果机架槽位的输入和输出路由。
+</p>
+
+
+<h2>效果单元</h2>
+<p>各效果单元的相关信息见下列页面：</p>
+
+<ul>
+    <li><a href="https://livehelp.solidstatelogic.com/Help/FXDelays.html"><span class="hyperlink">延迟模块</span></a></li>
+    <li><a href="https://livehelp.solidstatelogic.com/Help/FXDynamics.html"><span class="hyperlink">动态处理模块</span></a></li>
+    <li><a href="https://livehelp.solidstatelogic.com/Help/FXEQs.html"><span class="hyperlink">EQ 模块</span></a></li>
+    <li><a href="https://livehelp.solidstatelogic.com/Help/FXModulation.html"><span class="hyperlink">调制模块</span></a></li>
+    <li><a href="https://livehelp.solidstatelogic.com/Help/FXReverbs.html"><span class="hyperlink">混响模块</span></a></li>
+    <li><a href="https://livehelp.solidstatelogic.com/Help/FXOther.html"><span class="hyperlink">“其他”模块</span></a></li>
+    <li><a href="https://livehelp.solidstatelogic.com/Help/FXTools.html"><span class="hyperlink">音频工具</span></a></li>
+    <li><a href="https://livehelp.solidstatelogic.com/Help/FXAutoMix.html"><span class="hyperlink">自动混音：自动增益</span></a></li>
+</ul>
+
+<h2>实用链接</h2>
+<a href="https://livehelp.solidstatelogic.com/Help/DetailView.html"><span class="hyperlink">详细视图</span></a>
+<br>
+<a href="https://livehelp.solidstatelogic.com/Help/LinkIndex.html"><span class="hyperlink">索引与术语表</span></a>
+<br>
+</body>
+</html>

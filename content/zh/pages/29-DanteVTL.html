@@ -1,0 +1,101 @@
+<p>以下页面包含设置 SSL Live 控制台以用于 Dante 网络、与 Dante 设备之间进行路由以及使用 SSL Net I/O 舞台接口箱进行控制和增益共享的说明：</p>
+<ul>
+  <li><a href="https://livehelp.solidstatelogic.com/Help/DanteSetup.html"><span class="hyperlink">设置 Dante</span></a></li>
+</ul>
+<ul>
+  <li>虚拟跳线（本页）</li>
+</ul>
+<ul>
+  <li><a href="https://livehelp.solidstatelogic.com/Help/DanteConfig.html"><span class="hyperlink">双域路由与配置 Dante 设备</span></a></li>
+</ul>
+<ul>
+  <li><a href="https://livehelp.solidstatelogic.com/Help/DanteNetIO.html"><span class="hyperlink">网络 I/O 舞台接口箱和设备</span></a></li>
+</ul>
+<ul>
+  <li><a href="https://livehelp.solidstatelogic.com/Help/DanteBridges.html"><span class="hyperlink">BLII 和 X-Light 网桥</span></a></li>
+</ul>
+<div id="accordion">
+<div class="indexheader2 accordion-section-title">虚拟跳线和双域路由之间有什么区别？</div>
+<div class="accordion-section-content">
+<p>在 SSL Live 控制台上，有两种 Dante 路由方法：双域路由和虚拟跳线。</p>
+<h3>双域路由</h3>
+<p>双域路由是 SSL 独有的功能，允许控制台直接与网络上的设备交互，无需使用 Dante Controller 来建立路由。</p>
+<p>使用双域路由时，Dante 设备将出现在控制台的路由视图中。</p>
+<p>双域路由适用于大多数路由情况。从 SSL Net I/O 舞台接口箱到通道输入的双域路由还提供增益控制以及对其他舞台接口箱参数（例如 +48V）的控制。</p>
+<p>与普通的 Dante 路由一样，双域路由默认使用单播流创建。 如果需要组播流，则必须像往常一样在 Dante Controller 中设置。任何使用这些发送通道的现有双域路由将被转换为组播，并且随后从这些发送通道创建的任何双域路由都将是组播。</p>
+<p class="note"><span class="notetitle">请注意：</span></p>
+<p>不应在多个 SSL 控制台之间使用双域路由进行路由。 请为此目的使用虚拟跳线（见下文）。 这是因为当 SSL 控制台从控制台建立双域路由时，控制台在选择要路由的 Dante 输出或另一设备上要路由到的 Dante 输入时是不确定的。 此路由将在任何可用的路由点中创建。 如果另一设备是 SSL 控制台，这种非确定性方法意味着接收控制台不知道已路由到哪个输入（反之亦然）。</p>
+<p>在创建双域路由之前，必须在 Dante 配置页面中配置设备。Dante 配置页面是控制台的 Dante I/O 设置页面。</p>
+<p>双域路由可以通过 Dante 扩展模块或 BLII/X-Light 网桥建立。</p>
+<p>有关双域路由和配置 Dante 设备的更多信息，请参阅 <a href="https://livehelp.solidstatelogic.com/Help/DanteConfig.html#DualDomain"><span class="hyperlink">Dante 双域路由</span></a>。</p>
+<h3>虚拟跳线</h3>
+<p>使用虚拟跳线可以将 SSL Live 控制台用作典型的 Dante I/O 设备。</p>
+<p>创建后，本地虚拟跳线将作为本地 I/O 类型出现在路由视图中。</p>
+<p>当路由到虚拟跳线时，仅在控制台中建立内部路由 - 将信号路径连接到 Dante 扩展模块。</p>
+<p>网络路由（将 Dante 扩展模块连接到网络上的另一个 Dante 设备）必须从 Dante Controller 手动建立。</p>
+<p>虚拟跳线应用于多个 SSL 控制台之间的路由，用于现场录音和排练模式。</p>
+<p>虚拟跳线不携带控制数据，因此除非不需要控制，否则不应将其用于从 Net I/O 舞台接口箱输入到控制台的路由。</p>
+<p>Dante 扩展模块的 I/O 默认不包含任何虚拟跳线，必须创建它们。</p>
+<p>虚拟跳线可以通过 Dante 扩展模块或 BLII/X-Light 网桥建立。</p>
+</div>
+</div>
+<h3>创建虚拟跳线</h3>
+<p>控制台的 Dante 扩展器或 BLII/X-Light 网桥上分配为虚拟跳线的 Dante 发送/接收通道出现在该设备 I/O 容量的开头。为虚拟跳线保留的容量将从控制台用于自动直接路由到其他 Dante 设备的双域路由容量中扣除。</p>
+<p class="note"><span class="notetitle">请注意：</span></p>
+<p>应在进行任何其他 Dante 路由之前配置虚拟跳线。 如果连接到 BLII/X-Light 网桥，控制台可以使用 BLII/X-Light 网桥或 Dante 扩展模块 I/O 资源来创建双域路由，并且一旦创建路由，就无法将路由从其中一个切换到另一个。 如果在创建双域路由之前未能配置虚拟跳线，可能会导致 I/O 资源被双域路由耗尽，从而没有足够的资源用于 BLII/X-Light 网桥或 Dante 扩展器上所需的虚拟跳线数量。</p>
+<p>通过 Dante 扩展模块</p>
+<p>要创建虚拟跳线，请前往 MENU &gt; Setup &gt; I/O &gt; Local/MADI Configuration 然后点击 Dante 扩展模块以调出其详细视图。 双击虚拟跳线标签区域，选择您需要的虚拟跳线数量。这将创建相同数量的输入和输出。</p>
+<figure><img src="https://livehelp.solidstatelogic.com/Help/images/g_VirtualTieLines.png" alt="图片 1"><figcaption>图片 1</figcaption></figure>
+<p>在 96 kHz 采样率下最多可以创建 32 条虚拟跳线，在 48 kHz 采样率下最多可以创建 64 条。</p>
+<p>通过 BLII/X-Light 网桥</p>
+<p>要在 BLII/X-Light 网桥上设置虚拟跳线，请前往 MENU &gt; Setup &gt; I/O &gt; Local/MADI Configuration。 点击与 BLII/X-Light 网桥所连接本地端口对应的 BLII/X-Light 端口列的顶部。 BLII/X-Light 网桥的详细视图将出现。在 BLII/X-Light 网桥上，可以分别创建虚拟跳线输入和输出。 双击“Virtual Tie Line Inputs”或“Virtual Tie Line Outputs”文本字段以更改虚拟跳线的数量。</p>
+<figure><img src="https://livehelp.solidstatelogic.com/Help/images/g_BLIIBridgeVTL.png" alt="图片 2"><figcaption>图片 2</figcaption></figure>
+<p>在 96 kHz 或 48 kHz 采样率下，最多可以创建 256 条虚拟跳线。</p>
+<p>BLII/X-Light 网桥虚拟跳线在路由视图中的“Bridge Virtual Tie Lines”下显示。为了便于导航，路由点被分成每组 32 个通道。</p>
+<p>当创建双域路由时，可以创建的虚拟跳线数量会减少。</p>
+<p class="note"><span class="notetitle">例如：</span></p>
+<p>如果控制台和 Dante 扩展模块在 96 kHz 下运行，则最大可能的 Dante 路由数为 32（没有 BLII/X-Light 网桥）。如果创建了 2 个双域路由，则剩余的 Dante 路由数变为 30。 因此，现在最多只能创建 30 条虚拟跳线。</p>
+<p>创建一条虚拟跳线会同时创建一个输入和一个输出。</p>
+<p>如果在尝试创建更多虚拟跳线后数量没有更新，则表示已达到可能的最大虚拟跳线数量。</p>
+<p>这可能是因为</p>
+<ul>
+  <li>您试图在 96 kHz 下创建超过 32 条虚拟跳线，或在 48 kHz 下创建超过 64 条</li>
+</ul>
+<ul>
+  <li>或者您已经创建了一些双域路由，因此现在可以创建的虚拟跳线更少。</li>
+</ul>
+<ul>
+  <li>分配的虚拟跳线路由越多，可用于其他 Dante 设备的双域路由就越少。虚拟跳线始终分配给前 n 个 Dante 输入和输出。双域路由可以从剩余的 Dante 输入/输出创建。</li>
+</ul>
+<p>例如（在 96 kHz 下），如果我创建 10 条虚拟跳线，Dante 输入和输出 1-10 将被分配给虚拟跳线。 所有使用这些 I/O 点的现有双域路由将被移动到不同的路由点。现在只有 Dante 输入和输出 11-32 可用于双域路由。</p>
+<p>双域路由和虚拟跳线的总数在 96 kHz 下不能超过 32 个通道，在 48 kHz 下不能超过 64 个通道。 当前使用的双域路由输入/输出数量显示在 Dante 配置页面中“Configured Devices”列表上方的资源栏中。</p>
+<figure><img src="https://livehelp.solidstatelogic.com/Help/images/g_DanteResourceBar.png" alt="图片 3"><figcaption>图片 3</figcaption></figure>
+<p class="note"><span class="notetitle">重要提示：</span></p>
+<p>更改虚拟跳线的数量可能会导致短暂的音频丢失。</p>
+<h3>路由到/来自虚拟跳线</h3>
+<p>创建的 Dante 虚拟跳线现在将出现在路由视图中。</p>
+<p>首先，在控制台上建立到/来自本地虚拟跳线的路由，或者对于 BLII/X-Light 网桥虚拟跳线，建立到/来自“Bridge Virtual Tie Lines”下的一个路由点的路由。</p>
+<p>然后，在 Dante Controller 中，在控制台的 Dante 扩展模块/BLII 网桥/X-Light 网桥（视情况而定）和另一个 Dante 设备之间建立路由。</p>
+<p>例如，假设我们想使用虚拟跳线将两个通道从运行 Dante Virtual Soundcard 的计算机路由到控制台上通道 1 和 2 的输入。</p>
+<p>确保控制台的 Dante 扩展模块和运行 Dante Virtual Soundcard 的计算机在 Dante Controller 中都可见并且在同一子网内（黑色文本名称）。</p>
+<figure><img src="https://livehelp.solidstatelogic.com/Help/images/g_VTL1.png" alt="图片 4"><figcaption>图片 4</figcaption></figure>
+<p>现在在控制台上创建两条虚拟跳线。 前往 MENU &gt; Setup &gt; I/O &gt; Local/MADI Configuration 并点击 Dante 扩展器。 双击虚拟跳线数量并输入 2。</p>
+<figure><img src="https://livehelp.solidstatelogic.com/Help/images/g_VTL2.png" alt="图片 5"><figcaption>图片 5</figcaption></figure>
+<p>现在在通道视图中找到通道 1 和 2。 双击通道 1 的图标图像，然后点击 Input/Routing。 现在点击 Route Input A。 点击控制台（第一个路由点，通常以“LIVE”开头）。现在点击 Local Virtual Tie Lines。点击 1 然后点击 Make。 路由将变为绿色。</p>
+<figure><img src="https://livehelp.solidstatelogic.com/Help/images/g_VTL3.png" alt="图片 6"><figcaption>图片 6</figcaption></figure>
+<p>现在对通道 2 和 Dante 虚拟跳线 2 重复此操作。</p>
+<p>回到 Dante Controller，打开计算机发送通道和控制台 Dante 扩展器接收通道的交叉点矩阵。</p>
+<p>通过点击相应的交叉点，从计算机的 Dante Virtual Soundcard 通道 1-2 创建到控制台 Dante 扩展器通道 1-2 的路由。</p>
+<p>这些交叉点中会出现绿色的对勾。</p>
+<figure><img src="https://livehelp.solidstatelogic.com/Help/images/g_VTL4.png" alt="图片 7"><figcaption>图片 7</figcaption></figure>
+<h3>系统设置的最小 VTL 计数</h3>
+<p>系统设置的最小 VTL 计数通过为每个控制台的 Dante 接口设置系统定义的最小 VTL 计数，来简化固定安装的演出文件路由。即使加载的演出文件指定了较低的 VTL 计数，系统也会强制执行此最小值，从而保留客座工程师无法更改的“场所固定”连接。</p>
+<p>最小计数通过 Config Files 目录中的 XML 文件为 Live Dante 扩展器和每个 BLII 扩展端口独立配置，请联系 SSL 支持以获取更多详细信息。</p>
+<h2>实用链接</h2>
+<p><a href="https://livehelp.solidstatelogic.com/Help/DanteSetup.html"><span class="hyperlink">设置 Dante</span></a></p>
+<p><a href="https://livehelp.solidstatelogic.com/Help/DanteConfig.html"><span class="hyperlink">双域路由与配置 Dante 设备</span></a></p>
+<p><a href="https://livehelp.solidstatelogic.com/Help/DanteNetIO.html"><span class="hyperlink">网络 I/O 舞台接口箱和设备</span></a></p>
+<p><a href="https://livehelp.solidstatelogic.com/Help/DanteBridges.html"><span class="hyperlink">BLII 和 X-Light 网桥</span></a></p>
+<p><a href="https://livehelp.solidstatelogic.com/Help/LocalMADIConfig.html"><span class="hyperlink">本地/MADI I/O 配置</span></a></p>
+<p><a href="https://livehelp.solidstatelogic.com/Help/InstallGuide.html"><span class="hyperlink">安装指南</span></a></p>
+<p><a href="https://livehelp.solidstatelogic.com/Help/LinkIndex.html"><span class="hyperlink">索引与词汇表</span></a></p>

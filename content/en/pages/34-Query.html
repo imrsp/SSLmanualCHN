@@ -1,0 +1,249 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Query</title>
+  <style>
+    body { font: 16px/1.55 Arial, sans-serif; max-width: 1080px; margin: 2rem auto; padding: 0 1.25rem; color: #202124; }
+    img { max-width: 100%; height: auto; }
+    table { border-collapse: collapse; max-width: 100%; }
+    th, td { border: 1px solid #aaa; padding: .45rem; vertical-align: top; }
+    .note { display: block; border-left: 4px solid #e0a000; background: #fff8df; padding: .75rem 1rem; margin: 1rem 0; }
+    .notetitle { font-weight: bold; }
+    .label { font-weight: bold; color: #174ea6; }
+    .source { color: #666; font-size: .9rem; }
+  </style>
+</head>
+<body>
+  <p class="source">Section: Mixing | Source: <a href="https://livehelp.solidstatelogic.com/Help/Query.html">https://livehelp.solidstatelogic.com/Help/Query.html</a></p>
+<h2>Query</h2>
+
+<img style="margin: 0px 11px;" src="https://livehelp.solidstatelogic.com/Help/images/G_Qbutton.png" alt="" align="right">
+<p><span style="font-weight:bold;">Query</span> is a quick look-up feature, that allows you to view all the sends to/from a particular path.</p>
+
+<p>To enter <span style="font-weight:bold;">Query Mode</span>, press the <span class="label">Q</span> button for any path on the Fader Tiles.</p>
+
+<ul>
+    <li>For an Input channel, Query collects the Auxes, Stems and Masters fed from it, plus any VCAs controlling the channel;</li>
+    <li>
+        For a mix bus (Aux, Stem or Master), Query mode collects all the channels being fed <span style="font-style: italic;">to</span> it
+        as well as any other mix buses fed <span style="font-style: italic;">by</span> it, plus any VCAs which are controlling it.
+    </li>
+    <li>For VCAs, Query collects all channels and buses controlled by it.</li>
+</ul>
+
+<p>When Query is engaged for a path, the other console Fader Tiles will be used to display the contributions to/from the Queried path.</p>
+
+<p>
+    It is also possible to Query from the Focus and Main Faders by pressing their associated <span class="label">Q</span> buttons.
+    In these instances, all Fader Tiles will change to show the source/destination paths for the Queried channel.
+</p>
+
+<p>Press the <span class="label">Q</span> button again to exit Query.</p>
+
+
+<h2 id="Mode">Query Modes</h2>
+
+<p>There are two <span style="font-weight:bold;">Query Modes</span>:</p>
+
+<p>
+    <span style="font-weight:bold;">Compressed</span> Query means the other Fader Tiles stop showing User Layers
+    and instead display <span style="font-weight:bold;">only the paths that are sending to or being fed from the Queried Path</span>.
+    The Queried path's <span class="label">Q</span> button will flash green in Compressed Mode.
+    The contributions are displayed in System Order (Channels, Stems, Auxes, Masters, VCAs) and paths of the same type are grouped together.
+    Additional pages of contributing paths are displayed on additional banks, which can be loaded using the <span class="label">CALL</span> buttons as usual.
+</p>
+
+<p>
+    <span style="font-weight:bold;">Expanded</span> Query means the other Fader Tiles <span style="font-weight:bold;">continue to show User Layers</span>
+    and the <span class="label">Q</span> buttons show whether the path is sending to or being fed from the Queried path.
+    A red <span class="label">Q</span> button means that path is being fed from the Queried path. A green <span class="label">Q</span> button means that path is feeding the Queried path.
+    The Queried path's <span class="label">Q</span> button will flash purple in Expanded Mode.
+</p>
+
+<p>
+    Query Mode can be set per path type. To set the Query Modes go to <span class="label">MENU</span> > <span class="label">Setup</span> > <span class="label">Options</span> > <span class="label">SURFACE</span> tab
+    and tap in the appropriate crosspoints of the Query Mode column.
+</p>
+
+<img class="center" src="https://livehelp.solidstatelogic.com/Help/images/g_QFocusFader.png" alt="">
+
+
+<h2 id="Control">Query Control Mode</h2>
+
+<p>The sends to buses can be adjusted while in Query. These can either be displayed on the Quick Controls or on the Faders.</p>
+
+<p>For monitor mixing, selecting sends on faders when Querying Auxes is a quick way to adjust an monitor mix.</p>
+
+<p>Showing the Query in <span style="font-weight: bold;">Routes</span> mode displays the channel strips of the paths in the Query, with the faders remaining as the main fader for each of the paths and the Quick Controls assigned to the last selected path processing parameter.</p>
+
+<p>
+    Showing the Query on <span style="font-weight: bold;">Quick&nbsp;Controls</span> puts the send level of the Queried path to/from the other paths on the Quick Control encoders.
+    Querying an Aux will assign the send levels from each channel to that Aux onto the Quick Control encoders. Querying an Input Channel will assign the send levels from that channel to any Stems or Auxes it is assigned to.
+</p>
+
+<p>
+    Showing the Query on <span style="font-weight: bold;">Faders</span> puts the send levels to/from the Queried path on the faders of each source/destination.
+    In this mode the Quick Control encoders default to the Pan control for each send (if applicable).
+</p>
+
+<p>
+    Query Control Mode can be set per path type. To set the Query Modes go to <span class="label">MENU</span> > <span class="label">Setup</span> > <span class="label">Options</span> > <span class="label">SURFACE</span> tab
+    and tap in the appropriate crosspoints of the Control Mode column.
+</p>
+
+
+<h3>VCA Control of Bus Sends</h3>
+
+<p>
+    Query can also be used to access a VCA's V-Aux and V-Stem sends. These act like a trim to adjust all of a VCA's member paths' Aux/Stem contributions from the VCA path
+    (please refer to the <a href="https://livehelp.solidstatelogic.com/Help/BusRouting.html#VcaBusSends"><span class="hyperlink">Bus Routing</span></a> section for further details).
+</p>
+
+<p>
+    The VCA paths on the console's Fader Tiles can be used to make adjustments to V-Aux and V-Stem levels. Set the <b>Auxes</b>/<b>Stems</b> path type <b>Control&nbsp;Mode</b> to
+    <b>Quick&nbsp;Controls</b> or <b>Faders</b> to enable the <b>VCA&nbsp;Control</b> column for that path type.
+</p>
+<p>
+    When Querying an Aux/Stem with <b>VCA&nbsp;Control</b> disengaged,
+    any VCA faders on the console surface will adjust the <b>master</b> VCA fader (adjusting the fader level of all of its members; not their Aux/Stem contributions).
+    With <b>VCA&nbsp;Control</b> engaged, Querying an Aux/Stem will cause the VCAs to adjust the V-Aux/V-Stem levels (i.e. their member Aux/Stem contributions),
+    from either the VCA path's fader or Quick Controls (fader continues to adjust master VCA fader), depending on the <b>Control&nbsp;Mode</b> selected.
+</p>
+
+<div>
+    <table class="insideborder" style="width: auto; margin: 15px 0px;" cellpadding="4" cellspacing="1">
+        <tbody>
+            <tr>
+                <th class="solidborder">Aux/Stem Control Mode</th>
+                <th class="solidborder">Aux/Stem VCA Control</th>
+                <th class="solidborder">VCA Fader Function</th>
+                <th class="solidborder">VCA Quick Control Encoder Function</th>
+            </tr>
+            <tr>
+                <th class="solidborder">Routes</th>
+                <th class="solidborder">N/A</th>
+                <td class="solidborder">VCA Master</td>
+                <td class="solidborder">Quick Control Function</td>
+            </tr>
+            <tr>
+                <th rowspan="2" class="solidborder">Quick Controls</th>
+                <th class="solidborder">Disabled</th>
+                <td class="solidborder">VCA Master</td>
+                <td class="solidborder">N/A</td>
+            </tr>
+            <tr>
+                <th class="solidborder">Enabled</th>
+                <td class="solidborder">VCA Master</td>
+                <td class="solidborder">V-Aux/V-Stem Level</td>
+            </tr>
+            <tr>
+                <th rowspan="2" class="solidborder">Faders</th>
+                <th class="solidborder">Disabled</th>
+                <td class="solidborder">VCA Master</td>
+                <td class="solidborder">N/A</td>
+            </tr>
+            <tr>
+                <th class="solidborder">Enabled</th>
+                <td class="solidborder">V-Aux/V-Stem Level</td>
+                <td class="solidborder">N/A</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+
+<!-- Start of QueryAssign Snippet -->
+<!-- Also used in BusRouting.html -->
+<h2>Query Assign</h2>
+<p>Query Assign can be used to quickly assign paths to the Queried path.</p>
+
+<p>Press & hold a path's <span class="label">Q</span> button to enter Query Assign. Now use the <span class="label">SELECT</span> buttons of other paths to turn them on or off to the Queried path.</p>
+
+<p>While in Query Assign, the <span class="label">Q</span> button of the Queried path will flash purple. The Control Mode will match what has been set for that path type.</p>
+
+<p>Press the Queried path's <span class="label">Q</span> button again to exit Query Assign.</p>
+
+<span class="note">
+    <span class="notetitle">Tip: </span>It is also possible to select a range of paths by holding down the <span class="label">SELECT</span> button of the first path
+    then pressing the last path's <span class="label">SELECT</span> button. All paths on the Fader Tile between these two will be selected. It is also possible to Range Select across more than one Fader Tile.
+</span>
+<!-- End of QueryAssign Snippet -->
+
+<h2 id="ScreenQuery">Screen Query</h2>
+
+<p>The <span class="label">Screen Query</span> option allows users to query a path from the screen, and use all of the console's Fader Tiles to display the contributions.</p>
+
+<p>
+    To access <span class="label">Screen Query</span> go to <span class="label">MENU</span>  >  <span class="label">Screen&nbsp;Query</span>. Choose a path type using the
+    <span class="label">Channels</span>, <span class="label">Stems</span>, <span class="label">Auxes</span>, <span class="label">Masters</span>, <span class="label">VCAs</span> buttons to the right of the screen.
+</p>
+
+<img style="display: block; margin: 25px auto;" src="https://livehelp.solidstatelogic.com/Help/images/g_ScreenQuery.png" alt"">
+
+<p>Up to 60 paths can be displayed on the screen at one time. Tap the <span class="label">1-60</span>, <span class="label">61-120</span>, <span class="label">121-180</span> etc. buttons to the right of the screen to view more paths.</p>
+
+<p>Tap on any path on the screen to Query it. Tap on the path again to clear the Query.</p>
+
+<span class="note">
+    <span class="notetitle">Please note: </span>Tapping on any path in the <span class="label">Screen Query</span> page is only Querying the path.
+    The path will not be automatically be selected unless this has been specifically set up in
+    <span class="label">MENU</span> > <span class="label">Setup</span> > <span class="label">Options</span> > <span class="label">SURFACE</span> tab.
+    Tapping on a path in the <span class="label">Screen Query</span> page therefore, has no effect on the Detail View (which follows the selected path).
+</span>
+
+
+<h2>Screen Query for TaCo</h2>
+<p>
+    <span class="label">Screen Query</span> is also available for TaCo's <span class="label">Engineer Mode</span>. Ensure that TaCo is authorised in <span class="label">Engineer Mode</span> 
+    and go to <span class="label">MENU</span> > <span class="label">QUERY</span>.
+</p>
+
+<p>
+    Choose a path type using the <span class="label">CHAN</span>, <span class="label">STEM</span>, <span class="label">AUX</span>, <span class="label">MAST</span>, <span class="label">VCA</span> buttons.
+    Up to 36 paths can be displayed at one time. Tap the <span class="label">1-36</span>, <span class="label">37-72</span>, <span class="label">73-108</span> etc. buttons to view more paths.
+</p>
+<img style="display: block; margin: 25px auto;" src="https://livehelp.solidstatelogic.com/Help/images/g_ScreenQueryTaCo.png" alt"">
+
+
+<h2 id="QtoFocus">Query to Focus Fader</h2>
+
+<p>The <b>Query to Focus Fader</b> option temporarily replaces the path on the Focus Fader with the Queried path. This means all of the console's Fader Tiles can be used to display the Queried path's contributions.</p>
+
+<p>
+    To enable <b>Query to Focus Fader</b> go to <span class="label">MENU</span> > <span class="label">Setup</span> > <span class="label">Options</span> > <span class="label">SURFACE</span> tab.
+    In the <span style="font-weight:bold;">Query Setup</span> section, engage <span class="label">Query&nbsp;to&nbsp;Focus&nbsp;Fader</span>.
+</p>
+
+<p>If the Focus Fader is locked, <b>Query to Focus Fader</b> will override the Focus Fader lock and show the Queried path. When the Query is cleared, the Focus Fader will return to the locked path.</p>
+
+<p>When <b>Query to Focus Fader</b> is disengaged, Query and the Focus Fader return to their normal behaviour.</p>
+
+<p>
+    <b>Query&nbsp;to&nbsp;Focus&nbsp;Fader</b> can also be added as a <a href="https://livehelp.solidstatelogic.com/Help/OptionsUserKeys.html"><span class="hyperlink">User&nbsp;Key</span></a>. This can be found in the User Keys options list under
+    <span class="label">Console&nbsp;Functions</span> > <span class="label">Tile&nbsp;Setup</span> > <span class="label">Query&nbsp;to&nbsp;Focus&nbsp;Fader</span>.
+</p>
+
+<img style="display: block; margin: 25px auto;" src="https://livehelp.solidstatelogic.com/Help/images/g_QFocusFader.png" alt"">
+
+
+<h2 id="ClearQuery">Clear Query</h2>
+<p>
+    <b>Clear Query</b> can be added as a <a href="https://livehelp.solidstatelogic.com/Help/OptionsUserKeys.html"><span class="hyperlink">User&nbsp;Key</span></a>.
+    This can be especially useful when needing to clear the Query if the Queried path is not currently visible on the console surface.
+</p>
+
+<p>
+    To set up a <b>Clear Query</b> <a href="https://livehelp.solidstatelogic.com/Help/OptionsUserKeys.html"><span class="hyperlink">User Key</span></a>, go to 
+    <span class="label">MENU</span> > <span class="label">Setup</span> >  <span class="label">Options</span> > <span class="label">USER</span> tab.
+    In the User Keys section, tap on one of the arrows next to a User Key and go to <span class="label">Console&nbsp;Functions</span> > <span class="label">Clear&nbsp;Query</span>.
+</p>
+
+<p>Now Query a path on the console, and this <span class="label">Clear Query</span> User Key can be used to clear the Query.</p>
+
+<h2>Useful Links</h2>
+<a href="https://livehelp.solidstatelogic.com/Help/OptionsSurface.html"><span class="hyperlink">Surface Options</span></a><br>
+<a href="https://livehelp.solidstatelogic.com/Help/LinkIndex.html"><span class="hyperlink">Index and Glossary</span></a><br>
+</body>
+</html>

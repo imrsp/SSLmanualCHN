@@ -1,0 +1,822 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Console Configuration</title>
+  <style>
+    body { font: 16px/1.55 Arial, sans-serif; max-width: 1080px; margin: 2rem auto; padding: 0 1.25rem; color: #202124; }
+    img { max-width: 100%; height: auto; }
+    table { border-collapse: collapse; max-width: 100%; }
+    th, td { border: 1px solid #aaa; padding: .45rem; vertical-align: top; }
+    .note { display: block; border-left: 4px solid #e0a000; background: #fff8df; padding: .75rem 1rem; margin: 1rem 0; }
+    .notetitle { font-weight: bold; }
+    .label { font-weight: bold; color: #174ea6; }
+    .source { color: #666; font-size: .9rem; }
+  </style>
+</head>
+<body>
+  <p class="source">Section: Building a Show | Source: <a href="https://livehelp.solidstatelogic.com/Help/ConsoleConfig.html">https://livehelp.solidstatelogic.com/Help/ConsoleConfig.html</a></p>
+<h2>Console Configuration</h2>
+
+<p>
+    The depth of SSL Live's configurability allows it to be completely restructured for each show.
+    SSL Live consoles have a pool of DSP Paths which are used as the building blocks from which you design and build your console - each Path can be turned into an Input Channel, a Stem group, an Auxiliary or a Master. Stereo, LCR, 4.0 and 5.1 formats are created by 'binding' two or more DSP Paths together.
+</p>
+
+
+
+<h2>Introduction to Path Types</h2>
+<h3>Full vs Dry Paths</h3>
+
+<p>All SSL Live consoles have <span style="font-weight:bold;">Full Paths</span> with full access to in-channel signal processing (EQ, dynamics, delay etc.).</p>
+<p>SSL Live consoles can also have <span style="font-weight:bold;">Dry Paths</span>, which have no signal processing apart from Input Gain & Trim, Fader, Mute, Solo and two Insert Points.</p>
+
+<span class="note"><span class="notetitle">Note: </span>While Dry Paths do not have signal processing, they do have insert routing and can use SSL Live's internal Effects Rack for processing.</span>
+
+
+<h3>Path Types</h3>
+<p>There are 4 main path types:</p>
+<p style="margin-bottom:0px">
+    <ul>
+        <li>Channels</li>
+        <li>Stems</li>
+        <li>Auxes</li>
+        <li>Masters</li>
+    </ul>
+</p>
+
+<p>Each path type is described in detail later in this section.</p>
+
+<p>There are a few other types of signal path which are independent of the main Path pool. These include VCAs, Talkback, Solo and Matrix channels. These can all be configured using the <b>Console&nbsp;Configuration</b> page described below.</p>
+
+<p>
+    The console also contains paths that have no signal processing but are for control of external devices; <a href="https://livehelp.solidstatelogic.com/Help/DAWControl.html"><span class="hyperlink">DAW&nbsp;paths</span></a> (created automatically as required)
+    and <a href="https://livehelp.solidstatelogic.com/Help/ExternalControl.html"><span class="hyperlink">OSC&nbsp;paths</span></a> (created using the Console Configuration page).
+</p>
+
+<span class="note">
+    <span class="notetitle">Please Note: </span>Each console model has a 'Total' number of paths available. There are also limits to the number of paths possible per path type (Full/Dry and Channel/Stem/Aux/Master).
+    The console will prevent you from creating more paths if either of the following conditions is met:<br>
+
+    -&emsp;The console's total path limit has been reached.<br>
+    -&emsp;The path limit for a certain path type has been reached. In this case, the console will only prevent paths of that type from being created.
+
+</span>
+
+
+<h3 id="PlusPack">Plus Processing Packs</h3>
+
+<p>
+    The DSP capacity of L100, L200, L350 and L550 consoles can be expanded with the addition of a 'Plus' processing pack. This is a licensed feature; please contact your local SSL distributor for details.
+    When enabled, the console is 'Plussed', as indicated by a <img style="vertical-align: text-bottom;" src="https://livehelp.solidstatelogic.com/Help/images/b_PlusPackIcon.png" alt="green plus"> symbol in the status bar.
+    All other functionality is identical to the non-Plussed version of the console. References to L100, L200, L350 and L550 consoles therefore refer to both the Plussed and non-Plussed variants unless otherwise stated.
+</p>
+
+
+<h3>Console Model Summary</h3>
+
+<div>
+    <small>
+        <table class="insideborder" style="display: block; margin: auto; width: 95%" cellpadding="3" cellspacing="1">
+            <tbody>
+                <tr>
+                    <th rowspan="2"></th>
+                    <th>L100</th>
+                    <th>L100 Plus</th>
+                    <th>L200</th>
+                    <th>L200 Plus</th>
+                    <th colspan="3">L300</th>
+                    <th colspan="3">L350</th>
+                    <th>L350 Plus</th>
+                    <th>L450</th>
+                    <th colspan="3">L500</th>
+                    <th colspan="3">L500 Plus</th>
+                    <th colspan="3">L550</th>
+                    <th>L550 Plus</th>
+                    <th>L650</th>
+                </tr>
+                <tr>
+                    <th>Total Full</th>
+                    <th>Total Full</th>
+                    <th>Total Full</th>
+                    <th>Total Full</th>
+                    <th>Full</th>
+                    <th>Dry</th>
+                    <th>Total</th>
+                    <th>Full</th>
+                    <th>Dry</th>
+                    <th>Total</th>
+                    <th>Total Full</th>
+                    <th>Total Full</th>
+                    <th>Full</th>
+                    <th>Dry</th>
+                    <th>Total</th>
+                    <th>Full</th>
+                    <th>Dry</th>
+                    <th>Total</th>
+                    <th>Full</th>
+                    <th>Dry</th>
+                    <th>Total</th>
+                    <th>Total Full</th>
+                    <th>Total Full</th>
+                </tr>
+                <tr>
+                    <th>Input Channels</th>
+                    <td>64</td>
+                    <td>96</td>
+                    <td>96</td>
+                    <td>144</td>
+                    <td>144</td>
+                    <td>48</td>
+                    <td>192</td>
+                    <td>168</td>
+                    <td>48</td>
+                    <td>216</td>
+                    <td>216</td>
+                    <td>240</td>
+                    <td>144</td>
+                    <td>48</td>
+                    <td>192</td>
+                    <td>208</td>
+                    <td>48</td>
+                    <td>256</td>
+                    <td>240</td>
+                    <td>48</td>
+                    <td>288</td>
+                    <td>288</td>
+                    <td>312</td>
+                </tr>
+                <tr>
+                    <th>Stems</th>
+                    <td>12</td>
+                    <td>24</td>
+                    <td>24</td>
+                    <td>36</td>
+                    <td>36</td>
+                    <td>12</td>
+                    <td>48</td>
+                    <td>36</td>
+                    <td>12</td>
+                    <td>48</td>
+                    <td>48</td>
+                    <td>60</td>
+                    <td>48</td>
+                    <td>12</td>
+                    <td>60</td>
+                    <td>60</td>
+                    <td>12</td>
+                    <td>72</td>
+                    <td>72</td>
+                    <td>12</td>
+                    <td>84</td>
+                    <td>84</td>
+                    <td>96</td>
+                </tr>
+                <tr>
+                    <th>Auxes</th>
+                    <td>36</td>
+                    <td>48</td>
+                    <td>48</td>
+                    <td>84</td>
+                    <td>96</td>
+                    <td>24</td>
+                    <td>120</td>
+                    <td>108</td>
+                    <td>24</td>
+                    <td>132</td>
+                    <td>132</td>
+                    <td>156</td>
+                    <td>96</td>
+                    <td>24</td>
+                    <td>120</td>
+                    <td>144</td>
+                    <td>48</td>
+                    <td>168</td>
+                    <td>156</td>
+                    <td>48</td>
+                    <td>204</td>
+                    <td>204</td>
+                    <td>210</td>
+                </tr>
+                <tr>
+                    <th>Masters</th>
+                    <td>4</td>
+                    <td>6</td>
+                    <td>6</td>
+                    <td>8</td>
+                    <td>12</td>
+                    <td>6</td>
+                    <td>18</td>
+                    <td>12</td>
+                    <td>6</td>
+                    <td>18</td>
+                    <td>18</td>
+                    <td>24</td>
+                    <td>24</td>
+                    <td>6</td>
+                    <td>30</td>
+                    <td>24</td>
+                    <td>6</td>
+                    <td>30</td>
+                    <td>24</td>
+                    <td>6</td>
+                    <td>30</td>
+                    <td>30</td>
+                    <td>32</td>
+                </tr>
+                <tr>
+                    <th>Total Max Paths</th>
+                    <td>96</td>
+                    <td>128</td>
+                    <td>144</td>
+                    <td>144</td>
+                    <td>144</td>
+                    <td>48</td>
+                    <td>192</td>
+                    <td>168</td>
+                    <td>48</td>
+                    <td>216</td>
+                    <td>216</td>
+                    <td>240</td>
+                    <td>144</td>
+                    <td>48</td>
+                    <td>192</td>
+                    <td>208</td>
+                    <td>48</td>
+                    <td>256</td>
+                    <td>240</td>
+                    <td>48</td>
+                    <td>288</td>
+                    <td>288</td>
+                    <td>312</td>
+                </tr>
+                <tr>
+                    <th>VCAs</th>
+                    <td colspan="2">12</td>
+                    <td colspan="2">24</td>
+                    <td colspan="14">36</td>
+                    <td colspan="5">48</td>
+                </tr>
+                <tr>
+                    <th>Matrix</th>
+                    <td colspan="2">4 x 32 ins, 12 processed outs</td>
+                    <td colspan="2">4 x 32 ins, 24 processed outs</td>
+                    <td colspan="19">4 x 32 ins, 36 processed outs</td>
+                </tr>
+                <tr>
+                    <th>Max FX Instances</th>
+                    <td>24</td>
+                    <td colspan="10">48</td>
+                    <td>60</td>
+                    <td colspan="11">96</td>
+                </tr>
+            </tbody>
+        </table>
+    </small>
+</div>
+
+<span class="note"><span class="notetitle">Note:</span> For compatibility reasons, showfiles containing dry paths may be loaded into consoles with only full paths. However, the number of full paths available will decrease in proportion to the number of dry paths used.</span>
+
+
+
+<p>The following shows the path capacity and routing options for each console model in more detail:</p>
+<div id="accordion" style="width:802px; display: block; margin: auto;">
+    <div class="indexheader2">L100</div>
+    <div style="padding: 1em 0;">
+        <img style="display: block; margin: 0px; width: 800px;" src="https://livehelp.solidstatelogic.com/Help/images/g_chanTypesL100.png" alt="">
+    </div>
+    <div class="indexheader2">L100 Plus</div>
+    <div style="padding: 1em 0;">
+        <img style="display: block; margin: 0px; width: 800px;" src="https://livehelp.solidstatelogic.com/Help/images/g_chanTypesL100Plus.png" alt="">
+    </div>
+    <div class="indexheader2">L200</div>
+    <div style="padding: 1em 0;">
+        <img style="display: block; margin: 0px; width: 800px;" src="https://livehelp.solidstatelogic.com/Help/images/g_chanTypesL200.png" alt="">
+    </div>
+    <div class="indexheader2">L200 Plus</div>
+    <div style="padding: 1em 0;">
+        <img style="display: block; margin: 0px; width: 800px;" src="https://livehelp.solidstatelogic.com/Help/images/g_chanTypesL200Plus.png" alt="">
+    </div>
+    <div class="indexheader2">L300</div>
+    <div style="padding: 1em 0;">
+        <img style="display: block; margin: 0px; width: 800px;" src="https://livehelp.solidstatelogic.com/Help/images/g_chanTypesL300.png" alt="">
+    </div>
+    <div class="indexheader2">L350</div>
+    <div style="padding: 1em 0;">
+        <img style="display: block; margin: 0px; width: 800px;" src="https://livehelp.solidstatelogic.com/Help/images/g_chanTypesL350.png" alt="">
+    </div>
+    <div class="indexheader2">L350 Plus</div>
+    <div style="padding: 1em 0;">
+        <img style="display: block; margin: 0px; width: 800px;" src="https://livehelp.solidstatelogic.com/Help/images/g_chanTypesL350Plus.png" alt="">
+    </div>
+    <div class="indexheader2">L450</div>
+    <div style="padding: 1em 0;">
+        <img style="display: block; margin: 0px; width: 800px;" src="https://livehelp.solidstatelogic.com/Help/images/g_chanTypesL450.png" alt="">
+    </div>
+    <div class="indexheader2">L500</div>
+    <div style="padding: 1em 0;">
+        <img style="display: block; margin: 0px; width: 800px;" src="https://livehelp.solidstatelogic.com/Help/images/g_chanTypesL500.png" alt="">
+    </div>
+    <div class="indexheader2">L500&nbsp;Plus</div>
+    <div style="padding: 1em 0;">
+        <img style="display: block; margin: 0px; width: 800px;" src="https://livehelp.solidstatelogic.com/Help/images/g_chanTypesL500Plus.png" alt="">
+    </div>
+    <div class="indexheader2">L550</div>
+    <div style="padding: 1em 0;">
+        <img style="display: block; margin: 0px; width: 800px;" src="https://livehelp.solidstatelogic.com/Help/images/g_chanTypesL550.png" alt="">
+    </div>
+    <div class="indexheader2">L550 Plus</div>
+    <div style="padding: 1em 0;">
+        <img style="display: block; margin: 0px; width: 800px;" src="https://livehelp.solidstatelogic.com/Help/images/g_chanTypesL550Plus.png" alt="">
+    </div>
+    <div class="indexheader2">L650</div>
+    <div style="padding: 1em 0;">
+        <img style="display: block; margin: 0px; width: 800px;" src="https://livehelp.solidstatelogic.com/Help/images/g_chanTypesL650.png" alt="">
+    </div>
+</div>
+
+<br>
+
+<p>This table summarizes the distinctions between path types:</p>
+
+<p>
+    <table class="insideborder" style="margin-left: auto; margin-right: auto; width: 95%; display: block; margin: auto;" cellpadding="3" cellspacing="1">
+        <tbody>
+            <tr>
+                <th rowspan="2"></th>
+                <th rowspan="2">Path type</th>
+                <th rowspan="2">Source types</th>
+                <th rowspan="2">Variable send level</th>
+                <th colspan="4">Routable to output types</th>
+                <th rowspan="2">Full & Dry<br>processing</th>
+                <th rowspan="2">Talkback injection</th>
+            </tr>
+            <tr>
+                <th>Stems</th>
+                <th>Auxes</th>
+                <th>Masters</th>
+                <th>Matrix, Routable destinations & Physical outputs</th>
+            </tr>
+            <tr>
+                <th rowspan="4">Pooled paths</th>
+                <td>Channel</td>
+                <td>Physical&nbsp;inputs,<br>Routable&nbsp;sources*</td>
+                <td></td>
+                <td>Y</td>
+                <td>Y</td>
+                <td>Y</td>
+                <td>Y</td>
+                <td>Y</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>Stem</td>
+                <td>Other Stems, Channels</td>
+                <td>Y</td>
+                <td>Y</td>
+                <td>Y</td>
+                <td>Y</td>
+                <td>Y</td>
+                <td>Y</td>
+                <td>Y</td>
+            </tr>
+            <tr>
+                <td>Aux</td>
+                <td>Channels, Stems</td>
+                <td>Y</td>
+                <td></td>
+                <td></td>
+                <td>Y</td>
+                <td>Y</td>
+                <td>Y</td>
+                <td>Y</td>
+            </tr>
+            <tr>
+                <td>Master</td>
+                <td>Channels, Stems, Auxes</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td>Y</td>
+                <td>Y</td>
+                <td>Y</td>
+            </tr>
+            <tr>
+                <th rowspan="3">Additional paths</th>
+                <td>Talkback</td>
+                <td>Physical&nbsp;inputs,<br>Routable&nbsp;sources*</td>
+                <td></td>
+                <td>Y</td>
+                <td>Y</td>
+                <td>Y</td>
+                <td>Y</td>
+                <td>Full</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>Solo</td>
+                <td>Various console signals</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td>Y</td>
+                <td>Full</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>Matrix</td>
+                <td>Physical&nbsp;inputs,<br>Routable&nbsp;sources*</td>
+                <td>Y</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td>Y</td>
+                <td>Full<br>(No Dynamics)</td>
+                <td></td>
+            </tr>
+        </tbody>
+    </table>
+</p>
+
+<p>* Physical inputs: Stageboxes, local I/O etc.&emsp;Routable sources: Path outputs, Effects Rack etc. </p>
+
+
+<h3 id="Stems">Stems</h3>
+
+<p>Stem paths are for effects sends, shared signal processing, parallel processing, audio sub grouping, etc.</p>
+
+<p>They share the functionality of both traditional audio group buses <em>and</em> Aux sends because of their independent source send levels. Think of them as the ultimate audio bus!</p>
+
+<p>The power of Stems lies in their flexible sending, bussing, and/or routing. Stems can be sent to Auxes and other Stems, bussed to Masters, and routed to Matrix channels and/or directly to outputs.</p>
+
+<p>Stems feature significantly more feed points than Auxes. These are: Pre Fader, Post Trim, Post Insert A, Post Insert B, Post Fader and Post All.</p>
+
+<span class="note">
+    <span class="notetitle">Tip: </span>The order of processing blocks in a path (EQ, Compressor, Gate etc.) can be changed freely on a path-by-path basis. This includes the two Insert points. See <a href="https://livehelp.solidstatelogic.com/Help/ProcOrder.html"><span class="notehyperlink">Processing Order</span></a> for more details.<br>
+    This can be used to great effect in conjunction with Stems, for example sending pre- and post-Compressor signals of a single vocal mic channel to the singer's own IEM mix (via Stem 1) and all other performer's mixes (via Stem 2) respectively.<br>
+    <img style="display: block; margin: 10px auto 0px;" src="https://livehelp.solidstatelogic.com/Help/images/g_StemFeedPointExample.png" alt="">
+</span>
+
+<p>Stems differ from their Channel path equivalents in the following ways:</p>
+
+<ul class="tab">
+    <li>You can send <em>to</em> them from Channels, Stems, and Auxes.</li>
+    <li>They have no external input routing dialogue (because they are bussed to, not routed to).</li>
+    <li>Stem <span class="label">Query</span> collects all paths feeding it <span style="font-weight: bold;">and</span> fed by it, rather than just paths being fed by it. See <a href="https://livehelp.solidstatelogic.com/Help/Query.html"><span class="hyperlink">Query</span></a> for details. </li>
+</ul>
+
+<h4>Using Stems for Monitor Mixing</h4>
+
+<p>Stems can be useful for managing monitor mixes as intermediate buses before the Aux outputs. Some examples of how they can be used:</p>
+
+<ol>
+    <li>
+        Create Stems for commonly grouped channels, e.g. drum channels, percussion, brass etc. When an artist requests more or less of the 'grouped' channels, the Stem can be adjusted to their Aux mix rather than adjusting each individual channel.
+        Different mixes can differ in their use of Stems, e.g. the drummer's mix will likely still use the individual drum channels, but all of the backing vocalist's mixes may use a pre-mixed 'drums' Stem.
+    </li>
+    <li>
+        If there are many musicians that share an IEM 'pack', consider the Aux path as the pack rather the musician's mix. Instead, create the mixes on Stems and unmute the relevant Stem to the pack.
+        This means a 'library' of mixes can be created and dynamically swapped into the Aux mix (IEM pack). The console's automation system can even be used to automate the mix changeover.
+    </li>
+    <li>
+        Playback techs often like to monitor the 'dry' playback tracks and therefore do not want to hear any path processing applied.
+        The playback channels can be bussed to a Stem <b>Post Trim</b> and then fed into their Aux mix along with any other sources (shout system, talkback etc.).
+    </li>
+</ol>
+
+<h3>Auxes</h3>
+
+<p>Aux paths (or Aux sends) are intended for outputs that require independent mixes, such as sends to artist monitoring, communications, or subwoofers. They can also be used as traditional effects-type sends, although Stems may be better suited for those as they can be routed directly to other Auxes.</p>
+
+<p>Aux paths differ from Input Channels in the following ways:</p>
+
+<ul class="tab">
+    <li>You can only send to them from Channels and Stems; they have no input source routing dialogue.</li>
+    <li>They cannot be sent to Stems or other Auxes, but they can be bussed to Masters or routed out (or to the Matrix).</li>
+    <li>Aux <span class="label">Query</span> collects paths feeding <span style="font-weight: bold;">and</span> fed by it, rather than paths fed by it only. See <a href="https://livehelp.solidstatelogic.com/Help/Query.html"><span class="hyperlink">Query</span></a> for details.</li>
+</ul>
+
+<p>Auxes can be fed from source paths (Channels or Stems) Pre Fader or Post All source path processing</p>
+
+
+<h3>Masters</h3>
+
+<p>Master paths are the final bus of mixing. Everything that is bussed to a Master is post fader. Master path outputs are typically routed to the matrix and/or directly to external destinations.</p>
+
+<p>Master paths differ from their Channel path equivalent in the following ways:</p>
+
+<ul class="tab">
+    <li><p>You can only bus to them from other paths; they have no input source routing dialogue.</p></li>
+    <li><p>By design as the last path in the chain, they cannot be sent to Stems, Auxes or other Masters.</p></li>
+    <li><p>Master <span class="label">Query</span> collects all paths feeding it only. See <a href="https://livehelp.solidstatelogic.com/Help/Query.html"><span class="hyperlink">Query</span></a> for details.</p></li>
+</ul>
+
+
+<h3>VCAs</h3>
+
+<p>
+    VCAs allow output and bus send levels of a number of paths to be controlled from a single control path. Their fader strips appear on the control surface just like paths of any other type.
+    In place of the meter area towards the top of the Channel View strip, there is a display of all paths which are included within that VCA, listed by path type.<br>
+    Paths can be excluded from VCA mute control using their Mute Safe function, as described in the <a href="https://livehelp.solidstatelogic.com/Help/Mute.html"><span class="hyperlink">Mute</span></a> section.<br><br>
+    Assigning a path to a VCA is very similar to sending to a bus and both functions are described in the <a href="https://livehelp.solidstatelogic.com/Help/BusRouting.html"><span class="hyperlink">Bus Routing &amp; VCAs</span></a> section.
+</p>
+
+<p>Pressing a VCA's <span class="label">Solo</span> button will solo all paths controlled by that VCA, as if each individual path's <span class="label">Solo</span> button had been pressed.</p>
+
+<span class="note"><span class="notetitle">Note: </span>Moving the VCA fader will not cause the assigned path's faders to move, but you will see the fader gain label on those paths change in relation to the VCA value.</span>
+
+
+<h2 id="ConsoleConfigPage">Console Configuration Page</h2>
+
+<p>
+    You can edit the number of each path type in <span class="label">MENU</span> > <span class="label">Setup</span>
+    > <span class="label">Console&nbsp;Configuration</span>.
+</p>
+
+<p>This is where the available digital signal processing is allocated to the different path types. The precise ordering of different path formats can be set, as can the point in the paths which are used to source each Auxiliary and Stem. Paths can also be named in this display.</p>
+
+<p>The main part of the <span class="label">Console Configuration</span> page is made up of a table displaying the number of paths of each type and format:</p>
+
+<img style="display: block; margin: 25px auto; width: 800px;" src="https://livehelp.solidstatelogic.com/Help/images/g_consoleconfig.png" alt="">
+
+<p>
+    The resource bars at the top of the screen indicate how much DSP is available for Fully-processed paths, Dry path, and each of the pooled path types (Channels, Stems, Auxes and Masters). 
+    The console may be configured with any combination of these path types, up the their respective maximums. There is no danger of 'overloading' the console; the number of paths reported will turn red when the limit is reached and no further paths can be created beyond this point.
+</p>
+
+<p>The Full Processing forms of each of the console's path types are listed towards the top of the screen, with the Dry forms below that. VCA, OSC, Matrix and Solo channels are listed towards the bottom of the screen.</p>
+
+<span class="note"><span class="notetitle">Note:</span> VCA, OSC, Matrix, and Solo channels have reduced configurability. There is nothing configurable in this screen for Talkback channels, and they are therefore not shown. Matrices are introduced further down this page.</span>
+
+<p>
+    Input Channels, Auxes, Stems and Masters can be configured in mono, stereo, LCR, 4.0 or 5.1 formats, with the numbers of each format and type shown in columns. 
+    Each mono channel uses one DSP path from the resource pool. Stereo channels will use two DSP paths, LCR channels use three DSP paths, 4.0 use four DSP paths and 5.1 channels use 6 DSP paths.
+</p>
+
+<p>To the right of each row is a series of columns indicating the number of each path type (each formatted path counts as one), the total number of DSP paths used and the maximum number of DSP paths available for each path type.</p>
+
+
+<h2>Adding/Deleting Paths</h2>
+
+<p>To make changes to the Configuration, touch the <span class="label">Edit</span> button to the right of the page &#8211; it will go blue to indicate that the page is editable.</p>
+
+<p>All numbers which are editable will now appear in a darkened box.</p>
+
+<p>To change a number, double-tap it, edit the number using the keypad which appears, and press <span class="label">OK</span>.</p>
+
+<span class="note"><span class="notetitle">Note: </span>If you leave the box blank, or put non-numeric characters in it, it will be outlined in red - you will need to correct this before continuing.</span>
+
+<p>
+    Stems, Auxiliaries and Masters can be fed from a number of different 'feed points' within the processing path. Each bus can have a default feed point (set in the Console Config page) and also a per-path feed point that can override this default 
+    (see <a href="https://livehelp.solidstatelogic.com/Help/BusRouting.html"><span class="hyperlink">Bus Routing</span></a> for details). The default feed points for each bus can be set from the following options:
+</p>
+
+<ul>
+    <li>Stems: <span class="label">Post&nbsp;Trim</span>, <span class="label">Pre&nbsp;Fader</span>, <span class="label">Post&nbsp;Insert&nbsp;A</span>, <span class="label">Post&nbsp;Insert&nbsp;B</span>, <span class="label">Post&nbsp;Fader</span> or <span class="label">Post&nbsp;All</span> processing</li>
+    <li>Auxes: <span class="label">Pre&nbsp;Fader</span> or <span class="label">Post&nbsp;All</span> processing (including the fader)</li>
+    <li>Masters: <span class="label">Post&nbsp;Fader</span> or <span class="label">Post&nbsp;All</span> processing</li>
+</ul>
+
+
+<p>
+    Aux and Master rows can be expanded to show the two feed point options separately by using the <img style="margin: 0px;" src="https://livehelp.solidstatelogic.com/Help/images/g_ConfigArrowIconEDGE.png" alt=""> arrow symbol in the <span style="font-weight: bold;">View</span> column for each type. 
+    The numbers in the expanded display can be edited in the normal way. Touch the View down arrow to fold the type row away again. The feed points for each Stem are shown in the expanded list view (see below).
+</p>
+
+<span class="note"><span class="notetitle">Note: </span>If bus paths are added without specifying a feed point, Stems and Masters will be created as <span style="font-weight: bold;">Post All</span> and Auxes will be created <span style="font-weight: bold;">Pre Fader</span>.</span>
+
+<p>The paths are assigned numbers in the same order in which they are added using the mono, stereo, LCR, 4.0 and 5.1 numeric text boxes. However, it is also possible to edit and add new paths of each type one-by-one.</p>
+
+<p>To do this, click the <img style="margin: 0px;" src="https://livehelp.solidstatelogic.com/Help/images/g_ConfigListIconEDGE.png" alt=""> list symbol in the <span style="font-weight: bold;">View</span> column. (For Auxiliaries and Masters, this symbol is only visible when they are in expanded view.)</p>
+
+<p>Each path within the relevant type will be displayed in its own row, with a green 'light' indicating the current format. Touch the indicator for the required format on each path, so that it goes green. Paths that have changed will be shown with a &diams; symbol.</p>
+
+<p>The bottom row of each expanded list also allows you to add a new path of that type in the chosen format to the end of the list. New paths will be shown with a &diams; symbol.</p>
+
+<p>Press & hold the <span class="label">Apply</span> button (top right) to make the changes.</p>
+
+<span class="note">
+    <span class="notetitle">Please Note: </span>Navigating away from the <span class="label">Console Configuration</span> page, or disengaging <span class="label">Edit</span> without pressing
+    <span class="label">Apply</span> will cancel all changes.
+</span>
+
+
+<h2>Matrix Configuration</h2>
+
+<p>SSL Live has four matrices. These allow you to reduce the number of crosspoints you can see to those you are likely to use, focussing in on relevant parts of the <i>full matrix</i> rather than having to sift through a large page of mostly redundant controls.</p>
+
+
+<p>To configure the four matrices, click the <img style="margin: 0px;" src="https://livehelp.solidstatelogic.com/Help/images/g_ConfigListIconEDGE.png" alt=""> list symbol in the <span style="font-weight: bold;">View</span> column for the <span style="font-weight: bold;">Matrix</span> area of the display.</p>
+
+<p>The maximum number of matrix inputs and outputs are as follows:</p>
+
+<p>Each matrix can have up to 32 inputs, independent of the configuration of other matrices.</p>
+
+<p>There are a maximum of 36 outputs available (varies by console model) across the 4 matrices; they can be divided between the matrices in any way.</p>
+
+<span class="note"><span class="notetitle">Note: </span>Matrix output channels have the same Filters, EQ, Delay and All&nbsp;Pass processing available as Full Processing Paths (but no dynamics processing).</span>
+
+<p>Further Matrix configuration is described in the <a href="https://livehelp.solidstatelogic.com/Help/Matrix.html"><span class="hyperlink">Matrix page</span></a>.</p>
+
+<p>Press & hold the <span class="label">Apply</span> button (top right) to make the changes in the Console Configuration page active on the console.</p>
+
+
+<h2>Deleting, Moving & Copying Paths</h2>
+
+<p>Individual paths can be deleted, moved or copy within the path lists.</p>
+
+<p>
+    With the list of paths expanded, and the <span class="label">Edit</span> button active, touch the grey radio button in the <span style="font-weight: bold;">Edit</span> column (to the right of the format columns) for the paths(s) in question - 
+    the button will turn red for each path selected to indicate it is being edited.
+</p>
+
+<span class="note"><span class="notetitle">Note: </span>Multiple paths can be marked for edit at the same time.</span>
+
+<ul>
+    <li>To delete the path(s), now press & hold the <span class="label">Delete</span> button.</li>
+    <li>To move path(s), press <span class="label">Move</span> then touch the path after which you want the moved path(s) to appear.</li>
+    <li>
+        To copy paths, press <span class="label">Copy</span> then touch the path after which you want the copied path(s) to appear.<br>
+        The copied path's name will consist of dashes - rename it by double-tapping on the name field.<br>
+        The path ID column will be refreshed once the <span class="label">Apply</span> function has been activated (see below).<br>
+        The <span class="label">Copy</span> button will become disabled if there is not enough free processing available to create new copies of the number of paths selected.<br>
+    </li>
+</ul>
+
+<span class="note"><span class="notetitle">Note: </span>These actions will apply to all paths selected for Edit in the most recently selected path type section (Channels, Stems, etc. section highlighted by a cyan border), regardless of its expanded view state or the path's visibility at the time of edit.</span>
+
+<p>Press & hold the <span class="label">Apply</span> button (top right) to make the changes in the Console Configuration page active on the console.</p>
+
+
+<h2>Editing Path Names</h2>
+
+<p>With a path list expanded and the <span class="label">Edit</span> button engaged, double-tap the name text to open an on-screen keyboard. Type the new path name and press <span class="label">OK</span> to confirm the change.</p>
+
+<p>Use the <span class="label">Next</span> and <span class="label">Previous</span> buttons in the keyboard (Tab and Shift+Tab respectively on USB keyboards) to navigate through the path list.</p>
+
+<p>Touch the list symbol again to fold the paths back into their path type row.</p>
+
+<p>Press & hold the <span class="label">Apply</span> button (top right) to make the changes in the Console Configuration page active on the console.</p>
+
+
+<h2 id="ImportExport">Import/Export Channel Names</h2>
+
+<p>SSL Live consoles can import and export Input Channel names from/to CSV files.</p>
+
+<p>To do this tap <span class="label">Import/Export</span> in the top left of the page. This will open a file management window, similar to the one for Showfiles and Presets.</p>
+
+<p>The <span class="label">Copy</span>, <span class="label">Move</span>, <span class="label">Delete</span>, <span class="label">Rename</span> and <span class="label">Read Only</span> functions work in the same way as they do in the <span class="label">Showfiles</span> and <span class="label">Presets</span> pages.</p>
+
+<img style="display: block; margin: 25px auto; width: 500px;" src="https://livehelp.solidstatelogic.com/Help/images/g_ImportExport.png" alt="">
+
+<img style="display: block; margin: 25px auto;" src="https://livehelp.solidstatelogic.com/Help/images/g_ImportPreview.png" align="right" alt="">
+
+<h3>Import</h3>
+
+<p>
+    Channel list spreadsheets must be saved as a <span style="font-weight:bold;">CSV file</span> to <span style="font-weight:bold;">import</span> channel names. You can save as a .CSV from all major spreadsheet applications. Save the CSV file to a USB drive and plug it into the console or a PC running SOLSA.
+    It is not necessary to copy the CSV file to the console's internal hard drive before importing channel names.
+</p>
+
+<p>Select the desired CSV file in the file list. A visual representation of the columns and rows in the CSV file will be displayed below. Use the green indicators to mark which columns and rows to import.</p>
+
+<p>
+    Now, choose an <span style="font-weight:bold;">Import Mode</span>. Selecting <span class="label">Add to End</span> will add new channels to the end of the existing channel list in the Console Configuration page.
+    Selecting <span class="label">Overwrite</span> will delete all the existing channel names and replace them with the new names. All other existing channel settings will remain, <span class="label">Overwrite</span> only replaces the name.
+</p>
+
+<p>Then press <span class="label">Import</span>.</p>
+
+<p>Disengage <span class="label">Import/Export</span> in the top left, to return to the <span class="label">Console Configuration</span> page. The new input channel names are now listed in the Channel list.</p>
+
+<p>Press and hold <span class="label">APPLY</span> to make the changes.</p>
+
+<h3>Format Channels</h3>
+
+<p>The import tool can automatically format input channels to Stereo, LCR, 4.0 and 5.1.</p>
+
+<p>For example: If the console reads <span style="font-weight:bold;">KEYS L</span> and <span style="font-weight:bold;">KEYS R</span> as two adjacent channels it will create a single stereo <span style="font-weight:bold;">KEYS</span> channel.</p>
+
+<p>To auto-format channels, engage <span class="label">Format Channels</span> before pressing <span class="label">Import</span>.</p>
+
+<p>
+    For Stereo, this works if there is a capital <span style="font-weight:bold;">L</span> and <span style="font-weight:bold;">R</span> at the end of name of two adjacent channels.
+    The remaining text in the channel name must be identical.
+    The import mechanism can also recognise hyphens (<span style="font-weight:bold;">-</span>) or underscores (<span style="font-weight:bold;">_</span>) before the L or R.
+</p>
+
+<p style="margin-bottom:0px;">This also works for LCR, 4.0 and 5.1 with the following endings in the correct order.</p>
+<ul class="tab" style="margin-top:0px;">
+    <li><span style="font-weight:bold;">LCR:</span> L, C, R</li>
+    <li><span style="font-weight:bold;">4.0:</span> L, R, LS, RS</li>
+    <li><span style="font-weight:bold;">5.1:</span> L, C, R, LS, RS, LFE</li>
+</ul>
+
+<img style="display: block; margin: 25px auto;" src="https://livehelp.solidstatelogic.com/Help/images/g_Imported.png" alt="">
+
+
+<h3>Export</h3>
+
+<p>To <span style="font-weight:bold;">Export</span> a list of channel names, first select a drive to export to. Once the drive is selected press <span class="label">Export</span>, then name the file.</p>
+
+<p>The console exports channel name lists as CSV files. The CSV file contains the channel ID number, channel name as well as listing the Input A and B routes.</p>
+
+
+<h2 id="Numbering">Numbering Input Channels</h2>
+
+<p>There are two modes for numbering Input Channels. <span class="label">Default</span> and <span class="label">Auto-Renumber</span>.</p>
+
+<p>
+    <span class="label">Default</span> means channel ID numbers are <span style="font-weight:bold;">continuous</span>, regardless of channel format (Stereo, LCR, 4.0, 5.1).
+    When multi-channel formats are created, this can mean that the patch number from stageboxes does not match the Channel ID number on the console.
+</p>
+
+<p>An example of <span class="label">Default</span> mode:</p>
+
+<img style="display: block; margin: 25px auto;" src="https://livehelp.solidstatelogic.com/Help/images/g_DefaultNumbering.png" alt="">
+<br>
+<br>
+<p><span class="label">Auto-Renumber</span> restores the sequence of input patch numbers and input channel ID numbers, so that the numbers <span style="font-weight:bold;">match</span>.</p>
+
+<p>An example of <span class="label">Auto-Renumber</span> mode:</p>
+
+<img style="display: block; margin: 25px auto;" src="https://livehelp.solidstatelogic.com/Help/images/g_AutoRenumber.png" alt="">
+
+<p>
+    To change numbering modes go to the <span style="font-weight:bold;">Number Channels by:</span> section at the top of the page. Select either <span class="label">Default</span> or <span class="label">Auto-Renumber</span> from the drop down menu.
+    Press and hold <span class="label">APPLY</span> to make the changes.
+</p>
+
+
+<h2 id="ModelCompatibility">Compatibility Mode</h2>
+
+<p><span style="font-weight:bold;">Showfiles are cross-compatible within the entire SSL Live console range</span>, with no additional software or conversion required.
+
+<p>
+    A showfile created on a larger console may be loaded onto a smaller one (e.g L500&nbsp;Plus showfile onto an L300).
+    The system will automatically enter <span style="font-weight:bold;">Compatibility Mode</span> if the showfile cannot fit within the resources available.
+</p>
+
+<p>
+    The console will create as many paths from the showfile as it can, and if there are more paths than the model can support, the remaining paths will be <i>disabled</i>.
+    This means they do not pass audio, but they are still saved in the showfile. It is possibly to change fader position and manipulate path processing etc. on disabled paths.
+    Disabled paths are displayed in the Channel View like this:
+</p>
+
+<img style="display: block; margin: 25px auto;" src="https://livehelp.solidstatelogic.com/Help/images/g_CompatibilityChanView.png" alt="">
+
+<p>And can also be identified in <span class="label">Console Configuration</span> like this:</p>
+
+<img style="display: block; margin: 25px auto;" src="https://livehelp.solidstatelogic.com/Help/images/g_CompatibilityConfig.png" alt="">
+<br>
+<p>
+    Compatibility Mode also affects units in the Effects Rack. Disabled Effects Rack units are displayed like this:
+
+    <img style="display: block; margin: 25px auto;" src="https://livehelp.solidstatelogic.com/Help/images/g_CompatibilityFX.png" alt="">
+
+<p>
+    Compatibility mode may also be enabled manually by engaging the <span class="label">Compatibility&nbsp;Mode</span> button in
+    <a href="https://livehelp.solidstatelogic.com/Help/OptionsSystem.html#SystemOptions"><span class="hyperlink">System Options</span></a>.
+    This mode may be used to create a showfile destined for a larger console on a smaller one that doesn't necessarily have the amount of processing that will ultimately be used.
+    A <img src="https://livehelp.solidstatelogic.com/Help/images/g_CompatibilityGreen.png" alt="green Compatibility"> icon will be displayed in the status bar at the top of the main screen to indicate that <span style="font-weight:bold;">Compatibility Mode</span> has been enabled
+    but no processing is currently disabled.
+</p>
+
+<p>
+    In order to create more paths than the console model can support, first you must choose some existing paths to <i>disable</i>.
+    To disable paths, go to the <span class="label">Console Configuration</span> turn on <span class="label">Edit</span> and engage the <span class="label">Compatibility</span> button on the right hand side of the screen.
+    The Edit column in the table has now changed to read <span style="font-weight:bold;">Enabled</span>.
+    Expand the desired path type list and tap the button in the <span style="font-weight: bold;">Enabled</span> column for each path you wish to disable.
+    A green button means enabled, an empty (grey) button means disabled.  Press & hold the <span class="label">Apply</span> button to confirm the changes. You can now create more <i>enabled</i> paths.
+</p>
+
+<p>
+    To disable effects, navigate to the Effect Rack page (<span class="label">Menu</span> > <span class="label">Effects</span>) and select the effect module you wish to disable.
+    Press & hold its <span class="label">Enabled</span> button.
+</p>
+
+<p>
+    When paths or effects have been disabled, the <span class="label">Compatibility&nbsp;Mode</span> button will turn red
+    and a <img src="https://livehelp.solidstatelogic.com/Help/images/g_CompatibilityRed.png" alt="red Compatibility"> icon will be displayed in the status bar. <span style="font-weight:bold;">Compatibility Mode</span> allows you to create as many paths/Effects as would fit on an L550 console.
+</p>
+
+<p>
+    <span style="font-weight:bold;">Compatibility Mode</span> can be turned off only after all disabled paths/FX have been either enabled, or deleted.
+    When this has been done, disengage the <span class="label">Compatibility&nbsp;Mode</span> button
+    in <a href="https://livehelp.solidstatelogic.com/Help/OptionsSystem.html#SystemOptions"><span class="hyperlink">System Options</span></a>.
+</p>
+
+<p>Any disabled paths or effects stored in the showfile will be automatically reactivated the next time the showfile is loaded on a console model with enough processing power.</p>
+
+
+
+<h2>Useful Links</h2>
+
+<p><a href="https://livehelp.solidstatelogic.com/Help/ControlSurface.html"><span class="hyperlink">Control Surface Overview</span></a></p>
+
+<p><a href="https://livehelp.solidstatelogic.com/Help/LinkIndex.html"><span class="hyperlink">Index and Glossary</span></a></p>
+</body>
+</html>

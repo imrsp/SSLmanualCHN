@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>舞台接口箱</title>
+  <style>
+    body { font: 16px/1.55 Arial, sans-serif; max-width: 1080px; margin: 2rem auto; padding: 0 1.25rem; color: #202124; }
+    img { max-width: 100%; height: auto; }
+    table { border-collapse: collapse; max-width: 100%; }
+    th, td { border: 1px solid #aaa; padding: .45rem; vertical-align: top; }
+    .note { display: block; border-left: 4px solid #e0a000; background: #fff8df; padding: .75rem 1rem; margin: 1rem 0; }
+    .notetitle { font-weight: bold; }
+    .label { font-weight: bold; color: #174ea6; }
+    .source { color: #666; font-size: .9rem; }
+  </style>
+</head>
+<body>
+  <p class="source">章节：入门介绍 | 来源：<a href="https://livehelp.solidstatelogic.com/Help/RemoteIO.html">https://livehelp.solidstatelogic.com/Help/RemoteIO.html</a></p>
+<h2>舞台接口箱</h2>
+
+<p>
+    SSL Live 控制台可通过 MADI 或 Dante 使用多种舞台接口箱。
+    在控制台上完成舞台接口箱配置后，MADI 和 Dante 舞台接口箱的话筒增益及其他参数控制流程相同。
+</p>
+
+<p>所有 SSL 舞台接口箱均配备双冗余电源。</p>
+
+<br>
+
+<h2>MADI 舞台接口箱</h2>
+
+<p>MADI 舞台接口箱通过 BNC 或 BLII-MADI Concentrator（见下文）连接到 SSL Live 控制台。</p>
+<p>最多 3 台 SSL Live 控制台可以共享舞台接口箱，并对两台从属控制台应用增益补偿。更多信息请参阅<a href="https://livehelp.solidstatelogic.com/Help/Routing.html#GainSharing"><span class="hyperlink">增益共享</span></a>章节。</p>
+
+<h3>ML 32.32</h3>
+
+<img style="display: block; margin: auto;" src="https://livehelp.solidstatelogic.com/Help/images/StageboxML.png" alt="">
+
+<p>
+    5U <span style="font-weight:bold;">ML 32.32</span> 模拟舞台接口箱的前面板配有 <span style="font-weight:bold;">32 路可远程控制的 SSL SuperAnalogue<sup>TM</sup> Mic/Line 输入</span>
+    和 <span style="font-weight:bold;">32 路线路输出</span>。
+</p>
+
+<p>A/D 和 D/A 转换在舞台接口箱内完成。标准设备的后面板配有两对同轴 MADI 输入/输出，并配置为一个冗余对。</p>
+
+<p>另有选配后装面板，提供 <span style="font-weight:bold;">32 路模拟话筒分配输出</span>；信号取自 Mic/Line 放大器有源电子电路之前（但在幻象电源注入之后）。</p>
+
+<p>设备配有采样率和时钟设置按钮，以及一对专用字时钟接口；还提供 MIDI 和 GPIO 接口，可用于其他远程控制方式。</p>
+
+
+<p>另有仅配置 32 个前面板输入接口或 32 个输出接口的版本可选。</p>
+
+<h3>D 32.32</h3>
+<img style="display: block; margin: auto;" src="https://livehelp.solidstatelogic.com/Help/images/StageboxD.png" alt="">
+<p><span style="font-weight:bold;">D 32.32</span> 是一款 2U 数字舞台接口箱，前面板通过 XLR 接口提供 <span style="font-weight:bold;">16 对 AES/EBU</span>。所有 AES/EBU 接口均支持采样率转换。</p>
+<p>D 32.32 后面板的连接功能与模拟舞台接口箱完全相同，包括冗余同轴 MADI I/O、至第二台控制台的 MADI 输出、设置控制和远程控制接口。</p>
+
+<h3>BLII-MADI Concentrator</h3>
+<img style="display: block; margin: auto;" src="https://livehelp.solidstatelogic.com/Help/images/StageboxBLM.png" alt="">
+<p>这款 2U 设备用于在 MADI 舞台接口箱与 SSL Live 控制台之间建立高效的线缆连接。</p>
+<p>
+    <span style="font-weight:bold;">BLII-MADI Concentrator</span> 前面板配有<span style="font-weight:bold;">一对冗余的 SSL 专有 Blacklight II</span> 接口，
+    每个接口可传输 <span style="font-weight:bold;">256 路 96 kHz 音频</span>。
+</p>
+
+<p>设备后面板提供 <span style="font-weight:bold;">8 对冗余同轴 MADI</span> 接口。</p>
+
+
+<h2 id="NetIO">Network I/O（Dante）舞台接口箱</h2>
+<p>SSL Network I/O 舞台接口箱通过 Dante 网络连接到 SSL Live 控制台。所有 Network I/O 设备均支持 AES67 和 SMPTE 2110-30 AoIP 网络传输标准。</p>
+
+<p>增益补偿在舞台接口箱内部执行，因此任何 Dante 设备都能接收经过增益补偿的信号，并不要求必须是 SSL 设备。更多信息请参阅<a href="https://livehelp.solidstatelogic.com/Help/DanteNetIO.html#GainShare"><span class="hyperlink">增益共享</span></a>章节。</p>
+
+<h3>SB&nbsp;32.24</h3>
+
+<img style="display: block; margin: auto;" src="https://livehelp.solidstatelogic.com/Help/images/StageboxSB3224.png" alt="">
+
+<p>
+    <span style="font-weight:bold;">SB&nbsp;32.24</span> 是一款 5U 舞台接口箱，配有 <span style="font-weight:bold;">32 路 Mic/Line 输入</span>、<span style="font-weight:bold;">16 路模拟线路输出</span>，
+    以及通过 <span style="font-weight:bold;">4 对 AES/EBU 输入/输出</span>提供的 8 路数字输入和输出。
+</p>
+
+<p>
+    设备配有一对用于连接主 Dante 网络的冗余 RJ45 Dante 网络接口（Network A）。
+    此外，一对可由用户配置的冗余 SFP 端口（Network B）可安装 RJ45 或光纤接口，用于提供经过增益补偿的分配输出。
+    这些 SFP 端口可在 <i>linked</i>（链接）模式下使用，使主通道（未补偿）和补偿通道同时用于同一网络；也可在 <i>unlinked</i>（非链接）模式下使用，将增益补偿信号保留在单独的网络中。
+    可启用 Network B 接口上的采样率转换器（SRC），使 Network B 以不同于主 Dante 接口的采样率或时钟域运行。
+</p>
+
+
+<h3>SB&nbsp;16.12</h3>
+
+<img style="display: block; margin: auto;" src="https://livehelp.solidstatelogic.com/Help/images/StageboxSB1612.png" alt="">
+
+<p>
+    <span style="font-weight:bold;">SB&nbsp;16.12</span> 是一款 3U 舞台接口箱，配有 <span style="font-weight:bold;">16 路 Mic/Line 输入</span>、<span style="font-weight:bold;">8 路模拟线路输出</span>，
+    以及通过 <span style="font-weight:bold;">2 对 AES/EBU 输入/输出</span>提供的 4 路数字输入和输出。
+</p>
+
+<p>其他功能与上述 SB&nbsp;32.24 相同。</p>
+
+
+<h3>SB&nbsp;8.8 &amp; i16</h3>
+
+<img style="display: block; margin: auto;" src="https://livehelp.solidstatelogic.com/Help/images/StageboxSB88.png" alt="">
+<img style="display: block; margin: auto;" src="https://livehelp.solidstatelogic.com/Help/images/StageboxSBi16.png" alt="">
+
+<p>
+    这两款 2RU 设备的配置略有不同，但功能相同。<span style="font-weight:bold;">SB&nbsp;8.8</span> 提供 <span style="font-weight:bold;">8 路 Mic/Line 输入</span>
+    和 <span style="font-weight:bold;">8 路线路电平输出</span>。<span style="font-weight:bold;">SB&nbsp;i16</span> 提供 <span style="font-weight:bold;">16 路 Mic/Line 输入</span>。
+</p>
+<p>两款设备均配有一对冗余 RJ45 Dante 网络接口、一对网络扩展接口和 GPIO 接口。</p>
+<p>SB&nbsp;8.8 和 i16 配有<span style="font-weight:bold;">内置限幅器</span>以及 SSL 创新的 <span style="font-weight:bold;">AutoPad</span> 系统；该系统会根据增益设置自动应用 Pad。</p>
+
+<p>当增益设置较低、需要使用 Pad 时，AutoPad 会自动启用，从而始终无缝提供全部可用的话筒增益范围。</p>
+
+<p><span style="font-weight:bold;">Audition</span>（试听）功能允许通过网络使用 SSL 控制台或 App 监听单独通道，而无需将信号实际路由到网络目标。</p>
+
+
+<h3>X-Light Bridge</h3>
+<img style="display: block; margin: auto; width: 500px;" src="https://livehelp.solidstatelogic.com/Help/images/g_XLightBridgeFront.png" alt="">
+
+<p>
+    <span style="font-weight:bold;">Network I/O X-Light Bridge</span> 是一款 1U 设备，用于在 SSL Live 控制台与舞台接口箱的 <span style="font-weight:bold;">Dante</span> 网络之间建立双向桥接。
+    X-Light Bridge 可在 Dante 网络中双向传输 <span style="font-weight:bold;">256 路超低延迟 96 kHz 音频</span>。
+    它采用加固型接口，适用于巡演。
+</p>
+<p>SSL Live 控制台的本地 I/O 在 96 kHz 下仅支持 32 x 32 Dante I/O（48 kHz 下为 64 x 64），而 X-Light Bridge 可将控制台的 Dante I/O 能力进一步扩展到 256 x 256 通道。</p>
+
+
+<h3>BLII Bridge</h3>
+<img style="display: block; margin: auto;" src="https://livehelp.solidstatelogic.com/Help/images/StageboxBLD.png" alt="">
+
+<p>
+    <span style="font-weight:bold;">Network I/O BLII Bridge</span> 是一款 1U 设备，用于在 SSL Live 控制台与舞台接口箱的 <span style="font-weight:bold;">Dante</span> 网络之间建立双向桥接。
+    BLII Bridge 可在 Dante 网络中双向传输 <span style="font-weight:bold;">256 路超低延迟 96 kHz 音频</span>。
+    它采用非加固型接口，适用于固定安装。
+</p>
+<p>SSL Live 控制台的本地 I/O 在 96 kHz 下仅支持 32 x 32 Dante I/O（48 kHz 下为 64 x 64），而 BLII Bridge 可将控制台的 Dante I/O 能力进一步扩展到 256 x 256 通道。</p>
+
+<h2 id="DanteStageboxes">其他 Dante 舞台接口箱</h2>
+
+这些舞台接口箱不具备 Network I/O 系列的全部功能，但仍以相同方式连接到 SSL Live 控制台。
+
+<h3 id="MPL168">MPL 16-8</h3>
+
+<p>
+    MPL 16-8 是一款 2U 舞台接口箱，配有 16 路 Mic/Line 输入和 8 路模拟线路输出。</p>
+<p>它配有一对冗余 RJ45 Dante 网络接口，并支持 AES67 传输标准。</p>
+
+<p>MPL 16-8 不支持输入所有权、PSU 冗余或 ST 2110。</p>
+
+<h2>实用链接</h2>
+<p><a href="https://livehelp.solidstatelogic.com/Help/Clocking.html"><span class="hyperlink">时钟设置（包括系统连接示例）</span></a></p>
+<p><a href="https://livehelp.solidstatelogic.com/Help/LocalIO.html"><span class="hyperlink">本地 I/O</span></a></p>
+<p><a href="https://livehelp.solidstatelogic.com/Help/LocalMADIConfig.html"><span class="hyperlink">本地与 MADI I/O 配置</span></a></p>
+<p><a href="https://livehelp.solidstatelogic.com/Help/DanteSetup.html"><span class="hyperlink">Dante 配置</span></a></p>
+<p><a href="https://livehelp.solidstatelogic.com/Help/DanteNetIO.html"><span class="hyperlink">Network I/O 舞台接口箱</span></a></p>
+</body>
+</html>

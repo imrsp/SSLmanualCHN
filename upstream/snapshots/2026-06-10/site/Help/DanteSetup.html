@@ -1,0 +1,832 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html ng-app="sslLiveHelp">
+<head>
+    <meta content="text/html; charset=ISO-8859-1" http-equiv="content-type">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=yes">
+
+    <link href="../Help/style/style.css" rel="stylesheet">
+    <link href="../Help/style/jquery-ui-1.13.2.structure.css" rel="stylesheet">
+    <title>Setting Up Dante</title>
+    <script src="../Help/js/jquery-3.6.0.min.js"></script>
+    <script src="../Help/js/jquery-ui/1.13.2/jquery-ui.min.js"></script>
+    <!--<script type="text/javascript" src="cordova.js"></script>-->
+    <!-- Nav / search panels 2017 updates -->
+    <script>
+    window.baseDir = '../';
+    window.data = 'null';
+    </script>
+    <link rel="stylesheet" type="text/css" href="../Help/fonts/font-awesome-4.7.0/css/font-awesome.min.css" />
+    <link rel="stylesheet" type="text/css" href="../Help/style/sass-styles.css">
+    <script src="../Help/js/fastclick.js"></script>
+    <script src="../Help/js/lodash.core.min.js"></script>
+    <!--<script src="../Help/js/angular/1.2/angular.min.js"></script>-->  <!-- On a console -->
+    <script src="../Help/js/angular/1.8/angular.min.js"></script>   <!--Not on a console -->
+    <script src="../Help/js/ngStorage.min.js"></script>
+    <!--<script src="../Help/js/angular/1.2/angular-sanitize.min.js"></script>-->  <!-- On a console -->
+    <!--<script src="../Help/js/angular/1.2/angular-animate.min.js"></script>-->   <!-- On a console -->
+    <script src="../Help/js/angular/1.8/angular-sanitize.min.js"></script>  <!--Not on a console -->
+    <script src="../Help/js/angular/1.8/angular-animate.min.js"></script>   <!--Not on a console -->
+    <script src="../Help/js/lunr-2.3.min.js"></script>
+    <script src="../Help/js/menu.js"></script>
+
+</head>
+
+<body ng-controller="NavController as vm">
+
+    <!--<nav class="nav" ng-class="{ 'nav--visible' : vm.visible }" ng-if="vm.visible" role="navigation" aria-label="Primary">-->  <!-- On a console --> 
+    <nav class="nav" ng-class="{ 'nav--visible' : vm.visible }" role="navigation" aria-label="Primary"> <!--Not on a console -->
+        <!-- Search form -->
+        <div role="search">
+            <form class="nav__search" ng-if="vm.isSearchSupported">
+                <label class="nav__search-icon" for="query"><i aria-label="Search" title="Search" class="fa fa-search"></i></label>
+                <input type="search" id="query" class="nav__search-input" placeholder="Search..." ng-model="vm.query" />
+            </form>
+        </div>
+
+        <div class="nav__scroll" ng-style="vm.styleBasedOnSearchSupported">
+
+            <!-- Main nav -->
+            <ul class="main-nav" ng-hide="vm.query">
+                <li class="main-nav__item" ng-repeat="item in vm.nav">
+
+                    <!-- Link to page -->
+                    <a ng-if="item.url" ng-class="{'main-nav__link--active' : item.url===vm.currentPage}" class="main-nav__link" ng-attr-href="{{ vm.baseDir }}{{ item.url }}">
+                        {{ item.title }}
+                    </a>
+
+                    <!-- Expandable heading -->
+                    <span ng-click="vm.toggleExpanded(item.title)" ng-if="!item.url" class="main-nav__title">
+                        {{ item.title }}
+                        <span ng-if="!vm.isExpanded(item.title)" class="fa fa-caret-right"></span>
+                        <span ng-if="vm.isExpanded(item.title)" class="fa fa-caret-down"></span>
+                    </span>
+
+                    <!-- Subnav -->
+                    <ul ng-if="vm.isExpanded(item.title)" class="main-nav fx-fade">
+                        <li ng-repeat="sub in item.children" class="main-nav__item">
+
+                            <!-- Link to page -->
+                            <a ng-if="sub.url" ng-class="{'main-nav__link--active' : sub.url===vm.currentPage}" class="main-nav__link main-nav__link--level1" ng-attr-href="{{ vm.baseDir }}{{ sub.url }}">
+                                {{ sub.title }}
+                            </a>
+
+                            <!-- Expandable heading -->
+                            <span ng-click="vm.toggleExpanded(sub.title)" ng-if="!sub.url" class="main-nav__title main-nav__title--level1">
+                                {{ sub.title }}
+                                <span ng-if="!vm.isExpanded(sub.title)" class="fa fa-caret-right"></span>
+                                <span ng-if="vm.isExpanded(sub.title)" class="fa fa-caret-down"></span>
+                            </span>
+
+                            <!-- Sub-sub nav -->
+                            <ul ng-if="sub.children && vm.isExpanded(sub.title)" class="main-nav fx-fade">
+                                <li ng-repeat="subsub in sub.children" class="main-nav__item">
+
+                                    <!-- Link to page -->
+                                    <a ng-class="{'main-nav__link--active' : subsub.url===vm.currentPage}" class="main-nav__link main-nav__link--level2" ng-attr-href="{{ vm.baseDir }}{{ subsub.url }}" ng-bind-html="subsub.title">
+                                    </a>
+
+                                </li>
+                            </ul>
+
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+
+            <!-- Search results list -->
+            <ul class="search-results">
+                <li class="search-result" ng-repeat="result in vm.results">
+                    <a class="search-result__link" ng-attr-href="{{ vm.baseDir }}{{ 'Help/' + result.id }}">
+                        <h3 class="search-result__title">{{ result.title }}</h3>
+                        <p class="search-result__excerpt" ng-bind-html="result.excerpt"></p>
+                    </a>
+                </li>
+            </ul>
+
+            <!-- Keep screen on option - PhoneGap insomnia -->
+            <ul class="main-nav" ng-if="vm.isPhoneGap">
+                <li class="main-nav__item">
+                    <label class="main-nav__title">
+                        Keep Screen On
+                        <input style="display: none" type="checkbox" ng-model="vm.keepScreenOn" />
+                        <i ng-class="{'fa--cleared' : !vm.keepScreenOn, 'fa--checked' : vm.keepScreenOn}" class="fa fa-check"></i>
+                    </label>
+                </li>
+            </ul>
+
+
+        </div>
+    </nav>
+
+    <nav class="header" role="navigation" aria-label="Secondary">
+        <a ng-if="!vm.onAConsole" href="../index.html" class="header__btn" title="Home"><i class="fa fa-home"></i></a>
+        <div ng-if="!vm.onAConsole" class="header__history">
+            <a onclick="javascript:window.history.back()" class="header__btn"><i title="Back" class="fa fa-chevron-left"></i></a>
+            <a onclick="javascript:window.history.forward()" class="header__btn"><i title="Forwards" class="fa fa-chevron-right"></i></a>
+        </div>
+        <div align="right">
+            <a class="header__btn header__btn--nav" ng-click="vm.toggleVisibility()">
+                <i ng-if="!vm.visible" class="fa fa-bars"></i>
+                <i ng-if="vm.visible" class="fa fa-close"></i>
+            </a>
+        </div>
+    </nav>
+
+
+    <!-- Main content -->
+    <div id="main">
+        
+
+
+<div><a href="RecordingPlayback.html"><img class="TutorialNav" src="images/n_TutPrevious.png" alt=""><span class="TutorialNav">Multitrack Recording &amp; Playback</span></a></div>
+
+<p>
+    The following pages contain instructions on setting up SSL Live consoles for use with a Dante network, routing to and from Dante devices and controlling and gain sharing with SSL Net I/O Stageboxes:
+    <ul>
+        <li>Setting Up Dante (this page)</li>
+        <li><a href="DanteVTL.html"><span class="hyperlink">Virtual Tie Lines</span></a></li>
+        <li><a href="DanteConfig.html"><span class="hyperlink">Dual Domain Routes and Configuring Dante Devices</span></a></li>
+        <li><a href="DanteNetIO.html"><span class="hyperlink">Network I/O Stageboxes and Devices</span></a></li>
+        <li><a href="DanteBridges.html"><span class="hyperlink">BLII & X-Light Bridges</span></a></li>
+    </ul>
+</p>
+
+
+
+<h2>Setting Up Dante</h2>
+
+<span class="note">
+    <span class="notetitle">SSL recommends: </span>For Dante-based systems, it is recommended that you complete <span style="font-weight:bold;">Dante Certification Levels 1 & 2</span> on the Audinate website before proceeding.<br />
+    These certification courses will provide you with an introduction to Dante networks and will be very useful when setting up SSL Live Dante systems.<br />
+    The certification courses can be accessed here: <a class="external-link" tabindex="-1" href="https://www.audinate.com/resources/training-and-tutorials/dante-certification-training" target="_blank"><span class="hyperlink">audinate.com/resources/training-and-tutorials/dante-certification-training</span></a>
+</span>
+
+<h3>IP Address Settings</h3>
+
+<p>
+    Before starting to configure your console it's important to understand that your SSL Live console contains <span style="font-weight:bold;">five</span> separate network adapters
+    which must be configured to work with your external Dante network for correct operation. These devices are:
+</p>
+
+<p style="margin-bottom:0px;">
+    <ul>
+        <li>Primary Dante Control Network</li>
+        <li>Secondary Dante Control Network</li>
+        <li>Primary Dante Expander Audio</li>
+        <li>Secondary Dante Expander Audio</li>
+        <li>Connectivity Network</li>
+    </ul>
+
+<p>If working with a <span style="font-weight:bold;">BLII Bridge</span> or <span style="font-weight:bold;">X-Light Bridge</span>, these network devices will also apply:</p>
+
+<p style="margin-bottom:0px;">
+    <ul>
+        <li>Primary BLII/X-Light Bridge Audio</li>
+        <li>Secondary BLII/X-Light Bridge Audio</li>
+    </ul>
+
+<p>
+    <span style="font-weight:bold;">Dante Control Primary &amp; Secondary</span> -
+    Provides control over the Dante network including making/unmaking routes and controlling input parameters such as mic gain.
+    This pair of adapters should live on the Primary and Secondary Dante networks respectively.
+</p>
+
+<p>
+    <span style="font-weight:bold;">Dante Expander Audio Primary &amp; Secondary</span> -
+    Provides transport of audio over the Dante network via the internal Dante Expander Module. The Dante Expander has no control over routing or stageboxes.
+    This pair of adapters should live on the Primary and Secondary Dante networks respectively.
+</p>
+
+<p>
+    <span style="font-weight:bold;">Connectivity Network</span> -
+    Used for remote control of the console via SOLSA, the Remote Expander, another SSL Live console or TaCo.
+    This network is accessed from one of the three ports labelled <span style="font-weight:bold;">NETWORK</span> on the rear of the console.
+    The Connectivity Network is a separate network from the Dante network and is not required for Dante operation.
+    However, it is important to be aware of its IP address, as if set incorrectly, could conflict with your Dante network.
+</p>
+
+<p>
+    <span style="font-weight:bold;">X-Light Bridge Console Link Primary &amp; Secondary</span> -
+    Provides transport of the console's Dante Control and Dante Expander devices over the Dante network via the X-Light Bridge. This pair of adapters should live on the Primary and Secondary Dante networks respectively.
+</p>
+
+<p>The above network devices should live on 3 separate networks:</p>
+
+<p>These networks should contain the following devices.</p>
+
+<p style="margin-bottom:0px;">
+    <ul>
+        <li>
+            <span style="font-weight:bold;">Dante Primary</span>
+
+            <ul>
+                <li>Console's Dante Control Primary</li>
+                <li>Console's Dante Expander Audio Primary</li>
+                <li>BLII Bridge Audio Primary (if using BLII Bridge)</li>
+                <li>X-Light Bridge Audio Primary (if using X-Light Bridge)</li>
+                <li>Other Dante devices' Primary connection (e.g. Net I/O Stageboxes, Dante Virtual Soundcard, Third party Dante devices)</li>
+                <li>A computer running Dante Controller</li>
+            </ul>
+        </li>
+
+        <li>
+            <span style="font-weight:bold;">Dante Secondary</span>
+
+            <ul>
+                <li>Console's Dante Control Secondary</li>
+                <li>Console's Dante Expander Audio Secondary</li>
+                <li>BLII Bridge Audio Secondary (if using BLII Bridge)</li>
+                <li>X-Light Bridge Audio Secondary (if using X-Light Bridge)</li>
+                <li>Other Dante devices' Secondary connection (e.g. Net I/O Stageboxes, Dante Virtual Soundcard, Third party Dante devices)</li>
+            </ul>
+        </li>
+
+        <li>
+            <span style="font-weight:bold;">Connectivity Network</span>:
+
+            <ul>
+                <li>Console Connectivity Network</li>
+                <li>SOLSA in Remote mode (if used)</li>
+                <li>A tablet running TaCo (if used)</li>
+                <li>Another SSL Live console in Remote mode (if used)</li>
+            </ul>
+        </li>
+
+    </ul>
+</p>
+
+<p>Each network should have its own subnet. And every device on one network must have an IP address within the same subnet in order for those devices to communicate with each other.</p>
+
+<p>Each of the network devices require a unique IP address within the correct subnet for the network they are connected to.</p>
+
+<span class="note">
+    <span class="notetitle">Notes:</span><br>The <span style="font-weight:bold;">Dante Control</span> and <span style="font-weight:bold;">Dante Expander Audio</span> are both accessed from the Dante Expander Primary and Secondary ports on the back of the console.
+    An internal network switch in the console joins these two separate network devices. However, they both have individual IP settings.
+    For example the Dante Control Primary and Dante Expander Primary must have different IP addresses within the same subnet.
+    <br><br>
+    The <span style="font-weight:bold;">Dante Control</span> and <span style="font-weight:bold;">Dante Expander Audio</span> can also be accessed via the X-Light's <span style="font-weight:bold;">Console Link</span> ports. Care should be taken not to create a network loop if connecting both console Dante Expander and X-Light ports to the same network.
+    <br><br>
+    To correctly set up Dante with control on SSL Live consoles, both the <span style="font-weight:bold;">Dante Control</span> and <span style="font-weight:bold;">Dante Expander Audio</span> network devices must be configured.
+    <br><br>
+    To correctly set up Dante with control on SSL Live consoles using a BLII/X-Light Bridge, the <span style="font-weight:bold;">Dante Control</span>, <span style="font-weight:bold;">Dante Expander Audio</span>
+    and <span style="font-weight:bold;">BLII/X-Light Bridge Audio</span> network devices must be configured.
+</span>
+
+<p>SSL Live consoles ship from the factory with the following IP address settings:</p>
+
+<div>
+
+    <table class="insideborder" style="width: auto; margin: 15px 0px;" cellpadding="4" cellspacing="1">
+        <tbody>
+            <tr>
+                <th class="solidborder">Network Interface</th>
+                <th class="solidborder">Fixed/DHCP</th>
+                <th class="solidborder">IP Address</th>
+                <th class="solidborder">IP Address Configured Using</th>
+            </tr>
+            <tr>
+                <th class="solidborder">Primary Dante Control</th>
+                <td class="solidborder">Fixed</td>
+                <td class="solidborder">10.101.x.x</td>
+                <td class="solidborder"><span class="label">MENU</span> > <span class="label">Setup</span> > <span class="label">Options</span> > <span class="label">NETWORK</span> tab</td>
+            </tr>
+            <tr>
+                <th class="solidborder">Secondary Dante Control</th>
+                <td class="solidborder">Fixed</td>
+                <td class="solidborder">10.102.x.x</td>
+                <td class="solidborder"><span class="label">MENU</span> > <span class="label">Setup</span> > <span class="label">Options</span> > <span class="label">NETWORK</span> tab</td>
+            </tr>
+            <tr>
+                <th class="solidborder">Primary Dante Expander Audio</th>
+                <td class="solidborder">Fixed</td>
+                <td class="solidborder">10.101.x.x</td>
+                <td class="solidborder">Dante Controller (available for free from the Audinate website)</td>
+            </tr>
+            <tr>
+                <th class="solidborder">Secondary Dante Expander Audio</th>
+                <td class="solidborder">Fixed</td>
+                <td class="solidborder">10.102.x.x</td>
+                <td class="solidborder">Dante Controller (available for free from the Audinate website)</td>
+            </tr>
+            <tr>
+                <th class="solidborder">Connectivity Network</th>
+                <td class="solidborder">DHCP</td>
+                <td class="solidborder">-</td>
+                <td class="solidborder"><span class="label">MENU</span> > <span class="label">Setup</span> > <span class="label">Options</span> > <span class="label">NETWORK</span> tab</td>
+            </tr>
+        </tbody>
+    </table>
+
+</div>
+
+<br>
+
+<p>A BLII/X-Light Bridge ships from the factory with the following IP address settings:</p>
+<div>
+
+    <table class="insideborder" style="width: auto; margin: 15px 0px;" cellpadding="4" cellspacing="1">
+        <tbody>
+            <tr>
+                <th class="solidborder">Network Interface</th>
+                <th class="solidborder">Fixed/DHCP</th>
+                <th class="solidborder">IP Address</th>
+                <th class="solidborder">IP Address Configured Using</th>
+            </tr>
+            <tr>
+                <th class="solidborder">Primary BLII/X-Light Bridge Audio</th>
+                <td class="solidborder">DHCP</td>
+                <td class="solidborder">-</td>
+                <td class="solidborder">Dante Controller (available for free from the Audinate website)</td>
+            </tr>
+            <tr>
+                <th class="solidborder">Secondary BLII/X-Light Bridge Audio</th>
+                <td class="solidborder">DHCP</td>
+                <td class="solidborder">-</td>
+                <td class="solidborder">Dante Controller (available for free from the Audinate website)</td>
+            </tr>
+        </tbody>
+    </table>
+
+</div>
+<br>
+<p>SSL Net I/O Stageboxes ship from the factory with the following IP address settings:</p>
+<div>
+
+    <table class="insideborder" style="width: auto; margin: 15px 0px;" cellpadding="4" cellspacing="1">
+        <tbody>
+            <tr>
+                <th class="solidborder" colspan="2">Stagebox</th>
+                <th class="solidborder">Network Interface</th>
+                <th class="solidborder">Fixed/DHCP</th>
+                <th class="solidborder">IP Address</th>
+                <th class="solidborder">IP Address Configured Using</th>
+            </tr>
+            <tr>
+                <th class="solidborder" rowspan="4">SB&nbsp;16.12 &amp; SB&nbsp;32.24</th>
+                <td class="solidborder" rowspan="2">Main<br>(Net&nbsp;A)</td>
+                <td class="solidborder">Primary</td>
+                <td class="solidborder">DHCP</td>
+                <td class="solidborder">-</td>
+                <td class="solidborder">Dante Controller (available for free from the Audinate website)</td>
+            </tr>
+            <tr>
+                <td class="solidborder">Secondary</td>
+                <td class="solidborder">DHCP</td>
+                <td class="solidborder">-</td>
+                <td class="solidborder">Dante Controller (available for free from the Audinate website)</td>
+            <tr>
+                <td class="solidborder" rowspan="2">Comp<br>(Net&nbsp;B)</td>
+                <td class="solidborder">Primary</td>
+                <td class="solidborder">DHCP</td>
+                <td class="solidborder">-</td>
+                <td class="solidborder">Dante Controller (available for free from the Audinate website)</td>
+            </tr>
+            <tr>
+                <td class="solidborder">Secondary</td>
+                <td class="solidborder">DHCP</td>
+                <td class="solidborder">-</td>
+                <td class="solidborder">Dante Controller (available for free from the Audinate website)</td>
+            <tr>
+                <th class="solidborder" rowspan="2" colspan="2">SB&nbsp;8.8 &amp; SB&nbsp;i16</th>
+                <td class="solidborder">Primary</td>
+                <td class="solidborder">DHCP</td>
+                <td class="solidborder">-</td>
+                <td class="solidborder">Dante Controller (available for free from the Audinate website)</td>
+            </tr>
+            <tr>
+                <td class="solidborder">Secondary</td>
+                <td class="solidborder">DHCP</td>
+                <td class="solidborder">-</td>
+                <td class="solidborder">Dante Controller (available for free from the Audinate website)</td>
+            </tr>
+        </tbody>
+    </table>
+
+</div>
+
+<br>
+
+<p>For each IP address above, the <span style="font-weight:bold;">netmask</span> (also called <span style="font-weight:bold;">subnet mask</span> is 255.255.0.0)</p>
+
+<p>Important Things to Remember:</p>
+<p style="margin-bottom:0px;">
+    <ul>
+        <li>IP addresses for each device must be unique.</li>
+        <li>Dante Primary and Secondary networks must never be physically linked.</li>
+        <li>Multiple network adapters on the same device may not be given addresses in the same subnet</li>
+        <li>Dante Primary and Secondary addresses must be in different subnets.</li>
+        <li>Dante Primary will use the 169.254.x.x subnet when set to auto-configure. This is standard IPv4 protocol and therefore the same behaviour as the Connectivity network. </li>
+        <li>
+            On all Dante devices (other than SSL Live consoles, please see "Fixed IP Addresses" below) Dante Secondary will use the 172.31.x.x subnet when set to auto-configure.
+            This is still a private address within IPv4, and is not reserved exclusively for auto-configuration, making its use for secondary auto-configuration unique to Dante.
+        </li>
+        <li>In addition to being configured in different subnets, Connectivity, Dante Primary and Dante Secondary should be treated as three physically separate networks, with their own network hardware.*</li>
+        <li>Default Gateway settings must be left blank as there is no current application for Dante.**</li>
+    </ul>
+
+<p>
+    <i>
+        * There are exceptions - you may have a configurable network switch that could serve multiple networks, separated out using VLANs.
+        Although this would work, reasons to keep hardware separate are primarily related to failover -
+        if this single switch failed, both Primary and Secondary networks would fail, defeating the purpose of a secondary network, so it is not recommended for Live usage cases.
+    </i>
+</p>
+
+<p><i>**Default Gateways are used to route IP data between subnets. This is not supported in Dante, and entering gateway settings will link Primary and Secondary subnets together, which is invalid. </i></p>
+
+<h3>SSL Live Recommendations</h3>
+
+<span style="font-weight:bold;">Fixed IP Addresses or DHCP with SSL Live?</span>
+
+<span class="note">
+    <span class="notetitle">SSL Recommends:</span><br>
+    SSL recommends that for Dante networks containing an SSL Live console, <span style="font-weight:bold;">Fixed IP addresses</span> are used for all Dante devices on the Secondary network
+    <span style="font-weight:bold;">unless</span> a DHCP server is present.
+</span>
+
+<p>
+    Dynamic Host Configuration Protocol (DHCP) is a network protocol that allows a server to automatically assign an IP address to a device in a defined range, known as a scope.
+    DHCP may also provide information about gateways and DNS servers (not usually required if in a closed network dedicated for audio transport).
+</p>
+
+<p>
+    If two or more of the console's three control network adapters (Connectivity, Pri & Sec Dante Control) are set to DHCP with no DHCP server present on any of the networks, the console's network adapters would be auto-configured
+    to be within the same 169.254.xx.xx subnet. This is an invalid configuration and will cause incorrect operation on the Dante or Connectivity network, or both.
+</p>
+
+<p>Therefore, if all Dante devices are set to DHCP, SSL recommends that a DHCP server is present on all networks being used.</p>
+
+<p>
+    Alternatively, using Fixed IP addresses for all devices on both the Dante Primary and Dante Secondary networks prevents the Dante Control Primary and Secondary network adapters from being auto-configured to IP addresses within the same subnet,
+    and therefore helps to prevent the networks from becoming linked. The Connectivity network can safely be set to DHCP in this instance provided the fixed address ranges used for Dante Primary and Secondary devices do not overlap with the Connectivity
+    network's DHCP scope (or in the 169.254.xx.xx scope if no DHCP server is present on the Connectivity network).
+</p>
+
+<p>
+    If using multiple DHCP servers (e.g. one for each network) they should be configured to issue addresses within unique subnets to ensure their scopes do not overlap with that of any other network's fixed/DHCP range.
+</p>
+
+<p>
+    If you do not have a DHCP server on the Connectivity Network, set this adapter to a fixed address, in a different subnet to the Primary and Secondary Dante networks.
+    Set all other devices on the Connectivity Network to a Fixed IP address within the same subnet. For more information on setting up the Connectivity Network
+    please go to <a href="RemoteControl.html"><span class="hyperlink">Remote Surfaces</span></a> or <a href="TaCo.html"><span class="hyperlink">TaCo Tablet Control</span></a>.
+</p>
+
+<br>
+
+<p><span style="font-weight:bold;">IP Address Clash Warnings</span></p>
+
+<p>
+    If more than one of the console's network adapters are set to IP addresses within the same subnet, a series of warnings will be displayed to notify of an IP address clash.
+    This is an invalid configuration and must be resolved.
+</p>
+
+<p>For more information please see <a href="OptionsNetwork.html#Clash"><span class="hyperlink">IP Address Clash Warnings</span></a>.</p>
+
+
+<br>
+
+<p id="FindingDevice"><span style="font-weight:bold;">Finding a Dante device set to a Fixed IP address in a different subnet</span></p>
+
+<p>The Audinate website contains detailed instructions on how to locate devices that have been set to a Fixed IP address in a different subnet to your computer. <a class="external-link" tabindex="-1" href="https://www.audinate.com/faq/how-can-i-locate-dante-device-static-ip-address-unknown-subnet" target="_blank"><span class="hyperlink">www.audinate.com/faq/how-can-i-locate-dante-device-static-ip-address-unknown-subnet</span></a></p>
+
+<p>Alternatively, the free download <span style="font-weight:bold;">Wireshark</span> can be used to identify the IP address of devices on the network.</p>
+
+<p>First, download Wireshark from their website here: <a class="external-link" tabindex="-1" href="https://www.wireshark.org/#download" target="_blank"><span class="hyperlink">www.wireshark.org</span></a> and install the program on your computer.</p>
+
+<p>Wireshark works by reporting all of the IP addresses of devices on a network. To simplify the investigation, connect your computer directly to the Dante Primary adapter on the device in question.</p>
+
+<p>Open Wireshark. All of your computer's network adapters will be listed. Double click on the network adapter you are using for Dante Primary. Most laptops only contain one network adapter, and therefore only one wired network connection will be displayed.</p>
+
+<p>All of the devices on the network will now be displayed by their IP address. If you have connected directly to the device in question, only two IP addresses will be visible here: the device in question, and your computer.</p>
+
+<p>Identify which IP address is that of your computer.</p>
+
+<p>The IP addresses of Mac computers can be viewed in <span class="label">System Preferences</span> > <span class="label">Network</span>. Click on the Ethernet network adapter to the left to display the Mac's IP address.</p>
+
+<p>For PC computers, open <span class="label">Command Prompt</span>, type <i>ipconfig</i> and press <span class="label">Enter</span> on your keyboard. The IP address of your PC will be displayed beside <span style="font-weight:bold;">IPv4 Address</span>.</p>
+
+<p>Once you have identified which of the IP addresses displayed in Wireshark is that of your computer, the remaining IP address will be that of the device in question.</p>
+
+<p>Set the IP address of your computer to within the same subnet as the device in question and it will then be visible in Dante Controller. Change the device's IP addresses so that they are within the subnets you wish to use for Dante Primary and Secondary and set the IP address of your computer so that it is back within the range you are using for Dante Primary.</p>
+
+<h3>Step 1: Setting the Dante Control IP Addresses</h3>
+
+<p>
+    This section describes how to set the IP addresses for the Primary & Secondary Dante Control network adapters,
+    which provide control over the Dante network including making/unmaking routes and controlling input parameters such as mic gain.
+    This pair of adapters should live on the Primary and Secondary Dante networks respectively.
+</p>
+
+<p>On the console go to <span class="label">MENU</span> > <span class="label">Setup</span> > <span class="label">Options</span> > <span class="label">NETWORK</span> tab.</p>
+
+<p>The screen will show you information for the Connectivity network on the left and the information for Primary and Secondary Dante Control Networks on the right.</p>
+
+<span class="note">
+    <span class="notetitle">Notes:</span><br>These addresses are for the network adapters used by the console to send/receive control data to/from the Dante network,
+    not the address of the Dante audio connections. The Dante Control network adapters are not visible in, and cannot be configured by Dante Controller.
+</span>
+
+<p>For our example we are going to set the <span style="font-weight:bold;">Primary Control Network adapter</span> with the following settings:</p>
+
+<p><span style="font-weight:bold;">IP Address:</span> 10.101.1.1</p>
+<p><span style="font-weight:bold;">Netmask:</span> 255.255.0.0</p>
+<p><span style="font-weight:bold;">Gateway:</span> 0.0.0.0</p>
+
+<p>
+    First set the adapter type to <span class="label">Fixed</span>, then double-tap the IP Address and Netmask boxes and enter the values above.
+    Once this is done, press and hold the <span class="label">Apply</span> button and wait for the network adapter to restart.
+</p>
+
+<p>Next set the <span style="font-weight:bold;">Secondary Control Network adapter</span> with the following settings:</p>
+
+<p><span style="font-weight:bold;">IP Address:</span> 10.102.1.1</p>
+<p><span style="font-weight:bold;">Netmask:</span> 255.255.0.0</p>
+<p><span style="font-weight:bold;">Gateway:</span> 0.0.0.0</p>
+
+<p>
+    Set the adapter type to <span class="label">Fixed</span>, then double-tap the IP Address and Netmask boxes and enter the values above.
+    Once this is done, press and hold the <span class="label">Apply</span> button and wait for the network adapter to restart.
+</p>
+
+<img style="display: block; margin: 25px auto;" src="images/g_DanteControlNetIP.png" alt="">
+
+<p>
+    In our example, the <span style="font-weight:bold;">Connectivity network adapter</span> address settings should be left as <span class="label">DHCP</span>.
+    If this needs to be set to a Fixed IP address at a later date, ensure that a different subnet is used to that of the Dante networks.
+</p>
+
+<img style="display: block; margin: 25px auto;" src="images/g_ConnectivityNetIP.png" alt="">
+
+<h3>Step 2: Setting the Dante Audio Network IP Addresses and Names</h3>
+
+<p>To set the IP addresses of the console's Dante Audio Network devices you will need a computer running Audinate's Dante Controller application, which you can download here: <a class="external-link" tabindex="-1" href="https://www.audinate.com/products/software/dante-controller" target="_blank"><span class="hyperlink">www.audinate.com/products/software/dante-controller</span></a></p>
+
+<p>
+    Set your computer's network adapter to have a fixed IP address of 10.101.10.10, with a netmask of 255.255.0.0.
+    Now connect your computer's network port directly to the Dante Pri port on your console and launch the Dante Controller application.
+</p>
+
+<p>
+    In Dante Controller find the console, in our example <span style="font-weight:bold;">L200-Dante-Expander</span>
+    (on initial setup this name will be different).
+
+    <img style="display: block; margin: 25px auto;" src="images/g_DanteControllerName.png" alt="">
+
+<p>Double-click on the device name and select the <span class="label">Device Config</span> tab in the Device View window.</p>
+
+<img style="display: block; margin: 25px auto;" src="images/g_DanteDeviceConfig.png" alt="">
+
+<p>
+    Enter a suitable name in the <span style="font-weight:bold;">Rename Device</span> field so it can be easily identified in Dante Controller by anyone using the network.
+    The console model and venue location is often sufficient (e.g. "L200-FOH"), unless a very large network is being configured.
+</p>
+
+<p>In our example make sure the Dante device Sample Rate is set to 96 kHz as shown above.</p>
+
+<p>Next select the <span class="label">Network Config</span> tab. This page shows the IP addresses for the console's Dante Audio Network devices.</p>
+
+<img style="display: block; margin: 25px auto;" src="images/g_DanteNetworkConfig.png" alt="">
+
+<p>For our example we will use the following IP address settings for the Primary adapter:</p>
+
+<p><span style="font-weight:bold;">IP Address:</span> 10.101.2.2</p>
+<p><span style="font-weight:bold;">Netmask:</span> 255.255.0.0</p>
+
+<p>For the Secondary adapter use:</p>
+
+<p><span style="font-weight:bold;">IP Address:</span> 10.102.2.2</p>
+<p><span style="font-weight:bold;">Netmask:</span> 255.255.0.0</p>
+
+<p>
+    Press <span class="label">Apply</span> for the changes to take effect. You will be asked to confirm the IP address change, click <span class="label">Yes</span>.
+    The device must now be rebooted for changes to take effect. Click <span class="label">Reboot</span>. You will be asked to confirm the reboot. Click <span class="label">Yes</span>.
+</p>
+
+<span class="note">
+    <span class="notetitle">Notes:</span><br>For our example please ensure the <b>Virtual Tie Lines</b> value is set to 0 in the Dante Expander Detail view
+    (in <span class="label">MENU</span> > <span class="label">Setup</span> > <span class="label">I/O</span> > <span class="label">Local/MADI&nbsp;Configuration</span>).
+    This is for the simplicity of the example. For more information on configuring Virtual Tie Lines please see <a href="DanteVTL.html"><span class="hyperlink">Working with Virtual Tie Lines</span></a>.
+</span>
+
+<h3>Step 3: Setting the Dante Audio Network and Dante Control Network Names</h3>
+
+<p>To easily identify the console on a Dante network the console uses two unique, user defined names: </p>
+
+<p><span style="font-weight:bold;">Dante Device Name</span> - Identifies the console's Local Dante audio interface (the name visible in Dante Controller and set in step 2 above)</p>
+<p><span style="font-weight:bold;">Control ID</span> - Identifies the console as a Dante device controller (the name used for ownership of Net I/O stageboxes)</p>
+
+<span class="note"><span class="notetitle">Important:</span> These two names must <span style="font-weight:bold;">NOT</span> be the same.</span>
+
+<p>
+    The <span style="font-weight:bold;">Dante Device Name</span> can be found in <span class="label">MENU</span> > <span class="label">Setup</span> > <span class="label">I/O</span> > <span class="label">Local/MADI&nbsp;Configuration</span> > <span class="label">Dante&nbsp;Expander</span>.
+    This name should be populated automatically when the console is connected to a Dante network.
+    However, if the name is not automatically detected, enter the name manually by double-tapping on the <span style="font-weight:bold;">Device Name</span> field
+    and entering the name <span style="font-weight:bold;">exactly</span> as it appears in Dante Controller.
+</p>
+
+<img style="display: block; margin: 25px auto;" src="images/g_DanteExpanderName.png" alt="">
+
+<p>
+    The <span style="font-weight:bold;">Control ID</span> name can be seen in the <span class="label">MENU</span> > <span class="label">Setup</span> > <span class="label">Options</span> > <span class="label">NETWORK</span> tab.
+    In the example below the Control ID is <span style="font-weight:bold;">LIVE-L200</span>.
+</p>
+
+<img style="display: block; margin: 25px auto;" src="images/g_DanteControlNetIP.png" alt="">
+
+<p>
+    The Control ID is taken from the Console Name, which can be changed in the System page (<span class="label">MENU</span> > <span class="label">Setup</span> > <span class="label">System&nbsp;/&nbsp;Power</span> > <span class="label">System</span> tab), 
+    in the <span style="font-weight:bold;">Console Name</span> section. Double tap on the name to edit it. Then press and hold <span class="label">Apply</span>.
+</p>
+
+<img style="display: block; margin: 25px auto;" src="images/g_ConsoleName.png" alt="">
+
+<span class="note">
+    <span class="notetitle">Please note:</span><br>Changing the <span style="font-weight:bold;">Console Name</span> will power off the console and the console will lose ownership of all Net I/O stagebox parameters.
+    This is because the console uses the Control ID (which is taken from the Console Name), to Own stagebox inputs and parameters.
+    All previously owned inputs and parameters of the stagebox will need to be re-owned.
+    For more information on how to Own inputs and stagebox parameters please go to <a href="DanteNetIO.html#Ownership"><span class="hyperlink">Controlling Net I/O Stageboxes and Ownership</span></a>
+</span>
+
+<h3>Step 4: Connecting SSL Net I/O Stageboxes (and other Dante Devices)</h3>
+
+<p>Now you have configured your console's Dante settings we can start to add network switches and other Dante devices to the network.</p>
+
+<span class="note">
+    <span class="notetitle">Notes:</span><br>The Primary and Secondary networks must remain physically separate at all times.
+    Please do not connect the Primary and Secondary switches together, and similarly please do not connect a device's Primary connection to the Secondary switch and vice versa.
+</span>
+
+<p>All SSL Stageboxes ship configured <span style="font-weight:bold;">DHCP</span>.
+
+<p>To setup a Fixed IP address on a Stagebox connect your computer (configured to use a DHCP address), directly to the stagebox and use <span class="label">Dante Controller</span> to set the Fixed IP address (following the instructions in Step 3).</p>
+
+<p>Every device on one network must have an IP address within the same subnet in order for those devices to communicate with each other.</p>
+
+<p>So for our example any device connected to the Dante Primary network must have an IP address as follows:</p>
+
+<p><span style="font-weight:bold;">IP Address:</span> 10.101.x.x</p>
+<p><span style="font-weight:bold;">Netmask:</span> 255.255.0.0</p>
+
+<span class="note"><span class="notetitle">Notes:</span><br>We have already used IP addresses 10.101.1.1, 10.101.2.2 and 10.101.10.10 on the Primary Network. These IP addresses cannot be used for an additional device on the network.</span>
+
+<p>For the Dante Secondary network any connected device must have an IP address as follows:</p>
+
+<p><span style="font-weight:bold;">IP Address:</span> 10.102.x.x</p>
+<p><span style="font-weight:bold;">Netmask:</span> 255.255.0.0</p>
+
+<span class="note"><span class="notetitle">Notes:</span><br>We have already used IP addresses 10.102.1.1 and 10.102.2.2 on the Secondary Network. These IP addresses cannot be used for an additional device on the network.</span>
+
+<p>
+    Using Dante Controller or the console's  Dante I/O Setup page, set all connected Stageboxes to 96 kHz sample rate. This is because we have already set the Dante Expander module to 96 kHz earlier in this example setup process.
+    Dante routes are not possible between two devices with different sample rates. So to create a route between two Dante devices, those devices must be running at the same sample rate.
+</p>
+
+
+<h3>Clocking over Dante</h3>
+<p>Please refer to the <a href="Clocking.html#Dante"><span class="hyperlink">Dante section of the Clocking page</span></a> to correctly configure the console and network clocking for correct operation.</p>
+
+<h3>Dante Domain Manager</h3>
+
+<!-- Start of DDM Snippet -->
+<!-- Also used in OptionsNetwork.html -->
+<p>
+    The console is capable of connecting to a managed domain within a network controlled by Dante Domain Manager (DDM).
+    The console must be logged into the same domain as any I/O devices you wish to route to/from or control.
+</p>
+
+<span class="note">
+    <span class="notetitle">Important Note:</span> The console's Local Dante Expander (Brooklyn II) module and any BLII or X-Light Bridges must be enrolled in to the same domain as the I/O and console's control software.
+    This is done using Dante Domain Manager.
+</span>
+<!-- End of DDM Snippet -->
+
+<p>
+    More information on logging the console into a domain can be found in the <a href="OptionsNetwork.html#DDM"><span class="hyperlink">Network Options</span></a> section.
+</p>
+
+<h2 id="Interfaces">SSL Live Dante Interfaces</h2>
+
+<h3>Dante Expander Module</h3>
+
+<p>SSL Live consoles have the option to fit a <b>Dante Expander Module</b> which comprises a Dante Brooklyn II Module for making audio connections to and from a Dante network.</p>
+
+<!-- Start of Dante Sample Rates Snippet -->
+<!-- Also used in LocalMADIConfig.html -->
+<p>
+    The number of channels available for routing on the console will vary based on the console and Dante network sample rates.
+    If the Dante network is running at a different sample rate or in a different clock domain to the console, engage the <span class="label">SRC&nbsp;In</span> button.
+    This will sample rate convert incoming and outgoing audio between the console and Dante network. The table below summarises the sample rate combinations available
+    (note the number quoted is for each direction, e.g. 32 = 32 inputs <b>AND</b> 32 outputs):
+</p>
+
+<div>
+    <table class="insideborder" style=\"width: auto; margin 15px 0px;\" cellpadding="4" cellspacing="1">
+        <tbody>
+            <tr>
+                <th class="solidborder">Console Sample Rate</th>
+                <th class="solidborder" style=\"width: 100px;\">Dante Expander Sample Rate</th>
+                <th class="solidborder" style=\"width: 100px;\">Dante Expander Sample Rate Conversion</th>
+                <th class="solidborder" style=\"width: 100px;\">Quantity of Dante Inputs and Outputs</th>
+            </tr>
+            <tr>
+                <td class="solidborder">96 kHz</td>
+                <td class="solidborder">192 kHz</td>
+                <td class="solidborder">SRC In</td>
+                <td class="solidborder">16</td>
+            </tr>
+            <tr>
+                <td class="solidborder">96 kHz</td>
+                <td class="solidborder">96 kHz</td>
+                <td class="solidborder">SRC Out</td>
+                <td class="solidborder">32</td>
+            </tr>
+            <tr>
+                <td class="solidborder">96 kHz</td>
+                <td class="solidborder">48 kHz</td>
+                <td class="solidborder">SRC In</td>
+                <td class="solidborder">32</td>
+            </tr>
+            <tr>
+                <td class="solidborder">48 kHz</td>
+                <td class="solidborder">192 kHz</td>
+                <td class="solidborder">SRC In</td>
+                <td class="solidborder">16</td>
+            </tr>
+            <tr>
+                <td class="solidborder">48 kHz</td>
+                <td class="solidborder">96 kHz</td>
+                <td class="solidborder">SRC In</td>
+                <td class="solidborder">32</td>
+            </tr>
+            <tr>
+                <td class="solidborder">48 kHz</td>
+                <td class="solidborder">48 kHz</td>
+                <td class="solidborder">SRC Out</td>
+                <td class="solidborder">64</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<span class="note">
+    <span class="notetitle">Note: </span>Unless the <span class="label">SRC&nbsp;In</span> button has been engaged, you must set the sample rate of the Dante Expander to match the console's sample rate.
+    This can be done from a computer running Dante Controller software connected on the same network as the console's Dante Expander. Alternatively, as of Live v6.2, the console Expander's sample rate can be seen and changed in the Connected Devices list in the Dante Configuration page. 
+</span>
+<!-- End of Dante Sample Rates Snippet -->
+
+<p>
+    The Dante Expander Module supports <span style="font-weight:bold;">Dual Domain Routes</span> as well as <span style="font-weight:bold;">Virtual Tie Lines</span>.
+    For more information please see <a href="DanteConfig.html"><span class="hyperlink">Dante Dual Domain Routes</span></a> and
+    <a href="DanteVTL.html"><span class="hyperlink">Dante Virtual Tie Lines</span></a>.
+</p>
+
+<h3>Net I/O BLII/X-Light Bridge</h3>
+
+<p>A Net I/O BLII Bridge or X-Light Bridge can be connected to SSL Live consoles to deliver an extra 256 Dante inputs and outputs at 96 kHz or 48 kHz. </p>
+
+<p>SSL Live consoles can utilise the Dante I/O of a BLII/X-Light Bridge and a Dante Expander module simultaneously.</p>
+
+<p>
+    The BLII/X-Light Bridge supports both Dual Domain Routes and Virtual Tie Lines. For more information please see
+    <a href="DanteConfig.html"><span class="hyperlink">Dante Dual Domain Routes</span></a>,
+    <a href="DanteVTL.html"><span class="hyperlink">Dante Virtual Tie Lines</span></a> and
+    <a href="DanteBridges.html"><span class="hyperlink">BLII &amp; X-Light Bridges</span></a>.
+</p>
+
+<br>
+
+
+<h2>Further Reading</h2>
+<p>If you would like to learn more about Dante, the following resources are available:</p>
+
+<h3>SSL Live Application Notes</h3>
+<p><a href="LAN-009.html"><span class="hyperlink">LAN-009 Configuring a Live Console for Use with Dante</span></a></p>
+<p><a href="LAN-010.html"><span class="hyperlink">LAN-010 Live Dante VTL / DDR Concepts and Configuration</span></a></p>
+<p><a href="LAN-012.html"><span class="hyperlink">LAN-012 Live Console IP Address Configuration Guidance</span></a></p>
+<br>
+<h3>Audinate Website</h3>
+<p><a class="external-link" tabindex="-1" href="https://www.audinate.com/resources" target="_blank"><span class="hyperlink">audinate.com/resources</span></a></p>
+<p>The Audinate website is a fantastic resource for further documentation, video tutorials and whitepapers. Audinate also offers an online Dante Certification programme.</p>
+
+
+<h2>Useful Links:</h2>
+
+<a href="DanteConfig.html"><span class="hyperlink">Dual Domain Routes and Configuring Dante Devices</span></a><br>
+<a href="DanteNetIO.html"><span class="hyperlink">Network I/O Stageboxes and Devices</span></a><br>
+<a href="DanteVTL.html"><span class="hyperlink">Virtual Tie Lines</span></a><br>
+<a href="DanteBridges.html"><span class="hyperlink">BLII &amp; X-Light Bridges</span></a><br>
+<a href="LocalMADIConfig.html"><span class="hyperlink">Local/MADI I/O Configuration</span></a><br>
+<a href="InstallGuide.html"><span class="hyperlink">Installation Guide</span></a><br>
+<a href="LinkIndex.html"><span class="hyperlink">Index and Glossary</span></a><br>
+
+<div class="TutorialNavNext"> <a href="DanteVTL.html"><span class="TutorialNav">NEXT: Dante Virtual Tie Lines</span> <img class="TutorialNav" src="images/n_TutNext.png" alt=""></a></div>
+
+
+
+    </div>
+
+    <script src="../Help/js/OpenAccordionFromLink.js"></script>
+</body>
+</html>

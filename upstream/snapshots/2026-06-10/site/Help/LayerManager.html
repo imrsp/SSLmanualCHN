@@ -1,0 +1,329 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html ng-app="sslLiveHelp">
+<head>
+    <meta content="text/html; charset=ISO-8859-1" http-equiv="content-type">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=yes">
+
+    <link href="../Help/style/style.css" rel="stylesheet">
+    <link href="../Help/style/jquery-ui-1.13.2.structure.css" rel="stylesheet">
+    <title>Layer Manager</title>
+    <script src="../Help/js/jquery-3.6.0.min.js"></script>
+    <script src="../Help/js/jquery-ui/1.13.2/jquery-ui.min.js"></script>
+    <!--<script type="text/javascript" src="cordova.js"></script>-->
+    <!-- Nav / search panels 2017 updates -->
+    <script>
+    window.baseDir = '../';
+    window.data = 'null';
+    </script>
+    <link rel="stylesheet" type="text/css" href="../Help/fonts/font-awesome-4.7.0/css/font-awesome.min.css" />
+    <link rel="stylesheet" type="text/css" href="../Help/style/sass-styles.css">
+    <script src="../Help/js/fastclick.js"></script>
+    <script src="../Help/js/lodash.core.min.js"></script>
+    <!--<script src="../Help/js/angular/1.2/angular.min.js"></script>-->  <!-- On a console -->
+    <script src="../Help/js/angular/1.8/angular.min.js"></script>   <!--Not on a console -->
+    <script src="../Help/js/ngStorage.min.js"></script>
+    <!--<script src="../Help/js/angular/1.2/angular-sanitize.min.js"></script>-->  <!-- On a console -->
+    <!--<script src="../Help/js/angular/1.2/angular-animate.min.js"></script>-->   <!-- On a console -->
+    <script src="../Help/js/angular/1.8/angular-sanitize.min.js"></script>  <!--Not on a console -->
+    <script src="../Help/js/angular/1.8/angular-animate.min.js"></script>   <!--Not on a console -->
+    <script src="../Help/js/lunr-2.3.min.js"></script>
+    <script src="../Help/js/menu.js"></script>
+
+</head>
+
+<body ng-controller="NavController as vm">
+
+    <!--<nav class="nav" ng-class="{ 'nav--visible' : vm.visible }" ng-if="vm.visible" role="navigation" aria-label="Primary">-->  <!-- On a console --> 
+    <nav class="nav" ng-class="{ 'nav--visible' : vm.visible }" role="navigation" aria-label="Primary"> <!--Not on a console -->
+        <!-- Search form -->
+        <div role="search">
+            <form class="nav__search" ng-if="vm.isSearchSupported">
+                <label class="nav__search-icon" for="query"><i aria-label="Search" title="Search" class="fa fa-search"></i></label>
+                <input type="search" id="query" class="nav__search-input" placeholder="Search..." ng-model="vm.query" />
+            </form>
+        </div>
+
+        <div class="nav__scroll" ng-style="vm.styleBasedOnSearchSupported">
+
+            <!-- Main nav -->
+            <ul class="main-nav" ng-hide="vm.query">
+                <li class="main-nav__item" ng-repeat="item in vm.nav">
+
+                    <!-- Link to page -->
+                    <a ng-if="item.url" ng-class="{'main-nav__link--active' : item.url===vm.currentPage}" class="main-nav__link" ng-attr-href="{{ vm.baseDir }}{{ item.url }}">
+                        {{ item.title }}
+                    </a>
+
+                    <!-- Expandable heading -->
+                    <span ng-click="vm.toggleExpanded(item.title)" ng-if="!item.url" class="main-nav__title">
+                        {{ item.title }}
+                        <span ng-if="!vm.isExpanded(item.title)" class="fa fa-caret-right"></span>
+                        <span ng-if="vm.isExpanded(item.title)" class="fa fa-caret-down"></span>
+                    </span>
+
+                    <!-- Subnav -->
+                    <ul ng-if="vm.isExpanded(item.title)" class="main-nav fx-fade">
+                        <li ng-repeat="sub in item.children" class="main-nav__item">
+
+                            <!-- Link to page -->
+                            <a ng-if="sub.url" ng-class="{'main-nav__link--active' : sub.url===vm.currentPage}" class="main-nav__link main-nav__link--level1" ng-attr-href="{{ vm.baseDir }}{{ sub.url }}">
+                                {{ sub.title }}
+                            </a>
+
+                            <!-- Expandable heading -->
+                            <span ng-click="vm.toggleExpanded(sub.title)" ng-if="!sub.url" class="main-nav__title main-nav__title--level1">
+                                {{ sub.title }}
+                                <span ng-if="!vm.isExpanded(sub.title)" class="fa fa-caret-right"></span>
+                                <span ng-if="vm.isExpanded(sub.title)" class="fa fa-caret-down"></span>
+                            </span>
+
+                            <!-- Sub-sub nav -->
+                            <ul ng-if="sub.children && vm.isExpanded(sub.title)" class="main-nav fx-fade">
+                                <li ng-repeat="subsub in sub.children" class="main-nav__item">
+
+                                    <!-- Link to page -->
+                                    <a ng-class="{'main-nav__link--active' : subsub.url===vm.currentPage}" class="main-nav__link main-nav__link--level2" ng-attr-href="{{ vm.baseDir }}{{ subsub.url }}" ng-bind-html="subsub.title">
+                                    </a>
+
+                                </li>
+                            </ul>
+
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+
+            <!-- Search results list -->
+            <ul class="search-results">
+                <li class="search-result" ng-repeat="result in vm.results">
+                    <a class="search-result__link" ng-attr-href="{{ vm.baseDir }}{{ 'Help/' + result.id }}">
+                        <h3 class="search-result__title">{{ result.title }}</h3>
+                        <p class="search-result__excerpt" ng-bind-html="result.excerpt"></p>
+                    </a>
+                </li>
+            </ul>
+
+            <!-- Keep screen on option - PhoneGap insomnia -->
+            <ul class="main-nav" ng-if="vm.isPhoneGap">
+                <li class="main-nav__item">
+                    <label class="main-nav__title">
+                        Keep Screen On
+                        <input style="display: none" type="checkbox" ng-model="vm.keepScreenOn" />
+                        <i ng-class="{'fa--cleared' : !vm.keepScreenOn, 'fa--checked' : vm.keepScreenOn}" class="fa fa-check"></i>
+                    </label>
+                </li>
+            </ul>
+
+
+        </div>
+    </nav>
+
+    <nav class="header" role="navigation" aria-label="Secondary">
+        <a ng-if="!vm.onAConsole" href="../index.html" class="header__btn" title="Home"><i class="fa fa-home"></i></a>
+        <div ng-if="!vm.onAConsole" class="header__history">
+            <a onclick="javascript:window.history.back()" class="header__btn"><i title="Back" class="fa fa-chevron-left"></i></a>
+            <a onclick="javascript:window.history.forward()" class="header__btn"><i title="Forwards" class="fa fa-chevron-right"></i></a>
+        </div>
+        <div align="right">
+            <a class="header__btn header__btn--nav" ng-click="vm.toggleVisibility()">
+                <i ng-if="!vm.visible" class="fa fa-bars"></i>
+                <i ng-if="vm.visible" class="fa fa-close"></i>
+            </a>
+        </div>
+    </nav>
+
+
+    <!-- Main content -->
+    <div id="main">
+        
+
+<div><a href="ConsoleConfig.html"><img class="TutorialNav" src="images/n_TutPrevious.png" alt=""><span class="TutorialNav">PREVIOUS: Console Configuration</span></a></div>
+
+<h2>Layer Manager</h2>
+
+<p>On SSL Live consoles, there are <span style="font-weight:bold;">no fixed layers or banks</span>. The arrangement is <span style="font-weight:bold;">entirely flexible</span>, letting you arrange the various audio paths to suit your preferred method of working.</p>
+
+<p>
+    We strongly advise you to complete any changes in the <span class="label">Console Configuration</span> page before working on the arrangement of Layers and Banks, as the
+    <span class="label">Console Configuration</span> defines what paths are available in the <span class="label">Layer Manager</span>.
+</p>
+
+<p>
+    <span class="note">
+        <span class="notetitle">Definition: System and User Layers</span><br>
+        There are two types of layers: <span style="font-weight:bold;">System</span> and <span style="font-weight:bold;">User</span>.<br><br>
+        The <span style="font-weight:bold;">System Layers</span> include every audio path that exists in the Console, in order of type.
+        You might think of the System Layers as the library of paths used to build User Layers. System Layers cannot be edited, and cannot be directly Called onto the Fader Tiles.<br><br>
+        The <span style="font-weight:bold;">User Layers</span> allow the paths in the System Layers to be arranged in any configuration, and it is these layers which are Called onto the control surface. Each path can be duplicated in as many User Layers as you like.
+    </span>
+</p>
+
+<p>
+    <span class="note">
+        <span class="notetitle">Definition: Layers/Banks</span><br>
+        Each Fader Tile has its own User Layers. There can be up to <span style="font-weight:bold;">six Layers for each Tile</span>, and <span style="font-weight:bold;">each Layer can have five Banks of 12 Faders</span>. 
+        Banks are called onto the surface by scrolling to their Layer using the arrow buttons to the right of the <span style="font-weight: bold;">Solo</span> buttons, then pressing the appropriate Bank <span style="font-weight: bold;">Call</span> button to the right of the faders.
+    </span>
+</p>
+
+<p>User Layers are rearranged in <span class="label">MENU</span> > <span class="label">Setup</span> > <span class="label">Layer Manager</span>.</p>
+
+
+<img style="display: block; margin: 25px auto; width: 800px;" src="images/g_layermanager.png" alt="">
+
+<p>Layer configuration uses a drag-and-drop method to copy paths from the System Layers, or from their current locations in the User Layers, into new User Layer locations.</p>
+
+<p>The <span class="label">Layer Manager</span> screen is arranged in two halves: the Bank you are copying from is shown in the top half (<span style="font-weight: bold;">Source</span>), and the Bank being built is shown in the bottom half of the display (<span style="font-weight: bold;">Destination</span>).</p>
+
+<p>The Source Layers can be copied in complete Layers, in complete Banks, or in a selection of individual paths within a Bank.</p>
+
+<h2>Setting Up User Layers</h2>
+
+<h3>Select the Destination</h3>
+
+<p>Touch the <span class="label">Fader Tile</span> button towards the lower right corner of the screen (in the <span style="font-weight: bold;">Destination</span> section) and select the Tile containing the Destination Bank you wish to configure using the submenu which appears.</p>
+
+<p>The Tile layouts differ with console model:</p>
+
+<p>
+    <table class="insideborder" style="width: 95%; display: block; margin: auto;" cellpadding="3" cellspacing="1">
+        <tbody>
+            <tr>
+                <th class="solidborder"></th>
+                <th class="solidborder"><span style="font-weight:bold;">Fader Tile&nbsp;1</span></th>
+                <th class="solidborder"><span style="font-weight:bold;">Fader Tile&nbsp;2</span></th>
+                <th class="solidborder"><span style="font-weight:bold;">Fader Tile&nbsp;3</span></th>
+            </tr>
+            <tr>
+                <th class="solidborder"><span style="font-weight:bold;">L650</span></th>
+                <td class="solidborder">Left</td>
+                <td class="solidborder">Centre<br>(Below the screen)</td>
+                <td class="solidborder">Right</td>
+            </tr>
+            <tr>
+                <th class="solidborder"><span style="font-weight:bold;">L550, L500&nbsp;Plus &amp; L500</span></th>
+                <td class="solidborder">Bottom right<br>(Below the screen)</td>
+                <td class="solidborder">Bottom left</td>
+                <td class="solidborder">Top left</td>
+            </tr>
+            <tr>
+                <th class="solidborder"><span style="font-weight:bold;">L450</span></th>
+                <td class="solidborder">Left</td>
+                <td class="solidborder">Centre<br>(Below the screen)</td>
+                <td class="solidborder">Right</td>
+            </tr>
+            <tr>
+                <th class="solidborder"><span style="font-weight:bold;">L350 &amp; L300</span></th>
+                <td class="solidborder">Bottom right</td>
+                <td class="solidborder">Bottom left<br>(Below the screen)</td>
+                <td class="solidborder">N/A<br>Only 2 tiles fitted</td>
+            </tr>
+            <tr>
+                <th class="solidborder"><span style="font-weight:bold;">L200</span></th>
+                <td class="solidborder">Left</td>
+                <td class="solidborder">Centre<br>(Below the screen)</td>
+                <td class="solidborder">Right</td>
+            </tr>
+            <tr>
+                <th class="solidborder"><span style="font-weight:bold;">L100</span></th>
+                <td class="solidborder">Below the screen</td>
+                <td class="solidborder" colspan="2">N/A<br>Only 1 tile fitted</td>
+            </tr>
+        </tbody>
+    </table>
+</p>
+
+<p>
+    Remote Fader Tiles may also appear in the tile list. These are additional Fader Tiles that can be connected to the console over USB.
+    Please refer to the <a href="RemoteTile.html"><span class="hyperlink">Remote Tile</span></a> section for further information on these.
+</p>
+
+<p>Touch a <span style="font-weight: bold;">Layer</span> button in the <span style="font-weight: bold;">Destination</span> section. It will go cyan and its Banks will be shown beneath it.</p>
+
+<p>Touch the required Destination <span style="font-weight: bold;">Bank</span> button. Its current layout will appear in the display at the base of the screen.</p>
+
+<h3>Select the Source</h3>
+
+<p>Define which set of Layers are being displayed in the top half of the display by touching either the <span class="label">System&nbsp;Layers</span> or <span class="label">User&nbsp;Layers</span> button (top right corner of the screen).</p>
+
+<p>If sourcing from System Layers, select the path type from the <span class="label">Channels</span> button. If sourcing from User Layers (for copying between Tiles) select the source Tile from the <span class="label">Fader Tile</span> button that appears.</p>
+
+<h3>Copying entire Layers and Banks</h3>
+
+<p>To copy an entire Layer (including all Banks and paths within it), touch and drag the <span style="font-weight: bold;">Source</span> Layer icon into the desired <span style="font-weight: bold;">Layer</span> position in the <span style="font-weight: bold;">Destination</span> section.</p>
+
+<p>To copy an individual Bank within a layer, touch the relevant <span style="font-weight: bold;">Layer</span> icon in the <span style="font-weight: bold;">Source</span> section of the screen. Its Banks will be shown beneath it. Touch and drag the <span style="font-weight: bold;">Source</span> Bank icon into the desired <span style="font-weight: bold;">Bank</span> position in the <span style="font-weight: bold;">Destination</span> section.</p>
+
+<h3>Copying individual paths</h3>
+<p>To copy one or more paths from a Bank, touch the relevant <span style="font-weight: bold;">Source Bank</span> icon. Its paths will appear in the display beneath it. Touch the path(s) to be copied to highlight them.</p>
+
+<p><span class="note"><span class="notetitle">Note: </span>The selected paths do not have to be consecutive, however they will be copied into consecutive slots, overwriting any assignments which were previously in those locations.</span></p>
+
+<p>Touch and drag the selected paths into one of the 12 slots at the base of the screen. The slots in the destination area will be highlighted cyan if the number of paths being inserted will fit in the space available.</p>
+
+<p>Position the drag icon so that it is over the first Destination slot. The icon's outline will change from red to green and the first slot will turn blue when it is in a suitable position to be dropped.</p>
+
+<h2>Deleting Layers, Banks and paths</h2>
+
+<p>To delete an entire Layer (and all Banks within it) or an individual Bank, simply drag the Layer or Bank icon onto the bin <img src="images/g_layermanagerBin.png" alt="bin"> icon to the right of the screen.</p>
+
+<p>To delete individual paths, tap on the path(s) to delete and drag onto the <img src="images/g_layermanagerBin.png" alt="bin"> icon.</p>
+
+<p><span class="note"><span class="notetitle">Note: </span>There is no undo process for modifying Layers and Banks.</span></p>
+
+<h2>Rearranging the Destination Bank</h2>
+
+<p>You can rearrange the paths within the Destination section using a similar drag-and-drop method used to create them.</p>
+
+<p>Touch a path (or paths) to be moved in the Destination section and drag to a different slot within the Bank. Available slots will be lit in cyan, with the selected slot highlighted blue as you drag the path(s) over it. Drop the path into the new position.</p>
+
+<h2>Copying Between Tiles</h2>
+
+<p>Once one Tile has been configured, its Layers and Banks can be copied to other Tiles. Select <span class="label">User Layers</span> in the <span style="font-weight: bold;">Destination</span> section, then select the source Tile to see the Layers and Banks available.</p>
+<p>Select the destination Tile in the lower half of the screen.</p>
+
+<p>Drag whole Layers (including Banks) into the destination Tile's Layers, or individual Banks into the destination Bank icons, in the same manner as copying from System Layers as described above.</p>
+
+<p>Similarly, individual paths can also be copied from one tile to another following the steps used for copying paths from System Layers.</p>
+
+<h2>Naming and Colouring Layers and Banks</h2>
+
+<p>Each User Layer and Bank have customisable colours and names. Their colour and name are shown in and above their Layer or Bank Selector buttons on the control surface.</p>
+
+<p>The Layer and Bank Name and Colour selectors are located to the right of the Layer and Bank icons in the Layer Manager screen, and refer to whichever Layer and Bank are highlighted to their left.</p>
+
+<h3>Names</h3>
+
+<p>System Layers and Banks are named according to their contents. User Layers and Banks can be given User names as follows:</p>
+
+<p>Select the Tile and Layer (and Bank, if relevant) in the <span style="font-weight: bold;">Destination</span> area, as described above.</p>
+
+<p>Double-tap the appropriate Name text box to the right of the selected <span style="font-weight: bold;">Layer</span> or <span style="font-weight: bold;">Bank</span>. A keyboard will appear into which the name can be typed.</p>
+
+<p>Delete any current text if required, using the red arrow buttons.</p>
+
+<p>Type the new name and press <span class="label">OK</span>.</p>
+
+<span class="note"><span class="notetitle">Note: </span>User Layers or Banks which are direct copies of System Layers/Banks will initially be given the same name and colour as the System Layer/Bank.</span>
+
+<h3>Colours</h3>
+
+<p>To change the colour for a Layer:</p>
+
+<p>Select the Tile and Layer (and Bank, if relevant) in the <span style="font-weight: bold;">Destination</span> area, as described above.</p>
+
+<p>Touch the appropriate Colour selector, then select a colour from the drop-down list which appears.</p>
+
+<h2>Useful Links</h2>
+<a href="FaderTiles.html"><span class="hyperlink">Fader Tiles</span></a><br>
+<a href="LinkIndex.html"><span class="hyperlink">Index and Glossary</span></a><br>
+
+<div class="TutorialNavNext"> <a href="ChanView.html"><span class="TutorialNav">NEXT: Channel View</span> <img class="TutorialNav" src="images/n_TutNext.png" alt=""></a></div>
+
+
+    </div>
+
+    <script src="../Help/js/OpenAccordionFromLink.js"></script>
+</body>
+</html>

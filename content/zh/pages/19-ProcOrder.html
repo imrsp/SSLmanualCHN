@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Processing Order</title>
+  <style>
+    body { font: 16px/1.55 Arial, sans-serif; max-width: 1080px; margin: 2rem auto; padding: 0 1.25rem; color: #202124; }
+    img { max-width: 100%; height: auto; }
+    table { border-collapse: collapse; max-width: 100%; }
+    th, td { border: 1px solid #aaa; padding: .45rem; vertical-align: top; }
+    .note { display: block; border-left: 4px solid #e0a000; background: #fff8df; padding: .75rem 1rem; margin: 1rem 0; }
+    .notetitle { font-weight: bold; }
+    .label { font-weight: bold; color: #174ea6; }
+    .source { color: #666; font-size: .9rem; }
+  </style>
+</head>
+<body>
+  <p class="source">章节：构建演出文件 | 来源： <a href="https://livehelp.solidstatelogic.com/Help/ProcOrder.html">https://livehelp.solidstatelogic.com/Help/ProcOrder.html</a></p>
+<h2>处理顺序</h2>
+
+  <p>通道条的处理顺序显示在“通道详细信息”对话框 Eyeconix 页面的顶部。双击通道底部的 Eyeconix 区域即可打开该对话框：</p>
+
+  <div align="center">
+  <img style="width: 84px; height: 84px;" src="https://livehelp.solidstatelogic.com/Help/images/n_MenuChanView.png" alt=""><img style="width: 74px; height: 84px;" src="https://livehelp.solidstatelogic.com/Help/images/n_arrow.png" alt=""><img style="width: 84px; height: 84px;" src="https://livehelp.solidstatelogic.com/Help/images/n_ChanSelect.png" alt=""><img style="width: 74px; height: 84px;" src="https://livehelp.solidstatelogic.com/Help/images/n_arrow.png" alt=""><img src="https://livehelp.solidstatelogic.com/Help/images/n_ChanEyecon.png" alt=""></div>
+
+  <p>随后会出现类似下图的对话框：</p>
+
+  <img style="display: block; margin: 25px auto; width: 750px;" src="https://livehelp.solidstatelogic.com/Help/images/g_DetailProcOrder.png" alt="">
+
+  <span class="note"><span class="notetitle">注意： </span>对话框左侧的一列按钮用于选择显示哪个 Detail 页面。如果尚未选择 Name、Eyeconix and Colour 页面，请触摸对话框左上角的通道 Eyeconix 区域。<br><br>
+    可使用 Channel Scroller（靠近左上角）将对话框滚动到其他通道。
+  </span>
+
+  <p>Full Processing 通道的默认处理顺序为：</p>
+  <p><span style="font-weight: bold;">Filter &#10132; EQ &#10132; Gate &#10132; Compressor &#10132; Insert A &#10132; Insert B &#10132; Fader &#10132; All&nbsp;Pass Filter &#10132; Delay</span></p>
+  
+  <p>Dry 通道的默认处理顺序为：</p>
+  <p><span style="font-weight: bold;">Insert A &#10132; Insert B &#10132; Fader</span></p>
+  
+  <p>Matrix 输出通道的默认处理顺序为：</p>
+  <p><span style="font-weight: bold;">Filter &#10132; EQ &#10132; Insert A &#10132; Insert B &#10132; Fader &#10132; All&nbsp;Pass Filter &#10132; Delay</span></p>
+  
+  <p>由于更改处理顺序可能显著影响通道输出电平，因此在通道静音之前，处理顺序会保持锁定：</p>
+  
+  <p><span class="label">Lock</span> 按钮位于 Detail 页面右上角，用于防止处理顺序被更改。继续操作前请确保将其关闭；完成后重新启用，以防意外更改。</p>
+  
+  <p>使用通道的 <span class="label">Mute</span> 按钮将通道静音，此时通道处理元素图标上的挂锁符号会消失。</p>
+
+  <p>现在可以向左或向右拖动各个图标来改变其位置。</p>
+
+  <p>完成后取消通道静音，但请注意，信号电平可能已经发生显著变化。</p>
+  
+  <span class="note"><span class="notetitle">注意： </span>移动处理元素后，更改会立即生效。对于任何未处于 Follow Mute 模式的混音母线发送，应相应调低电平或静音，以免处理顺序变化意外影响其输出电平。
+  </span>
+
+  <h2>实用链接</h2>
+  <a href="https://livehelp.solidstatelogic.com/Help/PathProc.html"><span class="hyperlink">信号路径处理</span></a><br>
+  <a href="https://livehelp.solidstatelogic.com/Help/FXIntro.html"><span class="hyperlink">效果机架</span></a><br>
+  <a href="https://livehelp.solidstatelogic.com/Help/DetailView.html"><span class="hyperlink">详细信息视图</span></a><br>
+  <a href="https://livehelp.solidstatelogic.com/Help/LinkIndex.html"><span class="hyperlink">索引与术语表</span></a><br>
+</body>
+</html>

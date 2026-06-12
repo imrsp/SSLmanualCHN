@@ -1,0 +1,52 @@
+term_en,term_zh,context,note
+Path,路径,通用,"泛指 Channel、Stem、Aux、Master 等控制台路径"
+Channel,通道,通用,指输入通道时可译为“输入通道”
+Bus,母线,通用,行业通用译法
+VCA,VCA,通用,首次出现可说明为压控放大器组
+Showfile,演出文件,工程,SSL 工程文件
+Scene,场景,自动化,自动化系统中的快照或场景
+Tile,区块,操作面,"指 Fader、Master、Control、Remote Tile"
+Layer,Layer,操作面,"默认保留英文；仅在解释概念含义时可使用“层”"
+Layer Manager,Layer Manager,操作面,"界面与章节名称保留英文"
+Bank,Bank,操作面,"保留英文"
+Fader Tile,推子区块,操作面,
+Master Tile,主控区块,操作面,
+Control Tile,控制区块,操作面,
+Stagebox,舞台接口箱,I/O,标题中可附英文
+Surface,操作面,硬件,指实体控制台表面
+Console,控制台,硬件,
+Routing,路由,信号,
+Route,进行路由,信号,
+Make,建立,界面,按钮名保留英文
+Unmake,取消路由,界面,按钮名保留英文
+Spill,展开,界面,按钮名保留英文
+Query,查询,功能,按钮名保留英文
+Solo,独奏,功能,按钮和模式名称保留英文
+Talkback,对讲,功能,
+Mute,静音,功能,
+Preset,预设,功能,
+Stem,Stem 编组母线,信号,界面名称保留 Stem
+Aux,Aux 辅助母线,信号,界面名称保留 Aux
+Matrix,矩阵,信号,
+Insert,插入点,信号,
+Send,发送,信号,
+Return,返回,信号,
+Gain,增益,参数,
+Trim,微调,参数,
+Processing,处理,信号,
+Store,存储,自动化,
+Recall,调用,自动化,
+Automation,自动化,自动化,
+Snapshot,快照,自动化,
+User Key,用户按键,界面,
+Patch,跳线 / 分配,信号,Patch Manager 统一译为“跳线管理器”
+Clocking,时钟设置,系统,
+Sample Rate,采样率,系统,
+Wordclock,字时钟,系统,
+Dante Virtual Tie Line,Dante 虚拟跳线,Dante,缩写 VTL 保留
+Dante Dual Domain Route,Dante 双域路由,Dante,Dante 网络语境
+Offline Software,离线软件,软件,
+Dante Primary, Dante 主网, Dante,
+Dante Secondary, Dante 备网, Dante,
+monitor mixes, 监听混音/监听母线, 信号, 分情况 如果谓语是处理 调整等 翻译成监听混音 如果是linking verb 或者动词 route 翻译成监听母线
+Useful Links,实用链接,章节标题,"所有页面统一使用“实用链接”"

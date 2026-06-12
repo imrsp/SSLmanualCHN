@@ -1,0 +1,286 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html ng-app="sslLiveHelp">
+<head>
+    <meta content="text/html; charset=ISO-8859-1" http-equiv="content-type">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=yes">
+
+    <link href="../Help/style/style.css" rel="stylesheet">
+    <link href="../Help/style/jquery-ui-1.13.2.structure.css" rel="stylesheet">
+    <title>External Screen</title>
+    <script src="../Help/js/jquery-3.6.0.min.js"></script>
+    <script src="../Help/js/jquery-ui/1.13.2/jquery-ui.min.js"></script>
+    <!--<script type="text/javascript" src="cordova.js"></script>-->
+    <!-- Nav / search panels 2017 updates -->
+    <script>
+    window.baseDir = '../';
+    window.data = 'null';
+    </script>
+    <link rel="stylesheet" type="text/css" href="../Help/fonts/font-awesome-4.7.0/css/font-awesome.min.css" />
+    <link rel="stylesheet" type="text/css" href="../Help/style/sass-styles.css">
+    <script src="../Help/js/fastclick.js"></script>
+    <script src="../Help/js/lodash.core.min.js"></script>
+    <!--<script src="../Help/js/angular/1.2/angular.min.js"></script>-->  <!-- On a console -->
+    <script src="../Help/js/angular/1.8/angular.min.js"></script>   <!--Not on a console -->
+    <script src="../Help/js/ngStorage.min.js"></script>
+    <!--<script src="../Help/js/angular/1.2/angular-sanitize.min.js"></script>-->  <!-- On a console -->
+    <!--<script src="../Help/js/angular/1.2/angular-animate.min.js"></script>-->   <!-- On a console -->
+    <script src="../Help/js/angular/1.8/angular-sanitize.min.js"></script>  <!--Not on a console -->
+    <script src="../Help/js/angular/1.8/angular-animate.min.js"></script>   <!--Not on a console -->
+    <script src="../Help/js/lunr-2.3.min.js"></script>
+    <script src="../Help/js/menu.js"></script>
+
+</head>
+
+<body ng-controller="NavController as vm">
+
+    <!--<nav class="nav" ng-class="{ 'nav--visible' : vm.visible }" ng-if="vm.visible" role="navigation" aria-label="Primary">-->  <!-- On a console --> 
+    <nav class="nav" ng-class="{ 'nav--visible' : vm.visible }" role="navigation" aria-label="Primary"> <!--Not on a console -->
+        <!-- Search form -->
+        <div role="search">
+            <form class="nav__search" ng-if="vm.isSearchSupported">
+                <label class="nav__search-icon" for="query"><i aria-label="Search" title="Search" class="fa fa-search"></i></label>
+                <input type="search" id="query" class="nav__search-input" placeholder="Search..." ng-model="vm.query" />
+            </form>
+        </div>
+
+        <div class="nav__scroll" ng-style="vm.styleBasedOnSearchSupported">
+
+            <!-- Main nav -->
+            <ul class="main-nav" ng-hide="vm.query">
+                <li class="main-nav__item" ng-repeat="item in vm.nav">
+
+                    <!-- Link to page -->
+                    <a ng-if="item.url" ng-class="{'main-nav__link--active' : item.url===vm.currentPage}" class="main-nav__link" ng-attr-href="{{ vm.baseDir }}{{ item.url }}">
+                        {{ item.title }}
+                    </a>
+
+                    <!-- Expandable heading -->
+                    <span ng-click="vm.toggleExpanded(item.title)" ng-if="!item.url" class="main-nav__title">
+                        {{ item.title }}
+                        <span ng-if="!vm.isExpanded(item.title)" class="fa fa-caret-right"></span>
+                        <span ng-if="vm.isExpanded(item.title)" class="fa fa-caret-down"></span>
+                    </span>
+
+                    <!-- Subnav -->
+                    <ul ng-if="vm.isExpanded(item.title)" class="main-nav fx-fade">
+                        <li ng-repeat="sub in item.children" class="main-nav__item">
+
+                            <!-- Link to page -->
+                            <a ng-if="sub.url" ng-class="{'main-nav__link--active' : sub.url===vm.currentPage}" class="main-nav__link main-nav__link--level1" ng-attr-href="{{ vm.baseDir }}{{ sub.url }}">
+                                {{ sub.title }}
+                            </a>
+
+                            <!-- Expandable heading -->
+                            <span ng-click="vm.toggleExpanded(sub.title)" ng-if="!sub.url" class="main-nav__title main-nav__title--level1">
+                                {{ sub.title }}
+                                <span ng-if="!vm.isExpanded(sub.title)" class="fa fa-caret-right"></span>
+                                <span ng-if="vm.isExpanded(sub.title)" class="fa fa-caret-down"></span>
+                            </span>
+
+                            <!-- Sub-sub nav -->
+                            <ul ng-if="sub.children && vm.isExpanded(sub.title)" class="main-nav fx-fade">
+                                <li ng-repeat="subsub in sub.children" class="main-nav__item">
+
+                                    <!-- Link to page -->
+                                    <a ng-class="{'main-nav__link--active' : subsub.url===vm.currentPage}" class="main-nav__link main-nav__link--level2" ng-attr-href="{{ vm.baseDir }}{{ subsub.url }}" ng-bind-html="subsub.title">
+                                    </a>
+
+                                </li>
+                            </ul>
+
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+
+            <!-- Search results list -->
+            <ul class="search-results">
+                <li class="search-result" ng-repeat="result in vm.results">
+                    <a class="search-result__link" ng-attr-href="{{ vm.baseDir }}{{ 'Help/' + result.id }}">
+                        <h3 class="search-result__title">{{ result.title }}</h3>
+                        <p class="search-result__excerpt" ng-bind-html="result.excerpt"></p>
+                    </a>
+                </li>
+            </ul>
+
+            <!-- Keep screen on option - PhoneGap insomnia -->
+            <ul class="main-nav" ng-if="vm.isPhoneGap">
+                <li class="main-nav__item">
+                    <label class="main-nav__title">
+                        Keep Screen On
+                        <input style="display: none" type="checkbox" ng-model="vm.keepScreenOn" />
+                        <i ng-class="{'fa--cleared' : !vm.keepScreenOn, 'fa--checked' : vm.keepScreenOn}" class="fa fa-check"></i>
+                    </label>
+                </li>
+            </ul>
+
+
+        </div>
+    </nav>
+
+    <nav class="header" role="navigation" aria-label="Secondary">
+        <a ng-if="!vm.onAConsole" href="../index.html" class="header__btn" title="Home"><i class="fa fa-home"></i></a>
+        <div ng-if="!vm.onAConsole" class="header__history">
+            <a onclick="javascript:window.history.back()" class="header__btn"><i title="Back" class="fa fa-chevron-left"></i></a>
+            <a onclick="javascript:window.history.forward()" class="header__btn"><i title="Forwards" class="fa fa-chevron-right"></i></a>
+        </div>
+        <div align="right">
+            <a class="header__btn header__btn--nav" ng-click="vm.toggleVisibility()">
+                <i ng-if="!vm.visible" class="fa fa-bars"></i>
+                <i ng-if="vm.visible" class="fa fa-close"></i>
+            </a>
+        </div>
+    </nav>
+
+
+    <!-- Main content -->
+    <div id="main">
+        
+
+<div><a href="RemoteTile.html"><img class="TutorialNav" src="images/n_TutPrevious.png" alt=""><span class="TutorialNav">PREVIOUS: Remote Tile</span></a></div>
+
+<h2>External Screen</h2>
+
+<p>An external display can be connected to the VGA output on the rear of the console. Any display that supports at least 1280 x 1024 pixels and has a VGA input can be used.</p>
+
+<p>An external touch screen is also available. Please contact SSL for more information on purchasing this screen.</p>
+
+<p>
+    If using an external touch screen, connect the console's Monitor output to the screen via VGA.
+    Now connect the screen's USB port to one of the console's USB Expander ports using a USB 2.0 A to B cable
+</p>
+
+<span class="note">
+    <span class="notetitle">Notes:</span><br>External screen <span style="font-weight:bold;">VGA</span> connections should be connected to the console
+    <span style="font-weight:bold;">before</span> the console is turned on.<br />
+    <span style="font-weight:bold;">USB</span> connections for use with an external touch screen should be connected <span style="font-weight:bold;">after</span> the console has powered on.
+</span>
+
+<p>
+    Three different pages can be displayed on the external screen. The first is the <b>Overview</b> screen, which provides an overview of the settings and signal levels of each path.
+    The second is the automation screen, allowing you to see the list of scenes and other automation related information.
+    The third is the Effects Rack, showing the page of slots where FX can be inserted and controlled.
+    All of these can also be displayed on the console's main screen.
+</p>
+
+<p>You can choose which page is sent to the external display from the options menu. See <a href="OptionsConsole.html#ExternalScreen"><span class="hyperlink">Console Options</span></a> for more details.</p>
+
+<h2 id="Overview">Overview Screen</h2>
+
+<p>The overview shows all of the paths in miniature. Use the buttons on the right hand side to select different views.</p>
+
+<p>The <span class="label">Zoom</span> button can be engaged to increase the size of the paths on the display.</p>
+
+<p>The <b>View Select</b> buttons change the paths displayed as follows:</p>
+
+<ul>
+    <li>
+        <span class="label">Overview</span> : All path types, arranged by their system layers (see <a href="LayerManager.html"><span class="hyperlink">Layer Manager</span></a>). They are ordered as follows:
+        <ul>
+            <li>Channels</li>
+            <li>Stems</li>
+            <li>Auxes</li>
+            <li>Masters</li>
+            <li>VCA's</li>
+            <li>Matrix outputs</li>
+            <li>Talkback paths</li>
+            <li>Solo outputs</li>
+        </ul>
+    </li>
+    <li><span class="label">Inputs</span> : Input and Talkback Channels only</li>
+    <li><span class="label">Outputs</span> : Output paths only (Stems, Auxes, Masters, Matrix, Solo Channels and VCAs)</li>
+    <li><span class="label">Tiles</span> : Paths as they appear in the console's Fader Tiles active Layers</li>
+    <li><span class="label">Remote&nbsp;Tiles</span> : Paths as they appear in the console's Remote Fader Tiles active Layers</li>
+</ul>
+
+<p>It is also possible to view the overview page in the main screen by selecting it from the main menu (<span class="label">MENU</span> &gt; <span class="label">Overview</span>).</p>
+
+<p>
+    <span class="note">
+        <span class="notetitle">Note: </span>Overview can only be displayed in one screen at a time, so it will be removed from the external overview screen if selecting it to the main screen and vice versa.<br />
+        <b>Tip:</b> Assign <a href="OptionsUserKeys.html"><span class="hyperlink">User Keys</span></a> to quickly assign the Overview to the external or main screen.
+    </span>
+</p>
+
+<div class="center">
+    <img style="margin: 10px 10px;" src="images/g_OverviewScreen.png" alt="">
+</div>
+
+<p>Touching a path on the overview screen makes it the Selected path on the console, for manipulation using the Master Tile Focus Fader, Control Tile (if fitted) etc.</p>
+<p>Double-tap the meters area to expand them (just like in the Channel View screen meters). This changes the overview strips to show larger meters, path name, colour, Mute, Solo and Select status.</p>
+
+<p>Double-tap them again to minimise the meters and return to the previous view.</p>
+
+<p>
+    <span class="note">
+        <span class="notetitle">Notes: </span><br>
+        Fader Tile layouts will not change if selecting paths from the overview screen, but the Selected path will be displayed in the Channel View and its <span class="label">Select</span> button will light if it happens to be visible on a Fader Tile.
+        If you select a channel using the Fader Tile <span class="label">Select</span> buttons, the same channel will become selected in the overview screen.<br>
+        When a mouse is plugged into the console, you can control basic channel functions such as Mute and Solo using the buttons on the screen, including double-clicking the meters to expand or contract them.
+    </span>
+</p>
+
+<div class="note">
+    <span class="notetitle">Tips:</span>
+    <ul>
+        <li>When input channels clip, they flash red in the Overview page.</li>
+        <li>Displaying the Overview page on an external touch screen allows the operator to quickly identify clipping channels and tap them to Select, without having to navigate away from the Channel View on the Main Screen.</li>
+        <li>Use the Overview screen to select multiple paths for use with Path Linking or Copy. Shift + click or touch the first and last strip to select a range of paths.</li>
+    </ul>
+</div>
+
+<h2>Automation</h2>
+
+<p>Another page that can be shown on the external display is <a href="AutoOverview.html"><span class="hyperlink">Automation</span></a>.</p>
+
+<p>
+    The top half of this page contains a list of all the scenes in your showfile. The bottom half can display a number of things, selected from the buttons in the lower left corner of the screen.
+    If using a non-touch-sensitive external screen, you should decide what to view in the lower half of the screen (e.g. <span style="font-weight: bold;">Scene Name</span> to view the name and notes for the selected scene) before you assign it to the external display.
+</p>
+<p>Alternatively, use a USB mouse to change the selection and navigate the automation screen at any time.</p>
+
+<p>
+    <span class="note">
+        <span class="notetitle">Note: </span>Automation can only be shown on one screen at a time, so it will be removed from the external overview screen if selecting it to the main screen and vice versa.<br />
+        <b>Tip:</b> Assign <a href="OptionsUserKeys.html"><span class="hyperlink">User Keys</span></a> to quickly assign the Automation page to the external or main screen.
+    </span>
+</p>
+
+<h2 id="EffectsExt">Effects Rack</h2>
+
+<p>The other page that can be displayed on an external screen is the <a href="FXIntro.html"><span class="hyperlink">Effects Rack</span></a>.</p>
+
+<p>The top half of this page shows the available FX slots and which effect is assigned in each. Effects can be added and removed here, and then routed to from the Channel View.</p>
+
+<p>
+    The bottom half of the page shows the currently selected slot, and the controls for the effect in that slot.
+    While on the external screen, this will allow the operator quick access to a key effect, such as processing for a lead vocal.
+    Alternatively, an analysis effect like the Spectra-lyser could be displayed here, for example.
+</p>
+
+<p>
+    <span class="note">
+        <span class="notetitle">Note: </span>The Effects Rack can only be shown on one screen at a time, so it will be removed from the external overview screen if selecting it to the main screen and vice versa.<br />
+        <b>Tip:</b> Assign <a href="OptionsUserKeys.html"><span class="hyperlink">User Keys</span></a> to quickly assign the Effects Rack to the external or main screen.
+    </span>
+</p>
+
+<h2>Useful Links</h2>
+
+
+<a href="LinkIndex.html"><span class="hyperlink">Index and Glossary</span></a>
+<br>
+
+
+
+<div class="TutorialNavNext"> <a href="PatchManager.html"><span class="TutorialNav">NEXT: Patch Manager</span> <img class="TutorialNav" src="images/n_TutNext.png" alt=""></a></div>
+
+
+
+
+    </div>
+
+    <script src="../Help/js/OpenAccordionFromLink.js"></script>
+</body>
+</html>
