@@ -2,7 +2,10 @@
   "title": "SSL Live 中文操作手册",
   "source": "https://livehelp.solidstatelogic.com/",
   "sections": [
-    { "id": "Introduction", "titleZh": "入门介绍" },
+    {
+      "id": "Introduction",
+      "titleZh": "入门介绍"
+    },
     {
       "id": "Building a Show",
       "titleZh": "创建演出工程",
@@ -11,7 +14,14 @@
           "id": "Dante",
           "title": "Dante",
           "titleZh": "Dante",
-          "pageIds": ["DanteSetup", "DanteVTL", "DanteConfig", "DanteNetIO", "DanteBridges", "ShureIO"]
+          "pageIds": [
+            "DanteSetup",
+            "DanteVTL",
+            "DanteConfig",
+            "DanteNetIO",
+            "DanteBridges",
+            "ShureIO"
+          ]
         }
       ]
     },
@@ -23,13 +33,31 @@
           "id": "Effects",
           "title": "Effects",
           "titleZh": "效果器",
-          "pageIds": ["FXDelays", "FXDynamics", "FXEQs", "FXModulation", "FXReverbs", "FXOther", "FXTools", "FXAutoMix"]
+          "pageIds": [
+            "FXDelays",
+            "FXDynamics",
+            "FXEQs",
+            "FXModulation",
+            "FXReverbs",
+            "FXOther",
+            "FXTools",
+            "FXAutoMix"
+          ]
         },
         {
           "id": "Automation",
           "title": "Automation",
           "titleZh": "自动化",
-          "pageIds": ["AutoOverview", "AutoNamesNotes", "AutoSceneList", "AutoFilters", "AutoGrouping", "AutoTime", "AutoIOActions", "AutoPreview"]
+          "pageIds": [
+            "AutoOverview",
+            "AutoNamesNotes",
+            "AutoSceneList",
+            "AutoFilters",
+            "AutoGrouping",
+            "AutoTime",
+            "AutoIOActions",
+            "AutoPreview"
+          ]
         }
       ]
     },
@@ -41,38 +69,118 @@
           "id": "Options",
           "title": "Options",
           "titleZh": "选项",
-          "pageIds": ["OptionsConsole", "OptionsSystem", "OptionsSurface", "OptionsUser", "OptionsUserKeys", "OptionsRemote", "OptionsNetwork", "OptionsDAW", "OptionsExtCtrl"]
+          "pageIds": [
+            "OptionsConsole",
+            "OptionsSystem",
+            "OptionsSurface",
+            "OptionsUser",
+            "OptionsUserKeys",
+            "OptionsRemote",
+            "OptionsNetwork",
+            "OptionsDAW",
+            "OptionsExtCtrl"
+          ]
         },
         {
           "id": "Remote Surfaces",
           "title": "Remote Surfaces",
           "titleZh": "远程操作面",
-          "pageIds": ["TaCo", "RemoteControl", "RemoteTile"]
+          "pageIds": [
+            "TaCo",
+            "RemoteControl",
+            "RemoteTile"
+          ]
         }
       ]
     },
-    { "id": "Live Application Note", "titleZh": "Live Application Note" }
+    {
+      "id": "Live Application Note",
+      "titleZh": "LIVE 应用笔记"
+    }
   ],
   "titlesZh": [
-    "简介", "快速入门指南", "主屏幕菜单", "触摸屏操作", "控制台操作面",
-    "推子区块", "主控区块", "控制区块", "本地输入/输出", "舞台接口箱",
-    "演出文件", "控制台配置", "推子层管理器", "通道视图", "快捷控制",
-    "详细视图", "路由", "信号路径处理", "处理顺序", "母线路由与 VCA",
-    "信号路径联动与快速设置", "复制", "效果器机架概览", "矩阵", "时钟设置",
-    "本地/MADI 配置", "多轨录音与回放", "Dante 设置", "Dante 虚拟跳线",
-    "Dante 双域路由", "网络 I/O 舞台接口箱", "BLII 与 X-Light 网桥",
-    "Shure 控制", "查询", "独奏", "对讲", "静音与静音组配置", "预设",
-    "延迟效果器", "动态效果器", "EQ 效果器", "调制效果器", "混响效果器",
-    "其他效果器", "音频工具", "AutoMix 自动混音效果器", "自动化概览",
-    "场景名称与备注", "场景列表", "存储与调用过滤器", "场景组", "场景时间功能",
-    "输入与输出动作", "自动化预览", "控制台选项", "系统选项", "操作面选项",
-    "用户选项", "用户按键选项", "远程控制选项", "网络选项", "DAW 控制选项",
-    "外部控制选项", "SOLSA 离线软件", "TaCo 平板控制", "远程操作面", "远程区块",
-    "外接屏幕", "跳线管理器", "事件管理器", "信号切换器", "DAW 控制",
-    "外部控制", "KLANG 外部控制", "参数与设置的存储", "系统菜单", "维护", "安装指南",
-    "索引与术语表", "关于",
-    "LAN-009 Configuring a Live Console for Use with Dante",
-    "LAN-010 Live Dante VTL / DDR Concepts and Configuration",
-    "LAN-012 Live Console IP Address Configuration Guidance"
+    "简介",
+    "快速入门指南",
+    "主屏幕菜单",
+    "触摸屏操作",
+    "控制台操作面",
+    "推子区块",
+    "主控区块",
+    "控制区块",
+    "本地输入/输出",
+    "舞台接口箱",
+    "演出文件",
+    "控制台配置",
+    "推子层管理器",
+    "通道视图",
+    "快捷控制",
+    "详细视图",
+    "路由",
+    "信号路径处理",
+    "处理顺序",
+    "母线路由与 VCA",
+    "信号路径联动与快速设置",
+    "复制",
+    "效果器机架概览",
+    "矩阵",
+    "时钟设置",
+    "本地/MADI 配置",
+    "多轨录音与回放",
+    "Dante 设置",
+    "Dante 虚拟跳线",
+    "Dante 双域路由",
+    "网络 I/O 舞台接口箱",
+    "BLII 与 X-Light 网桥",
+    "Shure 控制",
+    "查询",
+    "独奏",
+    "对讲",
+    "静音与静音组配置",
+    "预设",
+    "延迟效果器",
+    "动态效果器",
+    "EQ 效果器",
+    "调制效果器",
+    "混响效果器",
+    "其他效果器",
+    "音频工具",
+    "AutoMix 自动混音效果器",
+    "自动化概览",
+    "场景名称与备注",
+    "场景列表",
+    "存储与调用过滤器",
+    "场景组",
+    "场景时间功能",
+    "输入与输出动作",
+    "自动化预览",
+    "控制台选项",
+    "系统选项",
+    "操作面选项",
+    "用户选项",
+    "用户按键选项",
+    "远程控制选项",
+    "网络选项",
+    "DAW 控制选项",
+    "外部控制选项",
+    "SOLSA 离线软件",
+    "TaCo 平板控制",
+    "远程操作面",
+    "远程区块",
+    "外接屏幕",
+    "跳线管理器",
+    "事件管理器",
+    "信号切换器",
+    "DAW 控制",
+    "外部控制",
+    "KLANG 外部控制",
+    "参数与设置的存储",
+    "系统菜单",
+    "维护",
+    "安装指南",
+    "索引与术语表",
+    "关于",
+    "LAN-009 配置 Live 控制台以使用 Dante I/O",
+    "LAN-010 Live Dante VTL / DDR 概念与配置",
+    "LAN-012 Live 控制台 IP 地址配置指南"
   ]
 }

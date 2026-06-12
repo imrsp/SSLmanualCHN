@@ -1,12 +1,12 @@
 # 内容审计报告
 
-生成时间：2026-06-12T08:31:59.477Z
+生成时间：2026-06-12T18:37:18.378Z
 
 - 页面：83
-- 无结构问题：65
-- 待复核：18
+- 无结构问题：68
+- 待复核：15
 - 含缺失图片：0
-- 问题项：20
+- 问题项：17
 
 ## 待复核页面
 
@@ -101,22 +101,4 @@
 文件：`pages/73-ExternalControl.html`；中英文本长度比：0.48
 
 - Layer 术语未按规则保留英文
-
-### 81. LAN-009 Configuring a Live Console for Use with Dante
-
-文件：`pages/81-LAN-009.html`；中英文本长度比：1
-
-- 待翻译
-
-### 82. LAN-010 Live Dante VTL / DDR Concepts and Configuration
-
-文件：`pages/82-LAN-010.html`；中英文本长度比：1
-
-- 待翻译
-
-### 83. LAN-012 Live Console IP Address Configuration Guidance
-
-文件：`pages/83-LAN-012.html`；中英文本长度比：1
-
-- 待翻译
 

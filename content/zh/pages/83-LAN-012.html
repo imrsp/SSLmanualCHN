@@ -1,0 +1,350 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>LAN-012 Live 控制台 IP 地址配置指南</title>
+  </head>
+  <body>
+    <p class="source">章节：LIVE 应用笔记 | 来源：<a href="https://livehelp.solidstatelogic.com/Help/LAN-012.html">https://livehelp.solidstatelogic.com/Help/LAN-012.html</a></p>
+    <div class="lan-document">
+      <div class="lan-document-header">
+        <div class="lan-document-title">LIVE 应用笔记：012</div>
+        <div class="lan-document-title lan-document-subject">主题：Live 控制台 IP 地址配置指南</div>
+        <div class="lan-document-version">版本：1.2</div>
+      </div>
+      <div></div>
+      <h2>简介</h2>
+      <p>本文档旨在为 Live 控制台的网络配置提供指导，并帮助避免无效配置导致的各类故障。要建立一个稳健的系统，需要具备一定的 IP 知识。<br></p>
+      <h2>硬件概览</h2>
+      <p>Live 主计算机称为前面板处理器（FPP）。它具有两个网络连接。LAN1 连接到 DSP 引擎。LAN2 用于外部连接控制，可在 Menu &gt; Setup &gt; Options &gt; Network 中查看。LAN2 连接到 626022X2 同步卡内置的交换机，该交换机在后面板提供三个 RJ45 端口，供 SOLSA、TaCo 和 Console Expander 远程客户端使用。</p>
+      <p>Dante 在 Live 内部使用四个物理网络适配器。FPP 在 PCIe NIC（网络接口卡）* 上具有 Primary 和 Secondary 接口。此接口允许控制台发现、控制和路由连接的 Dante 设备。它不传输音频。</p>
+      <p>Dante Expansion Card（Brooklyn II 模块）具有自己的 Primary 和 Secondary 接口。这些接口在 L100、L200、L300、L350、L450、L550 和 L650 控制台中位于 62D020X1 路由卡上，在 L500 和 L500 Plus 控制台中位于 626034X1 Dante Mezzanine 卡上。Dante 音频路由至 DSP 引擎或从 DSP 引擎路由输出，而不经过 FPP。</p>
+      <p>*PCIe NIC 于 2017 年 6 月引入。所有已拥有现有 Dante 硬件的客户应已收到 62A7000F2（L500）或 62A7300F2（L300）改装套件以更新其控制台。所有 L200 控制台标配 PCIe NIC。</p>
+      <h2>出厂 IP 设置</h2>
+      <a id="t.17ce7e0fb988fe5d9ed0bf811c1fd1066b71731e"></a>
+      <a id="t.0"></a>
+      <table>
+        <tbody>
+          <tr>
+            <td colspan="1" rowspan="1">
+              <p>网络接口</p>
+            </td>
+            <td colspan="1" rowspan="1">
+              <p>固定/DHCP</p>
+            </td>
+            <td colspan="1" rowspan="1">
+              <p>IP 地址</p>
+            </td>
+            <td colspan="1" rowspan="1">
+              <p>配置方式</p>
+            </td>
+          </tr>
+          <tr>
+            <td colspan="1" rowspan="1">
+              <p>FPP Dante Primary Control</p>
+            </td>
+            <td colspan="1" rowspan="1">
+              <p>Fixed</p>
+            </td>
+            <td colspan="1" rowspan="1">
+              <p>10.101.x.x</p>
+            </td>
+            <td colspan="1" rowspan="1">
+              <p>控制台 Network 选项</p>
+            </td>
+          </tr>
+          <tr>
+            <td colspan="1" rowspan="1">
+              <p>FPP Dante Secondary Control</p>
+            </td>
+            <td colspan="1" rowspan="1">
+              <p>Fixed</p>
+            </td>
+            <td colspan="1" rowspan="1">
+              <p>10.102.x.x</p>
+            </td>
+            <td colspan="1" rowspan="1">
+              <p>控制台 Network 选项</p>
+            </td>
+          </tr>
+          <tr>
+            <td colspan="1" rowspan="1">
+              <p>Brooklyn II Dante Primary</p>
+            </td>
+            <td colspan="1" rowspan="1">
+              <p>Fixed</p>
+            </td>
+            <td colspan="1" rowspan="1">
+              <p>10.101.x.x</p>
+            </td>
+            <td colspan="1" rowspan="1">
+              <p>Dante Controller 软件</p>
+            </td>
+          </tr>
+          <tr>
+            <td colspan="1" rowspan="1">
+              <p>Brooklyn II Dante Secondary</p>
+            </td>
+            <td colspan="1" rowspan="1">
+              <p>Fixed</p>
+            </td>
+            <td colspan="1" rowspan="1">
+              <p>10.102.x.x</p>
+            </td>
+            <td colspan="1" rowspan="1">
+              <p>Dante Controller 软件</p>
+            </td>
+          </tr>
+          <tr>
+            <td colspan="1" rowspan="1">
+              <p>连接控制网络</p>
+            </td>
+            <td colspan="1" rowspan="1">
+              <p>DHCP</p>
+            </td>
+            <td colspan="1" rowspan="1">
+              <p>-</p>
+            </td>
+            <td colspan="1" rowspan="1">
+              <p>控制台 Network 选项</p>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <p>所有固定地址均使用 16 位子网掩码（255.255.0.0）。</p>
+      <h2>需要牢记的重要规则</h2>
+      <ul>
+        <li>每个网络接口的 IP 地址必须唯一。</li>
+        <li>Dante Primary 和 Secondary 网络绝不可物理连接。</li>
+        <li>Dante Primary 和 Secondary 地址必须位于不同子网（详见下文）。</li>
+        <li>设置为自动配置时，Dante Primary 将使用 169.254.x.x 子网。这是标准 IPv4 协议行为，因此与连接控制网络一致。</li>
+        <li>设置为自动配置时，Dante Secondary 将使用 172.31.x.x 子网。该范围仍属于 IPv4 私有地址，并非自动配置专用，使其用于 Secondary 自动配置是 Dante 特有的做法。</li>
+        <li>除配置在不同子网外，连接控制网络、Dante Primary 和 Dante Secondary 应视为三个物理分离的网络，各自拥有独立的网络硬件。*</li>
+        <li>在 Live 控制台中，FPP 不可在任何两个网络中看到相同的子网。这包括自动配置到 169.254.x.x 子网的网络。</li>
+        <li>默认网关设置必须留空，因为 Dante 当前没有使用网关的场景。**</li>
+      </ul>
+      <p>* 也存在例外 - 您可能有一台可为多个网络服务并通过 VLAN 隔离的可配置网络交换机。虽然这样做在技术上可行，但保持硬件分离的主要原因与故障转移相关 - 如果这一台交换机发生故障，Primary 和 Secondary 网络将同时中断，从而失去冗余网络的意义，因此不建议在 Live 现场使用中采用这种方式。</p>
+      <p><br>**默认网关用于在子网之间路由 IP 数据。Dante 不支持此功能，输入网关设置会将 Primary 和 Secondary 子网连接在一起，这是无效配置。</p>
+      <h2>什么是 IP 地址，什么是子网？</h2>
+      <p>IP 地址包含两个要素：子网地址和设备地址。组合地址为一个 32 位数字，分成四部分，各部分以点号分隔，即 xxx.xxx.xxx.xxx。<br>这意味着每部分为 8 位，称为一个八位字节（octet）。对于 IP 地址 192.168.1.2，第一个八位字节是“192”。</p>
+      <p>子网地址在前，设备地址在后。用户可以定义分配给子网的位数和分配给设备地址的位数。此设置即为子网掩码。</p>
+      <h3>示例 1</h3>
+      <p>下图展示了这会如何影响不同八位字节的分配：</p>
+      <p><img alt="" src="assets/manual/Help/LANs/LAN-012/images/image1.png" title=""></p>
+      <p>上述 16 位子网掩码示例中可分配的设备地址数量远多于 24 位子网掩码示例。在后者中，仅剩一个完整的八位字节（8 位）用于设备地址。可用值范围为 1-254，这意味着在此方案下最多可为 254 台设备分配地址。如果该子网内需要更多设备，则需缩短子网掩码长度（例如改为 16 位）*。16 位子网掩码允许分配 65,534 个设备地址（原因超出本文档讨论范围）。可以设想，未来大型 Dante 网络可能包含超过 254 台设备，此时 24 位子网掩码就不再是有效的配置了。</p>
+      <p>* 子网掩码还有其他选项 - 例如 23 位子网掩码为 255.255.254.0，子网内允许 510 台设备。有关更多信息，请查阅"无类别域间路由"（CIDR），它是 IPv4 的一部分。</p>
+      <h3>示例 2</h3>
+      <p>相似的 IP 地址可能属于同一子网或不同子网，具体取决于子网掩码。因此，子网掩码的配置错误可能会将用户本意设为分离的两个网络连接在一起，例如 Dante Primary 和 Dante Secondary。使用 255.255.255.0 的 24 位子网掩码时，IP 地址 192.168.1.1 和 192.168.2.1 位于不同子网。而使用 16 位子网掩码时，仅前两个八位字节需要匹配。如下图所示：<br></p>
+      <p><img alt="" src="assets/manual/Help/LANs/LAN-012/images/image2.png" title=""></p>
+      <h2>可以使用哪些 IP 地址？</h2>
+      <p>公网 IP 地址是指可通过互联网访问的地址。私网 IP 地址是在局域网/私有网络上本地分配的地址。以下 IP 地址范围对私有网络有效，因此适用于 Live Dante 和连接控制网络：</p>
+      <ul>
+        <li>192.168.0.0 - 192.168.255.255（65,536 个 IP 地址）</li>
+        <li>172.16.0.0 - 172.31.255.255（1,048,576 个 IP 地址）</li>
+        <li>10.0.0.0 - 10.255.255.255（16,777,216 个 IP 地址）</li>
+      </ul>
+      <p>但有一条重要规则 - 设备地址不能以"0"或"255"结尾。具体原因超出本文档范围，其他地址范围为何不可用的讨论也一并从略。举例而言，如果您选择的 16 位子网为 192.168.x.x，您可以安全地使用从 192.168.1.1 到 192.168.1.254 的设备地址（前提是同一网络上没有其他设备占用）。这意味着设置 24 位子网掩码会留给您 254 个不同的可用设备地址。可以设想，未来更大的固定 Dante 网络可能超过此设备数量，此时应使用更短的子网掩码。</p>
+      <h2>DHCP 自动配置</h2>
+      <p>也常被称为链路本地或 APIPA（自动专用 IP 寻址）。当设备设为 DHCP 并连接到没有 DHCP 服务器的网络时，它们会在 169.254.x.x 范围内自动配置。这是标准网络协议。在此语境下，这非常有用，因为它允许运行 Dante Virtual Soundcard 的笔记本电脑直接连接到 Live 控制台，无需其他网络硬件；设备自行协商连接。这是 Live 的常见用法，许多产品制造商（包括 Audinate）都引用此方式作为配置 Dante 网络的理想方法。然而，Live 控制台具有多个内部网络，需要额外考量。</p>
+      <p>FPP 连接到 Dante 网络以发现设备并管理控制数据。由于它不是专有的 Dante 设备（不同于 Brooklyn 模块），其网络适配器使用标准 IPv4 自动配置协议，并且不"知晓"Audinate 用于自动配置的专有 Secondary 地址方案（172.31.x.x）。这意味着如果将自动配置网络用于 Secondary 连接，FPP Secondary Control 接口将配置为 169.254.x.x，从而将 Dante Primary 和 Secondary 网络连接在一起。这会影响控制数据，导致设备无法正确发现，舞台接口箱的路由和控制功能将处于不确定状态。在此无效配置下，控制台或 Dante Controller 已完成的音频路由（即虚拟跳线）可能受影响，也可能不受影响。</p>
+      <p>如果两个 Dante 网络都需要自动配置，用户必须将 FPP 的 Secondary IP 地址手动（固定）设置为 Audinate 特定的 172.31.x.x Secondary 子网。通过在任何 Dante 设备连接前预先进行此设置，可以确保此后分配的任何 172.31.x.x 地址不会与 FPP 的地址冲突。</p>
+      <p>自动配置也常用于连接控制网络。只要 Dante Primary 没有同时使用自动配置，这就是一个有效的选项。否则将导致 Dante 控制数据丢失，方式与上述示例相同，因为 FPP 将不知道使用哪个网络接口。解决方案是确保其他接口位于不同的子网中。这可以通过固定 Primary 和 Secondary 地址（例如出厂配置）来实现，或者确保每个 Dante 网络上都有 DHCP 服务器以上述私有 IP 地址范围分配地址。下表展示了如何为 Live Dante 网络实现自动配置的示例。注意连接控制网络在本示例中被设为不同子网内的固定地址：<br></p>
+      <a id="t.a80e2c18842287947ac39f29ae159b75f24fd796"></a>
+      <a id="t.1"></a>
+      <table>
+        <tbody>
+          <tr>
+            <td colspan="1" rowspan="1">
+              <p>网络接口</p>
+            </td>
+            <td colspan="1" rowspan="1">
+              <p>固定/DHCP</p>
+            </td>
+            <td colspan="1" rowspan="1">
+              <p>IP 地址</p>
+            </td>
+            <td colspan="1" rowspan="1">
+              <p>配置方式</p>
+            </td>
+          </tr>
+          <tr>
+            <td colspan="1" rowspan="1">
+              <p>FPP Dante Primary Control</p>
+            </td>
+            <td colspan="1" rowspan="1">
+              <p>DHCP</p>
+              <p>自动配置</p>
+            </td>
+            <td colspan="1" rowspan="1">
+              <p>169.254.x.x</p>
+            </td>
+            <td colspan="1" rowspan="1">
+              <p>控制台 Network 选项</p>
+            </td>
+          </tr>
+          <tr>
+            <td colspan="1" rowspan="1">
+              <p>FPP Dante Secondary Control</p>
+            </td>
+            <td colspan="1" rowspan="1">
+              <p>Fixed</p>
+            </td>
+            <td colspan="1" rowspan="1">
+              <p>172.31.x.x</p>
+            </td>
+            <td colspan="1" rowspan="1">
+              <p>控制台 Network 选项</p>
+            </td>
+          </tr>
+          <tr>
+            <td colspan="1" rowspan="1">
+              <p>Brooklyn II Dante Primary</p>
+            </td>
+            <td colspan="1" rowspan="1">
+              <p>DHCP 自动配置</p>
+            </td>
+            <td colspan="1" rowspan="1">
+              <p>169.254.x.x</p>
+            </td>
+            <td colspan="1" rowspan="1">
+              <p>Dante Controller 软件</p>
+            </td>
+          </tr>
+          <tr>
+            <td colspan="1" rowspan="1">
+              <p>Brooklyn II Dante Secondary</p>
+            </td>
+            <td colspan="1" rowspan="1">
+              <p>DHCP 自动配置</p>
+            </td>
+            <td colspan="1" rowspan="1">
+              <p>172.31.x.x</p>
+            </td>
+            <td colspan="1" rowspan="1">
+              <p>Dante Controller 软件</p>
+            </td>
+          </tr>
+          <tr>
+            <td colspan="1" rowspan="1">
+              <p>连接控制网络</p>
+            </td>
+            <td colspan="1" rowspan="1">
+              <p>Fixed</p>
+            </td>
+            <td colspan="1" rowspan="1">
+              <p>192.168.x.x</p>
+            </td>
+            <td colspan="1" rowspan="1">
+              <p>控制台 Network 选项</p>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <p><br>使用 DHCP 服务器的 DHCP</p>
+      <p>当设备连接到具有 DHCP 服务器的网络时，它们将被分配本文档前文中给出的范围内的 IP 地址。这些设置包含在交换机配置中。关于如何配置交换机和 DHCP 服务器的说明不在本文档范围之内；用户应参阅所选设备的制造商支持文档。</p>
+      <a id="t.4e9b712b6c2f14aaddf5500c53a5473f7bbf85df"></a>
+      <a id="t.2"></a>
+      <table>
+        <tbody>
+          <tr>
+            <td colspan="1" rowspan="1">
+              <p>网络接口</p>
+            </td>
+            <td colspan="1" rowspan="1">
+              <p>固定/DHCP</p>
+            </td>
+            <td colspan="1" rowspan="1">
+              <p>IP 地址</p>
+            </td>
+            <td colspan="1" rowspan="1">
+              <p>配置方式</p>
+            </td>
+          </tr>
+          <tr>
+            <td colspan="1" rowspan="1">
+              <p>FPP Dante Primary Control</p>
+            </td>
+            <td colspan="1" rowspan="1">
+              <p>DHCP server</p>
+            </td>
+            <td colspan="1" rowspan="1">
+              <p>10.101.x.x</p>
+            </td>
+            <td colspan="1" rowspan="1">
+              <p>控制台 Network 选项</p>
+            </td>
+          </tr>
+          <tr>
+            <td colspan="1" rowspan="1">
+              <p>FPP Dante Secondary Control</p>
+            </td>
+            <td colspan="1" rowspan="1">
+              <p>DHCP server</p>
+            </td>
+            <td colspan="1" rowspan="1">
+              <p>10.102.x.x</p>
+            </td>
+            <td colspan="1" rowspan="1">
+              <p>控制台 Network 选项</p>
+            </td>
+          </tr>
+          <tr>
+            <td colspan="1" rowspan="1">
+              <p>Brooklyn II Dante Primary</p>
+            </td>
+            <td colspan="1" rowspan="1">
+              <p>DHCP server</p>
+            </td>
+            <td colspan="1" rowspan="1">
+              <p>10.101.x.x</p>
+            </td>
+            <td colspan="1" rowspan="1">
+              <p>Dante Controller 软件</p>
+            </td>
+          </tr>
+          <tr>
+            <td colspan="1" rowspan="1">
+              <p>Brooklyn II Dante Secondary</p>
+            </td>
+            <td colspan="1" rowspan="1">
+              <p>DHCP server</p>
+            </td>
+            <td colspan="1" rowspan="1">
+              <p>10.102.x.x</p>
+            </td>
+            <td colspan="1" rowspan="1">
+              <p>Dante Controller 软件</p>
+            </td>
+          </tr>
+          <tr>
+            <td colspan="1" rowspan="1">
+              <p>连接控制网络</p>
+            </td>
+            <td colspan="1" rowspan="1">
+              <p>DHCP 自动配置</p>
+            </td>
+            <td colspan="1" rowspan="1">
+              <p>169.254.x.x</p>
+            </td>
+            <td colspan="1" rowspan="1">
+              <p>控制台 Network 选项</p>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <p>此示例需要带有 DHCP 服务器的两台网络交换机，因为连接控制网络仍将使用自动配置。这是使用 TaCo（平板控制）应用时的常见用法。可以将无线接入点（不带 DHCP 服务器）连接到控制台背后的一个连接控制端口，然后作为 iPad 或 Android 平板设备的无线网桥。这些设备均将自动配置为 169.254.x.x 地址。</p>
+      <h2>固定 IP 地址方案</h2>
+      <p>在受控的 Live 环境中，例如固定安装场景，可能需要按照现场网络集成商确定的方案实施固定地址方案和交换机配置。在这种情况下，应按照提供的方案为所有三个网络设置控制台。</p>
+      <p><br>然而，在无法或不愿使用 DHCP 的任何时候，固定 IP 地址都是一个有用的选项。固定 IP 地址方案有助于减少交叉插拔网络和意外访问的影响。在 DHCP 配置中，如果没有其他网络管理措施（例如交换机端口上的 ACL 规则），任何设为 DHCP 的网络设备都可以通过物理连接被分配 IP 地址并获得网络访问权限。这一点在典型的 Live 演出搭建环境中尤为重要 - 例如，舞台接口箱的 Dante Secondary 连接可能被误插到 Primary 网络端口。如果设备使用 DHCP 设置，该 Secondary 接口将使 Primary 和 Secondary 网络交叉，并导致不确定数量的 Dante 问题。如果 Dante Primary 和 Secondary 设备配置为固定地址，误插的 Secondary 接口将不会被分配到与 Primary 网络相同子网内的地址 - 它将保持其固定的 Secondary 地址，因此不会协商建立到 Primary 网络的连接。</p>
+      <h2>实用的网络工具</h2>
+      <p>用户应在计算机上安装以下一些基本的网络工具：</p>
+      <p>Dante Controller 软件下载地址：<a tabindex="-1" target="_blank" href="https://www.audinate.com/products/software/dante-controller">https://www.audinate.com/products/software/dante-controller</a></p>
+      <p>IP 地址和时钟设置等设备设置必须使用 Dante Controller 进行配置。</p>
+      <p>Live 控制台可以使用双域路由直接发现和路由 Dante 音频设备，而无需通过 Dante Controller。有时也需要建立不受控制台控制的静态网络路由，此时需要使用 Dante Controller 来完成网络路由。<br>有关包括故障排除工具在内的完整功能列表，请参阅 Audinate 的文档。</p>
+      <p>Wireshark - <a tabindex="-1" target="_blank" href="https://www.wireshark.org/download.html">https://www.wireshark.org/download.html</a></p>
+      <p>Wireshark 允许用户捕获实时网络活动，包括连接到网络的所有设备发出的 IP 地址通知，无论这些设备是否与连接网络的计算机处于同一子网中。</p>
+      <p>如果某个网络接口（例如 Dante Primary）的 IP 地址因之前设置过而未知，直接连接到 Dante Primary 端口并进行简短的数据包捕获，即可显示出该设备和您的计算机的 IP 地址。通过确认计算机的 IP 地址，您可以推算出需要处于的正确子网，从而重新配置 Dante Primary 地址。</p>
+    </div>
+  </body>
+</html>

@@ -1,11 +1,11 @@
 {
   "summary": {
-    "generatedAt": "2026-06-12T08:31:59.477Z",
+    "generatedAt": "2026-06-12T18:37:18.378Z",
     "pages": 83,
-    "cleanPages": 65,
-    "reviewPages": 18,
+    "cleanPages": 68,
+    "reviewPages": 15,
     "pagesWithMissingImages": 0,
-    "totalIssues": 20
+    "totalIssues": 17
   },
   "pages": [
     {
@@ -3564,11 +3564,11 @@
       "order": 81,
       "file": "pages/81-LAN-009.html",
       "title": "LAN-009 Configuring a Live Console for Use with Dante",
-      "titleZh": "LAN-009 Configuring a Live Console for Use with Dante",
+      "titleZh": "LAN-009 配置 Live 控制台以使用 Dante I/O",
       "metrics": {
         "source": {
-          "headings": 13,
-          "images": 13,
+          "headings": 9,
+          "images": 11,
           "tables": 1,
           "links": 1,
           "listItems": 7,
@@ -3577,8 +3577,8 @@
           "textLength": 8801
         },
         "en": {
-          "headings": 13,
-          "images": 13,
+          "headings": 9,
+          "images": 11,
           "tables": 1,
           "links": 1,
           "listItems": 7,
@@ -3587,33 +3587,31 @@
           "textLength": 8801
         },
         "zh": {
-          "headings": 13,
-          "images": 13,
+          "headings": 9,
+          "images": 11,
           "tables": 1,
           "links": 1,
           "listItems": 7,
           "notes": 0,
           "disclosures": 0,
-          "textLength": 8801
+          "textLength": 4112
         }
       },
-      "lengthRatio": 1,
+      "lengthRatio": 0.47,
       "missingImages": [],
       "extraImages": [],
       "untranslatedBlocks": [],
       "mixedLanguageBlocks": [],
-      "issues": [
-        "待翻译"
-      ]
+      "issues": []
     },
     {
       "order": 82,
       "file": "pages/82-LAN-010.html",
       "title": "LAN-010 Live Dante VTL / DDR Concepts and Configuration",
-      "titleZh": "LAN-010 Live Dante VTL / DDR Concepts and Configuration",
+      "titleZh": "LAN-010 Live Dante VTL / DDR 概念与配置",
       "metrics": {
         "source": {
-          "headings": 10,
+          "headings": 7,
           "images": 5,
           "tables": 0,
           "links": 3,
@@ -3623,7 +3621,7 @@
           "textLength": 6261
         },
         "en": {
-          "headings": 10,
+          "headings": 7,
           "images": 5,
           "tables": 0,
           "links": 3,
@@ -3633,33 +3631,31 @@
           "textLength": 6261
         },
         "zh": {
-          "headings": 10,
+          "headings": 7,
           "images": 5,
           "tables": 0,
           "links": 3,
           "listItems": 0,
           "notes": 0,
           "disclosures": 0,
-          "textLength": 6261
+          "textLength": 2600
         }
       },
-      "lengthRatio": 1,
+      "lengthRatio": 0.42,
       "missingImages": [],
       "extraImages": [],
       "untranslatedBlocks": [],
       "mixedLanguageBlocks": [],
-      "issues": [
-        "待翻译"
-      ]
+      "issues": []
     },
     {
       "order": 83,
       "file": "pages/83-LAN-012.html",
       "title": "LAN-012 Live Console IP Address Configuration Guidance",
-      "titleZh": "LAN-012 Live Console IP Address Configuration Guidance",
+      "titleZh": "LAN-012 Live 控制台 IP 地址配置指南",
       "metrics": {
         "source": {
-          "headings": 13,
+          "headings": 11,
           "images": 2,
           "tables": 3,
           "links": 8,
@@ -3669,7 +3665,7 @@
           "textLength": 14151
         },
         "en": {
-          "headings": 13,
+          "headings": 11,
           "images": 2,
           "tables": 3,
           "links": 8,
@@ -3679,24 +3675,22 @@
           "textLength": 14151
         },
         "zh": {
-          "headings": 13,
+          "headings": 11,
           "images": 2,
           "tables": 3,
           "links": 8,
           "listItems": 11,
           "notes": 0,
           "disclosures": 0,
-          "textLength": 14151
+          "textLength": 6192
         }
       },
-      "lengthRatio": 1,
+      "lengthRatio": 0.44,
       "missingImages": [],
       "extraImages": [],
       "untranslatedBlocks": [],
       "mixedLanguageBlocks": [],
-      "issues": [
-        "待翻译"
-      ]
+      "issues": []
     }
   ]
 }

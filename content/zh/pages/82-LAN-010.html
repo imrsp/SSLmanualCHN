@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>LAN-010 Live Dante VTL / DDR 概念与配置</title>
+  </head>
+  <body>
+    <p class="source">章节：LIVE 应用笔记 | 来源：<a href="https://livehelp.solidstatelogic.com/Help/LAN-010.html">https://livehelp.solidstatelogic.com/Help/LAN-010.html</a></p>
+    <div class="lan-document">
+      <div class="lan-document-header">
+        <div class="lan-document-title">LIVE 应用笔记：010</div>
+        <div class="lan-document-title lan-document-subject">主题：Live Dante VTL / DDR 概念与配置</div>
+        <div class="lan-document-version">版本：2.1</div>
+      </div>
+      <div></div>
+      <h2 id="h.z0mi55yfd4v5">目的</h2>
+      <p>SSL Live 控制台内置的 Dante Expander 卡和 Net I/O BLII 网桥均可配置为使用双域路由（DDR）和/或虚拟跳线（VTL）。本文档说明两者的概念和配置方法。有关初始 Dante 网络设置的信息，请参阅 Live Help 相关页面<a href="https://livehelp.solidstatelogic.com/Help/DanteSetup.html">此处</a>。</p>
+      <h2 id="h.5dlmsivfqnra">Live Dante 通道容量</h2>
+      <p>本地 Dante Expander 模块在 48 kHz 下最多支持 64x64 Dante 通道，在 96 kHz 下最多支持 32x32 Dante 通道。Net I/O BLII 网桥在 48 kHz 或 96 kHz 下最多支持 256x256 通道音频。这些 Dante 通道可分为两种不同的路由资源：双域路由和虚拟跳线。<br></p>
+      <p>请留意：如果控制台 DSP 设置为 96 kHz 而 Dante Expander 模块设置为 48 kHz 并启用 SRC，则只有 Dante 通道 1-32 可用。Net I/O BLII 网桥不支持 SRC。有关采样率和 SRC 的更多信息，请参阅 Live Help 相关页面<a href="https://livehelp.solidstatelogic.com/Help/LocalMADIConfig.html#Dante">此处</a>。</p>
+      <h2 id="h.a1bsbtfcblcs">虚拟跳线简介</h2>
+      <p>虚拟跳线用于将控制台与任何其他支持 Dante 的设备连接起来，使用 Dante Controller 完成路由的网络链路部分。在这方面，它们使控制台可以被视为任何典型的 Dante 设备。因此，它们可用于建立不受控制台操作员控制、而是由系统工程师或类似人员管理的"固定"路由，例如控制台与 PA 系统之间的路由。例如，将 Master 输出路由到 VTL 1-2 后，可在 Dante Controller 中将其路由到多个目的地，包括 PA、广播目的地和/或临时连接，而无需控制台操作员参与。</p>
+      <p><br>与 DDR 不同，这种"固定"Dante 路由不会受到控制台开机、关机或加载演出文件的影响。当 Dante 设备间存在需要不依赖控制台存在的路由时（例如，仅使用监听控制台进行排练录音的场景，需要 Net I/O 舞台接口箱到 Dante Virtual Soundcard 录音系统的路由保持不变），这一点同样适用。虚拟跳线不能传输控制数据，因此不应用于从 Net I/O 舞台接口箱输入的路由，除非不需要控制功能。</p>
+      <p>请留意：当控制台连接到 Net I/O BLII 网桥时，应先创建虚拟跳线，再创建双域路由。还建议将 Dante Expander 设置为仅具有虚拟跳线，以避免双域路由分布到不同的物理 Dante 接口上，这可能会因 Dante Controller 中的设备设置而导致延迟差异。</p>
+      <h2 id="h.8vdaxcb0ya4v">通过 Dante Expander 模块配置 VTL</h2>
+      <p>转到 MENU &gt; Setup &gt; I/O &gt; Local/MADI Configuration，然后点击 Dante Expander 打开其 Detail View。双击 Virtual Tie Lines 标签区域，选择所需的虚拟跳线数量。这将创建相同数量的输入和输出。在 96 kHz 下最多可创建 32 条虚拟跳线，在 48 kHz 下最多 64 条。它们将在 Routing View 中显示为 Local I/O 类型。<br></p>
+      <p><img alt="" src="assets/manual/Help/LANs/LAN-010/images/image4.png" title=""></p>
+      <h2 id="h.24tkbcd1ij48">通过 Net I/O BLII 网桥配置 VTL</h2>
+      <p>要在 Net BLII 网桥上设置虚拟跳线，转到 MENU &gt; Setup &gt; I/O &gt; Local/MADI Configuration。点击与 BLII 网桥所连接本地 BLII 端口对应的 BLII 端口列顶部。此时将显示 BLII 网桥的 Detail View。</p>
+      <p><br>在 BLII 网桥上，可以分别创建虚拟跳线输入和输出。双击 Virtual Tie Line Inputs 或 Outputs 文字字段可更改虚拟跳线的数量。在 96 kHz 或 48 kHz 下最多可创建 256 条虚拟跳线。这些将在路由视图中以 BLII 分类显示。<br></p>
+      <p><img alt="" src="assets/manual/Help/LANs/LAN-010/images/image1.png" title=""></p>
+      <p><br>如果已创建双域路由并占用了 Dante 通道资源，则可创建的虚拟跳线数量会减少。</p>
+      <h2 id="h.3bitrxgndmxr">双域路由简介</h2>
+      <p>双域路由是 SSL 独有的功能，允许控制台直接与网络上的设备交互，无需使用 Dante Controller 建立路由。双域路由还包含用于 SSL Network I/O 舞台接口箱的控制数据，这是虚拟跳线不具备的。</p>
+      <p>当与某台设备建立了双域路由后，控制台对该路由拥有"所有权"。这意味着当控制台加载/卸载演出文件时（包括控制台开机和关机时），网络域中的路由也将相应地建立和取消。这种行为在某些场景下是可取的，特别是在大型 Dante 环境中，可以避免不必要的网络带宽占用，以及避免那些仅在特定演出文件加载时才应存在的设备间路由被保留。此外，还可以配置离线设备，使操作员能够预先把控当这些设备接入网络时将在 Dante 网络上建立的路由，从而节省大量的路由/跳线时间。有关离线路由的更多信息，请参阅 Live Help 相关页面<a href="https://livehelp.solidstatelogic.com/Help/DanteConfig.html">此处</a>。</p>
+      <h2 id="h.kme89f5kyyk4">配置设备以使用双域路由</h2>
+      <p>转到 Menu &gt; Setup &gt; I/O &gt; Dante Configuration。</p>
+      <p>连接到网络的所有 Dante 设备都显示在 Dante Configuration 页面左侧的 Connected Devices 列表中。</p>
+      <p><br>启用屏幕右侧的 Edit 按钮，然后将设备从 Connected Devices 列表拖放到右侧 Configured Devices 列表底部的 + 符号上。+ 符号仅在您开始拖动设备时出现：<br></p>
+      <p><img alt="" src="assets/manual/Help/LANs/LAN-010/images/image2.png" title=""><br></p>
+      <p><img alt="" src="assets/manual/Help/LANs/LAN-010/images/image3.png" title=""></p>
+      <p><br>设备添加到 Configured Devices 列表后，将在路由菜单中作为独立设备显示，并可以与其他 I/O 设备一样进行路由。</p>
+      <p>Configured Devices 列表上方有两条资源条，指示总的双域输入和输出路由可用数量以及当前已使用的数量。显示的总数取决于采样率、虚拟跳线数量以及是否使用 BLII 网桥。双域路由被建立时，资源条会以浅蓝色或深蓝色填充：<br></p>
+      <p><img alt="" src="assets/manual/Help/LANs/LAN-010/images/image5.png" title=""></p>
+      <p><br>浅蓝色：到离线 Configured Devices 的路由（设备未连接到网络，用于在舞台接口箱实际到场前准备演出文件）。</p>
+      <p>深蓝色：到在线 Configured Devices 的路由（设备已连接到网络）。</p>
+    </div>
+  </body>
+</html>

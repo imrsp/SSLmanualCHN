@@ -1,0 +1,211 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>LAN-009 配置 Live 控制台以使用 Dante I/O</title>
+  </head>
+  <body>
+    <p class="source">章节：LIVE 应用笔记 | 来源：<a href="https://livehelp.solidstatelogic.com/Help/LAN-009.html">https://livehelp.solidstatelogic.com/Help/LAN-009.html</a></p>
+    <div class="lan-document">
+      <div class="lan-document-header">
+        <div class="lan-document-title">LIVE 应用笔记：009</div>
+        <div class="lan-document-title lan-document-subject">主题：配置 Live 控制台以使用 Dante I/O</div>
+        <div class="lan-document-version">版本：1.2</div>
+      </div>
+      <h2>简介</h2>
+      <p>本文档说明如何<i>首次</i>配置您的 SSL Live 控制台以接入 Dante 音频网络。</p>
+      <p>在开始配置控制台之前，重要的是要了解您的 SSL Live 控制台包含五个独立的网络设备，必须正确配置这些设备才能与外部 Dante 网络正常配合。这些设备包括：</p>
+      <ol id="l1">
+        <li>
+          <p>Dante Control 主网</p>
+        </li>
+        <li>
+          <p>Dante Audio 主网</p>
+        </li>
+        <li>
+          <p>Dante Control 备网</p>
+        </li>
+        <li>
+          <p>Dante Audio 备网</p>
+        </li>
+        <li>
+          <p>连接控制网络</p>
+        </li>
+      </ol>
+      <p>连接控制网络通过控制台背面三个标有 <b>NETWORK</b> 的端口之一访问，虽然 Dante 操作不需要该网络，但务必注意其配置，因为如果设置不正确，可能会与您的 Dante 网络发生冲突。本文档稍后将对此进行更详细的讨论。</p>
+      <p>Live 控制台出厂时具有以下 IP 地址设置：</p>
+      <table cellspacing="0">
+        <tr>
+          <td>
+            <p>网络接口</p>
+          </td>
+          <td>
+            <p>固定/DHCP</p>
+          </td>
+          <td>
+            <p>IP 地址</p>
+          </td>
+          <td>
+            <p>配置方式</p>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <p>Dante Control 主网</p>
+          </td>
+          <td>
+            <p>Fixed</p>
+          </td>
+          <td>
+            <p>10.101.x.x</p>
+          </td>
+          <td>
+            <p>控制台 Network 选项</p>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <p>Dante Control 备网</p>
+          </td>
+          <td>
+            <p>Fixed</p>
+          </td>
+          <td>
+            <p>10.102.x.x</p>
+          </td>
+          <td>
+            <p>控制台 Network 选项</p>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <p>Dante Audio 主网</p>
+          </td>
+          <td>
+            <p>Fixed</p>
+          </td>
+          <td>
+            <p>10.101.x.x</p>
+          </td>
+          <td>
+            <p>Audinate Dante Controller 软件</p>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <p>Dante Audio 备网</p>
+          </td>
+          <td>
+            <p>Fixed</p>
+          </td>
+          <td>
+            <p>10.102.x.x</p>
+          </td>
+          <td>
+            <p>Audinate Dante Controller 软件</p>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <p>连接控制网络</p>
+          </td>
+          <td>
+            <p>DHCP</p>
+          </td>
+          <td>
+            <p>-</p>
+          </td>
+          <td>
+            <p>控制台 Network 选项</p>
+          </td>
+        </tr>
+      </table>
+      <p>以上各 IP 地址的子网掩码均为 255.255.0.0</p>
+      <h2>步骤 1：设置 Dante Control 网络 IP 地址</h2>
+      <p>在控制台上导航至 <b>Menu</b> &gt; <b>Options</b>，然后选择 <b>NETWORK</b> 选项卡。</p>
+      <p>屏幕左侧将显示连接控制网络的信息，右侧显示 Dante Control 主网和备网的信息。</p>
+      <p>请留意：这些地址是控制台用于向 Dante 网络发送<b>控制</b>数据的网络适配器地址，<i>而非</i> Dante <b>音频</b>连接的地址。您在 DANTE CONTROLLER 应用程序中看不到这些 IP 地址。</p>
+      <p>在本示例中，我们将为 <b>Dante Control 主网</b>设置以下参数：IP 地址：10.101.10.21</p>
+      <p>网络掩码：255.255.0.0</p>
+      <p>网关：0.0.0.0</p>
+      <p>首先将端口类型设置为 <b>Fixed</b>，然后双击 <b>IP Address</b> 和 <b>Netmask</b> 框并输入上述数值。完成后，长按 <b>Apply</b> 按钮并等待网络适配器重新启动。</p>
+      <p><img width="622" height="440" alt="image" src="assets/manual/Help/LANs/LAN-009/images/Image_003.jpg"/></p>
+      <p>接下来为 <b>Dante Control 备网</b>设置以下参数：</p>
+      <p>IP 地址：10.102.10.22</p>
+      <p>网络掩码：255.255.0.0</p>
+      <p>网关：0.0.0.0</p>
+      <p>在本示例中，<b>连接控制</b>网络的地址设置应保持为 <b>DHCP</b>。如果之后需要将其设置为固定 IP 地址，请确保使用与 Dante 网络不同的子网。</p>
+      <p><img width="540" height="253" alt="image" src="assets/manual/Help/LANs/LAN-009/images/Image_004.jpg"/></p>
+      <p>连接控制网络用于连接运行 SSL SOLSA 应用程序的 PC 或平板电脑。连接到控制台的 PC 需要将其 IP 地址设置为同一子网内，才能与控制台通信。</p>
+      <h2>步骤 2：设置 Dante Audio 网络和 Dante Control 网络名称</h2>
+      <p>为了便于在 Dante 网络上识别控制台，控制台使用两个唯一的用户自定义名称：</p>
+      <ul id="l2">
+        <li>
+          <p>CONTROL ID - 标识 Dante Control 网络</p>
+        </li>
+        <li>
+          <p>DANTE DEVICE NAME - 标识 Dante Audio 网络。这两个名称<i>绝不可</i>相同，这一点非常重要。</p>
+        </li>
+      </ul>
+      <p><b>Control ID</b> 名称可以在 <b>NETWORK</b> 页面中查看。以下示例中的 Control ID 为 LIVE-4C9E。</p>
+      <p><img width="622" height="205" alt="image" src="assets/manual/Help/LANs/LAN-009/images/Image_005.jpg"/></p>
+      <p>Dante Audio 网络名称可以在 I/O 页面中设置，路径为 <b>Menu</b> &gt; <b>Setup</b> &gt; <b>IO</b>，选择 <b>Dante Expander</b> 图标，然后双击 <b>Device name</b> 槽位并使用屏幕键盘输入名称。Dante (Brooklyn) 模块的名称需在 Dante Controller 中设置。</p>
+      <p>以下示例中的 Dante Device Name 为 <b>SSL-L300-1</b>。</p>
+      <p><img width="686" height="336" alt="image" src="assets/manual/Help/LANs/LAN-009/images/Image_006.jpg"/></p>
+      <p>在本示例中，请确保 <b>Virtual Tie Lines</b> 的值设置为 0。</p>
+      <h2>步骤 3：设置 Dante Audio 网络 IP 地址</h2>
+      <p>要设置控制台 Dante Audio 网络设备的 IP 地址，您需要一台运行 Audinate 公司 Dante Controller 应用程序的计算机，可从以下地址下载：</p>
+      <p><a tabindex="-1" href="https://www.audinate.com/products/software/dante-controller" target="_blank">https://www.audinate.com/products/software/dante-controller</a></p>
+      <p>将计算机的网络端口设置为固定 IP 地址 10.101.10.100，子网掩码为 255.255.0.0。然后将计算机的网络端口直接连接到控制台上的 <b>Dante Pri</b> 端口，并启动 Dante Controller 应用程序。</p>
+      <p>在 Dante Controller 中找到控制台，本示例中为 <b>SSL-L300-1</b>（首次设置时此名称会有所不同），双击控制台名称打开 <b>Device View</b> 选项卡。</p>
+      <p><img width="349" height="393" alt="image" src="assets/manual/Help/LANs/LAN-009/images/Image_007.jpg"/></p>
+      <p>在 <b>Device View</b> 中选择 <b>Device Config</b> 选项卡。</p>
+      <p><img width="686" height="305" alt="image" src="assets/manual/Help/LANs/LAN-009/images/Image_008.jpg"/></p>
+      <p>确认 <b>Rename Device</b> 字段中显示的名称与 <b>Dante Device Name</b> 完全一致。如果名称不同，请输入正确的 Dante Device Name 并单击 <b>Apply</b>。在本示例中可以看到名称为 <b>SSL-L300-1</b>。</p>
+      <p>在本示例中，确保 Dante 设备的 <b>Sample Rate</b> 设置为 96kHz，如上图所示。</p>
+      <p>接下来选择 <b>Network Config</b> 选项卡。此页面显示控制台 Dante Audio 网络设备的 IP 地址。</p>
+      <p><img width="686" height="673" alt="image" src="assets/manual/Help/LANs/LAN-009/images/Image_009.jpg"/></p>
+      <p>在本示例中，我们将为 Primary 端口使用以下 IP 地址设置：IP 地址：10.101.10.9</p>
+      <p>网络掩码：255.255.0.0 Secondary 端口使用：</p>
+      <p>IP 地址：10.102.10.9</p>
+      <p>网络掩码：255.255.0.0</p>
+      <p>按下 <b>Apply</b> 使更改生效。</p>
+      <h2>步骤 4：连接 SSL Network I/O 舞台接口箱（及其他 Dante 设备）</h2>
+      <p>完成控制台的 Dante 设置后，即可开始向网络添加网络交换机和其他 Dante 设备。</p>
+      <p>请留意：Dante 主网和备网在物理上必须始终保持分离。</p>
+      <p>所有 SSL 舞台接口箱出厂时配置为 DHCP。要为舞台接口箱设置固定 IP 地址，请将计算机（配置为使用 DHCP 地址）直接连接到舞台接口箱，然后使用 Dante Controller 设置固定 IP 地址。更改 IP 地址后需重新为舞台接口箱上电。</p>
+      <p>因此，在本示例中，连接到 Dante 主网的任何设备必须具有以下格式的 IP 地址：</p>
+      <p>IP 地址：10.101.10.x 网络掩码：255.255.0.0</p>
+      <p>请留意：我们已在主网上使用了 IP 地址 10.101.10.9、10.101.10.21 和 10.101.10.100。</p>
+      <p>对于 Dante 备网，任何连接的设备必须具有以下格式的 IP 地址：IP 地址：10.102.10.x</p>
+      <p>网络掩码：255.255.0.0</p>
+      <p>请留意：我们已在备网上使用了 IP 地址 10.102.10.9 和 10.102.10.22。</p>
+      <p>使用 Dante Controller 将所有连接的舞台接口箱设置为 96kHz 采样率。</p>
+      <h2>步骤 5：将外部 Dante 设备添加到路由菜单</h2>
+      <p>Dante Expander 在 48kHz 下最多可承载 64x64 通道音频，在 96kHz 下最多可承载 32x32 通道音频。</p>
+      <p>当 Network I/O 舞台接口箱连接到网络后，必须在 <b>I/O</b></p>
+      <p>页面中进行配置。按下右侧的 <b>Dante Configuration</b> 图标。</p>
+      <p><img width="678" height="524" alt="image" src="assets/manual/Help/LANs/LAN-009/images/Image_010.jpg"/></p>
+      <p>连接到网络的所有 Dante 设备都显示在配置页面左侧面板中。要配置设备，请按下显示屏右侧的 <b>Edit</b>，然后将设备从左侧面板拖放到右侧面板的 <b>+</b> 标志上。<i>请留意：</i><i><b>+</b></i><i> 标志会在您开始拖动设备时出现。</i></p>
+      <p>设备移入右侧面板后，即会出现在路由菜单中。</p>
+      <p><img width="684" height="361" alt="image" src="assets/manual/Help/LANs/LAN-009/images/Image_011.jpg"/></p>
+      <h2>附录 A - 为 Live 控制台配置 DHCP Dante 网络</h2>
+      <p>只有 Dante 主网可以配置为 DHCP。如果主网和备网均设置为 DHCP，控制台会自动为两个网络分配 169.254.x.x 地址，这会使主、备子网处于同一地址范围内，这种情形必须避免。</p>
+      <p>请留意：如果配置 <b>Connectivity</b> 端口，请使用固定 IP 地址。</p>
+      <h3>设置控制台的 IP 地址</h3>
+      <p>将主网设置为 <b>DHCP</b>，地址范围为 <b>169.254.x.x</b>，子网掩码为 <b>255.255.0.0</b>。备网地址则设置为 <b>172.31.x.x</b> 范围内的任意<b>固定</b>地址，子网掩码为 <b>255.255.0.0</b>。做出任何更改后，长按<i><b>Apply</b></i>按钮。</p>
+      <p><img width="626" height="437" alt="image" src="assets/manual/Help/LANs/LAN-009/images/Image_012.jpg"/></p>
+      <p>按此方式配置后，连接到网络的任何 DHCP 模式设备都能在主网和备网的各自正确范围内获取地址并连接到控制台。</p>
+      <h3>设置 Dante Audio 网络 IP 地址</h3>
+      <p>Dante Audio 网络的 IP 地址需要在 Dante Controller 中配置为 DHCP。</p>
+      <p>出厂时 Dante Audio 网络使用以下固定 IP 地址范围：</p>
+      <p>Primary 为 10.101.x.x，Secondary 为 10.102.x.x。为计算机设置固定 IP 地址并将其连接到控制台的 Dante Primary 端口。</p>
+      <p>打开 Dante Controller，<b>双击</b>设备以打开配置窗口，导航到 <b>Network</b> 选项卡。按下图所示设置 IP 地址。</p>
+      <p><img width="684" height="663" alt="image" src="assets/manual/Help/LANs/LAN-009/images/Image_013.jpg"/></p>
+      <p>单击 Reboot 完成设置。</p>
+      <p>接下来确保控制台中显示的 Dante Device 名称与 Dante Controller 中显示的名称一致。请参考步骤 2 和步骤 3 的说明。</p>
+      <p>对控制台进行电源循环后检查是否正常工作。</p>
+    </div>
+  </body>
+</html>
