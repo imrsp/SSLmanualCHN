@@ -404,6 +404,11 @@ elements.searchInput.addEventListener("input", async (event) => {
 elements.menuButton.addEventListener("click", toggleSidebar);
 elements.scrim.addEventListener("click", closeMobilePanels);
 elements.outlineButton.addEventListener("click", () => elements.outline.classList.toggle("open"));
+document.addEventListener("click", (event) => {
+  if (!elements.outline.classList.contains("open")) return;
+  if (elements.outline.contains(event.target) || elements.outlineButton.contains(event.target)) return;
+  elements.outline.classList.remove("open");
+});
 elements.languageToggle.addEventListener("click", () => {
   if (state.currentPage?.translationStatus !== "complete") return;
   state.language = state.language === "zh" ? "en" : "zh";

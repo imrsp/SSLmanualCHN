@@ -581,6 +581,7 @@ kbd { padding: 2px 5px; border: 1px solid var(--line); color: var(--muted); back
   :root { --topbar-height: 62px; }
   .app-shell { display: block; }
   .topbar { height: var(--topbar-height); }
+  .nav-link { grid-template-columns: 34px 1fr 8px; padding: 9px 18px; }
   .brand { min-width: 0; flex: 1; padding: 0 14px; border-right: 0; }
   .brand-mark { font-size: 17px; }
   .brand-copy strong { font-size: 11px; }
