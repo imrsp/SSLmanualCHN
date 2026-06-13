@@ -26,6 +26,7 @@ const elements = {
   menuButton: document.querySelector("#menuButton"),
   outlineButton: document.querySelector("#outlineButton"),
   scrim: document.querySelector("#scrim"),
+  searchResults: document.querySelector("#searchResults"),
 };
 
 const escapeHtml = (value) =>
@@ -106,6 +107,130 @@ function visiblePageIds() {
       .filter((record) => normalize(record.text).includes(query))
       .map((record) => record.id),
   );
+}
+
+function extractExcerpt(text, query, contextChars) {
+  contextChars = contextChars || 40;
+  var idx = normalize(text).indexOf(normalize(query));
+  if (idx < 0) {
+    return text.slice(0, contextChars * 2);
+  }
+  var start = Math.max(0, idx - contextChars);
+  var end = Math.min(text.length, idx + query.length + contextChars);
+  var excerpt = text.slice(start, end);
+  if (start > 0) excerpt = "…" + excerpt;
+  if (end < text.length) excerpt = excerpt + "…";
+  return excerpt;
+}
+
+function highlightMatches(text, query) {
+  var escaped = query.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  return text.replace(new RegExp("(" + escaped + ")", "gi"), "<mark>$1</mark>");
+}
+
+function findSearchResults(query) {
+  var q = normalize(query);
+  if (!q || !state.searchIndex) return [];
+  var results = [];
+  state.searchIndex.forEach(function (record) {
+    if (!normalize(record.text).includes(q)) return;
+    var page = state.catalog.pages.find(function (p) { return p.id === record.id; });
+    if (!page) return;
+    var pageTitle = page.titleZh;
+    record.blocks.forEach(function (block) {
+      if (!normalize(block.text).includes(q)) return;
+      results.push({
+        pageId: record.id,
+        pageTitle: pageTitle,
+        heading: block.heading,
+        headingId: block.headingId,
+        excerpt: highlightMatches(extractExcerpt(block.text, query), query),
+      });
+    });
+  });
+  results.sort(function (a, b) {
+    var aInHeading = a.heading && normalize(a.heading).includes(normalize(query));
+    var bInHeading = b.heading && normalize(b.heading).includes(normalize(query));
+    if (aInHeading && !bInHeading) return -1;
+    if (!aInHeading && bInHeading) return 1;
+    return 0;
+  });
+  return results.slice(0, 12);
+}
+
+function renderSearchResults() {
+  var query = state.query.trim();
+  if (!query || !state.searchIndex) {
+    closeSearchResults();
+    return;
+  }
+  var results = findSearchResults(query);
+  var el = elements.searchResults;
+  if (!results.length) {
+    el.innerHTML = '<div class="search-results-empty">没有匹配结果</div>';
+    el.hidden = false;
+    return;
+  }
+  el.innerHTML = results.map(function (r) {
+    var headingLine = r.heading
+      ? '<span class="result-heading">' + escapeHtml(r.heading) + '</span>'
+      : '';
+    return (
+      '<button class="search-result" type="button" data-page-id="' + escapeHtml(r.pageId) +
+      '" data-heading-id="' + escapeHtml(r.headingId) + '">' +
+      '<span class="result-title">' + escapeHtml(r.pageTitle) + '</span>' +
+      headingLine +
+      '<span class="result-excerpt">' + r.excerpt + '</span>' +
+      '</button>'
+    );
+  }).join("");
+  el.hidden = false;
+  el.querySelectorAll(".search-result").forEach(function (btn) {
+    btn.addEventListener("click", function () {
+      location.hash = pageRoute(btn.dataset.pageId, btn.dataset.headingId);
+    });
+  });
+}
+
+function highlightPageContent(query) {
+  if (!query) return;
+  var content = elements.document.querySelector(".manual-content");
+  if (!content) return;
+  content.querySelectorAll(".search-highlight").forEach(function (el) {
+    el.replaceWith(el.textContent);
+  });
+  var walker = document.createTreeWalker(content, NodeFilter.SHOW_TEXT, null);
+  var textNodes = [];
+  while (walker.nextNode()) textNodes.push(walker.currentNode);
+  var escaped = query.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  var regex = new RegExp("(" + escaped + ")", "gi");
+  textNodes.forEach(function (node) {
+    var text = node.textContent;
+    if (!regex.test(text)) return;
+    regex.lastIndex = 0;
+    var fragment = document.createDocumentFragment();
+    var lastIndex = 0;
+    var match;
+    while ((match = regex.exec(text)) !== null) {
+      if (match.index > lastIndex) {
+        fragment.appendChild(document.createTextNode(text.slice(lastIndex, match.index)));
+      }
+      var mark = document.createElement("mark");
+      mark.className = "search-highlight";
+      mark.textContent = match[0];
+      fragment.appendChild(mark);
+      lastIndex = regex.lastIndex;
+    }
+    if (lastIndex < text.length) {
+      fragment.appendChild(document.createTextNode(text.slice(lastIndex)));
+    }
+    node.replaceWith(fragment);
+  });
+}
+
+function closeSearchResults() {
+  elements.searchResults.hidden = true;
+  elements.searchResults.innerHTML = "";
 }
 
 function groupKey(sectionId, groupId) {
@@ -344,6 +469,10 @@ async function route() {
   elements.document.setAttribute("aria-busy", "true");
   try {
     renderPage(await loadPage(pageId), headingId);
+    if (state.query.trim() && state.searchIndex) {
+      renderSearchResults();
+      highlightPageContent(state.query.trim());
+    }
   } catch (error) {
     elements.document.innerHTML = `<div class="error-state"><h2>章节载入失败</h2><code>${escapeHtml(error.message)}</code></div>`;
   } finally {
@@ -384,21 +513,22 @@ async function start() {
   }
 }
 
-let searchTimer;
-elements.searchInput.addEventListener("input", async (event) => {
+var searchTimer;
+elements.searchInput.addEventListener("input", function (event) {
   state.query = event.target.value;
   clearTimeout(searchTimer);
   if (!state.query.trim()) {
+    closeSearchResults();
     renderNavigation();
     return;
   }
-  searchTimer = setTimeout(async () => {
-    try {
-      await loadSearchIndex();
+  searchTimer = setTimeout(function () {
+    loadSearchIndex().then(function () {
       renderNavigation();
-    } catch (error) {
+      renderSearchResults();
+    }).catch(function (error) {
       elements.searchSummary.textContent = error.message;
-    }
+    });
   }, 120);
 });
 elements.menuButton.addEventListener("click", toggleSidebar);
@@ -409,18 +539,27 @@ document.addEventListener("click", (event) => {
   if (elements.outline.contains(event.target) || elements.outlineButton.contains(event.target)) return;
   elements.outline.classList.remove("open");
 });
+
+document.addEventListener("click", function (event) {
+  if (!elements.searchInput.contains(event.target) && !elements.searchResults.contains(event.target)) {
+    closeSearchResults();
+  }
+});
 elements.languageToggle.addEventListener("click", () => {
   if (state.currentPage?.translationStatus !== "complete") return;
   state.language = state.language === "zh" ? "en" : "zh";
   renderPage(state.currentPage);
+  if (state.query.trim() && state.searchIndex) {
+    setTimeout(function () { highlightPageContent(state.query.trim()); }, 0);
+  }
 });
-window.addEventListener("hashchange", route);
+window.addEventListener("hashchange", function () { elements.searchResults.hidden = true; route(); });
 window.addEventListener("keydown", (event) => {
   if (event.key === "/" && document.activeElement !== elements.searchInput) {
     event.preventDefault();
     elements.searchInput.focus();
   }
-  if (event.key === "Escape") closeMobilePanels();
+  if (event.key === "Escape") { closeSearchResults(); closeMobilePanels(); }
 });
 
 start();

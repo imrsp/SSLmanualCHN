@@ -97,6 +97,43 @@ function addHeadingIds(html) {
   return { content, headings };
 }
 
+function splitContentIntoBlocks(contentHtml, headings) {
+  if (!headings.length) {
+    const text = toPlainText(contentHtml).trim();
+    return text ? [{ heading: "", headingId: "", level: 0, text }] : [];
+  }
+
+  const headingById = new Map(headings.map((h) => [h.id, h]));
+  const positions = [];
+  const hRegex = /<h([1-6])\b[^>]*id=["']([^"']+)["'][^>]*>/gi;
+  let m;
+  while ((m = hRegex.exec(contentHtml))) {
+    positions.push({ index: m.index, id: m[2] });
+  }
+
+  const blocks = [];
+
+  if (positions.length && positions[0].index > 0) {
+    const text = toPlainText(contentHtml.slice(0, positions[0].index)).trim();
+    if (text) blocks.push({ heading: "", headingId: "", level: 0, text });
+  }
+
+  for (let i = 0; i < positions.length; i++) {
+    const pos = positions[i];
+    const heading = headingById.get(pos.id);
+    if (!heading) continue;
+    const next = i + 1 < positions.length ? positions[i + 1].index : contentHtml.length;
+    const text = toPlainText(contentHtml.slice(pos.index, next)).trim();
+    if (text) blocks.push({ heading: heading.title, headingId: heading.id, level: heading.level, text });
+  }
+
+  if (!blocks.length) {
+    const text = toPlainText(contentHtml).trim();
+    if (text) blocks.push({ heading: "", headingId: "", level: 0, text });
+  }
+  return blocks;
+}
+
 function dedupeIds(html) {
   const usedIds = new Set();
   return html.replace(/\bid=(["'])([^"']+)\1/gi, (match, quote, baseId) => {
@@ -206,10 +243,23 @@ const catalog = {
   })),
   pages: pages.map(({ contentHtml, englishHtml, ...page }) => page),
 };
-const searchIndex = pages.map((page) => ({
-  id: page.id,
-  text: `${page.titleZh} ${page.title} ${toPlainText(page.contentHtml)} ${toPlainText(page.englishHtml)}`,
-}));
+const searchIndex = pages.map((page) => {
+  const chinesePlain = toPlainText(page.contentHtml);
+  const englishPlain = toPlainText(page.englishHtml);
+  const chineseBlocks = splitContentIntoBlocks(page.contentHtml, page.headings);
+  const englishBlocks = splitContentIntoBlocks(page.englishHtml, page.headings);
+  return {
+    id: page.id,
+    titleZh: page.titleZh,
+    title: page.title,
+    text: [page.titleZh, page.title, chinesePlain, englishPlain].join(" "),
+    blocks: [
+      { heading: page.titleZh, headingId: "", level: 0, text: page.titleZh },
+      ...chineseBlocks,
+      ...englishBlocks,
+    ],
+  };
+});
 
 writeDataFiles(
   path.join(outputDirectory, "data", "catalog.json"),
