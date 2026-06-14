@@ -1,0 +1,60 @@
+# Deploy dist/ to remote server via SSH
+#
+# Required repository secrets (Settings → Secrets and variables → Actions):
+#   SSH_HOST       -- server hostname or IP
+#   SSH_USER       -- SSH login username
+#   SSH_KEY        -- private SSH key (deploy key or your key's private half)
+#   SSH_TARGET     -- server destination path, e.g. /srv/ssl-live-manual
+#
+# Optional: if your server needs a specific host key fingerprint,
+# add SSH_KNOWN_HOSTS as a secret to skip manual host key verification.
+
+name: Deploy to Server
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Build static site
+        run: npm run build
+
+      - name: Clear target directory and deploy dist/
+        env:
+          SSH_HOST: ${{ secrets.SSH_HOST }}
+          SSH_USER: ${{ secrets.SSH_USER }}
+          SSH_KEY: ${{ secrets.SSH_KEY }}
+          SSH_TARGET: ${{ secrets.SSH_TARGET }}
+          SSH_KNOWN_HOSTS: ${{ secrets.SSH_KNOWN_HOSTS }}
+        run: |
+          mkdir -p ~/.ssh
+          chmod 700 ~/.ssh
+          echo "$SSH_KEY" > ~/.ssh/deploy_key
+          chmod 600 ~/.ssh/deploy_key
+
+          if [ -n "$SSH_KNOWN_HOSTS" ]; then
+            echo "$SSH_KNOWN_HOSTS" > ~/.ssh/known_hosts
+          else
+            ssh-keyscan -H "$SSH_HOST" >> ~/.ssh/known_hosts 2>/dev/null
+          fi
+
+          SSH_CMD="ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=yes"
+
+          # Clear the target directory first
+          $SSH_CMD "${SSH_USER}@${SSH_HOST}" "rm -rf ${SSH_TARGET:?}/*"
+
+          # Then upload dist/ contents
+          rsync -avz -e "$SSH_CMD" \
+            dist/ "${SSH_USER}@${SSH_HOST}:${SSH_TARGET}"
