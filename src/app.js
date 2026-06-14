@@ -1,6 +1,8 @@
 const state = {
   catalog: null,
-  searchIndex: null,
+  searchIndexZh: null,
+  searchIndexEn: null,
+  searchEn: false,
   pageCache: new Map(),
   currentPage: null,
   query: "",
@@ -15,6 +17,8 @@ const elements = {
   searchInput: document.querySelector("#searchInput"),
   searchLabel: document.querySelector("#searchLabel"),
   searchSummary: document.querySelector("#searchSummary"),
+  searchToggle: document.querySelector("#searchToggle"),
+  searchEnToggle: document.querySelector("#searchEnToggle"),
   breadcrumbs: document.querySelector("#breadcrumbs"),
   document: document.querySelector("#document"),
   outline: document.querySelector("#outline"),
@@ -26,7 +30,7 @@ const elements = {
   menuButton: document.querySelector("#menuButton"),
   outlineButton: document.querySelector("#outlineButton"),
   scrim: document.querySelector("#scrim"),
-  searchResults: document.querySelector("#searchResults"),
+
 };
 
 const escapeHtml = (value) =>
@@ -83,9 +87,15 @@ function getRoute() {
 }
 
 async function loadSearchIndex() {
-  if (state.searchIndex) return;
+  var target = state.searchEn ? "en" : "zh";
+  if (target === "zh" && state.searchIndexZh) return;
+  if (target === "en" && state.searchIndexEn) return;
   elements.searchSummary.textContent = "正在载入全文索引…";
-  state.searchIndex = await loadData("search-index.json", () => localData.searchIndex);
+  if (target === "en") {
+    state.searchIndexEn = await loadData("search-index-en.json", function () { return localData.searchIndexEn; });
+  } else {
+    state.searchIndexZh = await loadData("search-index-zh.json", function () { return localData.searchIndexZh; });
+  }
 }
 
 async function loadPage(pageId) {
@@ -100,13 +110,7 @@ async function loadPage(pageId) {
 }
 
 function visiblePageIds() {
-  const query = normalize(state.query);
-  if (!query || !state.searchIndex) return new Set(state.catalog.pages.map((page) => page.id));
-  return new Set(
-    state.searchIndex
-      .filter((record) => normalize(record.text).includes(query))
-      .map((record) => record.id),
-  );
+  return new Set(state.catalog.pages.map(function (page) { return page.id; }));
 }
 
 function extractExcerpt(text, query, contextChars) {
@@ -130,18 +134,19 @@ function highlightMatches(text, query) {
 
 function findSearchResults(query) {
   var q = normalize(query);
-  if (!q || !state.searchIndex) return [];
+  if (!q) return [];
+  var idx = state.searchEn ? state.searchIndexEn : state.searchIndexZh;
+  if (!idx) return [];
   var results = [];
-  state.searchIndex.forEach(function (record) {
+  idx.forEach(function (record) {
     if (!normalize(record.text).includes(q)) return;
     var page = state.catalog.pages.find(function (p) { return p.id === record.id; });
     if (!page) return;
-    var pageTitle = page.titleZh;
     record.blocks.forEach(function (block) {
       if (!normalize(block.text).includes(q)) return;
       results.push({
         pageId: record.id,
-        pageTitle: pageTitle,
+        pageTitle: record.title,
         heading: block.heading,
         headingId: block.headingId,
         excerpt: highlightMatches(extractExcerpt(block.text, query), query),
@@ -158,20 +163,16 @@ function findSearchResults(query) {
   return results.slice(0, 12);
 }
 
-function renderSearchResults() {
-  var query = state.query.trim();
-  if (!query || !state.searchIndex) {
-    closeSearchResults();
-    return;
-  }
-  var results = findSearchResults(query);
-  var el = elements.searchResults;
+function renderSearchResultsInNav() {
+  var results = findSearchResults(state.query.trim());
+  elements.searchSummary.textContent = results.length
+    ? "找到 " + results.length + " 个匹配结果"
+    : "没有找到匹配的主题";
   if (!results.length) {
-    el.innerHTML = '<div class="search-results-empty">没有匹配结果</div>';
-    el.hidden = false;
+    elements.manualNav.innerHTML = '<div class="nav-empty">没有匹配结果</div>';
     return;
   }
-  el.innerHTML = results.map(function (r) {
+  elements.manualNav.innerHTML = results.map(function (r) {
     var headingLine = r.heading
       ? '<span class="result-heading">' + escapeHtml(r.heading) + '</span>'
       : '';
@@ -184,10 +185,24 @@ function renderSearchResults() {
       '</button>'
     );
   }).join("");
-  el.hidden = false;
-  el.querySelectorAll(".search-result").forEach(function (btn) {
+  elements.manualNav.querySelectorAll(".search-result").forEach(function (btn) {
     btn.addEventListener("click", function () {
-      location.hash = pageRoute(btn.dataset.pageId, btn.dataset.headingId);
+      var hash = pageRoute(btn.dataset.pageId, btn.dataset.headingId);
+      var targetLanguage = state.searchEn ? "en" : "zh";
+      if (state.language !== targetLanguage) {
+        state.language = targetLanguage;
+      }
+      if (hash === location.hash) {
+        if (state.currentPage) {
+          renderPage(state.currentPage, btn.dataset.headingId || "");
+        }
+        highlightPageContent(state.query.trim());
+        requestAnimationFrame(function () {
+          ensureSearchHighlightVisible(btn.dataset.headingId);
+        });
+      } else {
+        location.hash = hash;
+      }
     });
   });
 }
@@ -228,9 +243,28 @@ function highlightPageContent(query) {
   });
 }
 
-function closeSearchResults() {
-  elements.searchResults.hidden = true;
-  elements.searchResults.innerHTML = "";
+function ensureSearchHighlightVisible(headingId) {
+  var highlights = elements.document.querySelectorAll(".search-highlight");
+  if (!highlights.length) return;
+  var target = highlights[0];
+  if (headingId) {
+    var heading = document.getElementById(headingId);
+    if (heading) {
+      var headingTop = heading.getBoundingClientRect().top;
+      for (var i = 0; i < highlights.length; i++) {
+        var hlBottom = highlights[i].getBoundingClientRect().bottom;
+        if (hlBottom >= headingTop - 60) {
+          target = highlights[i];
+          break;
+        }
+      }
+    }
+  }
+  var rect = target.getBoundingClientRect();
+  var viewportHeight = window.innerHeight;
+  if (rect.bottom > viewportHeight || rect.top < 0) {
+    target.scrollIntoView({ behavior: "smooth", block: "center" });
+  }
 }
 
 function groupKey(sectionId, groupId) {
@@ -316,7 +350,13 @@ function scrollActiveNavigationIntoView() {
   });
 }
 
-function renderNavigation(focusActive = false) {
+function renderNavigation(focusActive) {
+  focusActive = focusActive || false;
+  if (state.query.trim() && (state.searchIndexZh || state.searchIndexEn)) {
+    renderSearchResultsInNav();
+    if (focusActive) scrollActiveNavigationIntoView();
+    return;
+  }
   const ids = visiblePageIds();
   const forceExpanded = Boolean(state.query);
   elements.manualNav.innerHTML = state.catalog.sections.map((section) => {
@@ -469,9 +509,11 @@ async function route() {
   elements.document.setAttribute("aria-busy", "true");
   try {
     renderPage(await loadPage(pageId), headingId);
-    if (state.query.trim() && state.searchIndex) {
-      renderSearchResults();
+    if (state.query.trim() && (state.searchIndexZh || state.searchIndexEn)) {
       highlightPageContent(state.query.trim());
+      requestAnimationFrame(function () {
+        ensureSearchHighlightVisible(headingId);
+      });
     }
   } catch (error) {
     elements.document.innerHTML = `<div class="error-state"><h2>章节载入失败</h2><code>${escapeHtml(error.message)}</code></div>`;
@@ -518,14 +560,12 @@ elements.searchInput.addEventListener("input", function (event) {
   state.query = event.target.value;
   clearTimeout(searchTimer);
   if (!state.query.trim()) {
-    closeSearchResults();
     renderNavigation();
     return;
   }
   searchTimer = setTimeout(function () {
     loadSearchIndex().then(function () {
       renderNavigation();
-      renderSearchResults();
     }).catch(function (error) {
       elements.searchSummary.textContent = error.message;
     });
@@ -540,26 +580,32 @@ document.addEventListener("click", (event) => {
   elements.outline.classList.remove("open");
 });
 
-document.addEventListener("click", function (event) {
-  if (!elements.searchInput.contains(event.target) && !elements.searchResults.contains(event.target)) {
-    closeSearchResults();
-  }
-});
-elements.languageToggle.addEventListener("click", () => {
+elements.searchEnToggle.addEventListener("change", function () {
+    state.searchEn = this.checked;
+    if (state.query.trim()) {
+      clearTimeout(searchTimer);
+      loadSearchIndex().then(function () {
+        renderNavigation();
+      }).catch(function (error) {
+        elements.searchSummary.textContent = error.message;
+      });
+    }
+  });
+  elements.languageToggle.addEventListener("click", () => {
   if (state.currentPage?.translationStatus !== "complete") return;
   state.language = state.language === "zh" ? "en" : "zh";
   renderPage(state.currentPage);
-  if (state.query.trim() && state.searchIndex) {
+  if (state.query.trim() && (state.searchIndexZh || state.searchIndexEn)) {
     setTimeout(function () { highlightPageContent(state.query.trim()); }, 0);
   }
 });
-window.addEventListener("hashchange", function () { elements.searchResults.hidden = true; route(); });
+window.addEventListener("hashchange", function () { route(); });
 window.addEventListener("keydown", (event) => {
   if (event.key === "/" && document.activeElement !== elements.searchInput) {
     event.preventDefault();
     elements.searchInput.focus();
   }
-  if (event.key === "Escape") { closeSearchResults(); closeMobilePanels(); }
+  if (event.key === "Escape") { closeMobilePanels(); }
 });
 
 start();
