@@ -14,6 +14,7 @@ const state = {
 const elements = {
   databaseStatus: document.querySelector("#databaseStatus"),
   manualNav: document.querySelector("#manualNav"),
+  searchPanel: document.querySelector(".search-panel"),
   searchInput: document.querySelector("#searchInput"),
   searchLabel: document.querySelector("#searchLabel"),
   searchSummary: document.querySelector("#searchSummary"),
@@ -107,6 +108,11 @@ async function loadPage(pageId) {
     state.pageCache.set(pageId, request);
   }
   return state.pageCache.get(pageId);
+}
+
+function syncSearchToggleVisibility() {
+  var shouldShow = Boolean(state.query.trim()) || elements.searchPanel.matches(":focus-within");
+  elements.searchToggle.style.display = shouldShow ? "flex" : "none";
 }
 
 function visiblePageIds() {
@@ -558,6 +564,7 @@ async function start() {
 var searchTimer;
 elements.searchInput.addEventListener("input", function (event) {
   state.query = event.target.value;
+  syncSearchToggleVisibility();
   clearTimeout(searchTimer);
   if (!state.query.trim()) {
     renderNavigation();
@@ -570,6 +577,12 @@ elements.searchInput.addEventListener("input", function (event) {
       elements.searchSummary.textContent = error.message;
     });
   }, 120);
+});
+elements.searchPanel.addEventListener("focusin", function () {
+  syncSearchToggleVisibility();
+});
+elements.searchPanel.addEventListener("focusout", function () {
+  setTimeout(syncSearchToggleVisibility, 0);
 });
 elements.menuButton.addEventListener("click", toggleSidebar);
 elements.scrim.addEventListener("click", closeMobilePanels);
@@ -608,4 +621,5 @@ window.addEventListener("keydown", (event) => {
   if (event.key === "Escape") { closeMobilePanels(); }
 });
 
+syncSearchToggleVisibility();
 start();
