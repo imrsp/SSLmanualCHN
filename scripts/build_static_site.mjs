@@ -243,19 +243,29 @@ const catalog = {
   })),
   pages: pages.map(({ contentHtml, englishHtml, ...page }) => page),
 };
-const searchIndex = pages.map((page) => {
+const searchIndexZh = pages.map((page) => {
   const chinesePlain = toPlainText(page.contentHtml);
-  const englishPlain = toPlainText(page.englishHtml);
   const chineseBlocks = splitContentIntoBlocks(page.contentHtml, page.headings);
-  const englishBlocks = splitContentIntoBlocks(page.englishHtml, page.headings);
   return {
     id: page.id,
-    titleZh: page.titleZh,
-    title: page.title,
-    text: [page.titleZh, page.title, chinesePlain, englishPlain].join(" "),
+    title: page.titleZh,
+    text: [page.titleZh, chinesePlain].join(" "),
     blocks: [
       { heading: page.titleZh, headingId: "", level: 0, text: page.titleZh },
       ...chineseBlocks,
+    ],
+  };
+});
+
+const searchIndexEn = pages.map((page) => {
+  const englishPlain = toPlainText(page.englishHtml);
+  const englishBlocks = splitContentIntoBlocks(page.englishHtml, page.headings);
+  return {
+    id: page.id,
+    title: page.title,
+    text: [page.title, englishPlain].join(" "),
+    blocks: [
+      { heading: page.title, headingId: "", level: 0, text: page.title },
       ...englishBlocks,
     ],
   };
@@ -267,9 +277,14 @@ writeDataFiles(
   (json) => `globalThis.__SSL_MANUAL_DATA__.catalog = ${json};`,
 );
 writeDataFiles(
-  path.join(outputDirectory, "data", "search-index.json"),
-  searchIndex,
-  (json) => `globalThis.__SSL_MANUAL_DATA__.searchIndex = ${json};`,
+  path.join(outputDirectory, "data", "search-index-zh.json"),
+  searchIndexZh,
+  (json) => `globalThis.__SSL_MANUAL_DATA__.searchIndexZh = ${json};`,
+);
+writeDataFiles(
+  path.join(outputDirectory, "data", "search-index-en.json"),
+  searchIndexEn,
+  (json) => `globalThis.__SSL_MANUAL_DATA__.searchIndexEn = ${json};`,
 );
 
 console.log(JSON.stringify({
@@ -278,5 +293,6 @@ console.log(JSON.stringify({
   translatedPages: catalog.meta.translatedCount,
   pageDataBytes: pages.reduce((total, page) =>
     total + fs.statSync(path.join(outputDirectory, "data", "pages", `${page.id}.json`)).size, 0),
-  searchIndexBytes: fs.statSync(path.join(outputDirectory, "data", "search-index.json")).size,
+  searchIndexZhBytes: fs.statSync(path.join(outputDirectory, "data", "search-index-zh.json")).size,
+searchIndexEnBytes: fs.statSync(path.join(outputDirectory, "data", "search-index-en.json")).size,
 }, null, 2));
