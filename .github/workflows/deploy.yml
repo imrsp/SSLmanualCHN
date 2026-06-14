@@ -56,5 +56,5 @@ jobs:
           $SSH_CMD "${SSH_USER}@${SSH_HOST}" "rm -rf ${SSH_TARGET:?}/*"
 
           # Then upload dist/ contents
-          rsync -avz -e "$SSH_CMD" \
+          rsync -avzO -e "$SSH_CMD" \
             dist/ "${SSH_USER}@${SSH_HOST}:${SSH_TARGET}"
