@@ -19,8 +19,10 @@ const requiredFiles = [
   "dist/index.html",
   "dist/data/catalog.json",
   "dist/data/catalog.js",
-  "dist/data/search-index.json",
-  "dist/data/search-index.js",
+  "dist/data/search-index-zh.json",
+  "dist/data/search-index-zh.js",
+  "dist/data/search-index-en.json",
+  "dist/data/search-index-en.js",
 ];
 const missingRequiredFiles = requiredFiles.filter((file) => !fs.existsSync(path.join(root, file)));
 const sourceManifest = readJson(path.join(root, "content", "en", "manifest.json"));

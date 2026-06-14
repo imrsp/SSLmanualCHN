@@ -116,7 +116,7 @@ button, a { -webkit-tap-highlight-color: transparent; }
 
 .search-panel {
   position: relative;
-  padding: 22px 20px 16px;
+  padding: 22px 20px 6px;
   border-bottom: 1px solid var(--line);
 }
 
@@ -157,26 +157,68 @@ button, a { -webkit-tap-highlight-color: transparent; }
 
 .search-symbol { color: var(--acid); font: 22px Georgia, serif; }
 kbd { padding: 2px 5px; border: 1px solid var(--line); color: var(--muted); background: var(--panel); }
-.search-panel p { margin: 9px 0 0; color: var(--muted); font-size: 11px; }
-/* --- Search results dropdown --- */
-.search-results {
-  position: absolute;
-  z-index: 60;
-  top: 100%;
-  left: 0;
-  right: 0;
-  max-height: 60vh;
-  max-height: 60dvh;
-  overflow-y: auto;
-  background: #111513;
-  border: 1px solid #3d4942;
-  border-top: 0;
-  box-shadow: 0 20px 48px rgba(0,0,0,.5);
-  scrollbar-width: thin;
-  scrollbar-color: #445047 transparent;
+.search-summary-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: baseline;
+  gap: 12px;
+  margin: 9px 0 0;
+  color: var(--muted);
+  font-size: 11px;
+  line-height: 1.35;
 }
-.search-results[hidden] { display: none; }
-
+.search-summary-row > span {
+  display: block;
+  min-width: 0;
+}
+.search-toggle {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  cursor: pointer;
+  flex-shrink: 0;
+  user-select: none;
+  line-height: 1.35;
+  align-self: baseline;
+}
+.search-toggle input {
+  appearance: none;
+  width: 26px;
+  height: 14px;
+  border-radius: 7px;
+  background: #3d4942;
+  border: 0;
+  outline: 0;
+  cursor: pointer;
+  position: relative;
+  transition: background .15s;
+  flex-shrink: 0;
+  margin: 0;
+  transform: translateY(3px);
+}
+.search-toggle input::after {
+  content: "";
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #8d9891;
+  transition: transform .15s, background .15s;
+}
+.search-toggle input:checked {
+  background: var(--acid);
+}
+.search-toggle input:checked::after {
+  transform: translateX(12px);
+  background: #0b0e0c;
+}
+.search-toggle span {
+  font-size: 11px;
+  color: var(--muted);
+  white-space: nowrap;
+}
 .search-result {
   display: block;
   width: 100%;
@@ -197,11 +239,20 @@ kbd { padding: 2px 5px; border: 1px solid var(--line); color: var(--muted); back
 .search-result:active { background: #1f2b23; }
 
 .result-title {
-  display: block;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   font-weight: 700;
   color: var(--acid);
   margin-bottom: 4px;
   font-size: 13px;
+}
+.result-lang-badge {
+  color: var(--muted);
+  font-size: 10px;
+  font-weight: 400;
+  white-space: nowrap;
+  margin-left: 8px;
 }
 .result-heading {
   display: block;
@@ -222,12 +273,6 @@ kbd { padding: 2px 5px; border: 1px solid var(--line); color: var(--muted); back
   border-radius: 2px;
   padding: 0 1px;
 }
-.search-results-empty {
-  padding: 14px 18px;
-  color: var(--muted);
-  font-size: 12px;
-}
-
 .search-highlight {
   background: rgba(255,186,67,.25);
   color: #fff;
@@ -236,6 +281,16 @@ kbd { padding: 2px 5px; border: 1px solid var(--line); color: var(--muted); back
   animation: highlight-pop .6s ease;
 }
 
+.nav-empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 120px;
+  padding: 14px 18px;
+  color: var(--muted);
+  font-size: 12px;
+  text-align: center;
+}
 @keyframes highlight-pop {
   0% { background: rgba(255,186,67,.6); transform: scale(1.03); }
   100% { background: rgba(255,186,67,.25); transform: scale(1); }
@@ -654,7 +709,7 @@ kbd { padding: 2px 5px; border: 1px solid var(--line); color: var(--muted); back
   .brand { padding: 0 16px; }
   .brand-copy strong { font-size: 11px; }
   .topbar-status { padding: 0 16px; }
-  .search-panel { padding: 18px 14px 14px; }
+  .search-panel { padding: 18px 14px 10px; }
   .nav-link { grid-template-columns: 30px 1fr 8px; padding: 9px 13px; }
   .reader { padding-right: 22px; padding-left: 22px; }
   .reader-layout { grid-template-columns: minmax(0, 1fr); }
@@ -665,6 +720,7 @@ kbd { padding: 2px 5px; border: 1px solid var(--line); color: var(--muted); back
   :root { --topbar-height: 62px; }
   .app-shell { display: block; }
   .topbar { height: var(--topbar-height); }
+  .search-panel { padding: 18px 14px 4px; }
   .nav-link { grid-template-columns: 34px 1fr 8px; padding: 9px 18px; }
   .brand { min-width: 0; flex: 1; padding: 0 14px; border-right: 0; }
   .brand-mark { font-size: 17px; }
