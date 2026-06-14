@@ -1,6 +1,8 @@
 const state = {
   catalog: null,
-  searchIndex: null,
+  searchIndexZh: null,
+  searchIndexEn: null,
+  searchEn: false,
   pageCache: new Map(),
   currentPage: null,
   query: "",
@@ -12,9 +14,12 @@ const state = {
 const elements = {
   databaseStatus: document.querySelector("#databaseStatus"),
   manualNav: document.querySelector("#manualNav"),
+  searchPanel: document.querySelector(".search-panel"),
   searchInput: document.querySelector("#searchInput"),
   searchLabel: document.querySelector("#searchLabel"),
   searchSummary: document.querySelector("#searchSummary"),
+  searchToggle: document.querySelector("#searchToggle"),
+  searchEnToggle: document.querySelector("#searchEnToggle"),
   breadcrumbs: document.querySelector("#breadcrumbs"),
   document: document.querySelector("#document"),
   outline: document.querySelector("#outline"),
@@ -26,6 +31,7 @@ const elements = {
   menuButton: document.querySelector("#menuButton"),
   outlineButton: document.querySelector("#outlineButton"),
   scrim: document.querySelector("#scrim"),
+
 };
 
 const escapeHtml = (value) =>
@@ -82,9 +88,15 @@ function getRoute() {
 }
 
 async function loadSearchIndex() {
-  if (state.searchIndex) return;
+  var target = state.searchEn ? "en" : "zh";
+  if (target === "zh" && state.searchIndexZh) return;
+  if (target === "en" && state.searchIndexEn) return;
   elements.searchSummary.textContent = "正在载入全文索引…";
-  state.searchIndex = await loadData("search-index.json", () => localData.searchIndex);
+  if (target === "en") {
+    state.searchIndexEn = await loadData("search-index-en.json", function () { return localData.searchIndexEn; });
+  } else {
+    state.searchIndexZh = await loadData("search-index-zh.json", function () { return localData.searchIndexZh; });
+  }
 }
 
 async function loadPage(pageId) {
@@ -98,14 +110,167 @@ async function loadPage(pageId) {
   return state.pageCache.get(pageId);
 }
 
+function syncSearchToggleVisibility() {
+  var shouldShow = Boolean(state.query.trim()) || elements.searchPanel.matches(":focus-within");
+  elements.searchToggle.style.display = shouldShow ? "flex" : "none";
+}
+
 function visiblePageIds() {
-  const query = normalize(state.query);
-  if (!query || !state.searchIndex) return new Set(state.catalog.pages.map((page) => page.id));
-  return new Set(
-    state.searchIndex
-      .filter((record) => normalize(record.text).includes(query))
-      .map((record) => record.id),
-  );
+  return new Set(state.catalog.pages.map(function (page) { return page.id; }));
+}
+
+function extractExcerpt(text, query, contextChars) {
+  contextChars = contextChars || 40;
+  var idx = normalize(text).indexOf(normalize(query));
+  if (idx < 0) {
+    return text.slice(0, contextChars * 2);
+  }
+  var start = Math.max(0, idx - contextChars);
+  var end = Math.min(text.length, idx + query.length + contextChars);
+  var excerpt = text.slice(start, end);
+  if (start > 0) excerpt = "…" + excerpt;
+  if (end < text.length) excerpt = excerpt + "…";
+  return excerpt;
+}
+
+function highlightMatches(text, query) {
+  var escaped = query.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  return text.replace(new RegExp("(" + escaped + ")", "gi"), "<mark>$1</mark>");
+}
+
+function findSearchResults(query) {
+  var q = normalize(query);
+  if (!q) return [];
+  var idx = state.searchEn ? state.searchIndexEn : state.searchIndexZh;
+  if (!idx) return [];
+  var results = [];
+  idx.forEach(function (record) {
+    if (!normalize(record.text).includes(q)) return;
+    var page = state.catalog.pages.find(function (p) { return p.id === record.id; });
+    if (!page) return;
+    record.blocks.forEach(function (block) {
+      if (!normalize(block.text).includes(q)) return;
+      results.push({
+        pageId: record.id,
+        pageTitle: record.title,
+        heading: block.heading,
+        headingId: block.headingId,
+        excerpt: highlightMatches(extractExcerpt(block.text, query), query),
+      });
+    });
+  });
+  results.sort(function (a, b) {
+    var aInHeading = a.heading && normalize(a.heading).includes(normalize(query));
+    var bInHeading = b.heading && normalize(b.heading).includes(normalize(query));
+    if (aInHeading && !bInHeading) return -1;
+    if (!aInHeading && bInHeading) return 1;
+    return 0;
+  });
+  return results.slice(0, 12);
+}
+
+function renderSearchResultsInNav() {
+  var results = findSearchResults(state.query.trim());
+  elements.searchSummary.textContent = results.length
+    ? "找到 " + results.length + " 个匹配结果"
+    : "没有找到匹配的主题";
+  if (!results.length) {
+    elements.manualNav.innerHTML = '<div class="nav-empty">没有匹配结果</div>';
+    return;
+  }
+  elements.manualNav.innerHTML = results.map(function (r) {
+    var headingLine = r.heading
+      ? '<span class="result-heading">' + escapeHtml(r.heading) + '</span>'
+      : '';
+    return (
+      '<button class="search-result" type="button" data-page-id="' + escapeHtml(r.pageId) +
+      '" data-heading-id="' + escapeHtml(r.headingId) + '">' +
+      '<span class="result-title">' + escapeHtml(r.pageTitle) + '</span>' +
+      headingLine +
+      '<span class="result-excerpt">' + r.excerpt + '</span>' +
+      '</button>'
+    );
+  }).join("");
+  elements.manualNav.querySelectorAll(".search-result").forEach(function (btn) {
+    btn.addEventListener("click", function () {
+      var hash = pageRoute(btn.dataset.pageId, btn.dataset.headingId);
+      var targetLanguage = state.searchEn ? "en" : "zh";
+      if (state.language !== targetLanguage) {
+        state.language = targetLanguage;
+      }
+      if (hash === location.hash) {
+        if (state.currentPage) {
+          renderPage(state.currentPage, btn.dataset.headingId || "");
+        }
+        highlightPageContent(state.query.trim());
+        requestAnimationFrame(function () {
+          ensureSearchHighlightVisible(btn.dataset.headingId);
+        });
+      } else {
+        location.hash = hash;
+      }
+    });
+  });
+}
+
+function highlightPageContent(query) {
+  if (!query) return;
+  var content = elements.document.querySelector(".manual-content");
+  if (!content) return;
+  content.querySelectorAll(".search-highlight").forEach(function (el) {
+    el.replaceWith(el.textContent);
+  });
+  var walker = document.createTreeWalker(content, NodeFilter.SHOW_TEXT, null);
+  var textNodes = [];
+  while (walker.nextNode()) textNodes.push(walker.currentNode);
+  var escaped = query.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  var regex = new RegExp("(" + escaped + ")", "gi");
+  textNodes.forEach(function (node) {
+    var text = node.textContent;
+    if (!regex.test(text)) return;
+    regex.lastIndex = 0;
+    var fragment = document.createDocumentFragment();
+    var lastIndex = 0;
+    var match;
+    while ((match = regex.exec(text)) !== null) {
+      if (match.index > lastIndex) {
+        fragment.appendChild(document.createTextNode(text.slice(lastIndex, match.index)));
+      }
+      var mark = document.createElement("mark");
+      mark.className = "search-highlight";
+      mark.textContent = match[0];
+      fragment.appendChild(mark);
+      lastIndex = regex.lastIndex;
+    }
+    if (lastIndex < text.length) {
+      fragment.appendChild(document.createTextNode(text.slice(lastIndex)));
+    }
+    node.replaceWith(fragment);
+  });
+}
+
+function ensureSearchHighlightVisible(headingId) {
+  var highlights = elements.document.querySelectorAll(".search-highlight");
+  if (!highlights.length) return;
+  var target = highlights[0];
+  if (headingId) {
+    var heading = document.getElementById(headingId);
+    if (heading) {
+      var headingTop = heading.getBoundingClientRect().top;
+      for (var i = 0; i < highlights.length; i++) {
+        var hlBottom = highlights[i].getBoundingClientRect().bottom;
+        if (hlBottom >= headingTop - 60) {
+          target = highlights[i];
+          break;
+        }
+      }
+    }
+  }
+  var rect = target.getBoundingClientRect();
+  var viewportHeight = window.innerHeight;
+  if (rect.bottom > viewportHeight || rect.top < 0) {
+    target.scrollIntoView({ behavior: "smooth", block: "center" });
+  }
 }
 
 function groupKey(sectionId, groupId) {
@@ -191,7 +356,13 @@ function scrollActiveNavigationIntoView() {
   });
 }
 
-function renderNavigation(focusActive = false) {
+function renderNavigation(focusActive) {
+  focusActive = focusActive || false;
+  if (state.query.trim() && (state.searchIndexZh || state.searchIndexEn)) {
+    renderSearchResultsInNav();
+    if (focusActive) scrollActiveNavigationIntoView();
+    return;
+  }
   const ids = visiblePageIds();
   const forceExpanded = Boolean(state.query);
   elements.manualNav.innerHTML = state.catalog.sections.map((section) => {
@@ -344,6 +515,12 @@ async function route() {
   elements.document.setAttribute("aria-busy", "true");
   try {
     renderPage(await loadPage(pageId), headingId);
+    if (state.query.trim() && (state.searchIndexZh || state.searchIndexEn)) {
+      highlightPageContent(state.query.trim());
+      requestAnimationFrame(function () {
+        ensureSearchHighlightVisible(headingId);
+      });
+    }
   } catch (error) {
     elements.document.innerHTML = `<div class="error-state"><h2>章节载入失败</h2><code>${escapeHtml(error.message)}</code></div>`;
   } finally {
@@ -384,22 +561,28 @@ async function start() {
   }
 }
 
-let searchTimer;
-elements.searchInput.addEventListener("input", async (event) => {
+var searchTimer;
+elements.searchInput.addEventListener("input", function (event) {
   state.query = event.target.value;
+  syncSearchToggleVisibility();
   clearTimeout(searchTimer);
   if (!state.query.trim()) {
     renderNavigation();
     return;
   }
-  searchTimer = setTimeout(async () => {
-    try {
-      await loadSearchIndex();
+  searchTimer = setTimeout(function () {
+    loadSearchIndex().then(function () {
       renderNavigation();
-    } catch (error) {
+    }).catch(function (error) {
       elements.searchSummary.textContent = error.message;
-    }
+    });
   }, 120);
+});
+elements.searchPanel.addEventListener("focusin", function () {
+  syncSearchToggleVisibility();
+});
+elements.searchPanel.addEventListener("focusout", function () {
+  setTimeout(syncSearchToggleVisibility, 0);
 });
 elements.menuButton.addEventListener("click", toggleSidebar);
 elements.scrim.addEventListener("click", closeMobilePanels);
@@ -409,18 +592,34 @@ document.addEventListener("click", (event) => {
   if (elements.outline.contains(event.target) || elements.outlineButton.contains(event.target)) return;
   elements.outline.classList.remove("open");
 });
-elements.languageToggle.addEventListener("click", () => {
+
+elements.searchEnToggle.addEventListener("change", function () {
+    state.searchEn = this.checked;
+    if (state.query.trim()) {
+      clearTimeout(searchTimer);
+      loadSearchIndex().then(function () {
+        renderNavigation();
+      }).catch(function (error) {
+        elements.searchSummary.textContent = error.message;
+      });
+    }
+  });
+  elements.languageToggle.addEventListener("click", () => {
   if (state.currentPage?.translationStatus !== "complete") return;
   state.language = state.language === "zh" ? "en" : "zh";
   renderPage(state.currentPage);
+  if (state.query.trim() && (state.searchIndexZh || state.searchIndexEn)) {
+    setTimeout(function () { highlightPageContent(state.query.trim()); }, 0);
+  }
 });
-window.addEventListener("hashchange", route);
+window.addEventListener("hashchange", function () { route(); });
 window.addEventListener("keydown", (event) => {
   if (event.key === "/" && document.activeElement !== elements.searchInput) {
     event.preventDefault();
     elements.searchInput.focus();
   }
-  if (event.key === "Escape") closeMobilePanels();
+  if (event.key === "Escape") { closeMobilePanels(); }
 });
 
+syncSearchToggleVisibility();
 start();
