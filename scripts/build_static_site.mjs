@@ -259,8 +259,8 @@ const standalonePages = [
   {
     id: "about-dmt",
     chinesePath: path.join(contentDirectory, "zh", "pages", "about-dmt.html"),
-    title: "About DMT Club",
-    titleZh: "关于 DMT Club",
+    title: "About SSL Live Help CHN Manual",
+    titleZh: "关于 SSL Live Help 中文操作手册数据库",
   },
 ];
 for (const sp of standalonePages) {

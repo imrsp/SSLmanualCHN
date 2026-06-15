@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>关于 DMT Club</title>
+  <title>关于 SSL Live Help 中文操作手册数据库</title>
   <style>
     body { font: 16px/1.55 Arial, sans-serif; max-width: 1080px; margin: 2rem auto; padding: 0 1.25rem; color: #202124; }
     img { max-width: 100%; height: auto; }
@@ -13,13 +13,20 @@
     .notetitle { font-weight: bold; }
     .label { font-weight: bold; color: #174ea6; }
     .source { color: #666; font-size: .9rem; }
+    details.changelog { margin: .5rem 0; }
+    details.changelog summary { cursor: pointer; font-weight: bold; color: #174ea6; }
+    details.changelog .tag { display: inline-block; font-size: .82rem; padding: .1rem .5rem; border-radius: 3px; margin-right: .4rem; color: #fff; }
+    .tag-new { background: #1e8e3e; }
+    .tag-fix { background: #ea8600; }
+    .tag-change { background: #1a73e8; }
+    hr { border: none; border-top: 1px solid #ddd; margin: 1.5rem 0; }
   </style>
 </head>
 <body>
-  <p class="source">关于 DMT Club</p>
+  <p class="source">关于 SSL Live Help 中文操作手册数据库</p>
 
 <h2>关于本项目</h2>
-<p>本网站是 <strong>DMT Club</strong>（数字媒体技术俱乐部）主导的 SSL Live 控制台帮助系统中文翻译项目。我们的目标是为中文母语的音响工程师提供高质量的技术文档，降低专业音频设备的学习门槛。</p>
+<p>本网站是 <strong>DMT Club</strong>主导的 SSL Live 控制台帮助系统中文翻译项目。我们的目标是为中文母语的音响工程师提供高质量的技术文档，降低专业音频设备的学习门槛。</p>
 
 <h2>功能特点</h2>
 <ul>
@@ -29,11 +36,96 @@
   <li><strong>响应式设计</strong> — 适配桌面电脑、平板和手机浏览器。</li>
 </ul>
 
+<h2>更新日志</h2>
+
+<h3>内部预览版本</h3>
+
+<details class="changelog">
+  <summary>b0.7 关于 — 2026-06-16</summary>
+  <ul>
+    <li><span class="tag tag-new">新增</span> 关于独立页面（about-dmt），使用中文介绍项目背景与用途</li>
+    <li><span class="tag tag-new">新增</span> Standalone 页面机制：独立页面不参与站点目录和全文搜索索引</li>
+    <li><span class="tag tag-new">新增</span> `prepareStandaloneDocument()` 构建函数与 `renderStandalonePage()` 前端渲染</li>
+  </ul>
+</details>
+
+<details class="changelog">
+  <summary>b0.6 CI/CD — 2026-06-14</summary>
+  <ul>
+    <li><span class="tag tag-new">新增</span> GitHub Actions CI/CD 自动部署流水线</li>
+    <li><span class="tag tag-new">新增</span> main 分支推送后自动构建并部署至远程服务器</li>
+  </ul>
+</details>
+
+<details class="changelog">
+  <summary>b0.4-0.5 搜索优化 — 2026-06-14</summary>
+  <ul>
+    <li><span class="tag tag-new">新增</span> 全文搜索下拉面板，显示标题、所属章节与原文引用片段</li>
+    <li><span class="tag tag-new">新增</span> 页面正文关键词高亮，使用 TreeWalker 安全替换文本节点并附带过渡动画</li>
+    <li><span class="tag tag-new">新增</span> 搜索面板支持遮罩点击关闭、Escape 键关闭、失焦关闭等多重交互</li>
+    <li><span class="tag tag-change">改进</span> 搜索索引按标题分块，引用片段精确定位到具体章节</li>
+    <li><span class="tag tag-change">改进</span> 语言切换后自动重新高亮当前搜索词</li>
+  </ul>
+</details>
+
+<details class="changelog">
+  <summary>b0.3 目录 — 2026-06-13</summary>
+  <ul>
+    <li><span class="tag tag-change">改进</span> 点击页面其他区域时右侧目录自动收起</li>
+    <li><span class="tag tag-change">改进</span> 移动端目录链接栅格与内边距调整，改善窄屏点按区域</li>
+  </ul>
+</details>
+
+<details class="changelog">
+  <summary>b0.21 应用笔记 — 2026-06-13</summary>
+  <ul>
+    <li><span class="tag tag-new">新增</span> LAN-009《配置 Live 控制台以使用 Dante I/O》中文翻译</li>
+    <li><span class="tag tag-new">新增</span> LAN-010《Live Dante VTL / DDR 概念与配置》中文翻译</li>
+    <li><span class="tag tag-new">新增</span> LAN-012《Live 控制台 IP 地址配置指南》中文翻译</li>
+    <li><span class="tag tag-change">改进</span> 目录分类 `Live Application Note` 本地化为"LIVE 应用笔记"</li>
+    <li><span class="tag tag-change">改进</span> 校订三篇笔记中的 Dante 术语、表格与段落结构</li>
+    <li><span class="tag tag-change">改进</span> 站点现包含 83 篇完整双语页面</li>
+  </ul>
+</details>
+
+<details class="changelog">
+  <summary>b0.2 Git — 2026-06-12</summary>
+  <ul>
+    <li><span class="tag tag-new">新增</span> Git 版本管理，初始化仓库首次可追踪版本</li>
+    <li><span class="tag tag-new">新增</span> CHANGELOG 入口，作为后续版本迭代起点</li>
+  </ul>
+</details>
+
+<details class="changelog">
+  <summary>b0.1 First Launch — 2026-06-10</summary>
+  <ul>
+    <li><span class="tag tag-new">首次</span> Beta 发布</li>
+  </ul>
+</details>
+
 <h2>开源项目</h2>
-<p>本项目完全开源。欢迎提交修正、改进建议或参与翻译。</p>
+<p>本项目完全开源，托管在 GitHub：</p>
+<p><a href="https://github.com/imrsp/SSLmanualCHN" target="_blank">github.com/imrsp/SSLmanualCHN</a></p>
+<p>欢迎提交 Issue 报告问题、Pull Request 贡献翻译改进，或通过 Discussions 参与讨论。项目采用 GPLv3 许可证，所有翻译内容以学习交流为目的。</p>
 
 <h2>联系方式</h2>
-<p>如有任何问题或贡献意向，可通过项目仓库联系 DMT Club。</p>
+<p>如有任何问题、建议或贡献意向，请通过以下方式联系：</p>
+<ul>
+  <li>邮箱：<a href="mailto:i@rsp.ink">i@rsp.ink</a></li>
+  <li>GitHub：<a href="https://github.com/imrsp/SSLmanualCHN" target="_blank">imrsp/SSLmanualCHN</a></li>
+</ul>
+
+<hr>
+
+<h2>法律声明</h2>
+<p>Solid State Logic 是 Solid State Logic UK Ltd. 的商标名。Solid State Logic 保留所有国际版权和泛美版权公约下的所有权利。</p>
+<p>Live L100, Live L100 Plus, Live L200, Live L200 Plus, Live L300, Live 350, Live L350 Plus, Live L450, Live L500, L500 Plus, Live L550, Live L550 Plus, Live L650, Live Expander, Blacklight, X-Light, Network I/O, Blitzer, Sourcerer 和 SuperAnalogue 是 Solid State Logic 的商标。</p>
+<p><strong>Solid State Logic</strong>&reg; 和 <strong>SSL</strong>&reg; 是 Solid State Logic 的注册商标。</p>
+<p>Dante&reg; 和 Audinate&reg; 是 Audinate Pty Ltd. 的注册商标。</p>
+<p>所有其他产品名称和商标均为其各自所有者的财产。</p>
+<p>本站为 DMT Club 主导的非官方中文翻译项目，仅供参考和学习使用。未经 Solid State Logic 书面许可，不得以任何形式复制本出版物的任何部分。</p>
+<p>由于研究和开发是一个持续的过程，Solid State Logic 保留更改本文所述功能和规格的权利，恕不另行通知或承担义务。</p>
+<p>E&amp;OE</p>
 
 <p><br><br></p>
 </body>
