@@ -430,6 +430,9 @@ kbd { padding: 2px 5px; border: 1px solid var(--line); color: var(--muted); back
   display: block;
   transition: transform .25s ease, opacity .25s ease;
 }
+.sidebar-about .about-default {
+  animation: about-pulse 3s ease-in-out infinite;
+}
 .sidebar-about .about-label {
   position: absolute;
   top: 0;
@@ -444,7 +447,15 @@ kbd { padding: 2px 5px; border: 1px solid var(--line); color: var(--muted); back
 .sidebar-about:hover .about-label {
   transform: translateY(-1px);
   opacity: 1;
+  text-shadow: 0 0 3px rgba(199,255,55,.45), 0 0 12px rgba(199,255,55,.2);
+  color: #d4dbd6;
 }
+
+@keyframes about-pulse {
+  0%, 100% { text-shadow: 0 0 2px rgba(199,255,55,0); color: var(--muted); }
+  50% { text-shadow: 0 0 3px rgba(199,255,55,.45), 0 0 12px rgba(199,255,55,.2); color: #d4dbd6; }
+}
+
 .reader {
   min-width: 0;
   padding: 0 clamp(20px, 3vw, 52px) 64px;
