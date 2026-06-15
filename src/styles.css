@@ -420,10 +420,26 @@ kbd { padding: 2px 5px; border: 1px solid var(--line); color: var(--muted); back
   display: inline-block;
   overflow: hidden;
   height: 1.2em;
+  padding-right: 10px;
   color: currentColor;
   text-decoration: none;
   font: inherit;
   vertical-align: bottom;
+}
+.sidebar-about::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 2px;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--acid);
+  box-shadow: 0 0 8px var(--acid);
+  transition: opacity .25s ease;
+}
+.sidebar-about:hover::after {
+  opacity: 0;
 }
 .sidebar-about .about-default,
 .sidebar-about .about-label {
@@ -433,6 +449,7 @@ kbd { padding: 2px 5px; border: 1px solid var(--line); color: var(--muted); back
 .sidebar-about .about-default {
   animation: about-pulse 3s ease-in-out infinite;
 }
+
 .sidebar-about .about-label {
   position: absolute;
   top: 0;
