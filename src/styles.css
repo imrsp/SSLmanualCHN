@@ -442,7 +442,7 @@ kbd { padding: 2px 5px; border: 1px solid var(--line); color: var(--muted); back
   opacity: 0;
 }
 .sidebar-about:hover .about-label {
-  transform: translateY(0);
+  transform: translateY(-1px);
   opacity: 1;
 }
 .reader {
