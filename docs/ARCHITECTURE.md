@@ -48,13 +48,14 @@ JSON；直接打开 `dist/index.html` 时读取脚本数据，从而绕过浏览
 
 ## 添加独立页面
 
-独立页面是不在目录和搜索索引中显示的页面，通过专用 `Standalone` 数据标记加载。典型用途是项目自身的关于页、版权页或不是 SSL Live 手册组成部分的其他辅助页面。
+独立页面是不在目录和搜索索引中显示的页面，通过专用 `Standalone` 数据标记加载。典型用途是项目自身的关于页、版权页或不是 SSL Live 手册组成部分的其他辅助页面。构建脚本自动发现并处理这类页面。
 
 1. 在 `content/zh/pages/` 下创建 `<id>.html`，仅需中文正文（不含英文对照）。
-2. 在 `scripts/build_static_site.mjs` 的 `standalonePages` 数组中添加一条记录，包含：
-   - `id` — 用于路由 `#/page/<id>` 的唯一标识，必须不与 `manifest.json` 中任何章节 ID 的大小写折叠冲突（macOS 默认 APFS 不区分大小写）。
-   - `chinesePath` — 源文件路径。
-   - `title` / `titleZh` — 中英文标题。
+2. 在 `<head>` 中添加三个 `<meta>` 标签：
+   - `<meta name="x-standalone-id" content="<id>">` — 用于路由 `#/page/<id>` 的唯一标识，必须不与 `manifest.json` 中任何章节 ID 的大小写折叠冲突（macOS 默认 APFS 不区分大小写）。
+   - `<meta name="x-standalone-title" content="...">` — 英文标题。
+   - `<meta name="x-standalone-title-zh" content="...">` — 中文标题。
+   - 构建脚本运行时自动遍历 `content/zh/pages/` 下的 HTML 文件，从 meta 标签读取这些值，无需手动修改构建脚本。
 3. 运行 `npm run build`，阅读器通过 `#/page/<id>` 访问。
 
 独立页面自动获得 `standalone: true` 标记，不包含英文原文、翻译状态、前/后章节导航和语言切换面板，且不会出现在目录和搜索索引中。

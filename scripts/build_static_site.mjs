@@ -255,14 +255,29 @@ const catalog = {
 };
 
 /* ---- Standalone pages (not in catalog / search index) ---- */
-const standalonePages = [
-  {
-    id: "about-dmt",
-    chinesePath: path.join(contentDirectory, "zh", "pages", "about-dmt.html"),
-    title: "About SSL Live Help CHN Manual",
-    titleZh: "关于 SSL Live Help 中文操作手册数据库",
-  },
-];
+function discoverStandalonePages() {
+  const zhPagesDir = path.join(contentDirectory, "zh", "pages");
+  const files = fs.readdirSync(zhPagesDir).filter(f => f.endsWith('.html'));
+  const standalonePages = [];
+  const manifestFiles = new Set(manifest.map(item => path.basename(item.outputFile)));
+  for (const file of files) {
+    if (manifestFiles.has(file)) continue;
+    const filePath = path.join(zhPagesDir, file);
+    const htmlContent = fs.readFileSync(filePath, 'utf8');
+    const idMatch = htmlContent.match(/<meta\s+name="x-standalone-id"\s+content="([^"]+)"\s*\/?>/i);
+    if (!idMatch) continue;
+    const titleMatch = htmlContent.match(/<meta\s+name="x-standalone-title"\s+content="([^"]*)"\s*\/?>/i);
+    const titleZhMatch = htmlContent.match(/<meta\s+name="x-standalone-title-zh"\s+content="([^"]*)"\s*\/?>/i);
+    standalonePages.push({
+      id: idMatch[1],
+      chinesePath: filePath,
+      title: titleMatch ? titleMatch[1] : '',
+      titleZh: titleZhMatch ? titleZhMatch[1] : '',
+    });
+  }
+  return standalonePages;
+}
+const standalonePages = discoverStandalonePages();
 for (const sp of standalonePages) {
   const chinese = prepareStandaloneDocument(sp.chinesePath);
   const standalonePageData = {
