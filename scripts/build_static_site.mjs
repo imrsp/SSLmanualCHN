@@ -164,6 +164,16 @@ function writeDataFiles(jsonPath, value, assignment) {
   );
 }
 
+function prepareStandaloneDocument(filePath) {
+  const raw = stripDocument(fs.readFileSync(filePath, "utf8"));
+  const structured = markInlineImages(
+    normalizeLegacyMarkup(
+      transformAccordions(raw),
+    ),
+  );
+  return addHeadingIds(dedupeIds(structured));
+}
+
 function prepareDocument(filePath, sourceUrl, pageTitle) {
   const structured = markInlineImages(
     normalizeLegacyMarkup(
@@ -243,6 +253,40 @@ const catalog = {
   })),
   pages: pages.map(({ contentHtml, englishHtml, ...page }) => page),
 };
+
+/* ---- Standalone pages (not in catalog / search index) ---- */
+const standalonePages = [
+  {
+    id: "about-dmt",
+    englishPath: path.join(contentDirectory, "en", "pages", "about-dmt.html"),
+    chinesePath: path.join(contentDirectory, "zh", "pages", "about-dmt.html"),
+    title: "About DMT Club",
+    titleZh: "关于 DMT Club",
+  },
+];
+for (const sp of standalonePages) {
+  const hasTranslation = fs.existsSync(sp.chinesePath);
+  const english = prepareStandaloneDocument(sp.englishPath);
+  const chinese = hasTranslation
+    ? prepareStandaloneDocument(sp.chinesePath)
+    : english;
+  const standalonePageData = {
+    id: sp.id,
+    title: sp.title,
+    titleZh: sp.titleZh,
+    translationStatus: hasTranslation ? "complete" : "pending",
+    headings: chinese.headings,
+    contentHtml: chinese.content,
+    englishHtml: english.content,
+    standalone: true,
+  };
+  writeDataFiles(
+    path.join(outputDirectory, "data", "pages", `${sp.id}.json`),
+    standalonePageData,
+    (json) => `globalThis.__SSL_MANUAL_DATA__.pages[${JSON.stringify(sp.id)}] = ${json};`,
+  );
+}
+
 const searchIndexZh = pages.map((page) => {
   const chinesePlain = toPlainText(page.contentHtml);
   const chineseBlocks = splitContentIntoBlocks(page.contentHtml, page.headings);
