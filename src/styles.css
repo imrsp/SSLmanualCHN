@@ -449,7 +449,6 @@ kbd { padding: 2px 5px; border: 1px solid var(--line); color: var(--muted); back
 .sidebar-about .about-default {
   animation: about-pulse 3s ease-in-out infinite;
 }
-
 .sidebar-about .about-label {
   position: absolute;
   top: 0;
@@ -466,6 +465,9 @@ kbd { padding: 2px 5px; border: 1px solid var(--line); color: var(--muted); back
   opacity: 1;
   text-shadow: 0 0 3px rgba(199,255,55,.45), 0 0 12px rgba(199,255,55,.2);
   color: #d4dbd6;
+}
+.sidebar-about:hover .about-label::after {
+  opacity: 1;
 }
 
 @keyframes about-pulse {
