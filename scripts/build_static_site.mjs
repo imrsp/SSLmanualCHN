@@ -258,26 +258,19 @@ const catalog = {
 const standalonePages = [
   {
     id: "about-dmt",
-    englishPath: path.join(contentDirectory, "en", "pages", "about-dmt.html"),
     chinesePath: path.join(contentDirectory, "zh", "pages", "about-dmt.html"),
     title: "About DMT Club",
     titleZh: "关于 DMT Club",
   },
 ];
 for (const sp of standalonePages) {
-  const hasTranslation = fs.existsSync(sp.chinesePath);
-  const english = prepareStandaloneDocument(sp.englishPath);
-  const chinese = hasTranslation
-    ? prepareStandaloneDocument(sp.chinesePath)
-    : english;
+  const chinese = prepareStandaloneDocument(sp.chinesePath);
   const standalonePageData = {
     id: sp.id,
     title: sp.title,
     titleZh: sp.titleZh,
-    translationStatus: hasTranslation ? "complete" : "pending",
     headings: chinese.headings,
     contentHtml: chinese.content,
-    englishHtml: english.content,
     standalone: true,
   };
   writeDataFiles(

@@ -469,12 +469,10 @@ function renderStandalonePage(page, headingId = "") {
     <header class="document-header">
       <h1>${escapeHtml(page.titleZh)}</h1>
       <p class="english-title">${escapeHtml(page.title)}</p>
-      <span class="translation-badge">● 中文翻译已完成 · 可切换英文原文</span>
     </header>
-    <div class="manual-content">${state.language === "en" ? page.englishHtml : page.contentHtml}</div>
+    <div class="manual-content">${page.contentHtml}</div>
   `;
-  elements.languageToggle.textContent = state.language === "zh" ? "中文 / EN" : "中文 / EN";
-  elements.languageToggle.disabled = false;
+  elements.languageToggle.disabled = true;
   if (page.headings && page.headings.length > 0) {
     renderOutline(page);
   } else {
