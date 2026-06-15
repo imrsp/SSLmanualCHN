@@ -456,6 +456,19 @@ kbd { padding: 2px 5px; border: 1px solid var(--line); color: var(--muted); back
   transform: translateY(100%);
   opacity: 0;
 }
+.sidebar-about .about-label::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 4em;
+  height: 1.5px;
+  border-radius: 1.5px;
+  background: var(--acid);
+  box-shadow: 0 0 3px rgba(199,255,55,.4), 0 0 8px rgba(199,255,55,.15);
+  opacity: 0;
+  transition: opacity .25s ease;
+}
 .sidebar-about:hover .about-default {
   transform: translateY(-100%);
   opacity: 0;
