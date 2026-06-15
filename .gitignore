@@ -5,3 +5,5 @@ node_modules/
 *.log
 tmp-*
 handoff/*.txt
+
+reports/
