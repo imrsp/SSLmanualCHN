@@ -12,9 +12,9 @@ npm run validate
 npm run serve
 ```
 
-打开 `http://127.0.0.1:4173/`。发布时只需部署 `dist/` 目录。
+发布时只需部署 `dist/` 目录。
 
-也可以直接用浏览器打开 `dist/index.html`。构建产物同时包含用于 Web
+调试时可以直接用浏览器打开 `dist/index.html`。构建产物同时包含用于 Web 
 服务器的 JSON 数据和用于 `file://` 本地访问的同粒度脚本数据。
 
 未安装 npm 时可直接运行：

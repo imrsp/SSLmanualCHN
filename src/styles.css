@@ -413,6 +413,38 @@ kbd { padding: 2px 5px; border: 1px solid var(--line); color: var(--muted); back
 }
 .sidebar-footer strong { color: var(--acid); }
 
+
+/* About link with hover animation */
+.sidebar-about {
+  position: relative;
+  display: inline-block;
+  overflow: hidden;
+  height: 1.2em;
+  color: currentColor;
+  text-decoration: none;
+  font: inherit;
+  vertical-align: bottom;
+}
+.sidebar-about .about-default,
+.sidebar-about .about-label {
+  display: block;
+  transition: transform .25s ease, opacity .25s ease;
+}
+.sidebar-about .about-label {
+  position: absolute;
+  top: 0;
+  left: 0;
+  transform: translateY(100%);
+  opacity: 0;
+}
+.sidebar-about:hover .about-default {
+  transform: translateY(-100%);
+  opacity: 0;
+}
+.sidebar-about:hover .about-label {
+  transform: translateY(0);
+  opacity: 1;
+}
 .reader {
   min-width: 0;
   padding: 0 clamp(20px, 3vw, 52px) 64px;
