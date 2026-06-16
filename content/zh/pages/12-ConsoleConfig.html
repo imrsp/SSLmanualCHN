@@ -45,7 +45,7 @@
 
 <p>本节稍后会详细介绍每种路径类型。</p>
 
-<p>另有一些独立于主路径池的信号路径，包括 VCA、Talkback、Solo 和 Matrix 通道。它们均可通过下文所述的<b>Console&nbsp;Configuration</b>页面配置。</p>
+<p>另有一些独立于主路径池的信号路径，包括 VCA、对讲、独奏和矩阵通道。它们均可通过下文所述的<b>Console&nbsp;Configuration</b>页面配置。</p>
 
 <p>控制台还包含不执行信号处理、仅用于控制外部设备的路径：<a href="https://livehelp.solidstatelogic.com/Help/DAWControl.html"><span class="hyperlink">DAW&nbsp;paths</span></a>（按需自动创建）以及<a href="https://livehelp.solidstatelogic.com/Help/ExternalControl.html"><span class="hyperlink">OSC&nbsp;paths</span></a>（通过 Console Configuration 页面创建）。</p>
 
@@ -243,7 +243,7 @@
                     <td colspan="5">48</td>
                 </tr>
                 <tr>
-                    <th>Matrix 矩阵</th>
+                    <th>矩阵</th>
                     <td colspan="2">4 × 32 个输入，12 个已处理输出</td>
                     <td colspan="2">4 × 32 个输入，24 个已处理输出</td>
                     <td colspan="19">4 × 32 个输入，36 个已处理输出</td>
@@ -340,7 +340,7 @@
                 <th>Stem 编组母线</th>
                 <th>Aux 辅助母线</th>
                 <th>Master 主母线</th>
-                <th>Matrix 矩阵、可路由目标和物理输出</th>
+                <th>矩阵、可路由目标和物理输出</th>
             </tr>
             <tr>
                 <th rowspan="4">资源池路径</th>
@@ -411,7 +411,7 @@
                 <td></td>
             </tr>
             <tr>
-                <td>Matrix 矩阵</td>
+                <td>矩阵</td>
                 <td>物理输入，<br>可路由来源*</td>
                 <td>Y</td>
                 <td></td>
@@ -570,7 +570,7 @@
 
 <p>四个矩阵合计最多有 36 个输出（因型号而异），可按任意方式分配。</p>
 
-<span class="note"><span class="notetitle">注意：</span>矩阵输出通道具有与完整处理路径相同的 Filters、EQ、Delay 和 All Pass 处理，但没有动态处理。</span>
+<span class="note"><span class="notetitle">注意：</span>矩阵输出通道具有与完整处理路径相同的滤波、EQ、延时和全通处理，但没有动态处理。</span>
 
 <p>更多矩阵配置说明见<a href="https://livehelp.solidstatelogic.com/Help/Matrix.html"><span class="hyperlink">矩阵页面</span></a>。</p>
 
@@ -601,7 +601,7 @@
 
 <p>展开路径列表并启用<span class="label">Edit</span>后，双击名称文字打开屏幕键盘。输入新名称并点击<span class="label">OK</span>确认。</p>
 
-<p>使用键盘中的<span class="label">Next</span>和<span class="label">Previous</span>按钮（USB 键盘分别为 Tab 和 Shift+Tab）在路径列表中导航。</p>
+<p>使用键盘中的<span class="label">Next</span>和<span class="label">Previous</span>按钮（USB 键盘分别为 Tab 和 Shift+Tab）在路径列表中浏览。</p>
 
 <p>再次点击列表图标可将路径折叠回路径类型行。</p>
 
@@ -636,13 +636,13 @@
 
 <h3>格式化通道</h3>
 
-<p>导入工具可自动将输入通道格式化为 Stereo、LCR、4.0 和 5.1。</p>
+<p>导入工具可自动将输入通道格式化为立体声、LCR、4.0 和 5.1。</p>
 
 <p>例如，如果控制台将<span style="font-weight:bold;">KEYS L</span>和<span style="font-weight:bold;">KEYS R</span>识别为两个相邻通道，就会创建一个立体声<span style="font-weight:bold;">KEYS</span>通道。</p>
 
 <p>要自动格式化通道，请先启用 <span class="label">Format Channels</span>，再点击 <span class="label">Import</span>。</p>
 
-<p>对于 Stereo，相邻两个通道名称末尾必须分别为大写<span style="font-weight:bold;">L</span>和<span style="font-weight:bold;">R</span>，其余文字必须相同。导入机制也能识别 L 或 R 前的连字符（<span style="font-weight:bold;">-</span>）或下划线（<span style="font-weight:bold;">_</span>）。</p>
+<p>对于立体声导入，相邻两个通道名称末尾必须分别为大写<span style="font-weight:bold;">L</span>和<span style="font-weight:bold;">R</span>，其余文字必须相同。导入机制也能识别 L 或 R 前的连字符（<span style="font-weight:bold;">-</span>）或下划线（<span style="font-weight:bold;">_</span>）。</p>
 
 <p style="margin-bottom:0px;">LCR、4.0 和 5.1 也适用，结尾须按以下正确顺序排列。</p>
 <ul class="tab" style="margin-top:0px;">
@@ -658,7 +658,7 @@
 
 <p>要导出通道名称列表，先选择目标驱动器，然后点击 <span class="label">Export</span> 并命名文件。</p>
 
-<p>控制台以 CSV 文件导出通道名称列表，其中包含通道 ID、通道名称以及 Input A 和 B 路由。</p>
+<p>控制台以 CSV 文件导出通道名称列表，其中包含通道 ID、通道名称以及输入 A 和 B 路由。</p>
 
 
 <h2 id="Numbering">输入通道编号</h2>
@@ -679,15 +679,15 @@
 
 <img style="display: block; margin: 25px auto;" src="https://livehelp.solidstatelogic.com/Help/images/g_AutoRenumber.png" alt="">
 
-<p>要更改编号模式，请进入页面顶部的<span style="font-weight:bold;">Number Channels by:</span>区域，从下拉菜单选择<span class="label">Default</span>或<span class="label">Auto-Renumber</span>。按住<span class="label">APPLY</span>应用更改。</p>
+<p>更改编号模式，请进入页面顶部的<span style="font-weight:bold;">Number Channels by:</span>区域，从下拉菜单选择<span class="label">Default</span>或<span class="label">Auto-Renumber</span>。按住<span class="label">APPLY</span>应用更改。</p>
 
 
 <h2 id="ModelCompatibility">兼容模式</h2>
 
 <p><span style="font-weight:bold;">演出文件在整个 SSL Live 控制台系列内交叉兼容</span>，无需额外软件或转换。</p>
-<p>在大型控制台上创建的演出文件可加载到较小型号。如果资源不足，系统会自动进入<span style="font-weight:bold;">Compatibility Mode</span>。</p>
+<p>在大型控制台上创建的演出文件可加载到较小型号。如果资源不足，系统会自动进入<span style="font-weight:bold;">兼容模式</span>。</p>
 
-<p>控制台会尽可能创建演出文件中的路径；超出型号容量的剩余路径将被<i>禁用</i>。禁用路径不传递音频，但仍保存在演出文件中，并可调整推子和路径处理。Channel View 中显示如下：</p>
+<p>控制台会尽可能创建演出文件中的路径；超出型号容量的剩余路径将被<i>禁用</i>。禁用路径不传递音频，但仍保存在演出文件中，并可调整推子和路径处理。通道视图中显示如下：</p>
 
 <img style="display: block; margin: 25px auto;" src="https://livehelp.solidstatelogic.com/Help/images/g_CompatibilityChanView.png" alt="">
 
@@ -695,17 +695,17 @@
 
 <img style="display: block; margin: 25px auto;" src="https://livehelp.solidstatelogic.com/Help/images/g_CompatibilityConfig.png" alt="">
 <br>
-<p>Compatibility Mode 也会影响 Effects Rack 单元。禁用单元显示如下：<img style="display: block; margin: 25px auto;" src="https://livehelp.solidstatelogic.com/Help/images/g_CompatibilityFX.png" alt="">
+<p>兼容模式也会影响效果器机架单元。禁用单元显示如下：<img style="display: block; margin: 25px auto;" src="https://livehelp.solidstatelogic.com/Help/images/g_CompatibilityFX.png" alt="">
 
-<p>也可通过<span class="label">Compatibility&nbsp;Mode</span>中的<a href="https://livehelp.solidstatelogic.com/Help/OptionsSystem.html#SystemOptions"><span class="hyperlink">System Options</span></a>按钮手动启用兼容模式。可在处理能力较小的控制台上创建最终用于大型控制台的演出文件。状态栏出现<img src="https://livehelp.solidstatelogic.com/Help/images/g_CompatibilityGreen.png" alt="green Compatibility">图标表示<span style="font-weight:bold;">Compatibility Mode</span>已启用，但当前没有处理资源被禁用。</p>
+<p>也可通过<span class="label">Compatibility&nbsp;Mode</span>中的<a href="https://livehelp.solidstatelogic.com/Help/OptionsSystem.html#SystemOptions"><span class="hyperlink">System Options</span></a>按钮手动启用兼容模式。可在处理能力较小的控制台上创建最终用于大型控制台的演出文件。状态栏出现<img src="https://livehelp.solidstatelogic.com/Help/images/g_CompatibilityGreen.png" alt="green Compatibility">图标表示<span style="font-weight:bold;">兼容模式</span>已启用，但当前没有处理资源被禁用。</p>
 
 <p>要创建超过当前型号容量的路径，必须先选择一些现有路径进行<i>禁用</i>。进入<span class="label">Console Configuration</span>，启用<span class="label">Edit</span>并点击右侧的<span class="label">Compatibility</span>按钮。表格中的 Edit 列会变为<span style="font-weight:bold;">Enabled</span>。展开所需路径类型，点击各路径<span style="font-weight: bold;">Enabled</span>列中的按钮。绿色表示启用，灰色空按钮表示禁用。按住<span class="label">Apply</span>确认。现在可创建更多<i>已启用</i>路径。</p>
 
 <p>要禁用效果，请进入 Effect Rack 页面（<span class="label">Menu</span> > <span class="label">Effects</span>），选择要禁用的效果模块并按住其<span class="label">Enabled</span>按钮。</p>
 
-<p>禁用路径或效果后，<span class="label">Compatibility&nbsp;Mode</span>按钮会变红，状态栏显示<img src="https://livehelp.solidstatelogic.com/Help/images/g_CompatibilityRed.png" alt="red Compatibility">图标。<span style="font-weight:bold;">Compatibility Mode</span>允许创建相当于 L550 控制台容量的路径和效果。</p>
+<p>禁用路径或效果后，<span class="label">Compatibility&nbsp;Mode</span>按钮会变红，状态栏显示<img src="https://livehelp.solidstatelogic.com/Help/images/g_CompatibilityRed.png" alt="red Compatibility">图标。<span style="font-weight:bold;">兼容模式</span>允许创建相当于 L550 控制台容量的路径和效果。</p>
 
-<p>只有在全部禁用路径和 FX 均已重新启用或删除后，才能关闭 Compatibility Mode。完成上述操作后，请在<a href="https://livehelp.solidstatelogic.com/Help/OptionsSystem.html#SystemOptions"><span class="hyperlink">系统选项</span></a>中关闭 <span class="label">Compatibility&nbsp;Mode</span> 按钮。</p>
+<p>只有在全部禁用路径和 FX 均已重新启用或删除后，才能关闭兼容模式。完成上述操作后，请在<a href="https://livehelp.solidstatelogic.com/Help/OptionsSystem.html#SystemOptions"><span class="hyperlink">系统选项</span></a>中关闭 <span class="label">Compatibility&nbsp;Mode</span> 按钮。</p>
 
 <p>演出文件中的禁用路径或效果下次在处理能力足够的控制台型号上加载时，会自动重新启用。</p>
 
