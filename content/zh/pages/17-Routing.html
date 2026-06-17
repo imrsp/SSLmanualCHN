@@ -125,19 +125,19 @@
 </table>
 
 <p>取消路由分为三个层级：</p>
-<p>对于 <span style="font-weight: bold;">Route In</span>：</p>
+<p>对于 <span style="font-weight: bold;">输入路由</span>：</p>
 <ul class="tab">
     <li><span class="label">Clear&nbsp;&lt;element&gt;</span>（例如 Clear Analogue A 11）取消从所选设备元素/物理接口发出的所有路由（这些路由显示在 <span class="label">Clear&nbsp;&lt;element&gt;</span> 按钮左侧可滚动的当前路由列表中），包括已连接到其他通道的路由；</li>
     <li><span class="label">Unmake</span> 仅取消所选通道从当前高亮（已选择）设备元素取得的输入路由。路由到同一信号源的其他通道不受影响；</li>
     <li><span class="label">Clear&nbsp;Input&nbsp;A</span>/<span class="label">Clear&nbsp;Input&nbsp;B</span> 取消该通道的所有输入路由，即使它们当前未被选择。这包括立体声/LCR 通道的所有分量，但不包括该通道的另一路（<span style="font-weight: bold;">A</span> 或 <span style="font-weight: bold;">B</span>）输入。</li>
 </ul>
-<p>对于 <span style="font-weight: bold;">Route Out</span>：</p>
+<p>对于 <span style="font-weight: bold;">输出路由</span>：</p>
 <ul class="tab">
     <li><span class="label">Clear&nbsp;&lt;element&gt;</span>（例如 Clear AES 5/6）取消通往所选设备元素/物理接口的所有路由；</li>
     <li><span class="label">Unmake</span> 取消该通道通往当前高亮设备元素的输出路由；</li>
     <li><span class="label">Clear&nbsp;Output</span> 取消该通道的所有输出路由，即使它们当前未被选择。这包括立体声/LCR 通道的所有分量。</li>
 </ul>
-<p>要关闭此显示，请选择其他 Detail 页面、取消选择 <span class="label">Route</span>，或触摸 <span class="label">Close</span> 按钮。</p>
+<p>要关闭此显示，请选择其他详细页面、取消选择 <span class="label">Route</span>，或触摸 <span class="label">Close</span> 按钮。</p>
 <p>
     <span class="note">
         <span class="notetitle">注意：</span>路由列上方的 <span class="label">Close</span> 按钮仅关闭路由界面，Detail 对话框仍保持打开。
@@ -237,7 +237,7 @@
 
 <p>这一功能也带来更高灵活性：可按需手动覆盖路由和 Dante 订阅，但控制台绝不会自动覆盖设置。软件采用“先到先得”的自动仲裁机制；控制台关机或演出文件卸载时会释放 Dante 订阅，为其他控制台或其他活动信号释放资源。所有内容均存储在演出文件中，可完整调用。</p>
 
-<p>需要永久信号路由时，可使用 SSL Live 的 Outside of Showfile Routing Mode。在此模式下建立的订阅，即使控制台关闭或加载其他演出文件仍会保持有效，因此无需为了持久的“场馆固定路由”而打开 Dante Controller。</p>
+<p>需要永久信号路由时，可使用 SSL Live 的 Outside of Showfile（演出文件外）路由模式。在此模式下建立的订阅，即使控制台关闭或加载其他演出文件仍会保持有效，因此无需为了持久的“场馆固定路由”而打开 Dante Controller。</p>
 
 <h3 id="Problem">故障排除</h3>
 <p>如果控制台无法建立全部或部分 Dante 路由，将出现弹窗。请查看屏幕左上角的 Status Message 区域了解详情，其中会说明路由未能建立的原因。</p>
@@ -269,9 +269,9 @@
     </table>
 </div>
 
-<p>双击 Status Message 可打开 Status Message 窗口，其中显示自上次启动以来的所有状态消息。</p>
+<p>双击 Status Message 可打开状态消息窗口，其中显示自上次启动以来的所有状态消息。</p>
 <img style="display: block; margin: 25px auto;" src="https://livehelp.solidstatelogic.com/Help/images/g_DanteStatusMessage.png">
-<p>每条失败的 Dante 路由都会对应一条 Status Message。向下滚动列表可查看失败路由；未列出的尝试路由均已成功建立。</p>
+<p>每条失败的 Dante 路由都会对应一条 Status Message。向下滚动列表可查看失败路由；未列出的路由均已成功建立。</p>
 
 <h2 id="GainSharing">增益共享</h2>
 
