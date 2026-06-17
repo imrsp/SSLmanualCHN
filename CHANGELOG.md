@@ -14,6 +14,7 @@
 ### Fixed
 
 - 修复 `about.json` 与 `About.json` 在 macOS APFS 不区分大小写下文件名互相覆盖的冲突——独立页面 ID 改为 `about-dmt`，所有引用同步更新。
+- gitignore 了 /report 目录
 
 ### Changed
 
