@@ -196,7 +196,7 @@
         </p>
 
         <p>
-            使用 Net I/O 舞台接口箱输入时，可使用 <span class="label">Pad</span> （SB&nbsp;i16 和 SB&nbsp;8.8 为 20 dB；SB&nbsp;16.12 和 SB&nbsp;32.24 为 30 dB）、Mic/Line 开关（启用 <span class="label">Mic</span> 进入麦克风模式，停用则进入线路模式）、 <span class="label">Input Mute</span> 并 <span class="label">Aud</span> （试听，仅 SB&nbsp;8.8 和 i16）以及 <span class="label">Lim</span> （限幅器，仅 SB&nbsp;8.8 和 i16）。有关 Net I/O 舞台接口箱的更多信息，请参阅 <a href="https://livehelp.solidstatelogic.com/Help/DanteNetIO.html"><span class="hyperlink">Net I/O Stageboxes</span> 章节</a>。
+            使用 Net I/O 舞台接口箱输入时，可使用 <span class="label">Pad</span> （SB&nbsp;i16 和 SB&nbsp;8.8 为 20 dB；SB&nbsp;16.12 和 SB&nbsp;32.24 为 30 dB）、Mic/Line 开关（启用 <span class="label">Mic</span> 进入麦克风模式，停用则进入线路模式）、 <span class="label">Input Mute</span> 和 <span class="label">Aud</span> （试听，仅 SB&nbsp;8.8 和 i16）以及 <span class="label">Lim</span> （限幅器，仅 SB&nbsp;8.8 和 i16）。有关 Net I/O 舞台接口箱的更多信息，请参阅 <a href="https://livehelp.solidstatelogic.com/Help/DanteNetIO.html"><span class="hyperlink">Net I/O Stageboxes</span> 章节</a>。
         </p>
 
         <span class="note"><span class="notetitle">注意： </span>与当前输入类型无关的控制项会显示为灰色。有关如何建立路由，请参阅 <a href="https://livehelp.solidstatelogic.com/Help/Routing.html"><span class="notehyperlink">Routing</span></a>。</span>
@@ -206,7 +206,7 @@
         <!-- Start of MultiRouteInputAutoNote Snippet -->
         <!-- Also used in AutoFilters.html -->
         <span class="note">
-            <span class="notetitle">重要注意事项： </span>如果同一舞台接口箱/本地模拟输入被路由到多个输入通道和/或对讲通道，则每个通道都可能控制与该模拟输入相关的同一组参数（增益、衰减等），因此这些参数会保持同步。这些参数可在“Input”过滤器部分按通道实现自动化；但如果这些通道没有同时加入或退出 Store 与 Recall 范围，共享模拟输入参数的自动化状态可能会意外产生差异。触发含有此类差异的场景，可能导致模拟输入参数出现非预期行为。<br><br>
+            <span class="notetitle">重要注意事项： </span>如果同一舞台接口箱/本地模拟输入被路由到多个输入通道和/或对讲通道，则这些通道可能控制同一组与该模拟输入相关的参数（增益、衰减等），因此这些参数会保持同步。这些参数可在“Input”过滤器部分按通道实现自动化；但如果这些通道没有同时加入或退出 Store 与 Recall 范围，共享模拟输入参数的自动化状态可能会意外产生差异。触发含有此类差异的场景，可能导致模拟输入参数出现非预期行为。<br><br>
 
             初始化模拟输入到通道的路由时生成的数据属于各个通道，而不是各个模拟输入。因此必须确保为每个通道明确存储这些数据。
         </span>
@@ -223,11 +223,11 @@
         <p>触摸 <span class="label">Route Output</span> 可对通道输出进行路由。请注意，此发送始终位于信号声像处理之前。</p>
 
         <p id="Chop">
-             <span style="font-weight:bold;">output feed point</span> 可通过触摸 <span class="label">Output:</span> 并选择以下选项之一来调整（<span style="font-weight:bold;">Post Trim</span>、<span style="font-weight:bold;">Pre Fader</span>、<span style="font-weight:bold;">Post Fader</span> 和 <span style="font-weight:bold;">Post All</span>）。
+             <span style="font-weight:bold;">输出馈送点</span> 可通过触摸 <span class="label">Output:</span> 并选择以下选项之一来调整（<span style="font-weight:bold;">微调后</span>、<span style="font-weight:bold;">推子前</span>、<span style="font-weight:bold;">推子后</span> 和 <span style="font-weight:bold;">全处理后</span>）。
         </p>
 
         <p>
-             <span style="font-weight:bold;">default output feed point</span> 可在以下位置为输入通道自定义：
+             <span style="font-weight:bold;">默认输出馈送点</span> 可在以下位置为输入通道自定义：
             <span class="label">Menu</span> > <span class="label">Setup</span> > <span class="label">Options</span> > <span class="label">System</span> 选项卡。新建输入通道会采用默认输出馈送点。
         </p>
 
