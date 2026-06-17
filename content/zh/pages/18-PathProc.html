@@ -204,7 +204,7 @@
 
         <h2>显示选项</h2>
 
-        <p>左侧动态显示图形上方的按钮用于定义所显示的参数，汇总如下：</p>
+        <p>左侧动态显示图上方的按钮用于定义所显示的参数，汇总如下：</p>
 
         <ul>
             <li><span class="label">Compressor</span>：页面左侧显示门限和压缩比，中间显示增益，右侧显示时间参数和压缩器设置；</li>
@@ -229,29 +229,29 @@
 
         <h2>压缩器混合控制</h2>
 
-        <p>信号路径动态区域中的 <strong>Comp Mix</strong> 控件可便捷地在任意路径上使用并行压缩处理。</p>
+        <p>信号路径动态区域中的 <strong>Comp Mix（并行压缩混合比）</strong> 控件可便捷地在任意路径上使用并行压缩处理。</p>
 
         <p>可将压缩信号与未压缩信号并行混合。设为 100% 时仅使用压缩信号；设为 0% 时仅通过未经压缩的干信号；50% 时压缩信号与未压缩信号各占相同比例。启用 <strong>Follow Detail</strong> 后，可使用屏幕推子或对应的快捷控制器设置百分比。</p>
 
-        <p>启用电子管压缩模拟时无法使用 Comp Mix。启用 Tube 后，混合控制推子帽会消失，混合比例自动设为并显示为 100%。此前的混合百分比会保留，以便停用 Tube 后恢复。</p>
+        <p>启用电子管压缩模拟时无法使用 Comp Mix。启用 Tube（电子管模拟）后，混合控制推子帽会消失，混合比例自动设为并显示为 100%。此前的混合百分比会保留，以便停用 Tube 后恢复。</p>
 
         <h2>侧链</h2>
 
         <p>门限器和压缩器均配有带滤波器及外部输入路由的侧链。</p>
 
-        <p>要将高通和低通滤波器插入 Compressor 和/或 Gate 侧链：</p>
+        <p>要将高通和低通滤波器插入压缩器和/或门限器侧链：</p>
 
         <p>触摸 Compressor 或 Gate Setup 显示中的 <span class="label">Filters</span> 按钮；按钮点亮表示已启用；</p>
 
-        <p>触摸左侧图形上方的 <span class="label">Comp&nbsp;Filters</span> 或 <span class="label">Gate&nbsp;Filters</span> 按钮；随后会出现带 <span style="font-weight: bold;">HPF</span> 和 <span style="font-weight: bold;">LPF</span> 节点的频率图形。</p>
+        <p>触摸左侧动态显示图上方的 <span class="label">Comp&nbsp;Filters</span> 或 <span class="label">Gate&nbsp;Filters</span> 按钮；随后会出现带 <span style="font-weight: bold;">HPF</span> 和 <span style="font-weight: bold;">LPF</span> 节点的频率图形。</p>
 
         <p>拖动节点可更改各滤波器的 -3 dB 点。</p>
 
-        <p>要将其他信号路由到 Compressor 或 Gate 侧链，请触摸右侧图形右边的 <span class="label">Comp&nbsp;Key&nbsp;Route</span> 或 <span class="label">Gate&nbsp;Key&nbsp;Route</span> 按钮，并在出现的标准路由界面中找到该信号。（请参阅<a href="https://livehelp.solidstatelogic.com/Help/Routing.html"><span class="hyperlink">路由</span></a>，了解路由界面的操作说明。）</p>
+        <p>要将其他信号路由到压缩器或门限器侧链，请触摸右侧动态显示图右边的 <span class="label">Comp&nbsp;Key&nbsp;Route</span> 或 <span class="label">Gate&nbsp;Key&nbsp;Route</span> 按钮，并在出现的标准路由界面中找到该信号。（请参阅<a href="https://livehelp.solidstatelogic.com/Help/Routing.html"><span class="hyperlink">路由</span></a>，了解路由界面的操作说明。）</p>
 
         <p>然后触摸 Compressor 或 Gate Setup 显示中的 <span class="label">Ext&nbsp;Key</span> 按钮以启用外部侧链；按钮点亮表示已启用。</p>
 
-        <p>要监听 Compressor 或 Gate 侧链，请触摸右侧图形上方的 <span class="label">Comp&nbsp;Key&nbsp;Solo</span> 或 <span class="label">Gate&nbsp;Key&nbsp;Solo</span> 按钮。</p>
+        <p>要监听压缩器或门限器侧链，请触摸右侧动态显示图上方的 <span class="label">Comp&nbsp;Key&nbsp;Solo</span> 或 <span class="label">Gate&nbsp;Key&nbsp;Solo</span> 按钮。</p>
 
         <span class="note"><span class="notetitle">注意：</span>Key Listen Solo 信号会路由到通道 Misc Solo 设置中指定的 Solo 母线；详情请参阅 <a href="https://livehelp.solidstatelogic.com/Help/Solo.html"><span class="notehyperlink">Solo</span></a>。</span>
 
@@ -263,28 +263,28 @@
 
         <h2>峰值模式</h2>
 
-        <p>信号路径压缩器提供 RMS 和 Peak 两种检测方式。</p>
+        <p>信号路径压缩器提供 RMS（均方根）和 Peak（峰值）两种检测方式。</p>
 
         <p>RMS 是默认检测模式。要启用 Peak 检测，请按 Compressor Setup 显示中的 <span class="label">Peak Mode</span> 按钮。</p>
 
         <h2>扩展器模式</h2>
 
-        <p>触摸 Gate Setup 显示中的 <span class="label">Exp</span> 按钮，可将 Gate 切换为 Expander 模式。</p>
+        <p>触摸 Gate Setup 显示中的 <span class="label">Exp</span> 按钮，可将门限器切换为扩展器模式。</p>
 
         <h2>闪避模式</h2>
 
         <!-- Start of Duck mode snippet -->
         <!-- Also used in FXDynamics.html -->
         <p>
-            启用 <span class="label">Duck</span> 按钮，将 Gate 变为 Ducker。
-            这会反转 Gate 侧链阈值逻辑的工作方式：当侧链（Key）输入信号超过 <b>Threshold</b> 时，输入信号会按 <b>Range</b> 数值衰减，
+            启用 <span class="label">Duck</span> 按钮，将门限器变为闪避器。
+            这会反转门限器侧链阈值逻辑的工作方式：当侧链（Key）输入信号超过 <b>门限</b> 时，输入信号会按 <b>Range（衰减幅度）</b> 数值衰减，
             例如在 DJ 讲话时自动压低音乐。
         </p>
         <!-- End of Duck mode snippet -->
 
         <h2>预设</h2>
 
-        <p>要为通道加载 Dynamics 预设，请触摸页面右下角的 <span class="label">Preset</span> 按钮，然后在出现的标准 LIVE Preset 页面中选择预设。</p>
+        <p>要为通道加载动态预设，请触摸页面右下角的 <span class="label">Preset</span> 按钮，然后在出现的标准 LIVE Preset 页面中选择预设。</p>
 
         <h2>重置动态处理数值</h2>
 
@@ -292,31 +292,31 @@
 
         <br>
 
-        <h2>快速控制</h2>
+        <h2>快捷控制</h2>
 
         <h3>Follow Detail 模式</h3>
 
         <p>
-            屏幕下方的 Quick Controls 也可分配给 Detail View 参数。
-            为此，需要启用 Main Screen 右下角的 <span style="font-weight: bold;">Follow Detail</span> 按钮。
+            屏幕下方的快捷控制也可分配给详细视图参数。
+            为此，需要启用主屏幕右下角的 <span style="font-weight: bold;">Follow Detail</span> 按钮。
         </p>
 
         <img style="width: 147px; height: 116px; margin: 0px 0px 5px 15px;" src="https://livehelp.solidstatelogic.com/Help/images/g_PanelQuicksBasic2.png" alt="" align="right">
 
         <p>
-            启用 <span class="label">Follow Detail</span> 后，屏幕下方的 Quick Controls 会分配给所选通道的不同功能
-            （仅在 Detail View 打开时适用）。其他 Fader Tile 上的 Quick Controls 不受影响。
+            启用 <span class="label">Follow Detail</span> 后，屏幕下方的快捷控制会分配给所选通道的不同功能
+            （仅在详细视图打开时适用）。其他推子区块上的快捷控制不受影响。
         </p>
 
         <p>
-            Detail View 底部的标签表示分配给其正下方 Quick Controls 的功能。
-            通常，每个通道的 Quick Controls 一次只分配一种功能。
-            开关功能分配给 Upper Quick Key（可用时会点亮），连续参数分配给 Encoder。
+            详细视图底部的标签表示分配给其正下方快捷控制的功能。
+            通常，每个通道的快捷控制一次只分配一种功能。
+            开关功能分配给上部快捷按键（可用时会点亮），连续参数分配给下方旋钮。
         </p>
 
-        <h3>Follow Channel Quick Control 模式</h3>
+        <h3>Follow Channel快捷控制模式</h3>
 
-        <p>在 Channel View 或 Detail View 的 Dynamics 区域轻触一次，将 Comp/Gate 发送到 Quick Controls。</p>
+        <p>在通道视图或详细视图的动态区域轻触一次，将 Comp/Gate 发送到快捷控制。</p>
 
         <img style="margin: 0px 0px 10px 19px;" src="https://livehelp.solidstatelogic.com/Help/images/g_quickCOMPGATE.png" alt="" align="right">
 
