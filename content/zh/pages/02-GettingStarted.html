@@ -19,7 +19,7 @@
   <p class="source">章节：入门介绍 | 来源：<a href="https://livehelp.solidstatelogic.com/Help/GettingStarted.html">https://livehelp.solidstatelogic.com/Help/GettingStarted.html</a></p>
 <h2>快速入门指南</h2>
 
-<p>本页旨在帮助你快速启动并开始使用控制台。</p>
+<p>本页旨在帮助您快速上手控制台。</p>
 <p>如需进一步了解其中任何主题，请返回主页；主页对控制台的各个部分均有详细说明。</p>
 <span class="note">
     <span class="notetitle">请注意：</span>如果使用 Dante 舞台接口箱，本快速入门指南假定读者已完成 Dante 认证第 1、2 级，或具备同等 Dante 使用经验。
@@ -39,13 +39,13 @@
 <img style="display: block; margin: 25px auto;" src="https://livehelp.solidstatelogic.com/Help/images/g_OptionsSystemClock.png" align="right" alt="">
 <br>
 
-<h2>3. 选择时钟主设备</h2>
+<h2>3. 选择一个主时钟</h2>
 <p>在控制台上进入 <span class="label">MENU</span> &gt; <span class="label">Setup</span> &gt; <span class="label">Options</span> &gt; <span class="label">SYSTEM</span> 选项卡。</p>
-<p>在 <span style="font-weight:bold;">System Clock</span> 区域，从可用选项中选择一个 <b>Main</b> 时钟主设备；也可选择一个 <b>Backup</b> 备用时钟源。</p>
+<p>在 <span style="font-weight:bold;">System Clock</span> 区域，从可用选项中选择一个 <b>Main</b> 作为主时钟源；也可选择一个 <b>Backup</b> 备用时钟源。</p>
 <p>按住 <span class="label">APPLY</span>。</p>
 <p>
     对于<span style="font-weight:bold;">基于 MADI 的系统</span>，
-    SSL 建议将<span style="font-weight:bold;">控制台设为时钟主设备</span>（在屏幕上选择 <span class="label">Int</span>，即内部时钟）。舞台接口箱及所有其他 MADI 设备均应从属于控制台。
+    SSL 建议选择<span style="font-weight:bold;">控制台作为主时钟</span>（在屏幕上选择 <span class="label">Int</span>，即内部时钟）。舞台接口箱及其他所有 MADI 设备应该作为从时钟锁定至控制台。
 </p>
 <p>
     对于<span style="font-weight:bold;">基于 Dante 的系统</span>，SSL 建议让<span style="font-weight:bold;">控制台从属于 Dante</span>（在屏幕上选择 <span class="label">Dante Expander</span>），
@@ -109,7 +109,7 @@
         <p>使用 Neutrik OpticalCON DUO 连接，将 BLII Concentrator 上的 <span style="font-weight:bold;">BLII A Backup</span> 连接到控制台上的 <span style="font-weight:bold;">BLII Port 1b</span>。</p>
         <span class="note">
             <span class="notetitle">请注意：</span>如果没有 BLII-MADI Concentrator，也可以将舞台接口箱直接连接到控制台。
-            只需使用 BNC，将舞台接口箱的 MADI Ports 1-2 直接连接到控制台上一对奇数/偶数 MADI 端口。
+            只需使用 BNC，将舞台接口箱的 MADI Ports 1-2 直接连接到控制台上一对奇偶 MADI 端口。
         </span>
         <p>在控制台上进入 <span class="label">MENU</span> &gt; <span class="label">Setup</span> &gt; <span class="label">I/O</span> &gt; <span class="label">Local/MADI Configuration</span>。</p>
         <p>
@@ -126,7 +126,7 @@
         <p>以下说明<span style="font-weight:bold;">仅适用于 Net I/O SB&nbsp;32.24 舞台接口箱</span>。如需连接其他 Net I/O 舞台接口箱，请参阅<a href="https://livehelp.solidstatelogic.com/Help/DanteNetIO.html"><span class="hyperlink">Network I/O 舞台接口箱</span></a>。</p>
         <span class="note">
             <span class="notetitle">请注意：</span>SSL Live 控制台包含 4 个用于 Dante 的网络设备：<br>
-            <span style="font-weight:bold;">· Dante Control（Primary 和 Secondary）</span>：这些设备处理 Dante 控制数据（即 Net I/O 舞台接口箱增益和路由）<br />
+            <span style="font-weight:bold;">· Dante Control（Primary 和 Secondary）</span>：这些设备处理 Dante Control数据（即 Net I/O 舞台接口箱增益和路由）<br />
             <span style="font-weight:bold;">· Dante Audio（Primary 和 Secondary）</span>：这些设备处理 Dante 音频。在 SSL Live 控制台上，该设备也称为 <span style="font-weight:bold;">Dante Expander</span>，并包含 Dante Brooklyn II 模块。<br />
             所有这些设备必须在同一子网内使用不同的 IP 地址。
         </span>
@@ -162,7 +162,7 @@
         <p>确保计算机与舞台接口箱的 Primary Dante Audio 位于同一子网。如果不确定如何操作，请参阅<a href="https://livehelp.solidstatelogic.com/Help/DanteSetup.html"><span class="hyperlink">设置 Dante</span></a>。</p>
         <p>打开 <span style="font-weight:bold;">Dante Controller</span>，在网络中找到控制台的 Dante Expander/Brooklyn Module。如果 Dante Controller 中看不到控制台，请参阅<a href="https://livehelp.solidstatelogic.com/Help/DanteSetup.html#FindingDevice"><span class="hyperlink">查找设置为不同子网固定 IP 地址的 Dante 设备</span></a>。</p>
 
-        <p>双击控制台并进入 <span class="label">Network Config</span> 选项卡。</p>
+        <p>在 Dante Controller 上双击控制台，<span class="label">进入 Network Config</span> 选项卡。</p>
         <p>在 <span style="font-weight:bold;">Primary</span> 下，单击 <span class="label">Manually configure an IP Address</span>，然后输入：</p>
         <p style="margin-bottom:0px">
             <ul>
@@ -301,43 +301,43 @@
 <p>更多信息请参阅 <a href="https://livehelp.solidstatelogic.com/Help/Solo.html"><span class="hyperlink">Solo</span></a>。</p>
 <br>
 
-<h2>7. Channel View</h2>
-<p>按任一 Fader Tile 右侧的 <span class="label">SCREEN</span>。该 Bank 中的通道会显示在主屏幕上。此时屏幕显示 <a href="https://livehelp.solidstatelogic.com/Help/ChanView.html"><span class="hyperlink">Channel View</span></a>。</p>
-<p>按 Fader Tiles 上的 <span class="label">CALL</span> 按钮可调出不同的推子 <span style="font-weight:bold;">Bank</span>。</p>
+<h2>7. 通道视图</h2>
+<p>按任一推子区块右侧的 <span class="label">SCREEN</span> 按钮。该 Bank 中的通道会显示在主屏幕上。此时屏幕显示 <a href="https://livehelp.solidstatelogic.com/Help/ChanView.html"><span class="hyperlink">通道视图</span></a>。</p>
+<p>按推子区块上的 <span class="label">CALL</span> 按钮可调出不同的推子 <span style="font-weight:bold;">Bank</span>。</p>
 <p>
     <span class="label">SCREEN</span> 和 <span class="label">SWAP</span> 按钮正上方有一块带上下箭头按钮的标签显示屏。按这些按钮可循环浏览 <span style="font-weight:bold;">Layer</span>。
     浏览时，Bank 标签显示屏（<span class="label">CALL</span> 按钮旁的显示屏）会随之变化。可以将 Layer 理解为 Bank 文件夹；每个 Layer 包含 5 个 Bank。
     有关 Layer、Bank 以及配置自定义 User Layer 的更多信息，请参阅 <a href="https://livehelp.solidstatelogic.com/Help/LayerManager.html"><span class="hyperlink">推子层管理器</span></a>。
 </p>
-<p>在 Channel View 中，点击屏幕上的任意元素，可将该功能发送到 Fader Tile 顶部的编码器旋钮（称为 <a href="https://livehelp.solidstatelogic.com/Help/QuickControls.html"><span class="hyperlink">Quick Controls</span></a>）。</p>
+<p>在通道视图中，点击屏幕上的任意元素，可将该功能发送到推子区块顶部的编码器旋钮（称为 <a href="https://livehelp.solidstatelogic.com/Help/QuickControls.html"><span class="hyperlink">Quick Controls</span></a>）。</p>
 <p>双击通道条底部的彩色方块，可打开该通道的展开视图（称为 <a href="https://livehelp.solidstatelogic.com/Help/DetailView.html"><span class="hyperlink">Detail View</span></a>）。</p>
 <p>可从 Detail View 访问通道处理、Bus/VCA/Mute Group 分配和 Insert。</p>
 <p>
-    默认情况下，打开 Detail View 后，屏幕正下方的各个 Quick Controls 会分别控制 Detail View 中所显示功能的一个参数。
-    例如，当 Detail View 显示 EQ 时，可使用 Quick Control 控制各个 EQ 参数。如需让 Quick Controls 恢复正常功能，请关闭屏幕右下角的 <span class="label">Follow Detail</span>。
+    默认情况下，打开详细视图后，屏幕正下方的各个快捷控制会分别控制详细视图中所显示功能的一个参数。
+    例如，当详细视图显示 EQ 时，可使用快捷控制控制各个 EQ 参数。如需让快捷控制恢复正常功能，请关闭屏幕右下角的 <span class="label">Follow Detail</span>。
 </p>
 <span class="note">
     <span class="notetitle">SSL 建议的工作流程：</span><br>
-    -&emsp;始终保持 Detail View 打开。<br>
+    -&emsp;始终保持详细视图打开。<br>
     -&emsp;保持 <span class="label">Follow Detail</span> 开启。<br>
-    -&emsp;按 Fader Tiles 上某通道的 <span class="label">SELECT</span> 按钮，将该通道调入 Detail View。<br>
-    -&emsp;使用 Detail View 的多点触控界面或相应 Quick Controls 调节通道处理参数。
+    -&emsp;按推子区块上某通道的 <span class="label">SELECT</span> 按钮，将该通道调入详细视图。<br>
+    -&emsp;使用详细视图的多点触控界面或相应快捷控制调节通道处理参数。
     （对于 L300、L350、L500、L500&nbsp;Plus、L550 或 L650 控制台，也可使用 <a href="https://livehelp.solidstatelogic.com/Help/ControlTile.html"><span class="hyperlink">Control Tile</span></a>（带小屏幕的区块）实现“一项功能一个旋钮”的工作流程。）
 </span>
 
 <br>
 
-<h2>8. Talkback</h2>
-<p>系统有两个 Talkback Channel，其输入分别路由自控制台前挡板下方的两个 XLR 输入。</p>
-<p>要将 Talkback 发送到 Aux、Stem 或 Master，先打开相应母线的 Detail View，然后按 <span class="label">Fader/TB</span>。</p>
+<h2>8. 对讲</h2>
+<p>系统有两个对讲通道，其输入分别路由自控制台前挡板下方的两个 XLR 输入。</p>
+<p>要将对讲发送到 Aux、Stem 或 Master，先打开相应母线的详细视图，然后按 <span class="label">Fader/TB</span>。</p>
 <p>启用 <span class="label">TB&nbsp;to&nbsp;Bus</span></p>
-<p>然后在 <a href="https://livehelp.solidstatelogic.com/Help/MasterTile.html"><span class="hyperlink">Master Tile</span></a> 上按 Talkback <span class="label">TB1</span> 或 <span class="label">TB2</span> 编码器，取消 Talkback Channel 1 或 2 的静音。此时即可向该母线讲话。</p>
-<p>讲话结束后，再次按编码器，将 Talkback Channel 静音。</p>
-<p>更多信息请参阅 <a href="https://livehelp.solidstatelogic.com/Help/TB.html"><span class="hyperlink">Talkback</span></a>。</p>
+<p>然后在 <a href="https://livehelp.solidstatelogic.com/Help/MasterTile.html"><span class="hyperlink">Master Tile</span></a> 上按下对讲 <span class="label">TB1</span> 或 <span class="label">TB2</span> 编码器，取消 对讲通道 1 或 2 的静音。此时即可向该母线讲话。</p>
+<p>讲话结束后，再次按下旋钮，将对讲通道静音。</p>
+<p>更多信息请参阅 <a href="https://livehelp.solidstatelogic.com/Help/TB.html"><span class="hyperlink">对讲</span></a>。</p>
 <br>
 
 <h2>9. FX</h2>
-<p>模板提供 8 条 Effects 通道（使用 Stem 信号路径）。这些效果通道在同一通道中包含 FX Send 和 Return；效果器插入在 Stem 上。</p>
+<p>模板提供 8 条效果通道（使用 Stem 信号路径）。这些效果通道在同一通道中包含 FX 发送和返回；效果器插入在 Stem 上。</p>
 <p>系统已创建以下效果：</p>
 <p style="margin-bottom:0px">
     <ul>
@@ -351,10 +351,10 @@
         <li>SubmoniX（次低频谐波合成器）</li>
     </ul>
 </p>
-<p>要将信号发送到效果器，请按 Fader Tiles 上 Effects Stem 的 <span class="label">Q</span> 按钮（Q 代表 <a href="https://livehelp.solidstatelogic.com/Help/Query.html"><span class="hyperlink">Query</span></a>）。</p>
-<p>此时，其他信号路径到该 Stem 的所有发送都会显示在推子上（Flip Faders 会自动开启）。使用推子调节发送电平。</p>
-<p>完成后，再次按同一 Effects Stem 上的 <span class="label">Q</span> 按钮，退出 Query 模式。</p>
-<p>退出 Query 模式后，Effects Stem 的推子控制 FX Return。</p>
+<p>要将信号发送到效果器，请按推子区块上效果 Stem 通道的 <span class="label">Q</span> 按钮（Q 代表 <a href="https://livehelp.solidstatelogic.com/Help/Query.html"><span class="hyperlink">Query（查询）</span></a>）。</p>
+<p>此时，其他信号路径到该 Stem 的所有发送都会显示在推子上（推子翻转会自动开启）。使用推子调节发送电平。</p>
+<p>完成后，再次按同一效果 Stem 上的 <span class="label">Q</span> 按钮，退出查询模式。</p>
+<p>退出查询模式后，效果 Stem 的推子控制 FX 返回。</p>
 <span class="note">
     <span class="notetitle">请注意：</span>发送到 Stem 和 Aux 时，通常还需要将发送切换为 IN。在模板中，Channel 到 Effects Stem 的发送已预先切换为 IN。
     如果创建任何新信号路径或新发送，必须将发送切换为 IN 并提高电平，信号才能通过。更多信息请参阅<a href="https://livehelp.solidstatelogic.com/Help/BusRouting.html"><span class="hyperlink">母线路由</span></a>。
