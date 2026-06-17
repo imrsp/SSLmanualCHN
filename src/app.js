@@ -461,6 +461,42 @@ function configurePageLinks() {
   });
 }
 
+function renderStandalonePage(page, headingId = "") {
+  state.currentPage = page;
+  elements.breadcrumbs.innerHTML = escapeHtml(page.titleZh);
+  elements.pageCounter.textContent = "";
+  elements.document.innerHTML = `
+    <header class="document-header">
+      <h1>${escapeHtml(page.titleZh)}</h1>
+      <p class="english-title">${escapeHtml(page.title)}</p>
+    </header>
+    <div class="manual-content">${page.contentHtml}</div>
+  `;
+  elements.languageToggle.disabled = true;
+  if (page.headings && page.headings.length > 0) {
+    renderOutline(page);
+  } else {
+    elements.outline.innerHTML = "";
+  }
+  configurePageLinks();
+  configurePageButton(elements.previousPage, null, "上一主题");
+  configurePageButton(elements.nextPage, null, "下一主题");
+  renderNavigation();
+  document.title = page.titleZh + " | " + state.catalog.meta.title;
+  if (headingId) {
+    requestAnimationFrame(function () {
+      var target = document.getElementById(headingId);
+      if (target) {
+        var details = target.closest("details");
+        if (details) details.setAttribute("open", "");
+        target.scrollIntoView();
+      }
+    });
+  } else {
+    window.scrollTo({ top: 0, behavior: "instant" });
+  }
+}
+
 function renderPage(page, headingId = "") {
   state.currentPage = page;
   ensureActiveNavigationExpanded();
@@ -509,6 +545,13 @@ async function route() {
   const { pageId, headingId } = getRoute();
   const summary = state.catalog.pages.find((candidate) => candidate.id === pageId);
   if (!summary) {
+    try {
+      const page = await loadPage(pageId);
+      if (page && page.standalone) {
+        renderStandalonePage(page, headingId);
+        return;
+      }
+    } catch {}
     location.replace(pageRoute(state.catalog.pages[0].id));
     return;
   }
@@ -607,7 +650,11 @@ elements.searchEnToggle.addEventListener("change", function () {
   elements.languageToggle.addEventListener("click", () => {
   if (state.currentPage?.translationStatus !== "complete") return;
   state.language = state.language === "zh" ? "en" : "zh";
-  renderPage(state.currentPage);
+  if (state.currentPage?.standalone) {
+    renderStandalonePage(state.currentPage);
+  } else {
+    renderPage(state.currentPage);
+  }
   if (state.query.trim() && (state.searchIndexZh || state.searchIndexEn)) {
     setTimeout(function () { highlightPageContent(state.query.trim()); }, 0);
   }

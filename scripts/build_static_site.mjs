@@ -164,6 +164,16 @@ function writeDataFiles(jsonPath, value, assignment) {
   );
 }
 
+function prepareStandaloneDocument(filePath) {
+  const raw = stripDocument(fs.readFileSync(filePath, "utf8"));
+  const structured = markInlineImages(
+    normalizeLegacyMarkup(
+      transformAccordions(raw),
+    ),
+  );
+  return addHeadingIds(dedupeIds(structured));
+}
+
 function prepareDocument(filePath, sourceUrl, pageTitle) {
   const structured = markInlineImages(
     normalizeLegacyMarkup(
@@ -243,6 +253,48 @@ const catalog = {
   })),
   pages: pages.map(({ contentHtml, englishHtml, ...page }) => page),
 };
+
+/* ---- Standalone pages (not in catalog / search index) ---- */
+function discoverStandalonePages() {
+  const zhPagesDir = path.join(contentDirectory, "zh", "pages");
+  const files = fs.readdirSync(zhPagesDir).filter(f => f.endsWith('.html'));
+  const standalonePages = [];
+  const manifestFiles = new Set(manifest.map(item => path.basename(item.outputFile)));
+  for (const file of files) {
+    if (manifestFiles.has(file)) continue;
+    const filePath = path.join(zhPagesDir, file);
+    const htmlContent = fs.readFileSync(filePath, 'utf8');
+    const idMatch = htmlContent.match(/<meta\s+name="x-standalone-id"\s+content="([^"]+)"\s*\/?>/i);
+    if (!idMatch) continue;
+    const titleMatch = htmlContent.match(/<meta\s+name="x-standalone-title"\s+content="([^"]*)"\s*\/?>/i);
+    const titleZhMatch = htmlContent.match(/<meta\s+name="x-standalone-title-zh"\s+content="([^"]*)"\s*\/?>/i);
+    standalonePages.push({
+      id: idMatch[1],
+      chinesePath: filePath,
+      title: titleMatch ? titleMatch[1] : '',
+      titleZh: titleZhMatch ? titleZhMatch[1] : '',
+    });
+  }
+  return standalonePages;
+}
+const standalonePages = discoverStandalonePages();
+for (const sp of standalonePages) {
+  const chinese = prepareStandaloneDocument(sp.chinesePath);
+  const standalonePageData = {
+    id: sp.id,
+    title: sp.title,
+    titleZh: sp.titleZh,
+    headings: chinese.headings,
+    contentHtml: chinese.content,
+    standalone: true,
+  };
+  writeDataFiles(
+    path.join(outputDirectory, "data", "pages", `${sp.id}.json`),
+    standalonePageData,
+    (json) => `globalThis.__SSL_MANUAL_DATA__.pages[${JSON.stringify(sp.id)}] = ${json};`,
+  );
+}
+
 const searchIndexZh = pages.map((page) => {
   const chinesePlain = toPlainText(page.contentHtml);
   const chineseBlocks = splitContentIntoBlocks(page.contentHtml, page.headings);

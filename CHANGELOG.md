@@ -1,8 +1,44 @@
 # Changelog
 
-## b0.5-audit1 - 2026-06-18
+## b-audit1 - 2026-06-18
 
 已校对 page 1-10
+
+## b0.7 - 2026-06-16
+
+本版本新增项目自身的关于独立页面，引入 Standalone 页面机制使其独立于目录和搜索索引，同时修复了 macOS 文件系统不区分大小写导致的构建冲突。
+
+### Added
+
+- 新增 `content/zh/pages/about-dmt.html` 关于页面，使用中文介绍项目背景与用途，不参与站点目录与全文搜索索引。
+- 构建脚本 `scripts/build_static_site.mjs` 新增 `prepareStandaloneDocument()` 函数和独立页面处理流程，页面获得 `standalone: true` 标记，构建时自动排除在 `catalog` 和 `search-index` 之外。
+- 前端 `src/app.js` 新增 `renderStandalonePage()` 渲染函数，独立页面不含翻译徽章、英文原文对照、语言切换按钮以及前/后章节导航。
+- `route()` 逻辑在目录匹配未命中时自动尝试加载独立页面作为回退。
+
+### Fixed
+
+- 修复 `about.json` 与 `About.json` 在 macOS APFS 不区分大小写下文件名互相覆盖的冲突——独立页面 ID 改为 `about-dmt`，所有引用同步更新。
+- gitignore 了 /report 目录
+
+### Changed
+
+- footer 中关于页面的链接路径更新为 `#/page/about-dmt`。
+- `docs/ARCHITECTURE.md` 新增「添加独立页面」章节，记录创建步骤与约束条件。
+
+## b0.6 - 2026-06-14
+
+本版本引入 GitHub Actions CI/CD 流水线，`main` 分支推送后自动构建并部署站点至远程服务器，同时优化了项目首页描述文案。
+
+### Added
+
+- 新增 GitHub Actions 部署工作流（`.github/workflows/deploy.yml`）：`main` 分支推送时自动执行 `npm run build`，通过 SSH + rsync 将 `dist/` 上传至远程服务器。
+- 支持 `workflow_dispatch` 手动触发部署，便于紧急发布。
+- 构建步骤使用 Node.js 20 环境，部署密钥通过仓库 Secrets 安全管理。
+
+### Changed
+
+- 优化首页描述文案，更清晰的项目定位与功能说明。
+- 经 b0.61 / b0.62 两次修复，完善部署流程中的目标目录清理与 SSH 密钥配置逻辑。
 
 ## b0.5 - 2026-06-14
 
@@ -20,7 +56,6 @@
 - `hashchange` 处理器不再销毁搜索结果面板，仅隐藏；`route()` 在页面渲染完成后自动恢复搜索结果和高亮。
 - 语言切换后自动重新高亮当前搜索词。
 - 搜索提示文案改为"可搜索中英文标题与正文"。
-
 
 ## b0.3 - 2026-06-13
 
@@ -43,7 +78,7 @@
 
 ### Changed
 
-- 将目录分类 `Live Application Note` 本地化为“LIVE 应用笔记”。
+- 将目录分类 `Live Application Note` 本地化为"LIVE 应用笔记"。
 - 校订三篇应用笔记中的 Dante 网络术语、界面标签、表格、段落结构和技术表述。
 - 将应用笔记页首的编号、主题和版本信息改为非标题语义，同时保留原有视觉样式，避免其进入本页目录。
 - 按项目现有风格格式化三篇中文 HTML，改善换行与缩进。
