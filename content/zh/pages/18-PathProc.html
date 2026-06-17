@@ -19,7 +19,7 @@
   <p class="source">章节：构建演出文件 | 来源：<a href="https://livehelp.solidstatelogic.com/Help/PathProc.html">https://livehelp.solidstatelogic.com/Help/PathProc.html</a></p>
 <h2>信号路径处理</h2>
 
-<p>完整处理路径（Full Path）包含 EQ、Dynamics、Delay 区域以及 All Pass Filter。</p>
+<p>完整处理路径（Full Path）包含 EQ、动态、延迟区域以及全通滤波器。</p>
 <br>
 <div id="accordion">
 
@@ -27,10 +27,10 @@
     <div id="EQ" style="padding: 1em 0;" class="accordion-section-content">
         <h2>EQ</h2>
 
-        <p>所有 Full Path 均配有四段参数均衡器、高通滤波器和低通滤波器。</p>
+        <p>所有完整处理路径均配有四段参数均衡器、高通滤波器和低通滤波器。</p>
 
 
-        <p>要访问 EQ，请打开 Detail View 并选择 <span class="label">EQ</span> 页面。</p>
+        <p>要访问 EQ，请打开详细视图并选择 <span class="label">EQ</span> 页面。</p>
 
         <img style="display: block; margin: 20px auto; width: 750px;" src="https://livehelp.solidstatelogic.com/Help/images/g_DetailEQ.png" alt="">
 
@@ -47,21 +47,21 @@
 
         <p>EQ 频段提供以下形状：</p>
 
-        <p>Band 1（LF）：<span style="font-weight: bold;">Low Shelf</span>（Q 值可调，可在转折频率处产生过冲/下冲）、<span style="font-weight: bold;">ConstantQ</span>（Q 值可调，且增益变化时保持不变）或 <span style="font-weight: bold;">Legacy</span>（模拟典型 SSL G-Series EQ 的 Q 值特性）。</p>
+        <p>Band 1（LF）：<span style="font-weight: bold;">Low Shelf</span>（低频搁架式，Q 值可调，可在转折频率处产生过冲/下冲）、<span style="font-weight: bold;">ConstantQ</span>（Q 值可调，且增益变化时曲线宽度保持不变）或 <span style="font-weight: bold;">Legacy</span>（模拟典型 SSL G-Series EQ 的 Q 值特性）。</p>
 
-        <p>Band 2（LMF）和 Band 3（HMF）：<span style="font-weight: bold;">ConstantQ</span>、<span style="font-weight: bold;">Legacy</span> 或 <span style="font-weight: bold;">Notch</span>（中心频率处设为最大增益衰减；Q 值和频率仍可按常规方式调整）。</p>
+        <p>Band 2（LMF）和 Band 3（HMF）：<span style="font-weight: bold;">ConstantQ</span>、<span style="font-weight: bold;">Legacy</span> 或 <span style="font-weight: bold;">Notch</span>（陷波，增益衰减量固定为最大值；Q 值和频率仍可按常规方式调整）。</p>
 
-        <p>Band 4（HF）：<span style="font-weight: bold;">High Shelf</span>（Q 值可调，可在转折频率处产生过冲/下冲）、<span style="font-weight: bold;">ConstantQ</span> 或 <span style="font-weight: bold;">Legacy</span>。</p>
+        <p>Band 4（HF）：<span style="font-weight: bold;">High Shelf</span>（高频搁架式Q 值可调，可在转折频率处产生过冲/下冲）、<span style="font-weight: bold;">ConstantQ</span> 或 <span style="font-weight: bold;">Legacy</span>。</p>
 
         <p>要更改频段形状：</p>
 
-        <p>触摸相应频段的节点；节点会以颜色表示已被选择；</p>
+        <p>触摸相应频段的节点；节点会以改变颜色表示已被选择；</p>
 
-        <p>触摸图形右侧、<span class="label">Filter&nbsp;IN</span> 按钮下方的按钮，打开形状选项菜单，然后选择所需形状。</p>
+        <p>触摸 EQ 显示图右侧、<span class="label">Filter&nbsp;IN</span> 按钮下方的按钮，打开形状选项菜单，然后选择所需形状。</p>
 
         <h2>FFT 分析仪</h2>
 
-        <p>Detail View 的 EQ 图形可非常精确地显示 EQ 和滤波器的频率响应，既可显示各个频段，也可显示总体效果。</p>
+        <p>详细视图的 EQ 图形可非常精确地显示 EQ 和滤波器的频率响应，既可显示各个频段，也可显示总体效果。</p>
 
         <p>
             使用 <span class="label">Analyser</span> 按钮查看信号的频谱分析。
