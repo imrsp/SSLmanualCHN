@@ -19,7 +19,7 @@
   <p class="source">章节：构建演出 | 来源：<a href="https://livehelp.solidstatelogic.com/Help/Clocking.html">https://livehelp.solidstatelogic.com/Help/Clocking.html</a></p>
 <h2>时钟与同步</h2>
 
-<p>控制台和所有舞台接口箱必须共用同一个数字时钟同步基准。</p>
+<p>控制台和所有舞台接口箱必须共用同一个数字时钟同步参考源。</p>
 
 <p>通常应使用 Live 的内部时钟为控制台和舞台接口箱系统提供时钟。除非特定应用确有需要，否则无需外部时钟。任何外部时钟的采样率都<span style="font-weight: bold;">必须</span>与 Live 控制台当前运行的采样率一致（或使用 PAL 25/NTSC 29.97 视频信号）。</p>
 
@@ -53,7 +53,7 @@
 </p>
 
 <p>
-    可配置 <b>Main</b> 和 <b>Backup</b> 时钟源。如果 Main 时钟源丢失，控制台会自动切换至 Backup 时钟源。如果 Backup 时钟源也丢失，控制台会改用内部时钟。
+    可配置 <b>Main（主）</b> 和 <b>Backup（备）</b> 时钟源。如果主时钟源丢失，控制台会自动切换至备时钟源。如果备时钟源也丢失，控制台会改用内部时钟。
 </p>
 
 <p>
@@ -65,23 +65,23 @@
 <img style="display: block; margin: 15px auto;" src="https://livehelp.solidstatelogic.com/Help/images/g_OptionsSystemClock.png" alt="">
 
 <p>
-    如果指定的时钟源丢失，请先恢复该时钟源，再使用 <span class="label">Reclock</span> 按钮尝试重新锁定至 Main/Backup 时钟源。
+    如果指定的时钟源丢失，请先恢复该时钟源，再使用 <span class="label">Reclock</span> 按钮尝试重新锁定至主/备时钟源。
 </p>
 
-<p>主屏幕顶部的状态栏会显示时钟源变更消息以提醒操作员。状态栏图标还会指示当前时钟是否已偏离所定义的 <b>Main</b> 时钟源：</p>
+<p>主屏幕顶部的状态栏会显示时钟源变更消息以提醒操作员。状态栏图标还会指示当前时钟是否已偏离所定义的 <b>主</b> 时钟源：</p>
 
 <table border="0" cellpadding="0" cellspacing="10">
     <tbody>
         <tr>
             <td style="vertical-align: middle; width: 20px;"><img style="margin: 0px 10px 0px 0px;" src="https://livehelp.solidstatelogic.com/Help/images/g_ClockIconOrange.png" alt=""></td>
             <td style="vertical-align: top;">
-                <span style="font-weight:bold;">橙色</span>：<b>Main</b> 时钟源丢失，当前使用 <b>Backup</b> 时钟源。
+                <span style="font-weight:bold;">橙色</span>：<b>主</b> 时钟源丢失，当前使用 <b>备</b> 时钟源。
             </td>
         </tr>
         <tr>
             <td style="vertical-align: middle; width: 20px;"><img style="margin: 0px 10px 10px 0px;" src="https://livehelp.solidstatelogic.com/Help/images/g_ClockIconRed.png" alt=""></td>
             <td style="vertical-align: top;">
-                <span style="font-weight:bold;">红色</span>：<b>Main</b> 和 <b>Backup</b> 时钟源均丢失，当前使用内部时钟。
+                <span style="font-weight:bold;">红色</span>：<b>主</b>  <b>备</b> 时钟源均丢失，当前使用内部时钟。
             </td>
         </tr>
     </tbody>
