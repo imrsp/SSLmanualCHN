@@ -116,25 +116,25 @@
 <h2 id="RoutingModules">将效果路由至路径插入点</h2>
 
 <span class="note">
-    <span class="notetitle">注意：</span>效果槽位/模块可设置为 mono、stereo、LCR 等格式。该格式适用于效果的输入、输出及键控（如适用）路由。
+    <span class="notetitle">注意：</span>效果槽位/模块可设置为单声道、立体声、LCR 等格式。该格式适用于效果的输入、输出及键控（如适用）路由。
 </span>
 
-<p>可使用路径 Detail View 中的 Insert Routing 显示界面，或通过 Effects 菜单（<span class="label">MENU</span> &gt; <span class="label">Effects</span>）将效果路由至路径插入点。</p>
+<p>可使用路径详细视图中的 Insert Routing 显示界面，或通过效果器菜单（<span class="label">MENU</span> &gt; <span class="label">Effects</span>）将效果路由至路径插入点。</p>
 
 <p>
-    按 <span class="label">Route Send</span> 将打开 Routing View，以便将插入发送路由至效果。轻触控制台（名称以“LIVE...”开头），然后轻触
+    按 <span class="label">Route Send</span> 将打开路由视图，以便将插入发送路由至效果。轻触控制台（名称以“LIVE...”开头），然后轻触
     <span class="label">Effects Rack</span>。选择效果，轻触 <span class="label">Input</span>，再按 <span class="label">Make</span> 或 <span class="label">Make All</span>（取决于效果格式）。
 </p>
 
 <p>
     按住 <span class="label">Route Return</span> 并选择 <span class="label">Auto-route</span>，可自动从发送所用的同一效果路由返回。
-    如果返回并非来自发送所用的同一效果，也可按一次 <span class="label">Route Return</span> 打开 Routing View。
+    如果返回并非来自发送所用的同一效果，也可按一次 <span class="label">Route Return</span> 打开路由视图。
 </p>
 
-<p>路径的插入发送和返回路由至某个效果后，该效果会出现在该插入点的路径详细对话框中，并可通过 Channel View 屏幕或效果机架屏幕进行完整控制。</p>
+<p>路径的插入发送和返回路由至某个效果后，该效果会出现在该插入点的路径详细对话框中，并可通过通道视图屏幕或效果机架屏幕进行完整控制。</p>
 
 
-<span class="note"><span class="notetitle">注意：</span>对于 mono、stereo、LCR、4.0 和 5.1 效果，效果模块格式应与其插入通道的格式一致。要路由效果的所有声道分支，只需选择模块名称，然后在路由页面按 <span class="label">Make</span>。如果在按 <span class="label">Make</span> 前明确选择 L/C/R 分支，则只会路由所选分支。</span>
+<span class="note"><span class="notetitle">注意：</span>对于单声道、立体声、LCR、4.0 和 5.1 效果，效果模块格式应与其插入通道的格式一致。要路由效果的所有声道分支，只需选择模块名称，然后在路由页面按 <span class="label">Make</span>。如果在按 <span class="label">Make</span> 前明确选择 L/C/R 分支，则只会路由所选分支。</span>
 
 <p>
     也可直接从效果机架槽位进行路由。使用 <span class="label">In&nbsp;Route</span>、<span class="label">Out&nbsp;Route</span> 和 <span class="label">Key&nbsp;Route</span> 按钮打开相应的路由页面。此方法还允许将效果模块“菊花链式”连接：先将一个模块的输出路由至下一个模块的输入，再将最后一个模块路由回通道。<br>
@@ -148,7 +148,7 @@
 
 <h2>将 Stem 用作效果通道</h2>
 
-<p>对于混响和延迟，SSL Live 控制台完全支持传统的 Aux Send &gt; Effect &gt; Channel Return 工作流程。不过，将 Stem 用作<i>效果通道</i>可能更具优势。</p>
+<p>对于混响和延迟，SSL Live 控制台完全支持传统的 Aux 发送&gt; 效果器 &gt; Channel 返回工作流程。不过，将 Stem 用作<i>效果通道</i>可能更具优势。</p>
 
 <p>在此工作流程中：</p>
 <p><span style="font-weight:bold;">发送至 Stem 的信号即为效果发送。</span></p>
@@ -160,18 +160,18 @@
 <p>此工作流程具有许多优势：</p>
 <p style="margin-bottom:0px">
     <ul>
-        <li>可从 Stem Detail View 的 Insert 区域轻松访问效果。</li>
+        <li>可从 Stem 详细视图的 Insert 区域轻松访问效果。</li>
         <li>效果发送和返回全部位于同一条路径中，意味着需要管理的推子更少，DSP 占用也更低。</li>
         <li>Stem 提供的馈送点选项远多于 Aux。</li>
     </ul>
 </p>
 
 <span class="note">
-    <span class="notetitle">提示：</span>如果希望采用传统的 Aux Send &gt; Effect &gt; Channel Return 工作方式，
+    <span class="notetitle">提示：</span>如果希望采用传统的 Aux 发送&gt; 效果器&gt; Channel 返回工作方式，
     建议将效果输出路由至通道的 <b>Insert Return</b>（不要忘记启用 <span class="label">Insert In</span>），
     并可根据需要将插入点移至通道处理顺序的开头。
-    这样便可在 Detail View 的通道 Insert 页面中看到板载效果的控件。<br>
-    如果将效果输出路由至通道的 <b>Input</b>，则只能返回 Effects Rack 页面调节效果参数。
+    这样便可在详细视图的通道 Insert 页面中看到板载效果的控件。<br>
+    如果将效果输出路由至通道的 <b>输入</b>，则只能返回效果器机架页面调节效果参数。
 </span>
 
 
