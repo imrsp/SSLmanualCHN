@@ -36,6 +36,12 @@
   --grid-line-alpha: rgba(255, 255, 255, .018);
   --grid-line-beta: rgba(255, 255, 255, .012);
 
+  /* — About-link glow (follows --acid across themes) — */
+  --about-glow-r: 199;
+  --about-glow-g: 255;
+  --about-glow-b: 55;
+  --about-label-text: #d4dbd6;
+
   /* — Layout tokens */
   --sidebar-width: 280px;
   --topbar-height: 72px;
@@ -492,7 +498,9 @@ kbd { padding: 2px 5px; border: 1px solid var(--line); color: var(--muted); back
   height: 1.5px;
   border-radius: 1.5px;
   background: var(--acid);
-  box-shadow: 0 0 3px rgba(199,255,55,.4), 0 0 8px rgba(199,255,55,.15);
+  box-shadow:
+    0 0 3px rgb(var(--about-glow-r) var(--about-glow-g) var(--about-glow-b) / .4),
+    0 0 8px rgb(var(--about-glow-r) var(--about-glow-g) var(--about-glow-b) / .15);
   opacity: 0;
   transition: opacity .25s ease;
 }
@@ -503,16 +511,23 @@ kbd { padding: 2px 5px; border: 1px solid var(--line); color: var(--muted); back
 .sidebar-about:hover .about-label {
   transform: translateY(-1px);
   opacity: 1;
-  text-shadow: 0 0 3px rgba(199,255,55,.45), 0 0 12px rgba(199,255,55,.2);
-  color: #d4dbd6;
+  text-shadow:
+    0 0 3px rgb(var(--about-glow-r) var(--about-glow-g) var(--about-glow-b) / .45),
+    0 0 12px rgb(var(--about-glow-r) var(--about-glow-g) var(--about-glow-b) / .2);
+  color: var(--about-label-text);
 }
 .sidebar-about:hover .about-label::after {
   opacity: 1;
 }
 
 @keyframes about-pulse {
-  0%, 100% { text-shadow: 0 0 2px rgba(199,255,55,0); color: var(--muted); }
-  50% { text-shadow: 0 0 3px rgba(199,255,55,.45), 0 0 12px rgba(199,255,55,.2); color: #d4dbd6; }
+  0%, 100% { text-shadow: none; color: var(--muted); }
+  50% {
+    text-shadow:
+      0 0 3px rgb(var(--about-glow-r) var(--about-glow-g) var(--about-glow-b) / .45),
+      0 0 12px rgb(var(--about-glow-r) var(--about-glow-g) var(--about-glow-b) / .2);
+    color: var(--about-label-text);
+  }
 }
 
 .reader {
@@ -901,8 +916,8 @@ kbd { padding: 2px 5px; border: 1px solid var(--line); color: var(--muted); back
   --ink: #2d332f;
   --muted: #6e7a72;
 
-  /* — Accent & Status tokens (brand accent preserved) — */
-  --acid: #c7ff37;
+  /* — Accent & Status tokens (adjusted for light bg contrast) — */
+  --acid: #8cc63f;
   --cyan: #0f8e9e;
   --amber: #c97f00;
   --red: #c92a2a;
@@ -913,6 +928,12 @@ kbd { padding: 2px 5px; border: 1px solid var(--line); color: var(--muted); back
   --reader-toolbar-bg: rgba(245, 246, 243, .92);
   --grid-line-alpha: rgba(0, 0, 0, .04);
   --grid-line-beta: rgba(0, 0, 0, .025);
+
+  /* — About-link glow */
+  --about-glow-r: 140;
+  --about-glow-g: 198;
+  --about-glow-b: 63;
+  --about-label-text: #2d332f;
 }
 
 :root[data-theme="light"] .document { color: var(--ink); }
@@ -928,17 +949,21 @@ kbd { padding: 2px 5px; border: 1px solid var(--line); color: var(--muted); back
 :root[data-theme="light"] .nav-group-toggle { color: #47524a; }
 :root[data-theme="light"] .nav-group-toggle:hover { color: #1a1f1b; background: #e0e3df; }
 :root[data-theme="light"] .search-box { background: #eceeeb; border-color: #c8cdc9; }
-:root[data-theme="light"] .search-box:focus-within { border-color: var(--acid); box-shadow: 0 0 0 3px rgba(199,255,55,.25); }
+:root[data-theme="light"] .search-box:focus-within { border-color: var(--acid); box-shadow: 0 0 0 3px rgba(140,198,63,.25); }
 :root[data-theme="light"] .search-toggle input { background: #c8cdc9; }
 :root[data-theme="light"] .sidebar-footer { background: #eceeeb; color: var(--muted); }
-:root[data-theme="light"] .sidebar-about:hover .about-label { color: #2d332f; text-shadow: none; }
+:root[data-theme="light"] .sidebar-about:hover .about-label { color: var(--about-label-text); }
 :root[data-theme="light"] .manual-disclosure { background: #eceeeb; }
 :root[data-theme="light"] .manual-disclosure summary { background: #e4e7e3; }
 :root[data-theme="light"] .manual-disclosure summary:hover { background: #dcdfdb; }
 :root[data-theme="light"] .manual-disclosure-content { border-top-color: var(--line); }
-:root[data-theme="light"] .document { color: var(--ink); }
 :root[data-theme="light"] .result-title,
 :root[data-theme="light"] .result-excerpt mark { color: #0f8e9e; }
+:root[data-theme="light"] .document .note {
+  color: #4a3b12;
+  background: rgba(201, 127, 0, .07);
+  border-color: #d4b97a;
+}
 
 /* — Theme toggle emoji size */
 #themeToggle { font-size: 16px; line-height: 1; }

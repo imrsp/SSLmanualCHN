@@ -78,7 +78,7 @@
 
   /* ——— Accent & Status ——— */
   /* >>> FUTURE COLOUR EDITOR: override these 4 variables <<< */
-  --acid: #c7ff37;              /* brand accent preserved */
+  --acid: #8cc63f;              /* darker green for light bg readabilty */
   --cyan: #0f8e9e;              /* link colour (lowered contrast) */
   --amber: #c97f00;             /* warning */
   --red: #c92a2a;               /* error */

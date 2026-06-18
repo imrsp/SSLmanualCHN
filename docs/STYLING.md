@@ -60,7 +60,7 @@
 | `--panel-soft` | `#1d2420` | `#e8eae7` |
 | `--line` | `#303a34` | `#d4d9d6` |
 | `--black` | `#0b0e0c` | `#f5f6f3` |
-| `--acid` | `#c7ff37` | `#c7ff37` |
+| `--acid` | `#c7ff37` | `#8cc63f` |
 | `--cyan` | `#43dbe8` | `#0f8e9e` |
 | `--amber` | `#ffba43` | `#c97f00` |
 | `--red` | `#f15b52` | `#c92a2a` |
