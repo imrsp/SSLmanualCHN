@@ -97,7 +97,7 @@ function syncThemeButton() {
   const btn = elements.themeToggle;
   if (!btn) return;
   const effective = getEffectiveTheme();
-  btn.textContent = effective === "dark" ? "\u{1F319} / \u2600\uFE0F" : "\u2600\uFE0F / \u{1F319}";
+  /* SVG handles visual state via [data-theme] on <html> */
   if (state.theme === "auto") {
     btn.setAttribute("aria-label", "主题跟随系统（" + (effective === "dark" ? "深色" : "浅色") + "）");
     btn.title = "";
