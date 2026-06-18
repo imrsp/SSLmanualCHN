@@ -1,15 +1,42 @@
 :root {
   color-scheme: dark;
-  --ink: #eef2ed;
-  --muted: #8d9891;
+
+  /* — Surface & Background tokens */
+  --black: #0b0e0c;
   --panel: #171c19;
   --panel-soft: #1d2420;
   --line: #303a34;
-  --black: #0b0e0c;
+
+  /* — Text tokens */
+  --ink: #eef2ed;
+  --muted: #8d9891;
+
+  /* — Accent & Status tokens (customizable for future color editor) */
   --acid: #c7ff37;
   --cyan: #43dbe8;
   --amber: #ffba43;
   --red: #f15b52;
+
+  /* — Semantic alias tokens (for future theme customisation) */
+  --color-bg-page: var(--black);
+  --color-surface: var(--panel);
+  --color-surface-elevated: var(--panel-soft);
+  --color-border: var(--line);
+  --color-text-primary: var(--ink);
+  --color-text-secondary: var(--muted);
+  --color-accent: var(--acid);
+  --color-accent-link: var(--cyan);
+  --color-warning: var(--amber);
+  --color-error: var(--red);
+
+  /* — Surface convenience tokens */
+  --topbar-bg: rgba(12, 15, 13, .94);
+  --sidebar-bg: rgba(18, 22, 19, .97);
+  --reader-toolbar-bg: rgba(11, 14, 12, .92);
+  --grid-line-alpha: rgba(255, 255, 255, .018);
+  --grid-line-beta: rgba(255, 255, 255, .012);
+
+  /* — Layout tokens */
   --sidebar-width: 280px;
   --topbar-height: 72px;
   font-family: -apple-system, BlinkMacSystemFont, "Noto Sans CJK SC", "PingFang SC", sans-serif;
@@ -25,8 +52,8 @@ body {
   overflow-x: hidden;
   min-width: 320px;
   background:
-    linear-gradient(rgba(255,255,255,.018) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255,255,255,.012) 1px, transparent 1px),
+    linear-gradient(var(--grid-line-alpha) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid-line-beta) 1px, transparent 1px),
     var(--black);
   background-size: 32px 32px;
   color: var(--ink);
@@ -53,7 +80,7 @@ button, a { -webkit-tap-highlight-color: transparent; }
   min-width: 0;
   height: var(--topbar-height);
   border-bottom: 1px solid var(--line);
-  background: rgba(12, 15, 13, .94);
+    background: var(--topbar-bg);
   backdrop-filter: blur(18px);
 }
 
@@ -111,7 +138,7 @@ button, a { -webkit-tap-highlight-color: transparent; }
   flex-direction: column;
   overflow: hidden;
   border-right: 1px solid var(--line);
-  background: rgba(18, 22, 19, .97);
+    background: var(--sidebar-bg);
 }
 
 .search-panel {
@@ -503,7 +530,7 @@ kbd { padding: 2px 5px; border: 1px solid var(--line); color: var(--muted); back
   min-height: 56px;
   align-items: center;
   border-bottom: 1px solid var(--line);
-  background: rgba(11,14,12,.92);
+    background: var(--reader-toolbar-bg);
   backdrop-filter: blur(14px);
 }
 
@@ -860,3 +887,58 @@ kbd { padding: 2px 5px; border: 1px solid var(--line); color: var(--muted); back
   .page-navigation { margin-top: 45px; }
   .page-navigation button { min-height: 76px; padding: 14px; }
 }
+
+:root[data-theme="light"] {
+  color-scheme: light;
+
+  /* — Surface & Background tokens — */
+  --black: #f5f6f3;
+  --panel: #f0f1ef;
+  --panel-soft: #e8eae7;
+  --line: #d4d9d6;
+
+  /* — Text tokens — */
+  --ink: #2d332f;
+  --muted: #6e7a72;
+
+  /* — Accent & Status tokens (brand accent preserved) — */
+  --acid: #c7ff37;
+  --cyan: #0f8e9e;
+  --amber: #c97f00;
+  --red: #c92a2a;
+
+  /* — Surface convenience tokens — */
+  --topbar-bg: rgba(245, 246, 243, .94);
+  --sidebar-bg: rgba(240, 241, 239, .97);
+  --reader-toolbar-bg: rgba(245, 246, 243, .92);
+  --grid-line-alpha: rgba(0, 0, 0, .04);
+  --grid-line-beta: rgba(0, 0, 0, .025);
+}
+
+:root[data-theme="light"] .document { color: var(--ink); }
+:root[data-theme="light"] .document-header h1 { color: #1d231f; }
+:root[data-theme="light"] .document h2 { color: #1a1f1b; }
+:root[data-theme="light"] .document h3 { color: var(--cyan); }
+:root[data-theme="light"] .nav-section-title { color: #47524a; background: #e8eae6; }
+:root[data-theme="light"] .nav-section-title:hover { color: #1a1f1b; background: #e0e3df; }
+:root[data-theme="light"] .nav-link { color: #47524a; }
+:root[data-theme="light"] .nav-link:hover { color: #1a1f1b; background: #e0e3df; }
+:root[data-theme="light"] .nav-link.active { border-left-color: var(--acid); background: #dce8d2; color: #1a1f1b; }
+:root[data-theme="light"] .nav-group { background: rgba(0,0,0,.03); }
+:root[data-theme="light"] .nav-group-toggle { color: #47524a; }
+:root[data-theme="light"] .nav-group-toggle:hover { color: #1a1f1b; background: #e0e3df; }
+:root[data-theme="light"] .search-box { background: #eceeeb; border-color: #c8cdc9; }
+:root[data-theme="light"] .search-box:focus-within { border-color: var(--acid); box-shadow: 0 0 0 3px rgba(199,255,55,.25); }
+:root[data-theme="light"] .search-toggle input { background: #c8cdc9; }
+:root[data-theme="light"] .sidebar-footer { background: #eceeeb; color: var(--muted); }
+:root[data-theme="light"] .sidebar-about:hover .about-label { color: #2d332f; text-shadow: none; }
+:root[data-theme="light"] .manual-disclosure { background: #eceeeb; }
+:root[data-theme="light"] .manual-disclosure summary { background: #e4e7e3; }
+:root[data-theme="light"] .manual-disclosure summary:hover { background: #dcdfdb; }
+:root[data-theme="light"] .manual-disclosure-content { border-top-color: var(--line); }
+:root[data-theme="light"] .document { color: var(--ink); }
+:root[data-theme="light"] .result-title,
+:root[data-theme="light"] .result-excerpt mark { color: #0f8e9e; }
+
+/* — Theme toggle emoji size */
+#themeToggle { font-size: 16px; line-height: 1; }

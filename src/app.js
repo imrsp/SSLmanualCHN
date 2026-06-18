@@ -7,6 +7,7 @@ const state = {
   currentPage: null,
   query: "",
   language: "zh",
+  theme: "auto",
   expandedSections: new Set(),
   expandedGroups: new Set(),
 };
@@ -23,6 +24,7 @@ const elements = {
   breadcrumbs: document.querySelector("#breadcrumbs"),
   document: document.querySelector("#document"),
   outline: document.querySelector("#outline"),
+  themeToggle: document.querySelector("#themeToggle"),
   languageToggle: document.querySelector("#languageToggle"),
   previousPage: document.querySelector("#previousPage"),
   nextPage: document.querySelector("#nextPage"),
@@ -33,6 +35,39 @@ const elements = {
   scrim: document.querySelector("#scrim"),
 
 };
+
+/* — Theme management — */
+function getEffectiveTheme() {
+  if (state.theme === "dark") return "dark";
+  if (state.theme === "light") return "light";
+  return window.matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark";
+}
+
+function applyTheme() {
+  const effective = getEffectiveTheme();
+  document.documentElement.setAttribute("data-theme", effective);
+  const meta = document.querySelector('meta[name="theme-color"]');
+  if (meta) meta.content = effective === "dark" ? "#111513" : "#f5f6f3";
+}
+
+function cycleTheme() {
+  const order = ["auto", "dark", "light"];
+  const idx = order.indexOf(state.theme);
+  state.theme = order[(idx + 1) % order.length];
+  try { localStorage.setItem("ssl-manual-theme", state.theme); } catch (_) {}
+  applyTheme();
+  syncThemeButton();
+}
+
+function syncThemeButton() {
+  const btn = elements.themeToggle;
+  if (!btn) return;
+  const effective = getEffectiveTheme();
+  btn.textContent = effective === "dark" ? "\u{1F319} / \u2600\uFE0F" : "\u2600\uFE0F / \u{1F319}";
+  const label = state.theme === "auto" ? "跟随系统" : state.theme === "dark" ? "深色" : "浅色";
+  btn.setAttribute("aria-label", "切换主题（当前: " + label + "）");
+  btn.title = "主题: " + label + "（点击循环）";
+}
 
 const escapeHtml = (value) =>
   value.replace(/[&<>"']/g, (character) => ({
@@ -586,6 +621,20 @@ async function start() {
   try {
     state.catalog = await loadData("catalog.json", () => localData.catalog);
     expandAllNavigation();
+    /* — Init theme from localStorage — */
+    try {
+      const saved = localStorage.getItem("ssl-manual-theme");
+      if (saved === "dark" || saved === "light" || saved === "auto") state.theme = saved;
+    } catch (_) {}
+    applyTheme();
+    syncThemeButton();
+    const themeMedia = window.matchMedia("(prefers-color-scheme: light)");
+    themeMedia.addEventListener("change", function () {
+      if (state.theme === "auto") {
+        applyTheme();
+        syncThemeButton();
+      }
+    });
     elements.databaseStatus.textContent =
       `${state.catalog.meta.pageCount} TOPICS`;
     elements.searchLabel.textContent =
@@ -647,6 +696,7 @@ elements.searchEnToggle.addEventListener("change", function () {
       });
     }
   });
+  elements.themeToggle.addEventListener("click", function () { cycleTheme(); });
   elements.languageToggle.addEventListener("click", () => {
   if (state.currentPage?.translationStatus !== "complete") return;
   state.language = state.language === "zh" ? "en" : "zh";
