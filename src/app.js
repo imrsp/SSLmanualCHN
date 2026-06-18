@@ -25,6 +25,7 @@ const elements = {
   document: document.querySelector("#document"),
   outline: document.querySelector("#outline"),
   themeToggle: document.querySelector("#themeToggle"),
+  themeTooltip: document.querySelector("#themeTooltip"),
   languageToggle: document.querySelector("#languageToggle"),
   previousPage: document.querySelector("#previousPage"),
   nextPage: document.querySelector("#nextPage"),
@@ -94,18 +95,15 @@ function cycleTheme() {
 }
 
 function syncThemeButton() {
-  const btn = elements.themeToggle;
-  if (!btn) return;
+  const tooltip = elements.themeTooltip;
+  if (!tooltip) return;
   const effective = getEffectiveTheme();
-  /* SVG handles visual state via [data-theme] on <html> */
   if (state.theme === "auto") {
-    btn.setAttribute("aria-label", "主题跟随系统（" + (effective === "dark" ? "深色" : "浅色") + "）");
-    btn.title = "";
+    tooltip.textContent = "主题跟随系统（" + (effective === "dark" ? "深色" : "浅色") + "）";
     return;
   }
   const label = effective === "dark" ? "深色" : "浅色";
-  btn.setAttribute("aria-label", "当前" + label + "，点击切换，长按恢复跟随系统");
-  btn.title = "";
+  tooltip.textContent = "当前" + label + "，点击切换，长按恢复跟随系统";
 }
 
 const escapeHtml = (value) =>

@@ -567,6 +567,28 @@ kbd { padding: 2px 5px; border: 1px solid var(--line); color: var(--muted); back
 }
 .reader-actions button:hover, .reader-actions a:hover { color: var(--acid); }
 .reader-actions button:disabled { color: #4f5852; cursor: default; }
+
+/* — Theme toggle tooltip — */
+.theme-toggle-wrapper { position: relative; display: inline-flex; }
+.theme-tooltip {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 100;
+  display: none;
+  white-space: nowrap;
+  padding: 6px 10px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: var(--panel);
+  color: var(--ink);
+  font: 11px/1.4 Consolas, monospace;
+  letter-spacing: .02em;
+  box-shadow: 0 8px 24px rgba(0,0,0,.35);
+  pointer-events: none;
+}
+.theme-toggle-wrapper:hover .theme-tooltip { display: block; }
 #outlineButton { display: none; }
 
 .reader-layout {

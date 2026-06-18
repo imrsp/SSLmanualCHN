@@ -55,7 +55,8 @@
       <div class="reader-toolbar">
         <div class="breadcrumbs" id="breadcrumbs"></div>
         <div class="reader-actions">
-          <button id="themeToggle" type="button" aria-label="切换主题">
+          <span class="theme-toggle-wrapper">
+          <button id="themeToggle" type="button" aria-label="切换主题" aria-describedby="themeTooltip">
           <svg class="theme-toggle-svg" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true">
             <g class="sun-group">
               <circle cx="12" cy="12" r="5"/>
@@ -74,7 +75,9 @@
               </g>
             </g>
           </svg>
-        </button>
+          </button>
+          <span class="theme-tooltip" id="themeTooltip" role="tooltip">点击切换深色/浅色，长按恢复跟随系统</span>
+          </span>
           <button id="outlineButton" type="button">本页目录</button>
           <button id="languageToggle" type="button">中 / EN</button>
         </div>
