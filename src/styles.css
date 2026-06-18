@@ -946,6 +946,7 @@ kbd { padding: 2px 5px; border: 1px solid var(--line); color: var(--muted); back
 :root[data-theme="light"] .document h3 { color: var(--cyan); }
 :root[data-theme="light"] .nav-section-title { color: #47524a; background: #e8eae6; }
 :root[data-theme="light"] .nav-section-title:hover { color: #1a1f1b; background: #e0e3df; }
+:root[data-theme="light"] .nav-section { border-bottom-color: var(--line); }
 :root[data-theme="light"] .nav-link { color: #47524a; }
 :root[data-theme="light"] .nav-link:hover { color: #1a1f1b; background: #e0e3df; }
 :root[data-theme="light"] .nav-link.active { border-left-color: var(--acid); background: #dce8d2; color: #1a1f1b; }
@@ -955,6 +956,12 @@ kbd { padding: 2px 5px; border: 1px solid var(--line); color: var(--muted); back
 :root[data-theme="light"] .search-box { background: #eceeeb; border-color: #c8cdc9; }
 :root[data-theme="light"] .search-box:focus-within { border-color: var(--acid); box-shadow: 0 0 0 3px rgba(140,198,63,.25); }
 :root[data-theme="light"] .search-toggle input { background: #c8cdc9; }
+:root[data-theme="light"] .search-toggle input:checked { background: var(--acid); }
+:root[data-theme="light"] .search-toggle input:checked::after { background: #f5f6f3; }
+:root[data-theme="light"] .search-result { border-bottom-color: var(--line); }
+:root[data-theme="light"] .search-result:hover,
+:root[data-theme="light"] .search-result:focus-visible { background: #e3e7e1; }
+:root[data-theme="light"] .search-result:active { background: #dbdfd9; }
 :root[data-theme="light"] .sidebar-footer { background: #eceeeb; color: var(--muted); }
 :root[data-theme="light"] .sidebar-about:hover .about-label { color: var(--about-label-text); }
 :root[data-theme="light"] .manual-disclosure { background: #eceeeb; }
@@ -963,6 +970,8 @@ kbd { padding: 2px 5px; border: 1px solid var(--line); color: var(--muted); back
 :root[data-theme="light"] .manual-disclosure-content { border-top-color: var(--line); }
 :root[data-theme="light"] .result-title,
 :root[data-theme="light"] .result-excerpt mark { color: #0f8e9e; }
+:root[data-theme="light"] .result-excerpt mark { background: rgba(199,255,55,.25); }
+:root[data-theme="light"] .search-highlight { background: rgba(255,186,67,.2); color: #2d332f; }
 :root[data-theme="light"] .outline::before { color: #8d9891; }
 :root[data-theme="light"] .outline a { color: #6e7a72; }
 :root[data-theme="light"] .scrim { background: rgba(0,0,0,.15); }
