@@ -29,6 +29,10 @@
   --color-warning: var(--amber);
   --color-error: var(--red);
 
+  /* — Shadow tokens */
+  --outline-shadow: rgba(0,0,0,.55);
+  --sidebar-shadow: rgba(0,0,0,.5);
+
   /* — Surface convenience tokens */
   --topbar-bg: rgba(12, 15, 13, .94);
   --sidebar-bg: rgba(18, 22, 19, .97);
@@ -811,8 +815,8 @@ kbd { padding: 2px 5px; border: 1px solid var(--line); color: var(--muted); back
     max-height: calc(100vh - 100px);
     padding: 20px;
     border: 1px solid var(--line);
-    background: #171c19;
-    box-shadow: 0 24px 70px rgba(0,0,0,.55);
+    background: var(--panel);
+    box-shadow: 0 24px 70px var(--outline-shadow);
   }
   .outline.open { display: block; }
   #outlineButton { display: inline; }
@@ -860,7 +864,7 @@ kbd { padding: 2px 5px; border: 1px solid var(--line); color: var(--muted); back
     width: min(88vw, 350px);
     transform: translateX(-105%);
     transition: transform .24s ease;
-    box-shadow: 20px 0 60px rgba(0,0,0,.5);
+    box-shadow: 20px 0 60px var(--sidebar-shadow);
   }
   .sidebar.open { transform: translateX(0); }
   .scrim {
@@ -959,6 +963,9 @@ kbd { padding: 2px 5px; border: 1px solid var(--line); color: var(--muted); back
 :root[data-theme="light"] .manual-disclosure-content { border-top-color: var(--line); }
 :root[data-theme="light"] .result-title,
 :root[data-theme="light"] .result-excerpt mark { color: #0f8e9e; }
+:root[data-theme="light"] .outline::before { color: #8d9891; }
+:root[data-theme="light"] .outline a { color: #6e7a72; }
+:root[data-theme="light"] .scrim { background: rgba(0,0,0,.15); }
 :root[data-theme="light"] .document .note {
   color: #4a3b12;
   background: rgba(201, 127, 0, .07);
