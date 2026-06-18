@@ -50,10 +50,44 @@ function applyTheme() {
   if (meta) meta.content = effective === "dark" ? "#111513" : "#f5f6f3";
 }
 
+/* — Theme management: quick-tap toggles, long-press resets to auto — */
+let pressTimer = null;
+const LONG_PRESS_MS = 500;
+let wasLongPress = false;
+
+function handleThemePress(e) {
+  if (e.button !== 0) return;
+  wasLongPress = false;
+  pressTimer = setTimeout(function () {
+    wasLongPress = true;
+    pressTimer = null;
+    /* Long press → reset to auto */
+    state.theme = "auto";
+    try { localStorage.removeItem("ssl-manual-theme"); } catch (_) {}
+    applyTheme();
+    syncThemeButton();
+  }, LONG_PRESS_MS);
+}
+
+function handleThemeRelease(e) {
+  if (wasLongPress) return;
+  if (pressTimer) {
+    clearTimeout(pressTimer);
+    pressTimer = null;
+    cycleTheme();
+  }
+}
+
+function handleThemeCancel() {
+  if (pressTimer) {
+    clearTimeout(pressTimer);
+    pressTimer = null;
+  }
+}
+
 function cycleTheme() {
-  const order = ["auto", "dark", "light"];
-  const idx = order.indexOf(state.theme);
-  state.theme = order[(idx + 1) % order.length];
+  const effective = getEffectiveTheme();
+  state.theme = effective === "dark" ? "light" : "dark";
   try { localStorage.setItem("ssl-manual-theme", state.theme); } catch (_) {}
   applyTheme();
   syncThemeButton();
@@ -64,9 +98,14 @@ function syncThemeButton() {
   if (!btn) return;
   const effective = getEffectiveTheme();
   btn.textContent = effective === "dark" ? "\u{1F319} / \u2600\uFE0F" : "\u2600\uFE0F / \u{1F319}";
-  const label = state.theme === "auto" ? "跟随系统" : state.theme === "dark" ? "深色" : "浅色";
-  btn.setAttribute("aria-label", "切换主题（当前: " + label + "）");
-  btn.title = "主题: " + label + "（点击循环）";
+  if (state.theme === "auto") {
+    btn.setAttribute("aria-label", "主题跟随系统（" + (effective === "dark" ? "深色" : "浅色") + "）");
+    btn.title = "";
+    return;
+  }
+  const label = effective === "dark" ? "深色" : "浅色";
+  btn.setAttribute("aria-label", "当前" + label + "，点击切换，长按恢复跟随系统");
+  btn.title = "";
 }
 
 const escapeHtml = (value) =>
@@ -696,7 +735,10 @@ elements.searchEnToggle.addEventListener("change", function () {
       });
     }
   });
-  elements.themeToggle.addEventListener("click", function () { cycleTheme(); });
+  elements.themeToggle.addEventListener("pointerdown", handleThemePress);
+  elements.themeToggle.addEventListener("pointerup", handleThemeRelease);
+  elements.themeToggle.addEventListener("pointercancel", handleThemeCancel);
+  elements.themeToggle.addEventListener("pointerleave", handleThemeCancel);
   elements.languageToggle.addEventListener("click", () => {
   if (state.currentPage?.translationStatus !== "complete") return;
   state.language = state.language === "zh" ? "en" : "zh";
