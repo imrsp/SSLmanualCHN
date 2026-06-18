@@ -132,7 +132,7 @@
         <br>
 
 
-        <span style="font-weight:bold;">将控制台设置为 Dante 网络的从设备</span>
+        <span style="font-weight:bold;">将控制台设置为 Dante 网络的从属设备</span>
 
         <p>在此配置中，控制台以外的某台 Dante 设备担任主时钟。控制台及网络中的所有其他设备均跟随该主时钟。</p>
 
@@ -153,14 +153,14 @@
 
         <p>
             所选 <span style="font-weight:bold;">Preferred Leader</span>（如已设置）现为包括控制台在内的整个网络的主时钟。
-            控制台现从其 Dante Expander 模块获取时钟。Dante Expander 模块从 Dante 网络中的 <span style="font-weight:bold;">Preferred Leader</span> 获取时钟。
+            控制台现从其 Dante 扩展卡模块获取时钟。Dante 扩展卡模块从 Dante 网络中的 <span style="font-weight:bold;">Preferred Leader</span> 获取时钟。
             网络中的所有其他设备也都从 Dante 网络中的 <span style="font-weight:bold;">Preferred Leader</span> 获取时钟。
         </p>
 
         <span class="note">
             <span class="notetitle">注意：</span><br>如果在控制台上选择 Dante 作为时钟源，
             当 Dante 网络时钟丢失时，控制台的时钟备份机制不会回退至其他时钟源。
-            Dante Expander 模块内置时钟；根据 Dante 时钟选举流程，该时钟会成为 Dante 网络的主时钟，
+            Dante 扩展卡模块内置时钟；根据 Dante 时钟选举流程，该时钟会成为 Dante 网络的主时钟，
             直到网络中另一台设备被识别为更合适的主时钟。
         </span>
 
@@ -189,7 +189,7 @@
 
         <p>确保网络中所有其他设备均未勾选 <span style="font-weight:bold;">Preferred Leader</span> 和 <span style="font-weight:bold;">Sync to External</span>。</p>
 
-        <p>控制台内部时钟现已成为 Dante 网络的主时钟。控制台的 Dante Expander 模块从控制台内部时钟获取时钟，网络中的所有其他设备则跟随 Dante Expander 提供的时钟。</p>
+        <p>控制台内部时钟现已成为 Dante 网络的主时钟。控制台的 Dante 扩展卡模块从控制台内部时钟获取时钟，网络中的所有其他设备则跟随 Dante 扩展卡提供的时钟。</p>
 
         <span class="note">
             <span class="notetitle">重要：</span><br>由于 Dante 的时钟选举流程，之后连接至网络、同样设为 Preferred Leader 且 MAC 地址低于控制台的任何设备，都会被提升为网络主时钟。
@@ -285,7 +285,7 @@
     （<span class="label">MENU</span> &gt; <span class="label">Setup</span> &gt; <span class="label">System&nbsp;/&nbsp;Power</span> &gt; <span class="label">System</span> 页签）中的 <span class="label">96&nbsp;kHz</span> 和 <span class="label">48&nbsp;kHz</span> 按钮更改控制台采样率。舞台接口箱也必须改为与控制台采样率一致；见下文。
 </p>
 
-<p>除 FX Loop 和可选 Dante 模块接口外，将采样率降至 48 kHz 不会增加总输入/输出数量；每个 MADI 端口在 48 kHz 下承载 64 个通道，但奇偶编号的 MADI 端口对始终互为冗余（双卡 Blacklight 集线器上的偶数编号端口会被禁用）。</p>
+<p>除 FX Loop（效果环路）和可选 Dante 模块接口外，将采样率降至 48 kHz 不会增加总输入/输出数量；每个 MADI 端口在 48 kHz 下承载 64 个通道，但奇偶编号的 MADI 端口对始终互为冗余（双卡 Blacklight 集线器上的偶数编号端口会被禁用）。</p>
 
 <p><span class="note"><span class="notetitle">重要：</span>更改控制台采样率会中断音频，并因需要更改舞台接口箱配置而导致路由断开。建议在切换采样率时将所有输出静音，并在切换后继续静音 30 秒。</span></p>
 
@@ -353,7 +353,7 @@
 
 <p>
     <span class="note">
-        <span class="notetitle">提示：</span>将输出 SRC 设为 <span class="label">In</span> 后，该 AES 端口的输出会从相应输入获取时钟，而不是使用控制台时钟。如果外部设备难以锁定外部时钟，此设置会很有用。它允许外部设备使用内部时钟，同时让 Live 控制台的 AES SRC 锁定至外部设备，使该设备自行提供时钟，从而避免时钟错误。<br>
+        <span class="notetitle">提示：</span>将输出 SRC 设为 <span class="label">In</span> 后，该 AES 端口的输出会从相应输入获取时钟，而不是使用控制台时钟。如果外接设备难以锁定外部时钟，此设置会很有用。它允许外部设备使用内部时钟，同时让 Live 控制台的 AES SRC 锁定至外部设备，使该设备自行提供时钟，从而避免时钟错误。<br>
         例如，使用 96 kHz 混响器时，请将混响器设为内部时钟，并将控制台输入和输出 AES/EBU 端口的 SRC 设置均设为 <b>SRC In</b>。对于输出端口，请选择 <span class="label">In</span> 和 x2（对应 96k）。
     </span>
 </p>
