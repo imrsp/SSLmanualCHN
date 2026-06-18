@@ -70,7 +70,7 @@
     <ol>
         <li>点击相应端口的列标题以查看该端口的设置。</li>
         <li>
-            在端口的 Detail View 中按住 <span class="label">Physical Port Selection:</span>，然后选择 Blacklight II（用于 <span class="label">BLII&nbsp;Concentrator</span> 或 <span class="label">Net&nbsp;I/O&nbsp;BLII&nbsp;Bridge</span>）或 X-Light（用于 <span class="label">X-Light&nbsp;Bridge</span>）。
+            在端口的详细视图中按住 <span class="label">Physical Port Selection:</span>，然后选择 Blacklight II（用于 <span class="label">BLII&nbsp;Concentrator</span> 或 <span class="label">Net&nbsp;I/O&nbsp;BLII&nbsp;Bridge</span>）或 X-Light（用于 <span class="label">X-Light&nbsp;Bridge</span>）。
             请注意，对于 L450、L550 和 L650，X-Light 始终连接到第二个 BLII/X-Light 端口（I/O 页面最右侧一列）。
         </li>
         <li>按住 <span class="label">Configure Port For:</span>，并在需要时选择所需设备。</li>
@@ -86,8 +86,8 @@
 <span class="note">
     <span class="notetitle">警告：</span><br>重新配置 BLII/X-Light 端口时请谨慎，因为现有路由将被取消。<br>
     - 如果将 BLII 端口从 BLII-MADI Concentrator 重新配置为 BLII Bridge，控制台与通过 BLII-MADI Concentrator 连接的设备之间的所有现有路由都将被取消。<br>
-    - 如果将 BLII 端口从 BLII Bridge 重新配置为 BLII-MADI Concentrator，则无论路由经过 BLII Bridge 还是 Dante Expander Module，<span style="font-weight:bold;">所有</span> Dante 双域路由都将被取消。
-    已建立到 Dante Expander Module 的虚拟跳线路由将保留。
+    - 如果将 BLII 端口从 BLII Bridge 重新配置为 BLII-MADI Concentrator，则无论路由经过 BLII Bridge 还是 Dante 扩展卡模块，<span style="font-weight:bold;">所有</span> Dante 双域路由都将被取消。
+    已建立到 Dante 扩展卡模块的虚拟跳线路由将保留。
 </span>
 
 <p>BLII/X-Light 端口配置存储在演出文件中。</p>
@@ -138,7 +138,7 @@
 
 <h3>冗余</h3>
 
-<p>每个 MADI 端口都可作为冗余端口对的一部分运行。端口始终按奇数/偶数配对，例如端口 1 始终与端口 2 配对。</p>
+<p>每个 MADI 端口都可作为冗余端口对的一部分运行。端口始终按奇偶配对，例如端口 1 始终与端口 2 配对。</p>
 
 <p>要定义冗余端口对：</p>
 
@@ -159,9 +159,9 @@
 
 <p>点击某个端口或连接的方框，会在页面下半部分的 Detail 对话框中显示该端口的设置。</p>
 
-<p>对于舞台接口箱，右侧的页面按钮（<span class="label">设置</span>、<span class="label">输入</span> 和 <span class="label">输出</span>，本地 AES I/O 则为 <span class="label">AES&nbsp;I/O</span>）可用于逐页查看端口设置：</p>
+<p>对于舞台接口箱，右侧的页面按钮（<span class="label">Setup</span>、<span class="label">Inputs</span> 和 <span class="label">Outputs</span>，本地 AES I/O 则为 <span class="label">AES&nbsp;I/O</span>）可用于逐页查看端口设置：</p>
 
-<h3>Setup：</h3>
+<h3>设置：</h3>
 
 <p>
     双击黑色的<span style="font-weight: bold;">名称</span>框会弹出键盘，可在其中输入端口名称。<br>
@@ -170,7 +170,7 @@
 
 <p>
     <span style="font-weight: bold;">Output Trim</span> 滑块以控制台的 <span style="font-weight: bold;">Operating Level</span> 为基准，对舞台接口箱的所有模拟线路输出施加全局电平微调
-    （在 <span style="font-weight: bold;">Menu > Setup > System&nbsp;/&nbsp;Power</span> > <span class="label">系统</span> 选项卡中设置）。请注意，这不会影响可选的麦克风分配输出（如已安装）；这些输出始终为麦克风电平。
+    （在 <span style="font-weight: bold;">Menu > Setup > System&nbsp;/&nbsp;Power</span> > <span class="label">System</span> 选项卡中设置）。请注意，这不会影响可选的麦克风分配输出（如已安装）；这些输出始终为麦克风电平。
 </p>
 
 <p><span class="label">Clear&nbsp;Attention</span> 按钮会清除本地 I/O 上所有 <span style="font-weight: bold;">Att</span> 指示灯。页面其余部分显示格式和时钟信息。</p>
