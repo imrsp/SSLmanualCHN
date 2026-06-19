@@ -19,17 +19,17 @@
   <p class="source">章节：构建演出 | 来源：<a href="https://livehelp.solidstatelogic.com/Help/RecordingPlayback.html">https://livehelp.solidstatelogic.com/Help/RecordingPlayback.html</a></p>
 <h2>多轨录音与回放（录音机与排练模式）</h2>
 
-<p>SSL Live 控制台的每条 Channel 路径在信号链顶部均设有 <b>Record Send</b> 和 <b>Record Return</b> 点，位置在 Input A/B 选择之后、Trim 之前。Record Send 始终启用，可路由至多轨录音设备。如下文所述，Record Return 可同时接入多条 Channel。录音跳线路由可通过 Channel View 的 Input/Routing Detail View、XY Routing，或 I/O 菜单中的 Recorder 批量路由功能完成。</p>
+<p>SSL Live 控制台的每条通道路径在信号链顶部均设有 <b>Record Send（录音发送）</b> 和 <b>Record Return（录音返回）</b> 点，位置在 Input A/B 选择之后、Trim 之前。录音发送始终启用，可路由至多轨录音设备。如下文所述，录音返回可同时接入多条通道。录音跳线路由可通过通道视图的输入/路由详细视图、XY 路由，或 I/O 菜单中的 Recorder 批量路由功能完成。</p>
 
 <span class="note">
   <span class="notetitle">V5.2 及更高版本：</span><br>
-  V5.2 显著增强了彩排和录音功能，新增多个切换组、灵活路由以及锁定覆盖功能。八个可自由分配的切换组可分别管理多组乐器，甚至同一演出文件中的不同演出阵容，使彩排时能够快速进行动态比较。结合全局、分组和本地切换选项，以及每条 Channel 的“锁定到”覆盖功能，可以快速地在现场输入与回放输入之间切换单条 Channel。
+  V5.2 显著增强了彩排和录音功能，新增多个切换组、灵活路由以及锁定覆盖功能。八个可自由分配的切换组可分别管理多组乐器，甚至同一演出文件中的不同演出阵容，使彩排时能够快速进行动态比较。结合全局、分组和本地切换选项，以及每条通道的“锁定到”覆盖功能，可以快速地在现场输入与回放输入之间切换单条通道。
   <br><br>
-  录音机的批量 I/O 路由现由通用 MADI 和 Dante Expander 模块处理，控制台不再使用“Live Recorder”设备概念。Channel 的 Record Send 和 Record Return 可自由路由，因此任意 I/O 都可用于录音，任意控制台路径也可被录制，为录音和彩排回放提供更灵活的配置。
+  录音机的批量 I/O 路由现由通用 MADI 和 Dante 扩展卡模块处理，控制台不再使用“Live Recorder”设备概念。通道的的录音发送和录音返回可自由路由，因此任意 I/O 都可用于录音，任意控制台路径也可被录制，为录音和彩排回放提供更灵活的配置。
   <br><br>
-  旧版 Live Recorder 使用固定且自动维护的递增路由，将 Channel Record Send/Return 与录音机通道对应。其优点是更改 Channel 格式或顺序时会自动更新路由，缺点是路由固定、无法自由修改。新版允许用户完全自行管理路由，因此不再自动维护路由；两种机制无法同时存在。MADI 和 Dante I/O 设备提供新的批量路由命令，可在 Console Configuration 完成后快速路由所有 Channel。之后若更改 Channel 格式，操作人员需要检查并更新相应的录音机路由。
+  旧版 Live Recorder 使用固定且自动维护的递增路由，将通道录音/返回与录音机通道对应。其优点是更改通道格式或顺序时会自动更新路由，缺点是路由固定、无法自由修改。新版允许用户完全自行管理路由，因此不再自动维护路由；两种机制无法同时存在。MADI 和 Dante I/O 设备提供新的批量路由命令，可在 Console Configuration 完成后快速路由所有通道。之后若更改通道格式，操作人员需要检查并更新相应的录音机路由。
   <br><br>
-  使用旧版软件保存的演出文件，在 Live V5.2 中加载并再次保存时会自动升级。原 Live Recorder 会转换为通用 MADI I/O；此前与 Recorder ID 对应的控制台 Channel 会自动加入相应的新切换组。新演出文件默认将所有 Channel 加入全局切换组，并以空白的 Record Send/Return 路由开始。
+  使用旧版软件保存的演出文件，在 Live V5.2 中加载并再次保存时会自动升级。原 Live Recorder 会转换为通用 MADI I/O；旧版通过 Recorder ID 绑定到录音通路的通道，会自动加入相应的新切换组。新演出文件默认将所有通道加入全局切换组，并以空白的录音发送/返回路由开始。
 </span>
 
 <h3>排练模式切换组</h3>
