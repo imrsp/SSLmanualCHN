@@ -66,25 +66,25 @@
 
 <h3>Recorder I/O</h3>
 
-<p>Channel Record Send/Return 支持手动路由，因此任意 I/O 都可用作录音机和彩排回放设备。其操作方式与其他信号跳线路由相同，并随演出文件存储和调用。</p>
+<p>通道录音发送/返回支持手动路由，因此任意 I/O 都可用作录音机和彩排回放设备。其操作方式与其他信号跳线路由相同，并随演出文件存储和调用。</p>
 
-<p>MADI 和 Dante Expander 连接可配置为“Recorder”。每台 Recorder 会分配一个 Channel 区块，例如在 96 kHz 下为 1-32、33-64 等。分配区块后，可同时对 I/O 和 Channel Record Send/Return 执行批量路由。完成 <strong>Console Configuration</strong> 中的 Channel 分配后，即可快速配置 Recorder I/O 与路由，并确保所有 Channel 都被录制。</p>
+<p>MADI 和 Dante 扩展卡连接可配置为“Recorder”（录音机）。每台录音机会分配一个通道区块，例如在 96 kHz 下为 1-32、33-64 等。分配区块后，可同时对 I/O 和通道录音发送/返回执行批量路由。完成 <strong>Console Configuration</strong> 中的通道分配后，即可快速配置录音机 I/O 与路由，并确保所有通道都被录制。</p>
 
 <ul>
-  <li><strong>Make All</strong>：按 1:1 将 Channel Record Send 路由至该设备，并将该设备路由至 Channel Record Return。</li>
-  <li><strong>Clear Destination</strong>：移除所有路由到该设备的信号，并移除所有路由到相应 Channel Record Return 的信号。</li>
-  <li><strong>Clear All</strong>：移除该设备与相应 Channel Record Send/Return 之间的全部双向路由。</li>
+  <li><strong>Make All</strong>：按 1:1 将通道录音发送路由至该设备，并将该设备路由至通道录音返回。</li>
+  <li><strong>Clear Destination</strong>：移除所有路由到该设备的信号，并移除所有路由到相应通道录音返回的信号。</li>
+  <li><strong>Clear All</strong>：移除该设备与相应通道录音发送/返回之间的全部双向路由。</li>
 </ul>
 
-<p>1:1 路由按控制台 Channel 路径中的连续信号计算。例如，一条立体声 Channel 路径会占用两个 I/O 信号。</p>
+<p>1:1 路由按控制台通道路径中的连续信号计算。例如，一条立体声通道路径会占用两个 I/O 信号。</p>
 
 <p>只有所有目标点均为空闲时，才能执行 Make。只有存在可清除的路由时，清除功能才可用。请注意路由具有方向性：一对多只是信号分配，可通过跳线路由轻松实现；多对一需要求和或混音，必须使用母线，因此不属于跳线路由功能。要让接收点改接其他信号，必须先清除或替换其现有路由。</p>
 
 <img style="display: block; margin: 15px auto; width: 1200px;" src="https://livehelp.solidstatelogic.com/Help/images/t_Rehearse_bulk.png" alt="">
 
-<p>将 I/O 设备设为 <strong>Not Set</strong> 会自动执行 <strong>Clear Destinations</strong>，释放 Channel Record Return 和 I/O 输出，以便从其他信号进行路由。Channel Record Send 和 I/O 输入可能已被合理地路由到 Recorder 之外的其他目标，因此将 Recorder I/O 改为 <strong>Not Set</strong> 时不会清除这些路由。</p>
+<p>将 I/O 设备设为 <strong>Not Set</strong> 会自动执行 <strong>Clear Destinations</strong>，释放通道录音返回和 I/O 输出，以便从其他信号进行路由。通道录音发送和 I/O 输入可能已被合理地路由到 Recorder 之外的其他目标，因此将 Recorder I/O 改为 <strong>Not Set</strong> 时不会清除这些路由。</p>
 
-<p>将 Dante Expander 设为 Recorder 后，其所有 Channel 都会被强制用作 VTL（Virtual Tie Line），而不是用于动态 Dante 路由。</p>
+<p>将 Dante 扩展卡设为 Recorder 后，其所有通道都会被强制用作 VTL（Virtual Tie Line，虚拟跳线），而不是用于动态 Dante 路由。</p>
 
 <h3>建议用例与工作流程</h3>
 
@@ -104,16 +104,16 @@
 
 <ul>
   <li>将控制台 I/O 端口设为 None，以移除 Recorder 分配和路由；然后重新选择 MADI 并配置 Recorder 选项。</li>
-  <li>将 Recorder 设为 Not Set，以移除 Recorder 分配和路由；然后选择新的 Channel 区块。</li>
-  <li>逐台 Recorder 重新分配 Channel 区块，并在操作过程中清除旧路由、建立新路由。</li>
+  <li>将 Recorder 设为 Not Set，以移除 Recorder 分配和路由；然后选择新的通道区块。</li>
+  <li>逐台 Recorder 重新分配通道区块，并在操作过程中清除旧路由、建立新路由。</li>
 </ul>
 
-<p>MADI 和 Dante Expander I/O 页面中的 Recorder 选项用于批量路由和快速设置。也可通过 XY Routing 和 Channel View Routing，在录音设备与 Channel Record Send/Return 之间连接信号。</p>
+<p>MADI 和 Dante 扩展卡 I/O 页面中的 Recorder 选项用于批量路由和快速设置。也可通过 XY 路由和通道视图路由，在录音设备与通道录音发送/返回之间连接信号。</p>
 
-<p>如果之后更改了 Channel 格式，操作人员必须检查并更新所需的 Recorder 路由。</p>
+<p>如果之后更改了通道格式，操作人员必须检查并更新所需的 Recorder 路由。</p>
 
 <span class="note">
-  <span class="notetitle">注意：</span>Record Send 始终保持启用。因此，即使处于 Rehearse Mode，来自舞台的现场信号仍会继续发送至录音设备。
+  <span class="notetitle">注意：</span>录音发送始终保持启用。因此，即使处于排练模式，来自舞台的现场信号仍会继续发送至录音设备。
 </span>
 
 <h2>实用链接</h2>
