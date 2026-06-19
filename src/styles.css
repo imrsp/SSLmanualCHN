@@ -1003,6 +1003,11 @@ kbd { padding: 2px 5px; border: 1px solid var(--line); color: var(--muted); back
   border-color: #d4b97a;
 }
 
+:root[data-theme="light"] .document th { color: var(--ink); background: #e4ece2; }
+:root[data-theme="light"] .document th,
+:root[data-theme="light"] .document td { border-color: var(--line); }
+:root[data-theme="light"] .document tr:nth-child(even) td { background: rgba(0,0,0,.025); }
+
 /* — Theme toggle SVG animation */
 #themeToggle {
   display: flex;
@@ -1070,5 +1075,9 @@ kbd { padding: 2px 5px; border: 1px solid var(--line); color: var(--muted); back
   #themeToggle:hover {
     background: rgba(199,255,55,.15);
   }
+  .document th { color: var(--ink); background: #e4ece2; }
+  .document th,
+  .document td { border-color: var(--line); }
+  .document tr:nth-child(even) td { background: rgba(0,0,0,.025); }
 }
 
