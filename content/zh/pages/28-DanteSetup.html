@@ -36,7 +36,7 @@
 
 <span class="note">
     <span class="notetitle">SSL 建议：</span>配置 Dante 系统前，建议先在 Audinate 网站完成 <span style="font-weight:bold;">Dante 认证 1 级和 2 级</span>。<br />
-    这些认证课程将为您介绍 Dante 网络，并且在设置 SSL Live Dante 系统时非常有用。<br />
+    这些认证课程将为您介绍 Dante 网络，并且对于设置 SSL Live Dante 系统非常有帮助。<br />
     认证课程可以在这里访问： <a class="external-link" tabindex="-1" href="https://www.audinate.com/resources/training-and-tutorials/dante-certification-training" target="_blank"><span class="hyperlink">audinate.com/resources/training-and-tutorials/dante-certification-training</span></a>
 </span>
 
@@ -53,7 +53,7 @@
         <li>Dante Control 备网</li>
         <li>Dante Expander Audio 主网</li>
         <li>Dante Expander Audio 备网</li>
-        <li>连接控制网络</li>
+        <li>Connectivity 网络</li>
     </ul>
 
 <p>如果使用 <span style="font-weight:bold;">BLII Bridge</span> 或 <span style="font-weight:bold;">X-Light Bridge</span>，还需要配置以下网络设备：</p>
@@ -77,10 +77,10 @@
 </p>
 
 <p>
-    <span style="font-weight:bold;">连接控制网络</span> -
+    <span style="font-weight:bold;">Connectivity 网络</span> -
     用于通过 SOLSA、远程扩展器、另一个 SSL Live 控制台或 TaCo 远程控制控制台。
     可通过控制台背面三个标有 <span style="font-weight:bold;">NETWORK</span> 的端口之一接入该网络。
-    连接控制网络是独立于 Dante 网络的网络，Dante 操作不需要该网络。
+    Connectivity 网络是独立于 Dante 网络的网络，Dante 操作不需要该网络。
     但是，请务必注意其 IP 地址，如果设置不正确，可能会与您的 Dante 网络发生冲突。
 </p>
 
@@ -121,10 +121,10 @@
         </li>
 
         <li>
-            <span style="font-weight:bold;">连接控制网络</span>:
+            <span style="font-weight:bold;">Connectivity 网络</span>:
 
             <ul>
-                <li>控制台连接控制网络</li>
+                <li>控制台 Connectivity 网络</li>
                 <li>远程模式下的 SOLSA（如果使用）</li>
                 <li>运行 TaCo 的平板电脑（如果使用）</li>
                 <li>远程模式下的另一个 SSL Live 控制台（如果使用）</li>
@@ -134,16 +134,16 @@
     </ul>
 </p>
 
-<p>每个网络都应该有自己的子网。一个网络上的每台设备都必须拥有同一子网内的 IP 地址，以便这些设备能够相互通信。</p>
+<p>每个网络都应该有自己的子网。同一网络上的每台设备都必须拥有同一子网内的 IP 地址，以便这些设备能够相互通信。</p>
 
 <p>每个网络设备都需要在其连接的网络的正确子网内有一个唯一的 IP 地址。</p>
 
 <span class="note">
     <span class="notetitle">注意：</span><br><span style="font-weight:bold;">Dante Control</span> 和 <span style="font-weight:bold;">Dante Expander Audio</span> 均可通过控制台背面的 Dante Expander Primary 和 Secondary 端口访问。
-    控制台中的内部网络交换机连接这两个独立的网络设备。然而，它们都有单独的 IP 设置。
-    例如，Dante Control Primary 和 Dante Expander Primary 必须在同一子网内具有不同的 IP 地址。
+    控制台中的内部网络交换机连接这两个独立的网络设备。它们都有单独的 IP 设置。
+    例如，Dante Control Primary 和 Dante Expander Primary 必须在同一子网内且具有不同的 IP 地址。
     <br><br>
-    <span style="font-weight:bold;">Dante Control</span> 和 <span style="font-weight:bold;">Dante Expander Audio</span> 也可通过 X-Light 的 <span style="font-weight:bold;">Console Link</span> 端口访问。如果将控制台 Dante Expander 端口和 X-Light 端口接入同一网络，请避免形成网络环路。
+    <span style="font-weight:bold;">Dante Control</span> 和 <span style="font-weight:bold;">Dante Expander Audio</span> 也可通过 X-Light 的 <span style="font-weight:bold;">Console Link</span> 端口访问。如果要将控制台 Dante Expander 端口和 X-Light 端口接入同一网络，请避免形成网络环路。
     <br><br>
     要在 SSL Live 控制台上正确配置并控制 Dante，必须配置 <span style="font-weight:bold;">Dante Control</span> 和 <span style="font-weight:bold;">Dante Expander Audio</span> 网络设备。
     <br><br>
@@ -188,7 +188,7 @@
                 <td class="solidborder">Dante Controller（可从 Audinate 网站免费获取）</td>
             </tr>
             <tr>
-                <th class="solidborder">连接控制网络</th>
+                <th class="solidborder">Connectivity 网络</th>
                 <td class="solidborder">DHCP</td>
                 <td class="solidborder">-</td>
                 <td class="solidborder"><span class="label">MENU</span> > <span class="label">Setup</span> > <span class="label">Options</span> > <span class="label">NETWORK</span> 选项卡</td>
@@ -294,12 +294,12 @@
         <li>Dante 主网和备网绝不能进行物理连接。</li>
         <li>同一设备上的多个网络适配器不能使用同一子网中的地址。</li>
         <li>Dante Primary 和 Secondary 地址必须位于不同子网。</li>
-        <li>当设置为自动配置时，Dante Primary 将使用 169.254.x.x 子网。这是标准 IPv4 协议，因此与连接控制网络的行为相同。 </li>
+        <li>当设置为自动配置时，Dante Primary 将使用 169.254.x.x 子网。这是标准 IPv4 协议，与控制台 Connectivity 网口的自动配置机制完全相同。 </li>
         <li>
             对于除 SSL Live 控制台外的 Dante 设备（见下文“固定 IP 地址”），Secondary 设置为自动配置时会使用 172.31.x.x 子网。
             该范围属于 IPv4 私有地址，但并非专为自动配置保留；将其用于 Secondary 自动配置是 Dante 的特定做法。
         </li>
-        <li>除使用不同子网外，连接控制网络、Dante 主网和 Dante 备网还应视为三个物理隔离、各自拥有网络硬件的网络。*</li>
+        <li>除使用不同子网外，Connectivity 网络、Dante 主网和 Dante 备网还应视为三个物理隔离、各自拥有网络硬件的网络。*</li>
         <li>默认网关设置必须留空，因为 Dante 当前不使用该设置。**</li>
     </ul>
 
@@ -329,16 +329,16 @@
 </p>
 
 <p>
-    如果控制台的三个控制网络适配器（连接控制网络、Dante Control Primary 和 Secondary）中有两个或更多设为 DHCP，而相应网络中没有 DHCP 服务器，
-    这些适配器可能自动配置到同一个 169.254.xx.xx 子网。这是无效配置，会使 Dante 网络、连接控制网络或两者工作异常。
+    如果控制台的三个控制网络适配器（Connectivity 网络、Dante 主备控制网）中有两个或更多设为 DHCP，而相应网络中没有 DHCP 服务器，
+    这些适配器可能自动配置到同一个 169.254.xx.xx 子网。这是无效配置，会使 Dante 网络、Connectivity 网络或两者工作异常。
 </p>
 
 <p>因此，如果所有 Dante 设备都设置为 DHCP，SSL 建议在所有使用的网络上都存在 DHCP 服务器。</p>
 
 <p>
     另一种方法是为 Dante 主网和 Dante 备网上的所有设备设置固定 IP 地址，以防 Dante Control Primary 和 Secondary 适配器自动落入同一子网。
-    此时，只要 Dante 主网和备网的固定地址范围不与连接控制网络的 DHCP 地址池重叠，就可以将连接控制网络安全地设为 DHCP；
-    如果连接控制网络中没有 DHCP 服务器，也不要与其 169.254.xx.xx 自动配置范围重叠。
+    此时，只要 Dante 主网和备网的固定地址范围不与 Connectivity 网络的 DHCP 地址池重叠，就可以将 Connectivity 网络安全地设为 DHCP；
+    如果 Connectivity 网络中没有 DHCP 服务器，也不要与其 169.254.xx.xx 自动配置范围重叠。
 </p>
 
 <p>
@@ -346,8 +346,8 @@
 </p>
 
 <p>
-    如果连接控制网络上没有 DHCP 服务器，请将此适配器设置为与主 Dante 网络和备 Dante 网络位于不同子网中的固定地址。
-    将连接控制网络上的所有其他设备设置为同一子网内的固定 IP 地址。有关设置连接控制网络的更多信息
+    如果 Connectivity 网络上没有 DHCP 服务器，请将此适配器设置为与 Dante 主网和 Dante 备网位于不同子网中的固定地址。
+    将 Connectivity 网络上的所有其他设备设置为同一子网内的固定 IP 地址。有关设置Connectivity网络的更多信息
     请参阅<a href="https://livehelp.solidstatelogic.com/Help/RemoteControl.html"><span class="hyperlink">远程操作面</span></a>或<a href="https://livehelp.solidstatelogic.com/Help/TaCo.html"><span class="hyperlink">TaCo 平板控制</span></a>。
 </p>
 
@@ -373,9 +373,9 @@
 
 <p>首先，从他们的网站下载 Wireshark： <a class="external-link" tabindex="-1" href="https://www.wireshark.org/#download" target="_blank"><span class="hyperlink">www.wireshark.org</span></a> 并在您的计算机上安装该程序。</p>
 
-<p>Wireshark 的工作原理是报告网络上设备的所有 IP 地址。为了简化调查，请将您的计算机直接连接到相关设备上的 Dante Primary 适配器。</p>
+<p>Wireshark 的工作原理是报告网络上设备的所有 IP 地址。为了简化调查，请将您的计算机直接连接到相关设备上的 Dante 主网适配器。</p>
 
-<p>打开 Wireshark。您计算机的所有网络适配器都会列出。双击用于 Dante Primary 的网络适配器。大多数笔记本电脑仅包含一个网络适配器，因此只会显示一个有线网络连接。</p>
+<p>打开 Wireshark。您计算机的所有网络适配器都会列出。双击用于 Dante 主网的网络适配器。大多数笔记本电脑仅包含一个网络适配器，因此只会显示一个有线网络连接。</p>
 
 <p>网络上的所有设备现在都将按其 IP 地址显示。如果您直接连接到相关设备，则此处仅可见两个 IP 地址：相关设备和您的计算机。</p>
 
@@ -387,19 +387,19 @@
 
 <p>一旦确定 Wireshark 中显示的 IP 地址是您的计算机的 IP 地址，其余的 IP 地址将是相关设备的 IP 地址。</p>
 
-<p>将计算机的 IP 地址设置为与相关设备位于同一子网内，然后该设备将在 Dante Controller 中可见。更改设备的 IP 地址，使它们位于您希望用于 Dante Primary 和 Secondary 的子网内，并设置计算机的 IP 地址，使其回到您用于 Dante Primary 的范围内。</p>
+<p>将计算机的 IP 地址设置为与相关设备位于同一子网内，然后该设备将在 Dante Controller 中可见。更改设备的 IP 地址，使它们位于您希望用于 Dante 主网和备网的子网内，并设置计算机的 IP 地址，使其回到您用于 Dante 主网的范围内。</p>
 
 <h3>步骤 1：设置 Dante 控制 IP 地址</h3>
 
 <p>
-    本节介绍如何设置 Dante Control Primary 和 Secondary 网络适配器的 IP 地址。
+    本节介绍如何设置 Dante 主备控制网络适配器的 IP 地址。
     这些适配器用于控制 Dante 网络，包括建立或取消路由，以及控制话筒增益等输入参数。
     两个适配器应分别位于 Dante 主网和 Dante 备网。
 </p>
 
 <p>在控制台上转到 <span class="label">MENU</span> > <span class="label">Setup</span> > <span class="label">Options</span> > <span class="label">NETWORK</span> 选项卡。</p>
 
-<p>屏幕左侧显示连接控制网络信息，右侧显示 Dante Control 主、备网信息。</p>
+<p>屏幕左侧显示Connectivity网络信息，右侧显示 Dante Control 主、备网信息。</p>
 
 <span class="note">
     <span class="notetitle">注意：</span><br>这些地址用于控制台使用的网络适配器，用于向 Dante 网络发送控制数据或从 Dante 网络接收控制数据，
@@ -413,7 +413,7 @@
 <p><span style="font-weight:bold;">网关：</span> 0.0.0.0</p>
 
 <p>
-    首先将适配器类型设置为 <span class="label">Fixed</span>，然后双击“IP 地址”和“网络掩码”框并输入上面的值。
+    首先将适配器类型设置为 <span class="label">Fixed</span>，然后双击“IP Address”和“Netmask”框并输入上面的值。
     完成此操作后，按住 <span class="label">Apply</span> 按钮并等待网络适配器重新启动。
 </p>
 
@@ -424,14 +424,14 @@
 <p><span style="font-weight:bold;">网关：</span> 0.0.0.0</p>
 
 <p>
-    将适配器类型设置为 <span class="label">Fixed</span>，然后双击“IP 地址”和“网络掩码”框并输入上面的值。
+    将适配器类型设置为 <span class="label">Fixed</span>，然后双击“IP Address”和“Netmask”框并输入上面的值。
     完成此操作后，按住 <span class="label">Apply</span> 按钮并等待网络适配器重新启动。
 </p>
 
 <img style="display: block; margin: 25px auto;" src="https://livehelp.solidstatelogic.com/Help/images/g_DanteControlNetIP.png" alt="">
 
 <p>
-    在我们的示例中， <span style="font-weight:bold;">连接控制网络适配器</span> 地址设置应保留为 <span class="label">DHCP</span>。
+    在我们的示例中， <span style="font-weight:bold;">Connectivity 网络适配器</span> 地址设置应保留为 <span class="label">DHCP</span>。
     如果以后需要将其设置为固定 IP 地址，请确保使用与 Dante 网络不同的子网。
 </p>
 
@@ -604,8 +604,8 @@
         <tbody>
             <tr>
                 <th class="solidborder">控制台采样率</th>
-                <th class="solidborder" style=\"width: 100px;\">Dante 扩展器采样率</th>
-                <th class="solidborder" style=\"width: 100px;\">Dante Expander 采样率转换</th>
+                <th class="solidborder" style=\"width: 100px;\">Dante 扩展卡采样率</th>
+                <th class="solidborder" style=\"width: 100px;\">Dante 扩展卡采样率转换</th>
                 <th class="solidborder" style=\"width: 100px;\">Dante 输入和输出的数量</th>
             </tr>
             <tr>
@@ -649,8 +649,8 @@
 </div>
 
 <span class="note">
-    <span class="notetitle">注意： </span>除非 <span class="label">SRC&nbsp;In</span> 按钮已按下，您必须设置 Dante Expander 的采样率以匹配控制台的采样率。
-    这可以通过运行 Dante Controller 软件且与控制台的 Dante Expander 连接到同一网络的计算机来完成。或者，从 Live v6.2 开始，可以在 Dante 配置页面的已连接设备列表中查看和更改控制台扩展器的采样率。 
+    <span class="notetitle">注意： </span>除非 <span class="label">SRC&nbsp;In</span> 按钮已按下，您必须设置 Dante 扩展卡的采样率以匹配控制台的采样率。
+    这可以通过运行 Dante Controller 软件且与控制台的 Dante 扩展卡连接到同一网络的计算机来完成。或者，从 Live v6.2 开始，可以在 Dante 配置页面的已连接设备列表中查看和更改控制台扩展器的采样率。 
 </span>
 <!-- End of Dante Sample Rates Snippet -->
 
@@ -664,7 +664,7 @@
 
 <p>Net I/O BLII Bridge 或 X-Light Bridge 可连接到 SSL Live 控制台，以 96 kHz 或 48 kHz 提供额外的 256 个 Dante 输入和输出。 </p>
 
-<p>SSL Live 控制台可以同时利用 BLII/X-Light Bridge 的 Dante I/O 和 Dante Expander 模块。</p>
+<p>SSL Live 控制台可以同时利用 BLII/X-Light Bridge 的 Dante I/O 和 Dante 扩展卡模块。</p>
 
 <p>
     BLII/X-Light 桥支持双域路由和虚拟跳线。欲了解更多信息，请参阅

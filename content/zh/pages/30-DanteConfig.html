@@ -30,7 +30,7 @@
 <p>深蓝色：路由到在线的“Configured Devices”（已连接到网络的设备）</p>
 <p>每个设备都有一系列状态 LED：</p>
 <img style="display: block; margin: 25px auto;" src="https://livehelp.solidstatelogic.com/Help/images/g_DanteLEDs.png" alt="Dante 设备状态 LED">
-<p>有两个 NET LED，显示主要（Primary）和次要（Secondary）网络连接的状态。</p>
+<p>有两个 NET LED，显示主备网络连接的状态。</p>
 <table>
   <tr>
     <th>颜色</th>
@@ -46,7 +46,7 @@
   </tr>
 </table>
 <p class="note"><span class="notetitle">请注意：</span></p>
-<p>当 SB 16.12 或 SB 32.24 连接了网络 A+B 链路时， 主要和次要网络状态将始终报告两者都已连接，即使情况并非如此。 在此模式下，请查阅设备前面板上的 NET A 和 NET B LED 以了解主要和次要连接状态：</p>
+<p>当 SB 16.12 或 SB 32.24 连接了网络 A+B 链路时， 主备网络状态将始终报告两者都已连接，即使情况并非如此。 在此模式下，请查阅设备前面板上的 NET A 和 NET B LED 以了解主要和次要连接状态：</p>
 <table>
   <tr>
     <th>颜色</th>
@@ -54,15 +54,15 @@
   </tr>
   <tr>
     <td>绿色</td>
-    <td>Dante 主要和次要已连接</td>
+    <td>Dante 主备网络已连接</td>
   </tr>
   <tr>
     <td>红色</td>
-    <td>Dante 主要未连接或故障</td>
+    <td>Dante 主网未连接或故障</td>
   </tr>
   <tr>
     <td>闪烁红色</td>
-    <td>Dante 次要未连接或故障</td>
+    <td>Dante 备网未连接或故障</td>
   </tr>
 </table>
 <p>更多信息请查阅 <a class="external-link" tabindex="-1" href="https://www.solidstatelogic.com/products/dante-live-sound?tab=documents" target="_blank"><span class="hyperlink">SB 16.12 和 SB 32.24 用户指南 (www.solidstatelogic.com/products/dante-live-sound)</span></a>。</p>
@@ -113,7 +113,7 @@
   <li>SSL 设备的 PSU 状态</li>
 </ul>
 <ul>
-  <li>主要和次要网络状态</li>
+  <li>主网和备网网络状态</li>
 </ul>
 <ul>
   <li>IP 地址（如果子网不一致，将显示为红色）</li>
@@ -131,7 +131,7 @@
 <p>现在我们将配置一个在线设备以进行双域路由。在线设备是连接到网络的设备。</p>
 <p>首先，启用 Edit。 然后点击并拖动左侧“Connected Devices”列表中的一个设备。 一旦您开始拖动设备，“Configured Devices”列表底部会出现一个 + 号。将设备拖放到 + 号上。</p>
 <figure><img src="https://livehelp.solidstatelogic.com/Help/images/g_DantePlus.png" alt="图片 5"><figcaption>图片 5</figcaption></figure>
-<p>此设备现在已添加到“Configured Devices”列表中，您现在可以在路由视图或 XY Routing 页面中路由到/来自它。</p>
+<p>此设备现在已添加到“Configured Devices”列表中，您现在可以在路由视图或 XY 路由页面中对其进行双向路由。</p>
 <h3>配置离线 Dante 设备</h3>
 <p>即使物理设备不存在，也可以添加、配置离线设备并路由到/来自它们。 当设备可用时，这些设置随后可以与在线设备关联（见下文）。</p>
 <p>首先，启用 Edit。然后点击“Configure New Device”并从列表中选择一个设备：</p>
