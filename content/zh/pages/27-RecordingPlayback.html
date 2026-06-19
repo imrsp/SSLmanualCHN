@@ -34,26 +34,26 @@
 
 <h3>排练模式切换组</h3>
 
-<p><strong>Rehearse Mode</strong> 按钮位于 <strong>MENU</strong> &gt; <strong>Setup</strong> &gt; <strong>Options</strong> &gt; <strong>USER</strong> 选项卡。启用后，可通过控制台 Channel 回放录制的音频，以便工程师测试系统，或让表演者配合之前的演出录音进行彩排。系统提供八个彩排切换组，可按需要切换不同的 Channel 集合。双击组名称文本框即可命名，例如“Drums”。每个组均有对应颜色，用于在各 Channel 条和状态栏中标识切换组状态。</p>
+<p><strong>Rehearse Mode</strong> 按钮位于 <strong>MENU</strong> &gt; <strong>Setup</strong> &gt; <strong>Options</strong> &gt; <strong>USER</strong> 选项卡。启用后，可通过控制台通道回放录制的音频，以便工程师测试系统，或让表演者配合之前的演出录音进行彩排。系统提供八个彩排切换组，可按需要切换不同的通道集合。双击组名称文本框即可命名，例如“鼓组”。每个组均有对应颜色，用于在各通道条和状态栏中标识切换组状态。</p>
 
 <img style="display: block; margin: 5px auto; width: 300px;" src="https://livehelp.solidstatelogic.com/Help/images/t_Rehearse_mode.png" alt="">
 <img style="display: block; margin: 5px auto;" src="https://livehelp.solidstatelogic.com/Help/images/t_Rehearse_status.png" alt="">
 
 <span class="note">
-  <span class="notetitle">注意：</span>Rehearse Mode 也可通过 User Key 或 Event System 触发；详情参阅<a href="https://livehelp.solidstatelogic.com/Help/OptionsUserKeys.html"><span class="hyperlink">用户按键选项</span></a>和<a href="https://livehelp.solidstatelogic.com/Help/EventManager.html"><span class="hyperlink">事件管理器</span></a>。
+  <span class="notetitle">注意：</span>排练模式也可通过用户按键或事件管理器触发；详情参阅<a href="https://livehelp.solidstatelogic.com/Help/OptionsUserKeys.html"><span class="hyperlink">用户按键选项</span></a>和<a href="https://livehelp.solidstatelogic.com/Help/EventManager.html"><span class="hyperlink">事件管理器</span></a>。
 </span>
 
-<p>按住 <strong>Global Rehearse Mode</strong> 按钮可启用该功能，同时切换所有处于 <strong>Follow Global</strong> 或 <strong>Follow Group</strong> 模式的路径；处于 <strong>Follow Local</strong> 模式的路径不受影响。可在输入路径的 <strong>Channel Detail View</strong> 中将路径指定为全局、分组或本地切换：</p>
+<p>按住 <strong>Global Rehearse Mode</strong> 按钮可启用该功能，同时切换所有处于 <strong>Follow Global</strong> 或 <strong>Follow Group</strong> 模式的路径；处于 <strong>Follow Local</strong> 模式的路径不受影响。可在输入路径的 <strong>通道详细视图</strong> 中将路径指定为全局、分组或本地切换：</p>
 
 <ul>
-  <li><strong>Follow Global</strong>：默认选项。路径不属于任何组，但会随 Global Rehearse Mode 切换。</li>
-  <li><strong>Follow Group &lt;N&gt;</strong>：将路径分配到指定组，并随该组切换。</li>
-  <li><strong>Follow Local</strong>：不分配切换组。Channel 默认使用现场输入，但可在本地切换到彩排输入。</li>
+  <li><strong>Follow Global（跟随全局）</strong>：默认选项。路径不属于任何组，但会随 Global Rehearse Mode 切换。</li>
+  <li><strong>Follow Group （跟随组）&lt;N&gt;</strong>：将路径分配到指定组，并随该组切换。</li>
+  <li><strong>Follow Local</strong>：不分配切换组。通道默认使用现场输入，但可在本地切换到彩排输入。</li>
 </ul>
 
 <img style="display: block; margin: 15px auto; width: 1200px;" src="https://livehelp.solidstatelogic.com/Help/images/t_Rehearse_pathdetail.png" alt="">
 
-<p>简单配置可让所有 Channel 保持 <strong>Follow Global</strong>，从而一次切换控制台上的全部 Channel。也可按乐器类型等方式建立独立组，实现用户自定义切换。<strong>Follow Local</strong> 可将某条 Channel 持久地排除在所有切换组之外，适合效果返回，或始终由回放设备馈送到 Channel 输入的信号源。以上分配均随演出文件存储和调用。</p>
+<p>简单配置可让所有通道保持 <strong>Follow Global</strong>，从而一次切换控制台上的全部 Channel。也可按乐器类型等方式建立独立组，实现用户自定义切换。<strong>Follow Local</strong> 可将某条 Channel 持久地排除在所有切换组之外，适合效果返回，或始终由回放设备馈送到 Channel 输入的信号源。以上分配均随演出文件存储和调用。</p>
 
 <p><strong>Lock to Live Input</strong> 与 <strong>Lock to Rehearsal Input</strong> 是一对覆盖功能，可强制路径使用现场输入或 Record Return。启用其中一项会取消另一项；关闭其中一项不会自动启用另一项。即使路径处于 Follow Global 或 Follow Group 模式，也可随时使用这些锁定功能。</p>
 
