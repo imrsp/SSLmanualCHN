@@ -11,11 +11,17 @@
   --ink: #eef2ed;
   --muted: #8d9891;
 
-  /* — Accent & Status tokens (customizable for future color editor) */
-  --acid: #c7ff37;
-  --cyan: #43dbe8;
-  --amber: #ffba43;
-  --red: #f15b52;
+  /* — Accent hue config (override via content/themes/*.json) — */
+  --_hue: 77;
+  --_hue-link: 185;
+  --_hue-warn: 38;
+  --_hue-error: 3;
+
+  /* — Derived accent & status colors (HSL from --_hue-*) — */
+  --acid: hsl(var(--_hue), 100%, 61%);
+  --cyan: hsl(var(--_hue-link), 78%, 59%);
+  --amber: hsl(var(--_hue-warn), 100%, 63%);
+  --red: hsl(var(--_hue-error), 85%, 63%);
 
   /* — Semantic alias tokens (for future theme customisation) */
   --color-bg-page: var(--black);
@@ -45,6 +51,11 @@
   --about-glow-g: 255;
   --about-glow-b: 55;
   --about-label-text: #d4dbd6;
+
+  /* — Accent-tinted surfaces (used in light-mode element overrides) — */
+  --_accent-surface: #dce8d2;
+  --_accent-table-header: #e4ece2;
+  --_accent-glow: rgba(199,255,55,.25);
 
   /* — Layout tokens */
   --sidebar-width: 280px;
@@ -942,11 +953,11 @@ kbd { padding: 2px 5px; border: 1px solid var(--line); color: var(--muted); back
   --ink: #2d332f;
   --muted: #6e7a72;
 
-  /* — Accent & Status tokens (adjusted for light bg contrast) — */
-  --acid: #8cc63f;
-  --cyan: #0f8e9e;
-  --amber: #c97f00;
-  --red: #c92a2a;
+  /* — Derived accent & status colors (HSL from --_hue-*, light bg) — */
+  --acid: hsl(var(--_hue), 54%, 51%);
+  --cyan: hsl(var(--_hue-link), 71%, 34%);
+  --amber: hsl(var(--_hue-warn), 100%, 39%);
+  --red: hsl(var(--_hue-error), 61%, 48%);
 
   /* — Surface convenience tokens — */
   --topbar-bg: rgba(245, 246, 243, .94);
@@ -960,6 +971,11 @@ kbd { padding: 2px 5px; border: 1px solid var(--line); color: var(--muted); back
   --about-glow-g: 198;
   --about-glow-b: 63;
   --about-label-text: #2d332f;
+
+  /* — Accent-tinted surfaces (light mode) — */
+  --_accent-surface: #dce8d2;
+  --_accent-table-header: #e4ece2;
+  --_accent-glow: rgba(140,198,63,.25);
 }
 
 :root[data-theme="light"] .document { color: var(--ink); }
@@ -971,12 +987,12 @@ kbd { padding: 2px 5px; border: 1px solid var(--line); color: var(--muted); back
 :root[data-theme="light"] .nav-section { border-bottom-color: var(--line); }
 :root[data-theme="light"] .nav-link { color: #47524a; }
 :root[data-theme="light"] .nav-link:hover { color: #1a1f1b; background: #e0e3df; }
-:root[data-theme="light"] .nav-link.active { border-left-color: var(--acid); background: #dce8d2; color: #1a1f1b; }
+:root[data-theme="light"] .nav-link.active { border-left-color: var(--acid); background: var(--_accent-surface); color: #1a1f1b; }
 :root[data-theme="light"] .nav-group { background: rgba(0,0,0,.03); }
 :root[data-theme="light"] .nav-group-toggle { color: #47524a; }
 :root[data-theme="light"] .nav-group-toggle:hover { color: #1a1f1b; background: #e0e3df; }
 :root[data-theme="light"] .search-box { background: #eceeeb; border-color: #c8cdc9; }
-:root[data-theme="light"] .search-box:focus-within { border-color: var(--acid); box-shadow: 0 0 0 3px rgba(140,198,63,.25); }
+:root[data-theme="light"] .search-box:focus-within { border-color: var(--acid); box-shadow: 0 0 0 3px var(--_accent-glow); }
 :root[data-theme="light"] .search-toggle input { background: #c8cdc9; }
 :root[data-theme="light"] .search-toggle input:checked { background: var(--acid); }
 :root[data-theme="light"] .search-toggle input:checked::after { background: #f5f6f3; }
@@ -1003,7 +1019,7 @@ kbd { padding: 2px 5px; border: 1px solid var(--line); color: var(--muted); back
   border-color: #d4b97a;
 }
 
-:root[data-theme="light"] .document th { color: var(--ink); background: #e4ece2; }
+:root[data-theme="light"] .document th { color: var(--ink); background: var(--_accent-table-header); }
 :root[data-theme="light"] .document th,
 :root[data-theme="light"] .document td { border-color: var(--line); }
 :root[data-theme="light"] .document tr:nth-child(even) td { background: rgba(0,0,0,.025); }
@@ -1075,7 +1091,7 @@ kbd { padding: 2px 5px; border: 1px solid var(--line); color: var(--muted); back
   #themeToggle:hover {
     background: rgba(199,255,55,.15);
   }
-  .document th { color: var(--ink); background: #e4ece2; }
+  .document th { color: var(--ink); background: var(--_accent-table-header); }
   .document th,
   .document td { border-color: var(--line); }
   .document tr:nth-child(even) td { background: rgba(0,0,0,.025); }

@@ -94,3 +94,68 @@
 - 不使用 CSS 预处理器或框架——所有令牌均为原生 CSS 自定义属性
 - `src/theme-tokens.css` 文件为离线参考，构建脚本不会将其复制到 `dist/` 中
 - `src/styles.css` 中的深色模式值**未做任何更改**——仅添加了浅色模式块和变量分组注释
+
+## 颜色主题引擎
+
+从 2026-06 版本起，网站支持通过**单一色相值 `--_hue`** 自动推导 4 个强调色（acid/cyan/amber/red）及其深/浅两模式版本，无需手动重新计算每个颜色。
+
+### 推导范围
+
+| 颜色 | 变量 | 来源 |
+|---|---|---|
+| 品牌强调色 | `--acid` | `hsl(var(--_hue), s%, l%)` |
+| 链接色 | `--cyan` | `hsl(var(--_hue-link), s%, l%)` |
+| 警告色 | `--amber` | `hsl(var(--_hue-warn), s%, l%)` |
+| 错误色 | `--red` | `hsl(var(--_hue-error), s%, l%)` |
+| 强调色光晕 | `--_accent-glow` | `rgba(r, g, b, .25)` |
+| 强调色表面 | `--_accent-surface` | `#dce8d2` (浅色主题) |
+| 表格头背景 | `--_accent-table-header` | `#e4ece2` (浅色主题) |
+
+**不参与推导**（保持手写 hex，与主题色无关）：
+- `--ink`, `--muted` — 文字色
+- `--black`, `--panel`, `--panel-soft`, `--line` — 表面/背景色
+- 所有布局、间距、字体、动画、网格参数
+- ~25 个纯中性微调的浅色模式元素覆盖
+
+### 色相偏移关系
+
+当前 SSL 绿调色板中，4 个强调色的色相关系为：
+
+| 变量 | 相对 `--_hue` | 默认值 |
+|---|---|---|
+| `--_hue` (primary) | — | 77 (green) |
+| `--_hue-link` | +108° | 185 (cyan) |
+| `--_hue-warn` | -39° | 38 (amber) |
+| `--_hue-error` | -74° | 3 (red) |
+
+### 创建新主题
+
+1. 在 `content/themes/` 下新建 JSON 文件（参考 `ssl-default.json` 或 `blue.json`）
+2. 指定色相值和饱和/明度：
+```json
+{
+  "name": "my-theme",
+  "label": "我的主题",
+  "hue": {
+    "primary": 260,
+    "link": 220,
+    "warn": 20,
+    "error": 340
+  },
+  "dark": { "acid": { "s": 85, "l": 60 }, ... },
+  "light": { "acid": { "s": 50, "l": 45 }, ... }
+}
+```
+3. 生成 CSS：
+```bash
+node scripts/build_theme.mjs content/themes/my-theme.json > dist/themes/my-theme.css
+```
+
+### 在页面中启用主题
+
+在 `<head>` 中加载生成的 CSS：
+```html
+<link rel="stylesheet" href="./themes/blue.css">
+```
+
+主题 CSS 利用 CSS 级联覆盖 `:root` 中的默认值，无需修改 `src/styles.css`。
