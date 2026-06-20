@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512">
+  <defs>
+    <filter id="skewer">
+      <feMatrix type="matrix" values="1 -0.1051 0 0 1 0 0 0 1 0"/>
+    </filter>
+  </defs>
+  <g transform="translate(256,280) skewX(-6)">
+    <rect x="-215" y="-125" width="430" height="250" fill="#91201A"/>
+    <text x="0" y="0" font-family="Impact, 'Arial Black', system-ui, sans-serif" font-size="220" font-weight="bold" fill="#FFFFFF" text-anchor="middle" dominant-baseline="central">SSL</text>
+  </g>
+</svg>

@@ -1,0 +1,65 @@
+{
+  "name": "acid",
+  "label": "酸酸绿",
+  "description": "默认主题，鲜艳视觉风格",
+  "order": 1,
+  "author": "DMT Club",
+  "hue": {
+    "primary": 77,
+    "link": 185,
+    "warn": 38,
+    "error": 3
+  },
+  "dark": {
+    "acid": {
+      "s": 100,
+      "l": 61
+    },
+    "cyan": {
+      "s": 78,
+      "l": 59
+    },
+    "amber": {
+      "s": 100,
+      "l": 63
+    },
+    "red": {
+      "s": 85,
+      "l": 63
+    }
+  },
+  "light": {
+    "acid": {
+      "s": 54,
+      "l": 51
+    },
+    "cyan": {
+      "s": 71,
+      "l": 34
+    },
+    "amber": {
+      "s": 100,
+      "l": 39
+    },
+    "red": {
+      "s": 61,
+      "l": 48
+    }
+  },
+  "brandAccentText": "#0c110d",
+  "aboutGlow": {
+    "dark": {
+      "r": 199,
+      "g": 255,
+      "b": 55
+    },
+    "light": {
+      "r": 140,
+      "g": 198,
+      "b": 63
+    }
+  },
+  "brandAccentTextLight": "#0c110d",
+  "color": "#c7ff37",
+  "default": true
+}

@@ -7,6 +7,10 @@ const state = {
   currentPage: null,
   query: "",
   language: "zh",
+  theme: "auto",
+  themePreset: null,
+  themes: null,
+  defaultTheme: null,
   expandedSections: new Set(),
   expandedGroups: new Set(),
 };
@@ -23,6 +27,11 @@ const elements = {
   breadcrumbs: document.querySelector("#breadcrumbs"),
   document: document.querySelector("#document"),
   outline: document.querySelector("#outline"),
+  themeToggle: document.querySelector("#themeToggle"),
+  themeTooltip: document.querySelector("#themeTooltip"),
+  presetToggle: document.querySelector("#presetToggle"),
+  presetDropdown: document.querySelector("#presetDropdown"),
+  presetItems: document.querySelector("#presetItems"),
   languageToggle: document.querySelector("#languageToggle"),
   previousPage: document.querySelector("#previousPage"),
   nextPage: document.querySelector("#nextPage"),
@@ -33,6 +42,176 @@ const elements = {
   scrim: document.querySelector("#scrim"),
 
 };
+
+/* — Theme management — */
+function getEffectiveTheme() {
+  if (state.theme === "dark") return "dark";
+  if (state.theme === "light") return "light";
+  return window.matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark";
+}
+
+function applyTheme() {
+  const effective = getEffectiveTheme();
+  document.documentElement.setAttribute("data-theme", effective);
+  const meta = document.querySelector('meta[name="theme-color"]');
+  if (meta) meta.content = effective === "dark" ? "#111513" : "#f5f6f3";
+}
+
+/* — Theme management: quick-tap toggles, long-press resets to auto — */
+let pressTimer = null;
+const LONG_PRESS_MS = 500;
+let wasLongPress = false;
+
+function handleThemePress(e) {
+  if (e.button !== 0) return;
+  wasLongPress = false;
+  pressTimer = setTimeout(function () {
+    wasLongPress = true;
+    pressTimer = null;
+    /* Long press → reset to auto */
+    state.theme = "auto";
+    try { localStorage.removeItem("ssl-manual-theme"); } catch (_) {}
+    applyTheme();
+    syncThemeButton();
+  }, LONG_PRESS_MS);
+}
+
+function handleThemeRelease(e) {
+  if (wasLongPress) return;
+  if (pressTimer) {
+    clearTimeout(pressTimer);
+    pressTimer = null;
+    cycleTheme();
+  }
+}
+
+function handleThemeCancel() {
+  if (pressTimer) {
+    clearTimeout(pressTimer);
+    pressTimer = null;
+  }
+}
+
+function cycleTheme() {
+  const effective = getEffectiveTheme();
+  state.theme = effective === "dark" ? "light" : "dark";
+  try { localStorage.setItem("ssl-manual-theme", state.theme); } catch (_) {}
+  applyTheme();
+  syncThemeButton();
+}
+
+function syncThemeButton() {
+  const tooltip = elements.themeTooltip;
+  if (!tooltip) return;
+  const effective = getEffectiveTheme();
+  if (state.theme === "auto") {
+    tooltip.textContent = "主题跟随系统（" + (effective === "dark" ? "深色" : "浅色") + "）";
+    return;
+  }
+  const label = effective === "dark" ? "深色" : "浅色";
+  tooltip.textContent = "当前" + label + "，点击切换，长按恢复跟随系统";
+}
+
+/* — Theme presets — */
+let presetLinkEl = null;
+
+function loadThemeCSS(name) {
+  if (name === state.defaultTheme || !name) {
+    if (presetLinkEl) { presetLinkEl.remove(); presetLinkEl = null; }
+    return;
+  }
+  if (!presetLinkEl) {
+    presetLinkEl = document.createElement("link");
+    presetLinkEl.rel = "stylesheet";
+    document.head.appendChild(presetLinkEl);
+  }
+  presetLinkEl.href = "themes/" + name + ".css?" + Date.now();
+}
+
+function buildPresetDropdown() {
+  var html = "";
+  var themes = state.themes || [];
+  for (var i = 0; i < themes.length; i++) {
+    var t = themes[i];
+    var active = t.id === state.themePreset ? " active" : "";
+    html += '<button class="preset-option' + active + '" type="button" role="menuitem" data-preset="' + t.id + '" data-description="' + escapeHtml(t.description || '') + '">' +
+      '<span class="preset-indicator" style="background:' + t.color + '"></span>' +
+      '<span>' + t.label + '</span>' +
+      '</button>';
+  }
+  if (elements.presetItems) elements.presetItems.innerHTML = html;
+}
+
+function togglePresetDropdown() {
+  var dd = elements.presetDropdown;
+  if (!dd) return;
+  var open = dd.classList.toggle("open");
+  if (open) {
+    dd.querySelectorAll(".preset-option").forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        selectThemePreset(btn.dataset.preset);
+      });
+      btn.addEventListener("mouseenter", showPresetOptionTooltip);
+      btn.addEventListener("mouseleave", hidePresetOptionTooltip);    });
+  } else {
+    hidePresetOptionTooltip();
+  }
+}
+
+function selectThemePreset(id) {
+  state.themePreset = id;
+  try { localStorage.setItem("ssl-manual-preset", id); } catch (_) {}
+  loadThemeCSS(id);
+  buildPresetDropdown();
+  if (elements.presetDropdown) elements.presetDropdown.classList.remove("open");
+  hidePresetOptionTooltip();
+}
+
+function initThemePreset() {
+  try {
+    var saved = localStorage.getItem("ssl-manual-preset");
+    if (saved && (state.themes || []).some(function (t) { return t.id === saved; })) {
+      state.themePreset = saved;
+    }
+  } catch (_) {}
+  buildPresetDropdown();
+  if (state.themePreset !== state.defaultTheme) {
+    loadThemeCSS(state.themePreset);
+  }
+}
+
+var _presetOptionTooltipEl = null;
+
+function showPresetOptionTooltip(e) {
+  var btn = e.currentTarget;
+  var desc = btn.getAttribute("data-description");
+  if (!desc) return;
+  if (!_presetOptionTooltipEl) {
+    _presetOptionTooltipEl = document.createElement("div");
+    _presetOptionTooltipEl.id = "presetOptionTooltip";
+    document.body.appendChild(_presetOptionTooltipEl);
+  }
+  _presetOptionTooltipEl.textContent = desc;
+  _presetOptionTooltipEl.style.display = "block";
+  _presetOptionTooltipEl.style.maxWidth = "";
+  _presetOptionTooltipEl.style.whiteSpace = "nowrap";
+  _presetOptionTooltipEl.style.left = "-9999px";
+  _presetOptionTooltipEl.style.top = "-9999px";
+  var rect = btn.getBoundingClientRect();
+  var naturalW = _presetOptionTooltipEl.offsetWidth;
+  var leftPos = rect.right + 10;
+  var maxAvail = window.innerWidth - leftPos - 10;
+  if (naturalW > maxAvail) {
+    var clamped = Math.max(maxAvail, 120);
+    _presetOptionTooltipEl.style.maxWidth = clamped + "px";
+    _presetOptionTooltipEl.style.whiteSpace = "normal";
+  }
+  _presetOptionTooltipEl.style.left = leftPos + "px";
+  _presetOptionTooltipEl.style.top = (rect.top + rect.height / 2) + "px";
+}
+function hidePresetOptionTooltip() {
+  if (_presetOptionTooltipEl) _presetOptionTooltipEl.style.display = "none";
+}
 
 const escapeHtml = (value) =>
   value.replace(/[&<>"']/g, (character) => ({
@@ -585,7 +764,36 @@ function closeMobilePanels() {
 async function start() {
   try {
     state.catalog = await loadData("catalog.json", () => localData.catalog);
+
+    /* — Load themes from build data — */
+    try {
+      state.themes = await loadData("themes.json", () => localData.themes);
+    } catch (e) {
+      console.warn("Failed to load themes, using fallback:", e);
+    }
+    if (!state.themes || !state.themes.length) {
+      state.themes = [{ id: "acid", label: "SSL 经典绿", color: "#c7ff37", default: true }];
+    }
+    var def = state.themes.find(function (t) { return t.default; });
+    state.defaultTheme = def ? def.id : state.themes[0].id;
+    state.themePreset = state.defaultTheme;
+
     expandAllNavigation();
+    /* — Init theme from localStorage — */
+    try {
+      const saved = localStorage.getItem("ssl-manual-theme");
+      if (saved === "dark" || saved === "light" || saved === "auto") state.theme = saved;
+    } catch (_) {}
+    applyTheme();
+    syncThemeButton();
+    initThemePreset();
+    const themeMedia = window.matchMedia("(prefers-color-scheme: light)");
+    themeMedia.addEventListener("change", function () {
+      if (state.theme === "auto") {
+        applyTheme();
+        syncThemeButton();
+      }
+    });
     elements.databaseStatus.textContent =
       `${state.catalog.meta.pageCount} TOPICS`;
     elements.searchLabel.textContent =
@@ -636,6 +844,14 @@ document.addEventListener("click", (event) => {
   elements.outline.classList.remove("open");
 });
 
+document.addEventListener("click", function (event) {
+  var dd = elements.presetDropdown;
+  if (!dd || !dd.classList.contains("open")) return;
+  if (dd.contains(event.target) || elements.presetToggle.contains(event.target)) return;
+  dd.classList.remove("open");
+  hidePresetOptionTooltip();
+});
+
 elements.searchEnToggle.addEventListener("change", function () {
     state.searchEn = this.checked;
     if (state.query.trim()) {
@@ -647,6 +863,11 @@ elements.searchEnToggle.addEventListener("change", function () {
       });
     }
   });
+  elements.themeToggle.addEventListener("pointerdown", handleThemePress);
+  elements.themeToggle.addEventListener("pointerup", handleThemeRelease);
+  elements.themeToggle.addEventListener("pointercancel", handleThemeCancel);
+  elements.themeToggle.addEventListener("pointerleave", handleThemeCancel);
+  elements.presetToggle.addEventListener("click", togglePresetDropdown);
   elements.languageToggle.addEventListener("click", () => {
   if (state.currentPage?.translationStatus !== "complete") return;
   state.language = state.language === "zh" ? "en" : "zh";

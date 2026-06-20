@@ -1,0 +1,64 @@
+{
+  "name": "blue",
+  "label": "深海蓝",
+  "order": 3,
+  "description": "蓝色强调色主题，冷色调视觉风格",
+  "author": "DMT Club",
+  "hue": {
+    "primary": 210,
+    "link": 195,
+    "warn": 35,
+    "error": 355
+  },
+  "dark": {
+    "acid": {
+      "s": 85,
+      "l": 58
+    },
+    "cyan": {
+      "s": 80,
+      "l": 55
+    },
+    "amber": {
+      "s": 95,
+      "l": 60
+    },
+    "red": {
+      "s": 80,
+      "l": 60
+    }
+  },
+  "light": {
+    "acid": {
+      "s": 50,
+      "l": 42
+    },
+    "cyan": {
+      "s": 60,
+      "l": 32
+    },
+    "amber": {
+      "s": 90,
+      "l": 38
+    },
+    "red": {
+      "s": 55,
+      "l": 45
+    }
+  },
+  "brandAccentText": "#eef4ff",
+  "aboutGlow": {
+    "dark": {
+      "r": 80,
+      "g": 160,
+      "b": 255
+    },
+    "light": {
+      "r": 60,
+      "g": 120,
+      "b": 220
+    }
+  },
+  "brandAccentTextLight": "#eef4ff",
+  "color": "#5b9aff"
+}
