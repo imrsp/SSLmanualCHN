@@ -1083,6 +1083,97 @@ kbd { padding: 2px 5px; border: 1px solid var(--line); color: var(--muted); back
   transform: scale(1) rotate(0deg);
 }
 
+/* — Theme preset selector button & dropdown — */
+.preset-toggle-wrapper {
+  position: relative;
+}
+
+#presetToggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  border-radius: 6px;
+  border: 0;
+  color: var(--muted);
+  background: transparent;
+  cursor: pointer;
+  transition: background .15s, color .15s;
+}
+#presetToggle:hover {
+  background: rgba(199,255,55,.08);
+  color: var(--acid);
+}
+#presetToggle:active {
+  background: rgba(199,255,55,.14);
+}
+
+#presetDropdown {
+  position: absolute;
+  top: calc(100% + 6px);
+  right: 0;
+  min-width: 180px;
+  padding: 6px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--panel);
+  box-shadow: 0 12px 40px var(--outline-shadow);
+  z-index: 60;
+  display: none;
+  flex-direction: column;
+  gap: 2px;
+  animation: preset-fade-in .12s ease;
+}
+#presetDropdown.open { display: flex; }
+
+@keyframes preset-fade-in {
+  from { opacity: 0; transform: translateY(-4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.preset-option {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 9px 12px;
+  border: 0;
+  border-radius: 6px;
+  background: transparent;
+  color: var(--muted);
+  font-size: 13px;
+  font-family: inherit;
+  text-align: left;
+  cursor: pointer;
+  transition: background .12s, color .12s;
+}
+.preset-option:hover { background: var(--panel-soft); color: var(--ink); }
+.preset-option.active { color: var(--acid); background: rgba(199,255,55,.08); }
+
+.preset-indicator {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  border: 1.5px solid var(--line);
+  transition: border-color .15s;
+}
+.preset-option.active .preset-indicator,
+.preset-option:hover .preset-indicator { border-color: transparent; }
+
+/* Light mode preset dropdown */
+[data-theme="light"] #presetToggle:hover {
+  background: rgba(199,255,55,.15);
+}
+@media (prefers-color-scheme: light) {
+  #presetToggle:hover {
+    background: rgba(199,255,55,.15);
+  }
+}
+
+
 /* Light mode overrides for theme toggle */
 [data-theme="light"] #themeToggle:hover {
   background: rgba(199,255,55,.15);

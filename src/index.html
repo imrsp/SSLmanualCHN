@@ -55,6 +55,19 @@
       <div class="reader-toolbar">
         <div class="breadcrumbs" id="breadcrumbs"></div>
         <div class="reader-actions">
+          <span class="preset-toggle-wrapper">
+          <button id="presetToggle" type="button" aria-label="选择主题配色" title="主题配色">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="9"/>
+              <circle cx="8" cy="9" r="2.5" fill="currentColor" stroke="none"/>
+              <circle cx="16" cy="9" r="2.5" fill="currentColor" stroke="none"/>
+              <circle cx="12" cy="17" r="2.5" fill="currentColor" stroke="none"/>
+            </svg>
+          </button>
+          <div class="preset-dropdown" id="presetDropdown" role="menu">
+            <div class="preset-dropdown-items" id="presetItems"></div>
+          </div>
+          </span>
           <span class="theme-toggle-wrapper">
           <button id="themeToggle" type="button" aria-label="切换主题" aria-describedby="themeTooltip">
           <svg class="theme-toggle-svg" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true">

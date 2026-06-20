@@ -1,0 +1,28 @@
+{
+  "name": "purple",
+  "label": "罗兰紫",
+  "description": "紫色强调色主题，优雅视觉风格",
+  "author": "DMT Club",
+  "hue": {
+    "primary": 270,
+    "link": 220,
+    "warn": 20,
+    "error": 340
+  },
+  "dark": {
+    "acid": { "s": 72, "l": 66 },
+    "cyan": { "s": 70, "l": 58 },
+    "amber": { "s": 90, "l": 62 },
+    "red": { "s": 70, "l": 62 }
+  },
+  "light": {
+    "acid": { "s": 48, "l": 48 },
+    "cyan": { "s": 50, "l": 36 },
+    "amber": { "s": 80, "l": 40 },
+    "red": { "s": 50, "l": 46 }
+  },
+  "aboutGlow": {
+    "dark": { "r": 180, "g": 130, "b": 255 },
+    "light": { "r": 130, "g": 90, "b": 220 }
+  }
+}

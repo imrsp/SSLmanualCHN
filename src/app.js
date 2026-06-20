@@ -8,6 +8,7 @@ const state = {
   query: "",
   language: "zh",
   theme: "auto",
+  themePreset: "ssl-default",
   expandedSections: new Set(),
   expandedGroups: new Set(),
 };
@@ -26,6 +27,9 @@ const elements = {
   outline: document.querySelector("#outline"),
   themeToggle: document.querySelector("#themeToggle"),
   themeTooltip: document.querySelector("#themeTooltip"),
+  presetToggle: document.querySelector("#presetToggle"),
+  presetDropdown: document.querySelector("#presetDropdown"),
+  presetItems: document.querySelector("#presetItems"),
   languageToggle: document.querySelector("#languageToggle"),
   previousPage: document.querySelector("#previousPage"),
   nextPage: document.querySelector("#nextPage"),
@@ -104,6 +108,75 @@ function syncThemeButton() {
   }
   const label = effective === "dark" ? "深色" : "浅色";
   tooltip.textContent = "当前" + label + "，点击切换，长按恢复跟随系统";
+}
+
+/* — Theme presets — */
+const THEMES = [
+  { id: "ssl-default", label: "SSL 经典绿", color: "#c7ff37" },
+  { id: "blue", label: "深海蓝", color: "#5b9aff" },
+  { id: "purple", label: "罗兰紫", color: "#b482ff" },
+];
+
+let presetLinkEl = null;
+
+function loadThemeCSS(name) {
+  if (name === "ssl-default" || !name) {
+    if (presetLinkEl) { presetLinkEl.remove(); presetLinkEl = null; }
+    return;
+  }
+  if (!presetLinkEl) {
+    presetLinkEl = document.createElement("link");
+    presetLinkEl.rel = "stylesheet";
+    document.head.appendChild(presetLinkEl);
+  }
+  presetLinkEl.href = "themes/" + name + ".css?" + Date.now();
+}
+
+function buildPresetDropdown() {
+  var html = "";
+  for (var i = 0; i < THEMES.length; i++) {
+    var t = THEMES[i];
+    var active = t.id === state.themePreset ? " active" : "";
+    html += '<button class="preset-option' + active + '" type="button" role="menuitem" data-preset="' + t.id + '">' +
+      '<span class="preset-indicator" style="background:' + t.color + '"></span>' +
+      '<span>' + t.label + '</span>' +
+      '</button>';
+  }
+  if (elements.presetItems) elements.presetItems.innerHTML = html;
+}
+
+function togglePresetDropdown() {
+  var dd = elements.presetDropdown;
+  if (!dd) return;
+  var open = dd.classList.toggle("open");
+  if (open) {
+    dd.querySelectorAll(".preset-option").forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        selectThemePreset(btn.dataset.preset);
+      });
+    });
+  }
+}
+
+function selectThemePreset(id) {
+  state.themePreset = id;
+  try { localStorage.setItem("ssl-manual-preset", id); } catch (_) {}
+  loadThemeCSS(id);
+  buildPresetDropdown();
+  if (elements.presetDropdown) elements.presetDropdown.classList.remove("open");
+}
+
+function initThemePreset() {
+  try {
+    var saved = localStorage.getItem("ssl-manual-preset");
+    if (saved && THEMES.some(function (t) { return t.id === saved; })) {
+      state.themePreset = saved;
+    }
+  } catch (_) {}
+  buildPresetDropdown();
+  if (state.themePreset !== "ssl-default") {
+    loadThemeCSS(state.themePreset);
+  }
 }
 
 const escapeHtml = (value) =>
@@ -665,6 +738,7 @@ async function start() {
     } catch (_) {}
     applyTheme();
     syncThemeButton();
+    initThemePreset();
     const themeMedia = window.matchMedia("(prefers-color-scheme: light)");
     themeMedia.addEventListener("change", function () {
       if (state.theme === "auto") {
@@ -737,6 +811,7 @@ elements.searchEnToggle.addEventListener("change", function () {
   elements.themeToggle.addEventListener("pointerup", handleThemeRelease);
   elements.themeToggle.addEventListener("pointercancel", handleThemeCancel);
   elements.themeToggle.addEventListener("pointerleave", handleThemeCancel);
+  elements.presetToggle.addEventListener("click", togglePresetDropdown);
   elements.languageToggle.addEventListener("click", () => {
   if (state.currentPage?.translationStatus !== "complete") return;
   state.language = state.language === "zh" ? "en" : "zh";
