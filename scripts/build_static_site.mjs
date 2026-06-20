@@ -188,6 +188,7 @@ if (fs.existsSync(themesDir)) {
   --red:    hsl(var(--_hue-error), ${lt.red.s}%, ${lt.red.l}%);
   --about-glow-r: ${glow.light.r}; --about-glow-g: ${glow.light.g}; --about-glow-b: ${glow.light.b};
   --_accent-glow: rgba(${glow.light.r},${glow.light.g},${glow.light.b},.25);
+  --brand-accent-text: ${config.brandAccentTextLight};
 }
 @media (prefers-color-scheme: light) {
   :root {
@@ -197,6 +198,7 @@ if (fs.existsSync(themesDir)) {
     --red:    hsl(var(--_hue-error), ${lt.red.s}%, ${lt.red.l}%);
     --about-glow-r: ${glow.light.r}; --about-glow-g: ${glow.light.g}; --about-glow-b: ${glow.light.b};
     --_accent-glow: rgba(${glow.light.r},${glow.light.g},${glow.light.b},.25);
+    --brand-accent-text: ${config.brandAccentTextLight};
   }
 }`;
     fs.writeFileSync(path.join(themesOut, config.name + ".css"), css);

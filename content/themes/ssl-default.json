@@ -1,7 +1,7 @@
 {
   "name": "ssl-default",
-  "label": "SSL 经典绿",
-  "description": "SSL 绿色强调色，与当前深色模式的精确色彩匹配",
+  "label": "青涩绿",
+  "description": "经典绿色强调色主题",
   "author": "DMT Club",
   "hue": {
     "primary": 77,
@@ -57,5 +57,6 @@
       "g": 198,
       "b": 63
     }
-  }
+  },
+  "brandAccentTextLight": "#0c110d"
 }

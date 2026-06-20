@@ -45,6 +45,9 @@ const css = `/* Theme: ${theme.name} — ${theme.label} */
 
   /* Accent-tinted surfaces (dark mode) */
   --_accent-glow: rgba(${glow.dark.r}, ${glow.dark.g}, ${glow.dark.b}, .25);
+
+  /* Text on accent backgrounds */
+  --brand-accent-text: ${theme.brandAccentText};
 }
 
 /* Light mode accent colors */
@@ -63,6 +66,9 @@ const css = `/* Theme: ${theme.name} — ${theme.label} */
 
   /* Accent-tinted surfaces (light mode) */
   --_accent-glow: rgba(${glow.light.r}, ${glow.light.g}, ${glow.light.b}, .25);
+
+  /* Text on accent backgrounds */
+  --brand-accent-text: ${theme.brandAccentTextLight};
 }
 
 /* System light mode */
@@ -78,6 +84,9 @@ const css = `/* Theme: ${theme.name} — ${theme.label} */
     --about-glow-b: ${glow.light.b};
 
     --_accent-glow: rgba(${glow.light.r}, ${glow.light.g}, ${glow.light.b}, .25);
+
+    /* Text on accent backgrounds */
+    --brand-accent-text: ${theme.brandAccentTextLight};
   }
 }
 `;
