@@ -17,6 +17,7 @@ const mimeTypes = {
   ".png": "image/png",
   ".svg": "image/svg+xml",
   ".webp": "image/webp",
+  ".woff2": "font/woff2",
 };
 
 if (!fs.existsSync(path.join(directory, "index.html"))) {

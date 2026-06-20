@@ -1,4 +1,5 @@
 import fs from "node:fs";
+import { execSync } from "node:child_process";
 import path from "node:path";
 import {
   root,
@@ -148,6 +149,41 @@ function dedupeIds(html) {
   });
 }
 
+
+function subsetFonts() {
+  const srcDir = path.join(root, "fonts", "src");
+  const outDir = path.join(outputDirectory, "assets", "fonts");
+  if (!fs.existsSync(srcDir)) {
+    console.log("[fonts] No TTF, skipping.");
+    return;
+  }
+  fs.mkdirSync(outDir, { recursive: true });
+  const zhDir = path.join(contentDirectory, "zh", "pages");
+  const chars = new Set();
+  for (const file of fs.readdirSync(zhDir).filter(f => f.endsWith(".html"))) {
+    const text = fs.readFileSync(path.join(zhDir, file), "utf8");
+    for (const c of text) {
+      if (c >= "\u4e00" && c <= "\u9fff") chars.add(c);
+      if (c.charCodeAt(0) >= 0x20 && c.charCodeAt(0) <= 0x7e) chars.add(c);
+    }
+  }
+  const textFile = path.join(outputDirectory, "data", "_subset_chars.txt");
+  fs.writeFileSync(textFile, [...chars].join(""), "utf8");
+  const entries = [
+    ["NotoSansSC-Regular.ttf", "NotoSansSC-Regular.subset.woff2"],
+    ["NotoSansSC-Bold.ttf", "NotoSansSC-Bold.subset.woff2"],
+    ["NotoSerifSC-Regular.ttf", "NotoSerifSC-Regular.subset.woff2"],
+  ];
+  for (const [src, dest] of entries) {
+    const srcPath = path.join(srcDir, src);
+    if (!fs.existsSync(srcPath)) continue;
+    const destPath = path.join(outDir, dest);
+    execSync("pyftsubset " + JSON.stringify(srcPath) + " --text-file=" + JSON.stringify(textFile) + " --flavor=woff2 --output-file=" + JSON.stringify(destPath), { stdio: "pipe" });
+  }
+  fs.rmSync(textFile, { force: true });
+  console.log("[fonts] Subset " + entries.length + " fonts to " + outDir);
+}
+
 fs.rmSync(outputDirectory, { recursive: true, force: true });
 fs.mkdirSync(path.join(outputDirectory, "data", "pages"), { recursive: true });
 fs.cpSync(path.join(root, "public"), outputDirectory, { recursive: true });
@@ -155,6 +191,10 @@ for (const file of ["index.html", "app.js", "styles.css"]) {
   fs.copyFileSync(path.join(root, "src", file), path.join(outputDirectory, file));
 }
 
+<<<<<<< Updated upstream
+=======
+
+subsetFonts();
 /* — Generate theme CSS from content/themes/*.json — */
 let themeFiles = [];
 const themesDir = path.join(root, "content", "themes");
@@ -222,6 +262,7 @@ if (fs.existsSync(themesDir)) {
     (json) => `globalThis.__SSL_MANUAL_DATA__.themes = ${json};`);
 }
 
+>>>>>>> Stashed changes
 function writeDataFiles(jsonPath, value, assignment) {
   const json = JSON.stringify(value);
   fs.writeFileSync(jsonPath, json);
@@ -414,5 +455,4 @@ console.log(JSON.stringify({
     total + fs.statSync(path.join(outputDirectory, "data", "pages", `${page.id}.json`)).size, 0),
   searchIndexZhBytes: fs.statSync(path.join(outputDirectory, "data", "search-index-zh.json")).size,
 searchIndexEnBytes: fs.statSync(path.join(outputDirectory, "data", "search-index-en.json")).size,
-  themeFiles: themeFiles.length,
 }, null, 2));
