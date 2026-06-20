@@ -134,7 +134,7 @@ function buildPresetDropdown() {
   for (var i = 0; i < themes.length; i++) {
     var t = themes[i];
     var active = t.id === state.themePreset ? " active" : "";
-    html += '<button class="preset-option' + active + '" type="button" role="menuitem" data-preset="' + t.id + '">' +
+    html += '<button class="preset-option' + active + '" type="button" role="menuitem" data-preset="' + t.id + '" data-description="' + escapeHtml(t.description || '') + '">' +
       '<span class="preset-indicator" style="background:' + t.color + '"></span>' +
       '<span>' + t.label + '</span>' +
       '</button>';
@@ -151,7 +151,10 @@ function togglePresetDropdown() {
       btn.addEventListener("click", function () {
         selectThemePreset(btn.dataset.preset);
       });
-    });
+      btn.addEventListener("mouseenter", showPresetOptionTooltip);
+      btn.addEventListener("mouseleave", hidePresetOptionTooltip);    });
+  } else {
+    hidePresetOptionTooltip();
   }
 }
 
@@ -161,6 +164,7 @@ function selectThemePreset(id) {
   loadThemeCSS(id);
   buildPresetDropdown();
   if (elements.presetDropdown) elements.presetDropdown.classList.remove("open");
+  hidePresetOptionTooltip();
 }
 
 function initThemePreset() {
@@ -174,6 +178,28 @@ function initThemePreset() {
   if (state.themePreset !== state.defaultTheme) {
     loadThemeCSS(state.themePreset);
   }
+}
+
+var _presetOptionTooltipEl = null;
+
+function showPresetOptionTooltip(e) {
+  var btn = e.currentTarget;
+  var desc = btn.getAttribute("data-description");
+  if (!desc) return;
+  if (!_presetOptionTooltipEl) {
+    _presetOptionTooltipEl = document.createElement("div");
+    _presetOptionTooltipEl.id = "presetOptionTooltip";
+    document.body.appendChild(_presetOptionTooltipEl);
+  }
+  _presetOptionTooltipEl.textContent = desc;
+  _presetOptionTooltipEl.style.display = "block";
+  var rect = btn.getBoundingClientRect();
+  _presetOptionTooltipEl.style.left = (rect.right + 10) + "px";
+  _presetOptionTooltipEl.style.top = (rect.top + rect.height / 2) + "px";
+}
+
+function hidePresetOptionTooltip() {
+  if (_presetOptionTooltipEl) _presetOptionTooltipEl.style.display = "none";
 }
 
 const escapeHtml = (value) =>
@@ -805,6 +831,14 @@ document.addEventListener("click", (event) => {
   if (!elements.outline.classList.contains("open")) return;
   if (elements.outline.contains(event.target) || elements.outlineButton.contains(event.target)) return;
   elements.outline.classList.remove("open");
+});
+
+document.addEventListener("click", function (event) {
+  var dd = elements.presetDropdown;
+  if (!dd || !dd.classList.contains("open")) return;
+  if (dd.contains(event.target) || elements.presetToggle.contains(event.target)) return;
+  dd.classList.remove("open");
+  hidePresetOptionTooltip();
 });
 
 elements.searchEnToggle.addEventListener("change", function () {

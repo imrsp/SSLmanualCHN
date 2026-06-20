@@ -212,6 +212,7 @@ if (fs.existsSync(themesDir)) {
         id: config.name,
         label: config.label,
         color: config.color,
+        description: config.description || "",
         default: config.default === true,
         order: config.order || 99,
       };
