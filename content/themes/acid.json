@@ -1,7 +1,7 @@
 {
-  "name": "ssl-default",
-  "label": "青涩绿",
-  "description": "经典绿色强调色主题",
+  "name": "acid",
+  "label": "酸绿",
+  "description": "默认主题",
   "author": "DMT Club",
   "hue": {
     "primary": 77,

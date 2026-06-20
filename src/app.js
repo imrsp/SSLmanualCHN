@@ -8,7 +8,7 @@ const state = {
   query: "",
   language: "zh",
   theme: "auto",
-  themePreset: "ssl-default",
+  themePreset: "acid",
   expandedSections: new Set(),
   expandedGroups: new Set(),
 };
@@ -112,7 +112,8 @@ function syncThemeButton() {
 
 /* — Theme presets — */
 const THEMES = [
-  { id: "ssl-default", label: "SSL 经典绿", color: "#c7ff37" },
+  { id: "acid", label: "SSL 经典绿", color: "#c7ff37" },
+  { id: "red", label: "SSL 经典红", color: "#91201A" },
   { id: "blue", label: "深海蓝", color: "#5b9aff" },
   { id: "purple", label: "罗兰紫", color: "#b482ff" },
 ];
@@ -120,7 +121,7 @@ const THEMES = [
 let presetLinkEl = null;
 
 function loadThemeCSS(name) {
-  if (name === "ssl-default" || !name) {
+  if (name === "acid" || !name) {
     if (presetLinkEl) { presetLinkEl.remove(); presetLinkEl = null; }
     return;
   }
@@ -174,7 +175,7 @@ function initThemePreset() {
     }
   } catch (_) {}
   buildPresetDropdown();
-  if (state.themePreset !== "ssl-default") {
+  if (state.themePreset !== "acid") {
     loadThemeCSS(state.themePreset);
   }
 }
