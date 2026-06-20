@@ -1028,9 +1028,7 @@ kbd { padding: 2px 5px; border: 1px solid var(--line); color: var(--muted); back
 :root[data-theme="light"] .manual-disclosure summary { background: #e4e7e3; }
 :root[data-theme="light"] .manual-disclosure summary:hover { background: #dcdfdb; }
 :root[data-theme="light"] .manual-disclosure-content { border-top-color: var(--line); }
-:root[data-theme="light"] .result-title,
-:root[data-theme="light"] .result-excerpt mark { color: #0f8e9e; }
-:root[data-theme="light"] .result-excerpt mark { background: rgba(199,255,55,.25); }
+:root[data-theme="light"] .result-excerpt mark { background: hsla(var(--_hue), 54%, 51%, .12); }
 :root[data-theme="light"] .search-highlight { background: rgba(255,186,67,.2); color: #2d332f; }
 :root[data-theme="light"] .outline::before { color: #8d9891; }
 :root[data-theme="light"] .outline a { color: #6e7a72; }
