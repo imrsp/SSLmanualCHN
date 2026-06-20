@@ -2,6 +2,7 @@
   "name": "acid",
   "label": "酸绿",
   "description": "默认主题",
+  "order": 1,
   "author": "DMT Club",
   "hue": {
     "primary": 77,
