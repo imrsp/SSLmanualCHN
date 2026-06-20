@@ -59,6 +59,6 @@ npm run translation:export     # 导出尚未翻译的章节
 npm run translation:import -- handoff/translated.txt
 ```
 
-详细说明见 [架构](docs/ARCHITECTURE.md)、[贡献指南](docs/CONTRIBUTING.md)、[翻译流程](docs/TRANSLATION.md)、[源站转储](docs/UPSTREAM_SNAPSHOTS.md)、和[部署指南](docs/DEPLOYMENT.md)。
+详细说明见 [架构](docs/ARCHITECTURE.md)、[贡献指南](docs/CONTRIBUTING.md)、[翻译流程](docs/TRANSLATION.md)、[样式与主题系统](docs/STYLING.md)、[源站转储](docs/UPSTREAM_SNAPSHOTS.md)、和[部署指南](docs/DEPLOYMENT.md)。
 
 原始来源：[SSL Live Help](https://livehelp.solidstatelogic.com/)
