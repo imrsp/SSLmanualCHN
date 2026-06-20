@@ -56,7 +56,7 @@
   --_accent-surface: hsl(var(--_hue), 18%, 87%);
   --_accent-table-header: hsl(var(--_hue), 12%, 91%);
   --_accent-glow: rgba(199,255,55,.25);
-
+  --brand-accent-text: #0c110d;
   /* — Layout tokens */
   --sidebar-width: 280px;
   --topbar-height: 72px;
@@ -120,7 +120,7 @@ button, a { -webkit-tap-highlight-color: transparent; }
 .brand-mark {
   padding: 6px 8px;
   background: var(--acid);
-  color: #0c110d;
+  color: var(--brand-accent-text);
   font-family: Impact, "Arial Black", sans-serif;
   font-size: 21px;
   letter-spacing: -.04em;

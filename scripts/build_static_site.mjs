@@ -178,6 +178,7 @@ if (fs.existsSync(themesDir)) {
   --red:    hsl(var(--_hue-error), ${dk.red.s}%, ${dk.red.l}%);
   --about-glow-r: ${glow.dark.r}; --about-glow-g: ${glow.dark.g}; --about-glow-b: ${glow.dark.b};
   --_accent-glow: rgba(${glow.dark.r},${glow.dark.g},${glow.dark.b},.25);
+  --brand-accent-text: ${config.brandAccentText};
 }
 :root[data-theme="light"] {
   color-scheme: light;
