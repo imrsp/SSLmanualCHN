@@ -63,7 +63,7 @@
         <div class="breadcrumbs" id="breadcrumbs"></div>
         <div class="reader-actions">
           <span class="preset-toggle-wrapper">
-          <button id="presetToggle" type="button" aria-label="选择主题配色" title="主题配色">
+          <button id="presetToggle" type="button" aria-label="选择主题配色" aria-describedby="presetTooltip">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="none" stroke-linecap="round" stroke-linejoin="round">
               <rect x="2.5" y="2.5" width="8" height="8" rx="1.5" fill="currentColor" opacity="0.4"/>
               <rect x="13.5" y="2.5" width="8" height="8" rx="1.5" fill="currentColor" opacity="0.7"/>
@@ -71,6 +71,7 @@
               <rect x="13.5" y="13.5" width="8" height="8" rx="1.5" fill="currentColor"/>
             </svg>
           </button>
+          <span class="preset-tooltip" id="presetTooltip" role="tooltip">选择主题配色</span>
           <div class="preset-dropdown" id="presetDropdown" role="menu">
             <div class="preset-dropdown-items" id="presetItems"></div>
           </div>
@@ -96,7 +97,7 @@
             </g>
           </svg>
           </button>
-          <span class="theme-tooltip" id="themeTooltip" role="tooltip">点击切换深色/浅色，长按恢复跟随系统</span>
+          <span class="preset-tooltip" id="presetTooltip" role="tooltip">选择主题配色</span>          <span class="theme-tooltip" id="themeTooltip" role="tooltip">点击切换深色/浅色，长按恢复跟随系统</span>
           </span>
           <button id="outlineButton" type="button">本页目录</button>
           <button id="languageToggle" type="button">中 / EN</button>

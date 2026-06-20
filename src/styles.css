@@ -600,6 +600,28 @@ kbd { padding: 2px 5px; border: 1px solid var(--line); color: var(--muted); back
   pointer-events: none;
 }
 .theme-toggle-wrapper:hover .theme-tooltip { display: block; }
+/* — Preset toggle tooltip — */
+.preset-tooltip {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 100;
+  display: none;
+  white-space: nowrap;
+  padding: 6px 10px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: var(--panel);
+  color: var(--ink);
+  font: 11px/1.4 Consolas, monospace;
+  letter-spacing: .02em;
+  box-shadow: 0 8px 24px rgba(0,0,0,.35);
+  pointer-events: none;
+}
+.preset-toggle-wrapper:hover .preset-tooltip { display: block; }
+
+
 #outlineButton { display: none; }
 
 .reader-layout {

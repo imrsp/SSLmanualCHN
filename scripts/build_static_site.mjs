@@ -203,6 +203,22 @@ if (fs.existsSync(themesDir)) {
 }`;
     fs.writeFileSync(path.join(themesOut, config.name + ".css"), css);
   });
+
+  /* --- Generate data/themes.json for runtime theme list --- */
+  const themesData = themeFiles
+    .map(function (tf) {
+      const config = JSON.parse(fs.readFileSync(path.join(themesDir, tf), "utf8"));
+      return {
+        id: config.name,
+        label: config.label,
+        color: config.color,
+        default: config.default === true,
+        order: config.order || 99,
+      };
+    })
+    .sort(function (a, b) { return a.order - b.order; });
+  writeDataFiles(path.join(outputDirectory, "data", "themes.json"), themesData,
+    (json) => `globalThis.__SSL_MANUAL_DATA__.themes = ${json};`);
 }
 
 function writeDataFiles(jsonPath, value, assignment) {

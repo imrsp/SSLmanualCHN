@@ -58,5 +58,7 @@
       "b": 63
     }
   },
-  "brandAccentTextLight": "#0c110d"
+  "brandAccentTextLight": "#0c110d",
+  "color": "#c7ff37",
+  "default": true
 }

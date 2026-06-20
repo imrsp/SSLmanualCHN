@@ -1,6 +1,7 @@
 {
   "name": "blue",
   "label": "深海蓝",
+  "order": 3,
   "description": "蓝色强调色主题，冷色调视觉风格",
   "author": "DMT Club",
   "hue": {
@@ -58,5 +59,6 @@
       "b": 220
     }
   },
-  "brandAccentTextLight": "#eef4ff"
+  "brandAccentTextLight": "#eef4ff",
+  "color": "#5b9aff"
 }
