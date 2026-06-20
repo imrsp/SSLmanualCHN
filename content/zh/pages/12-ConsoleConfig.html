@@ -36,7 +36,7 @@
 <p>主要有 4 种路径类型：</p>
 <p style="margin-bottom:0px">
     <ul>
-        <li>通道</li>
+        <li>Channel 通道</li>
         <li>Stem 编组母线</li>
         <li>Aux 辅助母线</li>
         <li>Master 主母线</li>
@@ -45,12 +45,12 @@
 
 <p>本节稍后会详细介绍每种路径类型。</p>
 
-<p>另有一些独立于主路径池的信号路径，包括 VCA、对讲、独奏和矩阵通道。它们均可通过下文所述的<b>Console&nbsp;Configuration</b>页面配置。</p>
+<p>另有一些独立于主路径池的信号路径，包括 VCA、对讲、独奏和矩阵通道。它们均可通过下文所述的 <b>Console&nbsp;Configuration</b> 页面配置。</p>
 
 <p>控制台还包含不执行信号处理、仅用于控制外部设备的路径：<a href="https://livehelp.solidstatelogic.com/Help/DAWControl.html"><span class="hyperlink">DAW&nbsp;paths</span></a>（按需自动创建）以及<a href="https://livehelp.solidstatelogic.com/Help/ExternalControl.html"><span class="hyperlink">OSC&nbsp;paths</span></a>（通过 Console Configuration 页面创建）。</p>
 
 <span class="note">
-    <span class="notetitle">请注意：</span>每种控制台型号都有可用路径总数限制，各路径类型（完整路径/干路径及通道/Stem/Aux/Master）也分别有限制。满足以下任一条件时，控制台会阻止继续创建路径：<br>-&emsp;已达到控制台路径总数上限。<br>-&emsp;已达到某种路径类型的上限。此时仅禁止继续创建该类型路径。</span>
+    <span class="notetitle">请注意：</span>每种控制台型号都有可用路径总数限制，各路径类型（完整路径/干路径及 Channel/Stem/Aux/Master）也分别有限制。满足以下任一条件时，控制台会阻止继续创建路径：<br>-&emsp;已达到控制台路径总数上限。<br>-&emsp;已达到某种路径类型的上限。此时仅禁止继续创建该类型路径。</span>
 
 
 <h3 id="PlusPack">Plus 处理扩展包</h3>
@@ -244,9 +244,9 @@
                 </tr>
                 <tr>
                     <th>矩阵</th>
-                    <td colspan="2">4 × 32 个输入，12 个已处理输出</td>
-                    <td colspan="2">4 × 32 个输入，24 个已处理输出</td>
-                    <td colspan="19">4 × 32 个输入，36 个已处理输出</td>
+                    <td colspan="2">4 × 32 个输入，12 个带处理输出</td>
+                    <td colspan="2">4 × 32 个输入，24 个带处理输出</td>
+                    <td colspan="19">4 × 32 个输入，36 个带处理输出</td>
                 </tr>
                 <tr>
                     <th>最大 FX 实例数</th>
@@ -458,7 +458,7 @@
 <ol>
     <li>为经常成组使用的通道创建 Stem，例如鼓、打击乐、铜管等。当艺人要求增减整组声音时，只需在其 Aux 混音中调整 Stem，而不必逐个调整通道。不同混音可采用不同 Stem；例如鼓手混音可继续使用各鼓通道，而和声歌手混音可使用预混的“鼓”Stem。</li>
     <li>如果多位乐手共用一个 IEM 接收包，可将 Aux 路径视为接收包而非乐手混音。改在 Stem 上创建混音，并将相应 Stem 取消静音后送往该接收包。这样可建立混音库并动态切换到 Aux 混音，甚至可用自动化系统自动切换。</li>
-    <li>播放技术人员通常需要监听未经处理的干播放轨，因此不希望听到路径处理。可将播放通道通过<b>Post Trim</b>汇入 Stem，再与其他来源（喊话系统、对讲等）一起送入其 Aux 混音。</li>
+    <li>播放技术人员通常需要监听未经处理的干播放轨，因此不希望听到路径处理。可将播放通道通过 <b>Post Trim</b> 汇入 Stem，再与其他来源（喊话系统、对讲等）一起送入其 Aux 混音。</li>
 </ol>
 
 <h3>Aux 辅助母线</h3>
@@ -543,9 +543,9 @@
 
 <span class="note"><span class="notetitle">注意：</span>如果添加母线路径时未指定馈送点，Stem 和 Master 将创建为<span style="font-weight: bold;">Post All</span>，Aux 将创建为<span style="font-weight: bold;">Pre Fader</span>。</span>
 
-<p>路径编号按其通过单声道、立体声、LCR、4.0 和 5.1 数字框添加的顺序分配；也可逐条编辑和添加各类型路径。</p>
+<p>使用单声道、立体声、LCR、4.0 和 5.1 数值文本框添加路径时，系统会按添加顺序为这些路径分配编号；也可逐条编辑和添加各类型路径。</p>
 
-<p>为此，请点击<img style="margin: 0px;" src="https://livehelp.solidstatelogic.com/Help/images/g_ConfigListIconEDGE.png" alt="">列表图标，它位于<span style="font-weight: bold;">View</span>列中。（Aux 和 Master 只有在展开视图中才显示此图标。）</p>
+<p>为此，请点击<img style="margin: 0px;" src="https://livehelp.solidstatelogic.com/Help/images/g_ConfigListIconEDGE.png" alt="">列表图标，它位于 <span style="font-weight: bold;">View</span> 列中。（Aux 和 Master 只有在展开视图中才显示此图标。）</p>
 
 <p>相关类型的每条路径会单独显示一行，绿灯表示当前格式。点击所需格式的指示器使其变绿。已更改路径会显示 &diams; 符号。</p>
 
@@ -554,7 +554,7 @@
 <p>按住<span class="label">Apply</span>按钮（右上角）应用更改。</p>
 
 <span class="note">
-    <span class="notetitle">请注意：</span>离开<span class="label">Console Configuration</span>页面，或未按<span class="label">Edit</span>就关闭<span class="label">Apply</span>，都会取消全部更改。</span>
+    <span class="notetitle">请注意：</span>离开<span class="label">Console Configuration</span>页面，或未按 <span class="label">Apply</span> 就关闭 <span class="label">Edit</span>，都会取消全部更改。</span>
 
 
 <h2>矩阵配置</h2>
@@ -581,7 +581,7 @@
 
 <p>可在路径列表中删除、移动或复制单条路径。</p>
 
-<p>展开路径列表并启用<span class="label">Edit</span>后，点击相关路径<span style="font-weight: bold;">Edit</span>列中的灰色单选按钮；每条选中路径的按钮会变红，表示正在编辑。</p>
+<p>展开路径列表并启用<span class="label">Edit</span>后，点击相关路径 <span style="font-weight: bold;">Edit</span> 列中的灰色单选按钮；每条选中路径的按钮会变红，表示正在编辑。</p>
 
 <span class="note"><span class="notetitle">注意：</span>可同时标记多条路径进行编辑。</span>
 
@@ -592,7 +592,7 @@
     </li>
 </ul>
 
-<span class="note"><span class="notetitle">注意：</span>这些操作会作用于最近选择的路径类型区域中所有选为 Edit 的路径，无论该区域是否展开，也无论操作时路径是否可见。</span>
+<span class="note"><span class="notetitle">注意：</span>这些操作会作用于各路径类型区域中所有选为 Edit 的路径，无论该类型是否展开，也无论操作时路径是否可见。</span>
 
 <p>按住右上角的 <span class="label">Apply</span> 按钮，使 Console Configuration 页面中的更改在控制台上生效。</p>
 
@@ -622,11 +622,11 @@
 
 <h3>导入</h3>
 
-<p>要导入通道名称，必须将通道列表电子表格保存为 <span style="font-weight:bold;">CSV 文件</span>。主流电子表格应用均可另存为 .CSV。将 CSV 保存到 USB 驱动器并接入控制台或运行 SOLSA 的 PC；导入前无需复制到控制台内部硬盘。</p>
+<p>要导入通道名称，必须将通道单电子表格保存为 <span style="font-weight:bold;">CSV 文件</span>。主流电子表格应用均可另存为 .CSV。将 CSV 保存到 USB 驱动器并接入控制台或运行 SOLSA 的 PC；导入前无需复制到控制台内部硬盘。</p>
 
 <p>在文件列表中选择 CSV 文件。下方会显示其中行列的可视化预览。使用绿色指示器标记要导入的行和列。</p>
 
-<p>然后选择<span style="font-weight:bold;">Import Mode</span>。选择<span class="label">Add to End</span>会将新通道添加到现有通道列表末尾；选择<span class="label">Overwrite</span>会删除全部现有通道名称并替换为新名称。其他通道设置保持不变，<span class="label">Overwrite</span>仅替换名称。</p>
+<p>然后选择 <span style="font-weight:bold;">Import Mode</span>。选择<span class="label">Add to End</span>会将新通道添加到现有通道列表末尾；选择<span class="label">Overwrite</span>会删除全部现有通道名称并替换为新名称。<span class="label">Overwrite</span>仅替换名称，其他通道设置保持不变。</p>
 
 <p>然后点击<span class="label">Import</span>。</p>
 
@@ -638,11 +638,11 @@
 
 <p>导入工具可自动将输入通道格式化为立体声、LCR、4.0 和 5.1。</p>
 
-<p>例如，如果控制台将<span style="font-weight:bold;">KEYS L</span>和<span style="font-weight:bold;">KEYS R</span>识别为两个相邻通道，就会创建一个立体声<span style="font-weight:bold;">KEYS</span>通道。</p>
+<p>例如，如果控制台将 <span style="font-weight:bold;">KEYS L</span> 和 <span style="font-weight:bold;">KEYS R</span> 识别为两个相邻通道，就会创建一个立体声 <span style="font-weight:bold;">KEYS</span> 通道。</p>
 
 <p>要自动格式化通道，请先启用 <span class="label">Format Channels</span>，再点击 <span class="label">Import</span>。</p>
 
-<p>对于立体声导入，相邻两个通道名称末尾必须分别为大写<span style="font-weight:bold;">L</span>和<span style="font-weight:bold;">R</span>，其余文字必须相同。导入机制也能识别 L 或 R 前的连字符（<span style="font-weight:bold;">-</span>）或下划线（<span style="font-weight:bold;">_</span>）。</p>
+<p>对于立体声导入，相邻两个通道名称末尾必须分别为大写 <span style="font-weight:bold;">L</span> 和 <span style="font-weight:bold;">R</span>，其余文字必须相同。导入程序也能识别 L 或 R 前的连字符（<span style="font-weight:bold;">-</span>）或下划线（<span style="font-weight:bold;">_</span>）。</p>
 
 <p style="margin-bottom:0px;">LCR、4.0 和 5.1 也适用，结尾须按以下正确顺序排列。</p>
 <ul class="tab" style="margin-top:0px;">
@@ -666,26 +666,26 @@
 <p>输入通道有两种编号模式：<span class="label">Default</span> 和 <span class="label">Auto-Renumber</span>。</p>
 
 <p>
-    <span class="label">Default</span>表示通道 ID 编号<span style="font-weight:bold;">连续</span>，不受通道格式影响。创建多通道格式后，舞台接口箱跳线编号可能与控制台通道 ID 不一致。</p>
+    <span class="label">Default</span>表示通道 ID 编号<span style="font-weight:bold;">连续</span>，不受通道格式影响。创建多通道格式后，舞台接口箱接线顺序可能与控制台通道 ID 不一致。</p>
 
 <p>以下是<span class="label">Default</span>模式示例：</p>
 
 <img style="display: block; margin: 25px auto;" src="https://livehelp.solidstatelogic.com/Help/images/g_DefaultNumbering.png" alt="">
 <br>
 <br>
-<p><span class="label">Auto-Renumber</span>恢复输入跳线编号与输入通道 ID 的顺序，使编号<span style="font-weight:bold;">一致</span>。</p>
+<p><span class="label">Auto-Renumber</span>将输入通道 ID 的顺序匹配至接线顺序，使二者编号<span style="font-weight:bold;">一致</span>。</p>
 
 <p>以下是<span class="label">Auto-Renumber</span>模式示例：</p>
 
 <img style="display: block; margin: 25px auto;" src="https://livehelp.solidstatelogic.com/Help/images/g_AutoRenumber.png" alt="">
 
-<p>更改编号模式，请进入页面顶部的<span style="font-weight:bold;">Number Channels by:</span>区域，从下拉菜单选择<span class="label">Default</span>或<span class="label">Auto-Renumber</span>。按住<span class="label">APPLY</span>应用更改。</p>
+<p>更改编号模式，请进入页面顶部的 <span style="font-weight:bold;">Number Channels by:</span> 区域，从下拉菜单选择<span class="label">Default</span>或<span class="label">Auto-Renumber</span>。按住<span class="label">APPLY</span>应用更改。</p>
 
 
 <h2 id="ModelCompatibility">兼容模式</h2>
 
 <p><span style="font-weight:bold;">演出文件在整个 SSL Live 控制台系列内交叉兼容</span>，无需额外软件或转换。</p>
-<p>在大型控制台上创建的演出文件可加载到较小型号。如果资源不足，系统会自动进入<span style="font-weight:bold;">兼容模式</span>。</p>
+<p>在大型控制台上创建的演出文件可加载到较小型号。如果资源不足，系统会自动进入 <span style="font-weight:bold;">兼容模式</span>。</p>
 
 <p>控制台会尽可能创建演出文件中的路径；超出型号容量的剩余路径将被<i>禁用</i>。禁用路径不传递音频，但仍保存在演出文件中，并可调整推子和路径处理。通道视图中显示如下：</p>
 
@@ -699,7 +699,7 @@
 
 <p>也可通过<span class="label">Compatibility&nbsp;Mode</span>中的<a href="https://livehelp.solidstatelogic.com/Help/OptionsSystem.html#SystemOptions"><span class="hyperlink">System Options</span></a>按钮手动启用兼容模式。可在处理能力较小的控制台上创建最终用于大型控制台的演出文件。状态栏出现<img src="https://livehelp.solidstatelogic.com/Help/images/g_CompatibilityGreen.png" alt="green Compatibility">图标表示<span style="font-weight:bold;">兼容模式</span>已启用，但当前没有处理资源被禁用。</p>
 
-<p>要创建超过当前型号容量的路径，必须先选择一些现有路径进行<i>禁用</i>。进入<span class="label">Console Configuration</span>，启用<span class="label">Edit</span>并点击右侧的<span class="label">Compatibility</span>按钮。表格中的 Edit 列会变为<span style="font-weight:bold;">Enabled</span>。展开所需路径类型，点击各路径<span style="font-weight: bold;">Enabled</span>列中的按钮。绿色表示启用，灰色空按钮表示禁用。按住<span class="label">Apply</span>确认。现在可创建更多<i>已启用</i>路径。</p>
+<p>要创建超过当前型号容量的路径，必须先选择一些现有路径进行<i>禁用</i>。进入<span class="label">Console Configuration</span>，启用<span class="label">Edit</span>并点击右侧的<span class="label">Compatibility</span>按钮。表格中的 Edit 列会变为 <span style="font-weight:bold;">Enabled</span>。展开所需路径类型，点击各路径 <span style="font-weight: bold;">Enabled</span> 列中的按钮。绿色表示启用，灰色空按钮表示禁用。按住<span class="label">Apply</span>确认。现在可创建更多<i>已启用</i>路径。</p>
 
 <p>要禁用效果，请进入 Effect Rack 页面（<span class="label">Menu</span> > <span class="label">Effects</span>），选择要禁用的效果模块并按住其<span class="label">Enabled</span>按钮。</p>
 
