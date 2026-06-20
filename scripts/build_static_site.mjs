@@ -173,6 +173,7 @@ function subsetFonts() {
     ["NotoSansSC-Regular.ttf", "NotoSansSC-Regular.subset.woff2"],
     ["NotoSansSC-Bold.ttf", "NotoSansSC-Bold.subset.woff2"],
     ["NotoSerifSC-Regular.ttf", "NotoSerifSC-Regular.subset.woff2"],
+    ["NotoSerifSC-Bold.ttf", "NotoSerifSC-Bold.subset.woff2"],
   ];
   for (const [src, dest] of entries) {
     const srcPath = path.join(srcDir, src);
@@ -191,8 +192,6 @@ for (const file of ["index.html", "app.js", "styles.css"]) {
   fs.copyFileSync(path.join(root, "src", file), path.join(outputDirectory, file));
 }
 
-<<<<<<< Updated upstream
-=======
 
 subsetFonts();
 /* — Generate theme CSS from content/themes/*.json — */
@@ -262,7 +261,6 @@ if (fs.existsSync(themesDir)) {
     (json) => `globalThis.__SSL_MANUAL_DATA__.themes = ${json};`);
 }
 
->>>>>>> Stashed changes
 function writeDataFiles(jsonPath, value, assignment) {
   const json = JSON.stringify(value);
   fs.writeFileSync(jsonPath, json);
