@@ -53,8 +53,8 @@
   --about-label-text: #d4dbd6;
 
   /* — Accent-tinted surfaces (used in light-mode element overrides) — */
-  --_accent-surface: #dce8d2;
-  --_accent-table-header: #e4ece2;
+  --_accent-surface: hsl(var(--_hue), 18%, 87%);
+  --_accent-table-header: hsl(var(--_hue), 12%, 91%);
   --_accent-glow: rgba(199,255,55,.25);
 
   /* — Layout tokens */
@@ -444,7 +444,7 @@ kbd { padding: 2px 5px; border: 1px solid var(--line); color: var(--muted); back
   padding-left: 35px;
 }
 .nav-link:hover { background: #202721; color: #fff; }
-.nav-link.active { border-left-color: var(--acid); background: #283024; color: #fff; }
+.nav-link.active { border-left-color: var(--acid); background: hsl(var(--_hue), 14%, 16%); color: #fff; }
 .nav-link .number { color: #69746d; font: 11px Consolas, monospace; }
 .nav-link .title { overflow: hidden; font-size: 13px; text-overflow: ellipsis; white-space: nowrap; }
 .nav-link .state { width: 5px; height: 5px; border-radius: 50%; background: #536057; }
@@ -973,8 +973,8 @@ kbd { padding: 2px 5px; border: 1px solid var(--line); color: var(--muted); back
   --about-label-text: #2d332f;
 
   /* — Accent-tinted surfaces (light mode) — */
-  --_accent-surface: #dce8d2;
-  --_accent-table-header: #e4ece2;
+  --_accent-surface: hsl(var(--_hue), 18%, 87%);
+  --_accent-table-header: hsl(var(--_hue), 12%, 91%);
   --_accent-glow: rgba(140,198,63,.25);
 }
 
