@@ -193,11 +193,22 @@ function showPresetOptionTooltip(e) {
   }
   _presetOptionTooltipEl.textContent = desc;
   _presetOptionTooltipEl.style.display = "block";
+  _presetOptionTooltipEl.style.maxWidth = "";
+  _presetOptionTooltipEl.style.whiteSpace = "nowrap";
+  _presetOptionTooltipEl.style.left = "-9999px";
+  _presetOptionTooltipEl.style.top = "-9999px";
   var rect = btn.getBoundingClientRect();
-  _presetOptionTooltipEl.style.left = (rect.right + 10) + "px";
+  var naturalW = _presetOptionTooltipEl.offsetWidth;
+  var leftPos = rect.right + 10;
+  var maxAvail = window.innerWidth - leftPos - 10;
+  if (naturalW > maxAvail) {
+    var clamped = Math.max(maxAvail, 120);
+    _presetOptionTooltipEl.style.maxWidth = clamped + "px";
+    _presetOptionTooltipEl.style.whiteSpace = "normal";
+  }
+  _presetOptionTooltipEl.style.left = leftPos + "px";
   _presetOptionTooltipEl.style.top = (rect.top + rect.height / 2) + "px";
 }
-
 function hidePresetOptionTooltip() {
   if (_presetOptionTooltipEl) _presetOptionTooltipEl.style.display = "none";
 }
