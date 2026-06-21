@@ -125,7 +125,8 @@ function loadThemeCSS(name) {
     presetLinkEl.rel = "stylesheet";
     document.head.appendChild(presetLinkEl);
   }
-  presetLinkEl.href = "themes/" + name + ".css?" + Date.now();
+  var cacheBuster = typeof window.__BUILD_HASH__ !== "undefined" ? window.__BUILD_HASH__ : Date.now();
+  presetLinkEl.href = "themes/" + name + ".css?" + cacheBuster;
 }
 
 function buildPresetDropdown() {
@@ -223,7 +224,13 @@ const escapeHtml = (value) =>
   })[character]);
 
 const normalize = (value) => value.toLocaleLowerCase().replace(/\s+/g, " ").trim();
-const dataUrl = (path) => new URL(`data/${path}`, document.baseURI);
+const dataUrl = (path) => {
+  const url = new URL(`data/${path}`, document.baseURI);
+  if (typeof window.__BUILD_HASH__ !== "undefined" && location.protocol !== "file:") {
+    url.searchParams.set("v", window.__BUILD_HASH__);
+  }
+  return url;
+};
 const localData = globalThis.__SSL_MANUAL_DATA__ ??= { pages: {} };
 
 function loadDataScript(path) {
