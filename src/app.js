@@ -640,7 +640,7 @@ function configurePageLinks() {
   });
 }
 
-function renderStandalonePage(page, headingId = "") {
+function renderStandalonePage(page, headingId = "", skipScroll = false) {
   state.currentPage = page;
   elements.breadcrumbs.innerHTML = escapeHtml(page.titleZh);
   elements.pageCounter.textContent = "";
@@ -662,21 +662,23 @@ function renderStandalonePage(page, headingId = "") {
   configurePageButton(elements.nextPage, null, "下一主题");
   renderNavigation();
   document.title = page.titleZh + " | " + state.catalog.meta.title;
-  if (headingId) {
-    requestAnimationFrame(function () {
-      var target = document.getElementById(headingId);
-      if (target) {
-        var details = target.closest("details");
-        if (details) details.setAttribute("open", "");
-        target.scrollIntoView();
-      }
-    });
-  } else {
-    window.scrollTo({ top: 0, behavior: "instant" });
+  if (!skipScroll) {
+    if (headingId) {
+      requestAnimationFrame(function () {
+        var target = document.getElementById(headingId);
+        if (target) {
+          var details = target.closest("details");
+          if (details) details.setAttribute("open", "");
+          target.scrollIntoView();
+        }
+      });
+    } else {
+      window.scrollTo({ top: 0, behavior: "instant" });
+    }
   }
 }
 
-function renderPage(page, headingId = "") {
+function renderPage(page, headingId = "", skipScroll = false) {
   state.currentPage = page;
   ensureActiveNavigationExpanded();
   const index = state.catalog.pages.findIndex((candidate) => candidate.id === page.id);
@@ -707,14 +709,16 @@ function renderPage(page, headingId = "") {
   configurePageButton(elements.nextPage, next, "下一主题");
   renderNavigation(true);
   document.title = `${page.titleZh} | ${state.catalog.meta.title}`;
-  if (headingId) {
-    requestAnimationFrame(() => {
-      const target = document.getElementById(headingId);
-      target?.closest("details")?.setAttribute("open", "");
-      target?.scrollIntoView();
-    });
-  } else {
-    window.scrollTo({ top: 0, behavior: "instant" });
+  if (!skipScroll) {
+    if (headingId) {
+      requestAnimationFrame(() => {
+        const target = document.getElementById(headingId);
+        target?.closest("details")?.setAttribute("open", "");
+        target?.scrollIntoView();
+      });
+    } else {
+      window.scrollTo({ top: 0, behavior: "instant" });
+    }
   }
   if (next) loadPage(next.id).catch(() => {});
 }
@@ -869,17 +873,64 @@ elements.searchEnToggle.addEventListener("change", function () {
   elements.themeToggle.addEventListener("pointerleave", handleThemeCancel);
   elements.presetToggle.addEventListener("click", togglePresetDropdown);
   elements.languageToggle.addEventListener("click", () => {
-  if (state.currentPage?.translationStatus !== "complete") return;
-  state.language = state.language === "zh" ? "en" : "zh";
-  if (state.currentPage?.standalone) {
-    renderStandalonePage(state.currentPage);
-  } else {
-    renderPage(state.currentPage);
-  }
-  if (state.query.trim() && (state.searchIndexZh || state.searchIndexEn)) {
-    setTimeout(function () { highlightPageContent(state.query.trim()); }, 0);
-  }
-});
+    if (state.currentPage?.translationStatus !== "complete") return;
+
+    /* Find heading by index (IDs differ between zh/en pages) */
+    let targetIdx = -1;
+    const vpHeight = window.innerHeight;
+    const headings = document.querySelectorAll(
+      ".manual-content h1[id], .manual-content h2[id], .manual-content h3[id]," +
+      ".manual-content h4[id], .manual-content h5[id], .manual-content h6[id]",
+    );
+    /* First pass: headings whose top edge is in the viewport */
+    let minDist = Infinity;
+    headings.forEach((el, i) => {
+      const rect = el.getBoundingClientRect();
+      if (rect.top >= 0 && rect.top < vpHeight && rect.top < minDist) {
+        minDist = rect.top;
+        targetIdx = i;
+      }
+    });
+    /* Second pass: no heading in viewport — pick the nearest heading
+       that has been scrolled just above the viewport */
+    if (targetIdx === -1) {
+      /* No heading in viewport — find the nearest heading above,
+         even if it is fully scrolled out of view */
+      let closestAbove = -Infinity;
+      headings.forEach((el, i) => {
+        const rect = el.getBoundingClientRect();
+        if (rect.top < 0 && rect.top > closestAbove) {
+          closestAbove = rect.top;
+          targetIdx = i;
+        }
+      });
+    }
+
+    state.language = state.language === "zh" ? "en" : "zh";
+    if (state.currentPage?.standalone) {
+      renderStandalonePage(state.currentPage, "", true);
+    } else {
+      renderPage(state.currentPage, "", true);
+    }
+    if (state.query.trim() && (state.searchIndexZh || state.searchIndexEn)) {
+      setTimeout(function () { highlightPageContent(state.query.trim()); }, 0);
+    }
+
+    /* Scroll directly to heading by index — renderPage skips its own scroll */
+    if (targetIdx >= 0) {
+      requestAnimationFrame(() => {
+        const found = document.querySelectorAll(
+          ".manual-content h1[id], .manual-content h2[id], .manual-content h3[id]," +
+          ".manual-content h4[id], .manual-content h5[id], .manual-content h6[id]",
+        );
+        const target = found[targetIdx];
+        if (target) {
+          target.closest("details")?.setAttribute("open", "");
+          target.scrollIntoView();
+        }
+      });
+    }
+  })
 window.addEventListener("hashchange", function () { route(); });
 window.addEventListener("keydown", (event) => {
   if (event.key === "/" && document.activeElement !== elements.searchInput) {
