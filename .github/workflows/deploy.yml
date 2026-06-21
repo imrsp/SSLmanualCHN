@@ -28,6 +28,9 @@ jobs:
         with:
           node-version: 20
 
+      - name: Install fonttools for font subsetting
+        run: pip install fonttools
+
       - name: Build static site
         run: npm run build
 
