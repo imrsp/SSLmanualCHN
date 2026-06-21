@@ -892,6 +892,9 @@ elements.searchEnToggle.addEventListener("change", function () {
     /* First pass: headings whose top edge is in the viewport */
     let minDist = Infinity;
     headings.forEach((el, i) => {
+      /* Skip headings inside closed <details> — their getBoundingClientRect
+         returns top=0 and would wrongly beat visible headings */
+      if (el.closest("details")?.open === false) return;
       const rect = el.getBoundingClientRect();
       if (rect.top >= 0 && rect.top < vpHeight && rect.top < minDist) {
         minDist = rect.top;
@@ -905,6 +908,7 @@ elements.searchEnToggle.addEventListener("change", function () {
          even if it is fully scrolled out of view */
       let closestAbove = -Infinity;
       headings.forEach((el, i) => {
+        if (el.closest("details")?.open === false) return;
         const rect = el.getBoundingClientRect();
         if (rect.top < 0 && rect.top > closestAbove) {
           closestAbove = rect.top;
