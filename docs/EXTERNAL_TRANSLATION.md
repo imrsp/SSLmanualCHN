@@ -11,9 +11,9 @@
 ## 原则
 
 1. **逐章提交** — 一次只提交一个章节的英文正文，不要合并多个长章节。逐章便于失败重试、费用统计和结构校验，也能避免一次错误污染多页。
-2. **术语绑定** — 提示词中附带 `content/glossary.csv` 和 `content/TERMINOLOGY.md`，要求模型严格遵守。
+2. **术语绑定** — 提示词中附带 `docs/glossary.csv` 和 `docs/TERMINOLOGY.md`，要求模型严格遵守。
 3. **结构不变** — 要求完整返回 HTML，禁止改动标签、属性、链接、图片路径、数字、单位、型号、命令和 UI 标签。译文必须与英文基准保持相同的标题、图片、表格、列表数量。
-4. **校验先行** — 不论使用哪个模型，每次写入译文后运行 `npm run check`；集中验收时再用 `npm run validate:strict`。
+4. **校验先行** — 不论使用哪个模型，每次写入译文后运行 `npm run check`；所有阻断问题修复完后再进入人工复审。
 5. **人工复审** — 对照英文逐段阅读，重点检查漏译、术语、表格、链接和警告文本。
 
 ## 通用提示词框架
@@ -21,7 +21,7 @@
 提示词结构应包含以下部分：
 
 - **角色指令**：标明任务是对 SSL Live 手册 HTML 的逐句简体中文翻译。
-- **术语表**：直接粘贴 `content/glossary.csv` 和 `content/TERMINOLOGY.md` 的完整内容。
+- **术语表**：直接粘贴 `docs/glossary.csv` 和 `docs/TERMINOLOGY.md` 的完整内容。
 - **约束列表**：逐一列出不得改动的元素——HTML 标签、属性、URL、图片路径、数字、单位、产品名、命令、UI 标签。
 - **返回格式**：要求仅返回 HTML 正文，不添加说明、注释或包裹 markdown 代码块。
 - **示例**：可附带一段已完成的译文作为风格参考（可选）。
@@ -69,7 +69,7 @@ curl https://YOUR_API_ENDPOINT/v1/chat/completions \
 3. 调用外部模型获取候选译文
 4. 写入 content/zh/pages/NN-Slug.html
 5. 运行 npm run check
-6. 运行 npm run validate:strict（集中验收时）
+6. 查看 `reports/` 中的报告并处理需要人工复核的问题
 7. 人工逐段对比审校
 ```
 

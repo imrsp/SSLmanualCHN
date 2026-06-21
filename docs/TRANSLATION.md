@@ -5,23 +5,13 @@
 1. 从 `content/en/pages/` 读取英文基准。
 2. 在 `content/zh/pages/` 创建同名译文，保持全量章节一一对应。
 3. 保持标题、图片、表格、链接、列表等结构数量一致。
-4. 按 `content/glossary.csv` 与 `content/TERMINOLOGY.md` 使用统一译法。
+4. 按 `docs/glossary.csv` 与 `docs/TERMINOLOGY.md` 使用统一译法。
 5. 运行 `npm run validate`，先修复所有会阻断通过的结构与完整性问题。
-6. 运行 `npm run audit`，检查 `reports/CONTENT_AUDIT.md` 中的结构差异、疑似未翻译正文和其它人工复核提示。
-
-## 翻译原则
-
-- 完整逐句翻译，不摘要、删减或合并。
-- 实际按钮、菜单、页签和参数名保留英文。
-- 产品、协议、软件和商标名不翻译。
-- `Layer` 和 `Bank` 保留英文；仅在解释概念时使用“层”。`Layer Manager` 仅在引用文章标题时翻译成“推子层管理器”，其它时候保留英文。
-- `Useful Links` 统一译为“实用链接”。
-- 警告与错误消息保留英文原文，并给出中文解释。
-- 数字、单位、地址、端口、型号、版本和命令保持不变。
+6. 运行 `npm run audit:content`，检查 `reports/CONTENT_AUDIT.md` 中的结构差异、疑似未翻译正文和其它人工复核提示。
 
 ## 术语维护
 
-`content/glossary.csv` 是工具和 Agent 使用的结构化数据；`content/TERMINOLOGY.md` 提供规则与上下文。有修改时两处必须同步。
+`docs/glossary.csv` 是工具和 Agent 使用的结构化数据；`docs/TERMINOLOGY.md` 提供规则与上下文。有修改时两处必须同步。
 
 ## 折叠内容与目录
 

@@ -6,8 +6,8 @@ const requiredFiles = [
   "package.json",
   "content/site.json",
   "content/en/manifest.json",
-  "content/TERMINOLOGY.md",
-  "content/glossary.csv",
+  "docs/TERMINOLOGY.md",
+  "docs/glossary.csv",
   "src/index.html",
   "src/app.js",
   "src/styles.css",
@@ -95,44 +95,103 @@ for (const file of textFiles) {
   }
 }
 
-const report = {
-  pages: catalog.pages.length,
-  translatedPages: catalog.meta.translatedCount,
-  sections: catalog.sections.length,
-  titleMappings: site.titlesZh.length,
-  missingRequiredFiles: missingRequiredFiles.length,
-  missingSourcePages: missingSourcePages.length,
-  missingBuiltPages: missingBuiltPages.length,
-  missingAssets: missingAssets.length,
-  remoteImages,
-  unusedPublishedAssets: unusedPublishedAssets.length,
-  staleAssetEntries: staleAssetEntries.length,
-  platformResidue: platformResidue.length,
-  pageIntegrityIssues: pageIntegrityIssues.length,
-};
-console.log(JSON.stringify(report, null, 2));
-for (const issue of [
+const hardFailures = [
   ...missingRequiredFiles,
   ...missingSourcePages,
   ...missingBuiltPages,
   ...missingAssets,
-  ...unusedPublishedAssets.map((file) => `Unused published asset: ${file}`),
-  ...staleAssetEntries.map((asset) => `Stale asset manifest entry: ${asset.sourceUrl}`),
-  ...platformResidue,
   ...pageIntegrityIssues,
-]) console.error(issue);
+];
+if (reportPagesMismatch(sourceManifest, catalog, site)) {
+  hardFailures.push(`Page count mismatch: manifest=${sourceManifest.length}, catalog=${catalog.pages.length}, titlesZh=${site.titlesZh.length}`);
+}
+if (reportSectionsMismatch(catalog, site)) {
+  hardFailures.push(`Section count mismatch: catalog=${catalog.sections.length}, site=${site.sections.length}`);
+}
+if (remoteImages) hardFailures.push(`Remote image dependencies: ${remoteImages}`);
 
-if (
-  report.pages !== sourceManifest.length ||
-  report.sections !== site.sections.length ||
-  report.titleMappings !== sourceManifest.length ||
-  report.missingRequiredFiles ||
-  report.missingSourcePages ||
-  report.missingBuiltPages ||
-  report.missingAssets ||
-  report.remoteImages ||
-  report.unusedPublishedAssets ||
-  report.staleAssetEntries ||
-  report.platformResidue ||
-  report.pageIntegrityIssues
-) process.exitCode = 1;
+const reportFindings = {
+  unusedPublishedAssets,
+  staleAssetEntries: staleAssetEntries.map((asset) => asset.sourceUrl),
+  platformResidue,
+};
+
+const report = {
+  generatedAt: new Date().toISOString(),
+  pages: catalog.pages.length,
+  translatedPages: catalog.meta.translatedCount,
+  sections: catalog.sections.length,
+  titleMappings: site.titlesZh.length,
+  missingRequiredFiles: missingRequiredFiles,
+  missingSourcePages: missingSourcePages,
+  missingBuiltPages: missingBuiltPages,
+  missingAssets: missingAssets,
+  remoteImages,
+  pageIntegrityIssues,
+  hardFailures,
+  reportFindings,
+};
+
+fs.mkdirSync(path.join(root, "reports"), { recursive: true });
+fs.writeFileSync(
+  path.join(root, "reports", "validation-project.json"),
+  JSON.stringify(report, null, 2),
+);
+fs.writeFileSync(path.join(root, "reports", "VALIDATION_PROJECT.md"), [
+  "# 工程校验报告",
+  "",
+  `生成时间：${report.generatedAt}`,
+  "",
+  `- 章节：${report.pages}`,
+  `- 已翻译章节：${report.translatedPages}`,
+  `- 硬失败：${report.hardFailures.length}`,
+  `- 报告项：${report.reportFindings.unusedPublishedAssets.length + report.reportFindings.staleAssetEntries.length + report.reportFindings.platformResidue.length}`,
+  "",
+  "## 必须修复",
+  "",
+  ...(report.hardFailures.length ? report.hardFailures.map((item) => `- ${item}`) : ["- 无"]),
+  "",
+  "## 报告项",
+  "",
+  ...(report.reportFindings.unusedPublishedAssets.length
+    ? [
+        "### 未引用的已发布资源",
+        "",
+        ...report.reportFindings.unusedPublishedAssets.map((item) => `- ${item}`),
+        "",
+      ]
+    : []),
+  ...(report.reportFindings.staleAssetEntries.length
+    ? [
+        "### 资源清单中的非发布条目",
+        "",
+        ...report.reportFindings.staleAssetEntries.map((item) => `- ${item}`),
+        "",
+      ]
+    : []),
+  ...(report.reportFindings.platformResidue.length
+    ? [
+        "### 文档中的平台残留",
+        "",
+        ...report.reportFindings.platformResidue.map((item) => `- ${item}`),
+        "",
+      ]
+    : []),
+].join("\n"));
+
+console.log(JSON.stringify({
+  pages: report.pages,
+  translatedPages: report.translatedPages,
+  hardFailures: report.hardFailures.length,
+  reportItems: report.reportFindings.unusedPublishedAssets.length + report.reportFindings.staleAssetEntries.length + report.reportFindings.platformResidue.length,
+}, null, 2));
+for (const issue of report.hardFailures) console.error(issue);
+if (report.hardFailures.length) process.exitCode = 1;
+
+function reportPagesMismatch(sourceManifestData, catalogData, siteData) {
+  return catalogData.pages.length !== sourceManifestData.length || siteData.titlesZh.length !== sourceManifestData.length;
+}
+
+function reportSectionsMismatch(catalogData, siteData) {
+  return catalogData.sections.length !== siteData.sections.length;
+}
