@@ -55,8 +55,6 @@ npm run audit:terminology      # 生成待确认术语清单
 npm run upstream:snapshot      # 保存官方源站完整转储并生成更新差异
 npm run check                  # 构建后执行全部校验
 npm run serve                  # 在本地预览 dist/
-npm run translation:export     # 导出尚未翻译的章节
-npm run translation:import -- handoff/translated.txt
 ```
 
 详细说明见 [架构](docs/ARCHITECTURE.md)、[贡献指南](docs/CONTRIBUTING.md)、[翻译流程](docs/TRANSLATION.md)、[样式与主题系统](docs/STYLING.md)、[源站转储](docs/UPSTREAM_SNAPSHOTS.md)、和[部署指南](docs/DEPLOYMENT.md)。
