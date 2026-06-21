@@ -28,18 +28,6 @@
   --amber: hsl(var(--_hue-warn), 100%, 63%);
   --red: hsl(var(--_hue-error), 85%, 63%);
 
-  /* — Semantic alias tokens (for future theme customisation) */
-  --color-bg-page: var(--black);
-  --color-surface: var(--panel);
-  --color-surface-elevated: var(--panel-soft);
-  --color-border: var(--line);
-  --color-text-primary: var(--ink);
-  --color-text-secondary: var(--muted);
-  --color-accent: var(--acid);
-  --color-accent-link: var(--cyan);
-  --color-warning: var(--amber);
-  --color-error: var(--red);
-
   /* — Shadow tokens */
   --outline-shadow: rgba(0,0,0,.55);
   --sidebar-shadow: rgba(0,0,0,.5);
@@ -298,13 +286,6 @@ kbd { padding: 2px 5px; border: 1px solid var(--line); color: var(--muted); back
   color: var(--acid);
   margin-bottom: 4px;
   font-size: 13px;
-}
-.result-lang-badge {
-  color: var(--muted);
-  font-size: 10px;
-  font-weight: 400;
-  white-space: nowrap;
-  margin-left: 8px;
 }
 .result-heading {
   display: block;
@@ -1224,4 +1205,3 @@ kbd { padding: 2px 5px; border: 1px solid var(--line); color: var(--muted); back
     background: rgba(199,255,55,.15);
   }
 }
-

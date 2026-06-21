@@ -147,14 +147,7 @@ function togglePresetDropdown() {
   var dd = elements.presetDropdown;
   if (!dd) return;
   var open = dd.classList.toggle("open");
-  if (open) {
-    dd.querySelectorAll(".preset-option").forEach(function (btn) {
-      btn.addEventListener("click", function () {
-        selectThemePreset(btn.dataset.preset);
-      });
-      btn.addEventListener("mouseenter", showPresetOptionTooltip);
-      btn.addEventListener("mouseleave", hidePresetOptionTooltip);    });
-  } else {
+  if (!open) {
     hidePresetOptionTooltip();
   }
 }
@@ -299,10 +292,6 @@ async function loadPage(pageId) {
 function syncSearchToggleVisibility() {
   var shouldShow = Boolean(state.query.trim()) || elements.searchPanel.matches(":focus-within");
   elements.searchToggle.style.display = shouldShow ? "flex" : "none";
-}
-
-function visiblePageIds() {
-  return new Set(state.catalog.pages.map(function (page) { return page.id; }));
 }
 
 function extractExcerpt(text, query, contextChars) {
@@ -549,10 +538,9 @@ function renderNavigation(focusActive) {
     if (focusActive) scrollActiveNavigationIntoView();
     return;
   }
-  const ids = visiblePageIds();
   const forceExpanded = Boolean(state.query);
   elements.manualNav.innerHTML = state.catalog.sections.map((section) => {
-    const pages = state.catalog.pages.filter((page) => page.section === section.id && ids.has(page.id));
+    const pages = state.catalog.pages.filter((page) => page.section === section.id);
     if (!pages.length) return "";
     const expanded = forceExpanded || state.expandedSections.has(section.id);
     return `
@@ -571,7 +559,7 @@ function renderNavigation(focusActive) {
   }).join("");
 
   elements.searchSummary.textContent = state.query
-    ? `找到 ${ids.size} 个相关主题`
+    ? "正在准备搜索结果…"
     : "可搜索中英文标题与正文";
   elements.manualNav.querySelectorAll("[data-page-id]").forEach((button) => {
     button.addEventListener("click", () => {
@@ -644,10 +632,6 @@ function configurePageLinks() {
       link.rel = "noreferrer";
     }
   });
-  elements.document.querySelectorAll(".manual-content details a, .manual-content details [id]").forEach((element) => {
-    if (!element.id) return;
-    element.closest("details")?.setAttribute("data-anchor-container", element.id);
-  });
 }
 
 function renderStandalonePage(page, headingId = "", skipScroll = false) {
@@ -711,7 +695,7 @@ function renderPage(page, headingId = "", skipScroll = false) {
     </header>
     <div class="manual-content">${state.language === "en" ? page.englishHtml : page.contentHtml}</div>
   `;
-  elements.languageToggle.textContent = state.language === "zh" ? "中文 / EN" : "中文 / EN";
+  elements.languageToggle.textContent = "中文 / EN";
   elements.languageToggle.disabled = page.translationStatus !== "complete";
   renderOutline(page);
   configurePageLinks();
@@ -863,6 +847,22 @@ document.addEventListener("click", function (event) {
   if (!dd || !dd.classList.contains("open")) return;
   if (dd.contains(event.target) || elements.presetToggle.contains(event.target)) return;
   dd.classList.remove("open");
+  hidePresetOptionTooltip();
+});
+
+elements.presetItems?.addEventListener("click", function (event) {
+  var btn = event.target.closest(".preset-option");
+  if (!btn) return;
+  selectThemePreset(btn.dataset.preset);
+});
+
+elements.presetItems?.addEventListener("mouseover", function (event) {
+  var btn = event.target.closest(".preset-option");
+  if (!btn || !elements.presetItems.contains(btn)) return;
+  showPresetOptionTooltip({ currentTarget: btn });
+});
+
+elements.presetItems?.addEventListener("mouseleave", function () {
   hidePresetOptionTooltip();
 });
 
