@@ -7,7 +7,7 @@ Maintain a complete, reviewable Chinese edition of the SSL Live manual and publi
 ## Read first
 
 1. Read `README.md`, then the relevant file under `docs/` for the task.
-2. Read `content/site.json` before changing chapter metadata, sections, or Chinese titles.
+2. Read `content/manifest.json` and `content/site.json` before changing chapter metadata, sections, or Chinese titles.
 3. Read `docs/glossary.csv` and `docs/TERMINOLOGY.md` before translating, proofreading, or changing terminology rules.
 4. Treat `upstream/` as source snapshots, not editable site content.
 5. Never edit `dist/`; regenerate it with `npm run build`.
@@ -32,7 +32,7 @@ Do not assume every file under `docs/` is runtime input. Some files are build in
 - Chinese translation: `content/zh/pages/NN-Slug.html`
 - Keep matching filenames and structural elements in both languages.
 - Keep UI labels, menu paths, product names, protocols, commands, numbers, units, IP addresses, model names, and literal warning/error text intact unless the project rule for that class says otherwise.
-- Chapter metadata changes usually require both `content/en/manifest.json` and `content/site.json`.
+- Chapter metadata changes usually require both `content/manifest.json` and `content/site.json`.
 - Standalone pages are an exception to the chapter pair rule: they live only in `content/zh/pages/`, are discovered by meta tags, and do not appear in the catalog or search index.
 
 ## Validation policy

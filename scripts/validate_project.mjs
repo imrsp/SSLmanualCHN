@@ -5,7 +5,7 @@ import { root, readJson } from "./lib/manual.mjs";
 const requiredFiles = [
   "package.json",
   "content/site.json",
-  "content/en/manifest.json",
+  "content/manifest.json",
   "docs/TERMINOLOGY.md",
   "docs/glossary.csv",
   "src/index.html",
@@ -25,7 +25,7 @@ const requiredFiles = [
   "dist/data/search-index-en.js",
 ];
 const missingRequiredFiles = requiredFiles.filter((file) => !fs.existsSync(path.join(root, file)));
-const sourceManifest = readJson(path.join(root, "content", "en", "manifest.json"));
+const sourceManifest = readJson(path.join(root, "content", "manifest.json"));
 const site = readJson(path.join(root, "content", "site.json"));
 const catalog = readJson(path.join(root, "dist", "data", "catalog.json"));
 const assetManifest = readJson(path.join(root, "public", "assets", "manual", "manifest.json"));
