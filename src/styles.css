@@ -1008,6 +1008,9 @@ kbd { padding: 2px 5px; border: 1px solid var(--line); color: var(--muted); back
 :root[data-theme="light"] .document-header h1 { color: #1d231f; }
 :root[data-theme="light"] .document h2 { color: #1a1f1b; }
 :root[data-theme="light"] .document h3 { color: var(--cyan); }
+:root[data-theme="light"] .document h4 { color: #1a1f1b; }
+:root[data-theme="light"] .document h5 { color: #1a1f1b; }
+:root[data-theme="light"] .document h6 { color: #1a1f1b; }
 :root[data-theme="light"] .nav-section-title { color: #47524a; background: #e8eae6; }
 :root[data-theme="light"] .nav-section-title:hover { color: #1a1f1b; background: #e0e3df; }
 :root[data-theme="light"] .nav-section { border-bottom-color: var(--line); }
