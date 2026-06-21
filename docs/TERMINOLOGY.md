@@ -50,7 +50,7 @@
 `npm run audit:terminology` 当前的检查方式是：
 
 1. 读取 `docs/glossary.csv`。
-2. 读取 `content/en/manifest.json`，确定章节范围。
+2. 读取 `content/manifest.json`，确定章节范围。
 3. 扫描 `content/zh/pages/` 中已存在的译文文件。
 4. 对每个 glossary 条目统计：
    - 英文术语在译文全文中出现了多少次。
@@ -64,7 +64,7 @@
 `TERMINOLOGY_AUDIT` 当前直接引用这三处作为输入：
 
 - `docs/glossary.csv`
-- `content/en/manifest.json`
+- `content/manifest.json`
 - `content/zh/pages`
 
 报告本身也会把这三项写入“参考来源”章节。

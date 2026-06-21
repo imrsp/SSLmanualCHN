@@ -4,7 +4,7 @@ import path from "node:path";
 import { root, readJson } from "./lib/manual.mjs";
 
 const origin = "https://livehelp.solidstatelogic.com";
-const manifest = readJson(path.join(root, "content", "en", "manifest.json"));
+const manifest = readJson(path.join(root, "content", "manifest.json"));
 const date = new Intl.DateTimeFormat("en-CA", {
   timeZone: "Asia/Shanghai",
   year: "numeric",

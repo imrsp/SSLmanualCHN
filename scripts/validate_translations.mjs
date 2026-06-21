@@ -2,7 +2,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { root, readJson } from "./lib/manual.mjs";
 
-const manifest = readJson(path.join(root, "content", "en", "manifest.json"));
+const manifest = readJson(path.join(root, "content", "manifest.json"));
 const count = (text, pattern) => [...text.matchAll(pattern)].length;
 const stripMarkup = (html) =>
   html

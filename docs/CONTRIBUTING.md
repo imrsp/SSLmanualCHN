@@ -10,7 +10,7 @@
 
 ## 修改元数据
 
-- 英文标题、来源、顺序、章节输出文件：`content/en/manifest.json`
+- 英文标题、来源、顺序、章节输出文件：`content/manifest.json`
 - 中文标题、章节分组、站点元数据：`content/site.json`
 - 主题预设：`content/themes/*.json`
 - 人类可读术语规则：`docs/TERMINOLOGY.md`

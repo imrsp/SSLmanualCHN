@@ -3,7 +3,7 @@ import path from "node:path";
 import { readJson, root, toPlainText } from "./lib/manual.mjs";
 
 const glossaryPath = path.join(root, "docs", "glossary.csv");
-const manifest = readJson(path.join(root, "content", "en", "manifest.json"));
+const manifest = readJson(path.join(root, "content", "manifest.json"));
 const outputDirectory = path.join(root, "reports");
 
 function parseCsvLine(line) {
@@ -122,7 +122,7 @@ const report = {
   coverage,
   references: {
     glossary: "docs/glossary.csv",
-    manifest: "content/en/manifest.json",
+    manifest: "content/manifest.json",
     translatedPagesRoot: "content/zh/pages",
   },
 };

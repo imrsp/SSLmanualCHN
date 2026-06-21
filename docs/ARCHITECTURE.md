@@ -11,7 +11,7 @@
 ## 数据流
 
 ```text
-content/en/pages + content/zh/pages + content/en/manifest.json + content/site.json + content/themes/*.json
+content/en/pages + content/zh/pages + content/manifest.json + content/site.json + content/themes/*.json
                                          |
                                          v
                               scripts/build_static_site.mjs
@@ -59,7 +59,7 @@ dist/assets/**
 
 1. 在 `content/en/pages/` 添加英文基准文件。
 2. 在 `content/zh/pages/` 添加同名译文文件。
-3. 在 `content/en/manifest.json` 添加顺序、分组、标题、来源 URL 和输出文件名。
+3. 在 `content/manifest.json` 添加顺序、分组、标题、来源 URL 和输出文件名。
 4. 在 `content/site.json` 的 `titlesZh` 中补对应中文标题。
 5. 如需新分组，在 `content/site.json` 的 `sections` 中补充定义。
 6. 运行 `npm run check`。
@@ -72,7 +72,7 @@ standalone 页面不是目录章节，不出现在目录和搜索索引中，但
 
 使用方式：
 
-1. 在 `content/zh/pages/` 下创建一个不在 `manifest.json` 中的 HTML 文件。
+1. 在 `content/zh/pages/` 下创建一个不在 `content/manifest.json` 中的 HTML 文件。
 2. 在文件中提供：
    - `<meta name="x-standalone-id" content="<id>">`
    - `<meta name="x-standalone-title" content="...">`

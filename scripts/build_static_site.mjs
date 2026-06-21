@@ -17,7 +17,7 @@ import {
 const contentDirectory = path.join(root, "content");
 const outputDirectory = path.join(root, "dist");
 const site = readJson(path.join(contentDirectory, "site.json"));
-const manifest = readJson(path.join(contentDirectory, "en", "manifest.json"));
+const manifest = readJson(path.join(contentDirectory, "manifest.json"));
 const assetManifest = readJson(path.join(root, "public", "assets", "manual", "manifest.json"));
 const sectionById = new Map(site.sections.map((section, index) => [
   section.id,

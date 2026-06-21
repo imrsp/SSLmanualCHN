@@ -10,7 +10,7 @@ import {
   transformAccordions,
 } from "./lib/manual.mjs";
 
-const manifest = readJson(path.join(root, "content", "en", "manifest.json"));
+const manifest = readJson(path.join(root, "content", "manifest.json"));
 const site = readJson(path.join(root, "content", "site.json"));
 const outputDirectory = path.join(root, "reports");
 const snapshotsDirectory = path.join(root, "upstream", "snapshots");

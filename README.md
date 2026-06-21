@@ -39,6 +39,7 @@ npm run serve
 ```text
 .
 ├── content/                  # 可编辑内容
+│   ├── manifest.json         # 英文章节清单与站点顺序
 │   ├── site.json             # 章节分组、中文标题、站点元数据
 │   ├── en/pages/             # 英文基准正文，一章一文件
 │   └── zh/pages/             # 中文译文，一章一文件
@@ -114,4 +115,3 @@ npm run serve
 ---
 
 原始来源：[SSL Live Help](https://livehelp.solidstatelogic.com/)
-
