@@ -1,21 +1,38 @@
 # 官方源站转储
 
-运行以下命令会以 `content/en/manifest.json` 中的全部官方章节为种子，递归保存同域 `/Help/` 下引用的 HTML、CSS、JavaScript、JSON、字体和图片：
+## 目的
+
+`upstream/snapshots/` 用来保存官方源站在特定日期的完整转储，供溯源、差异比对和回归核查使用。
+
+`upstream/ssl-live-help/` 是更稳定、更精简的构建与审计基线，不应在每次抓取后自动覆盖。
+
+## 抓取命令
+
+```bash
+npm run upstream:snapshot
+```
+
+等价脚本入口：
 
 ```bash
 node scripts/snapshot_upstream.mjs
 ```
 
-转储保存在 `upstream/snapshots/YYYY-MM-DD/site/`。每次转储同时生成：
+## 输出内容
 
-- `manifest.json`：URL、最终 URL、HTTP 状态、Content-Type、ETag、Last-Modified、字节数和 SHA-256。
-- `diff.json`：相对上一次转储的新增、修改和删除 URL。
-- `upstream/snapshots/latest.json`：指向最新转储。
+每次抓取会生成：
 
-`upstream/ssl-live-help/` 是构建审计使用的精简稳定快照。确认新版官方内容并完成翻译后，再单独更新该目录，避免尚未审校的源站改动直接进入发布站。
+- `upstream/snapshots/YYYY-MM-DD/site/`：完整站点文件
+- `upstream/snapshots/YYYY-MM-DD/manifest.json`：URL、最终 URL、状态码、Content-Type、ETag、Last-Modified、字节数、SHA-256
+- `upstream/snapshots/YYYY-MM-DD/diff.json`：相对上一次抓取的新增、修改、删除 URL
+- `upstream/snapshots/latest.json`：指向最新转储
 
-## 当前基准
+## 使用规则
 
-2026-06-10 的完整转储包含 651 个文件、47,183,405 字节。官方源站正文引用的
-`g_OSCsetupGenericMethodsSwitchesConfig.png` 和 `g_SoloPopOut.png` 当前返回 404；
-该状态记录在转储 `manifest.json` 的 `failures` 中。
+- 新抓取先进入 `upstream/snapshots/`，不要直接替换 `upstream/ssl-live-help/`。
+- 只有在确认官方内容变化、完成必要翻译和人工校核后，才考虑更新稳定基线。
+- 构建和审计依赖稳定基线，而不是最新抓取，以避免未经审校的上游变化直接进入工作流。
+
+## 文档维护原则
+
+不要把“当前基准文件数、总字节数、某日 404 清单”长期硬编码在本文档里。此类信息会自然过时，更适合放在当次转储的 `manifest.json`、`diff.json` 或专项报告中。
