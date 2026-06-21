@@ -1,4 +1,4 @@
-<p>以下页面包含设置 SSL Live 控制台以用于 Dante 网络、与 Dante 设备之间进行路由以及使用 SSL Net I/O 舞台接口箱进行控制和增益共享的说明：</p>
+<p>以下页面说明了如何设置 SSL Live 控制台使其接入 Dante 网络、与 Dante 设备之间进行路由以及使用 SSL Net I/O 舞台接口箱进行控制和增益共享：</p>
 <ul>
   <li><a href="https://livehelp.solidstatelogic.com/Help/DanteSetup.html"><span class="hyperlink">设置 Dante</span></a></li>
 </ul>
@@ -25,12 +25,12 @@
   <li>A32 - 32 路模拟线路输入和输出</li>
   <li>D64 - 32 对 AES</li>
   <li>GPIO32 - 32 个 GPIO</li>
-  <li>MADI-Bridge - MADI 和 Dante 之间的 64 通道（48k 时）网桥</li>
+  <li>MADI-Bridge - MADI 和 Dante 之间的 64 个通道网桥（48kHz 时）</li>
 </ul>
 <p>这些设备也可以由 SSL System T 控制台和用于 PC 的 Network I/O Controller 应用程序控制。</p>
 <p>所有网络 I/O 单元都支持 AES67 和 SMPTE 2110-30 AoIP 网络传输标准。</p>
 <p>Network I/O Controller 应用程序和所有网络 I/O 设备的手册可以从 <a class="external-link" tabindex="-1" href="https://www.solidstatelogic.com/live/remote-ecosystem/documents" target="_blank"><span class="hyperlink">www.solidstatelogic.com/live/remote-ecosystem/documents</span></a> 下载。</p>
-<p>可以从控制台控制和监控基于 Dante 的 Shure ULX-D 和 Axient Digital 无线麦克风。请参阅 <a href="https://livehelp.solidstatelogic.com/Help/ShureIO.html#Wireless"><span class="hyperlink">Shure Wireless Control</span></a> 部分了解更多详情。</p>
+<p>控制台支持对 Dante 网络中的 Shure ULX-D 和 Axient Digital 无线麦克风进行控制与监控。请参阅 <a href="https://livehelp.solidstatelogic.com/Help/ShureIO.html#Wireless"><span class="hyperlink">Shure Wireless Control</span></a> 部分了解更多详情。</p>
 <p>也可以远程控制 Shure ANI 设备的输入参数；请参阅 <a href="https://livehelp.solidstatelogic.com/Help/ShureIO.html#ANI"><span class="hyperlink">Shure ANI</span></a> 部分了解更多详情。</p>
 <p>注意：更改网络 I/O 设备的 IP 地址后，请通过断开设备背面的电源线并重新连接来完全重启设备。 使用 Dante Controller 中的 Reboot 按钮不能完全重启设备。</p>
 <h2>舞台接口箱重置</h2>
@@ -53,24 +53,24 @@
   <li>输入和输出静音控制将关闭</li>
 </ul>
 <p>IP 地址、网络 A 和 B 链路状态（如果适用）、采样率和工作电平将被保留。</p>
-<p>注意：所有参数重置最多需要 30 秒。</p>
+<p>注意：所有参数重置可能需要最多 30 秒，请稍候。</p>
 <h2 id="Ownership">所有权</h2>
 <p>Net I/O 舞台接口箱可以由 SSL Live 或 System T 控制台以及用于 PC 的 Network I/O Controller 应用程序控制。</p>
-<p>引入了所有权的概念，为每个舞台接口箱输入和 GPO 分配一个所有者，以避免控制冲突。 舞台接口箱的常规设置也有一个所有者，负责控制工作电平和其它整个舞台接口箱的设置（包括 SB 32.24 上的 AES/模拟输入切换）。</p>
-<p>因此，在您能够远程控制舞台接口箱之前，您必须成为该参数的所有者。所有权状态存储在舞台接口箱中。</p>
+<p>控制台系统采用 Ownership（所有权）的概念，为每个舞台接口箱输入和 GPO 指定唯一所有者，以避免控制冲突。 舞台接口箱的常规设置中还有一个所有者，负责控制工作电平和舞台接口箱的其他全局设置（包括 SB 32.24 上的 AES/模拟输入切换）。</p>
+<p>因此，在您能够远程控制舞台接口箱之前，您必须先成为该参数的所有者。所有权状态存储在舞台接口箱中。</p>
 <p class="note"><span class="notetitle">请注意：</span></p>
 <p>只能控制 Main 舞台接口箱设备。 Comp 设备永远不能被控制或拥有。 有关 Main 和 Comp 设备的更多信息，请参阅<a href="https://livehelp.solidstatelogic.com/Help/DanteNetIO.html#GainShare"><span class="hyperlink">使用 Net I/O 舞台接口箱进行增益共享</span></a>。</p>
 <p>首先，确保您要控制的舞台接口箱在“Configured Devices”列表中（参见<a href="https://livehelp.solidstatelogic.com/Help/DanteConfig.html"><span class="hyperlink">配置 Dante 设备</span></a>）。</p>
-<p>有以下所有权选项：</p>
+<p>可执行的所有权操作如下：</p>
 <ul>
-  <li><strong>Stagebox Ownership</strong>：更改工作电平，在 AES 和模拟输入之间选择，打开 AES 输入 SRC，以及打开或关闭 AutoPad</li>
+  <li><strong>Stagebox Ownership</strong>：更改工作电平，在 AES 和模拟输入之间切换输入源，打开 AES 输入的 SRC，以及打开或关闭 AutoPad</li>
   <li><strong>Input Ownership</strong>：仅控制输入参数</li>
   <li><strong>GPO Ownership</strong>：控制所有 GPO 参数和设置</li>
 </ul>
 <div id="accordion">
 <div class="indexheader2">Stagebox Ownership</div>
 <div>
-<p>Stagebox Ownership 提供对以下参数的控制：</p>
+<p>Stagebox Ownership 能够对以下参数进行控制：</p>
 <ul>
   <li>工作电平</li>
   <li>启用 AES 输入（仅限 SB 32.24）</li>
