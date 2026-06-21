@@ -1,4 +1,5 @@
 import fs from "node:fs";
+import crypto from "node:crypto";
 import { execSync } from "node:child_process";
 import path from "node:path";
 import {
@@ -454,3 +455,74 @@ console.log(JSON.stringify({
   searchIndexZhBytes: fs.statSync(path.join(outputDirectory, "data", "search-index-zh.json")).size,
 searchIndexEnBytes: fs.statSync(path.join(outputDirectory, "data", "search-index-en.json")).size,
 }, null, 2));
+
+
+/* === Cache-busting post-processing === */
+console.log("[cache] Applying content hashes…");
+
+function collectDataFiles(dir) {
+  const result = [];
+  const entries = fs.readdirSync(dir, { withFileTypes: true });
+  for (const entry of entries) {
+    const fullPath = path.join(dir, entry.name);
+    if (entry.isDirectory()) collectDataFiles(fullPath).forEach(function (f) { result.push(f); });
+    else if (entry.isFile()) result.push(fullPath);
+  }
+  return result;
+}
+
+const allDataFiles = collectDataFiles(path.join(outputDirectory, "data"));
+var cacheThemeDir = path.join(outputDirectory, "themes");
+if (fs.existsSync(cacheThemeDir)) {
+  for (var cf of fs.readdirSync(cacheThemeDir).filter(function (f) { return f.endsWith(".css"); })) {
+    allDataFiles.push(path.join(cacheThemeDir, cf));
+  }
+}
+
+const dataHasher = crypto.createHash("sha256");
+for (var df of allDataFiles.sort()) {
+  dataHasher.update(fs.readFileSync(df));
+}
+const buildHash = dataHasher.digest("hex").slice(0, 12);
+
+// Hash and rename app.js
+const appJsPath = path.join(outputDirectory, "app.js");
+const appHash = crypto.createHash("sha256").update(fs.readFileSync(appJsPath)).digest("hex").slice(0, 12);
+const appHashed = "app." + appHash + ".js";
+fs.renameSync(appJsPath, path.join(outputDirectory, appHashed));
+
+// Hash and rename styles.css
+const cssPath = path.join(outputDirectory, "styles.css");
+const cssHash = crypto.createHash("sha256").update(fs.readFileSync(cssPath)).digest("hex").slice(0, 12);
+const cssHashed = "styles." + cssHash + ".css";
+fs.renameSync(cssPath, path.join(outputDirectory, cssHashed));
+
+// Rewrite index.html
+const htmlFile = path.join(outputDirectory, "index.html");
+var html = fs.readFileSync(htmlFile, "utf8");
+
+html = html.replace(
+  '<meta name="viewport"',
+  '<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">\n  <meta http-equiv="Pragma" content="no-cache">\n  <meta name="viewport"'
+);
+
+html = html.replace(
+  "</head>",
+  "  <script>window.__BUILD_HASH__=\"" + buildHash + "\"</script>\n</head>"
+);
+
+html = html.replace(
+  'href="./styles.css"',
+  'href="./' + cssHashed + '"'
+);
+
+html = html.replace(
+  'src="./app.js"',
+  'src="./' + appHashed + '"'
+);
+
+fs.writeFileSync(htmlFile, html);
+
+console.log("[cache] " + appHashed);
+console.log("[cache] " + cssHashed);
+console.log("[cache] Build hash: " + buildHash);

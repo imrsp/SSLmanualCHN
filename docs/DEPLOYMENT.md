@@ -24,7 +24,26 @@ server {
         try_files $uri $uri/ =404;
     }
 
-    location ~* \.(?:js|css|json|png|jpg|jpeg|gif|svg|webp|pdf)$ {
+    # index.html: always fetch fresh, never cache
+    location = /index.html {
+        expires -1;
+        add_header Cache-Control "no-cache, no-store, must-revalidate";
+    }
+
+    # Data files (catalog, pages, search index): no-cache
+    location /data/ {
+        expires -1;
+        add_header Cache-Control "no-cache, must-revalidate";
+    }
+
+    # Hashed JS/CSS (app.<hash>.js, styles.<hash>.css): immutable per build
+    location ~* \.(?:js|css)$ {
+        expires 300d;
+        add_header Cache-Control "public, immutable";
+    }
+
+    # Static assets: fonts, images, favicons
+    location ~* \.(?:png|jpg|jpeg|gif|svg|webp|pdf|woff2?)$ {
         expires 7d;
         add_header Cache-Control "public";
     }
