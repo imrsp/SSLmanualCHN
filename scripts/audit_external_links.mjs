@@ -65,9 +65,34 @@ const report = {
   networkErrors: results.filter((result) => result.error).length,
   results,
 };
+fs.mkdirSync(path.join(root, "reports"), { recursive: true });
 fs.writeFileSync(
   path.join(root, "reports", "external-link-audit.json"),
   JSON.stringify(report, null, 2),
+);
+fs.writeFileSync(
+  path.join(root, "reports", "EXTERNAL_LINK_AUDIT.md"),
+  [
+    "# 外链审计报告",
+    "",
+    `生成时间：${report.generatedAt}`,
+    "",
+    `- 外链总数：${report.total}`,
+    `- 可访问：${report.reachable}`,
+    `- 被限制：${report.blocked}`,
+    `- 不可用：${report.unavailable}`,
+    `- 网络错误：${report.networkErrors}`,
+    "",
+    "## 需人工关注",
+    "",
+    ...(report.results.filter((result) => !result.ok).length
+      ? report.results
+        .filter((result) => !result.ok)
+        .map((result) =>
+          `- \`${result.url}\`：status=${result.status ?? "network-error"}${result.finalUrl ? `，final=${result.finalUrl}` : ""}${result.error ? `，error=${result.error}` : ""}`)
+      : ["- 未发现异常外链。"]),
+    "",
+  ].join("\n"),
 );
 console.log(JSON.stringify({
   total: report.total,

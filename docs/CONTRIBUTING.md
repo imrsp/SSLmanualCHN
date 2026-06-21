@@ -11,8 +11,8 @@
 
 - 英文标题、来源和顺序：`content/en/manifest.json`
 - 中文标题和章节分组：`content/site.json`
-- 人类阅读术语说明：`content/TERMINOLOGY.md`
-- 工具可读术语数据：`content/glossary.csv`
+- 人类阅读术语说明：`docs/TERMINOLOGY.md`
+- 工具可读术语数据：`docs/glossary.csv`
 
 ## 提交前检查
 
@@ -22,7 +22,7 @@ npm run check
 
 校验会检查章节数、双语文件映射、图片是否本地化、构建结果、平台专用残留，以及译文中的图片、表格、链接和标题数量。
 
-普通校验会报告历史译文的结构差异但不阻断构建。集中校对时使用 `npm run validate:strict`，任何结构差异都会返回失败。
+`npm run validate` 只对必须修复的结构与完整性问题返回失败；其余提示统一写入 `reports/` 目录，供人工复核。
 
 前端有变化时再运行：
 

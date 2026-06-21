@@ -6,9 +6,6 @@ VCA,VCA,通用,首次出现可说明为压控放大器组
 Showfile,演出文件,工程,SSL 工程文件
 Scene,场景,自动化,自动化系统中的快照或场景
 Tile,区块,操作面,"指 Fader、Master、Control、Remote Tile"
-Layer,Layer,操作面,"默认保留英文；仅在解释概念含义时可使用“层”"
-Layer Manager,Layer Manager,操作面,"界面与章节名称保留英文"
-Bank,Bank,操作面,"保留英文"
 Fader Tile,推子区块,操作面,
 Master Tile,主控区块,操作面,
 Control Tile,控制区块,操作面,
@@ -50,3 +47,7 @@ Dante Primary, Dante 主网, Dante,
 Dante Secondary, Dante 备网, Dante,
 monitor mixes, 监听混音/监听母线, 信号, 分情况 如果谓语是处理 调整等 翻译成监听混音 如果是linking verb 或者动词 route 翻译成监听母线
 Useful Links,实用链接,章节标题,"所有页面统一使用“实用链接”"
+Layer,推子层,操作面
+Bank,推子组,操作面
+User Layer,自定义推子层,操作面
+Layer Manager, 推子层管理器,操作面

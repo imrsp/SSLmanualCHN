@@ -9,6 +9,7 @@
 ```bash
 npm run build
 npm run validate
+npm run audit:content
 npm run serve
 ```
 
@@ -32,12 +33,12 @@ node scripts/serve.mjs
 .
 ├── content/                 # 可编辑内容
 │   ├── site.json            # 章节分组、中文标题、站点元数据
-│   ├── glossary.csv         # 机器可读术语表
 │   ├── en/pages/            # 英文基准正文，一章一文件
 │   └── zh/pages/            # 中文译文，一章一文件
+├── docs/glossary.csv        # 机器可读术语表
 ├── src/                     # 阅读器源码
 ├── public/                  # 原样复制到站点的图片、PDF 等资源
-├── scripts/                 # 构建、校验、翻译交接与本地服务
+├── scripts/                 # 构建、校验、审计与本地服务
 ├── upstream/                # 官方站点原始快照，仅用于溯源
 ├── docs/                    # 架构、翻译、贡献和部署说明
 └── dist/                    # 构建产物，不提交版本库
@@ -47,14 +48,16 @@ node scripts/serve.mjs
 
 ```bash
 npm run build                  # 生成静态站点
-npm run validate               # 校验工程与翻译结构
-npm run validate:strict        # 将所有翻译结构差异视为失败
-npm run audit                  # 生成逐页内容审计报告
-npm run audit:links            # 校验站内链接和锚点
-npm run audit:terminology      # 生成待确认术语清单
-npm run upstream:snapshot      # 保存官方源站完整转储并生成更新差异
-npm run check                  # 构建后执行全部校验
 npm run serve                  # 在本地预览 dist/
+npm run check                  # 构建+执行所有阻断校验与报告生成（含下面六个分别报告）
+
+npm run validate               # 生成两个结构/完整性报告：VALIDATION_PROJECT.md 与 VALIDATION_TRANSLATIONS.md
+npm run audit:content          # 生成逐页内容复核报告
+npm run audit:links            # 校验站内链接和锚点（失败项阻断）
+npm run audit:terminology      # 生成术语审计报告
+npm run audit:external-links   # 生成外部链接可达性报告
+
+npm run upstream:snapshot      # 保存官方源站完整转储并生成更新差异
 ```
 
 详细说明见 [架构](docs/ARCHITECTURE.md)、[贡献指南](docs/CONTRIBUTING.md)、[翻译流程](docs/TRANSLATION.md)、[样式与主题系统](docs/STYLING.md)、[源站转储](docs/UPSTREAM_SNAPSHOTS.md)、和[部署指南](docs/DEPLOYMENT.md)。
