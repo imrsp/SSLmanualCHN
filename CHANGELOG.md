@@ -1,5 +1,31 @@
 # Changelog
 
+## v0.9.0 - 2026-06-21
+
+本版本进行全面项目清理与架构重构：重写 dist/src 构建管线与目录结构、引入中文字体系统、更新全部项目文档，并集中修复 b0.8 版本发布后的交互细节问题。
+
+### Added
+
+- **中文字体系统** — 引入 Noto Sans SC（无衬线）与 Noto Serif SC（衬线）完整字体资源（Regular/Bold），构建脚本支持 CI 环境自动子集化
+- **构建产出哈希化** — `build_static_site.mjs` 新增 asset hash 机制，资源文件携带内容摘要，浏览器缓存策略更可靠
+
+### Changed
+
+- **目录结构与构建管线重构** — 全面重组 `src/` 和 `dist/` 文件布局，按功能组归位，构建路径同步调整，manifest 文件迁移，删除 content 下废弃的 TERMINOLOGY.md 和 README 文件
+- **项目文档全面重写** — 重写 `README.md` 及全部 `docs/*` 文档，新增 `docs/theme-tokens.css` 令牌参考文件，`glossary.csv` 从 `content/` 迁至 `docs/`
+- **审计系统更新** — `audit_content.mjs`、`audit_terminology.mjs`、`validate_project.mjs`、`validate_translations.mjs` 适配新目录结构
+- **代码审查与项目清理** — 修复大量Bug。删除无用的 content 文件、`src/theme-tokens.css` 及废弃的 `docs/PROOFREADING_STATUS.md`，更新 `.gitignore`
+
+### Fixed
+
+- 语言切换按钮在滚动时固定位置，防止随页面移动
+- 英文版目录（TOC）点击后正确定位至对应章节，而非滚动至顶部
+- `<h4>` 标题在浅色模式下颜色浅淡，无法辨识
+- `nav-group` 阴影在特定布局下错位或缺失
+- 760px 响应式断点阴影渲染不完整
+- 构建配置中图片预览与外部文件引用修正
+- 主题 JSON 配置细节调整（acid/red 主题）
+
 ## b0.8 - 2026-06-20
 
 本版本引入完整的样式主题系统，包括色相驱动的色彩主题引擎、深色/浅色双模式切换、可扩展的主题预设配置，以及配套的构建管线和文档。
