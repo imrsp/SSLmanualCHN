@@ -1,11 +1,16 @@
-# SSL Live 中文操作手册
+# Solid State Logic Live 中文操作手册
 
 这是 SSL Live 官方在线帮助的中文整理版。项目以章节文件维护内容，构建后交付为可直接部署到任意静态 Web 服务器的站点。
 
-## 快速开始
+---
 
-要求：macOS 或 Linux、Node.js 20 及以上版本。
+## 🚀 快速开始
 
+### 📋 环境要求
+* macOS 或 Linux
+* Node.js 20 及以上版本
+
+### 🛠️ 快捷构建命令
 ```bash
 npm run build
 npm run validate
@@ -13,53 +18,100 @@ npm run audit:content
 npm run serve
 ```
 
-发布时只需部署 `dist/` 目录。
+### 📦 部署与调试说明
 
-调试时可以直接用浏览器打开 `dist/index.html`。构建产物同时包含用于 Web 
-服务器的 JSON 数据和用于 `file://` 本地访问的同粒度脚本数据。
-
-未安装 npm 时可直接运行：
+* **发布部署：** 发布时只需部署 `dist/` 目录。
+* **本地调试：** 调试时可以直接用浏览器打开 `dist/index.html`。
+* **数据兼容：** 构建产物同时包含用于 Web 服务器的 JSON 数据和用于 `file://` 本地访问的同粒度脚本数据。
+* **免免环境运行：** 未安装 npm 时可直接运行：
 
 ```bash
-node scripts/build_static_site.mjs
-node scripts/validate_project.mjs
-node scripts/validate_translations.mjs
-node scripts/serve.mjs
+  node scripts/build_static_site.mjs
+  node scripts/validate_project.mjs
+  node scripts/validate_translations.mjs
+  node scripts/serve.mjs
 ```
 
-## 目录
+---
+
+## 📂 项目目录结构
 
 ```text
 .
-├── content/                 # 可编辑内容
-│   ├── site.json            # 章节分组、中文标题、站点元数据
-│   ├── en/pages/            # 英文基准正文，一章一文件
-│   └── zh/pages/            # 中文译文，一章一文件
-├── docs/glossary.csv        # 机器可读术语表
-├── src/                     # 阅读器源码
-├── public/                  # 原样复制到站点的图片、PDF 等资源
-├── scripts/                 # 构建、校验、审计与本地服务
-├── upstream/                # 官方站点原始快照，仅用于溯源
-├── docs/                    # 架构、翻译、贡献和部署说明
-└── dist/                    # 构建产物，不提交版本库
+├── content/                  # 可编辑内容
+│   ├── site.json             # 章节分组、中文标题、站点元数据
+│   ├── en/pages/             # 英文基准正文，一章一文件
+│   └── zh/pages/             # 中文译文，一章一文件
+├── docs/glossary.csv         # 机器可读术语表
+├── src/                      # 阅读器源码
+├── public/                   # 原样复制到站点的图片、PDF 等资源
+├── scripts/                  # 构建、校验、审计与本地服务
+├── upstream/                 # 官方站点原始快照，仅用于溯源
+├── docs/                     # 架构、翻译、贡献和部署说明
+└── dist/                     # 构建产物，不提交版本库
 ```
 
-## 常用命令
+---
 
-```bash
-npm run build                  # 生成静态站点
-npm run serve                  # 在本地预览 dist/
-npm run check                  # 构建+执行所有阻断校验与报告生成（含下面六个分别报告）
+## 💻 常用命令
 
-npm run validate               # 生成两个结构/完整性报告：VALIDATION_PROJECT.md 与 VALIDATION_TRANSLATIONS.md
-npm run audit:content          # 生成逐页内容复核报告
-npm run audit:links            # 校验站内链接和锚点（失败项阻断）
-npm run audit:terminology      # 生成术语审计报告
-npm run audit:external-links   # 生成外部链接可达性报告
 
-npm run upstream:snapshot      # 保存官方源站完整转储并生成更新差异
-```
+### 🔄 核心构建与服务
 
-详细说明见 [架构](docs/ARCHITECTURE.md)、[贡献指南](docs/CONTRIBUTING.md)、[翻译流程](docs/TRANSLATION.md)、[样式与主题系统](docs/STYLING.md)、[源站转储](docs/UPSTREAM_SNAPSHOTS.md)、和[部署指南](docs/DEPLOYMENT.md)。
+* `npm run build`：生成静态站点
+* `npm run serve`：在本地预览 `dist/`
+* `npm run check`：构建 + 执行所有阻断校验与报告生成（含下面六个分别报告）
+
+### 📊 校验与审计报告
+
+* `npm run validate`：生成两个结构/完整性报告：`VALIDATION_PROJECT.md` 与 `VALIDATION_TRANSLATIONS.md`
+* `npm run audit:content`：生成逐页内容复核报告
+* `npm run audit:links`：校验站内链接和锚点（失败项阻断）
+* `npm run audit:terminology`：生成术语审计报告
+* `npm run audit:external-links`：生成外部链接可达性报告
+
+### 💾 溯源管理
+
+* `npm run upstream:snapshot`：保存官方源站完整转储并生成更新差异
+
+---
+
+## 📝 文档指南
+
+* 🏗️ **[架构说明](https://www.google.com/search?q=docs/ARCHITECTURE.md)** (`docs/ARCHITECTURE.md`)
+* 站点数据流、目录职责、章节接入方式和独立页面机制说明。
+
+
+* 🚀 **[部署指南](https://www.google.com/search?q=docs/DEPLOYMENT.md)** (`docs/DEPLOYMENT.md`)
+* 详细说明部署方式、缓存策略和静态托管约束。
+
+
+* 🤝 **[贡献指南](https://www.google.com/search?q=docs/CONTRIBUTING.md)** (`docs/CONTRIBUTING.md`)
+* 日常维护规范，涵盖正文与元数据修改范围、Git 提交流程以及提交前检查要求。
+
+
+* 🌐 **[翻译流程](https://www.google.com/search?q=docs/TRANSLATION.md)** (`docs/TRANSLATION.md`)
+* 翻译与人工校对流程，明确了结构保真要求、校验顺序，以及如何结合 `reports/` 处理人工复核项。
+
+
+* 📖 **[翻译策略](https://www.google.com/search?q=docs/TERMINOLOGY.md)** (`docs/TERMINOLOGY.md` / `docs/glossary.csv`)
+* 术语规范的双层来源：`glossary.csv` 为自动化脚本与 Agent 使用的结构化术语表；`TERMINOLOGY.md` 为人工可读的翻译规则与上下文。
+
+
+* 🎨 **[样式与主题系统](https://www.google.com/search?q=docs/STYLING.md)** (`docs/STYLING.md`)
+* 阅读器样式系统、主题变量和颜色机制说明。`docs/theme-tokens.css` 仅作为 Token 参考副本，不参与构建或运行时加载。
+
+
+* 📦 **[源站转储](https://www.google.com/search?q=docs/UPSTREAM_SNAPSHOTS.md)** (`docs/UPSTREAM_SNAPSHOTS.md`)
+* 官方源站转储与基线快照维护说明。
+
+
+* 🤖 **[外部翻译指南](https://www.google.com/search?q=docs/EXTERNAL_TRANSLATION.md)** (`docs/EXTERNAL_TRANSLATION.md`)
+* 使用外部翻译工具生成初译候选稿时的参考与提示词策略。
+
+
+
+---
 
 原始来源：[SSL Live Help](https://livehelp.solidstatelogic.com/)
+
