@@ -18,8 +18,8 @@ content/en/pages + content/zh/pages + content/manifest.json + content/site.json 
                                          |
                                          v
 dist/index.html
-dist/app.<hash>.js
-dist/styles.<hash>.css
+dist/src/app.<hash>.js
+dist/src/styles.<hash>.css
 dist/data/catalog.{json,js}
 dist/data/search-index-zh.{json,js}
 dist/data/search-index-en.{json,js}

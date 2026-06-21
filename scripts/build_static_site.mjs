@@ -193,9 +193,11 @@ function subsetFonts() {
 
 fs.rmSync(outputDirectory, { recursive: true, force: true });
 fs.mkdirSync(path.join(outputDirectory, "data", "pages"), { recursive: true });
+fs.mkdirSync(path.join(outputDirectory, "src"), { recursive: true });
 fs.cpSync(path.join(root, "public"), outputDirectory, { recursive: true });
-for (const file of ["index.html", "app.js", "styles.css"]) {
-  fs.copyFileSync(path.join(root, "src", file), path.join(outputDirectory, file));
+fs.copyFileSync(path.join(root, "src", "index.html"), path.join(outputDirectory, "index.html"));
+for (const file of ["app.js", "styles.css"]) {
+  fs.copyFileSync(path.join(root, "src", file), path.join(outputDirectory, "src", file));
 }
 
 
@@ -492,16 +494,16 @@ for (var df of allDataFiles.sort()) {
 const buildHash = dataHasher.digest("hex").slice(0, 12);
 
 // Hash and rename app.js
-const appJsPath = path.join(outputDirectory, "app.js");
+const appJsPath = path.join(outputDirectory, "src", "app.js");
 const appHash = crypto.createHash("sha256").update(fs.readFileSync(appJsPath)).digest("hex").slice(0, 12);
 const appHashed = "app." + appHash + ".js";
-fs.renameSync(appJsPath, path.join(outputDirectory, appHashed));
+fs.renameSync(appJsPath, path.join(outputDirectory, "src", appHashed));
 
 // Hash and rename styles.css
-const cssPath = path.join(outputDirectory, "styles.css");
+const cssPath = path.join(outputDirectory, "src", "styles.css");
 const cssHash = crypto.createHash("sha256").update(fs.readFileSync(cssPath)).digest("hex").slice(0, 12);
 const cssHashed = "styles." + cssHash + ".css";
-fs.renameSync(cssPath, path.join(outputDirectory, cssHashed));
+fs.renameSync(cssPath, path.join(outputDirectory, "src", cssHashed));
 
 // Rewrite index.html
 const htmlFile = path.join(outputDirectory, "index.html");
@@ -518,13 +520,13 @@ html = html.replace(
 );
 
 html = html.replace(
-  'href="./styles.css"',
-  'href="./' + cssHashed + '"'
+  'href="./src/styles.css"',
+  'href="./src/' + cssHashed + '"'
 );
 
 html = html.replace(
-  'src="./app.js"',
-  'src="./' + appHashed + '"'
+  'src="./src/app.js"',
+  'src="./src/' + appHashed + '"'
 );
 
 fs.writeFileSync(htmlFile, html);
