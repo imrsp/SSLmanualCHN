@@ -10,7 +10,7 @@
 - **色相驱动主题引擎** -- 基于 --_hue 单一色相自动推导 4 个强调色（acid/cyan/amber/red）的深色和浅色两套版本
 - **深色/浅色模式切换** -- 工具栏主题按钮，短按切换、长按 500ms 恢复跟随系统，状态持久化至 localStorage
 - **主题预设系统** -- content/themes/*.json JSON 配置，npm run build 自动生成主题 CSS，运行时通过下拉菜单动态切换
-- **内置主题** -- 酸酸绿（默认，hue 77 度）、经典红（hue 3 度）、深海蓝（hue 210 度）
+- **内置主题** -- 清凉绿（默认，hue 77 度）、经典红（hue 3 度）、深海蓝（hue 210 度）
 - **Favicon** -- SVG 矢量化 favicon 含 SSL 红品牌色，配 16/32/48/192/512 多尺寸 PNG + apple-touch-icon
 
 ### Fixed

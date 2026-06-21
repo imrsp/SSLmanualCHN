@@ -162,7 +162,7 @@ SSL Live 中文操作手册的 CSS 架构围绕一个**色相驱动（hue-driven
 ```json
 {
   "name": "acid",
-  "label": "酸酸绿",
+  "label": "清凉绿",
   "description": "默认主题，鲜艳视觉风格",
   "order": 1,
   "author": "DMT Club",
@@ -171,7 +171,7 @@ SSL Live 中文操作手册的 CSS 架构围绕一个**色相驱动（hue-driven
 
   "hue": {
     "primary": 77,
-    "link": 185,
+    "link": 160,
     "warn": 38,
     "error": 3
   },
@@ -222,7 +222,7 @@ SSL Live 中文操作手册的 CSS 架构围绕一个**色相驱动（hue-driven
 
 | 文件 | label | 基础色相 | 指示颜色 |
 |---|---|---|---|
-| `acid.json` (default) | 酸酸绿 | 77° | `#c7ff37` |
+| `acid.json` (default) | 清凉绿 | 77° | `#c7ff37` |
 | `red.json` | 经典红 | 3° | `#91201A` |
 | `blue.json` | 深海蓝 | 210° | `#5b9aff` |
 
