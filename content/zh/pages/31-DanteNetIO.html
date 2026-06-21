@@ -63,14 +63,14 @@
 <p>首先，确保您要控制的舞台接口箱在“Configured Devices”列表中（参见<a href="https://livehelp.solidstatelogic.com/Help/DanteConfig.html"><span class="hyperlink">配置 Dante 设备</span></a>）。</p>
 <p>可执行的所有权操作如下：</p>
 <ul>
-  <li><strong>Stagebox Ownership</strong>：更改工作电平，在 AES 和模拟输入之间切换输入源，打开 AES 输入的 SRC，以及打开或关闭 AutoPad</li>
-  <li><strong>Input Ownership</strong>：仅控制输入参数</li>
-  <li><strong>GPO Ownership</strong>：控制所有 GPO 参数和设置</li>
+  <li><strong>Stagebox Ownership（舞台接口箱所有权）</strong>：更改工作电平，在 AES 和模拟输入之间切换输入源，打开 AES 输入的 SRC，以及打开或关闭 AutoPad</li>
+  <li><strong>Input Ownership（输入所有权）</strong>：仅控制输入参数</li>
+  <li><strong>GPO Ownership（GPO所有权）</strong>：控制所有 GPO 参数和设置</li>
 </ul>
 <div id="accordion">
-<div class="indexheader2">Stagebox Ownership</div>
+<div class="indexheader2">舞台接口箱所有权</div>
 <div>
-<p>Stagebox Ownership 能够对以下参数进行控制：</p>
+<p>舞台接口箱所有权能够对以下参数进行控制：</p>
 <ul>
   <li>工作电平</li>
   <li>启用 AES 输入（仅限 SB 32.24）</li>
@@ -79,42 +79,42 @@
   <li>启用<a href="#NetBSRC"><span class="hyperlink">网络 B SRC</span></a>（仅限 SB 16.12 和 SB 32.24）</li>
   <li>重置舞台接口箱设置</li>
 </ul>
-<p>Stagebox Owner 无法控制输入。 舞台接口箱并不总是需要 Stagebox Owner，因此如果您不需要调整上述设置，Stagebox Ownership 可以保持无主状态。</p>
+<p>Stagebox Owner 无法控制输入。舞台接口箱的 Stagebox Owner 非必要，如果您不需要调整上述设置，Stagebox Ownership 可以保持无主状态。</p>
 <p>要成为 Stagebox owner，请在 Dante 配置页面中点击舞台接口箱，舞台接口箱的详细视图将出现在底部。 按住“Stagebox Ownership”。</p>
 <p>Stagebox owner 显示在此按钮左侧，呈青色。</p>
 <p>要释放 Stagebox ownership，请再次按住“Stagebox Ownership”以解除。</p>
 </div>
-<div class="indexheader2">Input Ownership</div>
+<div class="indexheader2">输入所有权</div>
 <div>
-<p>输入的所有者可以控制所有输入参数，包括增益、Pad、Mic/Line 和 +48V。</p>
-<p>当舞台接口箱输入被路由到控制台上通道的输入，并且该输入没有所有者时， 控制台将自动成为该输入的所有者。</p>
+<p>输入的所有者可以控制所有输入参数，包括增益、Pad、Mic/Line 切换和 +48V 幻象供电开关。</p>
+<p>当舞台接口箱输入被路由到控制台上 Channel 通道的输入，并且该输入没有所有者时， 控制台将自动成为该输入的所有者。</p>
 <p>但是，如果该输入已被另一台设备拥有，控制台不会自动从该设备夺取所有权。必须手动取得所有权。</p>
-<p>Net I/O 舞台接口箱的输入设置可以在通道详细视图的 Input/Routing 页面中查看 （如果该输入已路由到通道）或在 Dante 配置页面的舞台接口箱详细视图中查看。</p>
-<p>要查看舞台接口箱输入设置，请在 Dante 配置页面中点击舞台接口箱， 然后点击右侧的 Inputs（下图中标注 1）。 控制台拥有的任何输入将以绿色背景显示。由另一台设备拥有的任何输入将显示为紫色。无主的输入显示为黑色。</p>
+<p>Net I/O 舞台接口箱的输入设置可以在通道详细视图的 Input/Routing 页面中查看 （如果该输入已路由到 Channel 通道）或在 Dante 配置页面的舞台接口箱详细视图中查看。</p>
+<p>要查看舞台接口箱输入设置，请在 Dante 配置页面中点击舞台接口箱， 然后点击右侧的 Inputs（下图中标注 1）。 控制台拥有的所有输入都将以绿色背景显示，另一台设备拥有的输入则显示为紫色，无主的输入显示为黑色。</p>
 <figure><img src="https://livehelp.solidstatelogic.com/Help/images/g_DanteInputs.png" alt="图片 2"><figcaption>图片 2</figcaption></figure>
 <figure><img src="https://livehelp.solidstatelogic.com/Help/images/g_DanteTake.png" alt="图片 3"><figcaption>图片 3</figcaption></figure>
-<p>点击任何输入（标注 2），然后点击“Edit Settings”（标注 3）以在弹出的窗口中查看该输入的设置。</p>
+<p>点击任意输入（标注 2），然后点击“Edit Settings”（标注 3）可以在弹出的窗口中查看该输入的设置。</p>
 <p>以下说明适用于在通道视图或 Dante 配置中查看输入设置。</p>
-<p>要拥有一个输入，请导航到该输入的设置，您将看到一个带有按钮和显示框的“Ownership”部分。</p>
-<p>“Ownership”部分中的按钮将根据输入的所有权状态更改其功能。</p>
-<p>如果输入当前没有所有者，按钮将显示“Own”。框中不会显示任何内容。按住“Own”，您的控制台将成为该输入的所有者。</p>
-<p>如果输入已有所有者，按钮将显示“Take”。当前所有者的设备名称将显示在框中。 按住“Take”，您的控制台将从先前所有者那里取得该输入的所有权。</p>
-<p>如果您的控制台已经是所有者，按钮将显示“Release”。您的控制台名称将显示在框中。 按住“Release”，您的控制台将释放所有权，使该输入没有所有者。</p>
+<p>要取得某路输入的所有权，请进入该输入的设置，您将看到“Ownership”区域，内含一个操作按钮与一个显示框。</p>
+<p>“Ownership”区域中的按钮将根据输入的所有权状态更改其功能。</p>
+<p>如果当前输入没有所有者，按钮将显示“Own”，框中不会显示任何内容。按住“Own”，您的控制台将成为该输入的所有者。</p>
+<p>如果输入已有所有者，按钮将显示“Take”，当前所有者的设备名称将显示在框中。 按住“Take”，您的控制台将接管该输入的所有权。</p>
+<p>如果您的控制台已经是所有者，按钮将显示“Release”，您的控制台名称将显示在框中。 按住“Release”，您的控制台将释放所有权，该输入将变为没有所有者。</p>
 <p class="note"><span class="notetitle">注意：</span></p>
-<p>在夺取所有权之前无需释放所有权。</p>
+<p>接管所有权前无需先释放。</p>
 <p>一旦您的控制台拥有所有权，就可以调整增益和输入设置。</p>
 <p>如果您的控制台不是输入的所有者，您将看到控件呈灰色，无法进行任何更改。</p>
 <figure><img src="https://livehelp.solidstatelogic.com/Help/images/g_DanteTakeAll.png" alt="图片 4"><figcaption>图片 4</figcaption></figure>
-<p>可以通过一次操作取得或释放网络 I/O 舞台接口箱所有输入的所有权。为此，请前往 MENU &gt; Setup &gt; I/O &gt; Dante Configuration。 点击舞台接口箱以在其详细视图中查看设置。</p>
+<p>Network I/O 舞台接口箱的全部输入端口所有权可通过一次操作批量接管或批量释放。请前往 MENU &gt; Setup &gt; I/O &gt; Dante Configuration。 点击舞台接口箱以在其详细视图中查看设置。</p>
 <p>在舞台接口箱的 Setup 部分，按住“Inputs Ownership”。有三个选项可用：</p>
 <table>
   <tr>
-    <th>Own All</th>
-    <th>成为所有无主输入的所有者</th>
+    <td>Own All</td>
+    <td>成为所有无主输入的所有者</td>
   </tr>
   <tr>
     <td>Take All</td>
-    <td>成为所有输入的所有者（包括由不同设备拥有的输入）</td>
+    <td>成为所有输入的所有者（包括其他设备拥有的输入）</td>
   </tr>
   <tr>
     <td>Release All</td>
@@ -123,7 +123,7 @@
 </table>
 <p>多个控制设备可以同时拥有单个舞台接口箱的不同输入。 但是同一个输入永远不能有多个所有者。</p>
 </div>
-<div class="indexheader2">GPO Ownership</div>
+<div class="indexheader2">GPO Ownership（GPO所有权）</div>
 <div>
 <figure><img src="https://livehelp.solidstatelogic.com/Help/images/g_GPOOwn.png" alt="图片 5"><figcaption>图片 5</figcaption></figure>
 <p>一些 Net I/O 设备具有可以从控制台访问的 GPIO 端口。GPO 所有权设置必须从 Dante 配置页面调整。 点击舞台接口箱，其详细视图将出现。点击舞台接口箱详细视图右侧的 GPIO。 要成为特定 GPO 的所有者，请视情况按住“Own”或“Take”。 按住“Rel”以释放所有权。</p>
