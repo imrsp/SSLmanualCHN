@@ -3,11 +3,11 @@
 ## 基本流程
 
 1. 从 `content/en/pages/` 读取英文基准。
-2. 在 `content/zh/pages/` 创建同名译文；仅有英文基准时可以暂缺，站点会标记为待翻译。
+2. 在 `content/zh/pages/` 创建同名译文，保持全量章节一一对应。
 3. 保持标题、图片、表格、链接、列表等结构数量一致。
 4. 按 `content/glossary.csv` 与 `content/TERMINOLOGY.md` 使用统一译法。
-5. 运行 `npm run validate`，再进行人工双语对照。
-6. 运行 `npm run audit`，检查 `reports/CONTENT_AUDIT.md` 中的结构差异和疑似未翻译正文。
+5. 运行 `npm run validate`，先修复所有会阻断通过的结构与完整性问题。
+6. 运行 `npm run audit`，检查 `reports/CONTENT_AUDIT.md` 中的结构差异、疑似未翻译正文和其它人工复核提示。
 
 ## 翻译原则
 
@@ -18,22 +18,6 @@
 - `Useful Links` 统一译为“实用链接”。
 - 警告与错误消息保留英文原文，并给出中文解释。
 - 数字、单位、地址、端口、型号、版本和命令保持不变。
-
-## 批量交接
-
-导出缺少中文文件的章节：
-
-```bash
-npm run translation:export
-```
-
-结果位于 `handoff/remaining-translations.txt`。填好后导入：
-
-```bash
-npm run translation:import -- handoff/translated.txt
-```
-
-导入脚本只处理交接文件中标记完整的章节。导入后必须人工检查 HTML，并运行 `npm run check`。
 
 ## 术语维护
 

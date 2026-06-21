@@ -6,7 +6,7 @@ SSL Live 中文操作手册的 CSS 架构围绕一个**色相驱动（hue-driven
 
 ## 一、CSS 变量令牌系统
 
-所有 CSS 变量定义在 `src/styles.css` 的 `:root` 中，按用途分组。`src/theme-tokens.css` 包含一份独立参考副本，不参与构建加载，只用作查阅模板。
+所有 CSS 变量定义在 `src/styles.css` 的 `:root` 中，按用途分组。`docs/theme-tokens.css` 包含一份独立参考副本，不参与构建加载，只用作查阅模板；实际默认值与运行时行为仍以 `src/styles.css` 为准。
 
 ### 1.1 令牌分组总览
 
@@ -393,7 +393,7 @@ JS 在 `applyTheme()` 中随模式自动更新。
 ## 七、架构说明
 
 - **所有令牌为原生 CSS 自定义属性**，不使用预处理器或框架
-- `src/theme-tokens.css` 是离线参考文件，**不参与构建加载**，只作为模板查阅
+- `docs/theme-tokens.css` 是离线参考文件，**不参与构建加载**，用于集中查阅主题 token 及其分组说明；实际生效值仍以 `src/styles.css` 为准
 - `dist/themes/*.css` 由构建脚本**自动生成**，不应直接编辑
 - 主题 JSON 控制的核心域：4 个强调色的 HSL 参数 + 品牌标记文字色 + About 发光 RGB
 - 主题 JSON **不覆盖**的 token（定义在 `src/styles.css` 中）：
