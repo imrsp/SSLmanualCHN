@@ -333,6 +333,7 @@ const pages = manifest.map((item, index) => {
     sourceUrl: item.sourceUrl,
     translationStatus: hasTranslation ? "complete" : "pending",
     headings: preparedChinese.headings,
+    englishHeadings: preparedEnglish.headings,
     contentHtml: preparedChinese.content,
     englishHtml: preparedEnglish.content,
   };

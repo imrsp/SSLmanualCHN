@@ -599,7 +599,10 @@ function renderNavigation(focusActive) {
 }
 
 function renderOutline(page) {
-  elements.outline.innerHTML = page.headings
+  var headings = state.language === "en"
+    ? (page.englishHeadings || page.headings)
+    : page.headings;
+  elements.outline.innerHTML = headings
     .filter((heading) => heading.title)
     .map((heading) => `
       <a class="level-${heading.level}" href="${pageRoute(page.id, heading.id)}">
