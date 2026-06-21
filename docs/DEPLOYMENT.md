@@ -17,7 +17,7 @@ npm run check
 当前构建产物分三类：
 
 - `index.html`：短缓存或禁止缓存。
-- `app.<hash>.js`、`styles.<hash>.css`：可长缓存。
+- `src/app.<hash>.js`、`src/styles.<hash>.css`：可长缓存。
 - `data/*.json`、`themes/*.css`：建议短缓存或协商缓存，因为它们随内容和主题变更而更新。
 
 构建时还会给数据请求附带 `__BUILD_HASH__` 参数，用于浏览器更新时失效旧缓存。
@@ -50,7 +50,7 @@ server {
         add_header Cache-Control "no-cache, must-revalidate";
     }
 
-    location ~* ^/(?:app|styles)\.[a-f0-9]{12}\.(?:js|css)$ {
+    location ~* ^/src/(?:app|styles)\.[a-f0-9]{12}\.(?:js|css)$ {
         expires 300d;
         add_header Cache-Control "public, immutable";
     }
