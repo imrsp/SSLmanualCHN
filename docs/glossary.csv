@@ -47,7 +47,7 @@ Dante Primary, Dante 主网, Dante,
 Dante Secondary, Dante 备网, Dante,
 monitor mixes, 监听混音/监听母线, 信号, 分情况 如果谓语是处理 调整等 翻译成监听混音 如果是linking verb 或者动词 route 翻译成监听母线
 Useful Links,实用链接,章节标题,"所有页面统一使用“实用链接”"
-Layer,推子层,操作面
-Bank,推子组,操作面
-User Layer,自定义推子层,操作面
-Layer Manager, 推子层管理器,操作面
+Layer,推子层,操作面,仅引用界面原文时候保留英文
+Bank,推子组,操作面,仅引用界面原文时候保留英文
+User Layer,自定义推子层,操作面,仅引用界面原文时候保留英文
+Layer Manager,推子层管理器,操作面,仅章节名和引用界面原文时候保留英文
