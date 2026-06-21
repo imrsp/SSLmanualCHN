@@ -79,35 +79,35 @@ npm run serve
 
 ## 📝 文档指南
 
-* 🏗️ **[架构说明](https://www.google.com/search?q=docs/ARCHITECTURE.md)** (`docs/ARCHITECTURE.md`)
+* 🏗️ **[架构说明](docs/ARCHITECTURE.md)** (`docs/ARCHITECTURE.md`)
 * 站点数据流、目录职责、章节接入方式和独立页面机制说明。
 
 
-* 🚀 **[部署指南](https://www.google.com/search?q=docs/DEPLOYMENT.md)** (`docs/DEPLOYMENT.md`)
+* 🚀 **[部署指南](docs/DEPLOYMENT.md)** (`docs/DEPLOYMENT.md`)
 * 详细说明部署方式、缓存策略和静态托管约束。
 
 
-* 🤝 **[贡献指南](https://www.google.com/search?q=docs/CONTRIBUTING.md)** (`docs/CONTRIBUTING.md`)
+* 🤝 **[贡献指南](docs/CONTRIBUTING.md)** (`docs/CONTRIBUTING.md`)
 * 日常维护规范，涵盖正文与元数据修改范围、Git 提交流程以及提交前检查要求。
 
 
-* 🌐 **[翻译流程](https://www.google.com/search?q=docs/TRANSLATION.md)** (`docs/TRANSLATION.md`)
+* 🌐 **[翻译流程](docs/TRANSLATION.md)** (`docs/TRANSLATION.md`)
 * 翻译与人工校对流程，明确了结构保真要求、校验顺序，以及如何结合 `reports/` 处理人工复核项。
 
 
-* 📖 **[翻译策略](https://www.google.com/search?q=docs/TERMINOLOGY.md)** (`docs/TERMINOLOGY.md` / `docs/glossary.csv`)
+* 📖 **[翻译策略](docs/TERMINOLOGY.md)** (`docs/TERMINOLOGY.md` / `docs/glossary.csv`)
 * 术语规范的双层来源：`glossary.csv` 为自动化脚本与 Agent 使用的结构化术语表；`TERMINOLOGY.md` 为人工可读的翻译规则与上下文。
 
 
-* 🎨 **[样式与主题系统](https://www.google.com/search?q=docs/STYLING.md)** (`docs/STYLING.md`)
+* 🎨 **[样式与主题系统](docs/STYLING.md)** (`docs/STYLING.md`)
 * 阅读器样式系统、主题变量和颜色机制说明。`docs/theme-tokens.css` 仅作为 Token 参考副本，不参与构建或运行时加载。
 
 
-* 📦 **[源站转储](https://www.google.com/search?q=docs/UPSTREAM_SNAPSHOTS.md)** (`docs/UPSTREAM_SNAPSHOTS.md`)
+* 📦 **[源站转储](docs/UPSTREAM_SNAPSHOTS.md)** (`docs/UPSTREAM_SNAPSHOTS.md`)
 * 官方源站转储与基线快照维护说明。
 
 
-* 🤖 **[外部翻译指南](https://www.google.com/search?q=docs/EXTERNAL_TRANSLATION.md)** (`docs/EXTERNAL_TRANSLATION.md`)
+* 🤖 **[外部翻译指南](docs/EXTERNAL_TRANSLATION.md)** (`docs/EXTERNAL_TRANSLATION.md`)
 * 使用外部翻译工具生成初译候选稿时的参考与提示词策略。
 
 

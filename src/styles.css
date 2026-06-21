@@ -1188,7 +1188,7 @@ kbd { padding: 2px 5px; border: 1px solid var(--line); color: var(--muted); back
   transform: translateY(-50%);
 }
 
-/* Light mode preset dropdown */}
+/* Light mode preset dropdown */
 @media (prefers-color-scheme: light) {
   #presetToggle:hover {
     background: rgba(199,255,55,.15);
