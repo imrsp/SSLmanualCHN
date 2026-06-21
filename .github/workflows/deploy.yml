@@ -64,8 +64,8 @@ jobs:
 
           SSH_CMD="ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=yes"
 
-          # Atomic-like deployment using rsync's built-in temp directory:
-          # --delete-delay marks files for removal but only cleans up after transfer completes
-          # --delay-updates writes new files to .~tmp~ then atomically renames into place
-          rsync -rltvzO --delete-delay --delay-updates -e "$SSH_CMD" \
+         # Atomic-like deployment using rsync's built-in temp directory:
+         # --delete-delay marks files for removal but only cleans up after transfer completes
+         # --delay-updates writes new files to .~tmp~ then atomically renames into place
+          rsync -rltvzO --delete-delay --delay-updates --filter="protect .user.ini" -e "$SSH_CMD" \
             dist/ "${SSH_USER}@${SSH_HOST}:${SSH_TARGET}"
