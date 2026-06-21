@@ -154,6 +154,11 @@ function dedupeIds(html) {
 function subsetFonts() {
   const srcDir = path.join(root, "fonts", "src");
   const outDir = path.join(outputDirectory, "assets", "fonts");
+  if (!process.env.CI) {
+    console.log("[fonts] Not in CI, skip font subsetting. To rebuild: CI=true npm run build");
+    return;
+  }
+
   if (!fs.existsSync(srcDir)) {
     console.log("[fonts] No TTF, skipping.");
     return;
