@@ -125,7 +125,8 @@ function loadThemeCSS(name) {
     presetLinkEl.rel = "stylesheet";
     document.head.appendChild(presetLinkEl);
   }
-  presetLinkEl.href = "themes/" + name + ".css?" + Date.now();
+  var cacheBuster = typeof window.__BUILD_HASH__ !== "undefined" ? window.__BUILD_HASH__ : Date.now();
+  presetLinkEl.href = "themes/" + name + ".css?" + cacheBuster;
 }
 
 function buildPresetDropdown() {
@@ -146,14 +147,7 @@ function togglePresetDropdown() {
   var dd = elements.presetDropdown;
   if (!dd) return;
   var open = dd.classList.toggle("open");
-  if (open) {
-    dd.querySelectorAll(".preset-option").forEach(function (btn) {
-      btn.addEventListener("click", function () {
-        selectThemePreset(btn.dataset.preset);
-      });
-      btn.addEventListener("mouseenter", showPresetOptionTooltip);
-      btn.addEventListener("mouseleave", hidePresetOptionTooltip);    });
-  } else {
+  if (!open) {
     hidePresetOptionTooltip();
   }
 }
@@ -223,7 +217,13 @@ const escapeHtml = (value) =>
   })[character]);
 
 const normalize = (value) => value.toLocaleLowerCase().replace(/\s+/g, " ").trim();
-const dataUrl = (path) => new URL(`data/${path}`, document.baseURI);
+const dataUrl = (path) => {
+  const url = new URL(`data/${path}`, document.baseURI);
+  if (typeof window.__BUILD_HASH__ !== "undefined" && location.protocol !== "file:") {
+    url.searchParams.set("v", window.__BUILD_HASH__);
+  }
+  return url;
+};
 const localData = globalThis.__SSL_MANUAL_DATA__ ??= { pages: {} };
 
 function loadDataScript(path) {
@@ -292,10 +292,6 @@ async function loadPage(pageId) {
 function syncSearchToggleVisibility() {
   var shouldShow = Boolean(state.query.trim()) || elements.searchPanel.matches(":focus-within");
   elements.searchToggle.style.display = shouldShow ? "flex" : "none";
-}
-
-function visiblePageIds() {
-  return new Set(state.catalog.pages.map(function (page) { return page.id; }));
 }
 
 function extractExcerpt(text, query, contextChars) {
@@ -542,10 +538,9 @@ function renderNavigation(focusActive) {
     if (focusActive) scrollActiveNavigationIntoView();
     return;
   }
-  const ids = visiblePageIds();
   const forceExpanded = Boolean(state.query);
   elements.manualNav.innerHTML = state.catalog.sections.map((section) => {
-    const pages = state.catalog.pages.filter((page) => page.section === section.id && ids.has(page.id));
+    const pages = state.catalog.pages.filter((page) => page.section === section.id);
     if (!pages.length) return "";
     const expanded = forceExpanded || state.expandedSections.has(section.id);
     return `
@@ -564,7 +559,7 @@ function renderNavigation(focusActive) {
   }).join("");
 
   elements.searchSummary.textContent = state.query
-    ? `找到 ${ids.size} 个相关主题`
+    ? "正在准备搜索结果…"
     : "可搜索中英文标题与正文";
   elements.manualNav.querySelectorAll("[data-page-id]").forEach((button) => {
     button.addEventListener("click", () => {
@@ -592,7 +587,10 @@ function renderNavigation(focusActive) {
 }
 
 function renderOutline(page) {
-  elements.outline.innerHTML = page.headings
+  var headings = state.language === "en"
+    ? (page.englishHeadings || page.headings)
+    : page.headings;
+  elements.outline.innerHTML = headings
     .filter((heading) => heading.title)
     .map((heading) => `
       <a class="level-${heading.level}" href="${pageRoute(page.id, heading.id)}">
@@ -634,13 +632,9 @@ function configurePageLinks() {
       link.rel = "noreferrer";
     }
   });
-  elements.document.querySelectorAll(".manual-content details a, .manual-content details [id]").forEach((element) => {
-    if (!element.id) return;
-    element.closest("details")?.setAttribute("data-anchor-container", element.id);
-  });
 }
 
-function renderStandalonePage(page, headingId = "") {
+function renderStandalonePage(page, headingId = "", skipScroll = false) {
   state.currentPage = page;
   elements.breadcrumbs.innerHTML = escapeHtml(page.titleZh);
   elements.pageCounter.textContent = "";
@@ -662,21 +656,23 @@ function renderStandalonePage(page, headingId = "") {
   configurePageButton(elements.nextPage, null, "下一主题");
   renderNavigation();
   document.title = page.titleZh + " | " + state.catalog.meta.title;
-  if (headingId) {
-    requestAnimationFrame(function () {
-      var target = document.getElementById(headingId);
-      if (target) {
-        var details = target.closest("details");
-        if (details) details.setAttribute("open", "");
-        target.scrollIntoView();
-      }
-    });
-  } else {
-    window.scrollTo({ top: 0, behavior: "instant" });
+  if (!skipScroll) {
+    if (headingId) {
+      requestAnimationFrame(function () {
+        var target = document.getElementById(headingId);
+        if (target) {
+          var details = target.closest("details");
+          if (details) details.setAttribute("open", "");
+          target.scrollIntoView();
+        }
+      });
+    } else {
+      window.scrollTo({ top: 0, behavior: "instant" });
+    }
   }
 }
 
-function renderPage(page, headingId = "") {
+function renderPage(page, headingId = "", skipScroll = false) {
   state.currentPage = page;
   ensureActiveNavigationExpanded();
   const index = state.catalog.pages.findIndex((candidate) => candidate.id === page.id);
@@ -699,7 +695,7 @@ function renderPage(page, headingId = "") {
     </header>
     <div class="manual-content">${state.language === "en" ? page.englishHtml : page.contentHtml}</div>
   `;
-  elements.languageToggle.textContent = state.language === "zh" ? "中文 / EN" : "中文 / EN";
+  elements.languageToggle.textContent = "中文 / EN";
   elements.languageToggle.disabled = page.translationStatus !== "complete";
   renderOutline(page);
   configurePageLinks();
@@ -707,14 +703,16 @@ function renderPage(page, headingId = "") {
   configurePageButton(elements.nextPage, next, "下一主题");
   renderNavigation(true);
   document.title = `${page.titleZh} | ${state.catalog.meta.title}`;
-  if (headingId) {
-    requestAnimationFrame(() => {
-      const target = document.getElementById(headingId);
-      target?.closest("details")?.setAttribute("open", "");
-      target?.scrollIntoView();
-    });
-  } else {
-    window.scrollTo({ top: 0, behavior: "instant" });
+  if (!skipScroll) {
+    if (headingId) {
+      requestAnimationFrame(() => {
+        const target = document.getElementById(headingId);
+        target?.closest("details")?.setAttribute("open", "");
+        target?.scrollIntoView();
+      });
+    } else {
+      window.scrollTo({ top: 0, behavior: "instant" });
+    }
   }
   if (next) loadPage(next.id).catch(() => {});
 }
@@ -852,6 +850,22 @@ document.addEventListener("click", function (event) {
   hidePresetOptionTooltip();
 });
 
+elements.presetItems?.addEventListener("click", function (event) {
+  var btn = event.target.closest(".preset-option");
+  if (!btn) return;
+  selectThemePreset(btn.dataset.preset);
+});
+
+elements.presetItems?.addEventListener("mouseover", function (event) {
+  var btn = event.target.closest(".preset-option");
+  if (!btn || !elements.presetItems.contains(btn)) return;
+  showPresetOptionTooltip({ currentTarget: btn });
+});
+
+elements.presetItems?.addEventListener("mouseleave", function () {
+  hidePresetOptionTooltip();
+});
+
 elements.searchEnToggle.addEventListener("change", function () {
     state.searchEn = this.checked;
     if (state.query.trim()) {
@@ -869,17 +883,68 @@ elements.searchEnToggle.addEventListener("change", function () {
   elements.themeToggle.addEventListener("pointerleave", handleThemeCancel);
   elements.presetToggle.addEventListener("click", togglePresetDropdown);
   elements.languageToggle.addEventListener("click", () => {
-  if (state.currentPage?.translationStatus !== "complete") return;
-  state.language = state.language === "zh" ? "en" : "zh";
-  if (state.currentPage?.standalone) {
-    renderStandalonePage(state.currentPage);
-  } else {
-    renderPage(state.currentPage);
-  }
-  if (state.query.trim() && (state.searchIndexZh || state.searchIndexEn)) {
-    setTimeout(function () { highlightPageContent(state.query.trim()); }, 0);
-  }
-});
+    if (state.currentPage?.translationStatus !== "complete") return;
+
+    /* Find heading by index (IDs differ between zh/en pages) */
+    let targetIdx = -1;
+    const vpHeight = window.innerHeight;
+    const headings = document.querySelectorAll(
+      ".manual-content h1[id], .manual-content h2[id], .manual-content h3[id]," +
+      ".manual-content h4[id], .manual-content h5[id], .manual-content h6[id]",
+    );
+    /* First pass: headings whose top edge is in the viewport */
+    let minDist = Infinity;
+    headings.forEach((el, i) => {
+      /* Skip headings inside closed <details> — their getBoundingClientRect
+         returns top=0 and would wrongly beat visible headings */
+      if (el.closest("details")?.open === false) return;
+      const rect = el.getBoundingClientRect();
+      if (rect.top >= 0 && rect.top < vpHeight && rect.top < minDist) {
+        minDist = rect.top;
+        targetIdx = i;
+      }
+    });
+    /* Second pass: no heading in viewport — pick the nearest heading
+       that has been scrolled just above the viewport */
+    if (targetIdx === -1) {
+      /* No heading in viewport — find the nearest heading above,
+         even if it is fully scrolled out of view */
+      let closestAbove = -Infinity;
+      headings.forEach((el, i) => {
+        if (el.closest("details")?.open === false) return;
+        const rect = el.getBoundingClientRect();
+        if (rect.top < 0 && rect.top > closestAbove) {
+          closestAbove = rect.top;
+          targetIdx = i;
+        }
+      });
+    }
+
+    state.language = state.language === "zh" ? "en" : "zh";
+    if (state.currentPage?.standalone) {
+      renderStandalonePage(state.currentPage, "", true);
+    } else {
+      renderPage(state.currentPage, "", true);
+    }
+    if (state.query.trim() && (state.searchIndexZh || state.searchIndexEn)) {
+      setTimeout(function () { highlightPageContent(state.query.trim()); }, 0);
+    }
+
+    /* Scroll directly to heading by index — renderPage skips its own scroll */
+    if (targetIdx >= 0) {
+      requestAnimationFrame(() => {
+        const found = document.querySelectorAll(
+          ".manual-content h1[id], .manual-content h2[id], .manual-content h3[id]," +
+          ".manual-content h4[id], .manual-content h5[id], .manual-content h6[id]",
+        );
+        const target = found[targetIdx];
+        if (target) {
+          target.closest("details")?.setAttribute("open", "");
+          target.scrollIntoView();
+        }
+      });
+    }
+  })
 window.addEventListener("hashchange", function () { route(); });
 window.addEventListener("keydown", (event) => {
   if (event.key === "/" && document.activeElement !== elements.searchInput) {

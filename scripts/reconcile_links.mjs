@@ -2,7 +2,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { readJson, root } from "./lib/manual.mjs";
 
-const manifest = readJson(path.join(root, "content", "en", "manifest.json"));
+const manifest = readJson(path.join(root, "content", "manifest.json"));
 function links(html, sourceUrl) {
   const result = [];
   const activeHtml = (html.match(/<body[^>]*>([\s\S]*?)<\/body>/i)?.[1] ?? html)

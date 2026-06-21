@@ -1,0 +1,77 @@
+/* Reference only. Not loaded by the build.
+   Keep this file aligned with src/styles.css and theme generation rules. */
+
+:root {
+  color-scheme: dark;
+
+  /* Surface and text */
+  --black: #0b0e0c;
+  --panel: #171c19;
+  --panel-soft: #1d2420;
+  --line: #303a34;
+  --ink: #eef2ed;
+  --muted: #8d9891;
+
+  /* Theme hue inputs */
+  --_hue: 77;
+  --_hue-link: 185;
+  --_hue-warn: 38;
+  --_hue-error: 3;
+
+  /* Derived accent colors */
+  --acid: hsl(var(--_hue), 100%, 61%);
+  --cyan: hsl(var(--_hue-link), 78%, 59%);
+  --amber: hsl(var(--_hue-warn), 100%, 63%);
+  --red: hsl(var(--_hue-error), 85%, 63%);
+
+  /* Surface helpers */
+  --topbar-bg: rgba(12, 15, 13, .94);
+  --sidebar-bg: rgba(18, 22, 19, .97);
+  --reader-toolbar-bg: rgba(11, 14, 12, .92);
+  --grid-line-alpha: rgba(255, 255, 255, .018);
+  --grid-line-beta: rgba(255, 255, 255, .012);
+
+  /* Theme-dependent helpers */
+  --about-glow-r: 199;
+  --about-glow-g: 255;
+  --about-glow-b: 55;
+  --about-label-text: #d4dbd6;
+  --_accent-surface: hsl(var(--_hue), 18%, 87%);
+  --_accent-table-header: hsl(var(--_hue), 12%, 91%);
+  --_accent-glow: rgba(199, 255, 55, .25);
+  --brand-accent-text: #0c110d;
+
+  /* Layout */
+  --sidebar-width: 280px;
+  --topbar-height: 72px;
+}
+
+:root[data-theme="light"] {
+  color-scheme: light;
+
+  --black: #f5f6f3;
+  --panel: #f0f1ef;
+  --panel-soft: #e8eae7;
+  --line: #d4d9d6;
+  --ink: #2d332f;
+  --muted: #6e7a72;
+
+  --acid: hsl(var(--_hue), 54%, 51%);
+  --cyan: hsl(var(--_hue-link), 71%, 34%);
+  --amber: hsl(var(--_hue-warn), 100%, 39%);
+  --red: hsl(var(--_hue-error), 61%, 48%);
+
+  --topbar-bg: rgba(245, 246, 243, .94);
+  --sidebar-bg: rgba(240, 241, 239, .97);
+  --reader-toolbar-bg: rgba(245, 246, 243, .92);
+  --grid-line-alpha: rgba(0, 0, 0, .04);
+  --grid-line-beta: rgba(0, 0, 0, .025);
+
+  --about-glow-r: 140;
+  --about-glow-g: 198;
+  --about-glow-b: 63;
+  --about-label-text: #2d332f;
+  --_accent-surface: hsl(var(--_hue), 18%, 87%);
+  --_accent-table-header: hsl(var(--_hue), 12%, 91%);
+  --_accent-glow: rgba(140, 198, 63, .25);
+}

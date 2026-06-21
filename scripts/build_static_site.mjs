@@ -1,4 +1,6 @@
 import fs from "node:fs";
+import crypto from "node:crypto";
+import { execSync } from "node:child_process";
 import path from "node:path";
 import {
   root,
@@ -15,7 +17,7 @@ import {
 const contentDirectory = path.join(root, "content");
 const outputDirectory = path.join(root, "dist");
 const site = readJson(path.join(contentDirectory, "site.json"));
-const manifest = readJson(path.join(contentDirectory, "en", "manifest.json"));
+const manifest = readJson(path.join(contentDirectory, "manifest.json"));
 const assetManifest = readJson(path.join(root, "public", "assets", "manual", "manifest.json"));
 const sectionById = new Map(site.sections.map((section, index) => [
   section.id,
@@ -148,13 +150,58 @@ function dedupeIds(html) {
   });
 }
 
-fs.rmSync(outputDirectory, { recursive: true, force: true });
-fs.mkdirSync(path.join(outputDirectory, "data", "pages"), { recursive: true });
-fs.cpSync(path.join(root, "public"), outputDirectory, { recursive: true });
-for (const file of ["index.html", "app.js", "styles.css"]) {
-  fs.copyFileSync(path.join(root, "src", file), path.join(outputDirectory, file));
+
+function subsetFonts() {
+  const srcDir = path.join(root, "fonts", "src");
+  const outDir = path.join(outputDirectory, "assets", "fonts");
+  if (!process.env.CI) {
+    console.log("[fonts] Not in CI, skip font subsetting. To rebuild: CI=true npm run build");
+    return;
+  }
+
+  if (!fs.existsSync(srcDir)) {
+    console.log("[fonts] No TTF, skipping.");
+    return;
+  }
+  fs.mkdirSync(outDir, { recursive: true });
+  const zhDir = path.join(contentDirectory, "zh", "pages");
+  const chars = new Set();
+  for (const file of fs.readdirSync(zhDir).filter(f => f.endsWith(".html"))) {
+    const text = fs.readFileSync(path.join(zhDir, file), "utf8");
+    for (const c of text) {
+      if (c >= "\u4e00" && c <= "\u9fff") chars.add(c);
+      if (c.charCodeAt(0) >= 0x20 && c.charCodeAt(0) <= 0x7e) chars.add(c);
+    }
+  }
+  const textFile = path.join(outputDirectory, "data", "_subset_chars.txt");
+  fs.writeFileSync(textFile, [...chars].join(""), "utf8");
+  const entries = [
+    ["NotoSansSC-Regular.ttf", "NotoSansSC-Regular.subset.woff2"],
+    ["NotoSansSC-Bold.ttf", "NotoSansSC-Bold.subset.woff2"],
+    ["NotoSerifSC-Regular.ttf", "NotoSerifSC-Regular.subset.woff2"],
+    ["NotoSerifSC-Bold.ttf", "NotoSerifSC-Bold.subset.woff2"],
+  ];
+  for (const [src, dest] of entries) {
+    const srcPath = path.join(srcDir, src);
+    if (!fs.existsSync(srcPath)) continue;
+    const destPath = path.join(outDir, dest);
+    execSync("pyftsubset " + JSON.stringify(srcPath) + " --text-file=" + JSON.stringify(textFile) + " --flavor=woff2 --output-file=" + JSON.stringify(destPath), { stdio: "pipe" });
+  }
+  fs.rmSync(textFile, { force: true });
+  console.log("[fonts] Subset " + entries.length + " fonts to " + outDir);
 }
 
+fs.rmSync(outputDirectory, { recursive: true, force: true });
+fs.mkdirSync(path.join(outputDirectory, "data", "pages"), { recursive: true });
+fs.mkdirSync(path.join(outputDirectory, "src"), { recursive: true });
+fs.cpSync(path.join(root, "public"), outputDirectory, { recursive: true });
+fs.copyFileSync(path.join(root, "src", "index.html"), path.join(outputDirectory, "index.html"));
+for (const file of ["app.js", "styles.css"]) {
+  fs.copyFileSync(path.join(root, "src", file), path.join(outputDirectory, "src", file));
+}
+
+
+subsetFonts();
 /* — Generate theme CSS from content/themes/*.json — */
 let themeFiles = [];
 const themesDir = path.join(root, "content", "themes");
@@ -293,6 +340,7 @@ const pages = manifest.map((item, index) => {
     sourceUrl: item.sourceUrl,
     translationStatus: hasTranslation ? "complete" : "pending",
     headings: preparedChinese.headings,
+    englishHeadings: preparedEnglish.headings,
     contentHtml: preparedChinese.content,
     englishHtml: preparedEnglish.content,
   };
@@ -414,5 +462,75 @@ console.log(JSON.stringify({
     total + fs.statSync(path.join(outputDirectory, "data", "pages", `${page.id}.json`)).size, 0),
   searchIndexZhBytes: fs.statSync(path.join(outputDirectory, "data", "search-index-zh.json")).size,
 searchIndexEnBytes: fs.statSync(path.join(outputDirectory, "data", "search-index-en.json")).size,
-  themeFiles: themeFiles.length,
 }, null, 2));
+
+
+/* === Cache-busting post-processing === */
+console.log("[cache] Applying content hashes…");
+
+function collectDataFiles(dir) {
+  const result = [];
+  const entries = fs.readdirSync(dir, { withFileTypes: true });
+  for (const entry of entries) {
+    const fullPath = path.join(dir, entry.name);
+    if (entry.isDirectory()) collectDataFiles(fullPath).forEach(function (f) { result.push(f); });
+    else if (entry.isFile()) result.push(fullPath);
+  }
+  return result;
+}
+
+const allDataFiles = collectDataFiles(path.join(outputDirectory, "data"));
+var cacheThemeDir = path.join(outputDirectory, "themes");
+if (fs.existsSync(cacheThemeDir)) {
+  for (var cf of fs.readdirSync(cacheThemeDir).filter(function (f) { return f.endsWith(".css"); })) {
+    allDataFiles.push(path.join(cacheThemeDir, cf));
+  }
+}
+
+const dataHasher = crypto.createHash("sha256");
+for (var df of allDataFiles.sort()) {
+  dataHasher.update(fs.readFileSync(df));
+}
+const buildHash = dataHasher.digest("hex").slice(0, 12);
+
+// Hash and rename app.js
+const appJsPath = path.join(outputDirectory, "src", "app.js");
+const appHash = crypto.createHash("sha256").update(fs.readFileSync(appJsPath)).digest("hex").slice(0, 12);
+const appHashed = "app." + appHash + ".js";
+fs.renameSync(appJsPath, path.join(outputDirectory, "src", appHashed));
+
+// Hash and rename styles.css
+const cssPath = path.join(outputDirectory, "src", "styles.css");
+const cssHash = crypto.createHash("sha256").update(fs.readFileSync(cssPath)).digest("hex").slice(0, 12);
+const cssHashed = "styles." + cssHash + ".css";
+fs.renameSync(cssPath, path.join(outputDirectory, "src", cssHashed));
+
+// Rewrite index.html
+const htmlFile = path.join(outputDirectory, "index.html");
+var html = fs.readFileSync(htmlFile, "utf8");
+
+html = html.replace(
+  '<meta name="viewport"',
+  '<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">\n  <meta http-equiv="Pragma" content="no-cache">\n  <meta name="viewport"'
+);
+
+html = html.replace(
+  "</head>",
+  "  <script>window.__BUILD_HASH__=\"" + buildHash + "\"</script>\n</head>"
+);
+
+html = html.replace(
+  'href="./src/styles.css"',
+  'href="./src/' + cssHashed + '"'
+);
+
+html = html.replace(
+  'src="./src/app.js"',
+  'src="./src/' + appHashed + '"'
+);
+
+fs.writeFileSync(htmlFile, html);
+
+console.log("[cache] " + appHashed);
+console.log("[cache] " + cssHashed);
+console.log("[cache] Build hash: " + buildHash);

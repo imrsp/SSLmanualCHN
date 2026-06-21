@@ -2,14 +2,25 @@
 
 ## 构建
 
+部署前先运行：
+
 ```bash
 npm run check
 ```
 
-部署目录为 `dist/`。站点使用 Hash 路由和相对资源路径，可部署在域名根目录或任意子目录，不需要服务器重写规则。
+发布目录为 `dist/`。站点使用 Hash 路由和相对资源路径，可部署在域名根目录或任意子目录，不需要服务器重写规则。
 
-无需启动服务器时，也可以直接打开 `dist/index.html`。请保留整个 `dist/`
-目录结构，不要只复制 `index.html`。
+无需启动服务器时，也可以直接打开 `dist/index.html`。请保留整个 `dist/` 目录结构，不要只复制单个 HTML。
+
+## 缓存模型
+
+当前构建产物分三类：
+
+- `index.html`：短缓存或禁止缓存。
+- `src/app.<hash>.js`、`src/styles.<hash>.css`：可长缓存。
+- `data/*.json`、`themes/*.css`：建议短缓存或协商缓存，因为它们随内容和主题变更而更新。
+
+构建时还会给数据请求附带 `__BUILD_HASH__` 参数，用于浏览器更新时失效旧缓存。
 
 ## Nginx
 
@@ -24,14 +35,34 @@ server {
         try_files $uri $uri/ =404;
     }
 
-    location ~* \.(?:js|css|json|png|jpg|jpeg|gif|svg|webp|pdf)$ {
+    location = /index.html {
+        expires -1;
+        add_header Cache-Control "no-cache, no-store, must-revalidate";
+    }
+
+    location /data/ {
+        expires -1;
+        add_header Cache-Control "no-cache, must-revalidate";
+    }
+
+    location /themes/ {
+        expires -1;
+        add_header Cache-Control "no-cache, must-revalidate";
+    }
+
+    location ~* ^/src/(?:app|styles)\.[a-f0-9]{12}\.(?:js|css)$ {
+        expires 300d;
+        add_header Cache-Control "public, immutable";
+    }
+
+    location ~* \.(?:png|jpg|jpeg|gif|svg|webp|pdf|woff2?)$ {
         expires 7d;
         add_header Cache-Control "public";
     }
 }
 ```
 
-将 `dist/` 内的文件同步到 `/srv/ssl-live-manual/`。
+将 `dist/` 内容同步到 `/srv/ssl-live-manual/` 即可。
 
 ## Caddy
 
@@ -42,13 +73,16 @@ manual.example.com {
 }
 ```
 
+如需更细缓存控制，再单独补 header 规则。
+
 ## 对象存储与 Pages
 
-上传 `dist/` 的内容并启用静态网站托管即可。建议开启 Brotli 或 gzip；HTML 使用短缓存，带版本发布的静态资源可使用较长缓存。
+上传 `dist/` 的全部内容并启用静态网站托管即可。建议开启 Brotli 或 gzip。
 
-## 性能特征
+## 运行特征
 
-- 首次加载只请求界面、目录和当前章节。
-- 下一章节会在空闲网络请求中预取。
-- 全文索引仅在首次搜索时加载。
-- 图片与 PDF 独立缓存，不再以 Base64 嵌入 HTML。
+- 首次加载请求界面壳、catalog 和当前章节。
+- 搜索索引按需加载，不在首屏下载。
+- 主题预设列表单独加载。
+- 图片与 PDF 独立缓存，不再内嵌到 HTML。
+- `file://` 本地打开时，阅读器回退到同内容的 `.js` 数据文件。

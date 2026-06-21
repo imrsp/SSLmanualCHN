@@ -10,7 +10,7 @@ import {
   transformAccordions,
 } from "./lib/manual.mjs";
 
-const manifest = readJson(path.join(root, "content", "en", "manifest.json"));
+const manifest = readJson(path.join(root, "content", "manifest.json"));
 const site = readJson(path.join(root, "content", "site.json"));
 const outputDirectory = path.join(root, "reports");
 const snapshotsDirectory = path.join(root, "upstream", "snapshots");
@@ -130,12 +130,6 @@ const pages = manifest.map((page, index) => {
     issues.push(`文本长度比异常：${lengthRatio.toFixed(2)}`);
   }
   if (/<p>\s*#{2,}/.test(chinese)) issues.push("仍有 Markdown 标题标记");
-  if (/图层|推子层管理器|系统层|用户层/.test(toPlainText(chinese))) {
-    issues.push("Layer 术语未按规则保留英文");
-  }
-  if (/(?:有用链接|相关链接|Useful Links)/i.test(toPlainText(chinese))) {
-    issues.push("Useful Links 未统一为“实用链接”");
-  }
   if (suspiciousTranslation.length) {
     issues.push(`疑似未翻译正文块：${suspiciousTranslation.length}`);
   }

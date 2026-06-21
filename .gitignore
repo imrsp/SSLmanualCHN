@@ -1,9 +1,6 @@
 .DS_Store
 **/.DS_Store
+*.log
 dist/
 node_modules/
-*.log
-tmp-*
-handoff/*.txt
-
 reports/
