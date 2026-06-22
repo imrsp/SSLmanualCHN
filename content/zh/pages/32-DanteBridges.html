@@ -189,10 +189,10 @@
 </span>
 <p>BLII 端口配置存储在演出文件中。</p>
 <p>为了使 BLII Bridge 正常工作，控制台上的 BLII Bridge 名称必须与 Dante Controller 中单元的名称匹配。</p>
-<p>通常，当控制台软件在网络中检测到 BLII Bridge 时，BLII Bridge 名称将自动填充。但是，如果没有发生这种情况，可以手动输入名称。</p>
+<p>通常，当控制台软件在网络中检测到 BLII Bridge 时，BLII Bridge 名称将自动填充。但是，如果没有自动填充，可以手动输入名称。</p>
 <p>首先，在计算机上打开 Dante Controller，并将其连接到 Dante 网络（或直接使用网线连接到 BLII Bridge 的 Dante Primary 端口）。</p>
 <p>检查 BLII Bridge 是否出现在 Dante Controller 中。（有关 IP 地址和将 Dante 设备连接到网络的更多信息，请参阅<a href="https://livehelp.solidstatelogic.com/Help/DanteSetup.html"><span class="hyperlink">设置 Dante</span></a>部分）。</p>
-<p>要在 Dante Controller 中编辑 BLII Bridge 名称，请双击 BLII Bridge 并转到“Device Config”选项卡。 在页面顶部的“Rename Device”下，输入名称并按“Apply”。 系统将要求您确认名称更改。单击“Yes”。请注意，更改设备的 Dante 名称会中断所有到/从此设备的现有路由。</p>
+<p>要在 Dante Controller 中编辑 BLII Bridge 名称，请双击 BLII Bridge 并转到“Device Config”选项卡。 在页面顶部的“Rename Device”下，输入名称并按 <span class="label">Apply</span>。 系统将要求您确认名称更改。单击 <span class="label">Yes</span>。请注意，更改设备的 Dante 名称会中断所有到/从此设备的现有路由。</p>
 <p>将控制台上的 BLII Bridge 名称设置为与 Dante Controller 中使用的名称完全匹配。</p>
 <figure><img src="https://livehelp.solidstatelogic.com/Help/images/g_BLIIBridgeVTL.png" alt="图片 6"><figcaption>图片 6</figcaption></figure>
 <p>重新启动控制台。</p>
@@ -325,7 +325,7 @@
 <p>通常，当控制台软件在网络中检测到 X-Light Bridge 时，X-Light Bridge 名称将自动填充。但是，如果没有发生这种情况，可以手动输入名称。</p>
 <p>首先，在计算机上打开 Dante Controller，并将其连接到 Dante 网络（或直接使用网线连接到 X-Light Bridge 的 Dante Audio Primary 端口）。</p>
 <p>检查 X-Light Bridge 是否出现在 Dante Controller 中。（有关 IP 地址和将 Dante 设备连接到网络的更多信息，请参阅<a href="https://livehelp.solidstatelogic.com/Help/DanteSetup.html"><span class="hyperlink">设置 Dante</span></a>部分）。</p>
-<p>要在 Dante Controller 中编辑 X-Light Bridge 名称，请双击 X-Light Bridge 并转到“Device Config”选项卡。 在页面顶部的“Rename Device”下，输入名称并按“Apply”。 系统将要求您确认名称更改。单击“Yes”。请注意，更改设备的 Dante 名称会中断所有到/从此设备的现有路由。</p>
+<p>要在 Dante Controller 中编辑 X-Light Bridge 名称，请双击 X-Light Bridge 并转到“Device Config”选项卡。 在页面顶部的“Rename Device”下，输入名称并按 <span class="label">Apply</span>。 系统将要求您确认名称更改。单击 <span class="label">Yes</span>。请注意，更改设备的 Dante 名称会中断所有到/从此设备的现有路由。</p>
 <p>将控制台上的 X-Light Bridge 名称设置为与 Dante Controller 中使用的名称完全匹配。</p>
 <figure><img src="https://livehelp.solidstatelogic.com/Help/images/g_XLightBridgeVTL.png" alt="图片 12"><figcaption>图片 12</figcaption></figure>
 <p>重新启动控制台。</p>
@@ -333,31 +333,31 @@
 </div>
 </div>
 <h3>IP 地址</h3>
-<p>当 BLII/X-Light Bridges 从 SSL 发货时，它们将被设置为 DHCP。</p>
-<p>BLII/X-Light Bridge 的 IP 地址必须与 Dante 扩展器模块和控制台的 Dante 控制设置位于同一子网中。 有关 IP 地址和子网的更多信息，请参阅<a href="https://livehelp.solidstatelogic.com/Help/DanteSetup.html"><span class="hyperlink">设置 Dante</span></a>。</p>
+<p>BLII / X-Light Bridge 出厂默认将其 Dante 端口设为 DHCP。</p>
+<p>BLII/X-Light Bridge 的 IP 地址必须与 Dante Expander 模块和控制台的 Dante 控制设置位于同一子网中。 有关 IP 地址和子网的更多信息，请参阅<a href="https://livehelp.solidstatelogic.com/Help/DanteSetup.html"><span class="hyperlink">设置 Dante</span></a>。</p>
 <p class="note"><span class="notetitle">请注意：</span></p>
-<p>控制台的 Dante 扩展器模块也必须设置为与 BLII/X-Light Bridge 和控制台的 Dante 控制设置位于同一子网内的 IP 地址。</p>
-<p><span style="font-weight:bold;">更改 BLII/X-Light Bridge 和 Dante 扩展模块的 IP 地址</span></p>
-<p>BLII/X-Light Bridge 和 Dante 扩展器的 IP 地址在 Dante Controller 中更改。 双击设备并转到“Network Config”选项卡。 选择“Obtain an IP Address Automatically”或“Manually configure an IP address”。 如果选择“Manually configure an IP address”，请输入 IP 地址和 Netmask（也称为子网掩码）。</p>
-<p>单击“Apply”。 系统将要求您确认 IP 地址配置更改。单击“Yes”。 必须重新启动 BLII Bridge 才能使这些更改生效。单击窗口底部的“Reboot”。系统将要求您确认重新启动。单击“Yes”。</p>
+<p>控制台的 Dante Expander 模块也必须设置为与 BLII/X-Light Bridge 和控制台的 Dante 控制设置位于同一子网内的 IP 地址。</p>
+<p><span style="font-weight:bold;">更改 BLII/X-Light Bridge 和 Dante Expander 模块的 IP 地址</span></p>
+<p>BLII/X-Light Bridge 和 Dante Expander 的 IP 地址在 Dante Controller 中更改。 双击设备并转到“Network Config”选项卡。 选择“Obtain an IP Address Automatically”或“Manually configure an IP address”。 如果选择“Manually configure an IP address”，请输入 IP 地址和 Netmask（也称为子网掩码）。</p>
+<p>单击 <span class="label">Apply</span>。 系统将要求您确认 IP 地址配置更改。单击 <span class="label">Yes</span>。 必须重新启动 BLII Bridge 才能使这些更改生效。单击窗口底部的 <span class="label">Reboot</span>。系统将要求您确认重新启动。单击 <span class="label">Yes</span>。</p>
 <p><span style="font-weight:bold;">更改控制台 Dante 控制设置的 IP 地址</span></p>
-<p>在控制台上，前往 MENU &gt; Setup &gt; Options &gt; NETWORK 选项卡。 在“DANTE CONTROL SETTINGS”部分，列出了控制台的 Dante 控制 IP 设置。选择“DHCP”或“Fixed IP addresses”。 如果选择“Fixed”，请双击 IP 地址和 Netmask（也称为子网掩码）字段进行编辑。按住“Apply”。</p>
+<p>在控制台上，前往 MENU &gt; Setup &gt; Options &gt; NETWORK 选项卡。 在“DANTE CONTROL SETTINGS”部分，列出了控制台的 Dante 控制 IP 设置。选择“DHCP”或“Fixed IP addresses”。 如果选择“Fixed”，请双击 IP 地址和 Netmask（也称为子网掩码）字段进行编辑。按住 <span class="label">Apply</span>。</p>
 <h3 id="Clocking">时钟设置</h3>
 <p>请参阅<a href="https://livehelp.solidstatelogic.com/Help/Clocking.html#DanteBridge"><span class="hyperlink">“时钟”页面中的 BLII/X-Light Bridge 部分</span></a>，以正确配置控制台、BLII/X-Light Bridge 和网络时钟以实现正常运行。</p>
 <h3>采样率</h3>
 <p>BLII/X-Light Bridge 的采样率必须与控制台的采样率匹配。</p>
-<p>采样率在 Dante Controller 中更改。 双击 BLII/X-Light Bridge 并转到“Device Config”选项卡。 在“Sample Rate”部分，单击下拉菜单并选择所需的采样率。系统将要求您确认采样率更改。单击“Yes”。</p>
-<p>必须重新启动 BLII/X-Light Bridge 才能使此更改生效。 单击窗口底部的“Reboot”。系统将要求您确认重新启动。单击“Yes”。</p>
+<p>采样率在 Dante Controller 中更改。 双击 BLII/X-Light Bridge 并转到“Device Config”选项卡。 在“Sample Rate”部分，单击下拉菜单并选择所需的采样率。系统将要求您确认采样率更改。单击 <span class="label">Yes</span>。</p>
+<p>必须重新启动 BLII/X-Light Bridge 才能使此更改生效。 单击窗口底部的 <span class="label">Reboot</span>。系统将要求您确认重新启动。单击 <span class="label">Yes</span>。</p>
 <div id="accordion">
 <div class="indexheader2">在多个采样率和 BLII/X-Light Bridge 下工作</div>
 <div>
 <p>如果在同一网络上使用多个采样率以及 BLII/X-Light Bridge，则必须遵循以下说明。 BLII/X-Light Bridge 和控制台必须始终以相同的采样率运行。</p>
-<p>要连接同一网络上不同采样率的设备，这些设备必须通过 Dante 扩展模块使用虚拟跳线路由到/来自控制台。</p>
-<p>前往 MENU &gt; Setup &gt; I/O &gt; Local/MADI Configuration 并点击 Dante 扩展器。 双击“Virtual Tie Lines”数量并输入 32（当控制台或 Dante 扩展器或两者都运行在 96 kHz 时的最大数量）。现在启用“SRC In”。</p>
-<p>即使需要更少的虚拟跳线，也必须创建 32 条。 这是因为控制台在选择是通过 Dante 扩展器还是 BLII/X-Light Bridge 创建双域路由时是不确定的。 因此，如果创建的虚拟跳线少于 32 条，仍会保留一些 Dante 容量，控制台可能会将其用于双域路由。 那么控制台有可能尝试建立到/来自不同采样率设备的双域路由。Dante 网络路由无法在不同采样率运行的设备之间建立，因此不会创建网络路由。</p>
-<p>在 Dante Controller 中，将控制台的 Dante 扩展器设置为与这些其他设备相同的采样率（与控制台和 BLII/X-Light Bridge 的采样率不同）。</p>
-<p>现在控制台和 BLII/X-Light Bridge 运行一种采样率。而 Dante 扩展器和网络上的其他设备运行另一种采样率。Dante 扩展器已设置为在这两种采样率之间进行采样率转换。</p>
-<p>现在通过虚拟跳线建立到/来自其他设备（与控制台采样率不同）的路由。有关如何执行此操作的说明，请参阅<a href="https://livehelp.solidstatelogic.com/Help/DanteVTL.html"><span class="hyperlink">Dante 虚拟跳线</span></a>。</p>
+<p>要连接同一网络上不同采样率的设备，这些设备必须通过 Dante Expander 模块使用虚拟跳线与控制台建立双向路由。</p>
+<p>前往 MENU &gt; Setup &gt; I/O &gt; Local/MADI Configuration 并点击 Dante Expander。 双击“Virtual Tie Lines”数量并输入 32（当控制台或 Dante Expander 或两者都运行在 96 kHz 时的最大数量）。现在启用“SRC In”。</p>
+<p>即使不需要 32 条虚拟跳线，也必须创建 32 条。 这是因为控制台在选择是通过 Dante Expander 还是 BLII/X-Light Bridge 创建双域路由时是不确定的。 因此，如果创建的虚拟跳线少于 32 条，仍会保留一些 Dante 容量，控制台可能会将其用于双域路由。 那么控制台有可能尝试与不同采样率设备建立双向的双域路由。Dante 网络路由无法在不同采样率运行的设备之间建立，因此不会创建网络路由。</p>
+<p>在 Dante Controller 中，将控制台的 Dante Expander 设置为与这些其他设备相同的采样率（与控制台和 BLII/X-Light Bridge 的采样率不同）。</p>
+<p>现在控制台和 BLII/X-Light Bridge 运行一种采样率。而 Dante Expander 和网络上的其他设备运行另一种采样率。Dante Expander 已设置为在这两种采样率之间进行采样率转换。</p>
+<p>现在通过虚拟跳线与其他设备（与控制台采样率不同）建立双向路由。有关如何执行此操作的说明，请参阅<a href="https://livehelp.solidstatelogic.com/Help/DanteVTL.html"><span class="hyperlink">Dante 虚拟跳线</span></a>。</p>
 <p class="note"><span class="notetitle">请注意：</span></p>
 <p>在此配置中，SSL 建议将控制台设置为从 BLII/X-Light Bridge 同步时钟，并将 BLII/X-Light Bridge 设置为从 Dante 网络同步时钟。请参阅上面的时钟说明。</p>
 </div>
@@ -367,32 +367,32 @@
 <figure><img src="https://livehelp.solidstatelogic.com/Help/images/g_BLIIBridgeResource.png" alt="图片 13"><figcaption>图片 13</figcaption></figure>
 <p>Dante 输入和输出的最大数量取决于以下因素：</p>
 <ul>
-  <li>是否安装了 Dante 扩展模块（96 kHz 时为 32 通道，48 kHz 时为 64 通道）</li>
+  <li>是否安装了 Dante Expander 模块（96 kHz 时为 32 通道，48 kHz 时为 64 通道）</li>
   <li>是否连接了 BLII/X-Light Bridge（所有采样率下均为 256 通道）</li>
   <li>控制台的采样率</li>
-  <li>Dante 扩展模块的采样率</li>
-  <li>为 Dante 扩展模块创建的去往/来自它的虚拟跳线数量</li>
+  <li>Dante Expander 模块的采样率</li>
+  <li>为 Dante Expander 模块创建的去往/来自它的虚拟跳线数量</li>
 </ul>
-<p>例如，如果控制台和 Dante 扩展器都以 96 kHz 运行，没有从 Dante 扩展模块创建虚拟跳线，并且连接了一个 BLII Bridge，则最大 Dante 通道数为：</p>
-<p>32ch (96 kHz 下无虚拟跳线的 Dante 扩展器) + 256ch (BLII Bridge) = 288ch</p>
-<p>再例如，如果控制台和 Dante 扩展器都以 48 kHz 运行，从 Dante 扩展模块创建了 10 条虚拟跳线，并且连接了两个 BLII Bridge，则最大 Dante 通道数为：</p>
-<p>64ch (48 kHz 下的 Dante 扩展器) - 10ch (来自 Dante 扩展器的 10 条虚拟跳线) + 512ch (两个 BLII Bridges) = 566</p>
-<p>最大 Dante I/O 数量为 576 通道。要实现此数量，控制台必须是配置了两个 BLII/X-Light Bridges 并安装了 Dante 扩展模块的 L450、L500 Plus、L550 或 L650。 并且控制台和 Dante 扩展模块都必须以 48 kHz 运行：</p>
-<p>64ch (48 kHz 下的 Dante 扩展器) + 512ch (两个 BLII/X-Light Bridges) = 576</p>
+<p>例如，如果控制台和 Dante Expander 都以 96 kHz 运行，没有从 Dante Expander 创建虚拟跳线，并且连接了一个 BLII Bridge，则最大 Dante 通道数为：</p>
+<p>32 个通道 (96 kHz 下无虚拟跳线的 Dante Expander) + 256 个通道 (BLII Bridge) = 288 个通道</p>
+<p>再例如，如果控制台和 Dante Expander 都以 48 kHz 运行，从 Dante Expander 创建了 10 条虚拟跳线，并且连接了两个 BLII Bridge，则最大 Dante 通道数为：</p>
+<p>64 个通道 (48 kHz 下的 Dante Expander) - 10 个通道 (来自 Dante Expander 的 10 条虚拟跳线) + 512 个通道 (两个 BLII/X-Light Bridges) = 566 个通道</p>
+<p>最大 Dante I/O 数量为 576 通道。要实现此数量，控制台必须是配置了两个 BLII/X-Light Bridges 并安装了 Dante Expander 模块的 L450、L500 Plus、L550 或 L650。 并且控制台和 Dante Expander 模块都必须以 48 kHz 运行：</p>
+<p>64 个通道 (48 kHz 下的 Dante Expander) + 512 个通道 (两个 BLII/X-Light Bridges) = 576 个通道</p>
 <p class="note"><span class="notetitle">请注意：</span></p>
 <p>以上所有内容均受网络带宽限制。</p>
 <h3>路由</h3>
 <p><span style="font-weight:bold;">双域路由</span></p>
-<p>通过 BLII/X-Light Bridge 与 Dante 设备之间的双域路由的建立方式与通过 Dante 扩展器完全相同。 有关建立双域路由的更多信息，请参阅<a href="https://livehelp.solidstatelogic.com/Help/DanteConfig.html#DualDomain"><span class="hyperlink">使用双域路由和 Dante 配置页面</span></a>。</p>
+<p>通过 BLII/X-Light Bridge 与 Dante 设备之间的双域路由的建立方式与通过 Dante Expander 完全相同。 有关建立双域路由的更多信息，请参阅<a href="https://livehelp.solidstatelogic.com/Help/DanteConfig.html#DualDomain"><span class="hyperlink">使用双域路由和 Dante 配置页面</span></a>。</p>
 <p class="note"><span class="notetitle">请注意：</span></p>
-<p>当与已配置的 Dante 设备建立双域路由时， 控制台会选择是通过 Dante 扩展模块还是通过 BLII/X-Light Bridge 建立该路由。 这意味着一些路由可能通过 Dante 扩展器建立，而其他一些可能通过 BLII/X-Light Bridge 建立。当控制台启动或重新加载演出文件时，这可能会改变。 这都是完全正常的。在拔掉 BLII/X-Light Bridge 或 Dante 扩展器时，请注意现有路由。 您可以在 Dante Controller 的 Routing 选项卡中检查有多少路由正在通过 BLII/X-Light Bridge 和 Dante 扩展器。 但是，不要从 Dante Controller 建立或取消这些双域路由。</p>
+<p>当与已配置的 Dante 设备建立双域路由时， 控制台会选择是通过 Dante Expander 还是通过 BLII/X-Light Bridge 建立该路由。 这意味着一些路由可能通过 Dante Expander 建立，而其他一些可能通过 BLII/X-Light Bridge 建立。当控制台启动或重新加载演出文件时，这可能会改变。 这都是完全正常的。在拔掉 BLII/X-Light Bridge 或 Dante Expander 时，请注意现有路由。 您可以在 Dante Controller 的 Routing 选项卡中检查有多少路由正在通过 BLII/X-Light Bridge 和 Dante Expander。 但是，不要从 Dante Controller 建立或取消这些双域路由。</p>
 <p><span style="font-weight:bold;">虚拟跳线</span></p>
 <p>要在 BLII/X-Light Bridge 上设置虚拟跳线，请前往 MENU &gt; Setup &gt; I/O &gt; Local/MADI Configuration。 点击与 BLII/X-Light Bridge 所连接本地 BLII/X-Light 端口对应的 BLII/X-Light 端口列的顶部。 BLII/X-Light Bridge 的详细视图将出现。双击“Virtual Tie Lines”旁边的文本字段以更改虚拟跳线的数量。</p>
 <figure><img src="https://livehelp.solidstatelogic.com/Help/images/g_BLIIBridgeVTL.png" alt="图片 14"><figcaption>图片 14</figcaption></figure>
 <p>在 BLII/X-Light Bridge 上，可以分别创建虚拟跳线输入和输出。</p>
 <p>创建后，BLII/X-Light Bridge 虚拟跳线将出现在路由视图中的“Bridge Virtual Tie Lines”下。为了便于导航，路由点被分成每组 32 个通道。</p>
-<p>BLII/X-Light Bridge 上的虚拟跳线的行为与在 Dante 扩展模块上的行为相同。 有关 Dante 虚拟跳线的更多信息，请参阅<a href="https://livehelp.solidstatelogic.com/Help/DanteVTL.html"><span class="hyperlink">Dante 虚拟跳线</span></a>。</p>
-<p>请注意：无法像使用 Dante 扩展模块那样，将 BLII/X-Light Bridge 虚拟跳线组配置为 Live Recorder ID。</p>
+<p>BLII/X-Light Bridge 上的虚拟跳线的行为与在 Dante Expander 模块上的行为相同。 有关 Dante 虚拟跳线的更多信息，请参阅<a href="https://livehelp.solidstatelogic.com/Help/DanteVTL.html"><span class="hyperlink">Dante 虚拟跳线</span></a>。</p>
+<p>请注意：无法像使用 Dante Expander 模块那样，将 BLII/X-Light Bridge 虚拟跳线组配置为 Live Recorder ID。</p>
 <h2>实用链接</h2>
 <p><a href="https://livehelp.solidstatelogic.com/Help/DanteSetup.html"><span class="hyperlink">设置 Dante</span></a></p>
 <p><a href="https://livehelp.solidstatelogic.com/Help/DanteConfig.html"><span class="hyperlink">双域路由与配置 Dante 设备</span></a></p>
