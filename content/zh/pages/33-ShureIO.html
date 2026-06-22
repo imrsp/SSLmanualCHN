@@ -2,7 +2,7 @@
 <p>有关控制 Shure ANI22 和 ANI4IN 音频接口的说明，请参阅<a href="#ANI"><span class="hyperlink">下面的 ANI 部分</span></a>。</p>
 <h3>引言</h3>
 <p>Shure ULX-D 和 Axient Digital 系列无线麦克风能够从 Live 控制台界面进行远程控制。电池和 RF 状态也会在控制台界面中报告。 请注意，只有支持 Dante 的 ULX-D 和 Axient Digital 产品才能被控制台控制；这排除了 ULXD4 接收器。</p>
-<p>这是控制台软件中的一项许可功能，可以在 SSL 工厂或现场启用。请联系您当地的 SSL 办事处了解更多详情。 如果未启用许可证，则 Shure 无线设备可以像任何其他 Dante 设备一样使用控制台界面进行路由，但不能从控制台进行远程控制或监控。</p>
+<p>这是控制台软件的授权功能，可在 SSL 工厂出厂时激活，也可在交付后现场激活。详情请咨询当地 SSL 授权经销商。 如果未启用许可证，则 Shure 无线设备可以像任何其他 Dante 设备一样使用控制台界面进行路由，但不能从控制台进行远程控制或监控。</p>
 <figure><img src="https://livehelp.solidstatelogic.com/Help/images/ShureAxientAD4Q_front.png" alt="图片 1"><figcaption>图片 1</figcaption></figure>
 <h3>设备 IP 地址</h3>
 <p>每个 Shure 无线接收器有两个 IP 地址；一个用于 Dante 音频，一个用于控制。Dante IP 地址与其他 Dante 音频设备一样在 Dante Controller 中设置。</p>
@@ -14,13 +14,16 @@
   <li>Axient AD4D : <a class="external-link" tabindex="-1" href="https://pubs.shure.com/guide/AD4D/en-US" target="_blank"><span class="hyperlink">pubs.shure.com/guide/AD4D/en-US</span></a></li>
   <li>Axient AD4Q : <a class="external-link" tabindex="-1" href="https://pubs.shure.com/guide/AD4Q/en-US" target="_blank"><span class="hyperlink">pubs.shure.com/guide/AD4Q/en-US</span></a></li>
 </ul>
+<span class="note">
 <p>注意：确保 Dante 和控制网络接口都连接到与控制台相同的网络。</p>
-<p>如果接收器设置为 Switched 模式，则 Shure 控制和 Dante 音频数据将共存于其所有四个网络端口；这些端口中的任何一个（且只有一个）必须连接到控制台的 Dante 网络（连接将不是冗余的）。</p>
-<p>如果接收器设置为 Split/Redundant 模式，Shure 控制和 Dante 音频将使用设备背面标记的主要和次要端口。 为了正常运行，必须同时连接控制端口和 Dante 音频端口。确保所有端口都连接到正确的主要/次要网络端口。请参阅相关的 Shure 用户指南以获得指导。</p>
+<p>如果接收器设置为 Switched 模式，则 Shure 控制和 Dante 音频数据将共存于其全部四个网络端口；这些端口中的任何一个（且只有一个）必须连接到控制台的 Dante 网络（该连接方式不提供冗余）。</p>
+<p>如果接收器设置为 Split/Redundant 模式，Shure 控制和 Dante 音频将使用设备背面标记的 Primary 和 Secondary 端口。 为了正常运行，必须同时连接控制端口和 Dante 音频端口。确保所有端口都连接到正确的 Primary/Secondary 网络端口。请参阅相关的 Shure 用户指南以获得指导。</p>
+</span>
 <h4>使用 Dante Domain Manager 的网络</h4>
 <p>请注意，对于包含 Dante Domain Manager (DDM) 服务器的网络，控制台必须登录到与 Shure 接收器相同的域才能建立路由和控制它们。 有关为启用 DDM 的网络配置控制台的详细信息，请参阅<a href="https://livehelp.solidstatelogic.com/Help/OptionsNetwork.html#DDM"><span class="hyperlink">网络选项</span></a>部分。</p>
 <h3>将 Shure 接收器配置为控制台上的设备</h3>
 <p>为了从 Live 控制台路由和控制 Shure 无线麦克风，首先必须将其添加到控制台 Dante 配置页面中的“Configured Devices”列表中 (MENU &gt; Setup &gt; I/O &gt; Dante Configuration)， 方法是将连接的设备从“Connected Devices”列表移动过来，或使用“Configure New Device”按钮手动创建新设备。 请参阅<a href="https://livehelp.solidstatelogic.com/Help/DanteConfig.html"><span class="hyperlink">配置 Dante 设备</span></a>部分了解更多详情。</p>
+<span class="note">
 <p>重要提示：如果在 V5.0 Live 控制台软件之前，Shure 无线接收器曾被配置为通用 Dante 设备，则必须执行以下步骤将其重新配置为 Shure 设备：</p>
 <ul>
   <li>断开 Shure 无线接收器与控制台的连接</li>
@@ -33,6 +36,7 @@
   <li>重新建立到/来自设备的路由</li>
   <li>保存演出文件</li>
 </ul>
+</span>
 <p>配置完成后，必须在控制台的设置页面中输入接收器的控制地址。这允许控制台与设备通信。 当控制台成功与设备建立通信时，相应的 LED 将从红色变为绿色。</p>
 <h3>控制 Shure ULX-D/Axient Digital 无线麦克风</h3>
 <p>配置完成后，可以以标准方式将 Shure 无线麦克风输入路由到控制台通道（更多详情请参阅<a href="https://livehelp.solidstatelogic.com/Help/Routing.html"><span class="hyperlink">路由</span></a>部分）。</p>
