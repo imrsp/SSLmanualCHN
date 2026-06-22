@@ -24,9 +24,9 @@
 <p>将 Query 显示为 <strong>Fader</strong> 显示模式时，每个相关源路径与目标路径的推子将显示该路径与被 Query 路径之间的发送电平。 在此模式下，快捷控制编码器默认为每个发送的声像控制（如果适用）。</p>
 <p>可以为每种信号路径类型设置 Query 控制模式。设置 Query 模式，请前往 MENU &gt; Setup &gt; Options &gt; SURFACE 选项卡， 然后点击“Control Mode”列中相应的交叉点。</p>
 <h3>VCA 对母线发送的控制</h3>
-<p>Query 也可用于访问 VCA 的 V-Aux 和 V-Stem 发送。这些类似于微调，用于从 VCA 路径调整其所有成员路径的 Aux/Stem 贡献量（更多详情请参阅<a href="https://livehelp.solidstatelogic.com/Help/BusRouting.html#VcaBusSends"><span class="hyperlink">母线路由</span></a>部分）。</p>
-<p>控制台推子区块上的 VCA 路径可用于调整 V-Aux 和 V-Stem 电平。将 Auxes/Stems 路径类型的控制模式设置为“Quick Controls”或“Faders”，以为该路径类型启用“VCA Control”列。</p>
-<p>当在禁用 VCA Control 的情况下 Query 一个 Aux/Stem 时， 控制台操作界面上的任何 VCA 推子将调整主 VCA 推子（调整其所有成员的推子电平；而不是它们的 Aux/Stem 贡献量）。 启用 VCA Control 后，Query 一个 Aux/Stem 将导致 VCA 调整 V-Aux/V-Stem 电平（即它们的成员 Aux/Stem 贡献量）， 可以通过 VCA 路径的推子或快速控制（推子继续调整主 VCA 推子）进行调整，具体取决于所选的 Control Mode。</p>
+<p>Query 也可用于访问 VCA 的 V-Aux 和 V-Stem 发送。它们的作用类似于 trim（偏移），用于从 VCA 路径调整其所有成员路径的 Aux/Stem 发送电平（更多详情请参阅<a href="https://livehelp.solidstatelogic.com/Help/BusRouting.html#VcaBusSends"><span class="hyperlink">母线路由</span></a>部分）。</p>
+<p>控制台推子区块上的 VCA 路径可用于调整 V-Aux 和 V-Stem 电平。将 Auxes/Stems 路径类型的控制模式设置为“Quick Controls”或“Faders”，即可为该路径类型启用“VCA Control”列。</p>
+<p>当在禁用 VCA Control 的情况下 Query 一个 Aux/Stem 时， 控制台操作界面上的任意 VCA 推子仍为调整主 VCA 推子（调整其所有成员的推子电平；而不是它们的 Aux/Stem 发送电平）。 启用 VCA Control 后，Query 一个 Aux/Stem 将导致 VCA 调整 V-Aux/V-Stem 电平（即它们的成员 Aux/Stem 发送电平）， 可以通过 VCA 路径的推子或快捷控制（推子继续调整主 VCA 推子）进行调整，具体取决于所选的 Control Mode。</p>
 <table>
   <tr>
     <th>Aux/Stem 控制模式</th>
@@ -67,10 +67,12 @@
 </table>
 <h2>Query Assign</h2>
 <p>Query Assign 可用于快速将信号路径分配到被 Query 的信号路径。</p>
-<p>按住信号路径的 Q 按钮进入 Query Assign。现在使用其他信号路径的 SELECT 按钮将它们打开或关闭到被 Query 的信号路径。</p>
-<p>在 Query Assign 中时，被 Query 信号路径的 Q 按钮将闪烁紫色。控制模式将与为该信号路径类型设置的模式匹配。</p>
-<p>再次按下被 Query 信号路径的 Q 按钮退出 Query Assign。</p>
-<p>提示：也可以通过按住第一个信号路径的 SELECT 按钮，然后按下最后一个信号路径的 SELECT 按钮来选择一系列信号路径。推子区块上这两个路径之间的所有信号路径都将被选中。也可以跨多个推子区块进行范围选择。</p>
+<p>按住信号路径的 <span class="label">Q</span> 按钮进入 Query Assign。现在使用其他信号路径的 <span class="label">SELECT</span> 按钮即可开启或关闭该通道对被 Query 路径的发送。</p>
+<p>在 Query Assign 时，被 Query 信号路径的 <span class="label">Q</span> 按钮将闪烁紫色。视图采用的 Control Mode（控制模式）与该类路径类型在设置中所配置的一致。</p>
+<p>再次按下被 Query 信号路径的 <span class="label">Q</span> 按钮退出 Query Assign。</p>
+<span class="note">
+<span class="notetitle">提示：</span>也可以通过按住第一个信号路径的 <span class="label">SELECT</span> 按钮，然后按下最后一个信号路径的 <span class="label">SELECT</span> 按钮来选择一系列信号路径。推子区块上这两个路径之间的所有信号路径都将被选中。也可以跨多个推子区块进行范围选择。</p>
+</span>
 <h2>屏幕查询</h2>
 <p>Screen Query 选项允许用户从屏幕上查询一个路径，并使用控制台的所有推子区块来显示贡献信号路径。</p>
 <p>要访问 Screen Query，请前往 MENU &gt; Screen Query。使用屏幕右侧的 Channels、Stems、Auxes、Masters、VCAs 按钮选择路径类型。</p>
