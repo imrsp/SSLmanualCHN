@@ -163,10 +163,10 @@
 <p>*如果控制台已安装单模 BLII 端口，并且 BLII Bridge 已安装单模 SFP（非常规配置），则使用单模 LC 光纤。</p>
 <p class="note"><span class="notetitle">注意：</span></p>
 <p>如果使用带有两对 BLII 端口的 L500 Plus，可以使用任一冗余对连接到 BLII Bridge。 另一对可用于连接到 BL II-MADI Concentrator 或另一个 BLII Bridge。</p>
-<p>将 BLII Bridge 的 Dante Primary 和 Secondary 端口分别连接到主要和次要 Dante 网络交换机。</p>
-<p>将控制台的 Dante Expander Primary 和 Secondary 端口分别连接到主要和次要 Dante 网络交换机。 您还必须将 Dante 扩展器连接到 Dante 网络。Dante 设备控制无法通过 BLII 连接传递，因此连接 Dante 扩展器允许控制台控制 Dante 设备并在网络上创建路由。</p>
+<p>将 BLII Bridge 的 Dante Primary 和 Secondary 端口分别连接到主备 Dante 网络交换机。</p>
+<p>将控制台的 Dante Expander Primary 和 Secondary 端口分别连接到主备 Dante 网络交换机。 您还必须将 Dante Expander 连接到 Dante 网络。Dante 设备控制无法通过 BLII 连接传递，因此需要连接 Dante Expander 允许控制台控制 Dante 设备并在网络上创建路由。</p>
 <figure><img src="https://livehelp.solidstatelogic.com/Help/images/g_BLIIBridgeConnection.png" alt="图片 4"><figcaption>图片 4</figcaption></figure>
-<p>将您的网络 I/O 舞台接口箱连接到您的主要和次要 Dante 网络交换机，注意不要在任何地方交叉连接主要和次要网络。</p>
+<p>将您的网络 I/O 舞台接口箱连接到您的主备 Dante 网络交换机，注意不要在任何地方交叉连接主网和备网。</p>
 <h3>使用 SSL Live 控制台设置 BLII Bridge</h3>
 <p>在控制台上，前往 MENU &gt; Setup &gt; I/O &gt; Local/MADI Configuration。</p>
 <p>如果连接 BLII Bridge 时相关端口中没有配置设备，BLII Bridge 将被自动检测和配置。</p>
@@ -174,8 +174,8 @@
 <p>要配置端口：</p>
 <ul>
   <li>点击相关端口列的标题以查看该端口的设置。</li>
-  <li>在端口的详细视图中按住“Physical Port Selection:”并选择“Blacklight II”。</li>
-  <li>按住“Configure Port For:”并选择“Net I/O BLII Bridge”。</li>
+  <li>在端口的详细视图中按住 <span class="label">Physical Port Selection:</span> 并选择“Blacklight II”。</li>
+  <li>按住 <span class="label">Configure Port For:</span> 并选择“Net I/O BLII Bridge”。</li>
 </ul>
 <figure><img src="https://livehelp.solidstatelogic.com/Help/images/g_BLIIBridgeConfig.png" alt="图片 5"><figcaption>图片 5</figcaption></figure>
 <p class="note"><span class="notetitle">警告：</span></p>
