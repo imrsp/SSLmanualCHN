@@ -1,4 +1,4 @@
-<p>以下页面包含设置 SSL Live 控制台以用于 Dante 网络、与 Dante 设备之间进行路由以及使用 SSL Net I/O 舞台接口箱进行控制和增益共享的说明：</p>
+<p>以下页面说明了如何设置 SSL Live 控制台以用于 Dante 网络、与 Dante 设备之间进行路由以及使用 SSL Net I/O 舞台接口箱进行控制和增益共享：</p>
 <ul>
   <li><a href="https://livehelp.solidstatelogic.com/Help/DanteSetup.html"><span class="hyperlink">设置 Dante</span></a></li>
 </ul>
@@ -19,8 +19,8 @@
 <div>
 <figure><img src="https://livehelp.solidstatelogic.com/Help/images/g_BLIIBridgeFront.png" alt="图片 1"><figcaption>图片 1</figcaption></figure>
 <p>Net I/O BLII Bridge 是一个 1U 机架式设备，可在高通道数 Dante 和 SSL 专有的 BlackLight™ 数字多通道音频格式之间进行转换。 它为配备 BLII 和 Dante 的 Live 控制台提供 256 个冗余双向未压缩音频通道，以 24 位、96 kHz 或 48 kHz 分辨率与 Dante 网络进行传输。</p>
-<p>BLII Bridge 设计为放置在控制台附近，并且一次只能由一个控制台使用。</p>
-<p>Net I/O BLII Bridge 与所有运行软件版本 4.5 或更高版本的配备 BLII 和 Dante 的 SSL Live 控制台兼容， 并支持 AES67 和 SMPTE 2110-30 AoIP 网络传输标准。</p>
+<p>BLII Bridge 设计为放置在控制台附近，并且同一时间只能由一个控制台使用。</p>
+<p>Net I/O BLII Bridge 兼容所有配备 BLII 端口及 Dante 接口、且运行系统软件 4.5 及以上版本的 SSL Live 调音台， 并支持 AES67 和 SMPTE 2110-30 AoIP 网络传输标准。</p>
 <p class="note"><span class="notetitle">注意：</span></p>
 <p>在 Dante 网络上使用 BLII Bridge 时请注意网络带宽。 在涉及 BLII Bridge 和大量 I/O 的网络上，可能需要在交换机之间使用 10 Gigabit 上行链路。</p>
 <h3>前面板 LED</h3>
@@ -150,9 +150,12 @@
 <h3>将 BLII Bridge 连接到 SSL Live 控制台</h3>
 <p>将 BLII Bridge 连接到 SSL Live 控制台需要以下设备：</p>
 <ul>
-  <li>一个 SSL Live 控制台</li>
-  <li>至少安装了一对冗余 BLII 端口</li>
-  <li>并且安装了 Dante 扩展模块（如果您对 Dante 扩展器改装感兴趣，请联系 support@solidstatelogic.com）</li>
+  <li>一个 SSL Live 控制台
+    <ul>
+      <li>至少安装了一对冗余 BLII 端口</li>
+      <li>并且安装了 Dante 扩展模块（如果您对 Dante 扩展器改装感兴趣，请联系 support@solidstatelogic.com）</li>
+    </ul>
+  </li>
   <li>一个 BLII Bridge</li>
   <li>至少一个网络交换机（非冗余）。完全冗余连接需要至少两个交换机（主要和次要）。</li>
 </ul>
