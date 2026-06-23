@@ -67,5 +67,10 @@ jobs:
           # Atomic-like deployment using rsync's built-in temp directory:
           # --delete-delay marks files for removal but only cleans up after transfer completes
           # --delay-updates writes new files to .~tmp~ then atomically renames into place
-          rsync -rltvzO --delete-delay --delay-updates --filter="protect .user.ini" -e "$SSH_CMD" \
+          # Keep server-managed ACME challenge files intact.
+          rsync -rltvzO --delete-delay --delay-updates \
+            --filter="protect .user.ini" \
+            --filter="protect .well-known/" \
+            --filter="protect .well-known/***" \
+            -e "$SSH_CMD" \
             dist/ "${SSH_USER}@${SSH_HOST}:${SSH_TARGET}"
