@@ -29,7 +29,7 @@
 />
 
 <p>
-  通道视图为当前选中的区块库提供可视反馈。
+  通道视图为当前选中区块的推子库提供可视反馈。
 
   <span class="note"
     ><span class="notetitle">注意：</span>按下
@@ -40,7 +40,7 @@
 <p>屏幕会显示所有类型的信号路径。</p>
 
 <p>
-  主屏幕右侧的 <span class="label">Layers</span> 按钮也可用于将信号路径调到屏幕上，即使这些路径当前并不位于区块上（有关 Layers 与 Banks 的详细信息，请参阅上一节）。
+  主屏幕右侧的 <span class="label">Layers</span> 按钮也可用于将信号路径调到屏幕上，即使这些路径当前并不位于区块上（有关推子层与推子组的详细信息，请参阅上一节）。
 </p>
 
 <p>
@@ -63,15 +63,14 @@
 </div>
 
 <p>
-  双击通道条中部的快速显示“缩略图”，或通道条底部带颜色的 Eyeconix 区域，即可打开
+  双击通道条中部的快速显示缩略图，或通道条底部带颜色的 Eyeconix 区域，即可打开
   <a href="https://livehelp.solidstatelogic.com/Help/DetailView.html"><span class="hyperlink">详细视图</span></a>页面并进入相应视图。
 </p>
 
 <p>
-  也可以双击通道条顶部的输入区域、Routing 分配按钮或 Processing 分配按钮，以打开
+  也可以双击通道条顶部的 Input 输入区域、Routing 分配按钮或 Processing 分配按钮，以打开
   <a href="https://livehelp.solidstatelogic.com/Help/DetailView.html"><span class="hyperlink">详细视图</span></a>进入相应部分，<span style="font-weight: bold">并</span>将该功能分配给
-  <a href="https://livehelp.solidstatelogic.com/Help/QuickControls.html"><span class="hyperlink">快速控制</span></a
-  >.
+  <a href="https://livehelp.solidstatelogic.com/Help/QuickControls.html"><span class="hyperlink">快速控制</span></a>。
 </p>
 
 <h2 id="Meter">通道电平表</h2>
@@ -89,7 +88,7 @@
   </p>
 
   <p>
-    默认情况下，输入通道采用微调后计量，输出通道采用全处理后计量（包括推子）。
+    默认情况下，输入通道采用 Trim 后计量，输出通道采用 Post All 计量（包括推子）。
   </p>
 
   <img
@@ -100,7 +99,7 @@
   />
 
   <p>
-    要查看屏幕电平表的展开版本，请双击电平表。电平表会展开并覆盖 Selector 区域。
+    要查看屏幕电平表的展开版本，请双击电平表。电平表会展开并覆盖路由选择器区域。
   </p>
 
   <span class="note">
@@ -111,16 +110,15 @@
 
   <p>
     可在以下位置调整电平表设置：
-    <a href="https://livehelp.solidstatelogic.com/Help/OptionsSystem.html"
-      ><span class="hyperlink">系统选项</span></a
-    >
+    <a href="https://livehelp.solidstatelogic.com/Help/OptionsSystem.html">
+    <span class="hyperlink">系统选项</span></a>
   </p>
 </div>
 
 <!-- Removed while full behaviour undocumented -->
 <!--<span class="note"><span class="notetitle">Note: </span>The Overload LED of an Input Channel will light when the physical input clips, regardless of the meter source selection.</span>-->
 
-<h2 id="Spill">展开</h2>
+<h2 id="Spill">通道展开</h2>
 
 <img
   style="margin: 0px 0px 5px 25px"
@@ -130,7 +128,7 @@
 />
 
 <p>
-  Spill 功能可将立体声、LCR、4.0 和 5.1 信号路径拆分为单声道分量，每个分量都会“展开”到自己的通道条中。这样便可单独配置各分量信号的某些部分。
+  Spill（通道展开）功能可将立体声、LCR、4.0 和 5.1 信号路径拆分为单声道分量，每个分量都会“展开”到自己的通道条中。这样便可单独配置各分量信号的某些部分。
 </p>
 
 <p>
@@ -190,7 +188,7 @@
 <span class="note"
   ><span class="notetitle">注意：</span><br />
   请注意，频率偏移按对数方式计算！<br />
-  某些设置（例如模拟输入设置、EQ 形状、压缩器/门限器的外部侧链 Key 与 Peak Mode、声像和 All&nbsp;Pass Order）<span style="font-weight: bold">不能</span>在单独的分量通道上更改。
+  某些设置（例如模拟输入设置、EQ 形状、压缩器/门限器的外部侧链 Key 与 Peak Mode、声像和全通滤波器阶数）<span style="font-weight: bold">不能</span>在单独的分量通道上更改。
 </span>
 
 <h3>发送</h3>
@@ -201,7 +199,7 @@
 
 <p>
   <span class="note"
-    ><span class="notetitle">注意：</span>父通道参数更改时，可在分量通道间形成偏移的参数（EQ、滤波器、母线发送等）会在所有分量通道上同步变化。不过，在调整父通道的同一控制项时，如果触摸某个分量通道的旋钮或推子，该分量参数会保持当前值；即父通道所作的更改会被该分量通道忽略。</span
+    ><span class="notetitle">注意：</span>父通道参数更改时，可在分量通道间形成偏移的参数（EQ、滤波器、母线发送等）会在所有分量通道上同步变化。不过，在调整父通道的某一控制项时，同时触摸某个分量通道的相应旋钮或推子，则该分量的此参数会保持当前值；即父通道所作的更改会被该分量通道忽略。</span
   >
 </p>
 
