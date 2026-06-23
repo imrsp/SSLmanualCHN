@@ -727,6 +727,12 @@ kbd { padding: 2px 5px; border: 1px solid var(--line); color: var(--muted); back
   flex: 0 0 auto;
   margin: 24px 0;
 }
+.document div[align="left"] > img {
+  display: inline-block;
+  flex: 0 0 auto;
+  margin: 0;
+  vertical-align: middle;
+}
 .document figure { max-width: 100%; margin: 24px 0; }
 .document figure img { margin-bottom: 8px; }
 .document figcaption { color: var(--muted); font-size: 12px; text-align: center; }
