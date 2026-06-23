@@ -21,7 +21,7 @@
 <p>
     Live 控制台的信号路由极其灵活，几乎可以将任何信号路由到任何位置！
     例如，舞台接口箱输入可以直接路由到<a href="https://livehelp.solidstatelogic.com/Help/FXIntro.html"><span class="hyperlink">效果器机架模块</span></a>
-    或通道的<a href="https://livehelp.solidstatelogic.com/Help/PathProc.html#Dynamics"><span class="hyperlink">动态 Key Input</span></a>，无需占用另一个控制台通道
+    或通道的<a href="https://livehelp.solidstatelogic.com/Help/PathProc.html#Dynamics"><span class="hyperlink">动态侧链输入</span></a>，无需占用另一个控制台通道
     （如有需要，请使用 <a href="https://livehelp.solidstatelogic.com/Help/LocalMADIConfig.html"><span class="hyperlink">I/O 页面</span></a>设置前置放大器增益）。
 </p>
 
@@ -29,7 +29,7 @@
 <p style="margin-bottom:0px">
     <ul>
         <li>通过 <span style="font-weight:bold;">路由视图</span>：为某条信号路径建立一条输入或输出路由</li>
-        <li>通过 <span style="font-weight:bold;">XY路由</span>（见<a href="https://livehelp.solidstatelogic.com/Help/Routing.html#XY"><span class="hyperlink">下文</span></a>）：同时建立多条路由（例如将舞台接口箱批量路由至通道输入时）</li>
+        <li>通过 <span style="font-weight:bold;">XY 路由</span>（见<a href="https://livehelp.solidstatelogic.com/Help/Routing.html#XY"><span class="hyperlink">下文</span></a>）：同时建立多条路由（例如将舞台接口箱批量路由至通道输入时）</li>
     </ul>
 </p>
 
@@ -46,9 +46,9 @@
             详细视图 <span class="label">Input/Routing</span> 区域的<span class="label">Route&nbsp;Input&nbsp;A</span>, <span class="label">Route&nbsp;Input&nbsp;B</span> 和 <span class="label">Route&nbsp;Output</span> 按钮
             
         </li>
-        <li>详细视图 <span class="label">Insert A</span>/<span class="label">Insert B</span> 区域的</li><span class="label">Route&nbsp;Send</span> 和 <span class="label">Route&nbsp;Return</span> 按钮
+        <li>详细视图 <span class="label">Insert A</span>/<span class="label">Insert B</span> 区域的<span class="label">Route&nbsp;Send</span> 和 <span class="label">Route&nbsp;Return</span> 按钮</li>
         <li>路由矩阵输入和输出时</li>
-        <li>为动态 FX 单元路由 Key Input 时</li>
+        <li>为动态效果单元路由 Key Input（侧链输入）时</li>
     </ul>
 </p>
 <p>
@@ -82,7 +82,7 @@
         <tr>
             <td style="vertical-align: middle; width: 120px;"><img style="margin: 0px 10px 0px 0px;" src="https://livehelp.solidstatelogic.com/Help/images/b_RouteActiveEDGE.png" alt=""></td>
             <td style="vertical-align: top;">
-                <span style="font-weight:bold;">绿色</span>：设备或设备元素处于活动状态（已检测并锁定），且包含与此通道之间的路由；
+                <span style="font-weight:bold;">绿色</span>：设备或设备元素处于活动状态（已识别并锁上时钟），且包含与此通道之间的路由；
             </td>
         </tr>
         <tr>
@@ -100,7 +100,7 @@
         <tr>
             <td style="vertical-align: middle; width: 120px;"><img style="margin: 0px 10px 0px 0px;" src="https://livehelp.solidstatelogic.com/Help/images/b_RouteGrey.png" alt=""></td>
             <td style="vertical-align: top;">
-                <span style="font-weight:bold;">灰色</span>：设备或设备元素未激活（未检测到或未锁定），且不包含与此通道之间的路由。
+                <span style="font-weight:bold;">灰色</span>：设备或设备元素未激活（未识别到或未锁上时钟），且不包含与此通道之间的路由。
             </td>
         </tr>
         <tr>
@@ -151,17 +151,17 @@
 <img style="display: block; margin: 25px auto;" src="https://livehelp.solidstatelogic.com/Help/images/g_XYSmall.png" align="right" alt="">
 
 <p>
-    此 <span style="font-weight:bold;">XY Routing</span> 页面（<span class="label">MENU</span> > <span class="label">Setup</span>
+    <span style="font-weight:bold;">XY Routing</span> 页面（<span class="label">MENU</span> > <span class="label">Setup</span>
     > <span class="label">XY&nbsp;Routing</span>）提供网格式批量路由界面。
 </p>
 <p>XY Routing 页面可概览跳线状态，并能快速完成大量、复杂的跳线分配。</p>
 <p>
     首先选择所需的 <span style="font-weight:bold;">Source</span> 和 <span style="font-weight:bold;">Destination</span>，二者位于页面左上角。
-    此 <span style="font-weight:bold;">Source</span> 列在 <i>y</i> 轴上，<span style="font-weight:bold;">Destination</span> 列在 <i>x</i> 轴上。
+    <span style="font-weight:bold;">Source</span> 列在 <i>y</i> 轴上，<span style="font-weight:bold;">Destination</span> 列在 <i>x</i> 轴上。
 </p>
 <p>
     轻触任意交叉点可创建一条<span style="font-weight:bold;">待建立路由</span>（<span style="font-weight:bold;">青色</span>）。按住 <span class="label">Apply</span> 建立路由。
-    如果设备在线且已锁定，路由会变为<span style="font-weight:bold;">绿色</span>；如果设备离线或未锁定，路由会变为<span style="font-weight:bold;">红色</span>。
+    如果设备在线且时钟已锁上，路由会变为<span style="font-weight:bold;">绿色</span>；如果设备离线或时钟未锁上，路由会变为<span style="font-weight:bold;">红色</span>。
 </p>
 <p>
     要同时进行多项分配，请按住第一个交叉点，再触摸最后一个交叉点，然后同时松开双指。
@@ -183,7 +183,7 @@
   <tbody>
     <tr>
       <td style="width: 45px; padding: 2px 5px;"><img src="https://livehelp.solidstatelogic.com/Help/images/b_XY_selected.png" alt=""></td>
-      <td>已选择单元格（青色边框）</td>
+      <td>选择的单元格（青色边框）</td>
     </tr>
     <tr>
       <td style="width: 45px; padding: 2px 5px;"><img src="https://livehelp.solidstatelogic.com/Help/images/b_XY_no_route.png" alt=""></td>
@@ -277,13 +277,13 @@
 
 <h3>MADI 舞台接口箱</h3>
 
-<p>当多台控制台从同一 MADI 舞台接口箱接收信号时，只有一台控制台可以远程控制舞台接口箱的前置放大器。“主”控制台就是连接到舞台接口箱 MADI 输入的控制台（若通过 Blacklight II 连接，则为连接到 Blacklight Concentrator A 端口的控制台）。</p>
+<p>当多台控制台从同一 MADI 舞台接口箱接收信号时，只有一台控制台可以远程控制舞台接口箱的话放。“主”控制台就是连接到舞台接口箱 MADI 输入的控制台（若通过 Blacklight II 连接，则为连接到 Blacklight Concentrator A 端口的控制台）。</p>
 
-<p>Gain Share（增益共享）功能可让没有前置放大器控制权的控制台（“从”控制台）以数字方式补偿主控制台对模拟信号电平所做的任何更改，从而避免从控制台的总体输入电平发生意外变化：</p>
+<p>Gain Share（增益共享）功能可让没有话放控制权的控制台（“从”控制台）以数字方式补偿主控制台对模拟信号电平所做的任何更改，从而避免从控制台的总体输入电平发生意外变化：</p>
 
 <p>主控制台工程师确定某通道的初始模拟增益后，从控制台工程师应按下其控制台上的 <span class="label">Gain Share</span> 按钮，启用增益共享。</p>
 
-<p>此后，如果主控制台将模拟前置放大器增益降低 3 dB，从控制台的数字微调会提高 3 dB。如果从控制台未启用增益共享，则不会对模拟增益变化进行数字补偿。</p>
+<p>此后，如果主控制台将模拟话放增益降低 3 dB，从控制台的数字微调会提高 3 dB。如果从控制台未启用增益共享，则不会对模拟增益变化进行数字补偿。</p>
 <span class="note"><span class="notetitle">注意：</span>主控制台上的大幅增益变化（例如启用 Pad 或 High Gain Sensitivity 模式）可能使从控制台在应用补偿微调时产生可听见的电平变化。</span>
 
 <p>位于 <span class="label">Gain Share</span> 按钮顶部的 LED 条颜色表示关闭增益共享后信号电平会升高还是降低。灰灯表示尚未应用数字微调偏移（即启用增益共享后，模拟增益未发生变化）。</p>

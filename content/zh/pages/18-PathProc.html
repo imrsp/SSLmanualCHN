@@ -49,9 +49,9 @@
 
         <p>Band 1（LF）：<span style="font-weight: bold;">Low Shelf</span>（低频搁架式，Q 值可调，可在转折频率处产生过冲/下冲）、<span style="font-weight: bold;">ConstantQ</span>（Q 值可调，且增益变化时曲线宽度保持不变）或 <span style="font-weight: bold;">Legacy</span>（模拟典型 SSL G-Series EQ 的 Q 值特性）。</p>
 
-        <p>Band 2（LMF）和 Band 3（HMF）：<span style="font-weight: bold;">ConstantQ</span>、<span style="font-weight: bold;">Legacy</span> 或 <span style="font-weight: bold;">Notch</span>（陷波，增益衰减量固定为最大值；Q 值和频率仍可按常规方式调整）。</p>
+        <p>Band 2（LMF）和 Band 3（HMF）：<span style="font-weight: bold;">ConstantQ</span>、<span style="font-weight: bold;">Legacy</span> 或 <span style="font-weight: bold;">Notch</span>（陷波滤波器，增益衰减量固定为最大值；Q 值和频率仍可按常规方式调整）。</p>
 
-        <p>Band 4（HF）：<span style="font-weight: bold;">High Shelf</span>（高频搁架式Q 值可调，可在转折频率处产生过冲/下冲）、<span style="font-weight: bold;">ConstantQ</span> 或 <span style="font-weight: bold;">Legacy</span>。</p>
+        <p>Band 4（HF）：<span style="font-weight: bold;">High Shelf</span>（高频搁架式，Q 值可调，可在转折频率处产生过冲/下冲）、<span style="font-weight: bold;">ConstantQ</span> 或 <span style="font-weight: bold;">Legacy</span>。</p>
 
         <p>要更改频段形状：</p>
 
@@ -127,7 +127,7 @@
             开关功能分配给上部快捷按键（可用时会点亮），连续参数分配给下方旋钮。
         </p>
 
-        <h3>Follow Channel 快捷控制模式</h3>
+        <h3>Follow Channel 模式</h3>
 
         <p>在通道视图或详细视图的 EQ 区域轻触一次，将 Filters/EQ 发送到快捷控制。</p>
 
@@ -147,7 +147,7 @@
 
         <p>双击情境显示区可打开通道 EQ 详细视图，在其中编辑更高级的 EQ 参数。</p>
 
-        <p>如果某个 EQ 频段的增益控件呈灰色，该频段很可能设置为 Notch（陷波）。</p>
+        <p>如果某个 EQ 频段的增益控件呈灰色，该频段很可能设置为 Notch（陷波滤波器）。</p>
 
         <img style="margin: 10px 0px 10px 21px;" src="https://livehelp.solidstatelogic.com/Help/images/g_miniEQ.png" alt="" align="right">
 
@@ -186,7 +186,7 @@
         <p>所有完整路径均配有压缩器和门限器/扩展器。</p>
 
 
-        <p>要访问动态 区域，请打开详细视图并选择 <span class="label">Comp Gate</span> 页面。</p>
+        <p>要访问动态区域，请打开详细视图并选择 <span class="label">Comp Gate</span> 页面。</p>
 
 
         <img style="display: block; margin: 25px auto;" src="https://livehelp.solidstatelogic.com/Help/images/g_detailCOMPGATE.png" alt="">
@@ -223,9 +223,9 @@
 
         <h2>压缩器增益</h2>
 
-        <p>要手动调整压缩器的补偿增益，请确保页面中的 Compressor 已启用，然后上下拖动页面中央的 <span style="font-weight: bold;">COMP</span> 滑块。左侧图形会随所加入的增益发生变化。</p>
+        <p>要手动调整压缩器的补偿增益，请确保页面中的 Compressor 已启用，然后上下拖动页面中央的 <span style="font-weight: bold;">Comp Makeup Gain</span> 滑块。左侧图形会随所加入的增益发生变化。</p>
 
-        <p>也可让控制台自动设置补偿增益：触摸 <span class="label">Auto&nbsp;Gain</span> 按钮（位于 <span style="font-weight: bold;">COMP</span> 滑块上方）；按钮点亮表示已启用，同时滑块会停用。</p>
+        <p>也可让控制台自动设置补偿增益：触摸 <span class="label">Auto&nbsp;Gain</span> 按钮（位于 <span style="font-weight: bold;">Makeup</span> 滑块上方）；按钮点亮表示已启用，同时滑块会停用。</p>
 
         <h2>压缩器混合控制</h2>
 
@@ -253,7 +253,7 @@
 
         <p>要监听压缩器或门限器侧链，请触摸右侧动态显示图上方的 <span class="label">Comp&nbsp;Key&nbsp;Solo</span> 或 <span class="label">Gate&nbsp;Key&nbsp;Solo</span> 按钮。</p>
 
-        <span class="note"><span class="notetitle">注意：</span>Key Listen Solo 信号会路由到通道 Misc Solo 设置中指定的 Solo 母线；详情请参阅 <a href="https://livehelp.solidstatelogic.com/Help/Solo.html"><span class="notehyperlink">Solo</span></a>。</span>
+        <span class="note"><span class="notetitle">注意：</span>Key Listen Solo（侧链 Solo）信号会路由到通道 Misc Solo 设置中指定的 Solo 母线；详情请参阅 <a href="https://livehelp.solidstatelogic.com/Help/Solo.html"><span class="notehyperlink">Solo</span></a>。</span>
 
         <h2>电子管模拟</h2>
 
@@ -314,7 +314,7 @@
             开关功能分配给上部快捷按键（可用时会点亮），连续参数分配给下方旋钮。
         </p>
 
-        <h3>Follow Channel快捷控制模式</h3>
+        <h3>Follow Channel 模式</h3>
 
         <p>在通道视图或详细视图的动态区域轻触一次，将 Comp/Gate 发送到快捷控制。</p>
 
@@ -324,7 +324,7 @@
 
         <p>按 <span style="font-weight: bold;">In</span> 按钮，将压缩器或门限器接入信号链；</p>
 
-        <p>使用下方的快捷控制键，在 <span style="font-weight: bold;">CT</span> 与 <span style="font-weight: bold;">CR</span>（压缩器门限和压缩比）之间，或在 <span style="font-weight: bold;">GT</span> 与 <span style="font-weight: bold;">GR</span>（Gate Threshold 和 Range）之间切换 Encoder 所控制的参数；</p>
+        <p>使用下方的快捷控制键，在 <span style="font-weight: bold;">CT</span> 与 <span style="font-weight: bold;">CR</span>（压缩器阈值和压缩比）之间，或在 <span style="font-weight: bold;">GT</span> 与 <span style="font-weight: bold;">GR</span>（门限器阈值和衰减范围）之间切换 Encoder 所控制的参数；</p>
 
         <p>然后拖动/转动旋钮调整动态处理。</p>
 
@@ -409,7 +409,7 @@
 
         <p>
             屏幕下方的快捷控制 会分配给所选通道的不同功能
-            （仅在 Detail View 打开时适用）。其他 Fader Tile 上的快捷控制 不受影响。
+            （仅在 Detail View 打开时适用）。其他 Fader Tile 上的快捷控制不受影响。
         </p>
 
         <p>Detail View 底部的标签表示分配给其正下方 快捷控制 的功能。通常，每个通道的快捷控制一次只分配一种功能。开关功能分配给上部快捷按键（可用时会点亮），连续参数分配给下方旋钮。</p>
@@ -419,7 +419,7 @@
         <p>要关闭详细视图，请触摸右上角的 Close 按钮。</p>
 
 
-        <h3>Follow Channel快捷控制模式</h3>
+        <h3>Follow Channel 模式</h3>
 
 
         <p>在通道视图或详细视图的 Delay 区域轻触一次，将 Delay/All Pass 发送到快捷控制。</p>
@@ -519,7 +519,7 @@
             通常，每个通道的快捷控制 一次只分配一种功能。开关功能分配给上部快捷按键（可用时会点亮），连续参数分配给下方旋钮。
         </p>
 
-        <h3>Follow Channel 快捷控制模式</h3>
+        <h3>Follow Channel 模式</h3>
 
         <p>在通道视图或详细视图的 Delay 区域轻触一次，将 Delay/All Pass 发送到快捷控制。</p>
 
