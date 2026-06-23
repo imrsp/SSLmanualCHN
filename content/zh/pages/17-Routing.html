@@ -21,15 +21,15 @@
 <p>
     Live 控制台的信号路由极其灵活，几乎可以将任何信号路由到任何位置！
     例如，舞台接口箱输入可以直接路由到<a href="https://livehelp.solidstatelogic.com/Help/FXIntro.html"><span class="hyperlink">效果器机架模块</span></a>
-    或通道的<a href="https://livehelp.solidstatelogic.com/Help/PathProc.html#Dynamics"><span class="hyperlink">动态 Key Input</span></a>，无需占用另一个控制台通道
-    （请使用 <a href="https://livehelp.solidstatelogic.com/Help/LocalMADIConfig.html"><span class="hyperlink">I/O 页面</span></a>设置前置放大器增益，如有需要）。
+    或通道的<a href="https://livehelp.solidstatelogic.com/Help/PathProc.html#Dynamics"><span class="hyperlink">动态侧链输入</span></a>，无需占用另一个控制台通道
+    （如有需要，请使用 <a href="https://livehelp.solidstatelogic.com/Help/LocalMADIConfig.html"><span class="hyperlink">I/O 页面</span></a>设置前置放大器增益）。
 </p>
 
 <p>可通过两种方式进行路由：</p>
 <p style="margin-bottom:0px">
     <ul>
-        <li>通过 <span style="font-weight:bold;">Routing View</span>：为某条信号路径建立一条输入或输出路由</li>
-        <li>通过 <span style="font-weight:bold;">XY Routing</span>（见<a href="https://livehelp.solidstatelogic.com/Help/Routing.html#XY"><span class="hyperlink">下文</span></a>）：同时建立多条路由（例如将舞台接口箱批量路由至通道输入时）</li>
+        <li>通过 <span style="font-weight:bold;">路由视图</span>：为某条信号路径建立一条输入或输出路由</li>
+        <li>通过 <span style="font-weight:bold;">XY 路由</span>（见<a href="https://livehelp.solidstatelogic.com/Help/Routing.html#XY"><span class="hyperlink">下文</span></a>）：同时建立多条路由（例如将舞台接口箱批量路由至通道输入时）</li>
     </ul>
 </p>
 
@@ -38,17 +38,17 @@
 <h2>路由视图</h2>
 
 <p>
-    此 <span style="font-weight:bold;">Routing View</span> 会出现在控制台的许多位置。
+    此 <span style="font-weight:bold;">路由视图</span> 会出现在控制台的许多位置。
     最常见的位置包括：
 <p style="margin-bottom:0px">
     <ul>
         <li>
-            <span class="label">Route&nbsp;Input&nbsp;A</span>, <span class="label">Route&nbsp;Input&nbsp;B</span> and <span class="label">Route&nbsp;Output</span> buttons
-            位于 Detail View 的 <span class="label">Input/Routing</span> 区域
+            详细视图 <span class="label">Input/Routing</span> 区域的<span class="label">Route&nbsp;Input&nbsp;A</span>, <span class="label">Route&nbsp;Input&nbsp;B</span> 和 <span class="label">Route&nbsp;Output</span> 按钮
+            
         </li>
-        <li><span class="label">Route&nbsp;Send</span> 和 <span class="label">Route&nbsp;Return</span> 按钮位于 Detail View 的 <span class="label">Insert A</span>/<span class="label">Insert B</span> 区域</li>
+        <li>详细视图 <span class="label">Insert A</span>/<span class="label">Insert B</span> 区域的<span class="label">Route&nbsp;Send</span> 和 <span class="label">Route&nbsp;Return</span> 按钮</li>
         <li>路由矩阵输入和输出时</li>
-        <li>为 Dynamics FX 单元路由 Key Input 时</li>
+        <li>为动态效果单元路由 Key Input（侧链输入）时</li>
     </ul>
 </p>
 <p>
@@ -58,21 +58,21 @@
 </p>
 <p>例如，要为通道主输入（Input A）选择信号源，请触摸 <span class="label">Route&nbsp;Input&nbsp;A</span>；该按钮位于输入/路由<b>详细信息对话框</b>中。</p>
 
-<p>此时将显示 <b>Routing View</b>：</p>
+<p>此时将显示 <b>路由视图</b>：</p>
 <div class="center">
     <img style="display: block; margin: 0px auto 45px; width: 750px" src="https://livehelp.solidstatelogic.com/Help/images/g_detailRoute.png" alt="">
 </div>
 <p>触摸左列中的某个组，其内容会在下一列打开；如有需要，可继续在第三列和第四列中展开。</p>
-<p>如有需要，可滑动列中的列表以向上或向下滚动。</p>
+<p>如有需要，可滑动列中的列表以上下滚动。</p>
 <p>对于舞台接口箱或通用 MADI/Dante 设备，第一列显示物理设备，第二列显示其 I/O 类型，下一列显示各个 I/O。</p>
 <p>要使用控制台内部 I/O，请触摸控制台组（显示为 <span style="font-weight: bold;">LIVE</span> 及 ID 编号），然后选择信号源类型和编号。若选择通道或母线信号，还可继续选择通道中的可用信号源点。</p>
 <p>按 <span class="label">Make</span> 完成路由。</p>
 
 <p>
     <span class="note">
-        <span class="notetitle">注意：</span>路由多通道输入或输出（Stereo、LCR 等）时，按住 <span class="label">Make</span> 按钮，再按 <span class="label">Make&nbsp;All</span>，即可在条件允许时将信号路径的所有分支路由至连续的物理接口。<br>
+        <span class="notetitle">注意：</span>路由多通道输入或输出（立体声、LCR 等）时，按住 <span class="label">Make</span> 按钮，再按 <span class="label">Make&nbsp;All</span>，即可在条件允许时将信号路径的所有分支路由至连续的物理接口。<br>
         也可使用下文介绍的 XY Routing 路由至连续接口。<br>
-        或者在 Main 屏幕上选择通道条，然后按右侧的 <span class="label">Spill</span> 按钮，依次路由各个分支。
+        或者在主屏幕上选择通道条，然后按右侧的 <span class="label">Spill</span> 按钮，依次路由各个分支。
     </span>
 </p>
 <p>路由框的颜色含义如下：</p>
@@ -82,7 +82,7 @@
         <tr>
             <td style="vertical-align: middle; width: 120px;"><img style="margin: 0px 10px 0px 0px;" src="https://livehelp.solidstatelogic.com/Help/images/b_RouteActiveEDGE.png" alt=""></td>
             <td style="vertical-align: top;">
-                <span style="font-weight:bold;">绿色</span>：设备或设备元素处于活动状态（已检测并锁定），且包含与此通道之间的路由；
+                <span style="font-weight:bold;">绿色</span>：设备或设备元素处于活动状态（已识别并锁上时钟），且包含与此通道之间的路由；
             </td>
         </tr>
         <tr>
@@ -100,7 +100,7 @@
         <tr>
             <td style="vertical-align: middle; width: 120px;"><img style="margin: 0px 10px 0px 0px;" src="https://livehelp.solidstatelogic.com/Help/images/b_RouteGrey.png" alt=""></td>
             <td style="vertical-align: top;">
-                <span style="font-weight:bold;">灰色</span>：设备或设备元素未激活（未检测到或未锁定），且不包含与此通道之间的路由。
+                <span style="font-weight:bold;">灰色</span>：设备或设备元素未激活（未识别到或未锁上时钟），且不包含与此通道之间的路由。
             </td>
         </tr>
         <tr>
@@ -125,19 +125,19 @@
 </table>
 
 <p>取消路由分为三个层级：</p>
-<p>对于 <span style="font-weight: bold;">Route In</span>：</p>
+<p>对于 <span style="font-weight: bold;">输入路由</span>：</p>
 <ul class="tab">
     <li><span class="label">Clear&nbsp;&lt;element&gt;</span>（例如 Clear Analogue A 11）取消从所选设备元素/物理接口发出的所有路由（这些路由显示在 <span class="label">Clear&nbsp;&lt;element&gt;</span> 按钮左侧可滚动的当前路由列表中），包括已连接到其他通道的路由；</li>
     <li><span class="label">Unmake</span> 仅取消所选通道从当前高亮（已选择）设备元素取得的输入路由。路由到同一信号源的其他通道不受影响；</li>
     <li><span class="label">Clear&nbsp;Input&nbsp;A</span>/<span class="label">Clear&nbsp;Input&nbsp;B</span> 取消该通道的所有输入路由，即使它们当前未被选择。这包括立体声/LCR 通道的所有分量，但不包括该通道的另一路（<span style="font-weight: bold;">A</span> 或 <span style="font-weight: bold;">B</span>）输入。</li>
 </ul>
-<p>对于 <span style="font-weight: bold;">Route Out</span>：</p>
+<p>对于 <span style="font-weight: bold;">输出路由</span>：</p>
 <ul class="tab">
     <li><span class="label">Clear&nbsp;&lt;element&gt;</span>（例如 Clear AES 5/6）取消通往所选设备元素/物理接口的所有路由；</li>
     <li><span class="label">Unmake</span> 取消该通道通往当前高亮设备元素的输出路由；</li>
     <li><span class="label">Clear&nbsp;Output</span> 取消该通道的所有输出路由，即使它们当前未被选择。这包括立体声/LCR 通道的所有分量。</li>
 </ul>
-<p>要关闭此显示，请选择其他 Detail 页面、取消选择 <span class="label">Route</span>，或触摸 <span class="label">Close</span> 按钮。</p>
+<p>要关闭此显示，请选择其他详细页面、取消选择 <span class="label">Route</span>，或触摸 <span class="label">Close</span> 按钮。</p>
 <p>
     <span class="note">
         <span class="notetitle">注意：</span>路由列上方的 <span class="label">Close</span> 按钮仅关闭路由界面，Detail 对话框仍保持打开。
@@ -151,17 +151,17 @@
 <img style="display: block; margin: 25px auto;" src="https://livehelp.solidstatelogic.com/Help/images/g_XYSmall.png" align="right" alt="">
 
 <p>
-    此 <span style="font-weight:bold;">XY Routing</span> 页面（<span class="label">MENU</span> > <span class="label">Setup</span>
+    <span style="font-weight:bold;">XY Routing</span> 页面（<span class="label">MENU</span> > <span class="label">Setup</span>
     > <span class="label">XY&nbsp;Routing</span>）提供网格式批量路由界面。
 </p>
 <p>XY Routing 页面可概览跳线状态，并能快速完成大量、复杂的跳线分配。</p>
 <p>
     首先选择所需的 <span style="font-weight:bold;">Source</span> 和 <span style="font-weight:bold;">Destination</span>，二者位于页面左上角。
-    此 <span style="font-weight:bold;">Source</span> 列在 <i>y</i> 轴上，<span style="font-weight:bold;">Destination</span> 列在 <i>x</i> 轴上。
+    <span style="font-weight:bold;">Source</span> 列在 <i>y</i> 轴上，<span style="font-weight:bold;">Destination</span> 列在 <i>x</i> 轴上。
 </p>
 <p>
     轻触任意交叉点可创建一条<span style="font-weight:bold;">待建立路由</span>（<span style="font-weight:bold;">青色</span>）。按住 <span class="label">Apply</span> 建立路由。
-    如果设备在线且已锁定，路由会变为<span style="font-weight:bold;">绿色</span>；如果设备离线或未锁定，路由会变为<span style="font-weight:bold;">红色</span>。
+    如果设备在线且时钟已锁上，路由会变为<span style="font-weight:bold;">绿色</span>；如果设备离线或时钟未锁上，路由会变为<span style="font-weight:bold;">红色</span>。
 </p>
 <p>
     要同时进行多项分配，请按住第一个交叉点，再触摸最后一个交叉点，然后同时松开双指。
@@ -183,7 +183,7 @@
   <tbody>
     <tr>
       <td style="width: 45px; padding: 2px 5px;"><img src="https://livehelp.solidstatelogic.com/Help/images/b_XY_selected.png" alt=""></td>
-      <td>已选择单元格（青色边框）</td>
+      <td>选择的单元格（青色边框）</td>
     </tr>
     <tr>
       <td style="width: 45px; padding: 2px 5px;"><img src="https://livehelp.solidstatelogic.com/Help/images/b_XY_no_route.png" alt=""></td>
@@ -237,7 +237,7 @@
 
 <p>这一功能也带来更高灵活性：可按需手动覆盖路由和 Dante 订阅，但控制台绝不会自动覆盖设置。软件采用“先到先得”的自动仲裁机制；控制台关机或演出文件卸载时会释放 Dante 订阅，为其他控制台或其他活动信号释放资源。所有内容均存储在演出文件中，可完整调用。</p>
 
-<p>需要永久信号路由时，可使用 SSL Live 的 Outside of Showfile Routing Mode。在此模式下建立的订阅，即使控制台关闭或加载其他演出文件仍会保持有效，因此无需为了持久的“场馆固定路由”而打开 Dante Controller。</p>
+<p>需要永久信号路由时，可使用 SSL Live 的 Outside of Showfile（演出文件外）路由模式。在此模式下建立的订阅，即使控制台关闭或加载其他演出文件仍会保持有效，因此无需为了持久的“场馆固定路由”而打开 Dante Controller。</p>
 
 <h3 id="Problem">故障排除</h3>
 <p>如果控制台无法建立全部或部分 Dante 路由，将出现弹窗。请查看屏幕左上角的 Status Message 区域了解详情，其中会说明路由未能建立的原因。</p>
@@ -269,31 +269,31 @@
     </table>
 </div>
 
-<p>双击 Status Message 可打开 Status Message 窗口，其中显示自上次启动以来的所有状态消息。</p>
+<p>双击 Status Message 可打开状态消息窗口，其中显示自上次启动以来的所有状态消息。</p>
 <img style="display: block; margin: 25px auto;" src="https://livehelp.solidstatelogic.com/Help/images/g_DanteStatusMessage.png">
-<p>每条失败的 Dante 路由都会对应一条 Status Message。向下滚动列表可查看失败路由；未列出的尝试路由均已成功建立。</p>
+<p>每条失败的 Dante 路由都会对应一条 Status Message。向下滚动列表可查看失败路由；未列出的路由均已成功建立。</p>
 
 <h2 id="GainSharing">增益共享</h2>
 
 <h3>MADI 舞台接口箱</h3>
 
-<p>当多台控制台从同一 MADI 舞台接口箱接收信号时，只有一台控制台可以远程控制舞台接口箱的前置放大器。“主”控制台就是连接到舞台接口箱 MADI 输入的控制台（若通过 Blacklight II 连接，则为连接到 Blacklight Concentrator A 端口的控制台）。</p>
+<p>当多台控制台从同一 MADI 舞台接口箱接收信号时，只有一台控制台可以远程控制舞台接口箱的话放。“主”控制台就是连接到舞台接口箱 MADI 输入的控制台（若通过 Blacklight II 连接，则为连接到 Blacklight Concentrator A 端口的控制台）。</p>
 
-<p>Gain Share 功能可让没有前置放大器控制权的控制台（“从”控制台）以数字方式补偿主控制台对模拟信号电平所做的任何更改，从而避免从控制台的总体输入电平发生意外变化：</p>
+<p>Gain Share（增益共享）功能可让没有话放控制权的控制台（“从”控制台）以数字方式补偿主控制台对模拟信号电平所做的任何更改，从而避免从控制台的总体输入电平发生意外变化：</p>
 
 <p>主控制台工程师确定某通道的初始模拟增益后，从控制台工程师应按下其控制台上的 <span class="label">Gain Share</span> 按钮，启用增益共享。</p>
 
-<p>此后，如果主控制台将模拟前置放大器增益降低 3 dB，从控制台的数字微调会提高 3 dB。如果从控制台未启用 Gain Sharing，则不会对模拟增益变化进行数字补偿。</p>
+<p>此后，如果主控制台将模拟话放增益降低 3 dB，从控制台的数字微调会提高 3 dB。如果从控制台未启用增益共享，则不会对模拟增益变化进行数字补偿。</p>
 <span class="note"><span class="notetitle">注意：</span>主控制台上的大幅增益变化（例如启用 Pad 或 High Gain Sensitivity 模式）可能使从控制台在应用补偿微调时产生可听见的电平变化。</span>
 
-<p>位于 <span class="label">Gain Share</span> 按钮顶部的 LED 条颜色表示关闭 Gain Sharing 后信号电平会升高还是降低。灰灯表示尚未应用数字微调偏移（即启用 Gain Sharing 后，模拟增益未发生变化）。</p>
-<p>绿灯表示关闭 Gain Sharing 会使电平降低。（模拟增益已调低，因此控制台通过调高数字微调进行补偿；关闭 Gain Sharing 会移除此偏移。）</p>
-<p>红灯表示需要谨慎操作，因为关闭 Gain Sharing 会使电平升高。</p>
+<p>位于 <span class="label">Gain Share</span> 按钮顶部的 LED 条颜色表示关闭增益共享后信号电平会升高还是降低。灰灯表示尚未应用数字微调偏移（即启用增益共享后，模拟增益未发生变化）。</p>
+<p>绿灯表示关闭增益共享会使电平降低。（模拟增益已调低，因此控制台通过调高数字微调进行补偿；关闭增益共享会移除此偏移。）</p>
+<p>红灯表示需要谨慎操作，因为关闭增益共享会使电平升高。</p>
 <p>Gain Share 按钮下方的文本字段显示已应用到该通道的数字微调量。</p>
 
 <span class="note">
     <span class="notetitle">注意：</span>“主”控制台也有 Gain Share 按钮和数字微调控件。它们不会影响“从”控制台的增益；同样，“从”控制台的 Gain Share 按钮和数字微调也不会影响“主”控制台的增益。<br>
-    “主”控制台可使用自身的 Gain Share 按钮进行自增益共享，从而即使需要更改模拟增益，也能保持一致的增益结构。如果已设置压缩器、门限器阈值等参数并希望保持这些设置，此功能会很有用。
+    “主”控制台可使用自身的 Gain Share 按钮进行自增益共享，这样一来，即使需要更改模拟增益，也能保持增益结构一致。如果已设置压缩器、门限器阈值等参数并希望保持这些设置，这项功能会很有用。
 </span>
 
 <h3>Dante 舞台接口箱</h3>
