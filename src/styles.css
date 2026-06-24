@@ -514,7 +514,7 @@ kbd { padding: 2px 5px; border: 1px solid var(--line); color: var(--muted); back
   position: relative;
   display: inline-block;
   overflow: hidden;
-  height: 1.2em;
+  height: 1.4em;
   padding-right: 10px;
   color: currentColor;
   text-decoration: none;
