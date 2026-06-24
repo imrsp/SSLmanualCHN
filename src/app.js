@@ -743,11 +743,11 @@ function renderPage(page, headingId = "", skipScroll = false) {
       <p class="eyebrow">${escapeHtml(page.sectionZh)} · CHAPTER ${String(page.order).padStart(2, "0")}</p>
       <h1>${escapeHtml(page.titleZh)}</h1>
       <p class="english-title">${escapeHtml(page.title)}</p>
-      <span class="translation-badge">${
-        page.translationStatus === "complete"
-          ? "● 中文翻译已完成 · 可切换英文原文"
-          : "△ 中文正文翻译进行中 · 当前显示完整英文原文"
-      }</span>
+     <span class="translation-badge">${
+       page.translationStatus === "complete"
+          ? '<span class="translation-badge-dot">●</span> 中文翻译已完成 · 可切换英文原文'
+          : '<span class="translation-badge-dot">△</span> 中文正文翻译进行中 · 当前显示完整英文原文'
+     }</span>
     </header>
     <div class="manual-content">${state.language === "en" ? page.englishHtml : page.contentHtml}</div>
   `;

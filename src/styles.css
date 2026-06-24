@@ -492,7 +492,7 @@ kbd { padding: 2px 5px; border: 1px solid var(--line); color: var(--muted); back
 }
 .nav-link:hover { background: #202721; color: #fff; }
 .nav-link.active { border-left-color: var(--acid); background: hsl(var(--_hue), 14%, 16%); color: #fff; }
-.nav-link .number { color: #69746d; font: 11px var(--font-mono); }
+.nav-link .number { color: #69746d; font: 11px var(--font-sans); }
 .nav-link .title { overflow: hidden; font-size: 13px; text-overflow: ellipsis; white-space: nowrap; }
 .nav-link .state { width: 5px; height: 5px; border-radius: 50%; background: #536057; }
 .nav-link.active .state { background: var(--acid); box-shadow: 0 0 8px var(--acid); }
@@ -504,7 +504,7 @@ kbd { padding: 2px 5px; border: 1px solid var(--line); color: var(--muted); back
   border-top: 1px solid var(--line);
   color: var(--muted);
   background: #111512;
-  font: 11px var(--font-mono);
+  font: 11px var(--font-sans);
 }
 .sidebar-footer strong { color: var(--acid); }
 
@@ -741,10 +741,13 @@ kbd { padding: 2px 5px; border: 1px solid var(--line); color: var(--muted); back
   gap: 7px;
   margin-top: 20px;
   padding: 6px 9px;
-  border: 1px solid #5e4c29;
+  border: 1px solid color-mix(in srgb, var(--amber), var(--panel) 50%);
   color: var(--amber);
-  background: rgba(255,186,67,.06);
-  font: 11px var(--font-mono);
+  background: color-mix(in srgb, var(--amber) 6%, transparent);
+  font: 11px var(--font-sans);
+}
+.translation-badge-dot {
+  font-size: 9px;
 }
 
 .document h2, .document h3, .document h4, .document h5, .document h6 {
@@ -818,7 +821,7 @@ kbd { padding: 2px 5px; border: 1px solid var(--line); color: var(--muted); back
   border: 1px solid #584b2c;
   border-left: 4px solid var(--amber);
   color: #eadfca;
-  background: rgba(255,186,67,.06);
+  background: color-mix(in srgb, var(--amber) 6%, transparent);
 }
 .document .notetitle { color: var(--amber); font-family: var(--font-sans); font-weight: 700; }
 
