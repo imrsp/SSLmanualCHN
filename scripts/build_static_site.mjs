@@ -11,13 +11,15 @@ import {
   slugify,
   stripDocument,
   toPlainText,
-  transformAccordions,
+ transformAccordions,
+  extractMetaDescription,
 } from "./lib/manual.mjs";
 
 const contentDirectory = path.join(root, "content");
 const outputDirectory = path.join(root, "dist");
 const site = readJson(path.join(contentDirectory, "site.json"));
 const manifest = readJson(path.join(contentDirectory, "manifest.json"));
+const seoConfig = readJson(path.join(contentDirectory, "seo.json"));
 const assetManifest = readJson(path.join(root, "public", "assets", "manual", "manifest.json"));
 const pageTitleZhById = site.pageTitlesZhById;
 const sectionById = new Map(site.sections.map((section, index) => [
@@ -475,32 +477,150 @@ console.log(JSON.stringify({
 searchIndexEnBytes: fs.statSync(path.join(outputDirectory, "data", "search-index-en.json")).size,
 }, null, 2));
 
+/* ── Generate prerender HTML pages for SEO ── */
+const pagesDir = path.join(outputDirectory, "seo");
+fs.mkdirSync(pagesDir, { recursive: true });
+
+function escapeXml(str) {
+  return String(str).replace(/[&<>"']/g, function (c) {
+    return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&apos;" }[c];
+  });
+}
+
+function generatePrerenderPage(pageData, prevPage, nextPage) {
+  var noindexIds = new Set(seoConfig.noindexPageIds || []);
+ var robotsContent = noindexIds.has(pageData.id) ? "noindex, follow" : "index, follow";
+  var crawlContent = pageData.contentHtml.replace(
+    /href="#\/page\/([^"]+)"/g,
+    function(match, path) {
+      var parts = path.split("/");
+      var pageId = parts[0];
+      var heading = parts.slice(1).join("/");
+      var url = "./" + pageId + ".html";
+      if (heading) url += "#" + heading;
+      return 'href="' + url + '"';
+    }
+  );
+  const siteUrl = seoConfig.url && seoConfig.url !== "https://<domain>/"
+    ? seoConfig.url : "https://<domain>/";
+  var pageUrl = siteUrl + "seo/" + pageData.id + ".html";
+  var title = pageData.titleZh + " | " + site.title;
+  var description = extractMetaDescription(pageData.contentHtml);
+  var ogImage = seoConfig.ogImage
+    ? (seoConfig.ogImage.indexOf("http") === 0 ? seoConfig.ogImage : siteUrl + seoConfig.ogImage)
+    : siteUrl + "pwa-icon-512.png";
+
+  var jsonLd = JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "TechArticle",
+    headline: pageData.titleZh,
+    description: description || seoConfig.description,
+    author: { "@type": "Organization", name: "Solid State Logic" },
+    publisher: { "@type": "Organization", name: "DMT Club" },
+    inLanguage: "zh-CN",
+    mainEntityOfPage: { "@type": "WebPage", "@id": pageUrl },
+    about: { "@type": "Thing", name: "SSL Live Console" },
+    isAccessibleForFree: true,
+  });
+
+  var links = "";
+  links += "\n  <link rel=\"canonical\" href=\"" + escapeXml(pageUrl) + "\">";
+  links += "\n  <link rel=\"alternate\" hreflang=\"zh-CN\" href=\"" + escapeXml(pageUrl) + "\">";
+  links += "\n  <link rel=\"alternate\" hreflang=\"x-default\" href=\"" + escapeXml(pageUrl) + "\">";
+  if (prevPage) links += "\n  <link rel=\"prev\" href=\"" + escapeXml(siteUrl + "seo/" + prevPage.id + ".html") + "\">";
+  if (nextPage) links += "\n  <link rel=\"next\" href=\"" + escapeXml(siteUrl + "seo/" + nextPage.id + ".html") + "\">";
+
+  var metaDesc = escapeXml(description);
+  var ogDesc = escapeXml(description || seoConfig.description);
+  var ogTitle = escapeXml(pageData.titleZh);
+
+  return "<!doctype html>\n<html lang=\"zh-CN\">\n<head>\n  <meta charset=\"utf-8\">\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n  <meta name=\"description\" content=\"" + metaDesc + "\">\n  <meta name=\"robots\" content=\"" + robotsContent + "\">\n  <meta property=\"og:title\" content=\"" + ogTitle + "\">\n  <meta property=\"og:description\" content=\"" + ogDesc + "\">\n  <meta property=\"og:type\" content=\"article\">\n  <meta property=\"og:url\" content=\"" + escapeXml(pageUrl) + "\">\n  <meta property=\"og:image\" content=\"" + escapeXml(ogImage) + "\">\n  <meta property=\"og:locale\" content=\"zh_CN\">\n  <meta name=\"twitter:card\" content=\"summary_large_image\">\n  <meta name=\"twitter:title\" content=\"" + ogTitle + "\">\n  <meta name=\"twitter:description\" content=\"" + ogDesc + "\">" + links + "\n  <title>" + escapeXml(title) + "</title>\n  <script type=\"application/ld+json\">" + jsonLd + "</script>\n</head>\n<body>\n" + crawlContent + crawlContent + "\n<script>location.replace(\"../index.html#/page/" + pageData.id + "\");</script>\n<noscript><meta http-equiv=\"refresh\" content=\"0;url=../index.html#/page/" + pageData.id + "\"></noscript>\n</body>\n</html>\n";
+}
+
+for (var i = 0; i < pages.length; i++) {
+  var page = pages[i];
+  var prevPage = i > 0 ? pages[i - 1] : null;
+  var nextPage = i < pages.length - 1 ? pages[i + 1] : null;
+  fs.writeFileSync(path.join(pagesDir, page.id + ".html"), generatePrerenderPage(page, prevPage, nextPage));
+}
+
+for (var si = 0; si < standalonePages.length; si++) {
+  var sp = standalonePages[si];
+  var spJsonPath = path.join(outputDirectory, "data", "pages", sp.id + ".json");
+  if (!fs.existsSync(spJsonPath)) continue;
+  var spData = JSON.parse(fs.readFileSync(spJsonPath, "utf8"));
+  fs.writeFileSync(path.join(pagesDir, sp.id + ".html"), generatePrerenderPage({
+    id: spData.id,
+    titleZh: spData.titleZh,
+    contentHtml: spData.contentHtml,
+  }, null, null));
+}
+console.log("[seo] Generated " + (pages.length + standalonePages.length) + " prerender pages in seo/");
+
+/* ── Generate sitemap.xml ── */
+var sitemapSiteUrl = seoConfig.url && seoConfig.url !== "https://<domain>/"
+  ? seoConfig.url : "https://<domain>/";
+
+function getSitemapDate(filePath) {
+  try { return fs.statSync(filePath).mtime.toISOString().split("T")[0]; }
+  catch (_) { return new Date().toISOString().split("T")[0]; }
+}
+
+function sitemapUrl(loc, priority, changefreq, lastmod) {
+  return "  <url>\n    <loc>" + escapeXml(sitemapSiteUrl + loc) + "</loc>\n    <lastmod>" + lastmod + "</lastmod>\n    <changefreq>" + changefreq + "</changefreq>\n    <priority>" + priority.toFixed(1) + "</priority>\n  </url>";
+}
+
+var sitemapEntries = [];
+var siteDate = getSitemapDate(path.join(contentDirectory, "site.json"));
+sitemapEntries.push(sitemapUrl("", 1.0, "weekly", siteDate));
+sitemapEntries.push(sitemapUrl("index.html", 0.9, "weekly", siteDate));
+
+for (var i = 0; i < pages.length; i++) {
+  var page = pages[i];
+  var manifestItem = manifest.find(function(item) {
+    return path.basename(item.outputFile, ".html").replace(/^\d+-/, "") === page.id;
+  });
+  var zhPath = manifestItem ? path.join(contentDirectory, "zh", manifestItem.outputFile) : "";
+  var mtime = getSitemapDate(zhPath);
+  var priority = 0.9 - (i / pages.length) * 0.3;
+  sitemapEntries.push(sitemapUrl("seo/" + page.id + ".html", priority, "weekly", mtime));
+}
+
+for (var si = 0; si < standalonePages.length; si++) {
+  var spMtime = getSitemapDate(standalonePages[si].chinesePath);
+  sitemapEntries.push(sitemapUrl("seo/" + standalonePages[si].id + ".html", 0.4, "monthly", spMtime));
+}
+
+var sitemap = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\">\n" + sitemapEntries.join("\n") + "\n</urlset>\n";
+fs.writeFileSync(path.join(outputDirectory, "sitemap.xml"), sitemap);
+console.log("[seo] Generated sitemap.xml with " + sitemapEntries.length + " entries");
+
+
 
 /* === Cache-busting post-processing === */
 console.log("[cache] Applying content hashes…");
 
-function collectDataFiles(dir) {
+function collectOutputFiles(dir) {
   const result = [];
-  const entries = fs.readdirSync(dir, { withFileTypes: true });
-  for (const entry of entries) {
+  for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
+    if (entry.name === ".DS_Store") continue;
     const fullPath = path.join(dir, entry.name);
-    if (entry.isDirectory()) collectDataFiles(fullPath).forEach(function (f) { result.push(f); });
-    else if (entry.isFile()) result.push(fullPath);
+    if (entry.isDirectory()) {
+      result.push(...collectOutputFiles(fullPath));
+    } else if (entry.isFile()) {
+      result.push(fullPath);
+    }
   }
   return result;
 }
 
-const allDataFiles = collectDataFiles(path.join(outputDirectory, "data"));
-var cacheThemeDir = path.join(outputDirectory, "themes");
-if (fs.existsSync(cacheThemeDir)) {
-  for (var cf of fs.readdirSync(cacheThemeDir).filter(function (f) { return f.endsWith(".css"); })) {
-    allDataFiles.push(path.join(cacheThemeDir, cf));
-  }
-}
+const allOutputFiles = collectOutputFiles(outputDirectory)
+  .filter((filePath) => !["index.html", "sw.js"].includes(path.basename(filePath)))
+  .sort();
 
 const dataHasher = crypto.createHash("sha256");
-for (var df of allDataFiles.sort()) {
-  dataHasher.update(fs.readFileSync(df));
+for (const filePath of allOutputFiles) {
+  dataHasher.update(fs.readFileSync(filePath));
 }
 const buildHash = dataHasher.digest("hex").slice(0, 12);
 
@@ -545,3 +665,32 @@ fs.writeFileSync(htmlFile, html);
 console.log("[cache] " + appHashed);
 console.log("[cache] " + cssHashed);
 console.log("[cache] Build hash: " + buildHash);
+
+const swPath = path.join(outputDirectory, "sw.js");
+if (fs.existsSync(swPath)) {
+  const precacheUrls = [
+    "./apple-touch-icon.png",
+    "./favicon-16x16.png",
+    "./favicon-32x32.png",
+    "./favicon-48x48.png",
+    "./favicon.ico",
+    "./favicon.png",
+    "./favicon.svg",
+    "./index.html",
+    "./manifest.webmanifest",
+    "./pwa-icon-192.png",
+    "./pwa-icon-512.png",
+    "./pwa-icon-512-maskable.png",
+    `./src/${appHashed}`,
+    `./src/${cssHashed}`,
+    "./data/catalog.json",
+    "./data/search-index-en.json",
+    "./data/search-index-zh.json",
+    "./data/themes.json",
+  ];
+  const swSource = fs.readFileSync(swPath, "utf8")
+    .replace("__CACHE_VERSION__", JSON.stringify(buildHash))
+    .replace("__PRECACHE_URLS__", JSON.stringify(precacheUrls));
+  fs.writeFileSync(swPath, swSource);
+  console.log("[cache] sw.js precache entries: " + precacheUrls.length);
+}

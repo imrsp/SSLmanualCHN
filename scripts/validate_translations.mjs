@@ -61,7 +61,7 @@ const reports = manifest.map((page) => {
   const structuralChecks = {
     images: [count(english, /<img\b/gi), count(chinese, /<img\b/gi)],
     tables: [count(english, /<table\b/gi), count(chinese, /<table\b/gi)],
-    links: [count(english, /<a\b/gi), count(chinese, /<a\b/gi)],
+    links: [count(english, /<a\b[^>]*\bhref\b/gi), count(chinese, /<a\b[^>]*\bhref\b/gi)],
     headings: [count(english, /<h[1-6]\b/gi), count(chinese, /<h[1-6]\b/gi)],
   };
   const sourceLinkTargets = linkTargets(english, page.sourceUrl);

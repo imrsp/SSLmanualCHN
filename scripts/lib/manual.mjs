@@ -200,3 +200,32 @@ export function markInlineImages(html) {
     return `<${tag}${attributes}>${content}</${tag}>`;
   });
 }
+
+export function extractMetaDescription(html, maxChars = 160) {
+  const cleaned = html
+    .replace(/<span class="note">[\s\S]*?<\/span>/gi, " ")
+    .replace(/<div class="note">[\s\S]*?<\/div>/gi, " ")
+    .replace(/<div class="manual-disclosures">[\s\S]*?<\/div>/gi, " ")
+    .replace(/<details[\s\S]*?<\/details>/gi, " ");
+  const text = toPlainText(cleaned);
+  const paragraphs = text.split(/\n\s*\n/).filter((p) => p.trim().length > 20);
+  let desc = paragraphs.length > 0 ? paragraphs[0].trim() : text.trim();
+  if (desc.length > maxChars) {
+    const truncated = desc.slice(0, maxChars);
+    const lastPeriod = truncated.lastIndexOf("\u3002");
+    const lastDot = truncated.lastIndexOf(".");
+    const lastBreak = Math.max(lastPeriod, lastDot);
+    if (lastBreak > maxChars * 0.5) {
+      desc = truncated.slice(0, lastBreak + 1);
+    } else {
+      desc = truncated + "\u2026";
+    }
+  }
+  return desc;
+}
+
+export function toFirstLine(text) {
+  const clean = text.replace(/\s+/g, " ").trim();
+  const firstSentence = clean.match(/^[^\u3002.。]*[\u3002.。]?/)?.[0] ?? clean;
+  return firstSentence.length > 200 ? clean.slice(0, 197) + "\u2026" : firstSentence;
+}

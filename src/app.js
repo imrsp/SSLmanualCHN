@@ -36,12 +36,14 @@ const elements = {
   previousPage: document.querySelector("#previousPage"),
   nextPage: document.querySelector("#nextPage"),
   pageCounter: document.querySelector("#pageCounter"),
+  installButton: document.querySelector("#installButton"),
   sidebar: document.querySelector("#sidebar"),
   menuButton: document.querySelector("#menuButton"),
   outlineButton: document.querySelector("#outlineButton"),
   scrim: document.querySelector("#scrim"),
 
 };
+let deferredInstallPrompt = null;
 
 /* — Theme management — */
 function getEffectiveTheme() {
@@ -271,6 +273,38 @@ async function loadData(path, readLocalValue) {
   const response = await fetch(dataUrl(path));
   if (!response.ok) throw new Error(`${path} HTTP ${response.status}`);
   return response.json();
+}
+
+function updateInstallButtonVisibility() {
+  if (!elements.installButton) return;
+  const installed =
+    window.matchMedia("(display-mode: standalone)").matches ||
+    window.matchMedia("(display-mode: fullscreen)").matches ||
+    window.navigator.standalone === true;
+  elements.installButton.hidden = !deferredInstallPrompt || installed;
+}
+
+window.addEventListener("beforeinstallprompt", function (event) {
+  event.preventDefault();
+  deferredInstallPrompt = event;
+  updateInstallButtonVisibility();
+});
+
+window.addEventListener("appinstalled", function () {
+  deferredInstallPrompt = null;
+  updateInstallButtonVisibility();
+});
+
+async function registerServiceWorker() {
+  if (!("serviceWorker" in navigator) || location.protocol === "file:") return;
+  try {
+    await navigator.serviceWorker.register("./sw.js", {
+      scope: "./",
+      updateViaCache: "none",
+    });
+  } catch (error) {
+    console.warn("Service worker registration failed:", error);
+  }
 }
 
 function pageRoute(pageId, headingId = "") {
@@ -709,11 +743,11 @@ function renderPage(page, headingId = "", skipScroll = false) {
       <p class="eyebrow">${escapeHtml(page.sectionZh)} · CHAPTER ${String(page.order).padStart(2, "0")}</p>
       <h1>${escapeHtml(page.titleZh)}</h1>
       <p class="english-title">${escapeHtml(page.title)}</p>
-      <span class="translation-badge">${
-        page.translationStatus === "complete"
-          ? "● 中文翻译已完成 · 可切换英文原文"
-          : "△ 中文正文翻译进行中 · 当前显示完整英文原文"
-      }</span>
+     <span class="translation-badge">${
+       page.translationStatus === "complete"
+          ? '<span class="translation-badge-dot">●</span> 中文翻译已完成 · 可切换英文原文'
+          : '<span class="translation-badge-dot">△</span> 中文正文翻译进行中 · 当前显示完整英文原文'
+     }</span>
     </header>
     <div class="manual-content">${state.language === "en" ? page.englishHtml : page.contentHtml}</div>
   `;
@@ -820,6 +854,8 @@ async function start() {
       `搜索全部 ${state.catalog.meta.pageCount} 个主题`;
     renderNavigation();
     await route();
+    updateInstallButtonVisibility();
+    registerServiceWorker();
   } catch (error) {
     elements.databaseStatus.textContent = "CONTENT ERROR";
     elements.document.innerHTML = `
@@ -858,6 +894,16 @@ elements.searchPanel.addEventListener("focusout", function () {
 elements.menuButton.addEventListener("click", toggleSidebar);
 elements.scrim.addEventListener("click", closeMobilePanels);
 elements.outlineButton.addEventListener("click", () => elements.outline.classList.toggle("open"));
+elements.installButton.addEventListener("click", async function () {
+  if (!deferredInstallPrompt) return;
+  deferredInstallPrompt.prompt();
+  try {
+    await deferredInstallPrompt.userChoice;
+  } finally {
+    deferredInstallPrompt = null;
+    updateInstallButtonVisibility();
+  }
+});
 document.addEventListener("click", (event) => {
   if (!elements.outline.classList.contains("open")) return;
   if (elements.outline.contains(event.target) || elements.outlineButton.contains(event.target)) return;

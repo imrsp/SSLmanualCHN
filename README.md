@@ -21,8 +21,9 @@ npm run serve
 ### 📦 部署与调试说明
 
 * **发布部署：** 发布时只需部署 `dist/` 目录。
-* **本地调试：** 调试时可以直接用浏览器打开 `dist/index.html`。
+* **本地调试：** 调试时可以直接用浏览器打开 `dist/index.html`；要测试安装态和离线态，请使用 `npm run serve` 在 `localhost` 下访问。
 * **数据兼容：** 构建产物同时包含用于 Web 服务器的 JSON 数据和用于 `file://` 本地访问的同粒度脚本数据。
+* **PWA 支持：** 站点提供 `manifest.webmanifest` 与 service worker，安装功能只对 `http(s)`/`localhost` 生效，`file://` 仅作为本地兼容回退；服务端更新会在下次进入站点时自动生效。
 * **免免环境运行：** 未安装 npm 时可直接运行：
 
 ```bash
@@ -61,7 +62,7 @@ npm run serve
 
 * `npm run build`：生成静态站点
 * `npm run serve`：在本地预览 `dist/`
-* `npm run check`：构建 + 执行所有阻断校验与报告生成（含下面六个分别报告）
+* `npm run check`：构建 + 执行所有阻断校验与报告生成（含下面七个分别报告）
 
 ### 📊 校验与审计报告
 
@@ -70,6 +71,7 @@ npm run serve
 * `npm run audit:links`：校验站内链接和锚点（失败项阻断）
 * `npm run audit:terminology`：生成术语审计报告
 * `npm run audit:external-links`：生成外部链接可达性报告
+* `npm run audit:seo`：验证 SEO 标签完整性
 
 ### 💾 溯源管理
 

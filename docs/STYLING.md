@@ -24,6 +24,21 @@
 - 推导出的强调与状态色：`--acid`、`--cyan`、`--amber`、`--red`
 - 依赖主题的辅助 token：`--_accent-glow`、`--_accent-surface`、`--_accent-table-header`、`--brand-accent-text`
 
+字体也按 token 收敛：
+
+- `--font-sans`：阅读器 UI、标题、表格和高亮注释
+- `--font-serif`：正文内容
+- `--font-mono`：编号、状态、工具提示、标签和路径元信息
+- `--font-brand`：顶部品牌标记
+- `--font-symbol`：搜索符号等装饰性字形
+
+字体 fallback 的排序原则是：
+
+- 第一优先级是已嵌入的 Noto 子集字体
+- 第二优先级是当前 macOS 仍会优先命中的系统字体
+- 第三优先级才是 Windows / 通用 fallback
+- 无衬线区域只回退到无衬线链路，正文衬线区域只回退到衬线链路
+
 默认值定义在 [src/styles.css](/Users/imrsp/Documents/Codex/SSLmanualCHN/src/styles.css:6)。
 
 ## 主题 JSON

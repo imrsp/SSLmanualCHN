@@ -11,13 +11,15 @@
 ## 数据流
 
 ```text
-content/en/pages + content/zh/pages + content/manifest.json + content/site.json + content/themes/*.json
+content/en/pages + content/zh/pages + content/manifest.json + content/site.json + content/seo.json + content/themes/*.json
                                          |
                                          v
                               scripts/build_static_site.mjs
                                          |
                                          v
 dist/index.html
+dist/manifest.webmanifest
+dist/sw.js
 dist/src/app.<hash>.js
 dist/src/styles.<hash>.css
 dist/data/catalog.{json,js}
@@ -27,6 +29,9 @@ dist/data/themes.{json,js}
 dist/data/pages/*.{json,js}
 dist/themes/*.css
 dist/assets/**
+dist/seo/*.html
+dist/sitemap.xml
+dist/robots.txt
 ```
 
 ## 运行时加载模型
@@ -35,11 +40,13 @@ dist/assets/**
 - 阅读器进入某章时才请求对应的 `data/pages/<id>.json`。
 - 中英文搜索索引拆成 `search-index-zh` 和 `search-index-en`，按需加载。
 - 主题预设元数据来自 `data/themes.json`。
+- `manifest.webmanifest` 提供安装态元数据，`sw.js` 预缓存应用壳与核心元数据，并在访问过的页面分片和静态资源上做运行时缓存。更新后的 SW 会在下次进入站点时自动接管。
 
 构建同时生成内容相同的 `.js` 数据文件：
 
 - 通过静态 Web 服务器访问时读取 JSON。
 - 直接打开 `dist/index.html` 时读取 `.js` 数据文件，绕过浏览器对 `file://` 页面 `fetch()` 的限制。
+- `file://` 仍保留为本地直开兼容模式；PWA 安装和 service worker 只在 `http(s)` / `localhost` 场景启用。
 
 ## 目录职责
 
@@ -96,3 +103,34 @@ standalone 页面特点：
 - `dist/data/themes.js`
 
 运行时根据 `data/themes.json` 构建主题下拉菜单，再按需加载对应 CSS。
+ 
+ ## SEO 产物
+ 
+ 构建脚本为每个章节和 standalone 页面生成 `dist/seo/<id>.html` 预渲染页面，供搜索引擎爬虫直接读取正文内容。
+ 
+ 每页包含完整的 SEO 标签：
+ 
+ - `<title>` — 中文标题 `| SSL Live 中文操作手册`
+ - `<meta name="description">` — 从正文自动抽取的描述文本
+ - `<meta property="og:*">` / `<meta name="twitter:*">` — 社交分享标签
+ - `<link rel="canonical">` — 规范 URL
+ - `<link rel="alternate" hreflang="zh-CN">` / `hreflang="x-default"` — 语言版本声明（英文版被标记为 `noindex`，不单独列出）
+ - `<link rel="prev">` / `<link rel="next">` — 前后章节导航
+ - `<script type="application/ld+json">` — TechArticle 结构化数据
+ 
+ 预渲染页面附带 SPA 重定向脚本：有 JS 的用户自动跳转到 `index.html#/page/<id>` 获得完整体验；爬虫读取 HTML 正文内容。
+ 
+ 此外还生成：
+ 
+ - `dist/robots.txt` — 允许所有爬虫，指向 sitemap
+ - `dist/sitemap.xml` — 涵盖首页、index.html、所有章节页和 standalone 页的完整站点地图
+ 
+ 构建脚本新增产出：
+ 
+ ```text
+ dist/seo/*.html
+ dist/sitemap.xml
+ dist/robots.txt
+ ```
+ 
+ `npm run audit:seo` 可独立验证所有 SEO 产物的完整性。

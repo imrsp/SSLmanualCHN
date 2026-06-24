@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+Disallow: /data/
+Disallow: /themes/
+Disallow: /src/
+
+Sitemap: https://<domain>/sitemap.xml
