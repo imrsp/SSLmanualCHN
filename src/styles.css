@@ -1252,8 +1252,8 @@ kbd { padding: 2px 5px; border: 1px solid var(--line); color: var(--muted); back
   cursor: pointer;
   transition: background .12s, color .12s;
 }
-.preset-option:hover { background: var(--panel-soft); color: var(--ink); }
-.preset-option.active { color: var(--acid); background: rgba(199,255,55,.08); }
+    .preset-option:hover { background: var(--panel-soft); color: var(--ink); }
+    .preset-option.active { color: var(--acid); background: color-mix(in srgb, var(--acid) 10%, transparent); }
 
 .preset-indicator {
   width: 14px;
