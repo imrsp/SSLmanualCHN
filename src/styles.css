@@ -507,7 +507,7 @@ kbd { padding: 2px 5px; border: 1px solid var(--line); color: var(--muted); back
   border-top: 1px solid var(--line);
   color: var(--muted);
   background: #111512;
-  font: 11px var(--font-sans);
+  font: 11px var(--font-mono);
 }
 .sidebar-footer strong { color: var(--acid); }
 
