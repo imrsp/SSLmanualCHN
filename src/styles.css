@@ -550,10 +550,18 @@ kbd { padding: 2px 5px; border: 1px solid var(--line); color: var(--muted); back
   backdrop-filter: blur(14px);
 }
 
-.breadcrumbs { color: var(--muted); font: 12px Consolas, monospace; }
+.breadcrumbs {
+  flex: 1 1 auto;
+  min-width: 0;
+  color: var(--muted);
+  font: 12px Consolas, monospace;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
 .breadcrumbs strong { color: var(--cyan); }
 
-.reader-actions { display: flex; align-items: center; gap: 18px; }
+.reader-actions { display: flex; flex: 0 0 auto; align-items: center; gap: 18px; }
 .reader-actions button, .reader-actions a {
   border: 0;
   color: var(--muted);
@@ -689,8 +697,8 @@ kbd { padding: 2px 5px; border: 1px solid var(--line); color: var(--muted); back
 }
 .lan-document-title {
   margin: .3em 0;
-  color: #fff;
   font-family: "Noto Sans SC", -apple-system, BlinkMacSystemFont, "PingFang SC", sans-serif;
+  color: var(--ink);
   font-size: clamp(20px, 3vw, 30px);
   line-height: 1.3;
 }
@@ -927,7 +935,6 @@ kbd { padding: 2px 5px; border: 1px solid var(--line); color: var(--muted); back
     padding: 0 16px 42px;
   }
   .reader-toolbar { gap: 8px; min-height: 50px; }
-  .breadcrumbs { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
   .reader-actions { gap: 8px; }
   .reader-actions a { display: none; }
   .reader-layout { padding-top: 46px; }
