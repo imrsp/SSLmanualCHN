@@ -249,6 +249,9 @@ button, a { -webkit-tap-highlight-color: transparent; }
 
 .search-box input {
   width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
   height: 42px;
   border: 0;
   outline: 0;
