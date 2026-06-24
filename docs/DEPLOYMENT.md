@@ -16,83 +16,171 @@ PWA 安装和 service worker 只在 `https`、`localhost` 或 `127.0.0.1` 上工
 
 ## 缓存模型
 
-当前构建产物分三类：
+当前构建产物按缓存策略分类：
 
 - `index.html`：短缓存或禁止缓存。
-- `src/app.<hash>.js`、`src/styles.<hash>.css`：可长缓存。
-- `data/*.json`、`themes/*.css`：建议短缓存或协商缓存，因为它们随内容和主题变更而更新。
-- `manifest.webmanifest` 和 `sw.js`：应使用短缓存或禁止缓存，保证安装元数据和 SW 更新及时生效。
- - `seo/*.html`：预渲染页面供搜索引擎抓取。建议短缓存或协商缓存。
- - `sitemap.xml` 和 `robots.txt`：搜索引擎发现文件。建议不缓存或短缓存。
+- `seo/*.html`：预渲染页面，禁止缓存。
+- `src/app.<hash>.js`、`src/styles.<hash>.css`：应用壳，不可变长缓存（365d，`immutable`）。
+- `data/*.json`、`themes/*.css`：构建哈希参数使缓存失效，可长缓存（365d）。
+- `manifest.webmanifest` 和 `sw.js`：禁止缓存，保证安装元数据和 SW 更新及时生效。
+- `robots.txt`、`sitemap.xml`：搜索引擎发现文件，短缓存（1d）。
+- `assets/manual/`：手册图片和 PDF，中等缓存（30d）。
+- 其他静态资源：通用回退规则，中等缓存（30d）。
 
 构建时还会给数据请求附带 `__BUILD_HASH__` 参数，用于浏览器更新时失效旧缓存。
 
 ## Nginx
 
+以下为带 SSL 和 gzip 的完整配置。项目缓存规则集中在 `# === SSL Live Manual Cache Policy START/END ===` 块内。
+
 ```nginx
 server {
     listen 80;
+    listen 443 ssl http2;
     server_name manual.example.com;
     root /srv/ssl-live-manual;
     index index.html;
 
-    location / {
-        try_files $uri $uri/ =404;
+    # HTTP → HTTPS 强制跳转
+    if ($server_port !~ 443){
+        rewrite ^(/.*)$ https://$host$1 permanent;
     }
 
+    ssl_certificate    /path/to/fullchain.pem;
+    ssl_certificate_key /path/to/privkey.pem;
+    ssl_protocols TLSv1.2 TLSv1.3;
+    ssl_ciphers EECDH+CHACHA20:EECDH+AES128:RSA+AES128:!MD5;
+    ssl_prefer_server_ciphers on;
+    ssl_session_cache shared:SSL:10m;
+    ssl_session_timeout 10m;
+    add_header Strict-Transport-Security "max-age=31536000";
+
+    # Compression（通用优化）
+    gzip on;
+    gzip_vary on;
+    gzip_disable "msie6";
+    gzip_min_length 1024;
+    gzip_proxied any;
+    gzip_comp_level 6;
+    gzip_http_version 1.1;
+    gzip_types
+        text/plain
+        text/css
+        text/javascript
+        application/javascript
+        application/json
+        application/xml
+        image/svg+xml
+        font/ttf
+        font/otf
+        font/woff
+        font/woff2;
+
+    # === SSL Live Manual Cache Policy START ===
+
+    # HTML 入口与预渲染页：禁止缓存
+    location = / {
+        expires -1;
+        add_header Cache-Control "no-cache, no-store, must-revalidate" always;
+        add_header Pragma "no-cache" always;
+    }
     location = /index.html {
         expires -1;
-        add_header Cache-Control "no-cache, no-store, must-revalidate";
+        add_header Cache-Control "no-cache, no-store, must-revalidate" always;
+        add_header Pragma "no-cache" always;
+    }
+    location ~* \.html$ {
+        expires -1;
+        add_header Cache-Control "no-cache, no-store, must-revalidate" always;
+        add_header Pragma "no-cache" always;
     }
 
+    # PWA 安装元数据与 Service Worker：禁止缓存（SW 更新需立即生效）
     location = /manifest.webmanifest {
         expires -1;
-        add_header Cache-Control "no-cache, no-store, must-revalidate";
+        add_header Cache-Control "no-cache, no-store, must-revalidate" always;
     }
-
     location = /sw.js {
         expires -1;
-        add_header Cache-Control "no-cache, no-store, must-revalidate";
+        add_header Cache-Control "no-cache, no-store, must-revalidate" always;
     }
- 
-     location = /robots.txt {
-         expires 1d;
-         add_header Cache-Control "public";
-     }
- 
-     location = /sitemap.xml {
-         expires 1d;
-         add_header Cache-Control "public";
-     }
- 
-     location /seo/ {
-         expires -1;
-         add_header Cache-Control "no-cache, must-revalidate";
-     }
 
-    location /data/ {
+    # SEO 发现文件：短缓存
+    location = /robots.txt {
+        expires 1d;
+        add_header Cache-Control "public, max-age=86400" always;
+    }
+    location = /sitemap.xml {
+        expires 1d;
+        add_header Cache-Control "public, max-age=86400" always;
+    }
+
+    # SEO 预渲染页面：禁止缓存（内容随构建更新）
+    location /seo/ {
         expires -1;
-        add_header Cache-Control "no-cache, must-revalidate";
+        add_header Cache-Control "no-cache, must-revalidate" always;
     }
 
-    location /themes/ {
-        expires -1;
-        add_header Cache-Control "no-cache, must-revalidate";
+    # 数据文件：构建哈希参数使缓存失效，可长缓存
+    location ~* ^/data/.*\.(json|js)$ {
+        expires 365d;
+        add_header Cache-Control "public, max-age=31536000, immutable" always;
+        access_log off;
     }
 
-    location ~* ^/src/(?:app|styles)\.[a-f0-9]{12}\.(?:js|css)$ {
-        expires 300d;
-        add_header Cache-Control "public, immutable";
+    # 主题 CSS：同上
+    location ~* ^/themes/.*\.css$ {
+        expires 365d;
+        add_header Cache-Control "public, max-age=31536000, immutable" always;
+        access_log off;
     }
 
-    location ~* \.(?:png|jpg|jpeg|gif|svg|webp|pdf|woff2?)$ {
-        expires 7d;
-        add_header Cache-Control "public";
+    # 应用壳（已哈希命名）：不可变长缓存
+    location ~* ^/src/.*\.(js|css)$ {
+        expires 365d;
+        add_header Cache-Control "public, max-age=31536000, immutable" always;
+        access_log off;
     }
+
+    # 手册图片与 PDF：中等缓存
+    location ~* ^/assets/manual/.*\.(gif|jpg|jpeg|png|bmp|swf|svg|webp|ico|pdf)$ {
+        expires 30d;
+        add_header Cache-Control "public, max-age=2592000" always;
+        access_log off;
+    }
+
+    # === SSL Live Manual Cache Policy END ===
+
+    # 通用回退：不被上述规则匹配的静态资源
+    location ~ .*\.(gif|jpg|jpeg|png|bmp|swf)$ {
+        expires 30d;
+        add_header Cache-Control "public, max-age=2592000" always;
+        error_log /dev/null;
+        access_log off;
+    }
+    location ~ .*\.(js|css)?$ {
+        expires 12h;
+        add_header Cache-Control "public, max-age=43200" always;
+        error_log /dev/null;
+        access_log off;
+    }
+
+    # 安全限制
+    location ~ ^/(\.user.ini|\.htaccess|\.git|\.svn|\.project|LICENSE|README.md) {
+        return 404;
+    }
+    location ~ \.well-known {
+        allow all;
+    }
+
+    access_log /var/log/nginx/manual.example.com.log;
+    error_log /var/log/nginx/manual.example.com.error.log;
 }
 ```
 
-将 `dist/` 内容同步到 `/srv/ssl-live-manual/` 即可。
+将 `dist/` 内容同步到 document root（如 `/srv/ssl-live-manual/`）即可。
+
+> **部署前替换占位符：** 将 `content/seo.json` 中的 `https://<domain>/` 替换为实际域名，替换 `public/robots.txt` 中的 sitemap 路径。
 
 ## Caddy
 
@@ -128,4 +216,4 @@ manual.example.com {
  - 所有中文页面允许被索引（`index, follow`）。
  - 英文版内容不单独设 URL，未标记 `hreflang="en"`，不被索引。
  - `robots.txt` 禁止抓取 `data/`、`themes/`、`src/` 目录。
- - `data/`、`themes/` 和 `page/` 目录建议配置短缓存策略。
+ - `data/`、`themes/` 和 `seo/` 目录建议配置短缓存策略。
