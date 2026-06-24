@@ -1,5 +1,6 @@
 const CACHE_NAME = `ssl-manual-${__CACHE_VERSION__}`;
 const PRECACHE_URLS = __PRECACHE_URLS__;
+const CACHE_PREFIX = "ssl-manual-";
 const SCOPE_PATH = new URL(self.registration.scope).pathname;
 
 function normalizeRequestUrl(requestUrl) {
@@ -76,6 +77,7 @@ self.addEventListener("activate", (event) => {
     const keys = await caches.keys();
     await Promise.all(keys.map((key) => {
       if (key === CACHE_NAME) return null;
+      if (!key.startsWith(CACHE_PREFIX)) return null;
       return caches.delete(key);
     }));
     await self.clients.claim();

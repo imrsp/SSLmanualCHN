@@ -479,28 +479,27 @@ searchIndexEnBytes: fs.statSync(path.join(outputDirectory, "data", "search-index
 /* === Cache-busting post-processing === */
 console.log("[cache] Applying content hashes…");
 
-function collectDataFiles(dir) {
+function collectOutputFiles(dir) {
   const result = [];
-  const entries = fs.readdirSync(dir, { withFileTypes: true });
-  for (const entry of entries) {
+  for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
+    if (entry.name === ".DS_Store") continue;
     const fullPath = path.join(dir, entry.name);
-    if (entry.isDirectory()) collectDataFiles(fullPath).forEach(function (f) { result.push(f); });
-    else if (entry.isFile()) result.push(fullPath);
+    if (entry.isDirectory()) {
+      result.push(...collectOutputFiles(fullPath));
+    } else if (entry.isFile()) {
+      result.push(fullPath);
+    }
   }
   return result;
 }
 
-const allDataFiles = collectDataFiles(path.join(outputDirectory, "data"));
-var cacheThemeDir = path.join(outputDirectory, "themes");
-if (fs.existsSync(cacheThemeDir)) {
-  for (var cf of fs.readdirSync(cacheThemeDir).filter(function (f) { return f.endsWith(".css"); })) {
-    allDataFiles.push(path.join(cacheThemeDir, cf));
-  }
-}
+const allOutputFiles = collectOutputFiles(outputDirectory)
+  .filter((filePath) => !["index.html", "sw.js"].includes(path.basename(filePath)))
+  .sort();
 
 const dataHasher = crypto.createHash("sha256");
-for (var df of allDataFiles.sort()) {
-  dataHasher.update(fs.readFileSync(df));
+for (const filePath of allOutputFiles) {
+  dataHasher.update(fs.readFileSync(filePath));
 }
 const buildHash = dataHasher.digest("hex").slice(0, 12);
 
@@ -546,26 +545,22 @@ console.log("[cache] " + appHashed);
 console.log("[cache] " + cssHashed);
 console.log("[cache] Build hash: " + buildHash);
 
-function collectOutputFiles(dir) {
-  const result = [];
-  for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
-    if (entry.name === ".DS_Store") continue;
-    const fullPath = path.join(dir, entry.name);
-    if (entry.isDirectory()) {
-      result.push(...collectOutputFiles(fullPath));
-    } else if (entry.isFile()) {
-      result.push(fullPath);
-    }
-  }
-  return result;
-}
-
 const swPath = path.join(outputDirectory, "sw.js");
 if (fs.existsSync(swPath)) {
-  const precacheUrls = collectOutputFiles(outputDirectory)
-    .filter((filePath) => path.basename(filePath) !== "sw.js")
-    .map((filePath) => `./${path.relative(outputDirectory, filePath).split(path.sep).join("/")}`)
-    .sort();
+  const precacheUrls = [
+    "./apple-touch-icon.png",
+    "./favicon.ico",
+    "./favicon.png",
+    "./favicon.svg",
+    "./index.html",
+    "./manifest.webmanifest",
+    `./src/${appHashed}`,
+    `./src/${cssHashed}`,
+    "./data/catalog.json",
+    "./data/search-index-en.json",
+    "./data/search-index-zh.json",
+    "./data/themes.json",
+  ];
   const swSource = fs.readFileSync(swPath, "utf8")
     .replace("__CACHE_VERSION__", JSON.stringify(buildHash))
     .replace("__PRECACHE_URLS__", JSON.stringify(precacheUrls));
