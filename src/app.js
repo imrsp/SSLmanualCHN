@@ -129,18 +129,37 @@ function loadThemeCSS(name) {
   presetLinkEl.href = "themes/" + name + ".css?" + cacheBuster;
 }
 
+function isValidCssColor(value) {
+  return typeof value === "string"
+    && value.trim()
+    && typeof CSS !== "undefined"
+    && CSS.supports("color", value.trim());
+}
+
 function buildPresetDropdown() {
-  var html = "";
   var themes = state.themes || [];
+  if (!elements.presetItems) return;
+  elements.presetItems.textContent = "";
   for (var i = 0; i < themes.length; i++) {
     var t = themes[i];
-    var active = t.id === state.themePreset ? " active" : "";
-    html += '<button class="preset-option' + active + '" type="button" role="menuitem" data-preset="' + t.id + '" data-description="' + escapeHtml(t.description || '') + '">' +
-      '<span class="preset-indicator" style="background:' + t.color + '"></span>' +
-      '<span>' + t.label + '</span>' +
-      '</button>';
+    var button = document.createElement("button");
+    button.type = "button";
+    button.setAttribute("role", "menuitem");
+    button.className = "preset-option" + (t.id === state.themePreset ? " active" : "");
+    button.dataset.preset = t.id;
+    button.dataset.description = t.description || "";
+
+    var indicator = document.createElement("span");
+    indicator.className = "preset-indicator";
+    var colorValue = isValidCssColor(t.color) ? t.color.trim() : "var(--acid)";
+    indicator.style.backgroundColor = colorValue;
+
+    var label = document.createElement("span");
+    label.textContent = t.label || "";
+
+    button.append(indicator, label);
+    elements.presetItems.appendChild(button);
   }
-  if (elements.presetItems) elements.presetItems.innerHTML = html;
 }
 
 function togglePresetDropdown() {
