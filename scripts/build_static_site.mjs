@@ -549,11 +549,17 @@ const swPath = path.join(outputDirectory, "sw.js");
 if (fs.existsSync(swPath)) {
   const precacheUrls = [
     "./apple-touch-icon.png",
+    "./favicon-16x16.png",
+    "./favicon-32x32.png",
+    "./favicon-48x48.png",
     "./favicon.ico",
     "./favicon.png",
     "./favicon.svg",
     "./index.html",
     "./manifest.webmanifest",
+    "./pwa-icon-192.png",
+    "./pwa-icon-512.png",
+    "./pwa-icon-512-maskable.png",
     `./src/${appHashed}`,
     `./src/${cssHashed}`,
     "./data/catalog.json",

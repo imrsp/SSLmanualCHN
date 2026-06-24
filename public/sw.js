@@ -54,10 +54,9 @@ function isStaticAsset(url) {
   const path = relativePath(url);
   return (
     path === "manifest.webmanifest" ||
-    path === "favicon.svg" ||
-    path === "favicon.ico" ||
-    path === "favicon.png" ||
-    path === "apple-touch-icon.png" ||
+    path.startsWith("favicon") ||
+    path.startsWith("apple-touch-icon") ||
+    path.startsWith("pwa-icon") ||
     path.startsWith("src/") ||
     path.startsWith("data/") ||
     path.startsWith("themes/") ||
