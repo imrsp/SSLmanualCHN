@@ -11,7 +11,7 @@
 ## 数据流
 
 ```text
-content/en/pages + content/zh/pages + content/manifest.json + content/site.json + content/themes/*.json
+content/en/pages + content/zh/pages + content/manifest.json + content/site.json + content/seo.json + content/themes/*.json
                                          |
                                          v
                               scripts/build_static_site.mjs
@@ -29,6 +29,9 @@ dist/data/themes.{json,js}
 dist/data/pages/*.{json,js}
 dist/themes/*.css
 dist/assets/**
+dist/seo/*.html
+dist/sitemap.xml
+dist/robots.txt
 ```
 
 ## 运行时加载模型
@@ -100,3 +103,34 @@ standalone 页面特点：
 - `dist/data/themes.js`
 
 运行时根据 `data/themes.json` 构建主题下拉菜单，再按需加载对应 CSS。
+ 
+ ## SEO 产物
+ 
+ 构建脚本为每个章节和 standalone 页面生成 `dist/seo/<id>.html` 预渲染页面，供搜索引擎爬虫直接读取正文内容。
+ 
+ 每页包含完整的 SEO 标签：
+ 
+ - `<title>` — 中文标题 `| SSL Live 中文操作手册`
+ - `<meta name="description">` — 从正文自动抽取的描述文本
+ - `<meta property="og:*">` / `<meta name="twitter:*">` — 社交分享标签
+ - `<link rel="canonical">` — 规范 URL
+ - `<link rel="alternate" hreflang="zh-CN">` / `hreflang="x-default"` — 语言版本声明（英文版被标记为 `noindex`，不单独列出）
+ - `<link rel="prev">` / `<link rel="next">` — 前后章节导航
+ - `<script type="application/ld+json">` — TechArticle 结构化数据
+ 
+ 预渲染页面附带 SPA 重定向脚本：有 JS 的用户自动跳转到 `index.html#/page/<id>` 获得完整体验；爬虫读取 HTML 正文内容。
+ 
+ 此外还生成：
+ 
+ - `dist/robots.txt` — 允许所有爬虫，指向 sitemap
+ - `dist/sitemap.xml` — 涵盖首页、index.html、所有章节页和 standalone 页的完整站点地图
+ 
+ 构建脚本新增产出：
+ 
+ ```text
+ dist/seo/*.html
+ dist/sitemap.xml
+ dist/robots.txt
+ ```
+ 
+ `npm run audit:seo` 可独立验证所有 SEO 产物的完整性。

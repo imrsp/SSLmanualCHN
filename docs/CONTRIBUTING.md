@@ -32,6 +32,7 @@ npm run check
 - `npm run audit:links`
 - `npm run audit:terminology`
 - `npm run audit:external-links`
+- `npm run audit:seo`
 
 ## 如何理解结果
 

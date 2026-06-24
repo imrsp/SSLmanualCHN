@@ -22,6 +22,8 @@ PWA 安装和 service worker 只在 `https`、`localhost` 或 `127.0.0.1` 上工
 - `src/app.<hash>.js`、`src/styles.<hash>.css`：可长缓存。
 - `data/*.json`、`themes/*.css`：建议短缓存或协商缓存，因为它们随内容和主题变更而更新。
 - `manifest.webmanifest` 和 `sw.js`：应使用短缓存或禁止缓存，保证安装元数据和 SW 更新及时生效。
+ - `seo/*.html`：预渲染页面供搜索引擎抓取。建议短缓存或协商缓存。
+ - `sitemap.xml` 和 `robots.txt`：搜索引擎发现文件。建议不缓存或短缓存。
 
 构建时还会给数据请求附带 `__BUILD_HASH__` 参数，用于浏览器更新时失效旧缓存。
 
@@ -52,6 +54,21 @@ server {
         expires -1;
         add_header Cache-Control "no-cache, no-store, must-revalidate";
     }
+ 
+     location = /robots.txt {
+         expires 1d;
+         add_header Cache-Control "public";
+     }
+ 
+     location = /sitemap.xml {
+         expires 1d;
+         add_header Cache-Control "public";
+     }
+ 
+     location /seo/ {
+         expires -1;
+         add_header Cache-Control "no-cache, must-revalidate";
+     }
 
     location /data/ {
         expires -1;
@@ -100,3 +117,15 @@ manual.example.com {
 - 图片与 PDF 独立缓存，不再内嵌到 HTML。
 - `sw.js` 会预缓存应用壳与核心元数据，并在访问过的页面分片和站点静态资源上做运行时缓存，以支持离线回访。更新后的 SW 会在下次进入站点时自动接管。
 - `file://` 本地打开时，阅读器回退到同内容的 `.js` 数据文件。
+ - `seo/*.html` 预渲染页面供搜索引擎爬虫直接读取正文，附带 SPA 重定向。`sitemap.xml` 和 `robots.txt` 帮助搜索引擎发现所有页面索引。
+ 
+ ## 搜索引擎配置
+ 
+ 部署后建议在 Google Search Console 和 Bing Webmaster Tools 中提交 `sitemap.xml` URL，并验证站点所有权。
+ 
+ 当前 SEO 规则：
+ 
+ - 所有中文页面允许被索引（`index, follow`）。
+ - 英文版内容不单独设 URL，未标记 `hreflang="en"`，不被索引。
+ - `robots.txt` 禁止抓取 `data/`、`themes/`、`src/` 目录。
+ - `data/`、`themes/` 和 `page/` 目录建议配置短缓存策略。

@@ -62,7 +62,7 @@ npm run serve
 
 * `npm run build`：生成静态站点
 * `npm run serve`：在本地预览 `dist/`
-* `npm run check`：构建 + 执行所有阻断校验与报告生成（含下面六个分别报告）
+* `npm run check`：构建 + 执行所有阻断校验与报告生成（含下面七个分别报告）
 
 ### 📊 校验与审计报告
 
@@ -71,6 +71,7 @@ npm run serve
 * `npm run audit:links`：校验站内链接和锚点（失败项阻断）
 * `npm run audit:terminology`：生成术语审计报告
 * `npm run audit:external-links`：生成外部链接可达性报告
+* `npm run audit:seo`：验证 SEO 标签完整性
 
 ### 💾 溯源管理
 
