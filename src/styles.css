@@ -939,7 +939,7 @@ kbd { padding: 2px 5px; border: 1px solid var(--line); color: var(--muted); back
   .eyebrow { font-size: 10px; }
   .english-title { font-size: 13px; overflow-wrap: anywhere; }
   .translation-badge { max-width: 100%; white-space: normal; line-height: 1.5; }
-  .document p, .document li { font-size: 15px; }
+  .document p, .document li { font-size: 16px; }
   .document h2 { font-size: 23px; }
   .document h3 { font-size: 19px; }
   .document table {
