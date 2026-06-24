@@ -48,14 +48,14 @@
 <p>Stereo Image 增强器提供了一个 Mid-Side 电路，用于操控 Side 信号，允许加宽和空间操控立体声场。Space 电路是一个基于 Stereo Shuffling 概念的频率相关宽度控制，允许向混音中注入有趣的深度效果。Stereo Image 提供一个 Shuffle 控制，用于更改 Space 电路中的频率截止点，允许您增加厚重感和临场感的同时在立体声场中雕刻空间。</p>
 <h3>Fusion Transformer</h3>
 <figure><img src="https://livehelp.solidstatelogic.com/Help/images/u_FXOther_Fusion_Transformer.png" alt="图片 6"><figcaption>图片 6</figcaption></figure>
-<p>Transformer 模拟了 Fusion 硬件中的 600 欧姆、1:1 绕组的欠阻尼变压器，引入了细微的低频饱和以及高频相移。从人声和乐器上的微妙存在感和主体感到混音和母带中的紧凑低频和咝咝声高频，Transformer 提供的处理效果组合可能是您的混音或母带所追求的神奇之处。使用 Shine 衰减 HF 相移，并调高 Amount 控制以放大谐波失真。这两个控制都可以用于将处理效果驱动到超出 Fusion 硬件中原始电路的程度。</p>
+<p>Transformer 模拟了 Fusion 硬件中的 600 欧姆、1:1 绕组的欠阻尼变压器，引入了细微的低频饱和以及高频相移。从人声和乐器上的微妙的临场感和主体感，到混音和母带中的紧凑低频和咝咝声高频，Transformer 提供的处理效果组合正是您的混音或母带所追求的神奇之处。使用 Shine 可以衰减 HF 相移，调高 Amount 控制可以放大谐波失真。这两个控制都可以用于将处理效果驱动到超出 Fusion 硬件中原始电路的程度。</p>
 <h2>Auto Pan</h2>
-<p>Auto Pan 是一个自动声像效果单元，具有多种调制控制和速度链接。</p>
+<p>Auto Pan 是一个自动声像效果器，具有多种调制控制和速度同步。</p>
 <figure><img src="https://livehelp.solidstatelogic.com/Help/images/g_FXAutoPan.png" alt="图片 7"><figcaption>图片 7</figcaption></figure>
-<p>Auto Pan 可以通过按住“Tempo Link”链接到适当的点按速度用户键，就像延迟效果单元一样。</p>
-<p>Pan 和 Width 控制提供了在立体声场内调整声像算法的偏移和边界的能力。</p>
-<p>Rate 控制定义了信号左右声像的速度。这会根据 Tempo 控制的输入自动更新，但也可以手动调整。</p>
-<p>LFO Mode 决定了用于调制声像设置的控制信号的形状。选项为正弦波、锯齿波或三角波。</p>
+<p>Auto Pan 可以通过按住“Tempo Link”链接到对应的 Tempo User Key （拍速自定义键），就像延迟效果单元一样。</p>
+<p>Pan 和 Width 控制用于调整立体声场内声像算法的偏移量与边界范围。</p>
+<p>Rate 控制定义了信号左右声像间摆动的速率。这会根据 Tempo 控制的输入自动更新，但也可以手动调整。</p>
+<p>LFO Mode 决定调制声像位置所用的控制信号波形。选项为正弦波、锯齿波或三角波。</p>
 <p>LFO Reset 按钮允许用户将 LFO 的相位重置为以下位置之一：</p>
 <table>
   <tr>
@@ -80,8 +80,8 @@
 <p>“Auto Pan”标题下方有一个左右表，显示 AutoPan 输出信号当前在立体声场中的位置。</p>
 <h2>De-Noiser</h2>
 <figure><img src="https://livehelp.solidstatelogic.com/Help/images/g_FXDenoiser.png" alt="图片 12"><figcaption>图片 12</figcaption></figure>
-<p>De-Noiser 模块是一种频率选择性降噪算法，允许您调整噪声的“形状”以更有效地消除它。</p>
-<p>六个增益滑块控制每个频带中“含噪声”信号和降噪信号之间的干/湿混合。在 0 dB 增益时，含噪声信号和降噪信号之间是均等混合。增加增益会增加加回混音中的含噪声信号量。</p>
+<p>De-Noiser 模块是一种频选式的降噪算法，允许您调整噪声的“形状”以更有效地消除它。</p>
+<p>六个增益推子控制每个频带中原始信号和降噪信号之间的干/湿混合。在 0 dB 增益时，原始信号和降噪信号之间是均等混合。增加增益会增加加回混音中的原始信号量。</p>
 <p>Threshold 设置噪声的电平。低于此电平的任何内容都会被噪声检测算法视为噪声。</p>
 <p>Range 定义 De-Noiser 工作的频率范围。这些范围是：</p>
 <table>
