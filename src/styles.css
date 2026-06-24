@@ -157,7 +157,7 @@ button, a { -webkit-tap-highlight-color: transparent; }
 
 .search-panel {
   position: relative;
-  padding: 22px 20px 10px;
+  padding: 15px 20px 15px;
   border-bottom: 1px solid var(--line);
 }
 
