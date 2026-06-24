@@ -37,7 +37,7 @@ dist/assets/**
 - 阅读器进入某章时才请求对应的 `data/pages/<id>.json`。
 - 中英文搜索索引拆成 `search-index-zh` 和 `search-index-en`，按需加载。
 - 主题预设元数据来自 `data/themes.json`。
-- `manifest.webmanifest` 提供安装态元数据，`sw.js` 提供离线缓存和更新接管。
+- `manifest.webmanifest` 提供安装态元数据，`sw.js` 提供离线缓存。更新后的 SW 会在下次进入站点时自动接管。
 
 构建同时生成内容相同的 `.js` 数据文件：
 

@@ -23,7 +23,7 @@ npm run serve
 * **发布部署：** 发布时只需部署 `dist/` 目录。
 * **本地调试：** 调试时可以直接用浏览器打开 `dist/index.html`；要测试安装态和离线态，请使用 `npm run serve` 在 `localhost` 下访问。
 * **数据兼容：** 构建产物同时包含用于 Web 服务器的 JSON 数据和用于 `file://` 本地访问的同粒度脚本数据。
-* **PWA 支持：** 站点提供 `manifest.webmanifest` 与 service worker，安装功能只对 `http(s)`/`localhost` 生效，`file://` 仅作为本地兼容回退。
+* **PWA 支持：** 站点提供 `manifest.webmanifest` 与 service worker，安装功能只对 `http(s)`/`localhost` 生效，`file://` 仅作为本地兼容回退；服务端更新会在下次进入站点时自动生效。
 * **免免环境运行：** 未安装 npm 时可直接运行：
 
 ```bash
