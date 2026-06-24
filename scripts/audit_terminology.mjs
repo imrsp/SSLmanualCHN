@@ -26,6 +26,9 @@ function parseCsvLine(line) {
       value += character;
     }
   }
+  if (quoted) {
+    throw new Error("glossary.csv does not support multiline quoted fields");
+  }
   values.push(value.trim());
   return values;
 }

@@ -19,6 +19,7 @@ const outputDirectory = path.join(root, "dist");
 const site = readJson(path.join(contentDirectory, "site.json"));
 const manifest = readJson(path.join(contentDirectory, "manifest.json"));
 const assetManifest = readJson(path.join(root, "public", "assets", "manual", "manifest.json"));
+const pageTitleZhById = site.pageTitlesZhById;
 const sectionById = new Map(site.sections.map((section, index) => [
   section.id,
   { ...section, order: index + 1 },
@@ -36,6 +37,12 @@ const internalPages = new Map(
   }),
 );
 const anchorsByLanguage = { en: new Map(), zh: new Map() };
+
+function getPageTitleZh(pageId) {
+  const title = pageTitleZhById?.[pageId];
+  if (!title) throw new Error(`Missing Chinese title mapping for page: ${pageId}`);
+  return title;
+}
 
 function localizeAssets(html, sourceUrl) {
   return html.replace(/\b(src|href)\s*=\s*(["'])([^"']+)\2/gi, (match, attribute, quote, reference) => {
@@ -237,16 +244,6 @@ if (fs.existsSync(themesDir)) {
   --_accent-glow: rgba(${glow.light.r},${glow.light.g},${glow.light.b},.25);
   --brand-accent-text: ${config.brandAccentTextLight};
 }
-@media (prefers-color-scheme: light) {
-  :root {
-    --acid:   hsl(var(--_hue), ${lt.acid.s}%, ${lt.acid.l}%);
-    --cyan:   hsl(var(--_hue-link), ${lt.cyan.s}%, ${lt.cyan.l}%);
-    --amber:  hsl(var(--_hue-warn), ${lt.amber.s}%, ${lt.amber.l}%);
-    --red:    hsl(var(--_hue-error), ${lt.red.s}%, ${lt.red.l}%);
-    --about-glow-r: ${glow.light.r}; --about-glow-g: ${glow.light.g}; --about-glow-b: ${glow.light.b};
-    --_accent-glow: rgba(${glow.light.r},${glow.light.g},${glow.light.b},.25);
-    --brand-accent-text: ${config.brandAccentTextLight};
-  }
 }`;
     fs.writeFileSync(path.join(themesOut, config.name + ".css"), css);
   });
@@ -306,19 +303,20 @@ const preparedSources = manifest.map((item, index) => {
   const englishPath = path.join(contentDirectory, "en", item.outputFile);
   const chinesePath = path.join(contentDirectory, "zh", item.outputFile);
   const hasTranslation = fs.existsSync(chinesePath);
+  const titleZh = getPageTitleZh(path.basename(item.outputFile, ".html").replace(/^\d+-/, ""));
   const english = prepareDocument(englishPath, item.sourceUrl, item.title);
   const chinese = hasTranslation
-    ? prepareDocument(chinesePath, item.sourceUrl, site.titlesZh[index])
+    ? prepareDocument(chinesePath, item.sourceUrl, titleZh)
     : english;
   const pathname = new URL(item.sourceUrl).pathname.toLowerCase();
   anchorsByLanguage.en.set(pathname, new Set([...english.content.matchAll(/\bid=["']([^"']+)["']/gi)].map((match) => match[1])));
   anchorsByLanguage.zh.set(pathname, new Set([...chinese.content.matchAll(/\bid=["']([^"']+)["']/gi)].map((match) => match[1])));
-  return { english, chinese, hasTranslation };
+  return { english, chinese, hasTranslation, titleZh };
 });
 
 const pages = manifest.map((item, index) => {
   const id = path.basename(item.outputFile, ".html").replace(/^\d+-/, "");
-  const { english, chinese, hasTranslation } = preparedSources[index];
+  const { english, chinese, hasTranslation, titleZh } = preparedSources[index];
   const preparedEnglish = {
     ...english,
     content: localizeInternalLinks(english.content, item.sourceUrl, "en"),
@@ -336,7 +334,7 @@ const pages = manifest.map((item, index) => {
     section: item.section,
     sectionZh: section.titleZh,
     title: item.title,
-    titleZh: site.titlesZh[index],
+    titleZh,
     sourceUrl: item.sourceUrl,
     translationStatus: hasTranslation ? "complete" : "pending",
     headings: preparedChinese.headings,
@@ -375,16 +373,29 @@ function discoverStandalonePages() {
   const files = fs.readdirSync(zhPagesDir).filter(f => f.endsWith('.html'));
   const standalonePages = [];
   const manifestFiles = new Set(manifest.map(item => path.basename(item.outputFile)));
+  const chapterIds = new Set(manifest.map((item) => path.basename(item.outputFile, ".html").replace(/^\d+-/, "")));
+  const standaloneIds = new Set();
   for (const file of files) {
     if (manifestFiles.has(file)) continue;
     const filePath = path.join(zhPagesDir, file);
     const htmlContent = fs.readFileSync(filePath, 'utf8');
     const idMatch = htmlContent.match(/<meta\s+name="x-standalone-id"\s+content="([^"]+)"\s*\/?>/i);
     if (!idMatch) continue;
+    const standaloneId = idMatch[1].trim();
+    if (!standaloneId) {
+      throw new Error(`Standalone page ${file} is missing x-standalone-id`);
+    }
+    if (chapterIds.has(standaloneId)) {
+      throw new Error(`Standalone page id conflicts with chapter id: ${standaloneId} (${file})`);
+    }
+    if (standaloneIds.has(standaloneId)) {
+      throw new Error(`Duplicate standalone page id: ${standaloneId} (${file})`);
+    }
+    standaloneIds.add(standaloneId);
     const titleMatch = htmlContent.match(/<meta\s+name="x-standalone-title"\s+content="([^"]*)"\s*\/?>/i);
     const titleZhMatch = htmlContent.match(/<meta\s+name="x-standalone-title-zh"\s+content="([^"]*)"\s*\/?>/i);
     standalonePages.push({
-      id: idMatch[1],
+      id: standaloneId,
       chinesePath: filePath,
       title: titleMatch ? titleMatch[1] : '',
       titleZh: titleZhMatch ? titleZhMatch[1] : '',

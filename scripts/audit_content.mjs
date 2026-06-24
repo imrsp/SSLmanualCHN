@@ -12,6 +12,7 @@ import {
 
 const manifest = readJson(path.join(root, "content", "manifest.json"));
 const site = readJson(path.join(root, "content", "site.json"));
+const pageTitleZhById = site.pageTitlesZhById;
 const outputDirectory = path.join(root, "reports");
 const snapshotsDirectory = path.join(root, "upstream", "snapshots");
 const latestSnapshot = fs.existsSync(snapshotsDirectory)
@@ -78,6 +79,12 @@ const metrics = (html) => ({
   textLength: toPlainText(html).length,
 });
 
+function getPageTitleZh(pageId) {
+  const title = pageTitleZhById?.[pageId];
+  if (!title) throw new Error(`Missing Chinese title mapping for page: ${pageId}`);
+  return title;
+}
+
 function headingIssues(items) {
   const issues = [];
   for (let index = 1; index < items.length; index += 1) {
@@ -91,7 +98,7 @@ function headingIssues(items) {
   return issues;
 }
 
-const pages = manifest.map((page, index) => {
+const pages = manifest.map((page) => {
   const englishRaw = fs.readFileSync(path.join(root, "content", "en", page.outputFile), "utf8");
   const chinesePath = path.join(root, "content", "zh", page.outputFile);
   const hasTranslation = fs.existsSync(chinesePath);
@@ -103,7 +110,8 @@ const pages = manifest.map((page, index) => {
     ? fs.readFileSync(sourcePath, "utf8")
     : englishRaw;
   const english = normalized(englishRaw, page.title);
-  const chinese = normalized(chineseRaw, site.titlesZh[index]);
+  const titleZh = getPageTitleZh(path.basename(page.outputFile, ".html").replace(/^\d+-/, ""));
+  const chinese = normalized(chineseRaw, titleZh);
   const source = normalizeLegacyMarkup(
     removePageTitleHeading(transformAccordions(upstreamMain(sourceRaw)), page.title),
   );
@@ -142,7 +150,7 @@ const pages = manifest.map((page, index) => {
     order: page.order,
     file: page.outputFile,
     title: page.title,
-    titleZh: site.titlesZh[index],
+    titleZh,
     metrics: { source: sourceMetrics, en: englishMetrics, zh: chineseMetrics },
     lengthRatio: Number(lengthRatio.toFixed(2)),
     missingImages: [...new Set(missingImages)],

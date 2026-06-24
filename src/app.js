@@ -283,7 +283,10 @@ async function loadPage(pageId) {
     const request = loadData(
       `pages/${encodeURIComponent(pageId)}.json`,
       () => localData.pages[pageId],
-    );
+    ).catch((error) => {
+      state.pageCache.delete(pageId);
+      throw error;
+    });
     state.pageCache.set(pageId, request);
   }
   return state.pageCache.get(pageId);
