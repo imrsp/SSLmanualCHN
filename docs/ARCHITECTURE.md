@@ -18,6 +18,8 @@ content/en/pages + content/zh/pages + content/manifest.json + content/site.json 
                                          |
                                          v
 dist/index.html
+dist/manifest.webmanifest
+dist/sw.js
 dist/src/app.<hash>.js
 dist/src/styles.<hash>.css
 dist/data/catalog.{json,js}
@@ -35,11 +37,13 @@ dist/assets/**
 - 阅读器进入某章时才请求对应的 `data/pages/<id>.json`。
 - 中英文搜索索引拆成 `search-index-zh` 和 `search-index-en`，按需加载。
 - 主题预设元数据来自 `data/themes.json`。
+- `manifest.webmanifest` 提供安装态元数据，`sw.js` 提供离线缓存和更新接管。
 
 构建同时生成内容相同的 `.js` 数据文件：
 
 - 通过静态 Web 服务器访问时读取 JSON。
 - 直接打开 `dist/index.html` 时读取 `.js` 数据文件，绕过浏览器对 `file://` 页面 `fetch()` 的限制。
+- `file://` 仍保留为本地直开兼容模式；PWA 安装和 service worker 只在 `http(s)` / `localhost` 场景启用。
 
 ## 目录职责
 

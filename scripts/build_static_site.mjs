@@ -545,3 +545,30 @@ fs.writeFileSync(htmlFile, html);
 console.log("[cache] " + appHashed);
 console.log("[cache] " + cssHashed);
 console.log("[cache] Build hash: " + buildHash);
+
+function collectOutputFiles(dir) {
+  const result = [];
+  for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
+    if (entry.name === ".DS_Store") continue;
+    const fullPath = path.join(dir, entry.name);
+    if (entry.isDirectory()) {
+      result.push(...collectOutputFiles(fullPath));
+    } else if (entry.isFile()) {
+      result.push(fullPath);
+    }
+  }
+  return result;
+}
+
+const swPath = path.join(outputDirectory, "sw.js");
+if (fs.existsSync(swPath)) {
+  const precacheUrls = collectOutputFiles(outputDirectory)
+    .filter((filePath) => path.basename(filePath) !== "sw.js")
+    .map((filePath) => `./${path.relative(outputDirectory, filePath).split(path.sep).join("/")}`)
+    .sort();
+  const swSource = fs.readFileSync(swPath, "utf8")
+    .replace("__CACHE_VERSION__", JSON.stringify(buildHash))
+    .replace("__PRECACHE_URLS__", JSON.stringify(precacheUrls));
+  fs.writeFileSync(swPath, swSource);
+  console.log("[cache] sw.js precache entries: " + precacheUrls.length);
+}

@@ -18,6 +18,7 @@ const mimeTypes = {
   ".svg": "image/svg+xml",
   ".webp": "image/webp",
   ".woff2": "font/woff2",
+  ".webmanifest": "application/manifest+json; charset=utf-8",
 };
 
 if (!fs.existsSync(path.join(directory, "index.html"))) {
@@ -42,7 +43,7 @@ http.createServer((request, response) => {
     const extension = path.extname(filePath).toLowerCase();
     response.setHeader(
       "Cache-Control",
-      [".html", ".json", ".js", ".css"].includes(extension)
+      [".html", ".json", ".js", ".css", ".webmanifest"].includes(extension)
         ? "no-store"
         : "public, max-age=3600",
     );

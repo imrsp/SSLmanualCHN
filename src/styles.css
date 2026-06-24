@@ -577,6 +577,19 @@ kbd { padding: 2px 5px; border: 1px solid var(--line); color: var(--muted); back
 }
 .reader-actions button:hover, .reader-actions a:hover { color: var(--acid); }
 .reader-actions button:disabled { color: #4f5852; cursor: default; }
+#installButton {
+  padding: 7px 12px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: rgba(199,255,55,.08);
+  color: var(--ink);
+  font-weight: 700;
+  letter-spacing: .03em;
+}
+#installButton:hover {
+  border-color: var(--acid);
+  color: var(--acid);
+}
 
 /* — Theme toggle tooltip — */
 .theme-toggle-wrapper { position: relative; display: inline-flex; }
