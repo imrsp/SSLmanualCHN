@@ -70,25 +70,6 @@ const css = `/* Theme: ${theme.name} — ${theme.label} */
   /* Text on accent backgrounds */
   --brand-accent-text: ${theme.brandAccentTextLight};
 }
-
-/* System light mode */
-@media (prefers-color-scheme: light) {
-  :root {
-    --acid:   hsl(var(--_hue), ${lt.acid.s}%, ${lt.acid.l}%);
-    --cyan:   hsl(var(--_hue-link), ${lt.cyan.s}%, ${lt.cyan.l}%);
-    --amber:  hsl(var(--_hue-warn), ${lt.amber.s}%, ${lt.amber.l}%);
-    --red:    hsl(var(--_hue-error), ${lt.red.s}%, ${lt.red.l}%);
-
-    --about-glow-r: ${glow.light.r};
-    --about-glow-g: ${glow.light.g};
-    --about-glow-b: ${glow.light.b};
-
-    --_accent-glow: rgba(${glow.light.r}, ${glow.light.g}, ${glow.light.b}, .25);
-
-    /* Text on accent backgrounds */
-    --brand-accent-text: ${theme.brandAccentTextLight};
-  }
-}
 `;
 
 process.stdout.write(css);

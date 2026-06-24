@@ -29,6 +29,9 @@ const sourceManifest = readJson(path.join(root, "content", "manifest.json"));
 const site = readJson(path.join(root, "content", "site.json"));
 const catalog = readJson(path.join(root, "dist", "data", "catalog.json"));
 const assetManifest = readJson(path.join(root, "public", "assets", "manual", "manifest.json"));
+const pageTitleZhById = site.pageTitlesZhById;
+const manifestPageIds = sourceManifest.map((page) => path.basename(page.outputFile, ".html").replace(/^\d+-/, ""));
+const manifestPageIdSet = new Set(manifestPageIds);
 
 const missingSourcePages = sourceManifest
   .map((page) => path.join("content", "en", page.outputFile))
@@ -102,8 +105,26 @@ const hardFailures = [
   ...missingAssets,
   ...pageIntegrityIssues,
 ];
-if (reportPagesMismatch(sourceManifest, catalog, site)) {
-  hardFailures.push(`Page count mismatch: manifest=${sourceManifest.length}, catalog=${catalog.pages.length}, titlesZh=${site.titlesZh.length}`);
+if (!pageTitleZhById || typeof pageTitleZhById !== "object" || Array.isArray(pageTitleZhById)) {
+  hardFailures.push("Missing or invalid site.pageTitlesZhById mapping");
+} else {
+  const missingTitleMappings = manifestPageIds.filter((pageId) => !pageTitleZhById[pageId]);
+  const extraTitleMappings = Object.keys(pageTitleZhById).filter((pageId) => !manifestPageIdSet.has(pageId));
+  if (missingTitleMappings.length) {
+    hardFailures.push(`Missing Chinese titles for pages: ${missingTitleMappings.join(", ")}`);
+  }
+  if (extraTitleMappings.length) {
+    hardFailures.push(`Extra Chinese title mappings: ${extraTitleMappings.join(", ")}`);
+  }
+  for (const page of catalog.pages) {
+    const expectedTitleZh = pageTitleZhById[page.id];
+    if (expectedTitleZh && page.titleZh !== expectedTitleZh) {
+      hardFailures.push(`Title mismatch for ${page.id}: catalog="${page.titleZh}" / site="${expectedTitleZh}"`);
+    }
+  }
+}
+if (catalog.pages.length !== sourceManifest.length) {
+  hardFailures.push(`Page count mismatch: manifest=${sourceManifest.length}, catalog=${catalog.pages.length}`);
 }
 if (reportSectionsMismatch(catalog, site)) {
   hardFailures.push(`Section count mismatch: catalog=${catalog.sections.length}, site=${site.sections.length}`);
@@ -121,7 +142,9 @@ const report = {
   pages: catalog.pages.length,
   translatedPages: catalog.meta.translatedCount,
   sections: catalog.sections.length,
-  titleMappings: site.titlesZh.length,
+  titleMappings: pageTitleZhById && typeof pageTitleZhById === "object" && !Array.isArray(pageTitleZhById)
+    ? Object.keys(pageTitleZhById).length
+    : 0,
   missingRequiredFiles: missingRequiredFiles,
   missingSourcePages: missingSourcePages,
   missingBuiltPages: missingBuiltPages,
@@ -187,10 +210,6 @@ console.log(JSON.stringify({
 }, null, 2));
 for (const issue of report.hardFailures) console.error(issue);
 if (report.hardFailures.length) process.exitCode = 1;
-
-function reportPagesMismatch(sourceManifestData, catalogData, siteData) {
-  return catalogData.pages.length !== sourceManifestData.length || siteData.titlesZh.length !== sourceManifestData.length;
-}
 
 function reportSectionsMismatch(catalogData, siteData) {
   return catalogData.sections.length !== siteData.sections.length;
