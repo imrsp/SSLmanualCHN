@@ -410,7 +410,7 @@ kbd { padding: 2px 5px; border: 1px solid var(--line); color: var(--muted); back
   border-left: 3px solid transparent;
   background: #181e1a;
   color: #b7c1ba;
-  font: 700 11px var(--font-sans);
+  font: 700 12px var(--font-sans);
   letter-spacing: .08em;
   text-align: left;
   text-transform: uppercase;
