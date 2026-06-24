@@ -50,9 +50,9 @@
   --_accent-table-header: hsl(var(--_hue), 12%, 91%);
   --_accent-glow: rgba(199,255,55,.25);
   --brand-accent-text: #0c110d;
-  --font-sans: "Noto Sans SC", -apple-system, BlinkMacSystemFont, "PingFang SC", "Segoe UI", "Microsoft YaHei UI", "Microsoft YaHei", Arial, sans-serif;
-  --font-serif: "Noto Serif SC", Georgia, "Songti SC", STSong, SimSun, serif;
-  --font-mono: Consolas, Menlo, Monaco, "Courier New", monospace;
+  --font-sans: "Noto Sans SC", -apple-system, BlinkMacSystemFont, "PingFang SC", "Segoe UI", "Microsoft YaHei UI", "Microsoft YaHei", sans-serif;
+  --font-serif: Georgia, "Noto Serif SC", serif;
+  --font-mono: Consolas, Menlo, Monaco, "Courier New", "Noto Sans SC", -apple-system, BlinkMacSystemFont, "PingFang SC", "Segoe UI", "Microsoft YaHei UI", "Microsoft YaHei", Arial, sans-serif;
   --font-brand: Impact, "Arial Black", sans-serif;
   --font-symbol: Georgia, "Times New Roman", serif;
   /* — Layout tokens */
@@ -354,7 +354,7 @@ kbd { padding: 2px 5px; border: 1px solid var(--line); color: var(--muted); back
   border-left: 3px solid transparent;
   background: #181e1a;
   color: #b7c1ba;
-  font: 700 11px var(--font-mono);
+  font: 700 11px var(--font-sans);
   letter-spacing: .08em;
   text-align: left;
   text-transform: uppercase;
@@ -1199,7 +1199,7 @@ kbd { padding: 2px 5px; border: 1px solid var(--line); color: var(--muted); back
   border-radius: 6px;
   background: var(--panel);
   color: var(--ink);
-  font: 11px/1.4 var(--font-mono);
+  font: 11px/1.4 var(--font-sans);
   letter-spacing: .02em;
   box-shadow: 0 8px 24px rgba(0,0,0,.35);
   pointer-events: none;
