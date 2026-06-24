@@ -808,6 +808,7 @@ kbd { padding: 2px 5px; border: 1px solid var(--line); color: var(--muted); back
 .document table { display: block; max-width: 100%; overflow-x: auto; border-collapse: collapse; font-family: var(--font-sans); font-size: 13px; }
 .document th, .document td { min-width: 110px; padding: 10px 12px; border: 1px solid #3a463f; vertical-align: top; }
 .document th img, .document td img { display: inline-block; max-width: 100%; margin: 0; border: 0; background: transparent; vertical-align: middle; }
+.document td p, .document th p { margin: 0; }
 .document th { color: var(--acid); background: #202720; }
 .document tr:nth-child(even) td { background: rgba(255,255,255,.02); }
 .document .note {
