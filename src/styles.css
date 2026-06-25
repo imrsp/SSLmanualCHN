@@ -58,6 +58,7 @@
   /* — Layout tokens */
   --sidebar-width: 280px;
   --topbar-height: 72px;
+  --safe-top: env(safe-area-inset-top, 0px);
   font-family: var(--font-sans);
 }
 
@@ -86,7 +87,7 @@ button, a { -webkit-tap-highlight-color: transparent; }
   min-height: 100vh;
   display: grid;
   grid-template-columns: var(--sidebar-width) 1fr;
-  grid-template-rows: var(--topbar-height) 1fr;
+  grid-template-rows: calc(var(--topbar-height) + var(--safe-top)) 1fr;
 }
 
 .topbar {
@@ -97,7 +98,9 @@ button, a { -webkit-tap-highlight-color: transparent; }
   display: flex;
   align-items: center;
   min-width: 0;
+  padding-top: var(--safe-top);
   height: var(--topbar-height);
+  height: calc(var(--topbar-height) + var(--safe-top));
   border-bottom: 1px solid var(--line);
     background: var(--topbar-bg);
   backdrop-filter: blur(18px);
@@ -207,8 +210,8 @@ button, a { -webkit-tap-highlight-color: transparent; }
 .sidebar {
   left: 0;
   position: sticky;
-  top: var(--topbar-height);
-  height: calc(100vh - var(--topbar-height));
+  top: calc(var(--topbar-height) + var(--safe-top));
+  height: calc(100vh - var(--topbar-height) - var(--safe-top));
   display: flex;
   flex-direction: column;
   overflow: hidden;
@@ -607,7 +610,7 @@ kbd { padding: 2px 5px; border: 1px solid var(--line); color: var(--muted); back
 
 .reader-toolbar {
   position: sticky;
-  top: var(--topbar-height);
+  top: calc(var(--topbar-height) + var(--safe-top));
   z-index: 20;
   display: flex;
   justify-content: space-between;
@@ -889,7 +892,7 @@ kbd { padding: 2px 5px; border: 1px solid var(--line); color: var(--muted); back
 
 .outline {
   position: sticky;
-  top: calc(var(--topbar-height) + 82px);
+  top: calc(var(--topbar-height) + var(--safe-top) + 82px);
   align-self: start;
   max-height: calc(100vh - 180px);
   overflow-y: auto;
@@ -936,7 +939,7 @@ kbd { padding: 2px 5px; border: 1px solid var(--line); color: var(--muted); back
   .outline {
     position: fixed;
     z-index: 45;
-    top: calc(var(--topbar-height) + 10px);
+    top: calc(var(--topbar-height) + var(--safe-top) + 10px);
     right: 12px;
     display: none;
     width: 260px;
@@ -965,7 +968,10 @@ kbd { padding: 2px 5px; border: 1px solid var(--line); color: var(--muted); back
 @media (max-width: 760px) {
   :root { --topbar-height: 62px; }
   .app-shell { display: block; }
-  .topbar { height: var(--topbar-height); }
+  .topbar {
+    height: var(--topbar-height);
+    height: calc(var(--topbar-height) + var(--safe-top));
+  }
   .search-panel { padding: 18px 14px 10px; }
   .search-summary-row { grid-template-columns: minmax(0, 1fr) auto; min-height: auto; }
   .nav-link { grid-template-columns: 34px 1fr 8px; padding: 9px 18px; }
@@ -1001,30 +1007,32 @@ kbd { padding: 2px 5px; border: 1px solid var(--line); color: var(--muted); back
     background: transparent;
   }
   .icon-button span { width: 19px; height: 1px; background: var(--ink); }
-  .sidebar {
-    position: fixed;
-    z-index: 50;
-    top: var(--topbar-height);
-    left: 0;
-    width: min(88vw, 350px);
-    transform: translateX(-105%);
-    transition: transform .24s ease;
-  }
+ .sidebar {
+   position: fixed;
+   z-index: 50;
+   top: calc(var(--topbar-height) + var(--safe-top));
+   left: 0;
+   width: min(88vw, 350px);
+   transform: translateX(-105%);
+   transition: transform .24s ease;
+   overflow-y: auto;
+ }
   .sidebar.open { transform: translateX(0); box-shadow: 20px 0 60px var(--sidebar-shadow); clip-path: inset(0 -100px 0 0); }
   .scrim {
     position: fixed;
     z-index: 40;
-    inset: var(--topbar-height) 0 0;
+    inset: calc(var(--topbar-height) + var(--safe-top)) 0 0;
     background: rgba(0,0,0,.6);
   }
   .scrim.open { display: block; }
-  .reader {
-    width: 100%;
-    max-width: 100vw;
-    overflow-x: clip;
-    padding: 0 16px 42px;
-  }
-  .reader-toolbar { gap: 8px; min-height: 50px; }
+ .reader {
+   width: 100%;
+   max-width: 100vw;
+   overflow-x: clip;
+   padding: 0 16px 42px;
+ }
+ body.sidebar-open { overflow: hidden; }
+ .reader-toolbar { gap: 8px; min-height: 50px; }
   .reader-actions { gap: 8px; }
   .reader-actions a { display: none; }
   .reader-layout { padding-top: 46px; }

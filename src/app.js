@@ -807,12 +807,14 @@ async function route() {
 function toggleSidebar() {
   const open = elements.sidebar.classList.toggle("open");
   elements.scrim.classList.toggle("open", open);
+  document.body.classList.toggle("sidebar-open", open);
 }
 
 function closeMobilePanels() {
   elements.sidebar.classList.remove("open");
   elements.outline.classList.remove("open");
   elements.scrim.classList.remove("open");
+  document.body.classList.remove("sidebar-open");
 }
 
 async function start() {
@@ -1021,6 +1023,38 @@ window.addEventListener("keydown", (event) => {
   }
   if (event.key === "Escape") { closeMobilePanels(); }
 });
+
+
+/* — Mobile swipe gesture for sidebar (PWA-only, ≤760px) — */
+(function () {
+  var isPwa = window.matchMedia("(display-mode: standalone)").matches || navigator.standalone;
+  if (!isPwa) return;
+  var mql = window.matchMedia("(max-width: 760px)");
+  if (!mql.matches) return;
+
+  var x0, y0;
+
+  document.addEventListener("touchstart", function (e) {
+    if (!mql.matches) return;
+    if (e.target === elements.searchInput) return;
+    if (!elements.sidebar.classList.contains("open") &&
+        (elements.scrim.contains(e.target) || elements.searchPanel.contains(e.target))) return;
+    x0 = e.touches[0].clientX;
+    y0 = e.touches[0].clientY;
+  }, { passive: true });
+
+  document.addEventListener("touchend", function (e) {
+    if (!mql.matches || x0 === undefined) return;
+    var w = window.innerWidth;
+    var dx = e.changedTouches[0].clientX - x0;
+    var dy = Math.abs(e.changedTouches[0].clientY - y0);
+    x0 = y0 = undefined;
+    if (dy > w * 0.08 || Math.abs(dx) < w * 0.12) return;
+
+    if (!elements.sidebar.classList.contains("open") && dx > w * 0.12 && x0 < w * 0.5) { toggleSidebar(); return; }
+    if (elements.sidebar.classList.contains("open") && dx < -(w * 0.12)) { closeMobilePanels(); }
+  }, { passive: true });
+})();
 
 syncSearchToggleVisibility();
 start();
