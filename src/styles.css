@@ -919,7 +919,7 @@ kbd { padding: 2px 5px; border: 1px solid var(--line); color: var(--muted); back
 .page-navigation span { display: block; margin-bottom: 7px; font: 10px var(--font-mono); letter-spacing: .08em; }
 .page-navigation strong { color: inherit; font-size: 14px; }
 
-.loading-state, .error-state { min-height: 55vh; display: grid; place-content: center; justify-items: center; color: var(--muted); text-align: center; }
+ .loading-state, .error-state { min-height: 55vh; display: grid; place-content: center; justify-items: center; color: var(--muted); font-family: var(--font-mono); text-align: center; }
 .loader { width: 30px; height: 30px; border: 2px solid #344038; border-top-color: var(--acid); border-radius: 50%; animation: spin .8s linear infinite; }
 @keyframes spin { to { transform: rotate(360deg); } }
 
@@ -1250,7 +1250,7 @@ kbd { padding: 2px 5px; border: 1px solid var(--line); color: var(--muted); back
   background: transparent;
   color: var(--muted);
   font-size: 13px;
-  font-family: inherit;
+  font-family: var(--font-sans);
   text-align: left;
   cursor: pointer;
   transition: background .12s, color .12s;
