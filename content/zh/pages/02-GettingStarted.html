@@ -39,7 +39,7 @@
 <img style="display: block; margin: 25px auto;" src="https://livehelp.solidstatelogic.com/Help/images/g_OptionsSystemClock.png" align="right" alt="">
 <br>
 
-<h2>3. 选择一个主时钟</h2>
+<h2>3. 选择主时钟</h2>
 <p>在控制台上进入 <span class="label">MENU</span> &gt; <span class="label">Setup</span> &gt; <span class="label">Options</span> &gt; <span class="label">SYSTEM</span> 选项卡。</p>
 <p>在 <span style="font-weight:bold;">System Clock</span> 区域，从可用选项中选择一个 <b>Main</b> 作为主时钟源；也可选择一个 <b>Backup</b> 备用时钟源。</p>
 <p>按住 <span class="label">APPLY</span>。</p>
@@ -48,7 +48,7 @@
     SSL 建议选择<span style="font-weight:bold;">控制台作为主时钟</span>（在屏幕上选择 <span class="label">Int</span>，即内部时钟）。舞台接口箱及其他所有 MADI 设备应该作为从时钟锁定至控制台。
 </p>
 <p>
-    对于<span style="font-weight:bold;">基于 Dante 的系统</span>，SSL 建议让<span style="font-weight:bold;">控制台从属于 Dante</span>（在屏幕上选择 <span class="label">Dante Expander</span>），
+    对于<span style="font-weight:bold;">基于 Dante 的系统</span>，SSL 建议让<span style="font-weight:bold;">控制台从属于 Dante 网络</span>（在屏幕上选择 <span class="label">Dante Expander</span>），
     以利用 Dante 的时钟选举机制。
 </p>
 <p>更多信息请参阅<a href="https://livehelp.solidstatelogic.com/Help/Clocking.html"><span class="hyperlink">时钟设置</span></a>。</p>
@@ -78,7 +78,7 @@
 <p>点击演出文件列表顶部的 <span class="label">HD</span> 按钮。按 <span class="label">Save As</span>，输入演出文件名称，然后按 <span class="label">OK</span>。</p>
 <span class="note">
     <span class="notetitle">SSL 建议：</span>建议从控制台内置硬盘运行演出文件，而不是从 USB 存储设备运行。控制台每分钟保存一次演出文件备份。
-    如果发生断电，控制台再次开机时会加载最近的备份演出文件。备份演出文件无法保存到 USB 存储设备，因此从 USB 运行演出文件时不具备此项保护。
+    如果发生断电，控制台再次开机时会加载最近一次备份的演出文件。备份演出文件无法保存到 USB 存储设备，因此从 USB 运行演出文件时不具备此项保护。
 </span>
 <br>
 
@@ -253,8 +253,8 @@
             如需使用采样率转换，必须使用 Virtual Tie Lines。更多信息请参阅<a href="https://livehelp.solidstatelogic.com/Help/DanteVTL.html"><span class="hyperlink">使用 Dante Virtual Tie Lines</span></a>。
         </span>
 
-        <h3>设置 Dante 网络的 Leader Clock</h3>
-        <p>无需在 Dante 网络上手动设置 Leader Clock。Dante 网络具有自己的时钟选举机制，会自动选择最合适的 Leader Clock。</p>
+        <h3>设置 Dante 网络的首选主时钟</h3>
+        <p>无需在 Dante 网络上手动设置首选主时钟。Dante 网络具有自己的时钟选举机制，会自动选择最合适的首选主时钟。</p>
         <p>更多信息请参阅<a href="https://livehelp.solidstatelogic.com/Help/Clocking.html#Source"><span class="hyperlink">时钟设置</span></a>。</p>
 
         <h3>设置舞台接口箱名称</h3>
@@ -284,8 +284,8 @@
 <br>
 
 <h2>6. Solo 操作</h2>
-<p><a href="https://livehelp.solidstatelogic.com/Help/MasterTile.html"><span class="hyperlink">Master Tile</span></a>（带有两个推子和 Solo 控制的区块）上有两个 Solo Bus 编码器：<span style="font-weight:bold;">Solo A</span> 和 <span style="font-weight:bold;">Solo B</span></p>
-<p>旋转编码器可提高/降低音量。按下编码器顶部可将 Solo Bus 静音。</p>
+<p><a href="https://livehelp.solidstatelogic.com/Help/MasterTile.html"><span class="hyperlink">Master Tile（主控区块）</span></a>（带有两个推子和 Solo 控制的区块）上有两个 Solo Bus 旋钮：<span style="font-weight:bold;">Solo A</span> 和 <span style="font-weight:bold;">Solo B</span></p>
+<p>旋转此旋钮可提高/降低音量。按下旋钮顶部可将 Solo Bus 静音。</p>
 <h3>FOH 模板</h3>
 <p><span style="font-weight:bold;">Solo Bus A</span> 接收 <span style="font-weight:bold;">Post All</span> 信号</p>
 <p><span style="font-weight:bold;">Solo Bus B</span> 接收 <span style="font-weight:bold;">Pre Fader</span> 信号</p>
@@ -298,19 +298,19 @@
 <p>使用右侧耳机接口连接 IEM。使用本地模拟输出 A12 连接返送音箱。</p>
 <p>在 Master Tile 上，Focus Fader（左侧）控制监听 IEM Master，Main Fader（右侧）控制监听 Wedge Master。</p>
 <br>
-<p>更多信息请参阅 <a href="https://livehelp.solidstatelogic.com/Help/Solo.html"><span class="hyperlink">Solo</span></a>。</p>
+<p>更多信息请参阅 <a href="https://livehelp.solidstatelogic.com/Help/Solo.html"><span class="hyperlink">Solo（独奏）</span></a>。</p>
 <br>
 
 <h2>7. 通道视图</h2>
-<p>按任一推子区块右侧的 <span class="label">SCREEN</span> 按钮。该 Bank 中的通道会显示在主屏幕上。此时屏幕显示 <a href="https://livehelp.solidstatelogic.com/Help/ChanView.html"><span class="hyperlink">通道视图</span></a>。</p>
+<p>按任一推子区块右侧的 <span class="label">SCREEN</span> 按钮。该 Bank 中的通道会显示在主屏幕上。此时屏幕显示 <a href="https://livehelp.solidstatelogic.com/Help/ChanView.html"><span class="hyperlink">Channel View（通道视图）</span></a>。</p>
 <p>按推子区块上的 <span class="label">CALL</span> 按钮可调出不同的推子 <span style="font-weight:bold;">Bank</span>。</p>
 <p>
     <span class="label">SCREEN</span> 和 <span class="label">SWAP</span> 按钮正上方有一块带上下箭头按钮的标签显示屏。按这些按钮可循环浏览 <span style="font-weight:bold;">Layer</span>。
     浏览时，Bank 标签显示屏（<span class="label">CALL</span> 按钮旁的显示屏）会随之变化。可以将 Layer 理解为 Bank 文件夹；每个 Layer 包含 5 个 Bank。
-    有关 Layer、Bank 以及配置自定义 User Layer 的更多信息，请参阅 <a href="https://livehelp.solidstatelogic.com/Help/LayerManager.html"><span class="hyperlink">推子层管理器</span></a>。
+    有关 Layer、Bank 以及配置自定义 User Layer 的更多信息，请参阅 <a href="https://livehelp.solidstatelogic.com/Help/LayerManager.html"><span class="hyperlink">Layer Manager（推子层管理器）</span></a>。
 </p>
-<p>在通道视图中，点击屏幕上的任意元素，可将该功能发送到推子区块顶部的编码器旋钮（称为 <a href="https://livehelp.solidstatelogic.com/Help/QuickControls.html"><span class="hyperlink">Quick Controls</span></a>）。</p>
-<p>双击通道条底部的彩色方块，可打开该通道的展开视图（称为 <a href="https://livehelp.solidstatelogic.com/Help/DetailView.html"><span class="hyperlink">Detail View</span></a>）。</p>
+<p>在通道视图中，点击屏幕上的任意元素，可将该功能发送到推子区块顶部的编码器旋钮（称为 <a href="https://livehelp.solidstatelogic.com/Help/QuickControls.html"><span class="hyperlink">Quick Controls（快捷控制）</span></a>）。</p>
+<p>双击通道条底部的彩色方块，可打开该通道的展开视图（称为 <a href="https://livehelp.solidstatelogic.com/Help/DetailView.html"><span class="hyperlink">Detail View（详细视图）</span></a>）。</p>
 <p>可从 Detail View 访问通道处理、Bus/VCA/Mute Group 分配和 Insert。</p>
 <p>
     默认情况下，打开详细视图后，屏幕正下方的各个快捷控制会分别控制详细视图中所显示功能的一个参数。
@@ -322,16 +322,16 @@
     -&emsp;保持 <span class="label">Follow Detail</span> 开启。<br>
     -&emsp;按推子区块上某通道的 <span class="label">SELECT</span> 按钮，将该通道调入详细视图。<br>
     -&emsp;使用详细视图的多点触控界面或相应快捷控制调节通道处理参数。
-    （对于 L300、L350、L500、L500&nbsp;Plus、L550 或 L650 控制台，也可使用 <a href="https://livehelp.solidstatelogic.com/Help/ControlTile.html"><span class="hyperlink">Control Tile</span></a>（带小屏幕的区块）实现“一项功能一个旋钮”的工作流程。）
+    （对于 L300、L350、L500、L500&nbsp;Plus、L550 或 L650 控制台，也可使用 <a href="https://livehelp.solidstatelogic.com/Help/ControlTile.html"><span class="hyperlink">Control Tile（控制区块）</span></a>（带小屏幕的区块）实现“一项功能一个旋钮”的工作流程。）
 </span>
 
 <br>
 
 <h2>8. 对讲</h2>
-<p>系统有两个对讲通道，其输入分别路由自控制台前挡板下方的两个 XLR 输入。</p>
+<p>系统有两个对讲通道，其输入分别路由自控制台前挡板下方的两个 XLR 接口输入。</p>
 <p>要将对讲发送到 Aux、Stem 或 Master，先打开相应母线的详细视图，然后按 <span class="label">Fader/TB</span>。</p>
 <p>启用 <span class="label">TB&nbsp;to&nbsp;Bus</span></p>
-<p>然后在 <a href="https://livehelp.solidstatelogic.com/Help/MasterTile.html"><span class="hyperlink">Master Tile</span></a> 上按下对讲 <span class="label">TB1</span> 或 <span class="label">TB2</span> 编码器，取消 对讲通道 1 或 2 的静音。此时即可向该母线讲话。</p>
+<p>然后在 <a href="https://livehelp.solidstatelogic.com/Help/MasterTile.html"><span class="hyperlink">Master Tile</span></a> 上按下对讲 <span class="label">TB1</span> 或 <span class="label">TB2</span> 旋钮，取消 对讲通道 1 或 2 的静音。此时即可向该母线讲话。</p>
 <p>讲话结束后，再次按下旋钮，将对讲通道静音。</p>
 <p>更多信息请参阅 <a href="https://livehelp.solidstatelogic.com/Help/TB.html"><span class="hyperlink">对讲</span></a>。</p>
 <br>
