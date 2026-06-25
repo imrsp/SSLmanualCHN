@@ -1,12 +1,13 @@
-const state = {
-  catalog: null,
-  searchIndexZh: null,
-  searchIndexEn: null,
-  searchEn: false,
-  pageCache: new Map(),
-  currentPage: null,
-  query: "",
-  language: "zh",
+ const state = {
+   catalog: null,
+   searchIndexZh: null,
+   searchIndexEn: null,
+   searchEn: false,
+   pageCache: new Map(),
+   currentPage: null,
+   query: "",
+   searchShowCount: 12,
+   language: "zh",
   theme: "auto",
   themePreset: null,
   themes: null,
@@ -397,19 +398,22 @@ function findSearchResults(query) {
     if (!aInHeading && bInHeading) return 1;
     return 0;
   });
-  return results.slice(0, 12);
+  return results;
 }
 
 function renderSearchResultsInNav() {
   var results = findSearchResults(state.query.trim());
-  elements.searchSummary.textContent = results.length
-    ? "找到 " + results.length + " 个匹配结果"
+  var total = results.length;
+  elements.searchSummary.textContent = total
+    ? "找到 " + total + " 个匹配结果"
     : "没有找到匹配的主题";
-  if (!results.length) {
+  if (!total) {
     elements.manualNav.innerHTML = '<div class="nav-empty">没有匹配结果</div>';
     return;
   }
-  elements.manualNav.innerHTML = results.map(function (r) {
+  var showCount = Math.min(state.searchShowCount, total);
+  var visibleResults = results.slice(0, showCount);
+  var html = visibleResults.map(function (r) {
     var headingLine = r.heading
       ? '<span class="result-heading">' + escapeHtml(r.heading) + '</span>'
       : '';
@@ -422,6 +426,10 @@ function renderSearchResultsInNav() {
       '</button>'
     );
   }).join("");
+  if (showCount < total) {
+    html += '<button class="search-load-more" type="button">加载更多（' + (total - showCount) + '）</button>';
+  }
+  elements.manualNav.innerHTML = html;
   elements.manualNav.querySelectorAll(".search-result").forEach(function (btn) {
     btn.addEventListener("click", function () {
       var hash = pageRoute(btn.dataset.pageId, btn.dataset.headingId);
@@ -442,6 +450,13 @@ function renderSearchResultsInNav() {
       }
     });
   });
+  var loadMoreBtn = elements.manualNav.querySelector(".search-load-more");
+  if (loadMoreBtn) {
+    loadMoreBtn.addEventListener("click", function () {
+      state.searchShowCount += 20;
+      renderSearchResultsInNav();
+    });
+  }
 }
 
 function highlightPageContent(query) {
@@ -807,12 +822,14 @@ async function route() {
 function toggleSidebar() {
   const open = elements.sidebar.classList.toggle("open");
   elements.scrim.classList.toggle("open", open);
+  document.body.classList.toggle("sidebar-open", open);
 }
 
 function closeMobilePanels() {
   elements.sidebar.classList.remove("open");
   elements.outline.classList.remove("open");
   elements.scrim.classList.remove("open");
+  document.body.classList.remove("sidebar-open");
 }
 
 async function start() {
@@ -871,6 +888,7 @@ async function start() {
 var searchTimer;
 elements.searchInput.addEventListener("input", function (event) {
   state.query = event.target.value;
+  state.searchShowCount = 12;
   syncSearchToggleVisibility();
   clearTimeout(searchTimer);
   if (!state.query.trim()) {
@@ -936,6 +954,7 @@ elements.presetItems?.addEventListener("mouseleave", function () {
 
 elements.searchEnToggle.addEventListener("change", function () {
     state.searchEn = this.checked;
+    state.searchShowCount = 12;
     if (state.query.trim()) {
       clearTimeout(searchTimer);
       loadSearchIndex().then(function () {
@@ -1021,6 +1040,38 @@ window.addEventListener("keydown", (event) => {
   }
   if (event.key === "Escape") { closeMobilePanels(); }
 });
+
+
+/* — Mobile swipe gesture for sidebar (PWA-only, ≤760px) — */
+(function () {
+  var isPwa = window.matchMedia("(display-mode: standalone)").matches || navigator.standalone;
+  if (!isPwa) return;
+  var mql = window.matchMedia("(max-width: 760px)");
+  if (!mql.matches) return;
+
+  var x0, y0;
+
+  document.addEventListener("touchstart", function (e) {
+    if (!mql.matches) return;
+    if (e.target === elements.searchInput) return;
+    if (!elements.sidebar.classList.contains("open") &&
+        (elements.scrim.contains(e.target) || elements.searchPanel.contains(e.target))) return;
+    x0 = e.touches[0].clientX;
+    y0 = e.touches[0].clientY;
+  }, { passive: true });
+
+  document.addEventListener("touchend", function (e) {
+    if (!mql.matches || x0 === undefined) return;
+    var w = window.innerWidth;
+    var dx = e.changedTouches[0].clientX - x0;
+    var dy = Math.abs(e.changedTouches[0].clientY - y0);
+    x0 = y0 = undefined;
+    if (dy > w * 0.08 || Math.abs(dx) < w * 0.12) return;
+
+    if (!elements.sidebar.classList.contains("open") && dx > w * 0.12 && x0 < w * 0.5) { toggleSidebar(); return; }
+    if (elements.sidebar.classList.contains("open") && dx < -(w * 0.12)) { closeMobilePanels(); }
+  }, { passive: true });
+})();
 
 syncSearchToggleVisibility();
 start();
