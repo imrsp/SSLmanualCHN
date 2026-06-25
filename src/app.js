@@ -1,12 +1,13 @@
-const state = {
-  catalog: null,
-  searchIndexZh: null,
-  searchIndexEn: null,
-  searchEn: false,
-  pageCache: new Map(),
-  currentPage: null,
-  query: "",
-  language: "zh",
+ const state = {
+   catalog: null,
+   searchIndexZh: null,
+   searchIndexEn: null,
+   searchEn: false,
+   pageCache: new Map(),
+   currentPage: null,
+   query: "",
+   searchShowCount: 12,
+   language: "zh",
   theme: "auto",
   themePreset: null,
   themes: null,
@@ -397,19 +398,22 @@ function findSearchResults(query) {
     if (!aInHeading && bInHeading) return 1;
     return 0;
   });
-  return results.slice(0, 12);
+  return results;
 }
 
 function renderSearchResultsInNav() {
   var results = findSearchResults(state.query.trim());
-  elements.searchSummary.textContent = results.length
-    ? "找到 " + results.length + " 个匹配结果"
+  var total = results.length;
+  elements.searchSummary.textContent = total
+    ? "找到 " + total + " 个匹配结果"
     : "没有找到匹配的主题";
-  if (!results.length) {
+  if (!total) {
     elements.manualNav.innerHTML = '<div class="nav-empty">没有匹配结果</div>';
     return;
   }
-  elements.manualNav.innerHTML = results.map(function (r) {
+  var showCount = Math.min(state.searchShowCount, total);
+  var visibleResults = results.slice(0, showCount);
+  var html = visibleResults.map(function (r) {
     var headingLine = r.heading
       ? '<span class="result-heading">' + escapeHtml(r.heading) + '</span>'
       : '';
@@ -422,6 +426,10 @@ function renderSearchResultsInNav() {
       '</button>'
     );
   }).join("");
+  if (showCount < total) {
+    html += '<button class="search-load-more" type="button">加载更多（' + (total - showCount) + '）</button>';
+  }
+  elements.manualNav.innerHTML = html;
   elements.manualNav.querySelectorAll(".search-result").forEach(function (btn) {
     btn.addEventListener("click", function () {
       var hash = pageRoute(btn.dataset.pageId, btn.dataset.headingId);
@@ -442,6 +450,13 @@ function renderSearchResultsInNav() {
       }
     });
   });
+  var loadMoreBtn = elements.manualNav.querySelector(".search-load-more");
+  if (loadMoreBtn) {
+    loadMoreBtn.addEventListener("click", function () {
+      state.searchShowCount += 20;
+      renderSearchResultsInNav();
+    });
+  }
 }
 
 function highlightPageContent(query) {
@@ -873,6 +888,7 @@ async function start() {
 var searchTimer;
 elements.searchInput.addEventListener("input", function (event) {
   state.query = event.target.value;
+  state.searchShowCount = 12;
   syncSearchToggleVisibility();
   clearTimeout(searchTimer);
   if (!state.query.trim()) {
@@ -938,6 +954,7 @@ elements.presetItems?.addEventListener("mouseleave", function () {
 
 elements.searchEnToggle.addEventListener("change", function () {
     state.searchEn = this.checked;
+    state.searchShowCount = 12;
     if (state.query.trim()) {
       clearTimeout(searchTimer);
       loadSearchIndex().then(function () {
