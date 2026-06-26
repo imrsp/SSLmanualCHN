@@ -119,7 +119,7 @@
     "PathProc": "信号路径处理",
     "ProcOrder": "处理顺序",
     "BusRouting": "母线路由与 VCA",
-    "PathLink": "信号路径联动与快速设置",
+    "PathLink": "路径联动与快速设置",
     "Copy": "复制",
     "FXIntro": "效果器机架概览",
     "Matrix": "矩阵",

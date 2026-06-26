@@ -53,12 +53,12 @@
 </p>
 
 <p>
-    可配置 <b>Main（主）</b> 和 <b>Backup（备）</b> 时钟源。如果主时钟源丢失，控制台会自动切换至备时钟源。如果备时钟源也丢失，控制台会改用内部时钟。
+    可配置 <b>Main（主）</b>和 <b>Backup（备）</b>时钟源。如果主时钟源丢失，控制台会自动切换至备时钟源。如果备时钟源也丢失，控制台会改用内部时钟。
 </p>
 
 <p>
     使用箭头按钮打开 <b>Main</b> 或 <b>Backup</b> 选择菜单。选择所需时钟源，然后按住 <span class="label">APPLY</span> 按钮。
-    确认 <span style="font-weight: bold;">Current</span> 所示来源与预期时钟源一致。
+    确认 <span style="font-weight: bold;">Current</span>（当前时钟）所示来源与预期时钟源一致。
 </p>
 
 
@@ -271,7 +271,7 @@
             Dante Controller 中的 Clock Status 页面会指示当前选出的主时钟。
         </p>
 
-        <p>如果 LED 状态与上述说明不同，请查阅<a href="https://livehelp.solidstatelogic.com/Help/DanteBridges.html"><span class="hyperlink">使用 Dante Bridge</span></a>中的完整表格。</p>
+        <p>如果 LED 状态与上述说明不同，请查阅 <a href="https://livehelp.solidstatelogic.com/Help/DanteBridges.html"><span class="hyperlink">使用 Dante Bridge</span></a> 中的完整表格。</p>
     </div>
 </div>
 
@@ -285,7 +285,7 @@
     （<span class="label">MENU</span> &gt; <span class="label">Setup</span> &gt; <span class="label">System&nbsp;/&nbsp;Power</span> &gt; <span class="label">System</span> 页签）中的 <span class="label">96&nbsp;kHz</span> 和 <span class="label">48&nbsp;kHz</span> 按钮更改控制台采样率。舞台接口箱也必须改为与控制台采样率一致；见下文。
 </p>
 
-<p>除 FX Loop（效果环路）和可选 Dante 模块接口外，将采样率降至 48 kHz 不会增加总输入/输出数量；每个 MADI 端口在 48 kHz 下承载 64 个通道，但奇偶编号的 MADI 端口对始终互为冗余（双卡 Blacklight 集线器上的偶数编号端口会被禁用）。</p>
+<p>除 FX Loop 和可选 Dante 模块接口外，将采样率降至 48 kHz 不会增加总输入/输出数量；每个 MADI 端口在 48 kHz 下承载 64 个通道，但奇偶编号的 MADI 端口对始终互为冗余（双卡 Blacklight 集线器上的偶数编号端口会被禁用）。</p>
 
 <p><span class="note"><span class="notetitle">重要：</span>更改控制台采样率会中断音频，并因需要更改舞台接口箱配置而导致路由断开。建议在切换采样率时将所有输出静音，并在切换后继续静音 30 秒。</span></p>
 

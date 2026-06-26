@@ -30,7 +30,7 @@
 <p>每一列代表一种不同的 I/O 卡类型：</p>
 
 <ul class="tab">
-    <li><span style="font-weight: bold;">Local</span> 显示 <span style="font-weight: bold;">Internal（本地）</span> I/O、<span style="font-weight: bold;">FX Loop（效果环路）</span> MADI 光纤和可选的 <span style="font-weight: bold;">Dante</span> 模块。</li>
+    <li><span style="font-weight: bold;">Local</span> 显示 <span style="font-weight: bold;">Internal（本地）</span> I/O、<span style="font-weight: bold;">FX Loop</span> MADI 光纤和可选的 <span style="font-weight: bold;">Dante</span> 模块。</li>
     <li><span style="font-weight: bold;">MADI</span> 显示控制台背面的 BNC/SC 光纤 MADI 端口。这些端口按四个或八个一组排列，列标题中以字母（<span style="font-weight: bold;">A</span>、<span style="font-weight: bold;">B</span> 或 <span style="font-weight: bold;">C</span>）标识，并与控制台后面板的标注一致。</li>
     <li><span style="font-weight: bold;">BLII</span> 或 <span style="font-weight: bold;">X-Light</span> 表示可选的 Blacklight II/X-Light 端口，用于连接 Blacklight II to MADI Conccentrator、Net I/O BLII Bridge 或 X-Light Bridge。最多可安装两个 BLII 端口，列标题和控制台后面板上分别以 <span style="font-weight: bold;">1</span> 或 <span style="font-weight: bold;">2</span> 标识。</li>
 </ul>
@@ -93,7 +93,7 @@
 <p>BLII/X-Light 端口配置存储在演出文件中。</p>
 
 <p>如果使用 <span style="font-weight:bold;">BLII to MADI Concentrator</span>，该设备现已配置完毕，可以使用。</p>
-<p>如果使用 <span style="font-weight:bold;">Net I/O BLII Bridge</span> 或 <span style="font-weight:bold;">X-Light Bridge</span>，请参阅<a href="https://livehelp.solidstatelogic.com/Help/DanteBridges.html"><span class="hyperlink">使用 BLII 和 X-Light Bridge</span></a>。</p>
+<p>如果使用 <span style="font-weight:bold;">Net I/O BLII Bridge</span> 或 <span style="font-weight:bold;">X-Light Bridge</span>，请参阅 <a href="https://livehelp.solidstatelogic.com/Help/DanteBridges.html"><span class="hyperlink">使用 BLII 和 X-Light Bridge</span></a>。</p>
 
 
 <h2>MADI 和经由 BLII 的 MADI</h2>
@@ -110,9 +110,9 @@
 
 <span class="note"><span class="notetitle">注意：</span>要更换为其他设备，需要在 MADI 和 BLII 端口列表下方的详细信息窗格中确认更改。</span>
 
-<p>如果定义的设备与端口检测到的设备不匹配，方框背景将变为红色；请检查连接或手动更改设备类型。在 MADI 和 BLII 端口列表下方的 Detail 窗格中确认要使用的设备。</p>
+<p>如果定义的设备与端口检测到的设备不匹配，方框背景将变为红色；请检查连接或手动更改设备类型。在 MADI 和 BLII 端口列表下方的详情窗格中确认要使用的设备。</p>
 
-<span class="note"><span class="notetitle">注意：</span>如果已基于原始配置完成进一步设置后再更换设备，这些设置可能不再有效。</span>
+<span class="note"><span class="notetitle">注意：</span>如果已基于原始配置完成进一步设置后再更换设备，之前的设置可能不再有效。</span>
 
 <p>设备选项如下：</p>
 
@@ -134,7 +134,7 @@
 
 <p>如果下方指示灯亮起，表示该端口属于一个冗余端口对（见下文）。</p>
 
-<span class="note"><span class="notetitle">注意：</span>如果使用 16 端口 Blacklight MADI 集中器，将有四个指示灯；每个冗余硬件连接对应一对。</span>
+<span class="note"><span class="notetitle">注意：</span>如果使用 16 端口 Blacklight MADI Concentrator，将有四个指示灯；每个冗余硬件连接对应一对。</span>
 
 <h3>冗余</h3>
 
@@ -245,9 +245,8 @@
 <p>Live 控制台还可安装 Dante 扩展卡模块。它可为控制台增加最多 64 路 Dante I/O（取决于采样率；见下文）。</p>
 
 <p>
-    在 I/O 页面最左侧一列中选择 Dante Expander Module。屏幕下部会显示 Dante Expander 的选项。
-    <span style="font-weight: bold;">Recorder ID</span> 按钮将在下一节说明：
-    <a href="https://livehelp.solidstatelogic.com/Help/RecordingPlayback.html"><span class="hyperlink">多轨录音与播放</span></a>。选择 <span class="label">Free&nbsp;Route</span> 按钮，
+    在 I/O 页面最左侧一列中选择 Dante Expander 模块。屏幕下部会显示 Dante Expander 的选项。
+    <span style="font-weight: bold;">Recorder ID</span> 按钮将在下一节说明：<a href="https://livehelp.solidstatelogic.com/Help/RecordingPlayback.html"><span class="hyperlink">多轨录音与播放</span></a>。选择 <span class="label">Free&nbsp;Route</span> 按钮，
     可在控制台路由系统中自由路由 Dante I/O。
 </p>
 
@@ -318,7 +317,7 @@
 
 <p>
     启用 Dante SRC 时，不应让控制台从 Dante 网络获取时钟。有关与 Dante 网络之间时钟设置的更多信息，
-    请参阅<a href="https://livehelp.solidstatelogic.com/Help/Clocking.html#Dante"><span class="hyperlink">系统时钟设置</span></a>一节。
+    请参阅 <a href="https://livehelp.solidstatelogic.com/Help/Clocking.html#Dante"><span class="hyperlink">系统时钟设置</span></a> 一节。
 </p>
 
 <p>有关设置 Dante、Net I/O 舞台接口箱或 BLII/X-Light Bridge 的更多信息，请参阅 <a href="https://livehelp.solidstatelogic.com/Help/DanteConfig.html"><span class="hyperlink">I/O 设置：Dante</span></a>。</p>

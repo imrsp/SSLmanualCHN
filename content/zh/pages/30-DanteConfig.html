@@ -168,7 +168,7 @@
   <li>ULXD4Q (参见 <a href="https://livehelp.solidstatelogic.com/Help/ShureIO.html#Wireless"><span class="hyperlink">Shure 无线设备</span></a>)</li>
   <li>Generic Dante (任何其他 Dante 设备)</li>
 </ul>
-<p>* 当 SSL 网络 I/O 舞台接口箱连接到 Dante 网络时，它将在控制台上显示为两个独立的 Dante 设备：Main uncompensated/gain dependant 设备和 Comp gain compensated 设备。详见<a href="https://livehelp.solidstatelogic.com/Help/DanteNetIO.html#GainShare"><span class="hyperlink">增益共享</span></a>部分。</p>
+<p>* 当 SSL 网络 I/O 舞台接口箱连接到 Dante 网络时，它将在控制台上显示为两个独立的 Dante 设备：Main uncompensated/gain dependant 设备和 Comp gain compensated 设备。详见 <a href="https://livehelp.solidstatelogic.com/Help/DanteNetIO.html#GainShare"><span class="hyperlink">增益共享</span></a> 部分。</p>
 <p>选择您要添加的设备，一个离线设备将被添加到“Configured Devices”列表中。新设备的状态 LED 将为灰色，表示它从未在线。</p>
 <p>您现在可以在任何路由视图（信号路径 Inputs/Outputs、FX Rack 等）或 XY Routing 页面中路由到/来自此设备。</p>
 <h3>建立双域路由</h3>
@@ -177,8 +177,8 @@
 <p>请勿尝试从 Dante Controller 建立或取消双域路由。 所有双域路由都必须从控制台建立或取消。</p>
 <h3>将离线设备与在线设备关联</h3>
 <p>当离线“Configured Device”的设备名称和类型与“Connected device”匹配时，两者将自动关联。以前离线的设备将上线。 存储在离线设备中的所有舞台接口箱设置将被推送到舞台接口箱*，并且到/来自离线设备的路由将被分配给在线设备**。 这允许在断电或断开连接时不会丢失路由或设备设置。</p>
-<p>*前提是满足所有所有权要求（参见<a href="https://livehelp.solidstatelogic.com/Help/DanteNetIO.html#Ownership"><span class="hyperlink">所有权</span></a>部分）</p>
-<p>**前提是此设备与网络上其他设备之间的现有路由不存在路由冲突（参见<a href="https://livehelp.solidstatelogic.com/Help/DanteConfig.html#Conflict"><span class="hyperlink">路由冲突</span></a>）。</p>
+<p>*前提是满足所有所有权要求（参见 <a href="https://livehelp.solidstatelogic.com/Help/DanteNetIO.html#Ownership"><span class="hyperlink">所有权</span></a> 部分）</p>
+<p>**前提是此设备与网络上其他设备之间的现有路由不存在路由冲突（参见 <a href="https://livehelp.solidstatelogic.com/Help/DanteConfig.html#Conflict"><span class="hyperlink">路由冲突</span></a>）。</p>
 <p>要关联离线和在线设备，首先点击 Edit，然后将在线的“Connected Device”拖放到相应的离线“Configured device”上。</p>
 <figure><img src="https://livehelp.solidstatelogic.com/Help/images/g_DanteAssign.png" alt="图片 6"><figcaption>图片 6</figcaption></figure>
 <p>点击“Assign to Configured Device”进行确认。</p>
@@ -209,7 +209,7 @@
 </ul>
 <h3>先到先得</h3>
 <p>当设备在网络上线或加载新的演出文件时，Dante 路由遵循先到先得的原则。 因此，如果到同一目的地的两条路由之间存在冲突，将保留最先创建的路由。 随后对同一目的地进行的任何路由都不会被建立。 这意味着 Dante 路由永远不会被自动取消。</p>
-<p>但是，控制台可以在 XY Routing 页面中手动覆盖现有路由。请参见下面的<a href="https://livehelp.solidstatelogic.com/Help/DanteConfig.html#Overwrite"><span class="hyperlink">手动覆盖现有 Dante 路由</span></a>。</p>
+<p>但是，控制台可以在 XY Routing 页面中手动覆盖现有路由。请参见下面的 <a href="https://livehelp.solidstatelogic.com/Help/DanteConfig.html#Overwrite"><span class="hyperlink">手动覆盖现有 Dante 路由</span></a>。</p>
 <h3>当控制台断电或离线时</h3>
 <p>当控制台从主屏幕正确关机时，所有到/来自控制台的 Dante 路由都会被取消。 这释放了先前包含到/来自控制台路由的 Dante 设备， 这些路由点现在可以被网络上的其他 Dante 设备使用。</p>
 <p>当控制台断电或未正确关机时（例如拔掉 PSU 电缆或关闭 PSU 电源）， 所有到/来自控制台的 Dante 路由都将保留。 这会导致控制台先前使用的其他 Dante 设备上的任何路由点无法用于进一步的路由。</p>
