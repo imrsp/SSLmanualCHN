@@ -119,13 +119,23 @@ button, a { -webkit-tap-highlight-color: transparent; }
 }
 
 .brand-mark {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   padding: 6px 8px;
   background: var(--acid);
   color: var(--brand-accent-text);
-  font-family: var(--font-brand);
   font-size: 21px;
-  letter-spacing: -.04em;
+  line-height: 0;
   transform: skew(-6deg);
+  flex: 0 0 auto;
+}
+
+.brand-mark svg {
+  display: block;
+  width: 1.3346em;
+  height: 1em;
+  overflow: visible;
 }
 
 .brand-copy { display: grid; gap: 2px; }
