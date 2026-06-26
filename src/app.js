@@ -278,12 +278,110 @@ async function loadData(path, readLocalValue) {
 
 function updateInstallButtonVisibility() {
   if (!elements.installButton) return;
-  const installed =
-    window.matchMedia("(display-mode: standalone)").matches ||
-    window.matchMedia("(display-mode: fullscreen)").matches ||
-    window.navigator.standalone === true;
+  const installed = isStandalonePwa();
   elements.installButton.hidden = !deferredInstallPrompt || installed;
 }
+
+function isStandalonePwa() {
+  return (
+    window.matchMedia("(display-mode: standalone)").matches ||
+    window.matchMedia("(display-mode: fullscreen)").matches ||
+    window.navigator.standalone === true
+  );
+}
+
+var mobileSidebarMql = window.matchMedia("(max-width: 760px)");
+var compactOutlineMql = window.matchMedia("(max-width: 980px)");
+var mobileScrollLockY = 0;
+var mobileScrollLocked = false;
+var mobileBackgroundScrollLocked = false;
+var outlineScrollTrapActive = false;
+var outlineTouchStartY = 0;
+
+function preventBackgroundTouchMove(event) {
+  if (!elements.sidebar.classList.contains("open")) return;
+  if (elements.sidebar.contains(event.target)) return;
+  event.preventDefault();
+}
+
+function outlineCanScrollBy(deltaY) {
+  if (!elements.outline || !elements.outline.classList.contains("open")) return false;
+  var maxScrollTop = elements.outline.scrollHeight - elements.outline.clientHeight;
+  if (maxScrollTop <= 0) return false;
+  if (deltaY < 0) return elements.outline.scrollTop > 0;
+  if (deltaY > 0) return elements.outline.scrollTop < maxScrollTop;
+  return false;
+}
+
+function preventOutlineScrollChain(event) {
+  if (!elements.outline.classList.contains("open")) return;
+  var deltaY = 0;
+  if (event.type === "wheel") {
+    deltaY = event.deltaY;
+  } else if (event.type === "touchmove") {
+    var touch = event.touches[0];
+    if (!touch) return;
+    deltaY = outlineTouchStartY - touch.clientY;
+  }
+  if (outlineCanScrollBy(deltaY)) return;
+  event.preventDefault();
+}
+
+function handleOutlineTouchStart(event) {
+  outlineTouchStartY = event.touches[0]?.clientY || 0;
+}
+
+function setMobileBackgroundScrollLock(locked) {
+  if (locked === mobileBackgroundScrollLocked) return;
+  mobileBackgroundScrollLocked = locked;
+  const method = locked ? "addEventListener" : "removeEventListener";
+  document[method]("touchmove", preventBackgroundTouchMove, { passive: false });
+  document[method]("wheel", preventBackgroundTouchMove, { passive: false });
+}
+
+function setOutlineScrollTrap(active) {
+  if (active === outlineScrollTrapActive) return;
+  outlineScrollTrapActive = active;
+  const method = active ? "addEventListener" : "removeEventListener";
+  elements.outline[method]("wheel", preventOutlineScrollChain, { passive: false });
+  elements.outline[method]("touchstart", handleOutlineTouchStart, { passive: true });
+  elements.outline[method]("touchmove", preventOutlineScrollChain, { passive: false });
+}
+
+function syncOutlineScrollTrap() {
+  setOutlineScrollTrap(compactOutlineMql.matches && elements.outline.classList.contains("open"));
+}
+
+function lockMobileScroll() {
+  if (!mobileSidebarMql.matches) return;
+  setMobileBackgroundScrollLock(true);
+  if (mobileScrollLocked || !isStandalonePwa()) return;
+  mobileScrollLockY = window.scrollY || document.documentElement.scrollTop || 0;
+  mobileScrollLocked = true;
+  document.body.style.position = "fixed";
+  document.body.style.top = `-${mobileScrollLockY}px`;
+  document.body.style.left = "0";
+  document.body.style.right = "0";
+  document.body.style.width = "100%";
+}
+
+function unlockMobileScroll() {
+  setMobileBackgroundScrollLock(false);
+  if (!mobileScrollLocked) return;
+  mobileScrollLocked = false;
+  document.body.style.position = "";
+  document.body.style.top = "";
+  document.body.style.left = "";
+  document.body.style.right = "";
+  document.body.style.width = "";
+  window.scrollTo({ top: mobileScrollLockY, left: 0, behavior: "auto" });
+}
+
+mobileSidebarMql.addEventListener("change", function (event) {
+  if (!event.matches) closeMobilePanels();
+});
+
+compactOutlineMql.addEventListener("change", syncOutlineScrollTrap);
 
 window.addEventListener("beforeinstallprompt", function (event) {
   event.preventDefault();
@@ -823,6 +921,12 @@ function toggleSidebar() {
   const open = elements.sidebar.classList.toggle("open");
   elements.scrim.classList.toggle("open", open);
   document.body.classList.toggle("sidebar-open", open);
+  document.documentElement.classList.toggle("sidebar-open", open);
+  if (open) {
+    lockMobileScroll();
+  } else {
+    unlockMobileScroll();
+  }
 }
 
 function closeMobilePanels() {
@@ -830,6 +934,9 @@ function closeMobilePanels() {
   elements.outline.classList.remove("open");
   elements.scrim.classList.remove("open");
   document.body.classList.remove("sidebar-open");
+  document.documentElement.classList.remove("sidebar-open");
+  setOutlineScrollTrap(false);
+  unlockMobileScroll();
 }
 
 async function start() {
@@ -911,7 +1018,10 @@ elements.searchPanel.addEventListener("focusout", function () {
 });
 elements.menuButton.addEventListener("click", toggleSidebar);
 elements.scrim.addEventListener("click", closeMobilePanels);
-elements.outlineButton.addEventListener("click", () => elements.outline.classList.toggle("open"));
+elements.outlineButton.addEventListener("click", () => {
+  const open = elements.outline.classList.toggle("open");
+  syncOutlineScrollTrap();
+});
 elements.installButton.addEventListener("click", async function () {
   if (!deferredInstallPrompt) return;
   deferredInstallPrompt.prompt();
@@ -926,6 +1036,7 @@ document.addEventListener("click", (event) => {
   if (!elements.outline.classList.contains("open")) return;
   if (elements.outline.contains(event.target) || elements.outlineButton.contains(event.target)) return;
   elements.outline.classList.remove("open");
+  syncOutlineScrollTrap();
 });
 
 document.addEventListener("click", function (event) {
@@ -1038,21 +1149,26 @@ window.addEventListener("keydown", (event) => {
     event.preventDefault();
     elements.searchInput.focus();
   }
-  if (event.key === "Escape") { closeMobilePanels(); }
+  if (event.key === "Escape") {
+    if (elements.outline.classList.contains("open")) {
+      elements.outline.classList.remove("open");
+      syncOutlineScrollTrap();
+      return;
+    }
+    closeMobilePanels();
+  }
 });
 
 
 /* — Mobile swipe gesture for sidebar (PWA-only, ≤760px) — */
 (function () {
-  var isPwa = window.matchMedia("(display-mode: standalone)").matches || navigator.standalone;
-  if (!isPwa) return;
-  var mql = window.matchMedia("(max-width: 760px)");
-  if (!mql.matches) return;
+  if (!isStandalonePwa()) return;
+  if (!mobileSidebarMql.matches) return;
 
   var x0, y0;
 
   document.addEventListener("touchstart", function (e) {
-    if (!mql.matches) return;
+    if (!mobileSidebarMql.matches) return;
     if (e.target === elements.searchInput) return;
     if (!elements.sidebar.classList.contains("open") &&
         (elements.scrim.contains(e.target) || elements.searchPanel.contains(e.target))) return;
@@ -1061,14 +1177,15 @@ window.addEventListener("keydown", (event) => {
   }, { passive: true });
 
   document.addEventListener("touchend", function (e) {
-    if (!mql.matches || x0 === undefined) return;
+    if (!mobileSidebarMql.matches || x0 === undefined) return;
     var w = window.innerWidth;
+    var startX = x0;
     var dx = e.changedTouches[0].clientX - x0;
     var dy = Math.abs(e.changedTouches[0].clientY - y0);
     x0 = y0 = undefined;
     if (dy > w * 0.08 || Math.abs(dx) < w * 0.12) return;
 
-    if (!elements.sidebar.classList.contains("open") && dx > w * 0.12 && x0 < w * 0.5) { toggleSidebar(); return; }
+    if (!elements.sidebar.classList.contains("open") && dx > w * 0.12 && startX < w * 0.5) { toggleSidebar(); return; }
     if (elements.sidebar.classList.contains("open") && dx < -(w * 0.12)) { closeMobilePanels(); }
   }, { passive: true });
 })();
