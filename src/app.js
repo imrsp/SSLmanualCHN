@@ -7,6 +7,7 @@
    currentPage: null,
    query: "",
    searchShowCount: 12,
+   pendingSearchHeadingId: null,
    language: "zh",
   theme: "auto",
   themePreset: null,
@@ -239,6 +240,14 @@ const escapeHtml = (value) =>
   })[character]);
 
 const normalize = (value) => value.toLocaleLowerCase().replace(/\s+/g, " ").trim();
+const contentHeadingSelector = [
+  ".manual-content h1[id]",
+  ".manual-content h2[id]",
+  ".manual-content h3[id]",
+  ".manual-content h4[id]",
+  ".manual-content h5[id]",
+  ".manual-content h6[id]",
+].join(", ");
 const dataUrl = (path) => {
   const url = new URL(`data/${path}`, document.baseURI);
   if (typeof window.__BUILD_HASH__ !== "undefined" && location.protocol !== "file:") {
@@ -535,17 +544,9 @@ function renderSearchResultsInNav() {
       if (state.language !== targetLanguage) {
         state.language = targetLanguage;
       }
-      if (hash === location.hash) {
-        if (state.currentPage) {
-          renderPage(state.currentPage, btn.dataset.headingId || "");
-        }
-        highlightPageContent(state.query.trim());
-        requestAnimationFrame(function () {
-          ensureSearchHighlightVisible(btn.dataset.headingId);
-        });
-      } else {
-        location.hash = hash;
-      }
+      state.pendingSearchHeadingId = btn.dataset.headingId || "";
+      if (hash !== location.hash) history.pushState(null, "", hash);
+      route();
     });
   });
   var loadMoreBtn = elements.manualNav.querySelector(".search-load-more");
@@ -593,7 +594,7 @@ function highlightPageContent(query) {
   });
 }
 
-function ensureSearchHighlightVisible(headingId) {
+function ensureSearchHighlightVisible(headingId, forceScroll = false) {
   var highlights = elements.document.querySelectorAll(".search-highlight");
   if (!highlights.length) return;
   var target = highlights[0];
@@ -612,7 +613,7 @@ function ensureSearchHighlightVisible(headingId) {
   }
   var rect = target.getBoundingClientRect();
   var viewportHeight = window.innerHeight;
-  if (rect.bottom > viewportHeight || rect.top < 0) {
+  if (forceScroll || rect.bottom > viewportHeight || rect.top < 0) {
     target.scrollIntoView({ behavior: "smooth", block: "center" });
   }
 }
@@ -803,6 +804,58 @@ function configurePageLinks() {
   });
 }
 
+function getReadableScrollRatio() {
+  var maxScroll = Math.max(0, document.documentElement.scrollHeight - window.innerHeight);
+  return maxScroll ? window.scrollY / maxScroll : 0;
+}
+
+function getContentHeadings() {
+  return Array.from(document.querySelectorAll(contentHeadingSelector))
+    .filter((heading) => heading.closest("details")?.open !== false);
+}
+
+function getVisibleHeadingIndex() {
+  var headings = getContentHeadings();
+  var targetIdx = -1;
+  var minVisibleTop = Infinity;
+
+  headings.forEach((heading, index) => {
+    var top = heading.getBoundingClientRect().top;
+    if (top >= 0 && top < window.innerHeight && top < minVisibleTop) {
+      minVisibleTop = top;
+      targetIdx = index;
+    }
+  });
+  if (targetIdx >= 0) return targetIdx;
+
+  var closestAbove = -Infinity;
+  headings.forEach((heading, index) => {
+    var top = heading.getBoundingClientRect().top;
+    if (top < 0 && top > closestAbove) {
+      closestAbove = top;
+      targetIdx = index;
+    }
+  });
+  return targetIdx;
+}
+
+function restoreScrollByRatio(scrollRatio) {
+  var maxScroll = Math.max(0, document.documentElement.scrollHeight - window.innerHeight);
+  window.scrollTo({ top: Math.round(maxScroll * scrollRatio), behavior: "instant" });
+}
+
+function scrollToHeadingIndex(index, fallbackRatio) {
+  requestAnimationFrame(() => {
+    var target = getContentHeadings()[index];
+    if (!target) {
+      restoreScrollByRatio(fallbackRatio);
+      return;
+    }
+    target.closest("details")?.setAttribute("open", "");
+    target.scrollIntoView();
+  });
+}
+
 function renderStandalonePage(page, headingId = "", skipScroll = false) {
   state.currentPage = page;
   elements.breadcrumbs.innerHTML = escapeHtml(page.titleZh);
@@ -903,11 +956,14 @@ async function route() {
   }
   elements.document.setAttribute("aria-busy", "true");
   try {
-    renderPage(await loadPage(pageId), headingId);
+    const searchHeadingId = state.pendingSearchHeadingId;
+    state.pendingSearchHeadingId = null;
+    const isSearchNavigation = searchHeadingId !== null;
+    renderPage(await loadPage(pageId), isSearchNavigation ? "" : headingId, isSearchNavigation);
     if (state.query.trim() && (state.searchIndexZh || state.searchIndexEn)) {
       highlightPageContent(state.query.trim());
       requestAnimationFrame(function () {
-        ensureSearchHighlightVisible(headingId);
+        ensureSearchHighlightVisible(isSearchNavigation ? searchHeadingId : headingId, isSearchNavigation);
       });
     }
   } catch (error) {
@@ -1083,40 +1139,8 @@ elements.searchEnToggle.addEventListener("change", function () {
   elements.languageToggle.addEventListener("click", () => {
     if (state.currentPage?.translationStatus !== "complete") return;
 
-    /* Find heading by index (IDs differ between zh/en pages) */
-    let targetIdx = -1;
-    const vpHeight = window.innerHeight;
-    const headings = document.querySelectorAll(
-      ".manual-content h1[id], .manual-content h2[id], .manual-content h3[id]," +
-      ".manual-content h4[id], .manual-content h5[id], .manual-content h6[id]",
-    );
-    /* First pass: headings whose top edge is in the viewport */
-    let minDist = Infinity;
-    headings.forEach((el, i) => {
-      /* Skip headings inside closed <details> — their getBoundingClientRect
-         returns top=0 and would wrongly beat visible headings */
-      if (el.closest("details")?.open === false) return;
-      const rect = el.getBoundingClientRect();
-      if (rect.top >= 0 && rect.top < vpHeight && rect.top < minDist) {
-        minDist = rect.top;
-        targetIdx = i;
-      }
-    });
-    /* Second pass: no heading in viewport — pick the nearest heading
-       that has been scrolled just above the viewport */
-    if (targetIdx === -1) {
-      /* No heading in viewport — find the nearest heading above,
-         even if it is fully scrolled out of view */
-      let closestAbove = -Infinity;
-      headings.forEach((el, i) => {
-        if (el.closest("details")?.open === false) return;
-        const rect = el.getBoundingClientRect();
-        if (rect.top < 0 && rect.top > closestAbove) {
-          closestAbove = rect.top;
-          targetIdx = i;
-        }
-      });
-    }
+    const targetIdx = getVisibleHeadingIndex();
+    const scrollRatio = getReadableScrollRatio();
 
     state.language = state.language === "zh" ? "en" : "zh";
     if (state.currentPage?.standalone) {
@@ -1128,22 +1152,14 @@ elements.searchEnToggle.addEventListener("change", function () {
       setTimeout(function () { highlightPageContent(state.query.trim()); }, 0);
     }
 
-    /* Scroll directly to heading by index — renderPage skips its own scroll */
     if (targetIdx >= 0) {
-      requestAnimationFrame(() => {
-        const found = document.querySelectorAll(
-          ".manual-content h1[id], .manual-content h2[id], .manual-content h3[id]," +
-          ".manual-content h4[id], .manual-content h5[id], .manual-content h6[id]",
-        );
-        const target = found[targetIdx];
-        if (target) {
-          target.closest("details")?.setAttribute("open", "");
-          target.scrollIntoView();
-        }
-      });
+      scrollToHeadingIndex(targetIdx, scrollRatio);
+    } else {
+      restoreScrollByRatio(scrollRatio);
     }
-  })
+  });
 window.addEventListener("hashchange", function () { route(); });
+window.addEventListener("popstate", function () { route(); });
 window.addEventListener("keydown", (event) => {
   if (event.key === "/" && document.activeElement !== elements.searchInput) {
     event.preventDefault();
