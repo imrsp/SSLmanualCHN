@@ -18,7 +18,7 @@
 <body>
   <p class="source">章节：混音 | 来源： <a href="https://livehelp.solidstatelogic.com/Help/AutoTime.html">https://livehelp.solidstatelogic.com/Help/AutoTime.html</a></p>
 <h2>场景时间功能</h2>
-<p>除了从 Master Tile 或主屏幕手动触发场景（如 <span class="hyperlink">自动化概述</span>中所述），还可使用时间功能触发场景。</p>
+<p>除了从主控区块或主屏幕手动触发场景（如 <span class="hyperlink">自动化概述</span>中所述），还可使用时间功能触发场景。</p>
 <p>当控制台时间码到达指定值时，可自动触发场景。</p>
 <p>为场景设置触发时间的方法如下：</p>
 <p>触摸所需场景 <span style="font-weight: bold;">Trigger Time</span> 列中的时间码显示。Trigger Time 配置页面会在屏幕下半部分打开。</p>
@@ -30,7 +30,7 @@
 <p>如果启用 <span class="label">One&nbsp;Shot</span> 按钮，场景会在下次到达其时间码时触发，随后解除待命，以防再次由时间码触发。</p>
 <p>该 <span style="font-weight: bold;">Trigger&nbsp;Time</span> 功能列可通过触摸列标题全局禁用 &#8211; 标题会变红，列内容变灰，表示该列未启用。此后，即使到达时间码，带 Trigger Time 的场景也不会触发。</p>
 
-<h2 id="FadeTime">淡变时间</h2>
+<h2 id="FadeTime">Fade Time（淡变时间）</h2>
 <p>场景列表中的 <span style="font-weight: bold;">Fade&nbsp;Time</span> 字段显示完整淡入该场景所需的时间。由于淡变按各元素分别定义，因此该数值不能直接编辑。</p>
 
 <p>更改场景各元素淡变时间的方法如下：</p>
@@ -40,9 +40,8 @@
 <img style="display: block; margin: 20px auto;" src="https://livehelp.solidstatelogic.com/Help/images/g_autoFadeTimes.png" alt="">
 
 <p>在屏幕顶部选择 <span class="label">Default</span> 或 <span class="label">Scene&nbsp;Mode</span> ，分别编辑新场景的默认淡变时间或当前所选场景的淡变时间。</p>
-<span class="note"><span class="notetitle">注意：</span> <span style="font-weight: bold;">Default</span> 淡变时间只应用于新场景，不影响现有场景（包括当前所选场景）的淡变计时器。</span>
-<p>启用屏幕右侧的 <span class="label">Edit</span> 按钮。</p>
-<p>在 <span style="font-weight: bold;">Scene&nbsp;Mode</span>中，可通过更改编辑范围模式，将更改仅应用于 Selected 场景、同一 Group 中的全部场景（参阅 <a href="https://livehelp.solidstatelogic.com/Help/AutoGrouping.html"><span class="hyperlink">场景组</span></a>）或全部场景；按住 <span class="label">Edit</span> 按钮正上方的按钮，然后选择 <span class="label">Edit&nbsp;Single</span> （默认）、 <span class="label">Edit&nbsp;Group</span> 或 <span class="label">Edit&nbsp;All</span>。之后对 Fade Time 的更改会应用到所定义的场景范围。</p>
+<span class="note"><span class="notetitle">注意：</span> <span style="font-weight: bold;">默认</span> 淡变时间只应用于新场景，不影响现有场景（包括当前所选场景）的淡变计时器。</span>
+<p>启用屏幕右侧的 <span class="label">Edit</span> 按钮。</p>组内的全部场景（参阅 <a href="https://livehelp.solidstatelogic.com/Help/AutoGrouping.html"><span class="hyperlink">场景组</span></a>）或全部场景；按住 <span class="label">Edit</span> 按钮正上方的按钮，然后选择 <span class="label">Edit&nbsp;Single</span> （默认）、 <span class="label">Edit&nbsp;Group</span> 或 <span class="label">Edit&nbsp;All</span>。之后对淡变时间的更改会应用到所定义的场景范围。</p>
 <p>如需查看单独的信号路径，请选择路径类型行（例如 Input Channel），然后使用屏幕顶部的 <span class="label">Show&nbsp;Details</span> 按钮打开详细路径列表。</p>
 
 <p>双击时间字段可打开该元素的时间设置，其中有三项时间：</p>
@@ -51,13 +50,13 @@
 
 <p><span style="font-weight: bold;">Start time：</span> 从触发场景到淡变开始之间的延迟。</p>
 <p><span style="font-weight: bold;">Duration：</span> 淡变过程持续的时间。</p>
-<p><span style="font-weight: bold;">Switch At：</span> 从触发场景到开关改变状态之间的延迟。</p>
+<p><span style="font-weight: bold;">Switch At：</span> 从触发场景到各切换键状态变更之间的延迟。</p>
 
 <p>点击屏幕右上角的 <span class="label">?</span> 按钮可在控制台上查看这些定义。</p>
 
 <p>使用 <span class="label">-</span> 和 <span class="label">+</span> 按钮以 0.5 秒为步长更改时间，或双击数值直接输入。按 <span class="label">OK</span> 确认输入的时间。点击弹窗外部可取消更改。</p>
 
-<p>场景列表中显示的 Fade Time 是最长的元素淡变时间，即最长的 <span style="font-weight: bold;">Start time</span> + <span style="font-weight: bold;">Duration</span> 之和，或 <span style="font-weight: bold;">Switch At</span> 时间。</p>
+<p>场景列表中显示的淡变时间是最长的元素淡变时间，即最长的 <span style="font-weight: bold;">Start time</span> + <span style="font-weight: bold;">Duration</span> 之和，或 <span style="font-weight: bold;">Switch At</span> 时间。</p>
 
 <p>按屏幕顶部的 <span class="label">Scene&nbsp;View</span> 按钮返回场景列表。</p>
 
@@ -67,7 +66,7 @@
 
 <p>在 <span class="label">Scene Automation</span>的 <span class="label">Fade Timers</span> 菜单中，可通过一次数值输入更改多个淡变时间（或其他连续功能）。这样可高效设置全部通道路径的某个子集（例如 64 个通道中的通道 1 至 32）的淡变时间，也可设置一个通道的全部参数、所有通道的全部参数，或所有信号路径类型中的一组参数。</p>
 
-<p><strong>多单元格编辑模式</strong>在 <strong>Fade Time</strong> 用户界面中，侧栏包含 <strong>Grid Cell Edit</strong> 区域。 <strong>Multi Cell Edit</strong> 按钮可将上方的“路径类型网格”和下方的 Show Details 网格（显示时）都设为多选模式，从而预选所有类型的多条路径中的一组参数，并应用共同的绝对值更改。更改会应用到两个网格中所有加入“所选编辑集”的单元格。所选编辑集是一种临时多选；用户关闭 <strong>Multi Cell Edit</strong> 模式后即会丢失。网格中属于当前所选编辑集的每个方格会在右上角显示青色三角形，表示已选中进行编辑。 <strong>Multi Cell Edit</strong> 编辑集可与 <strong>Multi Scene Edit</strong> 范围模式结合使用，在 <strong>Scene Mode</strong>下为单个场景、一个组或全部现有场景一次设置多个时间值；也可在 <strong>Default</strong> 模式下使用，确保这些时间值应用于之后创建的任何新场景。</p>
+<p><strong>Multi Cell Edit Mode（多单元格编辑模式）</strong>在 <strong>Fade Time</strong> 用户界面中，侧栏包含 <strong>Grid Cell Edit（网格编辑）</strong> 区域。 <strong>Multi Cell Edit</strong> 按钮可将上方的“路径类型网格”和下方的详细显示网格（显示时）都设为多选模式，可跨所有类型的多路径预选一组参数，统一施加通用的绝对更改。更改会应用到两个网格中所有加入“所选编辑集”的单元格。所选编辑集是一种临时多选；用户关闭 <strong>Multi Cell Edit</strong> 模式后即会丢失。网格中属于当前所选编辑集的每个方格会在右上角显示青色三角形，表示已选中进行编辑。 <strong>Multi Cell Edit</strong> 编辑集可与 <strong>Multi Scene Edit</strong> 范围模式结合使用，在 <strong>Scene Mode</strong>下为单个场景、一个组或全部现有场景一次设置多个时间值；也可在 <strong>Default</strong> 模式下使用，确保这些时间值能够应用于之后创建的任何新场景。</p>
 
 <img style="display: block; margin: 20px auto;" src="https://livehelp.solidstatelogic.com/Help/images/u_Multi_Fade_Time_Edit.png" alt="">
 
@@ -77,7 +76,7 @@
 
 为了快速选择单独路径的全部参数，或某一类型全部路径的全部参数，两个网格的每一行右侧都包含“行 <strong>Edit</strong>”列。该列仅在启用 <strong>Multi Cell Edit</strong> 模式时可见。此外，两个网格顶部都包含“列 <strong>Edit</strong>”行，同样仅在 <strong>Multi Cell Edit</strong> 模式下可见。列编辑选项用于将所有路径中同一类型的全部参数加入所选编辑集。</p>  
 
-<p>侧栏中的 <strong>Set All</strong>、 <strong>Toggle</strong> 和 <strong>Clear All</strong> 编辑功能按钮用于将推子/开关时间参数单元格加入所选编辑集。在 F<strong>ade Timers</strong> GUI 中，使用行/列编辑功能键只会更改哪些单元格属于所选编辑集，并不会实际改变任何状态或数值。</p>
+<p>侧栏中的 <strong>Set All</strong>、 <strong>Toggle</strong> 和 <strong>Clear All</strong> 编辑功能按钮用于将 fader/switch 时间参数单元格加入所选编辑集。在 <strong>Fade Timers GUI</strong>  中，使用行/列编辑功能键只会更改哪些单元格属于所选编辑集，并不会实际改变任何状态或数值。</p>
 
 <p>“行 <strong>Edit</strong>”列标题可将网格中的多行设为编辑模式；“列 <strong>Edit</strong>”行标题则可将所有列设为编辑状态。</p>
 
