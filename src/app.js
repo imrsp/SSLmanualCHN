@@ -291,14 +291,44 @@ function isStandalonePwa() {
 }
 
 var mobileSidebarMql = window.matchMedia("(max-width: 760px)");
+var compactOutlineMql = window.matchMedia("(max-width: 980px)");
 var mobileScrollLockY = 0;
 var mobileScrollLocked = false;
 var mobileBackgroundScrollLocked = false;
+var outlineScrollTrapActive = false;
+var outlineTouchStartY = 0;
 
 function preventBackgroundTouchMove(event) {
   if (!elements.sidebar.classList.contains("open")) return;
   if (elements.sidebar.contains(event.target)) return;
   event.preventDefault();
+}
+
+function outlineCanScrollBy(deltaY) {
+  if (!elements.outline || !elements.outline.classList.contains("open")) return false;
+  var maxScrollTop = elements.outline.scrollHeight - elements.outline.clientHeight;
+  if (maxScrollTop <= 0) return false;
+  if (deltaY < 0) return elements.outline.scrollTop > 0;
+  if (deltaY > 0) return elements.outline.scrollTop < maxScrollTop;
+  return false;
+}
+
+function preventOutlineScrollChain(event) {
+  if (!elements.outline.classList.contains("open")) return;
+  var deltaY = 0;
+  if (event.type === "wheel") {
+    deltaY = event.deltaY;
+  } else if (event.type === "touchmove") {
+    var touch = event.touches[0];
+    if (!touch) return;
+    deltaY = outlineTouchStartY - touch.clientY;
+  }
+  if (outlineCanScrollBy(deltaY)) return;
+  event.preventDefault();
+}
+
+function handleOutlineTouchStart(event) {
+  outlineTouchStartY = event.touches[0]?.clientY || 0;
 }
 
 function setMobileBackgroundScrollLock(locked) {
@@ -307,6 +337,19 @@ function setMobileBackgroundScrollLock(locked) {
   const method = locked ? "addEventListener" : "removeEventListener";
   document[method]("touchmove", preventBackgroundTouchMove, { passive: false });
   document[method]("wheel", preventBackgroundTouchMove, { passive: false });
+}
+
+function setOutlineScrollTrap(active) {
+  if (active === outlineScrollTrapActive) return;
+  outlineScrollTrapActive = active;
+  const method = active ? "addEventListener" : "removeEventListener";
+  elements.outline[method]("wheel", preventOutlineScrollChain, { passive: false });
+  elements.outline[method]("touchstart", handleOutlineTouchStart, { passive: true });
+  elements.outline[method]("touchmove", preventOutlineScrollChain, { passive: false });
+}
+
+function syncOutlineScrollTrap() {
+  setOutlineScrollTrap(compactOutlineMql.matches && elements.outline.classList.contains("open"));
 }
 
 function lockMobileScroll() {
@@ -337,6 +380,8 @@ function unlockMobileScroll() {
 mobileSidebarMql.addEventListener("change", function (event) {
   if (!event.matches) closeMobilePanels();
 });
+
+compactOutlineMql.addEventListener("change", syncOutlineScrollTrap);
 
 window.addEventListener("beforeinstallprompt", function (event) {
   event.preventDefault();
@@ -890,6 +935,7 @@ function closeMobilePanels() {
   elements.scrim.classList.remove("open");
   document.body.classList.remove("sidebar-open");
   document.documentElement.classList.remove("sidebar-open");
+  setOutlineScrollTrap(false);
   unlockMobileScroll();
 }
 
@@ -972,7 +1018,10 @@ elements.searchPanel.addEventListener("focusout", function () {
 });
 elements.menuButton.addEventListener("click", toggleSidebar);
 elements.scrim.addEventListener("click", closeMobilePanels);
-elements.outlineButton.addEventListener("click", () => elements.outline.classList.toggle("open"));
+elements.outlineButton.addEventListener("click", () => {
+  const open = elements.outline.classList.toggle("open");
+  syncOutlineScrollTrap();
+});
 elements.installButton.addEventListener("click", async function () {
   if (!deferredInstallPrompt) return;
   deferredInstallPrompt.prompt();
@@ -987,6 +1036,7 @@ document.addEventListener("click", (event) => {
   if (!elements.outline.classList.contains("open")) return;
   if (elements.outline.contains(event.target) || elements.outlineButton.contains(event.target)) return;
   elements.outline.classList.remove("open");
+  syncOutlineScrollTrap();
 });
 
 document.addEventListener("click", function (event) {
@@ -1099,7 +1149,14 @@ window.addEventListener("keydown", (event) => {
     event.preventDefault();
     elements.searchInput.focus();
   }
-  if (event.key === "Escape") { closeMobilePanels(); }
+  if (event.key === "Escape") {
+    if (elements.outline.classList.contains("open")) {
+      elements.outline.classList.remove("open");
+      syncOutlineScrollTrap();
+      return;
+    }
+    closeMobilePanels();
+  }
 });
 
 
