@@ -56,7 +56,7 @@
 
                     <p>如需更改数值，可拖动屏幕旋钮，或双击该数值并使用弹出的标准数字键盘进行编辑。</p>
                     
-                    <p>如需为 Peak Hold 和 Overload Hold 选择 Infinite，请先将参数设为最大数值，再用旋钮向上增加一级。</p>
+                    <p>如需为 Peak Hold 和 Overload Hold 选择 Infinite(无限保持)，请先将参数设为最大数值，再用旋钮向上增加一级。</p>
 
                     <p><span class="label">Clear Peaks</span> 和 <span class="label">Clear Overloads</span> 可用于清除不需要的峰值及过载保持指示。</p>
 
@@ -78,10 +78,10 @@
 
                     可为不同信号路径类型指定电平表取样点：<br>
 
-                    <span class="label">Input</span> （Trim 前）、 <span class="label">Post&nbsp;Trim</span>、 <span class="label">Pre&nbsp;Fader</span> 和 <span class="label">Post&nbsp;All</span> 选项可分别用于 <span style="font-weight: bold;">Input</span> Channels、 <span style="font-weight: bold;">Aux</span> Buses、 <span style="font-weight: bold;">Stem/Master</span> Buses 和 <span style="font-weight: bold;">Solo Channel</span>。<br><br>
+                    <span class="label">Input</span> （Trim 前）、 <span class="label">Post&nbsp;Trim</span>、 <span class="label">Pre&nbsp;Fader</span> 和 <span class="label">Post&nbsp;All</span> 选项可分别用于 <span style="font-weight: bold;">Input</span> 通道、 <span style="font-weight: bold;">Aux</span> 母线、 <span style="font-weight: bold;">Stem/Master</span> 母线和 <span style="font-weight: bold;">Solo Channel</span>。<br><br>
 
                     <span class="label">Post&nbsp;Trim</span>、 <span class="label">Pre&nbsp;Fader</span> 和 <span class="label">Post&nbsp;All</span> 选项可用于 <span style="font-weight: bold;">Talkback</span> 通道。<br><br>
-                    Matrix Channel 的电平表始终设置为 Post All。
+                    矩阵通道的电平表始终设置为 Post All。
                 </td>
                 <td style="vertical-align: middle; width: 250px;"><img style="margin: 20px 0px 0px 10px;" src="https://livehelp.solidstatelogic.com/Help/images/g_OptionsMeterSources.png" alt=""></td>
             </tr>
@@ -171,12 +171,11 @@
         <tbody>
             <tr>
                 <td style="vertical-align: top;">
-                    <h2>声道折叠</h2>
+                    <h2>声道下变换</h2>
 
-                    将 4.0 和 5.1 格式的 Channels 与 Stems 路由到 Stereo 和 Mono Stems、Auxes 及 Masters 时会应用 Folddown。系统也提供 Stereo 到 Mono 路由的折叠设置。可选择两套全局用户预设折叠方案，并分别调整 Centre 到 Left/Right、Surround Left/Right 到 Front Left/Right，以及整体 Left/Right 电平微调。<br>
-                    每条信号路径可使用 <span class="label">Use&nbsp;Alt&nbsp;Folddown</span> 按钮选择 Default 或 Alternative 设置；该按钮位于 <a href="https://livehelp.solidstatelogic.com/Help/DetailView.html#Eyeconix"><span class="hyperlink">Config Detail View</span></a> 页面。
-
-                    <span class="note"><span class="notetitle">注意：</span> 该 <span style="font-weight: bold;">Overall Output Trim</span> 参数仅在将带环绕声道的信号源折叠到只有前置声道的目标时生效。</span>
+                    将 4.0 和 5.1 格式的 Channels 与 Stems 路由到 Stereo 和 Mono Stems、Auxes 及 Masters 时会应用声道下变换。系统也提供 Stereo 到 Mono 路由的下变换设置。可选择两套全局用户预设下变换方案，并分别调整 Centre 到 Left/Right、Surround Left/Right 到 Front Left/Right，以及整体 Left/Right 电平微调。<br>
+                    每条信号路径可使用 <span class="label">Use&nbsp;Alt&nbsp;Folddown</span> 按钮选择 Default（默认） 或 Alternative（备用） 设置；该按钮位于 <a href="https://livehelp.solidstatelogic.com/Help/DetailView.html#Eyeconix"><span class="hyperlink">Config Detail View</span></a> 页面。
+                    <span class="note"><span class="notetitle">注意：</span> 该 <span style="font-weight: bold;">Overall Output Trim</span> 参数仅在将带环绕声道的信号源下变换到只有前置声道的目标时生效。</span>
                 </td>
                 <td style="vertical-align: top; width: 250px;"><img style="margin: 20px 0px 0px 10px;" src="https://livehelp.solidstatelogic.com/Help/images/g_OptionsFolddown.png" alt=""></td>
             </tr>
@@ -191,13 +190,13 @@
                 <td style="vertical-align: top;">
                     <h2 id="Chop">通道直接输出</h2>
 
-                    <p>可在此自定义 Input Channel 的 <span style="font-weight:bold;">默认输出取样点</span> 。新建 Input Channel 将采用该默认输出取样点。</p>
+                    <p>可在此自定义输入通道的 <span style="font-weight:bold;">默认输出取样点</span> 。新建输入通道将采用该默认输出取样点。</p>
 
                     <p>可选项为 <span style="font-weight:bold;">Post Trim</span>、 <span style="font-weight:bold;">Pre Fader</span>、 <span style="font-weight:bold;">Post Fader</span> 和 <span style="font-weight:bold;">Post All</span>。</p>
 
                     <span class="note"><span class="notetitle">注意：</span> 此选项可通过 Automation 过滤器页面中 <b>Console</b> 行的 <b>Output</b> 列进行自动化。</span>
 
-                    <p>如需逐通道更改 Direct Output Feed Point，请进入该通道 <span style="font-weight:bold;">Detail View</span> 中的 <a href="https://livehelp.solidstatelogic.com/Help/DetailView.html#Input"><span class="hyperlink">Input/Routing</span></a> 页面，然后点击右侧的 <span class="label">Output:</span>。</p>
+                    <p>如需逐通道更改 Direct Output Feed Point（直出取点位置），请进入该通道 <span style="font-weight:bold;">详情视图</span> 中的 <a href="https://livehelp.solidstatelogic.com/Help/DetailView.html#Input"><span class="hyperlink">Input/Routing</span></a> 页面，然后点击右侧的 <span class="label">Output:</span>。</p>
                 </td>
                 <td style="vertical-align: top; width: 250px;"><img style="margin: 20px 0px 0px 10px;" src="https://livehelp.solidstatelogic.com/Help/images/g_OptionsDirectOut.png" alt=""></td>
             </tr>
