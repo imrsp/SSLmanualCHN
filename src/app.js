@@ -394,7 +394,8 @@ function unlockMobileScroll() {
   document.body.style.left = "";
   document.body.style.right = "";
   document.body.style.width = "";
-  window.scrollTo({ top: mobileScrollLockY, left: 0, behavior: "auto" });
+  // Restore the page position instantly when leaving the mobile sidebar.
+  jumpToScrollTop(mobileScrollLockY);
 }
 
 mobileSidebarMql.addEventListener("change", function (event) {
