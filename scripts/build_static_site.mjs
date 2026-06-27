@@ -439,7 +439,7 @@ const searchIndexZh = pages.map((page) => {
 
 const searchIndexEn = pages.map((page) => {
   const englishPlain = toPlainText(page.englishHtml);
-  const englishBlocks = splitContentIntoBlocks(page.englishHtml, page.headings);
+  const englishBlocks = splitContentIntoBlocks(page.englishHtml, page.englishHeadings);
   return {
     id: page.id,
     title: page.title,

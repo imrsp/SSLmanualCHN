@@ -101,10 +101,18 @@ function normalizeTitle(html) {
   return toPlainText(html).replace(/\s+/g, " ").trim().toLocaleLowerCase();
 }
 
+function titleKey(html) {
+  return normalizeTitle(html).match(/[a-z0-9]+|[\u4e00-\u9fff]/g)?.sort().join("") ?? "";
+}
+
+function titlesMatch(a, b) {
+  return normalizeTitle(a) === normalizeTitle(b) || titleKey(a) === titleKey(b);
+}
+
 function removeRepeatedLeadingHeading(content, title) {
   const headingPattern = /^(\s*)<h([1-6])([^>]*)>([\s\S]*?)<\/h\2>/i;
   const match = content.match(headingPattern);
-  if (!match || normalizeTitle(match[4]) !== normalizeTitle(title)) return content;
+  if (!match || !titlesMatch(match[4], title)) return content;
   return content.slice(match[0].length).trimStart();
 }
 
@@ -146,7 +154,7 @@ export function removePageTitleHeading(html, pageTitle) {
   const headingPattern = /<h([1-6])([^>]*)>([\s\S]*?)<\/h\1>/gi;
   let match;
   while ((match = headingPattern.exec(html))) {
-    if (normalizeTitle(match[3]) !== normalizeTitle(pageTitle)) return html;
+    if (!titlesMatch(match[3], pageTitle)) return html;
     return `${html.slice(0, match.index)}${html.slice(match.index + match[0].length)}`;
   }
   return html;

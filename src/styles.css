@@ -1068,12 +1068,7 @@ kbd { padding: 2px 5px; border: 1px solid var(--line); color: var(--muted); back
    overflow-x: clip;
    padding: 0 16px 42px;
  }
- html.sidebar-open,
- body.sidebar-open {
-   overflow: hidden;
-   overscroll-behavior: none;
- }
- .reader-toolbar { gap: 8px; min-height: 50px; }
+  .reader-toolbar { gap: 8px; min-height: 50px; }
   .reader-actions { gap: 8px; }
   .reader-actions a { display: none; }
   .reader-layout { padding-top: 46px; }
