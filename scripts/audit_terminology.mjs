@@ -162,11 +162,17 @@ fs.writeFileSync(path.join(outputDirectory, "TERMINOLOGY_AUDIT.md"), [
   "",
 ].join("\n"));
 
-console.log(JSON.stringify({
-  glossaryTerms: report.glossaryTerms,
-  translatedPagesScanned: report.translatedPagesScanned,
-  duplicateTerms: report.duplicateTerms.length,
-  findings: report.findings.length,
-}, null, 2));
-for (const term of report.duplicateTerms) console.error(`Duplicate glossary term: ${term}`);
+console.log([
+  "=== 术语审计报告 ===",
+  "",
+  `  术语条目：${report.glossaryTerms}`,
+  `  已扫描译文：${report.translatedPagesScanned}`,
+  ...(report.duplicateTerms.length ? [`  [FAIL] 重复英文术语：${report.duplicateTerms.length}`] : [`  [OK]   无重复术语`]),
+  ...(report.findings.length ? [`  [WARN] 待确认问题：${report.findings.length}`] : [`  [OK]   无术语问题`]),
+  "",
+].join("\n"));
+for (const term of report.duplicateTerms) console.log(`  [FAIL] 重复术语：${term}`);
+for (const finding of report.findings) {
+  console.log(`  [WARN] \`${finding.termEn}\`：译文中保留英文 ${finding.count} 次，但未发现推荐译法"${finding.preferred}"；涉及 ${finding.files.join(", ")}`);
+}
 if (report.duplicateTerms.length) process.exitCode = 1;

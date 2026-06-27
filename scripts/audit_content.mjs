@@ -127,6 +127,9 @@ const pages = manifest.map((page) => {
       issues.push(`${key}: 英文 ${englishMetrics[key]} / 中文 ${chineseMetrics[key]}`);
     }
   }
+  if (englishMetrics.headings !== chineseMetrics.headings) {
+    issues.push(`headings: 英文 ${englishMetrics.headings} / 中文 ${chineseMetrics.headings}`);
+  }
   const englishImages = imageNames(english);
   const chineseImages = imageNames(chinese);
   const missingImages = englishImages.filter((image) => !chineseImages.includes(image));
@@ -166,9 +169,14 @@ const summary = {
   pages: pages.length,
   cleanPages: pages.filter((page) => !page.issues.length).length,
   reviewPages: pages.filter((page) => page.issues.length).length,
+  pagesWithHeadingCountMismatch: pages.filter((page) => page.metrics.en.headings !== page.metrics.zh.headings).length,
   pagesWithMissingImages: pages.filter((page) => page.missingImages.length).length,
   totalIssues: pages.reduce((sum, page) => sum + page.issues.length, 0),
 };
+const headingCountWarnings = pages
+  .filter((page) => page.metrics.en.headings !== page.metrics.zh.headings)
+  .map((page) =>
+    `${page.file}: headings: 英文 ${page.metrics.en.headings} / 中文 ${page.metrics.zh.headings}`);
 
 fs.mkdirSync(outputDirectory, { recursive: true });
 fs.writeFileSync(
@@ -184,6 +192,7 @@ const markdown = [
   `- 页面：${summary.pages}`,
   `- 无结构问题：${summary.cleanPages}`,
   `- 待复核：${summary.reviewPages}`,
+  `- 标题数量不一致：${summary.pagesWithHeadingCountMismatch}`,
   `- 含缺失图片：${summary.pagesWithMissingImages}`,
   `- 问题项：${summary.totalIssues}`,
   "",
@@ -215,4 +224,17 @@ const markdown = [
   ]),
 ];
 fs.writeFileSync(path.join(outputDirectory, "CONTENT_AUDIT.md"), `${markdown.join("\n")}\n`);
-console.log(JSON.stringify(summary, null, 2));
+console.log([
+  "=== 内容审计报告 ===",
+  "",
+  `  页面：${summary.pages}`,
+  `  [OK]   无结构问题：${summary.cleanPages}`,
+  ...(summary.reviewPages ? [`  [WARN] 待复核：${summary.reviewPages}`] : [`  [OK]   全部通过`]),
+  ...(summary.pagesWithHeadingCountMismatch
+    ? [`  [WARN] 标题数量不一致：${summary.pagesWithHeadingCountMismatch}`]
+    : [`  [OK]   标题数量一致`]),
+  ...(summary.pagesWithMissingImages ? [`  [WARN] 含缺失图片：${summary.pagesWithMissingImages}`] : []),
+  ...(summary.totalIssues ? [`  [WARN] 问题项：${summary.totalIssues}`] : []),
+  "",
+].join("\n"));
+for (const warning of headingCountWarnings) console.log(`  [WARN] ${warning}`);

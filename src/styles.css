@@ -53,7 +53,6 @@
   --font-sans: "Noto Sans SC", -apple-system, BlinkMacSystemFont, "PingFang SC", "Segoe UI", "Microsoft YaHei UI", "Microsoft YaHei", sans-serif;
   --font-serif: Georgia, "Noto Serif SC", serif;
   --font-mono: Consolas, Menlo, Monaco, "Courier New", "Noto Sans SC", -apple-system, BlinkMacSystemFont, "PingFang SC", "Segoe UI", "Microsoft YaHei UI", "Microsoft YaHei", Arial, sans-serif;
-  --font-brand: Impact, "Arial Black", sans-serif;
   --font-symbol: Georgia, "Times New Roman", serif;
   /* — Layout tokens */
   --sidebar-width: 280px;
@@ -377,7 +376,7 @@ kbd { padding: 2px 5px; border: 1px solid var(--line); color: var(--muted); back
 .search-load-more:hover,
 .search-load-more:focus-visible {
   background: #1a231e;
-  color: var(--text);
+  color: var(--ink);
 }
 .search-load-more:active {
   background: #1f2b23;
@@ -678,28 +677,13 @@ kbd { padding: 2px 5px; border: 1px solid var(--line); color: var(--muted); back
 .reader-actions button:hover, .reader-actions a:hover { color: var(--acid); }
 .reader-actions button:disabled { color: #4f5852; cursor: default; }
 
-/* — Theme toggle tooltip — */
-.theme-toggle-wrapper { position: relative; display: inline-flex; }
-.theme-tooltip {
-  position: absolute;
-  top: calc(100% + 8px);
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 100;
-  display: none;
-  white-space: nowrap;
-  padding: 6px 10px;
-  border: 1px solid var(--line);
-  border-radius: 6px;
-  background: var(--panel);
-  color: var(--ink);
-  font: 11px/1.4 var(--font-mono);
-  letter-spacing: .02em;
-  box-shadow: 0 8px 24px rgba(0,0,0,.35);
-  pointer-events: none;
+.theme-toggle-wrapper,
+.preset-toggle-wrapper {
+  position: relative;
+  display: inline-flex;
 }
-.theme-toggle-wrapper:hover .theme-tooltip { display: block; }
-/* — Preset toggle tooltip — */
+
+.theme-tooltip,
 .preset-tooltip {
   position: absolute;
   top: calc(100% + 8px);
@@ -718,7 +702,8 @@ kbd { padding: 2px 5px; border: 1px solid var(--line); color: var(--muted); back
   box-shadow: 0 8px 24px rgba(0,0,0,.35);
   pointer-events: none;
 }
-.preset-toggle-wrapper:not(:has(.preset-dropdown.open)):hover .preset-tooltip { display: block; }
+.theme-toggle-wrapper:hover .theme-tooltip { display: block; }
+.preset-toggle-wrapper:not(.preset-dropdown-open):hover .preset-tooltip { display: block; }
 
 
 #outlineButton { display: none; }
@@ -739,6 +724,19 @@ kbd { padding: 2px 5px; border: 1px solid var(--line); color: var(--muted); back
   color: #d7ddd8;
   font-family: var(--font-serif);
   line-height: 1.82;
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity .14s ease, transform .14s ease;
+}
+
+.document.language-transition-out {
+  opacity: .18;
+  transform: translateY(2px);
+}
+
+.document.language-transition-in {
+  opacity: .18;
+  transform: translateY(-2px);
 }
 
 .manual-content {
@@ -960,7 +958,9 @@ kbd { padding: 2px 5px; border: 1px solid var(--line); color: var(--muted); back
 .page-navigation span { display: block; margin-bottom: 7px; font: 10px var(--font-mono); letter-spacing: .08em; }
 .page-navigation strong { color: inherit; font-size: 14px; }
 
- .loading-state, .error-state { min-height: 55vh; display: grid; place-content: center; justify-items: center; color: var(--muted); font-family: var(--font-mono); text-align: center; }
+.loading-state, .error-state { min-height: 55vh; display: grid; place-content: center; justify-items: center; color: var(--muted); font-family: var(--font-mono); text-align: center; }
+.error-state h2 { color: var(--red); }
+.error-state code { color: var(--ink); }
 .loader { width: 30px; height: 30px; border: 2px solid #344038; border-top-color: var(--acid); border-radius: 50%; animation: spin .8s linear infinite; }
 @keyframes spin { to { transform: rotate(360deg); } }
 
@@ -1158,7 +1158,7 @@ kbd { padding: 2px 5px; border: 1px solid var(--line); color: var(--muted); back
 :root[data-theme="light"] .search-result:focus-visible { background: #e3e7e1; }
 :root[data-theme="light"] .search-result:active { background: #dbdfd9; }
 :root[data-theme="light"] .search-load-more:hover,
-:root[data-theme="light"] .search-load-more:focus-visible { background: #e3e7e1; color: var(--text); }
+:root[data-theme="light"] .search-load-more:focus-visible { background: #e3e7e1; color: var(--ink); }
 :root[data-theme="light"] .search-load-more:active { background: #dbdfd9; }
 :root[data-theme="light"] .sidebar-footer { background: #eceeeb; color: var(--muted); }
 :root[data-theme="light"] .sidebar-about:hover .about-label { color: var(--about-label-text); }
@@ -1182,8 +1182,9 @@ kbd { padding: 2px 5px; border: 1px solid var(--line); color: var(--muted); back
 :root[data-theme="light"] .document td { border-color: var(--line); }
 :root[data-theme="light"] .document tr:nth-child(even) td { background: rgba(0,0,0,.025); }
 
-/* — Theme toggle SVG animation */
-#themeToggle {
+/* — Theme and preset action buttons — */
+#themeToggle,
+#presetToggle {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1191,16 +1192,23 @@ kbd { padding: 2px 5px; border: 1px solid var(--line); color: var(--muted); back
   height: 36px;
   padding: 0;
   border-radius: 6px;
+  border: 0;
+  color: var(--muted);
+  background: transparent;
+  cursor: pointer;
   transition: background .15s, color .15s;
 }
-#themeToggle:hover {
+#themeToggle:hover,
+#presetToggle:hover {
   background: hsla(var(--_hue), 100%, 61%, .08);
   color: var(--acid);
 }
-#themeToggle:active {
+#themeToggle:active,
+#presetToggle:active {
   background: hsla(var(--_hue), 100%, 61%, .14);
 }
 
+/* — Theme toggle SVG animation */
 .theme-toggle-svg {
   display: block;
   width: 20px;
@@ -1242,32 +1250,6 @@ kbd { padding: 2px 5px; border: 1px solid var(--line); color: var(--muted); back
 }
 
 /* — Theme preset selector button & dropdown — */
-.preset-toggle-wrapper {
-  position: relative;
-}
-
-#presetToggle {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 36px;
-  height: 36px;
-  padding: 0;
-  border-radius: 6px;
-  border: 0;
-  color: var(--muted);
-  background: transparent;
-  cursor: pointer;
-  transition: background .15s, color .15s;
-}
-#presetToggle:hover {
-  background: hsla(var(--_hue), 100%, 61%, .08);
-  color: var(--acid);
-}
-#presetToggle:active {
-  background: hsla(var(--_hue), 100%, 61%, .14);
-}
-
 #presetDropdown {
   position: absolute;
   top: calc(100% + 6px);
@@ -1307,8 +1289,8 @@ kbd { padding: 2px 5px; border: 1px solid var(--line); color: var(--muted); back
   cursor: pointer;
   transition: background .12s, color .12s;
 }
-    .preset-option:hover { background: var(--panel-soft); color: var(--ink); }
-    .preset-option.active { color: var(--acid); background: color-mix(in srgb, var(--acid) 10%, transparent); }
+.preset-option:hover { background: var(--panel-soft); color: var(--ink); }
+.preset-option.active { color: var(--acid); background: color-mix(in srgb, var(--acid) 10%, transparent); }
 
 .preset-indicator {
   width: 14px;
@@ -1338,13 +1320,20 @@ kbd { padding: 2px 5px; border: 1px solid var(--line); color: var(--muted); back
   transform: translateY(-50%);
 }
 
-/* Light mode preset dropdown */
+/* Light mode toolbar buttons */
+[data-theme="light"] #themeToggle:hover,
 [data-theme="light"] #presetToggle:hover {
   background: var(--_accent-surface);
 }
 
-
-/* Light mode overrides for theme toggle */
-[data-theme="light"] #themeToggle:hover {
-  background: var(--_accent-surface);
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *,
+  *::before,
+  *::after {
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: .01ms !important;
+  }
 }

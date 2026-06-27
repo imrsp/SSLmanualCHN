@@ -44,9 +44,34 @@ const missingBuiltPages = catalog.pages
   .filter((file) => !fs.existsSync(path.join(root, file)));
 
 const pageIntegrityIssues = [];
+const securityIssues = [];
+const unsafeContentPatterns = [
+  { name: "script tag", pattern: /<script\b/i },
+  { name: "event handler attribute", pattern: /\son[a-z]+\s*=/i },
+  { name: "javascript URL", pattern: /\b(?:href|src|xlink:href|action|formaction)\s*=\s*(?:"\s*javascript:|'\s*javascript:|[^\s>]*javascript:)/i },
+  { name: "dangerous data URL", pattern: /\b(?:href|src|xlink:href|action|formaction)\s*=\s*(?:"\s*data\s*:\s*(?:text\/html|image\/svg\+xml|application\/xml|text\/xml)|'\s*data\s*:\s*(?:text\/html|image\/svg\+xml|application\/xml|text\/xml)|[^\s>]*data\s*:\s*(?:text\/html|image\/svg\+xml|application\/xml|text\/xml))/i },
+  { name: "embedded browsing context", pattern: /<(?:iframe|object|embed|base|form|input|button|textarea|select)\b/i },
+  { name: "srcdoc attribute", pattern: /\ssrcdoc\s*=/i },
+  { name: "meta refresh", pattern: /<meta\b[^>]+http-equiv\s*=\s*(?:"refresh"|'refresh'|refresh)/i },
+  { name: "inline svg/math", pattern: /<(?:svg|math)\b/i },
+];
+function getAttribute(tag, name) {
+  return tag.match(new RegExp(`\\b${name}\\s*=\\s*(["'])([^"']*)\\1`, "i"))?.[2] ?? "";
+}
 const allBuiltHtml = catalog.pages.map((page) => {
   const data = readJson(path.join(root, "dist", "data", "pages", `${page.id}.json`));
   for (const [language, html] of [["zh", data.contentHtml], ["en", data.englishHtml]]) {
+    for (const check of unsafeContentPatterns) {
+      if (check.pattern.test(html)) securityIssues.push(`${page.id} (${language}): ${check.name}`);
+    }
+    for (const anchor of html.matchAll(/<a\b[^>]*>/gi)) {
+      const tag = anchor[0];
+      if (!/\btarget\s*=\s*(?:"_blank"|'_blank'|_blank)(?=\s|>|\/)/i.test(tag)) continue;
+      const rel = getAttribute(tag, "rel").toLowerCase();
+      if (!/\bnoopener\b|\bnoreferrer\b/.test(rel)) {
+        securityIssues.push(`${page.id} (${language}): target=_blank without rel=noopener/noreferrer`);
+      }
+    }
     const ids = [...html.matchAll(/\bid=["']([^"']+)["']/gi)].map((match) => match[1]);
     const duplicateIds = ids.filter((id, index) => ids.indexOf(id) !== index);
     if (duplicateIds.length) {
@@ -104,6 +129,7 @@ const hardFailures = [
   ...missingBuiltPages,
   ...missingAssets,
   ...pageIntegrityIssues,
+  ...securityIssues,
 ];
 if (!pageTitleZhById || typeof pageTitleZhById !== "object" || Array.isArray(pageTitleZhById)) {
   hardFailures.push("Missing or invalid site.pageTitlesZhById mapping");
@@ -151,6 +177,7 @@ const report = {
   missingAssets: missingAssets,
   remoteImages,
   pageIntegrityIssues,
+  securityIssues,
   hardFailures,
   reportFindings,
 };
@@ -202,13 +229,23 @@ fs.writeFileSync(path.join(root, "reports", "VALIDATION_PROJECT.md"), [
     : []),
 ].join("\n"));
 
-console.log(JSON.stringify({
-  pages: report.pages,
-  translatedPages: report.translatedPages,
-  hardFailures: report.hardFailures.length,
-  reportItems: report.reportFindings.unusedPublishedAssets.length + report.reportFindings.staleAssetEntries.length + report.reportFindings.platformResidue.length,
-}, null, 2));
-for (const issue of report.hardFailures) console.error(issue);
+const allReportItems = [
+  ...report.reportFindings.unusedPublishedAssets.map((item) => `未引用的已发布资源：${item}`),
+  ...report.reportFindings.staleAssetEntries.map((item) => `资源清单中的非发布条目：${item}`),
+  ...report.reportFindings.platformResidue.map((item) => `文档中的平台残留：${item}`),
+];
+
+console.log([
+  "=== 工程校验报告 ===",
+  "",
+  `  章节：${report.pages}`,
+  `  已翻译章节：${report.translatedPages}`,
+  ...(report.hardFailures.length ? [`  [FAIL] 硬失败：${report.hardFailures.length}`] : [`  [OK]   无硬失败`]),
+  ...(allReportItems.length ? [`  [WARN] 报告项：${allReportItems.length}`] : [`  [OK]   无报告项`]),
+  "",
+].join("\n"));
+for (const issue of report.hardFailures) console.log(`  [FAIL] ${issue}`);
+for (const item of allReportItems) console.log(`  [WARN] ${item}`);
 if (report.hardFailures.length) process.exitCode = 1;
 
 function reportSectionsMismatch(catalogData, siteData) {

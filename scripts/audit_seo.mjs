@@ -157,24 +157,15 @@ if (fs.existsSync(indexPath)) {
 }
 
 // Summary
-console.log("=== SEO Audit Report ===\n");
-console.log("Passed: " + results.passed.length);
-console.log("Failed: " + results.failed.length + "\n");
+console.log([
+  "=== SEO 审计报告 ===",
+  "",
+  ...(results.failed.length ? [`  [FAIL] 失败：${results.failed.length}`] : [`  [OK]   全部通过`]),
+  `  [OK]   通过：${results.passed.length}`,
+  "",
+].join("\n"));
 
-if (results.failed.length > 0) {
-  console.log("--- Failed checks ---");
-  for (const f of results.failed) {
-    console.log("  FAIL: " + f);
-  }
-  console.log("");
-}
-
-if (results.passed.length > 0) {
-  console.log("--- Passed checks ---");
-  for (const p of results.passed) {
-    console.log("  OK: " + p);
-  }
-  console.log("");
-}
+for (const f of results.failed) console.log(`  [FAIL] ${f}`);
+for (const p of results.passed) console.log(`  [OK]   ${p}`);
 
 process.exit(results.failed.length > 0 ? 1 : 0);

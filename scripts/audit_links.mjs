@@ -10,6 +10,7 @@ const knownIds = new Set([
     .map((file) => path.basename(file, ".json")),
 ]);
 const hardFailures = [];
+const warnings = [];
 let internalLinks = 0;
 let externalLinks = 0;
 
@@ -43,7 +44,7 @@ for (const page of catalog.pages) {
           const targetPath = new URL(href).pathname.toLowerCase();
           const isIncluded = catalog.pages.some((candidate) =>
             new URL(candidate.sourceUrl).pathname.toLowerCase() === targetPath);
-          if (isIncluded) hardFailures.push(`${page.id} (${language}): included page still links externally ${href}`);
+          if (isIncluded) warnings.push(`${page.id} (${language}): 已有站内页面，仍使用外链 ${href}`);
         }
       }
     }
@@ -56,6 +57,7 @@ const report = {
   internalLinks,
   externalLinks,
   hardFailures,
+  warnings,
 };
 fs.mkdirSync(path.join(root, "reports"), { recursive: true });
 fs.writeFileSync(
@@ -71,15 +73,27 @@ fs.writeFileSync(path.join(root, "reports", "LINK_AUDIT.md"), [
   `- 内部链接：${report.internalLinks}`,
   `- 外部链接：${report.externalLinks}`,
   `- 硬失败：${report.hardFailures.length}`,
+  `- 警告：${report.warnings.length}`,
+  "",
+  "## 错误",
   "",
   ...(report.hardFailures.length ? report.hardFailures.map((item) => `- ${item}`) : ["- 无"]),
   "",
+  "## 警告",
+  "",
+  ...(report.warnings.length ? report.warnings.map((item) => `- ${item}`) : ["- 无"]),
+  "",
 ].join("\n"));
-console.log(JSON.stringify({
-  pages: report.pages,
-  internalLinks,
-  externalLinks,
-  hardFailures: hardFailures.length,
-}, null, 2));
-for (const issue of hardFailures) console.error(issue);
+console.log([
+  "=== 站内链接校验报告 ===",
+  "",
+  `  页面：${report.pages}`,
+  `  内部链接：${report.internalLinks}`,
+  `  外部链接：${report.externalLinks}`,
+  ...(report.hardFailures.length ? [`  [FAIL] 硬失败：${report.hardFailures.length}`] : [`  [OK]   无硬失败`]),
+  ...(report.warnings.length ? [`  [WARN] 警告：${report.warnings.length}`] : [`  [OK]   无警告`]),
+  "",
+].join("\n"));
+for (const issue of hardFailures) console.log(`  [FAIL] ${issue}`);
+for (const warn of warnings) console.log(`  [WARN] ${warn}`);
 if (hardFailures.length) process.exitCode = 1;

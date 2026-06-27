@@ -29,7 +29,6 @@
 - `--font-sans`：阅读器 UI、标题、表格和高亮注释
 - `--font-serif`：正文内容
 - `--font-mono`：编号、状态、工具提示、标签和路径元信息
-- `--font-brand`：顶部品牌标记
 - `--font-symbol`：搜索符号等装饰性字形
 
 字体 fallback 的排序原则是：
@@ -40,6 +39,10 @@
 - 无衬线区域只回退到无衬线链路，正文衬线区域只回退到衬线链路
 
 默认值定义在 [src/styles.css](/Users/imrsp/Documents/Codex/SSLmanualCHN/src/styles.css:6)。
+
+`--red` 是当前状态色，用于错误状态显示，并由主题 JSON 的 `hue.error` 与 `dark.red` / `light.red` 字段控制。不要把它当作未启用的预留 token 删除。
+
+顶部品牌标记已经改为 inline SVG path，字形不再依赖 `Impact` 或 `--font-brand`。品牌标记仍通过 `.brand-mark` 的外壳样式、`currentColor` 和 `--brand-accent-text` 跟随主题。
 
 ## 主题 JSON
 
@@ -130,7 +133,7 @@
 - 表格表头和交替行
 - 侧栏页脚与 About 区域
 
-这些规则定义在 `:root[data-theme="light"]` 及相关 light-mode 选择器中，见 [src/styles.css](/Users/imrsp/Documents/Codex/SSLmanualCHN/src/styles.css:950)。
+这些规则定义在 `:root[data-theme="light"]` 及相关 light-mode 选择器中，见 [src/styles.css](/Users/imrsp/Documents/Codex/SSLmanualCHN/src/styles.css:1084)。
 
 ## 新增主题的最短流程
 
@@ -143,4 +146,6 @@
 
 - 主题相关事实以 `src/styles.css`、`content/themes/*.json`、`scripts/build_static_site.mjs`、`src/app.js` 为准。
 - `docs/theme-tokens.css` 只保留为参考副本，必须与当前实现同步；如果不同步，应先修正文档而不是依赖它做实现判断。
+- 主题与预设切换按钮使用共享按钮和 tooltip 规则；新增阅读器工具按钮时应复用现有模式，避免为同类控件复制一套视觉规则。
+- 动画和滚动必须遵守 `prefers-reduced-motion` 覆盖；新增 transition、animation 或 smooth scroll 时要确认该覆盖仍然生效。
 - 不要直接编辑 `dist/themes/*.css`。
