@@ -49,13 +49,13 @@
                 <td style="vertical-align: top;">
                     <h2>区块设置</h2>
                     <h3 id="SurfaceOptionsFaderTiles">推子区块</h3>
-                    启用 <span class="label">Screen&nbsp;Follow&nbsp;Select</span> 后，最后一次按下 <span class="label">Select</span> 按钮所在的 Fader Tile 会自动调出到主屏幕。
+                    启用 <span class="label">Screen&nbsp;Follow&nbsp;Select</span> 后，最后一次按下 <span class="label">Select</span> 按钮所在的推子区块会自动调出到主屏幕。
 
-                    <h3 id="SurfaceOptionsFocusFaderLock">焦点推子锁定</h3>
-                    Master Tile 中的 Focus Fader 可锁定到指定通道信号路径，具体方法见 <a href="https://livehelp.solidstatelogic.com/Help/ControlTile.html"><span class="hyperlink">Control Tile</span></a> 章节。如果 User Options 页面的 <span class="label">Link&nbsp;Channel&nbsp;Control&nbsp;Tile</span> 按钮已启用，则 Control Tile 也可锁定到该通道；该按钮位于 <span style="font-weight: bold;">Focus Fader Lock</span> 区域。
+                    <h3 id="SurfaceOptionsFocusFaderLock">Focus 推子锁定</h3>
+                    主控区块中的 Focus 推子可锁定到指定通道信号路径，具体方法见 <a href="https://livehelp.solidstatelogic.com/Help/ControlTile.html"><span class="hyperlink">Control Tile</span></a> 章节。如果 User Options 页面的 <span class="label">Link&nbsp;Channel&nbsp;Control&nbsp;Tile</span> 按钮已启用，则控制区块也可锁定到该通道；该按钮位于 <span style="font-weight: bold;">Focus Fader Lock</span> 区域。
 
                     <h3 id="SurfaceOptionsKeypad">数字键盘</h3>
-                    该 <span class="label">Lock&nbsp;To&nbsp;User&nbsp;Keys</span> 按钮可防止启用屏幕键盘时 Master Tile 上的数字键区变为数值键盘。这样，分配给该键区的用户自定义功能始终可用。
+                    该 <span class="label">Lock&nbsp;To&nbsp;User&nbsp;Keys</span> 按钮可防止启用屏幕键盘时主控区块上的数字键区变为数值键盘。这样，分配给该键区的用户自定义功能始终可用。
 
                     <h3 id="SurfaceOptionsPathLCD">信号路径标签 LCD</h3>
                     信号路径标签 LCD 的底行文字可显示分配给该通道条的信号路径信息（路径类型、编号和格式），也可显示 Solo 母线路由信息。使用 <span class="label">Show&nbsp;Info</span> 和 <span class="label">Show&nbsp;Solo</span> 按钮可在两种显示之间切换。
@@ -79,7 +79,7 @@
 
     <h2 id="FollowModes">Select/Solo/Query 跟随选项</h2>
 
-    <p>该 <span style="font-weight: bold;">Follow&nbsp;Setup</span> 区域可对 Fader Tile 上的多种按钮组合建立链接（Follow）。例如，按下某信号路径的 Select 按钮时，可自动将该路径置于 Solo 状态，反之亦然。</p>
+    <p>该 <span style="font-weight: bold;">Follow&nbsp;Setup</span> 区域可对推子区块上的多种按钮组合建立链接（Follow）。例如，按下某信号路径的 Select 按钮时，可自动将该路径置于 Solo 状态，反之亦然。</p>
 
     <p><img class="center" src="https://livehelp.solidstatelogic.com/Help/images/g_OptionsFollowSetup.png" alt=""></p>
 
@@ -87,11 +87,11 @@
     <p>如需配置 Follow 模式，请先启用 <span class="label">Edit</span> 按钮。</p>
 
     <p>
-        三行分别对应 Fader Tile 上的硬件 <span style="font-weight: bold;">Select</span>、 <span style="font-weight: bold;">Solo</span> 和 <span style="font-weight: bold;">Q</span> （Query）按钮。各列表示按下硬件按钮时应由哪个按钮跟随。各列按信号路径类型（Channels、Stems、Auxes 等）排列，因此可为不同路径类型设置不同的 Follow 模式。
+        三行分别对应推子区块上的硬件 <span style="font-weight: bold;">Select</span>、 <span style="font-weight: bold;">Solo</span> 和 <span style="font-weight: bold;">Q</span> （Query）按钮。各列表示按下硬件按钮时应由哪个按钮跟随。各列按信号路径类型（Channels、Stems、Auxes 等）排列，因此可为不同路径类型设置不同的跟随模式。
     </p>
 
     <p>
-        在网格中启用相应按钮，以指定按下某硬件按钮（行）时需要跟随的功能（列）。例如，如需为 Auxes 启用 Solo Follow Select，请找到 <span style="font-weight: bold;">Solo</span> 列，该列位于 <span style="font-weight: bold;">Auxes</span> 
+        在网格中启用相应按钮，以指定按下某硬件按钮（行）时需要跟随的功能（列）。例如，如需为 Auxes 启用 Solo 跟随选中，请找到 <span style="font-weight: bold;">Solo</span> 列，该列位于 <span style="font-weight: bold;">Auxes</span> 
         区域，然后按下该列与 <span style="font-weight: bold;">Select</span> 行交叉处的按钮。
     </p>
 
