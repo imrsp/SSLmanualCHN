@@ -45,7 +45,7 @@
 
         <p>选择其中一个信号源并按 <span class="label">Make</span> ，即可将该 GPI 引脚分配给输入动作的第一个触发器。也可对整组 GPI 连接执行 <span class="label">Make All</span> ，将每个 GPI 引脚分别路由到一个触发器。</p>
 
-        <p>GUI 主区域中的十二个分区即为触发器。如果只路由了一个 GPI 引脚，则只有第一个触发器相关。每个触发器有两个按钮： </p>
+        <p>GUI 主区域中的十二个分区即为触发器。如果只路由了一个 GPI 引脚，则只有第一个触发器有效。每个触发器有两个按钮： </p>
 
         <p>左侧按钮定义触发动作的输入跳变类型：上升沿或下降沿。</p>
 
@@ -68,12 +68,12 @@
             <li><span style="font-weight: bold;">Velocity</span>：音符力度值，范围为 1 至 127。</li>
         </ul>
 
-        <p>选择 <span class="label">Note&nbsp;Off</span> 会显示与 <span class="label">Note&nbsp;On</span>相同的选项，但不包含 <span style="font-weight: bold;">Velocity</span> 参数。</p>
+        <p>选择 <span class="label">Note&nbsp;Off</span> 会显示与 <span class="label">Note&nbsp;On</span>相同的选项，但不包含 <span style="font-weight: bold;">Velocity （力度）</span> 参数。</p>
 
-        <p>选择 <span class="label">PRG&nbsp;Change</span> 后，可指定范围为 1 至 128 的 <span style="font-weight: bold;">Program&nbsp;Number</span> ，并选择监听 <span class="label">All&nbsp;Channels</span> 或指定的 MIDI Channel 编号。</p>
+        <p>选择 <span class="label">PRG&nbsp;Change</span> 后，可指定范围为 1 至 128 的 <span style="font-weight: bold;">Program&nbsp;Number（音色号）</span> ，并选择监听 <span class="label">All&nbsp;Channels</span> 或指定的 MIDI 通道编号。</p>
 
         <p>
-            选择 <span class="label">CTRL&nbsp;Change</span> 后，可指定范围为 0 至 119 的 <span style="font-weight: bold;">Control&nbsp;Number</span> 、范围为 0 至 127 的 <span style="font-weight: bold;">Control&nbsp;Value</span> ，并选择监听 <span class="label">All&nbsp;Channels</span> 或指定的 MIDI Channel 编号。
+            选择 <span class="label">CTRL&nbsp;Change</span> 后，可指定范围为 0 至 119 的 <span style="font-weight: bold;">Control&nbsp;Number（CC号）</span> 、范围为 0 至 127 的 <span style="font-weight: bold;">Control&nbsp;Value（C值）</span> ，并选择监听 <span class="label">All&nbsp;Channels</span> 或指定的 MIDI 通道编号。
         </p>
 
         <span class="note">
@@ -146,7 +146,7 @@
             该 <span class="label">GPIO</span> Output Actions 详细信息对话框与 GPIO Input Actions 页面（见 <a href="https://livehelp.solidstatelogic.com/Help/AutoIOActions.html#InputActions"><span class="hyperlink">上文</span></a>）相似，但每个 GPO 还增加了 <span class="label">Test</span> 按钮。
         </p>
 
-        <p>路由方式相同。只路由一个 GPO 时，只有第一个触发器相关。使用 <span class="label">Make All</span> 按钮后，每个触发器分别对应一个已路由的 GPO 引脚。</p>
+        <p>路由方式相同。只路由一个 GPO 时，只有第一个触发器有效。使用 <span class="label">Make All</span> 按钮后，每个触发器分别对应一个已路由的 GPO 引脚。</p>
 
         <p>左下按钮定义触发的 GPO 类型：上升沿、下降沿、正脉冲或“负”脉冲（+12V -> 0V -> +12V）。按钮角落的绿色指示灯在 GPO 设为 +12V 时显示绿色，在 0V 时显示灰色。</p>
 
@@ -161,10 +161,10 @@
         </p>
 
         <ul>
-            <li><span class="label">Note&nbsp;On</span> 消息包含 <span style="font-weight: bold;">Note Number</span> （0-127）、 <span style="font-weight: bold;">Note Name</span> 和 <span style="font-weight: bold;">Velocity</span> （1-127）参数。按钮启用时可在 <span class="label">All&nbsp;Channels</span> 上发送；按钮禁用时可在指定 <span style="font-weight: bold;">Channel</span> （1-16）上发送。</li>
-            <li><span class="label">Note&nbsp;Off</span> 消息包含 <span style="font-weight: bold;">Note Number</span> （0-127）和 <span style="font-weight: bold;">Note Name</span> 参数。按钮启用时可在 <span class="label">All&nbsp;Channels</span> 上发送；按钮禁用时可在指定 <span style="font-weight: bold;">Channel</span> （1-16）上发送。</li>
-            <li><span class="label">PGM&nbsp;Change</span> 消息只包含 <span style="font-weight: bold;">Channel</span> 编号和 <span style="font-weight: bold;">Program Number</span> （1-128）参数。</li>
-            <li><span class="label">CTRL&nbsp;Change</span> 消息包含 <span style="font-weight: bold;">Channel</span> 编号、 <span style="font-weight: bold;">Control Number</span> （0-119）和 <span style="font-weight: bold;">Control Value</span> （0-127）参数。</li>
+            <li><span class="label">Note&nbsp;On</span> 消息包含 <span style="font-weight: bold;">Note Number（音符号）</span> （0-127）、 <span style="font-weight: bold;">Note Name（音名）</span> 和 <span style="font-weight: bold;">Velocity（力度）</span> （1-127）参数。按钮启用时可在 <span class="label">All&nbsp;Channels</span> 上发送；按钮禁用时可在指定 <span style="font-weight: bold;">Channel</span> （1-16）上发送。</li>
+            <li><span class="label">Note&nbsp;Off</span> 消息包含 <span style="font-weight: bold;">Note Number（音符号）</span> （0-127）和 <span style="font-weight: bold;">Note Name（音名）</span> 参数。按钮启用时可在 <span class="label">All&nbsp;Channels</span> 上发送；按钮禁用时可在指定 <span style="font-weight: bold;">Channel</span> （1-16）上发送。</li>
+            <li><span class="label">PGM&nbsp;Change</span> 消息只包含 <span style="font-weight: bold;">Channel</span> 编号和 <span style="font-weight: bold;">Program Number（音色号）</span> （1-128）参数。</li>
+            <li><span class="label">CTRL&nbsp;Change</span> 消息包含 <span style="font-weight: bold;">Channel</span> 编号、 <span style="font-weight: bold;">Control Number（CC号）</span> （0-119）和 <span style="font-weight: bold;">Control Value（C值）</span> （0-127）参数。</li>
         </ul>
     </div>
     <div class="indexheader2">Event 输出动作</div>
