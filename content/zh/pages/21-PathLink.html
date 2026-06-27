@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>信号路径联动与快速设置</title>
+  <title>路径联动与快速设置</title>
   <style>
     body { font: 16px/1.55 Arial, sans-serif; max-width: 1080px; margin: 2rem auto; padding: 0 1.25rem; color: #202124; }
     img { max-width: 100%; height: auto; }
@@ -17,13 +17,13 @@
 </head>
 <body>
   <p class="source">章节：构建演出 | 来源：<a href="https://livehelp.solidstatelogic.com/Help/PathLink.html">https://livehelp.solidstatelogic.com/Help/PathLink.html</a></p>
-<h2>临时信号路径联动</h2>
+<h2>临时路径联动</h2>
 
 <p>
     可以在多个信号路径之间实时<span style="font-weight: bold">联动</span>控制参数，同时保持相对偏移量。
 </p>
 <p>
-    要设置 <span style="font-weight: bold">信号路径联动</span>，请进入 Channel View，然后点按屏幕右侧的
+    要设置<span style="font-weight: bold">路径联动</span>，请进入通道视图，然后点按屏幕右侧的
     <span class="label">Path&nbsp;Link</span>。
 </p>
 <p>
@@ -31,26 +31,22 @@
     <span class="label">SELECT</span> 按钮，选择要联动的信号路径。这些信号路径随即加入联动。
 </p>
 <p>
-    第一个选中的信号路径将成为控制台的<b>已选中</b>信号路径
-    （在 Channel View 中以信号路径周围的白色边框表示），并显示在 Detail View（若可见）
-    和 Focus Fader 上（若未锁定到其他信号路径）。
+    第一个选中的信号路径将成为控制台的<b>已选中</b>信号路径（在通道视图中以信号路径周围的白色边框表示），并显示在详细视图（若可见）和 Focus 推子上（若未锁定到其他信号路径）。
 </p>
 <p>
-    所有信号路径类型均支持
-    <span style="font-weight: bold">信号路径联动</span>，包括 Matrix 通道和 VCA。
+    所有信号路径类型均支持<span style="font-weight: bold">路径联动</span>，包括 Matrix 通道和 VCA。
 </p>
 
 <span class="note">
     <span class="notetitle">注意：</span>只能联动相同类型的信号路径；Channel 不能与 Stem 联动，
-    完整处理 Aux 不能与 Dry Aux 联动，依此类推。
+    完整路径的 Aux 不能与干路径的 Aux 联动，依此类推。
 </span>
 
 <span class="note">
-    <span class="notetitle">提示：</span>使用<span style="font-weight: bold">范围选择</span>
-    可从推子区块快速选择多个信号路径。按住第一个信号路径的
+    <span class="notetitle">提示：</span>使用<span style="font-weight: bold">范围选择</span>可从推子区块快速选择多个信号路径。按住第一个信号路径的
     <span class="label">SELECT</span> 按钮，再点按范围内最后一个信号路径的
     <span class="label">SELECT</span> 按钮，然后松开两个按钮。也可跨相邻推子区块执行此操作。<br />
-    范围选择同样适用于 Channel View 和 Overview 页面：单击第一个信号路径，按住已连接键盘上的 Shift 键，
+    范围选择同样适用于通道视图和总览页面：单击第一个信号路径，按住已连接键盘上的 Shift 键，
     再单击最后一个信号路径，即可联动两者之间所有相同类型的信号路径。
 </span>
 
@@ -73,11 +69,11 @@
                         <span class="label">Select&nbsp;All</span> - 联动所有相同类型的信号路径
                     </li>
                     <li>
-                        <span class="label">Active&nbsp;Banks</span> - 联动所有推子区块当前显示的全部 Bank 中，
+                        <span class="label">Active&nbsp;Banks</span> - 联动所有推子区块当前显示的全部推子组中，
                         属于所选信号路径类型的所有信号路径
                     </li>
                     <li>
-                        <span class="label">Active&nbsp;Layers</span> - 联动所有推子区块当前启用的全部 Layer 中，
+                        <span class="label">Active&nbsp;Layers</span> - 联动所有推子区块当前启用的全部推子层中，
                         属于所选信号路径类型的所有信号路径
                     </li>
                 </ul>
@@ -97,8 +93,7 @@
 </p>
 
 <p>
-    点按 <span class="label">Clear&nbsp;Selection</span> 将清除当前联动。
-    启用 <span class="label">Suspend</span> 会暂时停用联动，关闭该选项即可重新启用。
+    点按 <span class="label">Clear&nbsp;Selection</span> 将清除当前联动。启用 <span class="label">Suspend</span> 会暂时停用联动，关闭该选项即可重新启用。
 </p>
 
 <p>
@@ -119,7 +114,7 @@
 </p>
 <p>
     启用 <span class="label">Preserve Offsets</span> 后，只要任一联动参数值达到极限，
-    控制台就会停止增大或减小所有联动参数值。此设置为全局设置，同时适用于临时 Path Link 和 Link Group（见下文）。
+    控制台就会停止增大或减小所有联动参数值。此设置为全局设置，同时适用于临时路径联动和永久联动组（见下文）。
 </p>
 <p>
     若关闭 <span class="label">Preserve Offsets</span> 时仍需保留信号路径之间的相对偏移量，
@@ -133,17 +128,17 @@
         <tr>
             <td style="vertical-align: top; font-weight: normal">
                 <p>
-                    Path Link 弹出面板还包含 <span class="label">Fast&nbsp;Setup</span> 按钮。
+                    路径联动弹出面板还包含 <span class="label">Fast&nbsp;Setup</span> 按钮。
                     此按钮会展开弹出面板，显示用于快速设置所选信号路径参数的附加控件。
                 </p>
 
                 <p>
-                    Fast Setup 应用于单个<b>已选中</b>信号路径，但可与 Path Link 配合使用，
+                    快速设置应用于单个<b>已选中</b>信号路径，但可与路径联动配合使用，
                     同时更改多个信号路径。
                 </p>
 
                 <span class="note">
-                    <span class="notetitle">注意：</span>Fast Setup 可大幅调整一个或多个电平。
+                    <span class="notetitle">注意：</span>快速设置可大幅调整一个或多个电平。
                     使用此功能时请务必谨慎！
                 </span>
 
@@ -170,16 +165,14 @@
 
                 <p>
                     * <span class="label">To&nbsp;...</span> 按钮会打开数字键盘，可在其中输入数值；
-                    与 Path Link 配合使用时，可按以下两种方式之一应用：
+                    与路径联动配合使用时，可按以下两种方式之一应用：
                 </p>
                 <ul>
                     <li>
-                        在 <span class="label">Abs</span>（绝对）模式下：已选中信号路径和联动信号路径
-                        都会被设为输入的绝对值（例如，无论此前位置如何，全部设为 -3&nbsp;dB）
+                        在 <span class="label">Abs</span>（绝对）模式下：已选中信号路径和联动信号路径都会被设为输入的绝对值（例如，无论此前位置如何，全部设为 -3&nbsp;dB）
                     </li>
                     <li>
-                        在 <span class="label">Rel</span>（相对）模式下：已选中信号路径会被设为输入值，
-                        联动信号路径的数值将相对于已选中信号路径发生<b>相对</b>变化。例如，若已选中信号路径当前为
+                        在 <span class="label">Rel</span>（相对）模式下：已选中信号路径会被设为输入值，联动信号路径的数值将相对于已选中信号路径发生<b>相对</b>变化。例如，若已选中信号路径当前为
                         -6&nbsp;dB，某联动信号路径为 -10&nbsp;dB（低 4&nbsp;dB），输入 -3&nbsp;dB 后，
                         已选中信号路径将设为 -3&nbsp;dB，联动信号路径将设为 -7&nbsp;dB
                         （保留相对的 -4&nbsp;dB 偏移量）。
@@ -192,7 +185,7 @@
 
                 <p>
                     ** 使用 <span class="label">Full</span> 和 <span class="label">Dry</span>
-                    按钮，在母线发送部分的 Full 与 Dry 发送之间切换。
+                    按钮，在母线发送部分的完整与干发送之间切换。
                 </p>
             </td>
             <td style="vertical-align: top; width: 25%">
@@ -204,15 +197,15 @@
     </tbody>
 </table>
 
-<h2 id="PermanentPathLink">永久联动信号路径</h2>
+<h2 id="PermanentPathLink">永久联动路径</h2>
 
 <table style="font-weight: normal">
     <tbody>
         <tr>
             <td>
                 <p>
-                    从 Live v6.2 起，可以采用与 Path Link 相同的方式创建永久信号路径组。
-                    这种组称为 Link Group，可联动一组信号路径的参数，并通过筛选器指定哪些参数保持独立。
+                    从 Live v6.2 起，可以采用与路径联动相同的方式创建永久信号路径组。
+                    这种组称为联动组，可联动一组信号路径的参数，并通过筛选器指定哪些参数保持独立。
                 </p>
             </td>
         </tr>
@@ -227,13 +220,13 @@
             <td style="vertical-align: top; font-weight: normal">
                 <h3 id="LinkGroupCreation">创建组</h3>
                 <p>
-                    要创建 Link Group，请按住 <span class="label">Path Link</span>，
+                    要创建联动组，请按住 <span class="label">Path Link</span>，
                     然后展开 <span class="label">Link Group</span> 部分。
-                    按照临时信号路径联动的相同方式，选择应包含在 Link Group 中的信号路径。
+                    按照临时路径联动的相同方式，选择应包含在联动组中的信号路径。
                 </p>
 
                 <p>
-                    Link Groups 图形界面会显示当前正在编辑的组编号。每个组都可设置名称和颜色。
+                    联动组显示界面会显示当前正在编辑的组编号。每个组都可设置名称和颜色。
                     双击名称字段即可编辑；按下颜色会打开下拉菜单，可在其中更改组的颜色。
                 </p>
                 <h3 id="LinkGroupNavigation">浏览组</h3>
@@ -261,16 +254,16 @@
 
                 <ul>
                     <li>
-                        <span class="label">In</span>：启用信号路径输入部分之间的联动，包括 Gain、Trim 等
+                        <span class="label">In</span>：启用信号路径输入部分之间的联动，包括增益、微调等
                     </li>
-                    <li><span class="label">MgVc</span>：启用信号路径 Mute Group 和 VCA 分配之间的联动</li>
-                    <li><span class="label">Fade</span>：启用信号路径 Fader 部分之间的联动</li>
+                    <li><span class="label">MgVc</span>：启用信号路径静音组和 VCA 分配之间的联动</li>
+                    <li><span class="label">Fade</span>：启用信号路径推子部分之间的联动</li>
                     <li><span class="label">Stem</span>：启用信号路径 Stem 发送之间的联动</li>
                     <li><span class="label">Aux</span>：启用信号路径 Aux 发送之间的联动</li>
                     <li><span class="label">Mast</span>：启用信号路径 Master 分配之间的联动</li>
-                    <li><span class="label">EqFl</span>：启用信号路径 EQ 和 Filtering 参数之间的联动</li>
-                    <li><span class="label">GCmp</span>：启用信号路径 Gate 和 Compression 参数之间的联动</li>
-                    <li><span class="label">D/AP</span>：启用信号路径 Delay 和 All Pass 滤波器参数之间的联动</li>
+                    <li><span class="label">EqFl</span>：启用信号路径 EQ 和滤波参数之间的联动</li>
+                    <li><span class="label">GCmp</span>：启用信号路径门限和压缩参数之间的联动</li>
+                    <li><span class="label">D/AP</span>：启用信号路径延迟和全通滤波器参数之间的联动</li>
                     <li><span class="label">Pan</span>：启用信号路径声像参数之间的联动</li>
                 </ul>
 
