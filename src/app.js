@@ -473,8 +473,10 @@ function extractExcerpt(text, query, contextChars) {
 }
 
 function highlightMatches(text, query) {
-  var escaped = query.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-  return text.replace(new RegExp("(" + escaped + ")", "gi"), "<mark>$1</mark>");
+  var safeText = escapeHtml(text);
+  var safeQuery = escapeHtml(query);
+  var escaped = safeQuery.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  return safeText.replace(new RegExp("(" + escaped + ")", "gi"), "<mark>$1</mark>");
 }
 
 function findSearchResults(query) {
@@ -976,8 +978,6 @@ async function route() {
 function toggleSidebar() {
   const open = elements.sidebar.classList.toggle("open");
   elements.scrim.classList.toggle("open", open);
-  document.body.classList.toggle("sidebar-open", open);
-  document.documentElement.classList.toggle("sidebar-open", open);
   if (open) {
     lockMobileScroll();
   } else {
@@ -989,8 +989,6 @@ function closeMobilePanels() {
   elements.sidebar.classList.remove("open");
   elements.outline.classList.remove("open");
   elements.scrim.classList.remove("open");
-  document.body.classList.remove("sidebar-open");
-  document.documentElement.classList.remove("sidebar-open");
   setOutlineScrollTrap(false);
   unlockMobileScroll();
 }
