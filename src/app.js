@@ -7,7 +7,6 @@
    currentPage: null,
    query: "",
    searchShowCount: 12,
-   pendingSearchHeadingId: null,
    language: "zh",
   theme: "auto",
   themePreset: null,
@@ -46,6 +45,8 @@ const elements = {
 
 };
 let deferredInstallPrompt = null;
+let routeRequestId = 0;
+let lastLocationRouteHash = "";
 
 /* — Theme management — */
 function getEffectiveTheme() {
@@ -239,6 +240,7 @@ const escapeHtml = (value) =>
     "'": "&#39;",
   })[character]);
 
+const escapeRegExp = (value) => value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 const normalize = (value) => value.toLocaleLowerCase().replace(/\s+/g, " ").trim();
 const contentHeadingSelector = [
   ".manual-content h1[id]",
@@ -419,12 +421,36 @@ function pageRoute(pageId, headingId = "") {
   return `#/page/${encodeURIComponent(pageId)}${headingId ? `/${encodeURIComponent(headingId)}` : ""}`;
 }
 
+function navigateToPage(pageId, headingId = "", options = {}) {
+  if (options.language && state.language !== options.language) {
+    state.language = options.language;
+  }
+  const hash = pageRoute(pageId, headingId);
+  const sameRoute = hash === location.hash;
+  if (sameRoute && options.source !== "search") return;
+  if (hash !== location.hash) {
+    history.pushState(null, "", hash);
+  }
+  lastLocationRouteHash = hash;
+  route({
+    pageId,
+    headingId,
+    source: options.source || "navigation",
+  });
+}
+
 function getRoute() {
   const match = location.hash.match(/^#\/page\/([^/]+)(?:\/(.+))?$/);
   return {
     pageId: decodeURIComponent(match?.[1] || state.catalog?.pages[0]?.id || ""),
     headingId: match?.[2] ? decodeURIComponent(match[2]) : "",
   };
+}
+
+function routeFromLocation() {
+  if (location.hash === lastLocationRouteHash) return;
+  lastLocationRouteHash = location.hash;
+  route();
 }
 
 async function loadSearchIndex() {
@@ -475,7 +501,7 @@ function extractExcerpt(text, query, contextChars) {
 function highlightMatches(text, query) {
   var safeText = escapeHtml(text);
   var safeQuery = escapeHtml(query);
-  var escaped = safeQuery.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  var escaped = escapeRegExp(safeQuery);
   return safeText.replace(new RegExp("(" + escaped + ")", "gi"), "<mark>$1</mark>");
 }
 
@@ -541,14 +567,11 @@ function renderSearchResultsInNav() {
   elements.manualNav.innerHTML = html;
   elements.manualNav.querySelectorAll(".search-result").forEach(function (btn) {
     btn.addEventListener("click", function () {
-      var hash = pageRoute(btn.dataset.pageId, btn.dataset.headingId);
       var targetLanguage = state.searchEn ? "en" : "zh";
-      if (state.language !== targetLanguage) {
-        state.language = targetLanguage;
-      }
-      state.pendingSearchHeadingId = btn.dataset.headingId || "";
-      if (hash !== location.hash) history.pushState(null, "", hash);
-      route();
+      navigateToPage(btn.dataset.pageId, btn.dataset.headingId || "", {
+        language: targetLanguage,
+        source: "search",
+      });
     });
   });
   var loadMoreBtn = elements.manualNav.querySelector(".search-load-more");
@@ -570,7 +593,7 @@ function highlightPageContent(query) {
   var walker = document.createTreeWalker(content, NodeFilter.SHOW_TEXT, null);
   var textNodes = [];
   while (walker.nextNode()) textNodes.push(walker.currentNode);
-  var escaped = query.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  var escaped = escapeRegExp(query);
   var regex = new RegExp("(" + escaped + ")", "gi");
   textNodes.forEach(function (node) {
     var text = node.textContent;
@@ -735,7 +758,7 @@ function renderNavigation(focusActive) {
     : "可搜索中英文标题与正文";
   elements.manualNav.querySelectorAll("[data-page-id]").forEach((button) => {
     button.addEventListener("click", () => {
-      location.hash = pageRoute(button.dataset.pageId);
+      navigateToPage(button.dataset.pageId);
       closeMobilePanels();
     });
   });
@@ -775,7 +798,7 @@ function configurePageButton(button, page, label) {
   button.disabled = !page;
   button.querySelector("span").textContent = label;
   button.querySelector("strong").textContent = page?.titleZh || "—";
-  button.onclick = page ? () => { location.hash = pageRoute(page.id); } : null;
+  button.onclick = page ? () => { navigateToPage(page.id); } : null;
 }
 
 function configurePageLinks() {
@@ -858,6 +881,20 @@ function scrollToHeadingIndex(index, fallbackRatio) {
   });
 }
 
+function scrollToPagePosition(headingId = "", skipScroll = false) {
+  if (skipScroll) return;
+  if (headingId) {
+    requestAnimationFrame(function () {
+      var target = document.getElementById(headingId);
+      if (!target) return;
+      target.closest("details")?.setAttribute("open", "");
+      target.scrollIntoView();
+    });
+    return;
+  }
+  window.scrollTo({ top: 0, behavior: "instant" });
+}
+
 function renderStandalonePage(page, headingId = "", skipScroll = false) {
   state.currentPage = page;
   elements.breadcrumbs.innerHTML = escapeHtml(page.titleZh);
@@ -880,20 +917,7 @@ function renderStandalonePage(page, headingId = "", skipScroll = false) {
   configurePageButton(elements.nextPage, null, "下一主题");
   renderNavigation();
   document.title = page.titleZh + " | " + state.catalog.meta.title;
-  if (!skipScroll) {
-    if (headingId) {
-      requestAnimationFrame(function () {
-        var target = document.getElementById(headingId);
-        if (target) {
-          var details = target.closest("details");
-          if (details) details.setAttribute("open", "");
-          target.scrollIntoView();
-        }
-      });
-    } else {
-      window.scrollTo({ top: 0, behavior: "instant" });
-    }
-  }
+  scrollToPagePosition(headingId, skipScroll);
 }
 
 function renderPage(page, headingId = "", skipScroll = false) {
@@ -927,27 +951,20 @@ function renderPage(page, headingId = "", skipScroll = false) {
   configurePageButton(elements.nextPage, next, "下一主题");
   renderNavigation(true);
   document.title = `${page.titleZh} | ${state.catalog.meta.title}`;
-  if (!skipScroll) {
-    if (headingId) {
-      requestAnimationFrame(() => {
-        const target = document.getElementById(headingId);
-        target?.closest("details")?.setAttribute("open", "");
-        target?.scrollIntoView();
-      });
-    } else {
-      window.scrollTo({ top: 0, behavior: "instant" });
-    }
-  }
+  scrollToPagePosition(headingId, skipScroll);
   if (next) loadPage(next.id).catch(() => {});
 }
 
-async function route() {
+async function route(routeOptions = null) {
   if (!state.catalog) return;
-  const { pageId, headingId } = getRoute();
+  const requestId = ++routeRequestId;
+  const { pageId, headingId } = routeOptions || getRoute();
+  const isSearchNavigation = routeOptions?.source === "search";
   const summary = state.catalog.pages.find((candidate) => candidate.id === pageId);
   if (!summary) {
     try {
       const page = await loadPage(pageId);
+      if (requestId !== routeRequestId) return;
       if (page && page.standalone) {
         renderStandalonePage(page, headingId);
         return;
@@ -958,20 +975,23 @@ async function route() {
   }
   elements.document.setAttribute("aria-busy", "true");
   try {
-    const searchHeadingId = state.pendingSearchHeadingId;
-    state.pendingSearchHeadingId = null;
-    const isSearchNavigation = searchHeadingId !== null;
-    renderPage(await loadPage(pageId), isSearchNavigation ? "" : headingId, isSearchNavigation);
+    const page = await loadPage(pageId);
+    if (requestId !== routeRequestId) return;
+    renderPage(page, isSearchNavigation ? "" : headingId, isSearchNavigation);
     if (state.query.trim() && (state.searchIndexZh || state.searchIndexEn)) {
       highlightPageContent(state.query.trim());
       requestAnimationFrame(function () {
-        ensureSearchHighlightVisible(isSearchNavigation ? searchHeadingId : headingId, isSearchNavigation);
+        if (requestId !== routeRequestId) return;
+        ensureSearchHighlightVisible(headingId, isSearchNavigation);
       });
     }
   } catch (error) {
+    if (requestId !== routeRequestId) return;
     elements.document.innerHTML = `<div class="error-state"><h2>章节载入失败</h2><code>${escapeHtml(error.message)}</code></div>`;
   } finally {
-    elements.document.removeAttribute("aria-busy");
+    if (requestId === routeRequestId) {
+      elements.document.removeAttribute("aria-busy");
+    }
   }
 }
 
@@ -1156,8 +1176,8 @@ elements.searchEnToggle.addEventListener("change", function () {
       restoreScrollByRatio(scrollRatio);
     }
   });
-window.addEventListener("hashchange", function () { route(); });
-window.addEventListener("popstate", function () { route(); });
+window.addEventListener("hashchange", routeFromLocation);
+window.addEventListener("popstate", routeFromLocation);
 window.addEventListener("keydown", (event) => {
   if (event.key === "/" && document.activeElement !== elements.searchInput) {
     event.preventDefault();
