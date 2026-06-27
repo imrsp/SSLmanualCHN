@@ -12,7 +12,7 @@
   <li><a href="https://livehelp.solidstatelogic.com/Help/DanteNetIO.html"><span class="hyperlink">网络 I/O 舞台接口箱和设备</span></a></li>
 </ul>
 <ul>
-  <li><a href="https://livehelp.solidstatelogic.com/Help/DanteBridges.html"><span class="hyperlink">BLII 和 X-Light 网桥</span></a></li>
+  <li><a href="https://livehelp.solidstatelogic.com/Help/DanteBridges.html"><span class="hyperlink">BLII 与 X-Light 网桥</span></a></li>
 </ul>
 <h2>配置 Dante 设备和使用双域路由</h2>
 <h3>双域路由</h3>
@@ -21,13 +21,13 @@
 <h3>Dante 配置页面</h3>
 <p>在可以使用双域路由从控制台直接路由到 Dante 设备之前，必须在控制台的 Dante 配置页面中配置这些设备。</p>
 <p>前往 MENU &gt; Setup &gt; I/O，然后点击菜单下方的 Dante Configuration。</p>
-<p>页面左侧有一个“Connected Devices”列表。网络上的所有 Dante 设备都将在此列出。如果配置正确的设备未出现在列表中，请点击“Refresh Devices”按钮刷新视图。</p>
-<p>页面右侧有一个“Configured Devices”列表。这是所有已配置供使用的 Dante 设备的列表。</p>
+<p>页面左侧有一个 “Connected Devices”（已连接设备）列表。网络上的所有 Dante 设备都将在此列出。如果配置正确的设备未出现在列表中，请点击“Refresh Devices”按钮刷新视图。</p>
+<p>页面右侧有一个 “Configured Devices”（已配置设备）列表。这是所有已配置供使用的 Dante 设备的列表。</p>
 <figure><img src="https://livehelp.solidstatelogic.com/Help/images/g_DanteDevices.png" alt="图片 1"><figcaption>图片 1</figcaption></figure>
-<p>“Configured Devices”列表上方有两个资源栏，用于指示可用的双域路由输入和输出总数以及当前使用的数量。 显示的总数将取决于采样率、虚拟跳线的数量以及是否使用了 BLII/X-Light 网桥。当创建双域路由时，资源栏会填充浅蓝色或深蓝色：</p>
+<p>“Configured Devices” 列表上方有两个资源条，用于指示可用的双域路由输入和输出总数以及当前使用的数量。 显示的总数将取决于采样率、虚拟跳线的数量以及是否使用了 BLII/X-Light 网桥。当创建双域路由时，资源条会填充浅蓝色或深蓝色：</p>
 <figure><img src="https://livehelp.solidstatelogic.com/Help/images/g_DanteResourceBar.png" alt="图片 2"><figcaption>图片 2</figcaption></figure>
-<p>浅蓝色：路由到离线的“Configured Devices”（未连接到网络的设备，用于在舞台接口箱实际存在之前准备演出文件）</p>
-<p>深蓝色：路由到在线的“Configured Devices”（已连接到网络的设备）</p>
+<p>浅蓝色：指向离线 “Configured Devices” 的路由（未连接到网络的设备，用于在舞台接口箱实际存在之前准备演出文件）</p>
+<p>深蓝色：指向在线 “Configured Devices” 的路由（已连接到网络的设备）</p>
 <p>每个设备都有一系列状态 LED：</p>
 <img style="display: block; margin: 25px auto;" src="https://livehelp.solidstatelogic.com/Help/images/g_DanteLEDs.png" alt="Dante 设备状态 LED">
 <p>有两个 NET LED，显示主备网络连接的状态。</p>
@@ -66,7 +66,7 @@
   </tr>
 </table>
 <p>更多信息请查阅 <a class="external-link" tabindex="-1" href="https://www.solidstatelogic.com/products/dante-live-sound?tab=documents" target="_blank"><span class="hyperlink">SB 16.12 和 SB 32.24 用户指南 (www.solidstatelogic.com/products/dante-live-sound)</span></a>。</p>
-<p>对于“Configured Devices”，左侧有一个单独的 LED。这显示设备是在线还是离线。</p>
+<p>对于 “Configured Devices”，左侧有一个单独的 LED。这显示设备是在线还是离线。</p>
 <table>
   <tr>
     <th>颜色</th>
@@ -100,7 +100,7 @@
     <td>PSU 关闭或故障</td>
   </tr>
 </table>
-<p>点击“Connected Devices”或“Configured Devices”列表中的任何设备都会调出该设备的详细视图。 如果设备是“Connected Device”，则无法编辑舞台接口箱设置。如果设备是“Configured Device”，则可以在此更改所有舞台接口箱设置和参数（例如增益、+48V、工作电平等等）。</p>
+<p>点击 “Connected Devices” 或 “Configured Devices” 列表中的任何设备都会调出该设备的详细视图。 如果设备是 “Connected Device”，则无法编辑舞台接口箱设置。如果设备是 “Configured Device”，则可以在此更改所有舞台接口箱设置和参数（例如增益、+48V、工作电平等等）。</p>
 <figure><img src="https://livehelp.solidstatelogic.com/Help/images/g_DanteDetailView.png" alt="图片 4"><figcaption>图片 4</figcaption></figure>
 <p>以下信息显示在“Setup”选项卡中：</p>
 <ul>
@@ -129,9 +129,9 @@
 <p>关于舞台接口箱的其他信息可以从右侧的相关选项卡中查看和编辑：Inputs、Outputs 等。 这些选项卡中列出的各个输入和输出通道名称将对应于 Dante Controller 中设置的通道标签。</p>
 <h3>配置在线 Dante 设备</h3>
 <p>现在我们将配置一个在线设备以进行双域路由。在线设备是连接到网络的设备。</p>
-<p>首先，启用 Edit。 然后点击并拖动左侧“Connected Devices”列表中的一个设备。 一旦您开始拖动设备，“Configured Devices”列表底部会出现一个 + 号。将设备拖放到 + 号上。</p>
+<p>首先，启用 Edit。 然后点击并拖动左侧 “Connected Devices” 列表中的一个设备。 一旦您开始拖动设备，“Configured Devices” 列表底部会出现一个 + 号。将设备拖放到 + 号上。</p>
 <figure><img src="https://livehelp.solidstatelogic.com/Help/images/g_DantePlus.png" alt="图片 5"><figcaption>图片 5</figcaption></figure>
-<p>此设备现在已添加到“Configured Devices”列表中，您现在可以在路由视图或 XY 路由页面中对其进行双向路由。</p>
+<p>此设备现在已添加到 “Configured Devices” 列表中，您现在可以在路由视图或 XY 路由页面中对其进行双向路由。</p>
 <h3>配置离线 Dante 设备</h3>
 <p>即使物理设备不存在，也可以添加、配置离线设备并对其进行双向路由。 当设备可用时，这些设置随后可以与在线设备关联（见下文）。</p>
 <p>首先，启用 Edit。然后点击“Configure New Device”并从列表中选择一个设备：</p>
@@ -169,29 +169,29 @@
   <li>Generic Dante (任何其他 Dante 设备)</li>
 </ul>
 <p>* 当 SSL 网络 I/O 舞台接口箱连接到 Dante 网络时，它将在控制台上显示为两个独立的 Dante 设备：Main uncompensated/gain dependant 设备和 Comp gain compensated 设备。详见 <a href="https://livehelp.solidstatelogic.com/Help/DanteNetIO.html#GainShare"><span class="hyperlink">增益共享</span></a> 部分。</p>
-<p>选择您要添加的设备，一个离线设备将被添加到“Configured Devices”列表中。新设备的状态 LED 将为灰色，表示它从未在线。</p>
+<p>选择您要添加的设备，一个离线设备将被添加到 “Configured Devices” 列表中。新设备的状态 LED 将为灰色，表示它从未在线。</p>
 <p>您现在可以在任何路由视图（信号路径 Inputs/Outputs、FX Rack 等）或 XY Routing 页面中路由到/来自此设备。</p>
 <h3>建立双域路由</h3>
 <p>可以使用路由视图或 XY 路由页面以常规方式向任何已配置的 Dante 设备建立双域路由。 当向控制台上在线的已配置 Dante 设备建立双域路由时，您将在 Dante Controller 中看到在 Dante 网络上创建的路由。</p>
 <p class="note"><span class="notetitle">重要提示：</span></p>
 <p>请勿尝试从 Dante Controller 建立或取消双域路由。 所有双域路由都必须从控制台建立或取消。</p>
 <h3>将离线设备与在线设备关联</h3>
-<p>当离线“Configured Device”的设备名称和类型与“Connected device”匹配时，两者将自动关联。以前离线的设备将上线。 存储在离线设备中的所有舞台接口箱设置将被推送到舞台接口箱*，并且到/来自离线设备的路由将被分配给在线设备**。 这允许在断电或断开连接时不会丢失路由或设备设置。</p>
+<p>当离线 “Configured Device” 的设备名称和类型与 “Connected device” 匹配时，两者将自动关联。以前离线的设备将上线。 存储在离线设备中的所有舞台接口箱设置将被推送到舞台接口箱*，并且到/来自离线设备的路由将被分配给在线设备**。 这允许在断电或断开连接时不会丢失路由或设备设置。</p>
 <p>*前提是满足所有所有权要求（参见 <a href="https://livehelp.solidstatelogic.com/Help/DanteNetIO.html#Ownership"><span class="hyperlink">所有权</span></a> 部分）</p>
 <p>**前提是此设备与网络上其他设备之间的现有路由不存在路由冲突（参见 <a href="https://livehelp.solidstatelogic.com/Help/DanteConfig.html#Conflict"><span class="hyperlink">路由冲突</span></a>）。</p>
-<p>要关联离线和在线设备，首先点击 Edit，然后将在线的“Connected Device”拖放到相应的离线“Configured device”上。</p>
+<p>要关联离线和在线设备，首先点击 Edit，然后将在线的 “Connected Device” 拖放到相应的离线 “Configured device” 上。</p>
 <figure><img src="https://livehelp.solidstatelogic.com/Help/images/g_DanteAssign.png" alt="图片 6"><figcaption>图片 6</figcaption></figure>
-<p>点击“Assign to Configured Device”进行确认。</p>
+<p>点击 “Assign to Configured Device” 进行确认。</p>
 <p class="note"><span class="notetitle">请注意：</span></p>
 <p>设备类型必须相同才能生效。如果类型不同，控制台将不允许关联。</p>
 <p>离线和在线设备现在已关联，离线设备的所有设置和路由都将分配给在线设备（前提是没有所有权或路由冲突）。</p>
-<p>您也可以使用上述过程将现有的在线“Configured Device”与不同的在线“Connected Device”关联。</p>
+<p>您也可以使用上述过程将现有的在线 “Configured Device” 与不同的在线“Connected Device”关联。</p>
 <h3>删除已配置设备</h3>
-<p>删除设备会将在线设备移回“Connected Devices”列表。控制台与此设备之间的所有路由将被取消。</p>
-<p>要删除“Configured Device”，请点击 Edit，使用右侧的圆圈选择“Configured devices”列表中的一个设备。然后按住 Delete。</p>
+<p>删除设备会将在线设备移回 “Connected Devices” 列表。控制台与此设备之间的所有路由将被取消。</p>
+<p>要删除 “Configured Device”，请点击 Edit，使用右侧的圆圈选择 “Configured devices” 列表中的一个设备。然后按住 Delete。</p>
 <h3>取消关联</h3>
-<p>取消关联将在线设备与设备路由和设置分离，并将路由和设置保存在离线设备中。 取消关联设备会将在线设备移回“Connected Devices”列表。一个包含所有路由和设置的离线设备将保留在“Configured Devices”列表中。</p>
-<p>要取消关联设备，请点击 Edit，使用右侧的圆圈选择“Configured devices”列表中的一个设备。然后按住 Unlink。</p>
+<p>取消关联将在线设备与设备路由和设置分离，并将路由和设置保存在离线设备中。 取消关联设备会将在线设备移回 “Connected Devices” 列表。一个包含所有路由和设置的离线设备将保留在 “Configured Devices” 列表中。</p>
+<p>要取消关联设备，请点击 Edit，使用右侧的圆圈选择 “Configured devices” 列表中的一个设备。然后按住 Unlink。</p>
 <h3>路由冲突</h3>
 <p>当控制台尝试向网络上的 Dante 设备建立路由，但已有一个 Dante 路由占用此路由点时，就会发生路由冲突。</p>
 <p>这种情况可能在以下情况下发生：</p>
@@ -205,7 +205,7 @@
   <li>控制台开机且最近的演出文件包含 Dante 路由时</li>
 </ul>
 <ul>
-  <li>将保存有路由的离线“Configured Device”关联到在线的“Connected Device”时</li>
+  <li>将保存有路由的离线 “Configured Device” 关联到在线的 “Connected Device” 时</li>
 </ul>
 <h3>先到先得</h3>
 <p>当设备在网络上线或加载新的演出文件时，Dante 路由遵循先到先得的原则。 因此，如果到同一目的地的两条路由之间存在冲突，将保留最先创建的路由。 随后对同一目的地进行的任何路由都不会被建立。 这意味着 Dante 路由永远不会被自动取消。</p>
@@ -226,7 +226,7 @@
 <p>根据 Dante 路由的先到先得原则，L550 的路由将被保留。 这是因为在 L200 尝试建立路由时，L550 的路由已经有效。 L200 的路由将不会被建立。</p>
 <p>这是为了避免设备上线时“窃取”活动路由。</p>
 <p>注意：先到先得原则是 Dante 的概念，同样适用于 SSL 和非 SSL Dante 设备。</p>
-<p>如果将“Configured Device”分配给一个具有现有路由的新的“Connected Device”，则同样的先到先得原则适用。 要检查网络路由是否已创建，请使用 Dante Controller 的 Routing 选项卡。</p>
+<p>如果将 “Configured Device” 分配给一个具有现有路由的新的“Connected Device”，则同样的先到先得原则适用。 要检查网络路由是否已创建，请使用 Dante Controller 的 Routing 选项卡。</p>
 <h3>手动覆盖现有 Dante 路由</h3>
 <p>Dante 路由永远不会被自动取消。但它们可以被控制台手动覆盖。在 XY Routing 页面中，工程师可以通过创建到同一目的地的新路由来覆盖现有路由。 这在 Routing View 中是不可能的。</p>
 <p class="note"><span class="notetitle">例如：</span></p>
@@ -235,10 +235,10 @@
 <p>这导致了路由冲突。 SB 32.24 不能同时接收来自 L550 和 L200 的路由。</p>
 <p>由于 L200 是手动尝试路由（即路由是工程师的选择）， L200 可以覆盖 L550 和 SB 32.24 之间的现有路由。 来自 L550 的路由将被取消，而来自 L200 的路由将被建立。</p>
 <h3>其他两个 Dante 设备之间的 Dante 路由</h3>
-<p>网络上的任何其他两个 Dante 设备之间的路由也可以从 XY Routing 页面手动建立或取消。 如果从控制台建立了其他两个 Dante 设备之间（即不涉及控制台）的路由，则该路由将保存在控制台的演出文件中。 当在控制台上加载演出文件时，该路由将被调用（前提是具有相同 Dante 名称的设备在网络中，并且遵守任何路由冲突，请参阅上面的<a href="https://livehelp.solidstatelogic.com/Help/DanteConfig.html#Conflict"><span class="hyperlink">路由冲突</span></a>）。</p>
+<p>网络上的任何其他两个 Dante 设备之间的路由也可以从 XY Routing 页面手动建立或取消。 如果从控制台建立了其他两个 Dante 设备之间（即不涉及控制台）的路由，则该路由将保存在控制台的演出文件中。 当在控制台上加载演出文件时，该路由将被调用（前提是具有相同 Dante 名称的设备在网络中，并且遵守任何路由冲突，请参阅上面的 <a href="https://livehelp.solidstatelogic.com/Help/DanteConfig.html#Conflict"><span class="hyperlink">路由冲突</span></a>）。</p>
 <h2>Dante 允许设备列表</h2>
-<p>Dante 和 AoIP 的优点和挑战在于可以自由地连接任何地方的任何设备。SSL Live 通过将 Dante API 与自动设备发现相结合来解决这个问题，提供了一个简单的拖放界面，用于将发现的设备添加到控制台的配置中，以简化路由。对于较大网络上的固定安装，SSL Live 的“Dante Allowed Device List”允许您管理哪些 Dante 设备在控制台上可见和可路由，非常适合自由工程师访问控制台但某些资源必须保持受限的固定安装。</p>
-<p>此功能在获得 Dante Allowed Device List 许可证后启用，可将可见设备限制为仅“AllowedDevicesConfig.xml”文件中列出的设备，如果未获得许可，则保持所有标准控制台功能。支持 SSL 网络 I/O 和第三方设备，虽然 Rx 订阅仍可通过 Dante Controller 管理，但 SSL 界面会在路由 GUI 中使用带阴影的棕色覆盖层标记受限的 Rx 通道，防止路由更改或演出文件覆盖。如果您有 Dante Allowed Device List 的使用案例，请与您的 SSL 销售或支持代表讨论工作流程和许可事宜。</p>
+<p>Dante 和 AoIP 的优点和挑战在于可以自由地连接任何地方的任何设备。SSL Live 通过将 Dante API 与自动设备发现相结合来解决这个问题，提供了一个简单的拖放界面，用于将发现的设备添加到控制台的配置中，以简化路由。对于较大网络上的固定安装，SSL Live 的 “Dante Allowed Device List” 允许您管理哪些 Dante 设备在控制台上可见和可路由，非常适合自由工程师访问控制台但某些资源必须保持受限的固定安装。</p>
+<p>此功能在获得 Dante Allowed Device List 许可证后启用，可将可见设备限制为仅 “AllowedDevicesConfig.xml” 文件中列出的设备，如果未获得许可，则保持所有标准控制台功能。支持 SSL 网络 I/O 和第三方设备，虽然 Rx 订阅仍可通过 Dante Controller 管理，但 SSL 界面会在路由 GUI 中使用带阴影的棕色覆盖层标记受限的 Rx 通道，防止路由更改或演出文件覆盖。如果您有 Dante Allowed Device List 的使用案例，请与您的 SSL 销售或支持代表讨论工作流程和许可事宜。</p>
 <p>Dante Allowed Device List 可确保网络资源的安全，确保只能访问选定的设备和通道。非常适合大型、灵活的音频网络。</p>
 <figure><img src="https://livehelp.solidstatelogic.com/Help/images/u_DanteConfig_Allowed_dev_list.png" alt="图片 7"><figcaption>图片 7</figcaption></figure>
 <p>允许设备列表基于设备名称而不是 Dante 设备 UID。这具有以下含义：</p>
@@ -255,7 +255,7 @@
 <p><a href="https://livehelp.solidstatelogic.com/Help/DanteSetup.html"><span class="hyperlink">设置 Dante</span></a></p>
 <p><a href="https://livehelp.solidstatelogic.com/Help/DanteNetIO.html"><span class="hyperlink">网络 I/O 舞台接口箱和设备</span></a></p>
 <p><a href="https://livehelp.solidstatelogic.com/Help/DanteVTL.html"><span class="hyperlink">虚拟跳线</span></a></p>
-<p><a href="https://livehelp.solidstatelogic.com/Help/DanteBridges.html"><span class="hyperlink">BLII 和 X-Light 网桥</span></a></p>
+<p><a href="https://livehelp.solidstatelogic.com/Help/DanteBridges.html"><span class="hyperlink">BLII 与 X-Light 网桥</span></a></p>
 <p><a href="https://livehelp.solidstatelogic.com/Help/LocalMADIConfig.html"><span class="hyperlink">本地/MADI I/O 配置</span></a></p>
 <p><a href="https://livehelp.solidstatelogic.com/Help/InstallGuide.html"><span class="hyperlink">设置：安装指南</span></a></p>
 <p><a href="https://livehelp.solidstatelogic.com/Help/LinkIndex.html"><span class="hyperlink">索引与词汇表</span></a></p>

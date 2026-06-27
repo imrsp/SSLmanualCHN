@@ -68,7 +68,7 @@
 
 <p>通道录音发送/返回支持手动路由，因此任意 I/O 都可用作录音机和彩排回放设备。其操作方式与其他信号跳线路由相同，并随演出文件存储和调用。</p>
 
-<p>MADI 和 Dante 扩展卡连接可配置为“Recorder”（录音机）。每台录音机会分配一个通道区块，例如在 96 kHz 下为 1-32、33-64 等。分配区块后，可同时对 I/O 和通道录音发送/返回执行批量路由。完成 <strong>Console Configuration</strong> 中的通道分配后，即可快速配置录音机 I/O 与路由，并确保所有通道都被录制。</p>
+<p>MADI 和 Dante Expander 连接可配置为“Recorder”（录音机）。每台录音机会分配一个通道区块，例如在 96 kHz 下为 1-32、33-64 等。分配区块后，可同时对 I/O 和通道录音发送/返回执行批量路由。完成 <strong>Console Configuration</strong> 中的通道分配后，即可快速配置录音机 I/O 与路由，并确保所有通道都被录制。</p>
 
 <ul>
   <li><strong>Make All</strong>：按 1:1 将通道录音发送路由至该设备，并将该设备路由至通道录音返回。</li>
@@ -84,7 +84,7 @@
 
 <p>将 I/O 设备设为 <strong>Not Set</strong> 会自动执行 <strong>Clear Destinations</strong>，释放通道录音返回和 I/O 输出，以便从其他信号进行路由。通道录音发送和 I/O 输入可能已被合理地路由到 Recorder 之外的其他目标，因此将 Recorder I/O 改为 <strong>Not Set</strong> 时不会清除这些路由。</p>
 
-<p>将 Dante 扩展卡设为 Recorder 后，其所有通道都会被强制用作 VTL（Virtual Tie Line，虚拟跳线），而不是用于动态 Dante 路由。</p>
+<p>将 Dante Expander 设为 Recorder 后，其所有通道都会被强制用作 VTL（Virtual Tie Line, Dante 虚拟跳线），而不是用于动态 Dante 路由。</p>
 
 <h3>建议用例与工作流程</h3>
 
@@ -108,7 +108,7 @@
   <li>逐台 Recorder 重新分配通道区块，并在操作过程中清除旧路由、建立新路由。</li>
 </ul>
 
-<p>MADI 和 Dante 扩展卡 I/O 页面中的 Recorder 选项用于批量路由和快速设置。也可通过 XY 路由和通道视图路由，在录音设备与通道录音发送/返回之间连接信号。</p>
+<p>MADI 和 Dante Expander I/O 页面中的 Recorder 选项用于批量路由和快速设置。也可通过 XY 路由和通道视图路由，在录音设备与通道录音发送/返回之间连接信号。</p>
 
 <p>如果之后更改了通道格式，操作人员必须检查并更新所需的 Recorder 路由。</p>
 

@@ -141,7 +141,7 @@
             如果希望指定主时钟设备，请为该设备勾选 <span style="font-weight:bold;">Preferred Leader</span>。
             Dante 有自己的时钟选举流程，因此并非必须设置 <span style="font-weight:bold;">Preferred Leader</span>。
             在本示例中，请确保网络中所有其他设备均未勾选 <span style="font-weight:bold;">Preferred Leader</span> 和 <span style="font-weight:bold;">Sync to External</span>
-            （包括控制台的 Dante Expander 以及适用时的 BLII/X-Light Bridge）。
+            （包括控制台的 Dante 扩展模块以及适用时的 BLII/X-Light Bridge）。
 
         <p>
             在控制台上进入 <span class="label">MENU</span> &gt; <span class="label">Setup</span> &gt; <span class="label">Options</span> &gt; <span class="label">SYSTEM</span> 页签。
@@ -153,14 +153,14 @@
 
         <p>
             所选 <span style="font-weight:bold;">Preferred Leader</span>（如已设置）现为包括控制台在内的整个网络的主时钟。
-            控制台现从其 Dante 扩展卡模块获取时钟。Dante 扩展卡模块从 Dante 网络中的 <span style="font-weight:bold;">Preferred Leader</span> 获取时钟。
+            控制台现从其 Dante Expander 模块获取时钟。Dante Expander模块从 Dante 网络中的 <span style="font-weight:bold;">Preferred Leader</span> 获取时钟。
             网络中的所有其他设备也都从 Dante 网络中的 <span style="font-weight:bold;">Preferred Leader</span> 获取时钟。
         </p>
 
         <span class="note">
             <span class="notetitle">注意：</span><br>如果在控制台上选择 Dante 作为时钟源，
             当 Dante 网络时钟丢失时，控制台的时钟备份机制不会回退至其他时钟源。
-            Dante 扩展卡模块内置时钟；根据 Dante 时钟选举流程，该时钟会成为 Dante 网络的主时钟，
+            Dante Expander 模块内置时钟；根据 Dante 时钟选举流程，该时钟会成为 Dante 网络的主时钟，
             直到网络中另一台设备被识别为更合适的主时钟。
         </span>
 
@@ -189,7 +189,7 @@
 
         <p>确保网络中所有其他设备均未勾选 <span style="font-weight:bold;">Preferred Leader</span> 和 <span style="font-weight:bold;">Sync to External</span>。</p>
 
-        <p>控制台内部时钟现已成为 Dante 网络的主时钟。控制台的 Dante 扩展卡模块从控制台内部时钟获取时钟，网络中的所有其他设备则跟随 Dante 扩展卡提供的时钟。</p>
+        <p>控制台内部时钟现已成为 Dante 网络的主时钟。控制台的 Dante Expander 模块从控制台内部时钟获取时钟，网络中的所有其他设备则跟随 Dante Expander 提供的时钟。</p>
 
         <span class="note">
             <span class="notetitle">重要：</span><br>由于 Dante 的时钟选举流程，之后连接至网络、同样设为 Preferred Leader 且 MAC 地址低于控制台的任何设备，都会被提升为网络主时钟。

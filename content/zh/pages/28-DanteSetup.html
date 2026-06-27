@@ -24,7 +24,7 @@
     <ul>
         <li>设置 Dante（本页）</li>
         <li><a href="https://livehelp.solidstatelogic.com/Help/DanteVTL.html"><span class="hyperlink">虚拟跳线</span></a></li>
-        <li><a href="https://livehelp.solidstatelogic.com/Help/DanteConfig.html"><span class="hyperlink">Dante 双域路由与设备配置</span></a></li>
+        <li><a href="https://livehelp.solidstatelogic.com/Help/DanteConfig.html"><span class="hyperlink">双域路由与配置 Dante 设备</span></a></li>
         <li><a href="https://livehelp.solidstatelogic.com/Help/DanteNetIO.html"><span class="hyperlink">网络 I/O 舞台接口箱和设备</span></a></li>
         <li><a href="https://livehelp.solidstatelogic.com/Help/DanteBridges.html"><span class="hyperlink">BLII 与 X-Light 网桥</span></a></li>
     </ul>
@@ -78,7 +78,7 @@
 
 <p>
     <span style="font-weight:bold;">Connectivity 网络</span> -
-    用于通过 SOLSA、远程扩展器、另一个 SSL Live 控制台或 TaCo 远程控制控制台。
+    用于通过 SOLSA、扩展面板、另一个 SSL Live 控制台或 TaCo 应用程序。
     可通过控制台背面三个标有 <span style="font-weight:bold;">NETWORK</span> 的端口之一接入该网络。
     Connectivity 网络是独立于 Dante 网络的网络，Dante 操作不需要该网络。
     但是，请务必注意其 IP 地址，如果设置不正确，可能会与您的 Dante 网络发生冲突。
@@ -338,7 +338,7 @@
 <p>
     另一种方法是为 Dante 主网和 Dante 备网上的所有设备设置固定 IP 地址，以防 Dante Control Primary 和 Secondary 适配器自动落入同一子网。
     此时，只要 Dante 主网和备网的固定地址范围不与 Connectivity 网络的 DHCP 地址池重叠，就可以将 Connectivity 网络安全地设为 DHCP；
-    如果 Connectivity 网络中没有 DHCP 服务器，也不要与其 169.254.xx.xx 自动配置范围重叠。
+    如果 Connectivity 网络中没有 DHCP 服务器，则也不要让 Dante 主网和备网的固定地址与 169.254.xx.xx 自动配置范围重叠。
 </p>
 
 <p>
@@ -347,8 +347,7 @@
 
 <p>
     如果 Connectivity 网络上没有 DHCP 服务器，请将此适配器设置为与 Dante 主网和 Dante 备网位于不同子网中的固定地址。
-    将 Connectivity 网络上的所有其他设备设置为同一子网内的固定 IP 地址。有关设置Connectivity网络的更多信息
-    请参阅<a href="https://livehelp.solidstatelogic.com/Help/RemoteControl.html"><span class="hyperlink">远程操作面</span></a>或<a href="https://livehelp.solidstatelogic.com/Help/TaCo.html"><span class="hyperlink">TaCo 平板控制</span></a>。
+    将 Connectivity 网络上的所有其他设备设置为同一子网内的固定 IP 地址。有关设置Connectivity网络的更多信息，请参阅 <a href="https://livehelp.solidstatelogic.com/Help/RemoteControl.html"><span class="hyperlink">远程操作面</span></a> 或 <a href="https://livehelp.solidstatelogic.com/Help/TaCo.html"><span class="hyperlink">TaCo 平板控制</span></a>。
 </p>
 
 <br>
@@ -356,7 +355,7 @@
 <p><span style="font-weight:bold;">IP 地址冲突警告</span></p>
 
 <p>
-    如果多个控制台的网络适配器设置为同一子网内的 IP 地址，则会显示一系列警告以通知 IP 地址冲突。
+    如果控制台的多个网络适配器设置为同一子网内的 IP 地址，则会显示一系列警告以通知 IP 地址冲突。
     这是无效的配置，必须解决。
 </p>
 
@@ -389,7 +388,7 @@
 
 <p>将计算机的 IP 地址设置为与相关设备位于同一子网内，然后该设备将在 Dante Controller 中可见。更改设备的 IP 地址，使它们位于您希望用于 Dante 主网和备网的子网内，并设置计算机的 IP 地址，使其回到您用于 Dante 主网的范围内。</p>
 
-<h3>步骤 1：设置 Dante 控制 IP 地址</h3>
+<h3>步骤 1：设置 Dante Control IP 地址</h3>
 
 <p>
     本节介绍如何设置 Dante 主备控制网络适配器的 IP 地址。
@@ -437,7 +436,7 @@
 
 <img style="display: block; margin: 25px auto;" src="https://livehelp.solidstatelogic.com/Help/images/g_ConnectivityNetIP.png" alt="">
 
-<h3>步骤 2：设置 Dante 音频网络 IP 地址和名称</h3>
+<h3>步骤 2：设置 Dante Audio IP 地址和名称</h3>
 
 <p>要设置控制台 Dante 音频网络设备的 IP 地址，您需要一台运行 Audinate 的 Dante 控制器应用程序的计算机，您可以在此处下载该应用程序： <a class="external-link" tabindex="-1" href="https://www.audinate.com/products/software/dante-controller" target="_blank"><span class="hyperlink">www.audinate.com/products/software/dante-controller</span></a></p>
 
@@ -467,7 +466,7 @@
 
 <img style="display: block; margin: 25px auto;" src="https://livehelp.solidstatelogic.com/Help/images/g_DanteNetworkConfig.png" alt="">
 
-<p>在我们的示例中，我们将为主适配器使用以下 IP 地址设置：</p>
+<p>在我们的示例中，我们将为主网适配器使用以下 IP 地址设置：</p>
 
 <p><span style="font-weight:bold;">IP 地址：</span> 10.101.2.2</p>
 <p><span style="font-weight:bold;">网络掩码：</span> 255.255.0.0</p>
@@ -485,7 +484,7 @@
 <span class="note">
     <span class="notetitle">注意：</span><br>对于我们的示例，请确保 <b>虚拟跳线</b> 在 Dante Expander 详细信息视图中值设置为 0
     （在 <span class="label">MENU</span> > <span class="label">Setup</span> > <span class="label">I/O</span> > <span class="label">Local/MADI&nbsp;Configuration</span>）。
-    这样可简化示例。有关配置虚拟跳线的更多信息，请参阅<a href="https://livehelp.solidstatelogic.com/Help/DanteVTL.html"><span class="hyperlink">使用虚拟跳线</span></a>。
+    这样可简化示例。有关配置虚拟跳线的更多信息，请参阅 <a href="https://livehelp.solidstatelogic.com/Help/DanteVTL.html"><span class="hyperlink">使用虚拟跳线</span></a>。
 </span>
 
 <h3>步骤 3：设置 Dante 音频网络和 Dante 控制网络名称</h3>
@@ -554,7 +553,7 @@
 <p><span style="font-weight:bold;">IP 地址：</span> 10.102.x.x</p>
 <p><span style="font-weight:bold;">网络掩码：</span> 255.255.0.0</p>
 
-<span class="note"><span class="notetitle">注意：</span><br>我们已经在辅助网络上使用了 IP 地址 10.102.1.1 和 10.102.2.2。这些 IP 地址不能用于网络上的其他设备。</span>
+<span class="note"><span class="notetitle">注意：</span><br>我们已经在备网上使用了 IP 地址 10.102.1.1 和 10.102.2.2。这些 IP 地址不能用于网络上的其他设备。</span>
 
 <p>
     使用 Dante 控制器或控制台的 Dante I/O 设置页面，将所有连接的舞台接口箱设置为 96 kHz 采样率。这是因为我们在此示例设置过程中之前已将 Dante Expander 模块设置为 96 kHz。
@@ -563,7 +562,7 @@
 
 
 <h3>Dante 时钟</h3>
-<p>请参阅<a href="https://livehelp.solidstatelogic.com/Help/Clocking.html#Dante"><span class="hyperlink">时钟章节中的 Dante 小节</span></a>，正确配置控制台和网络时钟。</p>
+<p>请参阅 <a href="https://livehelp.solidstatelogic.com/Help/Clocking.html#Dante"><span class="hyperlink">时钟章节中的 Dante 小节</span></a>，正确配置控制台和网络时钟。</p>
 
 <h3>Dante Domain Manager</h3>
 
@@ -604,8 +603,8 @@
         <tbody>
             <tr>
                 <th class="solidborder">控制台采样率</th>
-                <th class="solidborder" style=\"width: 100px;\">Dante 扩展卡采样率</th>
-                <th class="solidborder" style=\"width: 100px;\">Dante 扩展卡采样率转换</th>
+                <th class="solidborder" style=\"width: 100px;\">Dante Expander 采样率</th>
+                <th class="solidborder" style=\"width: 100px;\">Dante Expander 采样率转换</th>
                 <th class="solidborder" style=\"width: 100px;\">Dante 输入和输出的数量</th>
             </tr>
             <tr>
@@ -649,8 +648,8 @@
 </div>
 
 <span class="note">
-    <span class="notetitle">注意： </span>除非 <span class="label">SRC&nbsp;In</span> 按钮已按下，您必须设置 Dante 扩展卡的采样率以匹配控制台的采样率。
-    这可以通过运行 Dante Controller 软件且与控制台的 Dante 扩展卡连接到同一网络的计算机来完成。或者，从 Live v6.2 开始，可以在 Dante 配置页面的已连接设备列表中查看和更改控制台扩展器的采样率。 
+    <span class="notetitle">注意： </span>除非 <span class="label">SRC&nbsp;In</span> 按钮已按下，您必须设置 Dante Expander 的采样率以匹配控制台的采样率。
+    这可以通过运行 Dante Controller 软件且与控制台的 Dante Expander 连接到同一网络的计算机来完成。或者，从 Live v6.2 开始，可以在 Dante 配置页面的已连接设备列表中查看和更改控制台扩展器的采样率。 
 </span>
 <!-- End of Dante Sample Rates Snippet -->
 
@@ -664,10 +663,10 @@
 
 <p>Net I/O BLII Bridge 或 X-Light Bridge 可连接到 SSL Live 控制台，以 96 kHz 或 48 kHz 提供额外的 256 个 Dante 输入和输出。 </p>
 
-<p>SSL Live 控制台可以同时利用 BLII/X-Light Bridge 的 Dante I/O 和 Dante 扩展卡模块。</p>
+<p>SSL Live 控制台可以同时利用 BLII/X-Light Bridge 的 Dante I/O 和 Dante Expander 模块。</p>
 
 <p>
-    BLII/X-Light 桥支持双域路由和虚拟跳线。欲了解更多信息，请参阅
+    BLII/X-Light 网桥支持双域路由和虚拟跳线。欲了解更多信息，请参阅
     <a href="https://livehelp.solidstatelogic.com/Help/DanteConfig.html"><span class="hyperlink">Dante 双域路由</span></a>,
     <a href="https://livehelp.solidstatelogic.com/Help/DanteVTL.html"><span class="hyperlink">Dante 虚拟跳线</span></a> 和
     <a href="https://livehelp.solidstatelogic.com/Help/DanteBridges.html"><span class="hyperlink">BLII 与 X-Light 网桥</span></a>.
