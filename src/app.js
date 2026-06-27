@@ -47,6 +47,7 @@ const elements = {
 let deferredInstallPrompt = null;
 let routeRequestId = 0;
 let lastLocationRouteHash = "";
+let languageTransitionTimer = null;
 
 /* — Theme management — */
 function getEffectiveTheme() {
@@ -790,9 +791,7 @@ function renderNavigation(focusActive) {
 }
 
 function renderOutline(page) {
-  var headings = state.language === "en"
-    ? (page.englishHeadings || page.headings)
-    : page.headings;
+  var headings = getPageHeadings(page, state.language);
   elements.outline.innerHTML = headings
     .filter((heading) => heading.title)
     .map((heading) => `
@@ -842,49 +841,111 @@ function getReadableScrollRatio() {
   return maxScroll ? window.scrollY / maxScroll : 0;
 }
 
+function getPageHeadings(page, language) {
+  if (!page) return [];
+  return language === "en" ? (page.englishHeadings || page.headings) : page.headings;
+}
+
 function getContentHeadings() {
   return Array.from(document.querySelectorAll(contentHeadingSelector))
     .filter((heading) => heading.closest("details")?.open !== false);
 }
 
-function getVisibleHeadingIndex() {
-  var headings = getContentHeadings();
-  var targetIdx = -1;
-  var minVisibleTop = Infinity;
+function getContentDisclosureStates() {
+  return Array.from(elements.document.querySelectorAll(".manual-content details"))
+    .map((details) => details.open);
+}
 
-  headings.forEach((heading, index) => {
+function restoreContentDisclosureStates(states) {
+  if (!states?.length) return;
+  elements.document.querySelectorAll(".manual-content details").forEach((details, index) => {
+    if (typeof states[index] === "boolean") details.open = states[index];
+  });
+}
+
+function getVisibleHeadingAnchor() {
+  var headings = getContentHeadings();
+  var minVisibleTop = Infinity;
+  var best = null;
+  var bestTop = 0;
+
+  headings.forEach((heading) => {
     var top = heading.getBoundingClientRect().top;
     if (top >= 0 && top < window.innerHeight && top < minVisibleTop) {
       minVisibleTop = top;
-      targetIdx = index;
+      best = heading;
+      bestTop = top;
     }
   });
-  if (targetIdx >= 0) return targetIdx;
+  if (best) return { id: best.id, top: bestTop };
 
   var closestAbove = -Infinity;
-  headings.forEach((heading, index) => {
+  headings.forEach((heading) => {
     var top = heading.getBoundingClientRect().top;
     if (top < 0 && top > closestAbove) {
       closestAbove = top;
-      targetIdx = index;
+      best = heading;
+      bestTop = top;
     }
   });
-  return targetIdx;
+  return best ? { id: best.id, top: bestTop } : null;
+}
+
+function getMappedHeadingIndex(page, headingId, fromLanguage, toLanguage) {
+  var sourceHeadings = getPageHeadings(page, fromLanguage);
+  var targetHeadings = getPageHeadings(page, toLanguage);
+  var index = sourceHeadings.findIndex(function (heading) { return heading.id === headingId; });
+  if (index < 0) return -1;
+
+  var sourceHeading = sourceHeadings[index];
+  var targetHeading = targetHeadings[index];
+  if (!targetHeading) return -1;
+  if (sourceHeadings.length !== targetHeadings.length) return -1;
+  if (sourceHeading.level !== targetHeading.level) return -1;
+  return index;
 }
 
 function restoreScrollByRatio(scrollRatio) {
   var maxScroll = Math.max(0, document.documentElement.scrollHeight - window.innerHeight);
-  window.scrollTo({ top: Math.round(maxScroll * scrollRatio), behavior: "instant" });
+  jumpToScrollTop(Math.round(maxScroll * scrollRatio));
 }
 
-function scrollToHeadingIndex(index, fallbackRatio) {
+function jumpToScrollTop(top) {
+  var root = document.documentElement;
+  var previousScrollBehavior = root.style.scrollBehavior;
+  root.style.scrollBehavior = "auto";
+  window.scrollTo(0, top);
+  root.style.scrollBehavior = previousScrollBehavior;
+}
+
+function scrollTargetToPreferredTop(target, preferredTop) {
+  if (!document.body.contains(target)) return;
+  var targetTop = target.getBoundingClientRect().top;
+  var maxScroll = Math.max(0, document.documentElement.scrollHeight - window.innerHeight);
+  var nextTop = Math.min(Math.max(0, window.scrollY + targetTop - preferredTop), maxScroll);
+  jumpToScrollTop(Math.round(nextTop));
+}
+
+function scrollToHeadingIndex(index, fallbackRatio, preferredTop = null) {
   requestAnimationFrame(() => {
-    var target = getContentHeadings()[index];
+    var headings = getPageHeadings(state.currentPage, state.language);
+    var targetId = headings[index]?.id;
+    if (!targetId) {
+      restoreScrollByRatio(fallbackRatio);
+      return;
+    }
+    var target = document.getElementById(targetId);
     if (!target) {
       restoreScrollByRatio(fallbackRatio);
       return;
     }
     target.closest("details")?.setAttribute("open", "");
+    if (Number.isFinite(preferredTop)) {
+      scrollTargetToPreferredTop(target, preferredTop);
+      requestAnimationFrame(function () { scrollTargetToPreferredTop(target, preferredTop); });
+      setTimeout(function () { scrollTargetToPreferredTop(target, preferredTop); }, 120);
+      return;
+    }
     target.scrollIntoView();
   });
 }
@@ -1164,25 +1225,44 @@ elements.searchEnToggle.addEventListener("change", function () {
   elements.presetToggle.addEventListener("click", togglePresetDropdown);
   elements.languageToggle.addEventListener("click", () => {
     if (state.currentPage?.translationStatus !== "complete") return;
+    if (elements.document.classList.contains("language-transition-out")) return;
 
-    const targetIdx = getVisibleHeadingIndex();
-    const scrollRatio = getReadableScrollRatio();
+    var fromLanguage = state.language;
+    var toLanguage = fromLanguage === "zh" ? "en" : "zh";
+    var headingAnchor = getVisibleHeadingAnchor();
+    var targetIdx = headingAnchor
+      ? getMappedHeadingIndex(state.currentPage, headingAnchor.id, fromLanguage, toLanguage)
+      : -1;
+    var scrollRatio = getReadableScrollRatio();
+    var disclosureStates = getContentDisclosureStates();
 
-    state.language = state.language === "zh" ? "en" : "zh";
-    if (state.currentPage?.standalone) {
-      renderStandalonePage(state.currentPage, "", true);
-    } else {
-      renderPage(state.currentPage, "", true);
-    }
-    if (state.query.trim() && (state.searchIndexZh || state.searchIndexEn)) {
-      setTimeout(function () { highlightPageContent(state.query.trim()); }, 0);
-    }
+    window.clearTimeout(languageTransitionTimer);
+    elements.languageToggle.disabled = true;
+    elements.document.classList.add("language-transition-out");
+    languageTransitionTimer = window.setTimeout(function () {
+      state.language = toLanguage;
+      if (state.currentPage?.standalone) {
+        renderStandalonePage(state.currentPage, "", true);
+      } else {
+        renderPage(state.currentPage, "", true);
+      }
+      restoreContentDisclosureStates(disclosureStates);
+      if (state.query.trim() && (state.searchIndexZh || state.searchIndexEn)) {
+        setTimeout(function () { highlightPageContent(state.query.trim()); }, 0);
+      }
 
-    if (targetIdx >= 0) {
-      scrollToHeadingIndex(targetIdx, scrollRatio);
-    } else {
-      restoreScrollByRatio(scrollRatio);
-    }
+      if (targetIdx >= 0) {
+        scrollToHeadingIndex(targetIdx, scrollRatio, headingAnchor?.top);
+      } else {
+        restoreScrollByRatio(scrollRatio);
+      }
+      elements.document.classList.remove("language-transition-out");
+      elements.document.classList.add("language-transition-in");
+      window.setTimeout(function () {
+        elements.document.classList.remove("language-transition-in");
+      }, 20);
+      elements.languageToggle.disabled = state.currentPage?.translationStatus !== "complete";
+    }, 120);
   });
 window.addEventListener("hashchange", routeFromLocation);
 window.addEventListener("popstate", routeFromLocation);

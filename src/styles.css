@@ -724,6 +724,19 @@ kbd { padding: 2px 5px; border: 1px solid var(--line); color: var(--muted); back
   color: #d7ddd8;
   font-family: var(--font-serif);
   line-height: 1.82;
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity .14s ease, transform .14s ease;
+}
+
+.document.language-transition-out {
+  opacity: .18;
+  transform: translateY(2px);
+}
+
+.document.language-transition-in {
+  opacity: .18;
+  transform: translateY(-2px);
 }
 
 .manual-content {
