@@ -170,10 +170,18 @@ function buildPresetDropdown() {
 function togglePresetDropdown() {
   var dd = elements.presetDropdown;
   if (!dd) return;
-  var open = dd.classList.toggle("open");
+  var open = !dd.classList.contains("open");
+  setPresetDropdownOpen(open);
   if (!open) {
     hidePresetOptionTooltip();
   }
+}
+
+function setPresetDropdownOpen(open) {
+  var dd = elements.presetDropdown;
+  if (!dd) return;
+  dd.classList.toggle("open", open);
+  elements.presetToggle?.parentElement?.classList.toggle("preset-dropdown-open", open);
 }
 
 function selectThemePreset(id) {
@@ -181,7 +189,7 @@ function selectThemePreset(id) {
   try { localStorage.setItem("ssl-manual-preset", id); } catch (_) {}
   loadThemeCSS(id);
   buildPresetDropdown();
-  if (elements.presetDropdown) elements.presetDropdown.classList.remove("open");
+  setPresetDropdownOpen(false);
   hidePresetOptionTooltip();
 }
 
@@ -1117,7 +1125,7 @@ document.addEventListener("click", function (event) {
   var dd = elements.presetDropdown;
   if (!dd || !dd.classList.contains("open")) return;
   if (dd.contains(event.target) || elements.presetToggle.contains(event.target)) return;
-  dd.classList.remove("open");
+  setPresetDropdownOpen(false);
   hidePresetOptionTooltip();
 });
 
