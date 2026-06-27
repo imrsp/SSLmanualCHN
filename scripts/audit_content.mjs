@@ -215,4 +215,13 @@ const markdown = [
   ]),
 ];
 fs.writeFileSync(path.join(outputDirectory, "CONTENT_AUDIT.md"), `${markdown.join("\n")}\n`);
-console.log(JSON.stringify(summary, null, 2));
+console.log([
+  "=== 内容审计报告 ===",
+  "",
+  `  页面：${summary.pages}`,
+  `  [OK]   无结构问题：${summary.cleanPages}`,
+  ...(summary.reviewPages ? [`  [WARN] 待复核：${summary.reviewPages}`] : [`  [OK]   全部通过`]),
+  ...(summary.pagesWithMissingImages ? [`  [WARN] 含缺失图片：${summary.pagesWithMissingImages}`] : []),
+  ...(summary.totalIssues ? [`  [WARN] 问题项：${summary.totalIssues}`] : []),
+  "",
+].join("\n"));

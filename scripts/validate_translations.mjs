@@ -147,8 +147,27 @@ fs.writeFileSync(path.join(root, "reports", "VALIDATION_TRANSLATIONS.md"), [
   ...(reports.some((item) => item.reportFindings.length) ? [] : ["- 无", ""]),
 ].join("\n"));
 
-console.log(JSON.stringify(summary, null, 2));
+console.log([
+  "=== 翻译结构校验报告 ===",
+  "",
+  `  页面：${summary.total}`,
+  ...(summary.clean === summary.total
+    ? [`  [OK]   全部通过`]
+    : [
+        ...(summary.hardFailurePages ? [`  [FAIL] 硬失败页面：${summary.hardFailurePages}`] : []),
+        ...(summary.reportOnlyPages ? [`  [WARN] 仅报告页面：${summary.reportOnlyPages}`] : []),
+      ]),
+  `  [OK]   无问题：${summary.clean}`,
+  "",
+].join("\n"));
 for (const report of reports.filter((item) => item.hardFailures.length)) {
-  console.error(`${report.file}: ${report.hardFailures.join("；")}`);
+  for (const failure of report.hardFailures) {
+    console.log(`  [FAIL] ${report.file}: ${failure}`);
+  }
+}
+for (const report of reports.filter((item) => item.reportFindings.length && !item.hardFailures.length)) {
+  for (const finding of report.reportFindings) {
+    console.log(`  [WARN] ${report.file}: ${finding}`);
+  }
 }
 if (reports.some((item) => item.hardFailures.length)) process.exitCode = 1;

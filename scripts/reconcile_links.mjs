@@ -36,6 +36,12 @@ for (const page of manifest) {
   }
 }
 
-console.log(JSON.stringify({ pages: manifest.length, issues: issues.length }, null, 2));
-for (const issue of issues) console.error(issue);
+console.log([
+  "=== 链接一致性校验报告 ===",
+  "",
+  `  页面：${manifest.length}`,
+  ...(issues.length ? [`  [FAIL] 问题页面：${issues.length}`] : [`  [OK]   全部一致`]),
+  "",
+].join("\n"));
+for (const issue of issues) console.log(`  [FAIL] ${issue}`);
 if (issues.length) process.exitCode = 1;

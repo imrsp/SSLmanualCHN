@@ -94,10 +94,15 @@ fs.writeFileSync(
     "",
   ].join("\n"),
 );
-console.log(JSON.stringify({
-  total: report.total,
-  reachable: report.reachable,
-  blocked: report.blocked,
-  unavailable: report.unavailable,
-  networkErrors: report.networkErrors,
-}, null, 2));
+console.log([
+  "=== 外链审计报告 ===",
+  "",
+  `  页面：${catalog.pages.length}`,
+  `  外链总数：${report.total}`,
+  `  [OK]   可访问：${report.reachable}`,
+  ...(report.blocked ? [`  [WARN] 被限制：${report.blocked}`] : []),
+  ...(report.unavailable ? [`  [WARN] 不可用：${report.unavailable}`] : []),
+  ...(report.networkErrors ? [`  [WARN] 网络错误：${report.networkErrors}`] : []),
+  ...(!report.blocked && !report.unavailable && !report.networkErrors ? [`  [OK]   全部可访问`] : []),
+  "",
+].join("\n"));

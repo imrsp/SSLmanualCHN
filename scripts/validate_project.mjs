@@ -229,13 +229,23 @@ fs.writeFileSync(path.join(root, "reports", "VALIDATION_PROJECT.md"), [
     : []),
 ].join("\n"));
 
-console.log(JSON.stringify({
-  pages: report.pages,
-  translatedPages: report.translatedPages,
-  hardFailures: report.hardFailures.length,
-  reportItems: report.reportFindings.unusedPublishedAssets.length + report.reportFindings.staleAssetEntries.length + report.reportFindings.platformResidue.length,
-}, null, 2));
-for (const issue of report.hardFailures) console.error(issue);
+const allReportItems = [
+  ...report.reportFindings.unusedPublishedAssets.map((item) => `未引用的已发布资源：${item}`),
+  ...report.reportFindings.staleAssetEntries.map((item) => `资源清单中的非发布条目：${item}`),
+  ...report.reportFindings.platformResidue.map((item) => `文档中的平台残留：${item}`),
+];
+
+console.log([
+  "=== 工程校验报告 ===",
+  "",
+  `  章节：${report.pages}`,
+  `  已翻译章节：${report.translatedPages}`,
+  ...(report.hardFailures.length ? [`  [FAIL] 硬失败：${report.hardFailures.length}`] : [`  [OK]   无硬失败`]),
+  ...(allReportItems.length ? [`  [WARN] 报告项：${allReportItems.length}`] : [`  [OK]   无报告项`]),
+  "",
+].join("\n"));
+for (const issue of report.hardFailures) console.log(`  [FAIL] ${issue}`);
+for (const item of allReportItems) console.log(`  [WARN] ${item}`);
 if (report.hardFailures.length) process.exitCode = 1;
 
 function reportSectionsMismatch(catalogData, siteData) {
