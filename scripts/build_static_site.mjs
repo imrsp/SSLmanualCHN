@@ -39,6 +39,16 @@ const internalPages = new Map(
   }),
 );
 const anchorsByLanguage = { en: new Map(), zh: new Map() };
+const unsafeContentPatterns = [
+  { name: "script tag", pattern: /<script\b/i },
+  { name: "event handler attribute", pattern: /\son[a-z]+\s*=/i },
+  { name: "javascript URL", pattern: /\b(?:href|src|xlink:href|action|formaction)\s*=\s*(?:"\s*javascript:|'\s*javascript:|[^\s>]*javascript:)/i },
+  { name: "dangerous data URL", pattern: /\b(?:href|src|xlink:href|action|formaction)\s*=\s*(?:"\s*data\s*:\s*(?:text\/html|image\/svg\+xml|application\/xml|text\/xml)|'\s*data\s*:\s*(?:text\/html|image\/svg\+xml|application\/xml|text\/xml)|[^\s>]*data\s*:\s*(?:text\/html|image\/svg\+xml|application\/xml|text\/xml))/i },
+  { name: "embedded browsing context", pattern: /<(?:iframe|object|embed|base|form|input|button|textarea|select)\b/i },
+  { name: "srcdoc attribute", pattern: /\ssrcdoc\s*=/i },
+  { name: "meta refresh", pattern: /<meta\b[^>]+http-equiv\s*=\s*(?:"refresh"|'refresh'|refresh)/i },
+  { name: "inline svg/math", pattern: /<(?:svg|math)\b/i },
+];
 
 function getPageTitleZh(pageId) {
   const title = pageTitleZhById?.[pageId];
@@ -79,6 +89,27 @@ function localizeInternalLinks(html, sourceUrl, language) {
       ? `/${encodeURIComponent(requestedAnchor)}`
       : "";
     return `href=${quote}#/page/${id}${anchor}${quote}`;
+  });
+}
+
+function assertSafeContentHtml(html, label) {
+  for (const check of unsafeContentPatterns) {
+    if (check.pattern.test(html)) {
+      throw new Error(`Unsafe manual HTML in ${label}: ${check.name}`);
+    }
+  }
+}
+
+function addBlankLinkRel(html) {
+  return html.replace(/<a\b[^>]*>/gi, (tag) => {
+    if (!/\btarget\s*=\s*(?:"_blank"|'_blank'|_blank)(?=\s|>|\/)/i.test(tag)) return tag;
+    const relMatch = tag.match(/\brel\s*=\s*(["'])([^"']*)\1/i);
+    if (relMatch) {
+      const values = new Set(relMatch[2].split(/\s+/).filter(Boolean));
+      values.add("noreferrer");
+      return tag.replace(relMatch[0], `rel=${relMatch[1]}${[...values].join(" ")}${relMatch[1]}`);
+    }
+    return tag.replace(/>$/, ' rel="noreferrer">');
   });
 }
 
@@ -284,7 +315,8 @@ function prepareStandaloneDocument(filePath) {
       transformAccordions(raw),
     ),
   );
-  return addHeadingIds(dedupeIds(structured));
+  assertSafeContentHtml(structured, path.relative(root, filePath));
+  return addHeadingIds(dedupeIds(addBlankLinkRel(structured)));
 }
 
 function prepareDocument(filePath, sourceUrl, pageTitle) {
@@ -298,7 +330,8 @@ function prepareDocument(filePath, sourceUrl, pageTitle) {
       ),
     ),
   );
-  return addHeadingIds(dedupeIds(structured));
+  assertSafeContentHtml(structured, path.relative(root, filePath));
+  return addHeadingIds(dedupeIds(addBlankLinkRel(structured)));
 }
 
 const preparedSources = manifest.map((item, index) => {
@@ -490,7 +523,7 @@ function escapeXml(str) {
 function generatePrerenderPage(pageData, prevPage, nextPage) {
   var noindexIds = new Set(seoConfig.noindexPageIds || []);
  var robotsContent = noindexIds.has(pageData.id) ? "noindex, follow" : "index, follow";
-  var crawlContent = pageData.contentHtml.replace(
+  var crawlContent = addBlankLinkRel(pageData.contentHtml).replace(
     /href="#\/page\/([^"]+)"/g,
     function(match, path) {
       var parts = path.split("/");

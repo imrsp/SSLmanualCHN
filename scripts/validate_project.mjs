@@ -44,9 +44,34 @@ const missingBuiltPages = catalog.pages
   .filter((file) => !fs.existsSync(path.join(root, file)));
 
 const pageIntegrityIssues = [];
+const securityIssues = [];
+const unsafeContentPatterns = [
+  { name: "script tag", pattern: /<script\b/i },
+  { name: "event handler attribute", pattern: /\son[a-z]+\s*=/i },
+  { name: "javascript URL", pattern: /\b(?:href|src|xlink:href|action|formaction)\s*=\s*(?:"\s*javascript:|'\s*javascript:|[^\s>]*javascript:)/i },
+  { name: "dangerous data URL", pattern: /\b(?:href|src|xlink:href|action|formaction)\s*=\s*(?:"\s*data\s*:\s*(?:text\/html|image\/svg\+xml|application\/xml|text\/xml)|'\s*data\s*:\s*(?:text\/html|image\/svg\+xml|application\/xml|text\/xml)|[^\s>]*data\s*:\s*(?:text\/html|image\/svg\+xml|application\/xml|text\/xml))/i },
+  { name: "embedded browsing context", pattern: /<(?:iframe|object|embed|base|form|input|button|textarea|select)\b/i },
+  { name: "srcdoc attribute", pattern: /\ssrcdoc\s*=/i },
+  { name: "meta refresh", pattern: /<meta\b[^>]+http-equiv\s*=\s*(?:"refresh"|'refresh'|refresh)/i },
+  { name: "inline svg/math", pattern: /<(?:svg|math)\b/i },
+];
+function getAttribute(tag, name) {
+  return tag.match(new RegExp(`\\b${name}\\s*=\\s*(["'])([^"']*)\\1`, "i"))?.[2] ?? "";
+}
 const allBuiltHtml = catalog.pages.map((page) => {
   const data = readJson(path.join(root, "dist", "data", "pages", `${page.id}.json`));
   for (const [language, html] of [["zh", data.contentHtml], ["en", data.englishHtml]]) {
+    for (const check of unsafeContentPatterns) {
+      if (check.pattern.test(html)) securityIssues.push(`${page.id} (${language}): ${check.name}`);
+    }
+    for (const anchor of html.matchAll(/<a\b[^>]*>/gi)) {
+      const tag = anchor[0];
+      if (!/\btarget\s*=\s*(?:"_blank"|'_blank'|_blank)(?=\s|>|\/)/i.test(tag)) continue;
+      const rel = getAttribute(tag, "rel").toLowerCase();
+      if (!/\bnoopener\b|\bnoreferrer\b/.test(rel)) {
+        securityIssues.push(`${page.id} (${language}): target=_blank without rel=noopener/noreferrer`);
+      }
+    }
     const ids = [...html.matchAll(/\bid=["']([^"']+)["']/gi)].map((match) => match[1]);
     const duplicateIds = ids.filter((id, index) => ids.indexOf(id) !== index);
     if (duplicateIds.length) {
@@ -104,6 +129,7 @@ const hardFailures = [
   ...missingBuiltPages,
   ...missingAssets,
   ...pageIntegrityIssues,
+  ...securityIssues,
 ];
 if (!pageTitleZhById || typeof pageTitleZhById !== "object" || Array.isArray(pageTitleZhById)) {
   hardFailures.push("Missing or invalid site.pageTitlesZhById mapping");
@@ -151,6 +177,7 @@ const report = {
   missingAssets: missingAssets,
   remoteImages,
   pageIntegrityIssues,
+  securityIssues,
   hardFailures,
   reportFindings,
 };
