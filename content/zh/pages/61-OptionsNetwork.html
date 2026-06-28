@@ -34,7 +34,7 @@
 
 <h2 id="Network">网络选项</h2>
 
-<p>这些设置与控制台本地网络和 Dante IP 配置有关。</p>
+<p>这些设置涉及控制台本地网络和 Dante IP 配置。</p>
 
 <p>网络选项位于 <span class="label">MENU</span> > <span class="label">设置</span> > <span class="label">Options</span> > <span class="label">NETWORK</span> 选项卡。</p>
 
@@ -58,19 +58,19 @@
     提供 Dante 网络的主控制连接，包括建立或取消路由，以及控制麦克风增益等输入参数。
 </p>
 <p>
-    <span style="font-weight:bold;">Dante 次控制网络</span> -
-    提供 Dante 网络的次控制连接。
+    <span style="font-weight:bold;">Dante 备控制网络</span> -
+    提供 Dante 网络的备控制连接。
 </p>
 <p>
-    要在控制台上使用 Dante，控制台 Dante Control 的主、次 IP 地址必须分别与 Dante 网络中的其他设备处于相同子网。
-    Dante 主网络和次网络必须使用不同子网。
+    要在控制台上使用 Dante，控制台 Dante 控制网络的主、备 IP 地址必须分别与 Dante 网络中的其他设备处于相同子网。
+    Dante 主网络和备网络必须使用不同子网。
 </p>
 
 <p>控制台的三个网络设备（Connectivity、Dante Primary Control 和 Dante Secondary Control）的 IP 地址必须分别位于不同子网。</p>
 
 <p>
-    选择 <span class="label">DHCP</span> or <span class="label">Fixed</span> ，为每个网络选择合适的方式。
-    Double tapping on any <b>IP Address</b>, <b>Netmask</b> or <b>Gateway</b> 字段可调出屏幕键盘，以输入固定地址。
+    根据需要，为每个网络选择 <span class="label">DHCP</span> 或 <span class="label">Fixed</span>。
+    双击任意 <b>IP Address</b>, <b>Netmask</b> 或 <b>Gateway</b> 字段可调出屏幕键盘，以输入固定地址。
     正确输入设置后，按住 <span class="label">Apply</span>.
 </p>
 
@@ -80,7 +80,7 @@
 
 <span class="note">
     <span class="notetitle">请注意： </span>如果这些控制台网络设备中的任意一个设为 <span class="label">DHCP</span> ，且该网络中没有 DHCP 服务器，IP 地址将自动配置在 <span style="font-weight:bold;">169.254.x.x</span> 子网内。
-    如果多个控制台网络设备设为 <span class="label">DHCP</span> 且这些网络中均无 DHCP 服务器，则这些网络设备都会自动配置为 <span style="font-weight:bold;">169.254.x.x</span> 子网内。
+    如果多个控制台网络设备设为 <span class="label">DHCP</span> 且这些网络中均无 DHCP 服务器，则这些网络设备都会自动配置在 <span style="font-weight:bold;">169.254.x.x</span> 子网内。
     这会使网络互相连通，属于无效配置。 因此，SSL 建议在没有 DHCP 服务器时使用 <span class="label">Fixed</span> IP 地址。
 </span>
 
@@ -92,8 +92,8 @@
 <h3 id="Clash">IP 地址冲突警告</h3>
 
 <p>
-    Network Options 中新增了 IP 地址冲突警告（<span class="label">MENU</span> > <span class="label">设置</span> > <span class="label">Options</span> > <span class="label">NETWORK</span> tab)
-    to notify of when multiple network adapters on the 控制台 have IP addresses within the same 子网内。
+    Network Options 中新增了 IP 地址冲突警告（<span class="label">MENU</span> > <span class="label">Setup</span> > <span class="label">Options</span> > <span class="label">NETWORK</span> 标签页）
+    中新增了 IP 地址冲突警告，用以在控制台上的多个网络适配器处于同一子网时予以提示。
 </p>
 
 <p>需要更改 IP 地址的适配器会以红色突出显示。</p>
@@ -120,7 +120,7 @@
     <ol>
         <li>Dante Control Primary</li>
         <li>Dante Control Secondary</li>
-        <li>连接控制网络</li>
+        <li>Connectivity Network</li>
     </ol>
 
 <p>
@@ -143,16 +143,16 @@
 
 <p>使用各字段右侧的 <span class="label">Protocol</span> 按钮，设置 <span style="font-weight:bold;">Authentication</span> 和 <span style="font-weight:bold;">Privacy</span> 的加密方案。</p>
 
-<p>要启动控制台的 SNMP 代理服务，请启用 <span class="label">Enabled</span> button in the <span style="font-weight:bold;">SNMP Configuration</span> 部分中的按钮。关闭该按钮即可停止服务。</p>
+<p>要启动控制台的 SNMP 代理服务，请启用 <span style="font-weight:bold;">SNMP Configuration</span> 部分中的 <span class="label">Enabled</span> 按钮。关闭该按钮即可停止服务。</p>
 
 <p>使用 <span class="label">Export MIB</span> 按钮可导出一个 MIB 文件，其中包含启用 SNMP 时控制台公开的参数。 可将该文件导入 SNMP 管理器数据库，以便配置。</p>
 
 <p>控制台会报告以下状态：</p>
 
 <ul>
-    <li>控制台连接控制网络状态</li>
+    <li>控制台 Connectivity 控制网络状态</li>
     <li>控制台 Dante 主网络状态</li>
-    <li>控制台 Dante 次网络状态</li>
+    <li>控制台 Dante 备网络状态</li>
 </ul>
 
 
@@ -166,7 +166,7 @@
 </p>
 
 <span class="note">
-    <span class="notetitle">重要说明：</span> 控制台的 Local Dante Expander（Brooklyn II）模块以及所有 BLII 或 X-Light Bridge，必须与 I/O 和控制台控制软件加入同一个域。
+    <span class="notetitle">重要说明：</span> 控制台的本地 Dante 扩展模块（Brooklyn II）模块以及所有 BLII 或 X-Light Bridge，必须与 I/O 和控制台控制软件加入同一个域。
     此操作通过 Dante Domain Manager 完成。
 </span>
 <!-- End of DDM Snippet -->
