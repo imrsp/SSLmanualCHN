@@ -28,7 +28,7 @@
     其功能与控制台上的推子区块完全相同。
 </p>
 
-<p>一台控制台最多可同时连接 2 个 Remote Tile。</p>
+<p>一台控制台最多可同时连接 2 个远程推子区块。</p>
 
 
 
@@ -37,48 +37,48 @@
 <h2 id="Connecting">将远程推子区块连接到控制台</h2>
 
 <p>
-    Remote Tile 通过 USB 连接控制台，并带有内部电源。
-    将 Remote Tile 接通电源。 将 Remote Tile 连接到控制台的 <span style="font-weight:bold;">USB Expander ports</span> 端口，使用 USB A 转 B 电缆。
+    远程推子区块通过 USB 连接控制台，且带有内部电源。
+    将远程推子区块接通电源，连接到控制台的 <span style="font-weight:bold;">USB Expander ports</span> 端口，使用 USB A 转 B 电缆。
 </p>
 
-<span class="note"><span class="notetitle">请注意： </span>Remote Tile <span style="font-weight:bold;">必须</span>通过控制台的 <span style="font-weight:bold;">USB Expander</span> 端口之一接入。
-请勿通过其他 USB 端口连接 Remote Tile。</span>
+<span class="note"><span class="notetitle">请注意： </span>远程推子区块 <span style="font-weight:bold;">必须</span>通过控制台的 <span style="font-weight:bold;">USB Expander</span> 端口之一接入。
+请勿通过其他 USB 端口连接远程推子区块。</span>
 
 <p>
-    如果这是 Remote Tile 首次连接控制台，请进入 System 页面（<span class="label">MENU</span> &gt; <span class="label">Setup</span> &gt; <span class="label">System&nbsp;/&nbsp;Power</span> &gt; <span class="label">System</span> 选项卡）。
+    如果这是远程推子区块首次连接控制台，请进入 System 页面（<span class="label">MENU</span> &gt; <span class="label">Setup</span> &gt; <span class="label">System&nbsp;/&nbsp;Power</span> &gt; <span class="label">System</span> 选项卡）。
     按住 <span class="label">Rebuild&nbsp;Hardware&nbsp;Configuration</span>，然后重启控制台。
-    这样即可使控制台支持 Remote Tile。硬件配置只需重建一次；下次使用时直接将 Remote Tile 插入控制台即可。
+    这样即可使控制台支持远程推子区块。硬件配置只需重建一次；下次使用时直接将远程推子区块插入控制台即可。
 </p>
 
 <p>
-    选择 Remote Tile 放置在控制台的哪一侧。 Remote Tile 背面有一个编码器，可用于分配位置 ID。
+    选择远程推子区块放置在控制台的哪一侧。 远程推子区块背面有一个编码器，可用于分配位置 ID。
 </p>
 
-<p>如果 Remote Tile 位于控制台左侧，请选择位置 1。</p>
-<p>如果 Remote Tile 位于控制台右侧，请选择位置 2。</p>
+<p>如果远程推子区块位于控制台左侧，请选择位置 1。</p>
+<p>如果远程推子区块位于控制台右侧，请选择位置 2。</p>
 <p>位置 3 和 4 暂不使用。</p>
 
 <br />
 
-<h2>配置层和 Bank</h2>
+<h2>配置层和推子组</h2>
 
 <p>
     转到 <span class="label">Layer Manager</span>，User Layers 列表中会出现“Remote Fader Tile 1”（左）和“Remote Fader Tile 2”（右）。
-    配置 Remote Tile 的 Layer 和 Bank，方法与控制台推子区块相同。 请参阅 <a href="https://livehelp.solidstatelogic.com/Help/LayerManager.html"><span class="hyperlink">推子层管理器</span></a> 章节了解更多信息。
+    配置远程推子区块的推子层和推子组，方法与控制台推子区块相同。 请参阅 <a href="https://livehelp.solidstatelogic.com/Help/LayerManager.html"><span class="hyperlink">推子层管理器</span></a> 章节了解更多信息。
 </p>
 
 <br />
 <h2 id="SOLSA">将 SOLSA 与远程推子区块配合使用</h2>
 
-<p>SOLSA 在离线或在线模式下也可配合最多两个 Remote Tile 使用。</p>
+<p>SOLSA 在离线或在线模式下也可配合最多两个远程推子区块使用。</p>
 
 <p>为此，请按照上文<a href="https://livehelp.solidstatelogic.com/Help/RemoteTile.html#Connecting"><span class="hyperlink">将远程推子区块连接到控制台</span></a>的说明操作。
     使用 <span class="label">Rebuild&nbsp;Hardware&nbsp;Configuration</span> 按钮后，关闭并重新打开 SOLSA。 无需重启计算机。</p>
 	
 <span class="note"><span class="notetitle">请注意： </span>请使用 <span class="label">Rebuild Hardware Configuration</span>。
-	如果在没有 Remote Tile 实物时要配置包含 Remote Tile 的演出文件，只需不连接 Remote Tile，照上述步骤操作即可。</span>
+	如果在没有远程推子区块实物时要配置包含远程推子区块的演出文件，无需连接远程推子区块，直接照上述步骤操作即可。</span>
 
-<p>将 Remote Tile 与 SOLSA 配合使用时，“Remote Tile 1”（即位置编码器设为“1”）可配合 <span class="label">Follow Detail</span>.</p>
+<p>将远程推子区块与 SOLSA 配合使用时，“Remote Tile 1”（即位置编码器设为“1”）可与 <span class="label">Follow Detail</span> 配合使用。</p>
 
 <span class="note"><span class="notetitle">请注意： </span>如果更改了 Remote Tile 的区块 ID（设备背面的定位编码器），
 必须重启控制台或重新启动 SOLSA，新的 ID 才会生效。</span>
