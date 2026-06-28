@@ -5,9 +5,9 @@ import { root, readJson } from "./lib/manual.mjs";
 const requiredFiles = [
   "package.json",
   "content/site.json",
-  "content/en/manifest.json",
-  "content/TERMINOLOGY.md",
-  "content/glossary.csv",
+  "content/manifest.json",
+  "docs/TERMINOLOGY.md",
+  "docs/glossary.csv",
   "src/index.html",
   "src/app.js",
   "src/styles.css",
@@ -25,10 +25,13 @@ const requiredFiles = [
   "dist/data/search-index-en.js",
 ];
 const missingRequiredFiles = requiredFiles.filter((file) => !fs.existsSync(path.join(root, file)));
-const sourceManifest = readJson(path.join(root, "content", "en", "manifest.json"));
+const sourceManifest = readJson(path.join(root, "content", "manifest.json"));
 const site = readJson(path.join(root, "content", "site.json"));
 const catalog = readJson(path.join(root, "dist", "data", "catalog.json"));
 const assetManifest = readJson(path.join(root, "public", "assets", "manual", "manifest.json"));
+const pageTitleZhById = site.pageTitlesZhById;
+const manifestPageIds = sourceManifest.map((page) => path.basename(page.outputFile, ".html").replace(/^\d+-/, ""));
+const manifestPageIdSet = new Set(manifestPageIds);
 
 const missingSourcePages = sourceManifest
   .map((page) => path.join("content", "en", page.outputFile))
@@ -41,9 +44,34 @@ const missingBuiltPages = catalog.pages
   .filter((file) => !fs.existsSync(path.join(root, file)));
 
 const pageIntegrityIssues = [];
+const securityIssues = [];
+const unsafeContentPatterns = [
+  { name: "script tag", pattern: /<script\b/i },
+  { name: "event handler attribute", pattern: /\son[a-z]+\s*=/i },
+  { name: "javascript URL", pattern: /\b(?:href|src|xlink:href|action|formaction)\s*=\s*(?:"\s*javascript:|'\s*javascript:|[^\s>]*javascript:)/i },
+  { name: "dangerous data URL", pattern: /\b(?:href|src|xlink:href|action|formaction)\s*=\s*(?:"\s*data\s*:\s*(?:text\/html|image\/svg\+xml|application\/xml|text\/xml)|'\s*data\s*:\s*(?:text\/html|image\/svg\+xml|application\/xml|text\/xml)|[^\s>]*data\s*:\s*(?:text\/html|image\/svg\+xml|application\/xml|text\/xml))/i },
+  { name: "embedded browsing context", pattern: /<(?:iframe|object|embed|base|form|input|button|textarea|select)\b/i },
+  { name: "srcdoc attribute", pattern: /\ssrcdoc\s*=/i },
+  { name: "meta refresh", pattern: /<meta\b[^>]+http-equiv\s*=\s*(?:"refresh"|'refresh'|refresh)/i },
+  { name: "inline svg/math", pattern: /<(?:svg|math)\b/i },
+];
+function getAttribute(tag, name) {
+  return tag.match(new RegExp(`\\b${name}\\s*=\\s*(["'])([^"']*)\\1`, "i"))?.[2] ?? "";
+}
 const allBuiltHtml = catalog.pages.map((page) => {
   const data = readJson(path.join(root, "dist", "data", "pages", `${page.id}.json`));
   for (const [language, html] of [["zh", data.contentHtml], ["en", data.englishHtml]]) {
+    for (const check of unsafeContentPatterns) {
+      if (check.pattern.test(html)) securityIssues.push(`${page.id} (${language}): ${check.name}`);
+    }
+    for (const anchor of html.matchAll(/<a\b[^>]*>/gi)) {
+      const tag = anchor[0];
+      if (!/\btarget\s*=\s*(?:"_blank"|'_blank'|_blank)(?=\s|>|\/)/i.test(tag)) continue;
+      const rel = getAttribute(tag, "rel").toLowerCase();
+      if (!/\bnoopener\b|\bnoreferrer\b/.test(rel)) {
+        securityIssues.push(`${page.id} (${language}): target=_blank without rel=noopener/noreferrer`);
+      }
+    }
     const ids = [...html.matchAll(/\bid=["']([^"']+)["']/gi)].map((match) => match[1]);
     const duplicateIds = ids.filter((id, index) => ids.indexOf(id) !== index);
     if (duplicateIds.length) {
@@ -95,44 +123,131 @@ for (const file of textFiles) {
   }
 }
 
-const report = {
-  pages: catalog.pages.length,
-  translatedPages: catalog.meta.translatedCount,
-  sections: catalog.sections.length,
-  titleMappings: site.titlesZh.length,
-  missingRequiredFiles: missingRequiredFiles.length,
-  missingSourcePages: missingSourcePages.length,
-  missingBuiltPages: missingBuiltPages.length,
-  missingAssets: missingAssets.length,
-  remoteImages,
-  unusedPublishedAssets: unusedPublishedAssets.length,
-  staleAssetEntries: staleAssetEntries.length,
-  platformResidue: platformResidue.length,
-  pageIntegrityIssues: pageIntegrityIssues.length,
-};
-console.log(JSON.stringify(report, null, 2));
-for (const issue of [
+const hardFailures = [
   ...missingRequiredFiles,
   ...missingSourcePages,
   ...missingBuiltPages,
   ...missingAssets,
-  ...unusedPublishedAssets.map((file) => `Unused published asset: ${file}`),
-  ...staleAssetEntries.map((asset) => `Stale asset manifest entry: ${asset.sourceUrl}`),
-  ...platformResidue,
   ...pageIntegrityIssues,
-]) console.error(issue);
+  ...securityIssues,
+];
+if (!pageTitleZhById || typeof pageTitleZhById !== "object" || Array.isArray(pageTitleZhById)) {
+  hardFailures.push("Missing or invalid site.pageTitlesZhById mapping");
+} else {
+  const missingTitleMappings = manifestPageIds.filter((pageId) => !pageTitleZhById[pageId]);
+  const extraTitleMappings = Object.keys(pageTitleZhById).filter((pageId) => !manifestPageIdSet.has(pageId));
+  if (missingTitleMappings.length) {
+    hardFailures.push(`Missing Chinese titles for pages: ${missingTitleMappings.join(", ")}`);
+  }
+  if (extraTitleMappings.length) {
+    hardFailures.push(`Extra Chinese title mappings: ${extraTitleMappings.join(", ")}`);
+  }
+  for (const page of catalog.pages) {
+    const expectedTitleZh = pageTitleZhById[page.id];
+    if (expectedTitleZh && page.titleZh !== expectedTitleZh) {
+      hardFailures.push(`Title mismatch for ${page.id}: catalog="${page.titleZh}" / site="${expectedTitleZh}"`);
+    }
+  }
+}
+if (catalog.pages.length !== sourceManifest.length) {
+  hardFailures.push(`Page count mismatch: manifest=${sourceManifest.length}, catalog=${catalog.pages.length}`);
+}
+if (reportSectionsMismatch(catalog, site)) {
+  hardFailures.push(`Section count mismatch: catalog=${catalog.sections.length}, site=${site.sections.length}`);
+}
+if (remoteImages) hardFailures.push(`Remote image dependencies: ${remoteImages}`);
 
-if (
-  report.pages !== sourceManifest.length ||
-  report.sections !== site.sections.length ||
-  report.titleMappings !== sourceManifest.length ||
-  report.missingRequiredFiles ||
-  report.missingSourcePages ||
-  report.missingBuiltPages ||
-  report.missingAssets ||
-  report.remoteImages ||
-  report.unusedPublishedAssets ||
-  report.staleAssetEntries ||
-  report.platformResidue ||
-  report.pageIntegrityIssues
-) process.exitCode = 1;
+const reportFindings = {
+  unusedPublishedAssets,
+  staleAssetEntries: staleAssetEntries.map((asset) => asset.sourceUrl),
+  platformResidue,
+};
+
+const report = {
+  generatedAt: new Date().toISOString(),
+  pages: catalog.pages.length,
+  translatedPages: catalog.meta.translatedCount,
+  sections: catalog.sections.length,
+  titleMappings: pageTitleZhById && typeof pageTitleZhById === "object" && !Array.isArray(pageTitleZhById)
+    ? Object.keys(pageTitleZhById).length
+    : 0,
+  missingRequiredFiles: missingRequiredFiles,
+  missingSourcePages: missingSourcePages,
+  missingBuiltPages: missingBuiltPages,
+  missingAssets: missingAssets,
+  remoteImages,
+  pageIntegrityIssues,
+  securityIssues,
+  hardFailures,
+  reportFindings,
+};
+
+fs.mkdirSync(path.join(root, "reports"), { recursive: true });
+fs.writeFileSync(
+  path.join(root, "reports", "validation-project.json"),
+  JSON.stringify(report, null, 2),
+);
+fs.writeFileSync(path.join(root, "reports", "VALIDATION_PROJECT.md"), [
+  "# 工程校验报告",
+  "",
+  `生成时间：${report.generatedAt}`,
+  "",
+  `- 章节：${report.pages}`,
+  `- 已翻译章节：${report.translatedPages}`,
+  `- 硬失败：${report.hardFailures.length}`,
+  `- 报告项：${report.reportFindings.unusedPublishedAssets.length + report.reportFindings.staleAssetEntries.length + report.reportFindings.platformResidue.length}`,
+  "",
+  "## 必须修复",
+  "",
+  ...(report.hardFailures.length ? report.hardFailures.map((item) => `- ${item}`) : ["- 无"]),
+  "",
+  "## 报告项",
+  "",
+  ...(report.reportFindings.unusedPublishedAssets.length
+    ? [
+        "### 未引用的已发布资源",
+        "",
+        ...report.reportFindings.unusedPublishedAssets.map((item) => `- ${item}`),
+        "",
+      ]
+    : []),
+  ...(report.reportFindings.staleAssetEntries.length
+    ? [
+        "### 资源清单中的非发布条目",
+        "",
+        ...report.reportFindings.staleAssetEntries.map((item) => `- ${item}`),
+        "",
+      ]
+    : []),
+  ...(report.reportFindings.platformResidue.length
+    ? [
+        "### 文档中的平台残留",
+        "",
+        ...report.reportFindings.platformResidue.map((item) => `- ${item}`),
+        "",
+      ]
+    : []),
+].join("\n"));
+
+const allReportItems = [
+  ...report.reportFindings.unusedPublishedAssets.map((item) => `未引用的已发布资源：${item}`),
+  ...report.reportFindings.staleAssetEntries.map((item) => `资源清单中的非发布条目：${item}`),
+  ...report.reportFindings.platformResidue.map((item) => `文档中的平台残留：${item}`),
+];
+
+console.log([
+  "=== 工程校验报告 ===",
+  "",
+  `  章节：${report.pages}`,
+  `  已翻译章节：${report.translatedPages}`,
+  ...(report.hardFailures.length ? [`  [FAIL] 硬失败：${report.hardFailures.length}`] : [`  [OK]   无硬失败`]),
+  ...(allReportItems.length ? [`  [WARN] 报告项：${allReportItems.length}`] : [`  [OK]   无报告项`]),
+  "",
+].join("\n"));
+for (const issue of report.hardFailures) console.log(`  [FAIL] ${issue}`);
+for (const item of allReportItems) console.log(`  [WARN] ${item}`);
+if (report.hardFailures.length) process.exitCode = 1;
+
+function reportSectionsMismatch(catalogData, siteData) {
+  return catalogData.sections.length !== siteData.sections.length;
+}

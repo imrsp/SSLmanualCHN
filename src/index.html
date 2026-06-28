@@ -1,11 +1,35 @@
 <!doctype html>
-<html lang="zh-CN">
+<html lang="zh-CN" data-theme="dark">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#111513">
-  <title>SSL Live 中文操作手册</title>
-  <link rel="stylesheet" href="./styles.css">
+ <meta charset="utf-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+ <meta name="description" content="SSL Live 中文操作手册 — Solid State Logic Live 调音台的完整操作指南，涵盖信号路由、混音、效果器、自动化、Dante 网络、外部控制等全部功能的中文说明。">
+ <meta name="keywords" content="SSL Live, SSL调音台, 数字调音台操作手册, Solid State Logic, 现场扩声, 音频手册, 中文操作指南, Dante, 调音台教程">
+ <meta name="robots" content="index, follow">
+ <meta name="theme-color" content="#111513">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+ <meta name="apple-mobile-web-app-title" content="SSL Live 操作手册">
+ <meta property="og:title" content="SSL Live 中文操作手册">
+ <meta property="og:description" content="SSL Live 中文操作手册 — Solid State Logic Live 调音台的完整操作指南。">
+ <meta property="og:type" content="website">
+ <meta property="og:url" content="https://<domain>/">
+ <meta property="og:image" content="https://<domain>/pwa-icon-512.png">
+ <meta property="og:locale" content="zh_CN">
+ <meta name="twitter:card" content="summary_large_image">
+ <meta name="twitter:title" content="SSL Live 中文操作手册">
+ <meta name="twitter:description" content="SSL Live 中文操作手册 — Solid State Logic Live 调音台的完整操作指南。">
+ <title>SSL Live 中文操作手册</title>
+ <link rel="manifest" href="./manifest.webmanifest">
+ <link rel="canonical" href="https://<domain>/">
+ <link rel="sitemap" type="application/xml" href="./sitemap.xml">
+ <link rel="icon" type="image/svg+xml" href="./favicon.svg">
+  <link rel="icon" type="image/png" href="./favicon.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="./apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="./favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="./favicon-16x16.png">
+  <link rel="icon" type="image/x-icon" href="./favicon.ico">
+  <link rel="stylesheet" href="./src/styles.css">
 </head>
 <body>
   <div class="app-shell">
@@ -14,13 +38,28 @@
         <span></span><span></span><span></span>
       </button>
       <a class="brand" href="#/page/Intro">
-        <span class="brand-mark">SSL</span>
+        <span class="brand-mark" aria-hidden="true">
+          <svg viewBox="0 0 2733.16 1687" fill="currentColor" aria-hidden="true" focusable="false" preserveAspectRatio="xMidYMid meet">
+            <g transform="translate(-49 1653) scale(1 -1)">
+              <g transform="translate(0 0)">
+                <path d="M976 1129H585V1249Q585 1333 570.0 1356.0Q555 1379 520 1379Q482 1379 462.5 1348.0Q443 1317 443 1254Q443 1173 465 1132Q486 1091 584 1033Q865 866 938 759Q1011 652 1011 414Q1011 241 970.5 159.0Q930 77 814.0 21.5Q698 -34 544 -34Q375 -34 255.5 30.0Q136 94 99.0 193.0Q62 292 62 474V580H453V383Q453 292 469.5 266.0Q486 240 528 240Q570 240 590.5 273.0Q611 306 611 371Q611 514 572 558Q532 602 375 705Q218 809 167.0 856.0Q116 903 82.5 986.0Q49 1069 49 1198Q49 1384 96.5 1470.0Q144 1556 250.0 1604.5Q356 1653 506 1653Q670 1653 785.5 1600.0Q901 1547 938.5 1466.5Q976 1386 976 1193Z"/>
+              </g>
+              <g transform="translate(977.08 0)">
+                <path d="M976 1129H585V1249Q585 1333 570.0 1356.0Q555 1379 520 1379Q482 1379 462.5 1348.0Q443 1317 443 1254Q443 1173 465 1132Q486 1091 584 1033Q865 866 938 759Q1011 652 1011 414Q1011 241 970.5 159.0Q930 77 814.0 21.5Q698 -34 544 -34Q375 -34 255.5 30.0Q136 94 99.0 193.0Q62 292 62 474V580H453V383Q453 292 469.5 266.0Q486 240 528 240Q570 240 590.5 273.0Q611 306 611 371Q611 514 572 558Q532 602 375 705Q218 809 167.0 856.0Q116 903 82.5 986.0Q49 1069 49 1198Q49 1384 96.5 1470.0Q144 1556 250.0 1604.5Q356 1653 506 1653Q670 1653 785.5 1600.0Q901 1547 938.5 1466.5Q976 1386 976 1193Z"/>
+              </g>
+              <g transform="translate(1954.16 0)">
+                <path d="M505 1619V324H761V0H84V1619Z"/>
+              </g>
+            </g>
+          </svg>
+        </span>
         <span class="brand-copy">
           <strong>LIVE HELP</strong>
           <small>中文操作手册数据库</small>
         </span>
       </a>
       <div class="topbar-status">
+        <button id="installButton" type="button" hidden>安装应用</button>
         <span class="status-light"></span>
         <span id="databaseStatus">正在载入内容库</span>
       </div>
@@ -35,11 +74,12 @@
           <kbd>/</kbd>
         </div>
         <div class="search-summary-row">
-        <span id="searchSummary">可搜索中英文标题与正文</span>
-        <span class="search-toggle" id="searchToggle">
-          <input type="checkbox" id="searchEnToggle">
-          <span>搜索英文页面</span>
-      </div>
+          <span id="searchSummary">可搜索中英文标题与正文</span>
+          <span class="search-toggle" id="searchToggle" for="searchEnToggle">
+           <input type="checkbox" id="searchEnToggle">
+           <label>搜索英文页面</label>
+          </span>
+        </div>
       </div>
       <nav class="manual-nav" id="manualNav" aria-label="手册目录"></nav>
       <footer class="sidebar-footer">
@@ -55,6 +95,43 @@
       <div class="reader-toolbar">
         <div class="breadcrumbs" id="breadcrumbs"></div>
         <div class="reader-actions">
+          <div class="preset-toggle-wrapper">
+            <button id="presetToggle" type="button" aria-label="选择主题配色" aria-describedby="presetTooltip">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="none" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="2.5" y="2.5" width="8" height="8" rx="1.5" fill="currentColor" opacity="0.4"/>
+                <rect x="13.5" y="2.5" width="8" height="8" rx="1.5" fill="currentColor" opacity="0.7"/>
+                <rect x="2.5" y="13.5" width="8" height="8" rx="1.5" fill="currentColor" opacity="0.5"/>
+                <rect x="13.5" y="13.5" width="8" height="8" rx="1.5" fill="currentColor"/>
+              </svg>
+            </button>
+            <span class="preset-tooltip" id="presetTooltip" role="tooltip">选择主题配色</span>
+            <div class="preset-dropdown" id="presetDropdown" role="menu">
+              <div class="preset-dropdown-items" id="presetItems"></div>
+            </div>
+          </div>
+          <div class="theme-toggle-wrapper">
+            <button id="themeToggle" type="button" aria-label="切换主题" aria-describedby="themeTooltip">
+              <svg class="theme-toggle-svg" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true">
+                <g class="sun-group">
+                  <circle cx="12" cy="12" r="5"/>
+                  <line x1="12" y1="1" x2="12" y2="3"/>
+                  <line x1="12" y1="21" x2="12" y2="23"/>
+                  <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+                  <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+                  <line x1="1" y1="12" x2="3" y2="12"/>
+                  <line x1="21" y1="12" x2="23" y2="12"/>
+                  <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+                  <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+                </g>
+                <g class="moon-group">
+                  <g transform="rotate(-60 12 12) translate(24,0) scale(-1,1)">
+                    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+                  </g>
+                </g>
+              </svg>
+            </button>
+            <span class="theme-tooltip" id="themeTooltip" role="tooltip">点击切换深色/浅色，长按恢复跟随系统</span>
+          </div>
           <button id="outlineButton" type="button">本页目录</button>
           <button id="languageToggle" type="button">中 / EN</button>
         </div>
@@ -84,6 +161,6 @@
   </div>
 
   <div class="scrim" id="scrim"></div>
-  <script src="./app.js"></script>
+  <script src="./src/app.js"></script>
 </body>
 </html>

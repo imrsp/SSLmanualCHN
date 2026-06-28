@@ -1,13 +1,11 @@
 # Deploy dist/ to remote server via SSH
 #
 # Required repository secrets (Settings → Secrets and variables → Actions):
-#   SSH_HOST       -- server hostname or IP
-#   SSH_USER       -- SSH login username
-#   SSH_KEY        -- private SSH key (deploy key or your key's private half)
-#   SSH_TARGET     -- server destination path, e.g. /srv/ssl-live-manual
-#
-# Optional: if your server needs a specific host key fingerprint,
-# add SSH_KNOWN_HOSTS as a secret to skip manual host key verification.
+#   SSH_HOST          -- server hostname or IP
+#   SSH_USER          -- SSH login username
+#   SSH_KEY           -- private SSH key (deploy key or your key's private half)
+#   SSH_TARGET        -- server destination path, e.g. /srv/ssl-live-manual
+#   SSH_KNOWN_HOSTS   -- server host key fingerprint (mandatory, prevents MITM attacks)
 
 name: Deploy to Server
 
@@ -23,15 +21,27 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Setup Node.js 20
+      - name: Setup Node.js 22
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 22
+          cache: 'npm'
 
-      - name: Build static site
-        run: npm run build
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
 
-      - name: Clear target directory and deploy dist/
+      - name: Install fonttools for font subsetting
+        run: pip install "fonttools[woff]"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build and validate
+        run: npm run check
+
+      - name: Deploy dist/ to server
         env:
           SSH_HOST: ${{ secrets.SSH_HOST }}
           SSH_USER: ${{ secrets.SSH_USER }}
@@ -44,17 +54,23 @@ jobs:
           echo "$SSH_KEY" > ~/.ssh/deploy_key
           chmod 600 ~/.ssh/deploy_key
 
-          if [ -n "$SSH_KNOWN_HOSTS" ]; then
-            echo "$SSH_KNOWN_HOSTS" > ~/.ssh/known_hosts
-          else
-            ssh-keyscan -H "$SSH_HOST" >> ~/.ssh/known_hosts 2>/dev/null
+          if [ -z "$SSH_KNOWN_HOSTS" ]; then
+            echo "❌ ERROR: SSH_KNOWN_HOSTS secret is missing or empty."
+            echo "Deployment stopped to prevent potential Man-in-the-Middle (MITM) attacks."
+            exit 1
           fi
+
+          echo "$SSH_KNOWN_HOSTS" > ~/.ssh/known_hosts
 
           SSH_CMD="ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=yes"
 
-          # Clear the target directory first
-          $SSH_CMD "${SSH_USER}@${SSH_HOST}" "rm -rf ${SSH_TARGET:?}/*"
-
-          # Then upload dist/ contents
-          rsync -rltvzO -e "$SSH_CMD" \
+          # Atomic-like deployment using rsync's built-in temp directory:
+          # --delete-delay marks files for removal but only cleans up after transfer completes
+          # --delay-updates writes new files to .~tmp~ then atomically renames into place
+          # Keep server-managed ACME challenge files intact.
+          rsync -rltvzO --delete-delay --delay-updates \
+            --filter="protect .user.ini" \
+            --filter="protect .well-known/" \
+            --filter="protect .well-known/***" \
+            -e "$SSH_CMD" \
             dist/ "${SSH_USER}@${SSH_HOST}:${SSH_TARGET}"

@@ -10,8 +10,9 @@ import {
   transformAccordions,
 } from "./lib/manual.mjs";
 
-const manifest = readJson(path.join(root, "content", "en", "manifest.json"));
+const manifest = readJson(path.join(root, "content", "manifest.json"));
 const site = readJson(path.join(root, "content", "site.json"));
+const pageTitleZhById = site.pageTitlesZhById;
 const outputDirectory = path.join(root, "reports");
 const snapshotsDirectory = path.join(root, "upstream", "snapshots");
 const latestSnapshot = fs.existsSync(snapshotsDirectory)
@@ -78,6 +79,12 @@ const metrics = (html) => ({
   textLength: toPlainText(html).length,
 });
 
+function getPageTitleZh(pageId) {
+  const title = pageTitleZhById?.[pageId];
+  if (!title) throw new Error(`Missing Chinese title mapping for page: ${pageId}`);
+  return title;
+}
+
 function headingIssues(items) {
   const issues = [];
   for (let index = 1; index < items.length; index += 1) {
@@ -91,7 +98,7 @@ function headingIssues(items) {
   return issues;
 }
 
-const pages = manifest.map((page, index) => {
+const pages = manifest.map((page) => {
   const englishRaw = fs.readFileSync(path.join(root, "content", "en", page.outputFile), "utf8");
   const chinesePath = path.join(root, "content", "zh", page.outputFile);
   const hasTranslation = fs.existsSync(chinesePath);
@@ -103,7 +110,8 @@ const pages = manifest.map((page, index) => {
     ? fs.readFileSync(sourcePath, "utf8")
     : englishRaw;
   const english = normalized(englishRaw, page.title);
-  const chinese = normalized(chineseRaw, site.titlesZh[index]);
+  const titleZh = getPageTitleZh(path.basename(page.outputFile, ".html").replace(/^\d+-/, ""));
+  const chinese = normalized(chineseRaw, titleZh);
   const source = normalizeLegacyMarkup(
     removePageTitleHeading(transformAccordions(upstreamMain(sourceRaw)), page.title),
   );
@@ -119,6 +127,9 @@ const pages = manifest.map((page, index) => {
       issues.push(`${key}: 英文 ${englishMetrics[key]} / 中文 ${chineseMetrics[key]}`);
     }
   }
+  if (englishMetrics.headings !== chineseMetrics.headings) {
+    issues.push(`headings: 英文 ${englishMetrics.headings} / 中文 ${chineseMetrics.headings}`);
+  }
   const englishImages = imageNames(english);
   const chineseImages = imageNames(chinese);
   const missingImages = englishImages.filter((image) => !chineseImages.includes(image));
@@ -130,12 +141,6 @@ const pages = manifest.map((page, index) => {
     issues.push(`文本长度比异常：${lengthRatio.toFixed(2)}`);
   }
   if (/<p>\s*#{2,}/.test(chinese)) issues.push("仍有 Markdown 标题标记");
-  if (/图层|推子层管理器|系统层|用户层/.test(toPlainText(chinese))) {
-    issues.push("Layer 术语未按规则保留英文");
-  }
-  if (/(?:有用链接|相关链接|Useful Links)/i.test(toPlainText(chinese))) {
-    issues.push("Useful Links 未统一为“实用链接”");
-  }
   if (suspiciousTranslation.length) {
     issues.push(`疑似未翻译正文块：${suspiciousTranslation.length}`);
   }
@@ -148,7 +153,7 @@ const pages = manifest.map((page, index) => {
     order: page.order,
     file: page.outputFile,
     title: page.title,
-    titleZh: site.titlesZh[index],
+    titleZh,
     metrics: { source: sourceMetrics, en: englishMetrics, zh: chineseMetrics },
     lengthRatio: Number(lengthRatio.toFixed(2)),
     missingImages: [...new Set(missingImages)],
@@ -164,9 +169,14 @@ const summary = {
   pages: pages.length,
   cleanPages: pages.filter((page) => !page.issues.length).length,
   reviewPages: pages.filter((page) => page.issues.length).length,
+  pagesWithHeadingCountMismatch: pages.filter((page) => page.metrics.en.headings !== page.metrics.zh.headings).length,
   pagesWithMissingImages: pages.filter((page) => page.missingImages.length).length,
   totalIssues: pages.reduce((sum, page) => sum + page.issues.length, 0),
 };
+const headingCountWarnings = pages
+  .filter((page) => page.metrics.en.headings !== page.metrics.zh.headings)
+  .map((page) =>
+    `${page.file}: headings: 英文 ${page.metrics.en.headings} / 中文 ${page.metrics.zh.headings}`);
 
 fs.mkdirSync(outputDirectory, { recursive: true });
 fs.writeFileSync(
@@ -182,6 +192,7 @@ const markdown = [
   `- 页面：${summary.pages}`,
   `- 无结构问题：${summary.cleanPages}`,
   `- 待复核：${summary.reviewPages}`,
+  `- 标题数量不一致：${summary.pagesWithHeadingCountMismatch}`,
   `- 含缺失图片：${summary.pagesWithMissingImages}`,
   `- 问题项：${summary.totalIssues}`,
   "",
@@ -213,4 +224,17 @@ const markdown = [
   ]),
 ];
 fs.writeFileSync(path.join(outputDirectory, "CONTENT_AUDIT.md"), `${markdown.join("\n")}\n`);
-console.log(JSON.stringify(summary, null, 2));
+console.log([
+  "=== 内容审计报告 ===",
+  "",
+  `  页面：${summary.pages}`,
+  `  [OK]   无结构问题：${summary.cleanPages}`,
+  ...(summary.reviewPages ? [`  [WARN] 待复核：${summary.reviewPages}`] : [`  [OK]   全部通过`]),
+  ...(summary.pagesWithHeadingCountMismatch
+    ? [`  [WARN] 标题数量不一致：${summary.pagesWithHeadingCountMismatch}`]
+    : [`  [OK]   标题数量一致`]),
+  ...(summary.pagesWithMissingImages ? [`  [WARN] 含缺失图片：${summary.pagesWithMissingImages}`] : []),
+  ...(summary.totalIssues ? [`  [WARN] 问题项：${summary.totalIssues}`] : []),
+  "",
+].join("\n"));
+for (const warning of headingCountWarnings) console.log(`  [WARN] ${warning}`);

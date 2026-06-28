@@ -2,62 +2,135 @@
 
 ## 设计目标
 
-- 章节独立，新增和校对时只修改少量文件。
-- 英文基准与中文译文一一对应，便于结构比对。
-- 发布物可由 Nginx、Caddy、对象存储或 Pages 服务直接托管。
-- 首屏不下载全部正文和图片。
+- 章节独立，新增、修订、审校时只改少量文件。
+- 英文基准与中文译文一一对应，便于结构比对和人工校对。
+- 发布物可由任意静态 Web 服务器直接托管。
+- 阅读器首屏不加载全部正文。
+- `file://` 本地打开与 HTTP 静态托管都可工作。
 
 ## 数据流
 
 ```text
-content/en/pages + content/zh/pages + content/site.json
-                         |
-                         v
-              scripts/build_static_site.mjs
-                         |
-                         v
-dist/index.html + data/catalog.{json,js} + data/pages/*.{json,js} + assets/
+content/en/pages + content/zh/pages + content/manifest.json + content/site.json + content/seo.json + content/themes/*.json
+                                         |
+                                         v
+                              scripts/build_static_site.mjs
+                                         |
+                                         v
+dist/index.html
+dist/manifest.webmanifest
+dist/sw.js
+dist/src/app.<hash>.js
+dist/src/styles.<hash>.css
+dist/data/catalog.{json,js}
+dist/data/search-index-zh.{json,js}
+dist/data/search-index-en.{json,js}
+dist/data/themes.{json,js}
+dist/data/pages/*.{json,js}
+dist/themes/*.css
+dist/assets/**
+dist/seo/*.html
+dist/sitemap.xml
+dist/robots.txt
 ```
 
-`catalog.json` 只包含目录、标题、状态和标题锚点。阅读器进入某章时才请求对应的 `data/pages/<id>.json`。全文搜索索引也延迟到用户第一次搜索时加载。
+## 运行时加载模型
 
-构建同时生成内容相同的 `.js` 数据文件。通过静态 Web 服务器访问时读取
-JSON；直接打开 `dist/index.html` 时读取脚本数据，从而绕过浏览器对
-`file://` 页面 `fetch()` 和 ES module 的本地文件限制。两种模式都保持章节
-独立和按需加载。
+- `catalog.json` 只包含目录、标题、状态、章节分组和标题锚点。
+- 阅读器进入某章时才请求对应的 `data/pages/<id>.json`。
+- 中英文搜索索引拆成 `search-index-zh` 和 `search-index-en`，按需加载。
+- 主题预设元数据来自 `data/themes.json`。
+- `manifest.webmanifest` 提供安装态元数据，`sw.js` 预缓存应用壳与核心元数据，并在访问过的页面分片和静态资源上做运行时缓存。更新后的 SW 会在下次进入站点时自动接管。
+
+构建同时生成内容相同的 `.js` 数据文件：
+
+- 通过静态 Web 服务器访问时读取 JSON。
+- 直接打开 `dist/index.html` 时读取 `.js` 数据文件，绕过浏览器对 `file://` 页面 `fetch()` 的限制。
+- `file://` 仍保留为本地直开兼容模式；PWA 安装和 service worker 只在 `http(s)` / `localhost` 场景启用。
 
 ## 目录职责
 
-- `content/`：人工维护的正文和元数据，是内容事实来源。
-- `src/`：静态阅读器，不包含手册正文。
-- `public/`：正文实际引用、构建时不经转换直接发布的图片和附件；不保留旧站运行时脚本、样式或导航资源。
-- `upstream/ssl-live-help/`：构建与审计使用的精简稳定快照。
-- `upstream/snapshots/`：带日期、校验值和更新差异的官方源站完整转储。
-- `scripts/`：确定性的构建和校验工具。
+- `content/`：人工维护的正文与元数据，是内容事实来源。
+- `content/en/pages/`：英文基准正文。
+- `content/zh/pages/`：中文译文和 standalone 页面。
+- `content/themes/`：主题预设 JSON。
+- `src/`：静态阅读器源码。
+- `public/`：原样复制到发布物中的图片、PDF、favicon 和其他静态资源。
+- `scripts/`：构建、验证、审计、本地预览、快照工具。
+- `upstream/ssl-live-help/`：构建与审计使用的稳定上游基线。
+- `upstream/snapshots/`：带日期和差异信息的官方源站完整转储。
+- `reports/`：所有非运行时报告输出。
 - `dist/`：可删除、可重复生成的发布目录。
 
 ## 添加章节
 
-1. 在 `content/en/pages/` 添加英文基准；译文完成后在 `content/zh/pages/` 添加同名文件。缺少译文时站点显示英文并标记为待翻译。
-2. 在 `content/en/manifest.json` 添加顺序、分组、标题、来源 URL 和文件名。
-3. 在 `content/site.json` 的 `titlesZh` 对应位置添加中文标题。
-4. 如需新分组，在 `content/site.json` 的 `sections` 中添加。
-5. 运行 `npm run check`。
+1. 在 `content/en/pages/` 添加英文基准文件。
+2. 在 `content/zh/pages/` 添加同名译文文件。
+3. 在 `content/manifest.json` 添加顺序、分组、标题、来源 URL 和输出文件名。
+4. 在 `content/site.json` 的 `pageTitlesZhById` 中补对应中文标题。
+5. 如需新分组，在 `content/site.json` 的 `sections` 中补充定义。
+6. 运行 `npm run check`。
 
-章节 ID 来自文件名去掉序号和扩展名后的部分，因此应保持稳定。
+章节 ID 来自输出文件名去掉序号和扩展名后的部分，因此应保持稳定。
 
-## 添加独立页面
+## Standalone 页面
 
-独立页面是不在目录和搜索索引中显示的页面，通过专用 `Standalone` 数据标记加载。典型用途是项目自身的关于页、版权页或不是 SSL Live 手册组成部分的其他辅助页面。构建脚本自动发现并处理这类页面。
+standalone 页面不是目录章节，不出现在目录和搜索索引中，但仍由同一个阅读器加载。
 
-1. 在 `content/zh/pages/` 下创建 `<id>.html`，仅需中文正文（不含英文对照）。
-2. 在 `<head>` 中添加三个 `<meta>` 标签：
-   - `<meta name="x-standalone-id" content="<id>">` — 用于路由 `#/page/<id>` 的唯一标识，必须不与 `manifest.json` 中任何章节 ID 的大小写折叠冲突（macOS 默认 APFS 不区分大小写）。
-   - `<meta name="x-standalone-title" content="...">` — 英文标题。
-   - `<meta name="x-standalone-title-zh" content="...">` — 中文标题。
-   - 构建脚本运行时自动遍历 `content/zh/pages/` 下的 HTML 文件，从 meta 标签读取这些值，无需手动修改构建脚本。
-3. 运行 `npm run build`，阅读器通过 `#/page/<id>` 访问。
+使用方式：
 
-独立页面自动获得 `standalone: true` 标记，不包含英文原文、翻译状态、前/后章节导航和语言切换面板，且不会出现在目录和搜索索引中。
+1. 在 `content/zh/pages/` 下创建一个不在 `content/manifest.json` 中的 HTML 文件。
+2. 在文件中提供：
+   - `<meta name="x-standalone-id" content="<id>">`
+   - `<meta name="x-standalone-title" content="...">`
+   - `<meta name="x-standalone-title-zh" content="...">`
+3. 运行 `npm run build`。
+4. 通过 `#/page/<id>` 访问。
 
-正文链接可使用相对 `href` 指向 SSL Live 手册章节（如 `<a href="#/page/About">关于</a>`），构建脚本不处理独立页面中的站内链接本地化。
+standalone 页面特点：
+
+- 仅中文内容，无英文对照。
+- 输出到 `dist/data/pages/<id>.json` 和 `.js`。
+- 带 `standalone: true` 标记。
+- 不进入 catalog，不进入搜索索引，不参与常规章节导航。
+
+## 主题产物
+
+构建脚本会扫描 `content/themes/*.json` 并生成：
+
+- `dist/themes/<theme>.css`
+- `dist/data/themes.json`
+- `dist/data/themes.js`
+
+运行时根据 `data/themes.json` 构建主题下拉菜单，再按需加载对应 CSS。
+ 
+ ## SEO 产物
+ 
+ 构建脚本为每个章节和 standalone 页面生成 `dist/seo/<id>.html` 预渲染页面，供搜索引擎爬虫直接读取正文内容。
+ 
+ 每页包含完整的 SEO 标签：
+ 
+ - `<title>` — 中文标题 `| SSL Live 中文操作手册`
+ - `<meta name="description">` — 从正文自动抽取的描述文本
+ - `<meta property="og:*">` / `<meta name="twitter:*">` — 社交分享标签
+ - `<link rel="canonical">` — 规范 URL
+ - `<link rel="alternate" hreflang="zh-CN">` / `hreflang="x-default"` — 语言版本声明（英文版被标记为 `noindex`，不单独列出）
+ - `<link rel="prev">` / `<link rel="next">` — 前后章节导航
+ - `<script type="application/ld+json">` — TechArticle 结构化数据
+ 
+ 预渲染页面附带 SPA 重定向脚本：有 JS 的用户自动跳转到 `index.html#/page/<id>` 获得完整体验；爬虫读取 HTML 正文内容。
+ 
+ 此外还生成：
+ 
+ - `dist/robots.txt` — 允许所有爬虫，指向 sitemap
+ - `dist/sitemap.xml` — 涵盖首页、index.html、所有章节页和 standalone 页的完整站点地图
+ 
+ 构建脚本新增产出：
+ 
+ ```text
+ dist/seo/*.html
+ dist/sitemap.xml
+ dist/robots.txt
+ ```
+ 
+ `npm run audit:seo` 可独立验证所有 SEO 产物的完整性。

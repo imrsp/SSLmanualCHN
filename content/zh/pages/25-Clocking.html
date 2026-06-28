@@ -19,7 +19,7 @@
   <p class="source">章节：构建演出 | 来源：<a href="https://livehelp.solidstatelogic.com/Help/Clocking.html">https://livehelp.solidstatelogic.com/Help/Clocking.html</a></p>
 <h2>时钟与同步</h2>
 
-<p>控制台和所有舞台接口箱必须共用同一个数字时钟同步基准。</p>
+<p>控制台和所有舞台接口箱必须共用同一个数字时钟同步参考源。</p>
 
 <p>通常应使用 Live 的内部时钟为控制台和舞台接口箱系统提供时钟。除非特定应用确有需要，否则无需外部时钟。任何外部时钟的采样率都<span style="font-weight: bold;">必须</span>与 Live 控制台当前运行的采样率一致（或使用 PAL 25/NTSC 29.97 视频信号）。</p>
 
@@ -53,35 +53,35 @@
 </p>
 
 <p>
-    可配置 <b>Main</b> 和 <b>Backup</b> 时钟源。如果 Main 时钟源丢失，控制台会自动切换至 Backup 时钟源。如果 Backup 时钟源也丢失，控制台会改用内部时钟。
+    可配置 <b>Main（主）</b>和 <b>Backup（备）</b>时钟源。如果主时钟源丢失，控制台会自动切换至备时钟源。如果备时钟源也丢失，控制台会改用内部时钟。
 </p>
 
 <p>
     使用箭头按钮打开 <b>Main</b> 或 <b>Backup</b> 选择菜单。选择所需时钟源，然后按住 <span class="label">APPLY</span> 按钮。
-    确认 <span style="font-weight: bold;">Current</span> 所示来源与预期时钟源一致。
+    确认 <span style="font-weight: bold;">Current</span>（当前时钟）所示来源与预期时钟源一致。
 </p>
 
 
 <img style="display: block; margin: 15px auto;" src="https://livehelp.solidstatelogic.com/Help/images/g_OptionsSystemClock.png" alt="">
 
 <p>
-    如果指定的时钟源丢失，请先恢复该时钟源，再使用 <span class="label">Reclock</span> 按钮尝试重新锁定至 Main/Backup 时钟源。
+    如果指定的时钟源丢失，请先恢复该时钟源，再使用 <span class="label">Reclock</span> 按钮尝试重新锁定至主/备时钟源。
 </p>
 
-<p>主屏幕顶部的状态栏会显示时钟源变更消息以提醒操作员。状态栏图标还会指示当前时钟是否已偏离所定义的 <b>Main</b> 时钟源：</p>
+<p>主屏幕顶部的状态栏会显示时钟源变更消息以提醒操作员。状态栏图标还会指示当前时钟是否已偏离所定义的 <b>主</b> 时钟源：</p>
 
 <table border="0" cellpadding="0" cellspacing="10">
     <tbody>
         <tr>
             <td style="vertical-align: middle; width: 20px;"><img style="margin: 0px 10px 0px 0px;" src="https://livehelp.solidstatelogic.com/Help/images/g_ClockIconOrange.png" alt=""></td>
             <td style="vertical-align: top;">
-                <span style="font-weight:bold;">橙色</span>：<b>Main</b> 时钟源丢失，当前使用 <b>Backup</b> 时钟源。
+                <span style="font-weight:bold;">橙色</span>：<b>主</b> 时钟源丢失，当前使用 <b>备</b> 时钟源。
             </td>
         </tr>
         <tr>
             <td style="vertical-align: middle; width: 20px;"><img style="margin: 0px 10px 10px 0px;" src="https://livehelp.solidstatelogic.com/Help/images/g_ClockIconRed.png" alt=""></td>
             <td style="vertical-align: top;">
-                <span style="font-weight:bold;">红色</span>：<b>Main</b> 和 <b>Backup</b> 时钟源均丢失，当前使用内部时钟。
+                <span style="font-weight:bold;">红色</span>：<b>主</b>  <b>备</b> 时钟源均丢失，当前使用内部时钟。
             </td>
         </tr>
     </tbody>
@@ -115,7 +115,7 @@
         </p>
 
         <p>
-            要手动选择主时钟，请将该设备设为 <span style="font-weight:bold;">Preferred Leader</span>。
+            要手动选择主时钟，请将该设备设为 <span style="font-weight:bold;">Preferred Leader（首选主时钟）</span>。
             为此，请打开 <span style="font-weight:bold;">Dante Controller</span> 并单击 <span class="label">Clock&nbsp;Status</span> 页签。
             为所选主时钟勾选 <span style="font-weight:bold;">Preferred Leader</span> 复选框。
         <p>
@@ -124,15 +124,15 @@
 
         <p>如果主时钟设备的状态发生变化，或更合适的主时钟设备上线，Dante 网络会重新执行时钟选举步骤，以确定最适合该网络的主时钟。</p>
 
-        <p>如果未使用 Dante 网络冗余，请使用主连接而非次连接，以确保准确同步。</p>
+        <p>如果未使用 Dante 网络冗余，请使用主连接而非备连接，以确保准确同步。</p>
 
-        <span class="note"><span class="notetitle">SSL 建议：</span>SSL 建议将控制台设置为从 Dante 网络获取时钟（从模式），以利用 Dante 时钟选举流程。</span>
+        <span class="note"><span class="notetitle">SSL 建议：</span>SSL 建议将控制台设置为从 Dante 网络获取时钟（从属模式），以利用 Dante 时钟选举流程。</span>
 
 
         <br>
 
 
-        <span style="font-weight:bold;">将控制台设置为 Dante 网络的从设备</span>
+        <span style="font-weight:bold;">将控制台设置为 Dante 网络的从属设备</span>
 
         <p>在此配置中，控制台以外的某台 Dante 设备担任主时钟。控制台及网络中的所有其他设备均跟随该主时钟。</p>
 
@@ -141,7 +141,7 @@
             如果希望指定主时钟设备，请为该设备勾选 <span style="font-weight:bold;">Preferred Leader</span>。
             Dante 有自己的时钟选举流程，因此并非必须设置 <span style="font-weight:bold;">Preferred Leader</span>。
             在本示例中，请确保网络中所有其他设备均未勾选 <span style="font-weight:bold;">Preferred Leader</span> 和 <span style="font-weight:bold;">Sync to External</span>
-            （包括控制台的 Dante Expander 以及适用时的 BLII/X-Light Bridge）。
+            （包括控制台的 Dante 扩展模块以及适用时的 BLII/X-Light Bridge）。
 
         <p>
             在控制台上进入 <span class="label">MENU</span> &gt; <span class="label">Setup</span> &gt; <span class="label">Options</span> &gt; <span class="label">SYSTEM</span> 页签。
@@ -153,7 +153,7 @@
 
         <p>
             所选 <span style="font-weight:bold;">Preferred Leader</span>（如已设置）现为包括控制台在内的整个网络的主时钟。
-            控制台现从其 Dante Expander 模块获取时钟。Dante Expander 模块从 Dante 网络中的 <span style="font-weight:bold;">Preferred Leader</span> 获取时钟。
+            控制台现从其 Dante Expander 模块获取时钟。Dante Expander模块从 Dante 网络中的 <span style="font-weight:bold;">Preferred Leader</span> 获取时钟。
             网络中的所有其他设备也都从 Dante 网络中的 <span style="font-weight:bold;">Preferred Leader</span> 获取时钟。
         </p>
 
@@ -271,7 +271,7 @@
             Dante Controller 中的 Clock Status 页面会指示当前选出的主时钟。
         </p>
 
-        <p>如果 LED 状态与上述说明不同，请查阅<a href="https://livehelp.solidstatelogic.com/Help/DanteBridges.html"><span class="hyperlink">使用 Dante Bridge</span></a>中的完整表格。</p>
+        <p>如果 LED 状态与上述说明不同，请查阅 <a href="https://livehelp.solidstatelogic.com/Help/DanteBridges.html"><span class="hyperlink">使用 Dante Bridge</span></a> 中的完整表格。</p>
     </div>
 </div>
 
@@ -353,7 +353,7 @@
 
 <p>
     <span class="note">
-        <span class="notetitle">提示：</span>将输出 SRC 设为 <span class="label">In</span> 后，该 AES 端口的输出会从相应输入获取时钟，而不是使用控制台时钟。如果外部设备难以锁定外部时钟，此设置会很有用。它允许外部设备使用内部时钟，同时让 Live 控制台的 AES SRC 锁定至外部设备，使该设备自行提供时钟，从而避免时钟错误。<br>
+        <span class="notetitle">提示：</span>将输出 SRC 设为 <span class="label">In</span> 后，该 AES 端口的输出会从相应输入获取时钟，而不是使用控制台时钟。如果外接设备难以锁定外部时钟，此设置会很有用。它允许外部设备使用内部时钟，同时让 Live 控制台的 AES SRC 锁定至外部设备，使该设备自行提供时钟，从而避免时钟错误。<br>
         例如，使用 96 kHz 混响器时，请将混响器设为内部时钟，并将控制台输入和输出 AES/EBU 端口的 SRC 设置均设为 <b>SRC In</b>。对于输出端口，请选择 <span class="label">In</span> 和 x2（对应 96k）。
     </span>
 </p>

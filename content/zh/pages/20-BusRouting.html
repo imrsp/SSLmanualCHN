@@ -19,7 +19,7 @@
   <p class="source">章节：构建演出 | 来源：<a href="https://livehelp.solidstatelogic.com/Help/BusRouting.html">https://livehelp.solidstatelogic.com/Help/BusRouting.html</a></p>
 <h2>母线与 VCA</h2>
 
-<p>本页介绍如何将信号路径发送到母线或分配给 VCA。有关不同母线类型的更多信息，请参阅 <a href="https://livehelp.solidstatelogic.com/Help/ConsoleConfig.html"><span class="hyperlink"><span style="font-weight: bold;">控制台配置</span></span></a>部分。</p>
+<p>本页介绍如何将信号路径发送到母线或分配给 VCA。有关不同母线类型的更多信息，请参阅<a href="https://livehelp.solidstatelogic.com/Help/ConsoleConfig.html"><span class="hyperlink"><span style="font-weight: bold;">控制台配置</span></span></a>部分。</p>
 
 <p style="margin-bottom:0px">
     <ul>
@@ -30,16 +30,16 @@
     </ul>
 </p>
 
-<p>发送到 Stem 和 Aux 时，既有 In/Out 控制，也有电平贡献。</p>
-<p>发送到 Master 或分配给 VCA 时，只有 In/Out 控制，没有电平贡献。</p>
+<p>发送到 Stem 和 Aux 时，既有 In/Out 控制，也有电平发送量。</p>
+<p>发送到 Master 或分配给 VCA 时，只有 In/Out 控制，没有电平发送量。</p>
 
 <p>可通过以下 4 种方式调整发送：</p>
 <p style="margin-bottom:0px">
     <ul>
-        <li>使用 Query</li>
-        <li>从 Detail View 调整</li>
-        <li>从 Channel View 和 Quick Controls 调整</li>
-        <li>从 Control Tile 调整</li>
+        <li>使用 Query（查询）</li>
+        <li>从详细视图调整</li>
+        <li>从通道视图和快捷控制调整</li>
+        <li>从控制区块调整</li>
     </ul>
 </p>
 
@@ -56,7 +56,7 @@
 
         <h2>使用 Query 进行母线路由/VCA 分配</h2>
 
-        <p>使用 SSL Live 便捷的查找功能 <a href="https://livehelp.solidstatelogic.com/Help/Query.html"><span class="hyperlink">Query</span></a>，可快速轻松地配置发送。首先使用 <span style="font-weight:bold;">Query Assign</span> 路由到母线或分配给 VCA，然后使用 Compressed 或 Expanded Query 模式调整发送电平。</p>
+        <p>使用 SSL Live 便捷的查询功能 <a href="https://livehelp.solidstatelogic.com/Help/Query.html"><span class="hyperlink">Query</span></a>，可快速轻松地配置发送。首先使用 <span style="font-weight:bold;">Query Assign</span> 路由到母线或分配给 VCA，然后使用 Compressed（精简）或 Expanded（扩展）Query 模式调整发送电平。</p>
 
         <!-- Start of QueryAssign Snippet -->
         <!-- Also used in Query.html -->
@@ -81,12 +81,12 @@
         <p>按一下某个信号路径的 <span class="label">Q</span> 按钮。系统会显示该信号路径所发送到的全部母线、向该信号路径馈送信号的信号路径，以及该信号路径所分配到的所有 VCA。</p>
 
         <span class="note">
-            <span class="notetitle">请注意：</span>根据 <a href="https://livehelp.solidstatelogic.com/Help/Query.html#Mode"><span class="hyperlink">Query Mode</span></a> 的不同，相关贡献信号路径可能作为其他区块上仅有的信号路径显示（<span style="font-weight:bold;">Compressed</span>），
-            也可能通过 <span class="label">Q</span> 按钮的灯光颜色显示：向被查询信号路径馈送的信号路径为绿色，从被查询信号路径接收馈送的信号路径为红色（<span style="font-weight:bold;">Expanded</span>）。
+            <span class="notetitle">请注意：</span>根据 <a href="https://livehelp.solidstatelogic.com/Help/Query.html#Mode"><span class="hyperlink">Query Mode</span></a> 的不同，相关贡献信号路径可能作为其他区块上仅有的信号路径显示（<span style="font-weight:bold;">精简模式</span>），
+            也可能通过 <span class="label">Q</span> 按钮的灯光颜色显示：向被查询信号路径馈送的信号路径为绿色，从被查询信号路径接收馈送的信号路径为红色（<span style="font-weight:bold;">扩展模式</span>）。
         </span>
 
         <p>
-            如果 <a href="https://livehelp.solidstatelogic.com/Help/Query.html#Control"><span class="hyperlink">Query Control Mode</span></a> 设为 <span style="font-weight:bold;">Quick Controls</span>，则可使用显示贡献信号路径的区块上的 Quick Control 编码器，
+            如果 <a href="https://livehelp.solidstatelogic.com/Help/Query.html#Control"><span class="hyperlink">Query Control Mode</span></a> 设为 <span style="font-weight:bold;">Quick Controls</span>，则可使用显示贡献信号路径的区块上的快捷控制旋钮，
             提高或降低发送电平。
         </p>
 
@@ -103,7 +103,7 @@
     <div class="indexheader2">Detail View</div>
     <div id="DetailView" style="padding: 1em 0;">
 
-        <h2>从 Detail View 路由到母线/分配给 VCA</h2>
+        <h2>从详细视图路由到母线/分配给 VCA</h2>
 
         <p>打开 Detail View，然后点按 <span class="label">Stems</span>、<span class="label">Auxiliaries</span>、<span class="label">Masters</span> 或 <span class="label">MG + VCA</span> 页面。</p>
 
@@ -118,22 +118,22 @@
         <p>页面右上角的 <span class="label">Lock</span> 按钮决定触摸母线时执行的操作：</p>
         <p style="margin-bottom:0px">
             <ul>
-                <li>如果 Lock 为<span style="font-weight:bold;">开启</span>，母线/VCA 将分配给 Quick Controls</li>
-                <li>如果 Lock 为<span style="font-weight:bold;">关闭</span>，母线/VCA 将分配给 Quick Controls，同时发送会切换为 In 或 Out</li>
+                <li>如果 Lock 为<span style="font-weight:bold;">开启</span>，母线/VCA 将分配给快捷控制</li>
+                <li>如果 Lock 为<span style="font-weight:bold;">关闭</span>，母线/VCA 将分配给快捷控制，同时发送会切换为 In 或 Out</li>
             </ul>
         </p>
 
         <p>
             选中母线后，所有可用参数的滑块会显示在屏幕右半部分。
-            可用手指在触摸屏上拖动这些滑块，也可使用屏幕底部相关标签下方所分配的 Quick Control 进行调整。
+            可用手指在触摸屏上拖动这些滑块，也可使用屏幕底部相关标签下方所分配的快捷控制进行调整。
             只会显示与所选母线相关的控件。例如，如果母线已设为 <span style="font-weight:bold;">Follow&nbsp;Pan</span>（见<a href="#FollowPan"><span class="hyperlink">下文</span></a>），则不会显示 Pan 控件；
             如果从单声道通道路由到立体声母线且已禁用 <span style="font-weight:bold;">Follow&nbsp;Pan</span>，则只会显示 Left/Right Pan 控件。
         </p>
-        <p>按下 <span class="label">IN</span> 按钮（或上方 Quick Control 按钮），将发送切换为 In 或 Out。</p>
+        <p>按下 <span class="label">IN</span> 按钮（或上方快捷控制按钮），将发送切换为 In 或 Out。</p>
         <p>按下 <span class="label">0&nbsp;dB</span> 按钮，将发送电平设为 0 dB。</p>
-        <p>使用 <span class="label">Pan&nbsp;Left</span>、<span class="label">Pan&nbsp;Centre</span> 和 <span class="label">Pan&nbsp;Right</span> 按钮快速设置发送的 Pan。</p>
+        <p>使用 <span class="label">Pan&nbsp;Left</span>、<span class="label">Pan&nbsp;Centre</span> 和 <span class="label">Pan&nbsp;Right</span> 按钮快速设置发送的声像。</p>
         <p>
-            使用 <span class="label">Copy&nbsp;Main&nbsp;Path&nbsp;Pan&nbsp;to&nbsp;[Bus]&nbsp;Send&nbsp;Pan</span>，将信号路径的 Pan 设置复制到所选母线发送的 Pan 部分
+            使用 <span class="label">Copy&nbsp;Main&nbsp;Path&nbsp;Pan&nbsp;to&nbsp;[Bus]&nbsp;Send&nbsp;Pan</span>，将信号路径的声像设置复制到所选母线发送的声像部分
             （仅当所选母线<b>未</b>设为 <a href="https://livehelp.solidstatelogic.com/Help/BusRouting.html#FollowPan"><span class="hyperlink">Follow&nbsp;Pan</span></a> 时应用；否则使用主信号路径的 Pan）。
             可使用 <a href="https://livehelp.solidstatelogic.com/Help/PathLink.html"><span class="hyperlink">Path&nbsp;Link</span></a>，将多个信号路径的 Pan 设置复制到所选母线。
             另请参阅下文的 <a href="https://livehelp.solidstatelogic.com/Help/BusRouting.html#CopyBusPans"><span class="hyperlink">Copy&nbsp;Send&nbsp;Pans&nbsp;from&nbsp;Main&nbsp;Path&nbsp;Pans</span></a> 功能，以整条母线为单位进行复制。
@@ -157,18 +157,16 @@
 
         <span class="note">
             <span class="notetitle">注意：</span>当发送信号取自 Default 点时，将遵循 <span class="label">Console Configuration</span> 页面中设定的默认设置。
-            详情请参阅 <a href="https://livehelp.solidstatelogic.com/Help/ConsoleConfig.html"><span class="notehyperlink">控制台配置</span></a>。
+            详情请参阅<a href="https://livehelp.solidstatelogic.com/Help/ConsoleConfig.html"><span class="notehyperlink">控制台配置</span></a>。
         </span>
 
         <p>
-            从通道推子之前馈送的母线发送（Post Trim、Pre Fader，或当插入点在通道处理顺序中位于推子之前时的 Post Insert A/B）会在发送电平
-            <span style="font-weight:bold;">左侧</span>显示指示标记：
+            从通道推子之前馈送的母线发送（Post Trim、Pre Fader，或当插入点在通道处理顺序中位于推子之前时的 Post Insert A/B）会在发送电平<span style="font-weight:bold;">左侧</span>显示指示标记：
         </p>
         <div style="text-align: center"><img src="https://livehelp.solidstatelogic.com/Help/images/b_auxsend_onPRE.png" alt=""></div>
 
         <p>
-            从通道推子之后馈送的母线发送（Post Fader、Post All，或当插入点在通道处理顺序中位于推子之后时的 Post Insert A/B）会在发送电平
-            <span style="font-weight:bold;">右侧</span>显示指示标记：
+            从通道推子之后馈送的母线发送（Post Fader、Post All，或当插入点在通道处理顺序中位于推子之后时的 Post Insert A/B）会在发送电平<span style="font-weight:bold;">右侧</span>显示指示标记：
         </p>
         <div style="text-align: center"><img src="https://livehelp.solidstatelogic.com/Help/images/b_auxsend_onUNSEL.png" alt=""></div>
 
@@ -203,7 +201,7 @@
             </tr>
         </table>
 
-        <p>Mute Group 和 VCA 的 Detail View 页面外观略有不同，但功能相同；点按相应按钮即可将信号路径分配给 Mute Group 和 VCA。</p>
+        <p>静音组和 VCA 的详细视图页面外观略有不同，但功能相同；点按相应按钮即可将信号路径分配给静音组和 VCA。</p>
 
         <p><img style="display: block; margin: 27px auto;" src="https://livehelp.solidstatelogic.com/Help/images/g_DetailMGVCA.png" alt=""></p>
     </div>
@@ -211,10 +209,10 @@
 
     <div class="indexheader2">Channel View 与 Quick Controls</div>
     <div style="padding: 1em 0;">
-        <h2>从 Channel View 和 Quick Controls 路由到母线/分配给 VCA</h2>
+        <h2>从通道视图和快捷控制路由到母线/分配给 VCA</h2>
 
         <p>
-            要将母线发送映射到 Quick Controls，请进入 <span class="label">Channel View</span>，点按母线分配按钮
+            要将母线发送映射到快捷控制，请进入 <span class="label">Channel View</span>，点按母线分配按钮
             （<span class="label">Master</span>、<span class="label">Stem</span> 或 <span class="label">Aux</span>），然后点按相应母线：
         </p>
 
@@ -224,7 +222,7 @@
 
         <img style="margin: 0px 0px 0px 20px;" src="https://livehelp.solidstatelogic.com/Help/images/g_PanelQuickScroller.png" alt="" align="right">
 
-        <p>查看推子区块右上角的 Quick Control 标签显示，即可确认当前映射到 Quick Controls 的母线。</p>
+        <p>查看推子区块右上角的快捷控制标签显示，即可确认当前映射到快捷控制的母线。</p>
         <br>
         <img style="margin: 37px 27px 5px 0px;" src="https://livehelp.solidstatelogic.com/Help/images/g_quickALLbuses.png" alt="" align="left">
 
@@ -233,8 +231,8 @@
         <p>页面右上角的 <span class="label">Lock</span> 按钮决定触摸母线时执行的操作：</p>
         <p style="margin-bottom:0px">
             <ul>
-                <li>如果 Lock 为<span style="font-weight:bold;">开启</span>，母线将分配给 Quick Controls</li>
-                <li>如果 Lock 为<span style="font-weight:bold;">关闭</span>，母线将分配给 Quick Controls，同时发送会切换为 In 或 Out</li>
+                <li>如果 Lock 为<span style="font-weight:bold;">开启</span>，母线将分配给快捷控制</li>
+                <li>如果 Lock 为<span style="font-weight:bold;">关闭</span>，母线将分配给快捷控制，同时发送会切换为 In 或 Out</li>
             </ul>
         </p>
 
@@ -244,19 +242,19 @@
 
         <img style="margin: 0px 0px 10px 25px;" src="https://livehelp.solidstatelogic.com/Help/images/g_PanelQuicksBasic.png" alt="" align="right">
 
-        <p>上方按键用于将发送切换为 In 或 Out。由于 Master 没有电平贡献，因此没有其他控件。</p>
+        <p>上方按键用于将发送切换为 In 或 Out。由于 Master 没有电平发送量，因此没有其他控件。</p>
 
         <h3>Stem 与 Aux</h3>
 
         <ul class="tab">
             <li>上方按键用于将发送切换为 In 或 Out。</li>
-            <li>按下旋转编码器，可在 Pan、Width、Divergence、Front/Rear、Depth 和 LF Gain 之间切换右下方按钮的功能。</li>
-            <li>在 Gain/Pan 模式下，左、右按键分别将编码器切换到 Gain 和 Pan。</li>
+            <li>按下旋钮，可在声像、声场宽度、扩散度、前/后、深度和低频增益之间循环切换右下方按钮的功能。</li>
+            <li>在 Gain/Pan 模式下，左、右按键分别将旋钮切换到增益和声像。</li>
         </ul>
 
         <span class="note"><span class="notetitle">注意：</span>仅当该母线的 Follow Pan 模式关闭，<span style="font-weight: bold;">并且</span>通道和母线的格式确实需要这些控件时，Pan、Width 和 Divergence 才会启用。</span>
 
-        <p>快速显示区（标记为 <span style="font-weight: bold;">Assigned</span>）列出从该通道到此类型所有母线的路由。</p>
+        <p>快捷显示区（标记为 <span style="font-weight: bold;">Assigned</span>）列出从该通道到此类型所有母线的路由。</p>
 
         <p>要选择其他母线，只需在主屏幕的 <span class="label">Channel View</span> 中点按另一条母线。</p>
 
@@ -277,24 +275,24 @@
     <div style="padding: 1em 0;">
         <img style="margin: 15px 0px 5px 20px;" src="https://livehelp.solidstatelogic.com/Help/images/g_miniSENDS.png" alt="" align="right">
 
-        <h2>从 Control Tile 路由到母线</h2>
+        <h2>从控制区块路由到母线</h2>
 
-        <p>可通过 Control Tile 控制通道发送到 Stem 和 Aux，以及通道路由到 Master。</p>
+        <p>可通过控制区块控制通道发送到 Stem 和 Aux，以及通道路由到 Master。</p>
 
-        <p>按下 Control Tile 屏幕上方的 <span class="label">Aux</span>、<span class="label">Stem</span>、<span class="label">Master</span> 或 <span class="label">VCA MG</span> 按钮：</p>
+        <p>按下控制区块屏幕上方的 <span class="label">Aux</span>、<span class="label">Stem</span>、<span class="label">Master</span> 或 <span class="label">VCA MG</span> 按钮：</p>
 
 
-        <p>屏幕中间的页面按钮和参数按钮决定分配给两侧编码器的内容。
+        <p>屏幕中间的页面按钮和参数按钮决定分配给两侧旋钮的内容。
 
         <p>可用按钮以蓝色标签显示；不相关的按钮以灰色标签显示；当前启用的按钮亮蓝灯。</p>
 
         <p>使用右侧的页面按钮，选择当前启用的十二路发送页面；</p>
 
-        <p>使用左侧的 Parameter 按钮，选择分配给旋转编码器的参数。</p>
+        <p>使用左侧的参数按钮，选择分配给旋钮的参数。</p>
 
         <p>可用参数取决于相应通道和母线的格式。</p>
 
-        <p>随后可使用屏幕两侧的旋转编码器，更改屏幕邻近区域所示母线的选定参数。按下相应编码器可开启或关闭发送。</p>
+        <p>随后可使用屏幕两侧的旋钮，更改屏幕邻近区域所示母线的选定参数。按下相应旋钮可开启或关闭发送。</p>
 
         <p>所有屏幕按钮也都可通过触摸屏进行控制。</p>
 
@@ -304,9 +302,9 @@
 
 <h2 id="FollowPan">跟随声像</h2>
 
-<p>可使用 Aux 或 Stem 的 Detail 对话框中 Eyeconix 页面里的 <span class="label">Follow&nbsp;Pan</span> 按钮，决定发送到 Stem 或 Aux 的信号是否跟随通道 Pan。</p>
+<p>可使用 Aux 或 Stem 的 Detail 对话框中 Eyeconix 页面里的 <span class="label">Follow&nbsp;Pan</span> 按钮，决定发送到 Stem 或 Aux 的信号是否跟随通道的声像。</p>
 
-<p>关闭 <b>Follow Pan</b> 后，该 Aux/Stem 的发送通道 Detail 对话框会在发送控件中加入 Pan 控件。只会提供与源通道格式及 Aux/Stem 格式组合相关的 Pan 控件。</p>
+<p>关闭 <b>Follow Pan</b> 后，该 Aux/Stem 的发送通道 Detail 对话框会在发送控件中加入声像控件。只会提供与源通道格式及 Aux/Stem 格式组合相关的声像控件。</p>
 
 <span class="note">
     <span class="notetitle">注意：</span>开启或关闭 <b>Follow Pan</b> 可能会改变从源信号路径应用到母线的声像设置。
@@ -315,11 +313,11 @@
 <h2 id="CopyBusPans">从主信号路径声像复制发送声像</h2>
 
 <p>
-    禁用 <b>Follow Pan</b> 后，每个信号路径发送到所选母线的 Pan 设置将独立于该信号路径的主 Pan 控件。
-    各发送独立的 Pan 参数默认为不做声像定位。不过，可以按住 <span class="label">Copy&nbsp;Send&nbsp;Pans&nbsp;from&nbsp;Main&nbsp;Path&nbsp;Pans</span> 按钮，
-    将每个信号路径发送到所选母线的 Pan 设置从主信号路径 Pan 设置复制过来。
+    禁用 <b>Follow Pan</b> 后，每个信号路径发送到所选母线的声像设置将独立于该信号路径的主声像控件。
+    各发送独立的声像数默认为不做声像定位。不过，可以按住 <span class="label">Copy&nbsp;Send&nbsp;Pans&nbsp;from&nbsp;Main&nbsp;Path&nbsp;Pans</span> 按钮，
+    将每个信号路径发送到所选母线的声像设置从主信号路径声像设置复制过来。
     其效果相当于对发送到该母线的每一个源信号路径，分别按下
-    <span class="label">Copy&nbsp;Main&nbsp;Path&nbsp;Pan&nbsp;to&nbsp;[Bus]&nbsp;Send&nbsp;Pan</span>（见上文 Detail View 部分）。
+    <span class="label">Copy&nbsp;Main&nbsp;Path&nbsp;Pan&nbsp;to&nbsp;[Bus]&nbsp;Send&nbsp;Pan</span>（见上文详细视图部分）。
 </p>
 
 <h2>跟随静音</h2>
@@ -335,15 +333,15 @@
     从 VCA 信号路径调整 V-Aux 或 V-Stem 发送，会微调该 VCA 所有成员信号路径发送到相应 Aux/Stem 的电平。
 </p>
 <p>
-    例如，一个名为“Drums”的 VCA 可能包含 10 个通道（Kick、Snare、Hi-Hats 等）。
+    例如，一个名为“Drums”的 VCA 可能包含 10 个通道（底鼓、军鼓、踩镲等）。
     这些通道通过 Aux&nbsp;1 路由到监听混音，并已设置初始发送电平以获得良好平衡。
-    将 Drums VCA 的 Aux&nbsp;1 发送设为 -3 dB，会相应衰减全部 10 个成员通道对 Aux&nbsp;1 的贡献电平，同时保持它们之间的相对电平。
+    将鼓组 VCA 的 Aux&nbsp;1 发送设为 -3 dB，会相应衰减全部 10 个成员通道对 Aux&nbsp;1 的电平发送量，同时保持它们之间的相对电平。
 </p>
 
 <div style="text-align: center"><img src="https://livehelp.solidstatelogic.com/Help/images/g_VcaMemberSends.png" alt=""></div>
 
 <p>
-    Channel View 和 Detail View 中的 Aux 与 Stem 母线指示器，会同时显示信号路径的独立电平和应用 VCA 偏移后的电平。
+    通道视图和详细视图中的 Aux 与 Stem 母线指示器，会同时显示信号路径的独立电平和应用 VCA 偏移后的电平。
     洋红色/深蓝色条表示源信号路径发送到母线的独立（“本地”）Aux/Stem 发送电平。
 </p>
 <p>
@@ -357,11 +355,11 @@
 
 <span class="note">
     <span class="notetitle">注意：</span>
-    一个信号路径可由多个 VCA 控制，例如“Drums”和“Band”VCA；每个 VCA 都会对各自的成员信号路径应用自己的 V-Aux/V-Stem 偏移。
+    一个信号路径可由多个 VCA 控制，例如“鼓组”和“乐队”VCA；每个 VCA 都会对各自的成员信号路径应用自己的 V-Aux/V-Stem 偏移。
     每个信号路径发送所显示的浅青色/深青色条，表示来自所有控制 VCA 的 V-Aux/V-Stem 总偏移量。
 </span>
 
-<p>可在 <a href="https://livehelp.solidstatelogic.com/Help/AutoFilters.html"><span class="hyperlink">自动化筛选器</span></a>页面中，使用 VCA 信号路径的 Stem 和 Aux 列，对 VCA 对混音的贡献进行自动化。</p>
+<p>可在<a href="https://livehelp.solidstatelogic.com/Help/AutoFilters.html"><span class="hyperlink">自动化筛选器</span></a>页面中，使用 VCA 信号路径的 Stem 和 Aux 列，对 VCA 对混音的贡献进行自动化。</p>
 
 
 <h3>使用 VCA Query 调整混音</h3>
@@ -370,8 +368,7 @@
     通常，查询某个混音或信号路径后，控制台操作面上的 VCA 推子会控制 VCA 的<b>主</b>电平。
     但是，为相关母线类型启用 <b>VCA Control</b> 选项后（该选项位于
     <a href="https://livehelp.solidstatelogic.com/Help/OptionsSurface.html#Query"><span class="hyperlink">操作面选项</span></a>
-    的 Menu > Setup > Options > Surface 选项卡中），
-    即可使用 VCA 推子（母线设为 Query on Faders 模式时）或 Quick Control 编码器（设为 Query on Quick Controls 模式时）控制母线发送。
+    的 Menu > Setup > Options > Surface 选项卡中），即可使用 VCA 推子（母线设为 Query on Faders 模式时）或快捷控制旋钮（设为 Query on Quick Controls 模式时）控制母线发送。
 </p>
 
 <span class="note">
@@ -384,11 +381,11 @@
 
 <p>
     可以锁定 V-Aux 和 V-Stem 贡献，使其无法更改，例如需要始终保持在 0 dB 时。
-    此选项可在 <a href="https://livehelp.solidstatelogic.com/Help/OptionsUser.html"><span class="hyperlink">用户选项</span></a>页面中访问，并会存储在演出文件中。
+    此选项可在<a href="https://livehelp.solidstatelogic.com/Help/OptionsUser.html"><span class="hyperlink">用户选项</span></a>页面中访问，并会存储在演出文件中。
 </p>
 
 <span class="note">
-    <span class="notetitle">注意：</span>此选项默认启用，即使加载由旧版软件创建的演出也是如此。
+    <span class="notetitle">注意：</span>此选项默认启用，即使加载由旧版软件创建的演出工程也是如此。
 </span>
 
 

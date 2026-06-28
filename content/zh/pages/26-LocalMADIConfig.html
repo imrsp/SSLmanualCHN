@@ -19,7 +19,7 @@
   <p class="source">章节：构建演出 | 来源：<a href="https://livehelp.solidstatelogic.com/Help/LocalMADIConfig.html">https://livehelp.solidstatelogic.com/Help/LocalMADIConfig.html</a></p>
 <h2>I/O 设置：Local/MADI 配置</h2>
 
-<p><span style="font-weight: bold;">Local/MADI Configuration</span> 用于定义本地连接和 MADI 连接的 I/O 名称及设置。这些设置会随演出文件保存。</p>
+<p><span style="font-weight: bold;">Local/MADI Configuration（本地/MADI 配置）</span> 用于定义本地连接和 MADI 连接的 I/O 名称及设置。这些设置会随演出文件保存。</p>
 
 <p>要打开此菜单，请前往 <span class="label">Menu</span> > <span class="label">设置</span> > <span class="label">I/O</span>，然后点击 <span class="label">Local/MADI Configuration</span>。</p>
 
@@ -30,9 +30,9 @@
 <p>每一列代表一种不同的 I/O 卡类型：</p>
 
 <ul class="tab">
-    <li><span style="font-weight: bold;">Local</span> 显示 <span style="font-weight: bold;">Internal</span> I/O、<span style="font-weight: bold;">FX Loop</span> MADI 光纤和可选的 <span style="font-weight: bold;">Dante</span> 模块。</li>
-    <li><span style="font-weight: bold;">MADI</span> 显示控制台背面的 BNC/SC 光纤 MADI 端口。这些端口按四个或八个一组排列，列标题中以字母（<span style="font-weight: bold;">A</span>、<span style="font-weight: bold;">对于</span> 或 <span style="font-weight: bold;">C</span>）标识，并与控制台后面板的标注一致。</li>
-    <li><span style="font-weight: bold;">BLII</span> 或 <span style="font-weight: bold;">X-Light</span> 表示可选的 Blacklight II/X-Light 端口，用于连接 Blacklight II 至 MADI Concentrator、Net I/O BLII Bridge 或 X-Light Bridge。最多可安装两个 BLII 端口，列标题和控制台后面板上分别以 <span style="font-weight: bold;">1</span> 或 <span style="font-weight: bold;">2</span> 标识。</li>
+    <li><span style="font-weight: bold;">Local</span> 显示 <span style="font-weight: bold;">Internal（本地）</span> I/O、<span style="font-weight: bold;">FX Loop</span> MADI 光纤和可选的 <span style="font-weight: bold;">Dante</span> 模块。</li>
+    <li><span style="font-weight: bold;">MADI</span> 显示控制台背面的 BNC/SC 光纤 MADI 端口。这些端口按四个或八个一组排列，列标题中以字母（<span style="font-weight: bold;">A</span>、<span style="font-weight: bold;">B</span> 或 <span style="font-weight: bold;">C</span>）标识，并与控制台后面板的标注一致。</li>
+    <li><span style="font-weight: bold;">BLII</span> 或 <span style="font-weight: bold;">X-Light</span> 表示可选的 Blacklight II/X-Light 端口，用于连接 Blacklight II to MADI Conccentrator、Net I/O BLII Bridge 或 X-Light Bridge。最多可安装两个 BLII 端口，列标题和控制台后面板上分别以 <span style="font-weight: bold;">1</span> 或 <span style="font-weight: bold;">2</span> 标识。</li>
 </ul>
 
 <span class="note"><span class="notetitle">提示：</span>点击列标题可查看各区域在控制台背面位置的图示。</span>
@@ -52,12 +52,12 @@
 </p>
 
 <p>
-    在非加固型和固定安装应用中，要将 SSL Live 控制台上的 BLII/X-Light 端口用于 Dante 设备及 SSL Net I/O Dante 舞台接口箱，建议使用 <span style="font-weight:bold;">Net I/O BLII Bridge</span>。
+    在非加固固定安装场合/非巡演级固定安装场合中，要将 SSL Live 控制台上的 BLII/X-Light 端口用于 Dante 设备及 SSL Net I/O Dante 舞台接口箱，建议使用 <span style="font-weight:bold;">Net I/O BLII Bridge</span>。
     与控制台放置在一起的 BLII Bridge 用于扩展控制台的 Dante I/O 数量。
 </p>
 
 <p>
-    在加固型/巡演应用中，要将 SSL Live 控制台上的 BLII/X-Light 端口用于 Dante 设备及 SSL Net I/O Dante 舞台接口箱，建议使用 <span style="font-weight:bold;">Net I/O X-Light Bridge</span>。
+    在巡演级加固场合中，要将 SSL Live 控制台上的 BLII/X-Light 端口用于 Dante 设备及 SSL Net I/O Dante 舞台接口箱，建议使用 <span style="font-weight:bold;">Net I/O X-Light Bridge</span>。
     位于舞台端的 X-Light Bridge 用于扩展控制台的 Dante I/O 数量。
 </p>
 
@@ -70,7 +70,7 @@
     <ol>
         <li>点击相应端口的列标题以查看该端口的设置。</li>
         <li>
-            在端口的 Detail View 中按住 <span class="label">Physical Port Selection:</span>，然后选择 Blacklight II（用于 <span class="label">BLII&nbsp;Concentrator</span> 或 <span class="label">Net&nbsp;I/O&nbsp;BLII&nbsp;Bridge</span>）或 X-Light（用于 <span class="label">X-Light&nbsp;Bridge</span>）。
+            在端口的详细视图中按住 <span class="label">Physical Port Selection:</span>，然后选择 Blacklight II（用于 <span class="label">BLII&nbsp;Concentrator</span> 或 <span class="label">Net&nbsp;I/O&nbsp;BLII&nbsp;Bridge</span>）或 X-Light（用于 <span class="label">X-Light&nbsp;Bridge</span>）。
             请注意，对于 L450、L550 和 L650，X-Light 始终连接到第二个 BLII/X-Light 端口（I/O 页面最右侧一列）。
         </li>
         <li>按住 <span class="label">Configure Port For:</span>，并在需要时选择所需设备。</li>
@@ -86,14 +86,14 @@
 <span class="note">
     <span class="notetitle">警告：</span><br>重新配置 BLII/X-Light 端口时请谨慎，因为现有路由将被取消。<br>
     - 如果将 BLII 端口从 BLII-MADI Concentrator 重新配置为 BLII Bridge，控制台与通过 BLII-MADI Concentrator 连接的设备之间的所有现有路由都将被取消。<br>
-    - 如果将 BLII 端口从 BLII Bridge 重新配置为 BLII-MADI Concentrator，则无论路由经过 BLII Bridge 还是 Dante Expander Module，<span style="font-weight:bold;">所有</span> Dante 双域路由都将被取消。
-    已建立到 Dante Expander Module 的虚拟跳线路由将保留。
+    - 如果将 BLII 端口从 BLII Bridge 重新配置为 BLII-MADI Concentrator，则无论路由经过 BLII Bridge 还是 Dante Expander 模块，<span style="font-weight:bold;">所有</span> Dante 双域路由都将被取消。
+    已建立到 Dante Expander 模块的虚拟跳线路由将保留。
 </span>
 
 <p>BLII/X-Light 端口配置存储在演出文件中。</p>
 
 <p>如果使用 <span style="font-weight:bold;">BLII to MADI Concentrator</span>，该设备现已配置完毕，可以使用。</p>
-<p>如果使用 <span style="font-weight:bold;">Net I/O BLII Bridge</span> 或 <span style="font-weight:bold;">X-Light Bridge</span>，请参阅<a href="https://livehelp.solidstatelogic.com/Help/DanteBridges.html"><span class="hyperlink">使用 BLII 和 X-Light Bridge</span></a>。</p>
+<p>如果使用 <span style="font-weight:bold;">Net I/O BLII Bridge</span> 或 <span style="font-weight:bold;">X-Light Bridge</span>，请参阅 <a href="https://livehelp.solidstatelogic.com/Help/DanteBridges.html"><span class="hyperlink">使用 BLII 和 X-Light Bridge</span></a>。</p>
 
 
 <h2>MADI 和经由 BLII 的 MADI</h2>
@@ -110,9 +110,9 @@
 
 <span class="note"><span class="notetitle">注意：</span>要更换为其他设备，需要在 MADI 和 BLII 端口列表下方的详细信息窗格中确认更改。</span>
 
-<p>如果定义的设备与端口检测到的设备不匹配，方框背景将变为红色；请检查连接或手动更改设备类型。在 MADI 和 BLII 端口列表下方的 Detail 窗格中确认要使用的设备。</p>
+<p>如果定义的设备与端口检测到的设备不匹配，方框背景将变为红色；请检查连接或手动更改设备类型。在 MADI 和 BLII 端口列表下方的详情窗格中确认要使用的设备。</p>
 
-<span class="note"><span class="notetitle">注意：</span>如果已基于原始配置完成进一步设置后再更换设备，这些设置可能不再有效。</span>
+<span class="note"><span class="notetitle">注意：</span>如果已基于原始配置完成进一步设置后再更换设备，之前的设置可能不再有效。</span>
 
 <p>设备选项如下：</p>
 
@@ -134,11 +134,11 @@
 
 <p>如果下方指示灯亮起，表示该端口属于一个冗余端口对（见下文）。</p>
 
-<span class="note"><span class="notetitle">注意：</span>如果使用 16 端口 Blacklight MADI 集中器，将有四个指示灯；每个冗余硬件连接对应一对。</span>
+<span class="note"><span class="notetitle">注意：</span>如果使用 16 端口 Blacklight MADI Concentrator，将有四个指示灯；每个冗余硬件连接对应一对。</span>
 
 <h3>冗余</h3>
 
-<p>每个 MADI 端口都可作为冗余端口对的一部分运行。端口始终按奇数/偶数配对，例如端口 1 始终与端口 2 配对。</p>
+<p>每个 MADI 端口都可作为冗余端口对的一部分运行。端口始终按奇偶配对，例如端口 1 始终与端口 2 配对。</p>
 
 <p>要定义冗余端口对：</p>
 
@@ -159,9 +159,9 @@
 
 <p>点击某个端口或连接的方框，会在页面下半部分的 Detail 对话框中显示该端口的设置。</p>
 
-<p>对于舞台接口箱，右侧的页面按钮（<span class="label">设置</span>、<span class="label">输入</span> 和 <span class="label">输出</span>，本地 AES I/O 则为 <span class="label">AES&nbsp;I/O</span>）可用于逐页查看端口设置：</p>
+<p>对于舞台接口箱，右侧的页面按钮（<span class="label">Setup</span>、<span class="label">Inputs</span> 和 <span class="label">Outputs</span>，本地 AES I/O 则为 <span class="label">AES&nbsp;I/O</span>）可用于逐页查看端口设置：</p>
 
-<h3>Setup：</h3>
+<h3>设置：</h3>
 
 <p>
     双击黑色的<span style="font-weight: bold;">名称</span>框会弹出键盘，可在其中输入端口名称。<br>
@@ -170,14 +170,14 @@
 
 <p>
     <span style="font-weight: bold;">Output Trim</span> 滑块以控制台的 <span style="font-weight: bold;">Operating Level</span> 为基准，对舞台接口箱的所有模拟线路输出施加全局电平微调
-    （在 <span style="font-weight: bold;">Menu > Setup > System&nbsp;/&nbsp;Power</span> > <span class="label">系统</span> 选项卡中设置）。请注意，这不会影响可选的麦克风分配输出（如已安装）；这些输出始终为麦克风电平。
+    （在 <span style="font-weight: bold;">Menu > Setup > System&nbsp;/&nbsp;Power</span> > <span class="label">System</span> 选项卡中设置）。请注意，这不会影响可选的麦克风分配输出（如已安装）；这些输出始终为麦克风电平。
 </p>
 
 <p><span class="label">Clear&nbsp;Attention</span> 按钮会清除本地 I/O 上所有 <span style="font-weight: bold;">Att</span> 指示灯。页面其余部分显示格式和时钟信息。</p>
 
 <h3>输入和输出：</h3>
 
-<p>点击 <span class="label">输入</span> 或 <span class="label">输出</span> 按钮，会显示舞台接口箱中的所有独立连接。每个连接的方框显示其名称和主要设置。使用 <span class="label">Show&nbsp;Settings</span> 和 <span class="label">Show&nbsp;Routes</span> 按钮，可在前置放大器设置与路由信息之间切换显示。</p>
+<p>点击 <span class="label">Inputs</span> 或 <span class="label">Outputs</span> 按钮，会显示舞台接口箱中的所有独立连接。每个连接的方框显示其名称和主要设置。使用 <span class="label">Show&nbsp;Settings</span> 和 <span class="label">Show&nbsp;Routes</span> 按钮，可在前置放大器设置与路由信息之间切换显示。</p>
 
 <p>点击连接方框后，屏幕右侧会显示相关控件。</p>
 
@@ -202,7 +202,7 @@
 
 <p>所有 AES I/O 均配有采样率转换器（SRC），并且默认启用。</p>
 
-<p>点击 <span class="label">AES&nbsp;I/O</span>（Internal）或 <span class="label">输入</span>/<span class="label">输出</span>（D32.32）按钮，会显示设备内所有独立 AES 连接。每个连接的方框显示其名称和主要设置。使用 <span class="label">Show&nbsp;Settings</span> 和 <span class="label">Show&nbsp;Routes</span> 按钮，可在 SRC 设置与路由信息之间切换显示。</p>
+<p>点击 <span class="label">AES&nbsp;I/O</span>（Internal）或 <span class="label">Inputs</span>/<span class="label">Outputs</span>（D32.32）按钮，会显示设备内所有独立 AES 连接。每个连接的方框显示其名称和主要设置。使用 <span class="label">Show&nbsp;Settings</span> 和 <span class="label">Show&nbsp;Routes</span> 按钮，可在 SRC 设置与路由信息之间切换显示。</p>
 
 <p>点击连接方框后，屏幕右侧会显示相关控件。</p>
 
@@ -216,7 +216,7 @@
 <!-- Also used in Clocking.html -->
 <span class="note"><span class="notetitle">注意：</span>倍频控件（<span class="label">x1</span>、<span class="label">x2</span> 和 <span class="label">x4</span>）以 44.1 或 48k 的基础采样率为基准，而不是以控制台的工作采样率（48 或 96k）为基准。</span>
 
-<p>启用 <span class="label">SRC&nbsp;In</span> 并将输出时钟设为 <span class="label">左下按钮（</span> 后，AES 输出将以对应 AES 输入作为时钟源，采样率为基础采样率（44.1 或 48k）的 1、2 或 4 倍。</p>
+<p>启用 <span class="label">SRC&nbsp;In</span> 并将输出时钟设为 <span class="label">In</span> 后，AES 输出将以对应 AES 输入作为时钟源，采样率为基础采样率（44.1 或 48k）的 1、2 或 4 倍。</p>
 
 <p>将输出时钟设为 <span class="label">Int</span> 时，会使用控制台作为时钟源。也可以将其设为该基础采样率（48k）的 <span class="label">x1</span>、<span class="label">x2</span> 或 <span class="label">x4</span>。</p>
 <!-- End of SupportedFsTableNotes Snippet -->
@@ -225,12 +225,12 @@
 
 <p>其他 I/O 端口也提供详细信息对话框：</p>
 
-<h3>Internal</h3>
+<h3>内置 I/O</h3>
 
 <p>
-    <span style="font-weight: bold;">Internal</span> 详细信息对话框提供 <span style="font-weight: bold;">ANA OUT Trim</span> 滑块，
-    该滑块以控制台的 <span style="font-weight: bold;">Operating Level</span> 为基准，对所有本地模拟输出施加全局电平微调
-    （在 <span style="font-weight: bold;">Menu > Setup > System&nbsp;/&nbsp;Power</span> > <span class="label">系统</span> 选项卡中设置）。
+    <span style="font-weight: bold;">Internal</span> 详细信息对话框提供 <span style="font-weight: bold;">ANA OUT Trim（模拟输出微调）</span> 滑块，
+    该滑块以控制台的 <span style="font-weight: bold;">Operating Level（工作电平）</span> 为基准，对所有本地模拟输出施加全局电平微调
+    （在 <span style="font-weight: bold;">Menu > Setup > System&nbsp;/&nbsp;Power</span> > <span class="label">System</span> 选项卡中设置）。
     <span class="label">Clear&nbsp;Attention</span> 按钮会清除本地 I/O 上所有 <span style="font-weight: bold;">Att</span> 指示灯。
 </p>
 
@@ -242,12 +242,11 @@
 <p>其余 I/O 详细信息对话框仅显示有关卡或端口的主要信息。</p>
 
 <h3 id="Dante">Dante</h3>
-<p>Live 控制台还可安装 Dante Expander Module。它可为控制台增加最多 64 路 Dante I/O（取决于采样率；见下文）。</p>
+<p>Live 控制台还可安装 Dante Expander模块。它可为控制台增加最多 64 路 Dante I/O（取决于采样率；见下文）。</p>
 
 <p>
-    在 I/O 页面最左侧一列中选择 Dante Expander Module。屏幕下部会显示 Dante Expander 的选项。
-    <span style="font-weight: bold;">Recorder ID</span> 按钮将在下一节说明：
-    <a href="https://livehelp.solidstatelogic.com/Help/RecordingPlayback.html"><span class="hyperlink">多轨录音与播放</span></a>。选择 <span class="label">Free&nbsp;Route</span> 按钮，
+    在 I/O 页面最左侧一列中选择 Dante Expander 模块。屏幕下部会显示 Dante Expander 的选项。
+    <span style="font-weight: bold;">Recorder ID</span> 按钮将在下一节说明：<a href="https://livehelp.solidstatelogic.com/Help/RecordingPlayback.html"><span class="hyperlink">多轨录音与播放</span></a>。选择 <span class="label">Free&nbsp;Route</span> 按钮，
     可在控制台路由系统中自由路由 Dante I/O。
 </p>
 
@@ -310,15 +309,15 @@
 </div>
 
 <span class="note">
-    <span class="notetitle">注意：</span>除非已启用 <span class="label">SRC&nbsp;In</span> 按钮，否则必须将 Dante Expander 的采样率设为与控制台采样率一致。
-    可在与控制台 Dante Expander 位于同一网络、运行 Dante Controller 软件的计算机上进行设置。或者，从 Live v6.2 开始，也可在 Dante Configuration 页面的 Connected Devices 列表中查看和更改控制台 Expander 的采样率。
+    <span class="notetitle">注意：</span>除非已启用 <span class="label">SRC&nbsp;In</span> 按钮，否则必须将 Dante Expander的采样率设为与控制台采样率一致。
+    可在与控制台 Dante Expander位于同一网络、运行 Dante Controller 软件的计算机上进行设置。或者，从 Live v6.2 开始，也可在 Dante Configuration 页面的 Connected Devices 列表中查看和更改控制台 Expander 的采样率。
 </span>
 <!-- End of Dante Sample Rates Snippet -->
 
 
 <p>
     启用 Dante SRC 时，不应让控制台从 Dante 网络获取时钟。有关与 Dante 网络之间时钟设置的更多信息，
-    请参阅<a href="https://livehelp.solidstatelogic.com/Help/Clocking.html#Dante"><span class="hyperlink">系统时钟设置</span></a>一节。
+    请参阅 <a href="https://livehelp.solidstatelogic.com/Help/Clocking.html#Dante"><span class="hyperlink">系统时钟设置</span></a> 一节。
 </p>
 
 <p>有关设置 Dante、Net I/O 舞台接口箱或 BLII/X-Light Bridge 的更多信息，请参阅 <a href="https://livehelp.solidstatelogic.com/Help/DanteConfig.html"><span class="hyperlink">I/O 设置：Dante</span></a>。</p>

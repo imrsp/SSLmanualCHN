@@ -1,12 +1,17 @@
-const state = {
-  catalog: null,
-  searchIndexZh: null,
-  searchIndexEn: null,
-  searchEn: false,
-  pageCache: new Map(),
-  currentPage: null,
-  query: "",
-  language: "zh",
+ const state = {
+   catalog: null,
+   searchIndexZh: null,
+   searchIndexEn: null,
+   searchEn: false,
+   pageCache: new Map(),
+   currentPage: null,
+   query: "",
+   searchShowCount: 12,
+   language: "zh",
+  theme: "auto",
+  themePreset: null,
+  themes: null,
+  defaultTheme: null,
   expandedSections: new Set(),
   expandedGroups: new Set(),
 };
@@ -23,16 +28,217 @@ const elements = {
   breadcrumbs: document.querySelector("#breadcrumbs"),
   document: document.querySelector("#document"),
   outline: document.querySelector("#outline"),
+  themeToggle: document.querySelector("#themeToggle"),
+  themeTooltip: document.querySelector("#themeTooltip"),
+  presetToggle: document.querySelector("#presetToggle"),
+  presetDropdown: document.querySelector("#presetDropdown"),
+  presetItems: document.querySelector("#presetItems"),
   languageToggle: document.querySelector("#languageToggle"),
   previousPage: document.querySelector("#previousPage"),
   nextPage: document.querySelector("#nextPage"),
   pageCounter: document.querySelector("#pageCounter"),
+  installButton: document.querySelector("#installButton"),
   sidebar: document.querySelector("#sidebar"),
   menuButton: document.querySelector("#menuButton"),
   outlineButton: document.querySelector("#outlineButton"),
   scrim: document.querySelector("#scrim"),
 
 };
+let deferredInstallPrompt = null;
+let routeRequestId = 0;
+let lastLocationRouteHash = "";
+let languageTransitionTimer = null;
+
+/* — Theme management — */
+function getEffectiveTheme() {
+  if (state.theme === "dark") return "dark";
+  if (state.theme === "light") return "light";
+  return window.matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark";
+}
+
+function applyTheme() {
+  const effective = getEffectiveTheme();
+  document.documentElement.setAttribute("data-theme", effective);
+  const meta = document.querySelector('meta[name="theme-color"]');
+  if (meta) meta.content = effective === "dark" ? "#111513" : "#f5f6f3";
+}
+
+/* — Theme management: quick-tap toggles, long-press resets to auto — */
+let pressTimer = null;
+const LONG_PRESS_MS = 500;
+let wasLongPress = false;
+
+function handleThemePress(e) {
+  if (e.button !== 0) return;
+  wasLongPress = false;
+  pressTimer = setTimeout(function () {
+    wasLongPress = true;
+    pressTimer = null;
+    /* Long press → reset to auto */
+    state.theme = "auto";
+    try { localStorage.removeItem("ssl-manual-theme"); } catch (_) {}
+    applyTheme();
+    syncThemeButton();
+  }, LONG_PRESS_MS);
+}
+
+function handleThemeRelease(e) {
+  if (wasLongPress) return;
+  if (pressTimer) {
+    clearTimeout(pressTimer);
+    pressTimer = null;
+    cycleTheme();
+  }
+}
+
+function handleThemeCancel() {
+  if (pressTimer) {
+    clearTimeout(pressTimer);
+    pressTimer = null;
+  }
+}
+
+function cycleTheme() {
+  const effective = getEffectiveTheme();
+  state.theme = effective === "dark" ? "light" : "dark";
+  try { localStorage.setItem("ssl-manual-theme", state.theme); } catch (_) {}
+  applyTheme();
+  syncThemeButton();
+}
+
+function syncThemeButton() {
+  const tooltip = elements.themeTooltip;
+  if (!tooltip) return;
+  const effective = getEffectiveTheme();
+  if (state.theme === "auto") {
+    tooltip.textContent = "主题跟随系统（" + (effective === "dark" ? "深色" : "浅色") + "）";
+    return;
+  }
+  const label = effective === "dark" ? "深色" : "浅色";
+  tooltip.textContent = "当前" + label + "，点击切换，长按恢复跟随系统";
+}
+
+/* — Theme presets — */
+let presetLinkEl = null;
+
+function loadThemeCSS(name) {
+  if (name === state.defaultTheme || !name) {
+    if (presetLinkEl) { presetLinkEl.remove(); presetLinkEl = null; }
+    return;
+  }
+  if (!presetLinkEl) {
+    presetLinkEl = document.createElement("link");
+    presetLinkEl.rel = "stylesheet";
+    document.head.appendChild(presetLinkEl);
+  }
+  var cacheBuster = typeof window.__BUILD_HASH__ !== "undefined" ? window.__BUILD_HASH__ : Date.now();
+  presetLinkEl.href = "themes/" + name + ".css?" + cacheBuster;
+}
+
+function isValidCssColor(value) {
+  return typeof value === "string"
+    && value.trim()
+    && typeof CSS !== "undefined"
+    && CSS.supports("color", value.trim());
+}
+
+function buildPresetDropdown() {
+  var themes = state.themes || [];
+  if (!elements.presetItems) return;
+  elements.presetItems.textContent = "";
+  for (var i = 0; i < themes.length; i++) {
+    var t = themes[i];
+    var button = document.createElement("button");
+    button.type = "button";
+    button.setAttribute("role", "menuitem");
+    button.className = "preset-option" + (t.id === state.themePreset ? " active" : "");
+    button.dataset.preset = t.id;
+    button.dataset.description = t.description || "";
+
+    var indicator = document.createElement("span");
+    indicator.className = "preset-indicator";
+    var colorValue = isValidCssColor(t.color) ? t.color.trim() : "var(--acid)";
+    indicator.style.backgroundColor = colorValue;
+
+    var label = document.createElement("span");
+    label.textContent = t.label || "";
+
+    button.append(indicator, label);
+    elements.presetItems.appendChild(button);
+  }
+}
+
+function togglePresetDropdown() {
+  var dd = elements.presetDropdown;
+  if (!dd) return;
+  var open = !dd.classList.contains("open");
+  setPresetDropdownOpen(open);
+  if (!open) {
+    hidePresetOptionTooltip();
+  }
+}
+
+function setPresetDropdownOpen(open) {
+  var dd = elements.presetDropdown;
+  if (!dd) return;
+  dd.classList.toggle("open", open);
+  elements.presetToggle?.parentElement?.classList.toggle("preset-dropdown-open", open);
+}
+
+function selectThemePreset(id) {
+  state.themePreset = id;
+  try { localStorage.setItem("ssl-manual-preset", id); } catch (_) {}
+  loadThemeCSS(id);
+  buildPresetDropdown();
+  setPresetDropdownOpen(false);
+  hidePresetOptionTooltip();
+}
+
+function initThemePreset() {
+  try {
+    var saved = localStorage.getItem("ssl-manual-preset");
+    if (saved && (state.themes || []).some(function (t) { return t.id === saved; })) {
+      state.themePreset = saved;
+    }
+  } catch (_) {}
+  buildPresetDropdown();
+  if (state.themePreset !== state.defaultTheme) {
+    loadThemeCSS(state.themePreset);
+  }
+}
+
+var _presetOptionTooltipEl = null;
+
+function showPresetOptionTooltip(e) {
+  var btn = e.currentTarget;
+  var desc = btn.getAttribute("data-description");
+  if (!desc) return;
+  if (!_presetOptionTooltipEl) {
+    _presetOptionTooltipEl = document.createElement("div");
+    _presetOptionTooltipEl.id = "presetOptionTooltip";
+    document.body.appendChild(_presetOptionTooltipEl);
+  }
+  _presetOptionTooltipEl.textContent = desc;
+  _presetOptionTooltipEl.style.display = "block";
+  _presetOptionTooltipEl.style.maxWidth = "";
+  _presetOptionTooltipEl.style.whiteSpace = "nowrap";
+  _presetOptionTooltipEl.style.left = "-9999px";
+  _presetOptionTooltipEl.style.top = "-9999px";
+  var rect = btn.getBoundingClientRect();
+  var naturalW = _presetOptionTooltipEl.offsetWidth;
+  var leftPos = rect.right + 10;
+  var maxAvail = window.innerWidth - leftPos - 10;
+  if (naturalW > maxAvail) {
+    var clamped = Math.max(maxAvail, 120);
+    _presetOptionTooltipEl.style.maxWidth = clamped + "px";
+    _presetOptionTooltipEl.style.whiteSpace = "normal";
+  }
+  _presetOptionTooltipEl.style.left = leftPos + "px";
+  _presetOptionTooltipEl.style.top = (rect.top + rect.height / 2) + "px";
+}
+function hidePresetOptionTooltip() {
+  if (_presetOptionTooltipEl) _presetOptionTooltipEl.style.display = "none";
+}
 
 const escapeHtml = (value) =>
   value.replace(/[&<>"']/g, (character) => ({
@@ -43,8 +249,23 @@ const escapeHtml = (value) =>
     "'": "&#39;",
   })[character]);
 
+const escapeRegExp = (value) => value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 const normalize = (value) => value.toLocaleLowerCase().replace(/\s+/g, " ").trim();
-const dataUrl = (path) => new URL(`data/${path}`, document.baseURI);
+const contentHeadingSelector = [
+  ".manual-content h1[id]",
+  ".manual-content h2[id]",
+  ".manual-content h3[id]",
+  ".manual-content h4[id]",
+  ".manual-content h5[id]",
+  ".manual-content h6[id]",
+].join(", ");
+const dataUrl = (path) => {
+  const url = new URL(`data/${path}`, document.baseURI);
+  if (typeof window.__BUILD_HASH__ !== "undefined" && location.protocol !== "file:") {
+    url.searchParams.set("v", window.__BUILD_HASH__);
+  }
+  return url;
+};
 const localData = globalThis.__SSL_MANUAL_DATA__ ??= { pages: {} };
 
 function loadDataScript(path) {
@@ -75,8 +296,157 @@ async function loadData(path, readLocalValue) {
   return response.json();
 }
 
+function updateInstallButtonVisibility() {
+  if (!elements.installButton) return;
+  const installed = isStandalonePwa();
+  elements.installButton.hidden = !deferredInstallPrompt || installed;
+}
+
+function isStandalonePwa() {
+  return (
+    window.matchMedia("(display-mode: standalone)").matches ||
+    window.matchMedia("(display-mode: fullscreen)").matches ||
+    window.navigator.standalone === true
+  );
+}
+
+var mobileSidebarMql = window.matchMedia("(max-width: 760px)");
+var compactOutlineMql = window.matchMedia("(max-width: 980px)");
+var mobileScrollLockY = 0;
+var mobileScrollLocked = false;
+var mobileBackgroundScrollLocked = false;
+var outlineScrollTrapActive = false;
+var outlineTouchStartY = 0;
+
+function preventBackgroundTouchMove(event) {
+  if (!elements.sidebar.classList.contains("open")) return;
+  if (elements.sidebar.contains(event.target)) return;
+  event.preventDefault();
+}
+
+function outlineCanScrollBy(deltaY) {
+  if (!elements.outline || !elements.outline.classList.contains("open")) return false;
+  var maxScrollTop = elements.outline.scrollHeight - elements.outline.clientHeight;
+  if (maxScrollTop <= 0) return false;
+  if (deltaY < 0) return elements.outline.scrollTop > 0;
+  if (deltaY > 0) return elements.outline.scrollTop < maxScrollTop;
+  return false;
+}
+
+function preventOutlineScrollChain(event) {
+  if (!elements.outline.classList.contains("open")) return;
+  var deltaY = 0;
+  if (event.type === "wheel") {
+    deltaY = event.deltaY;
+  } else if (event.type === "touchmove") {
+    var touch = event.touches[0];
+    if (!touch) return;
+    deltaY = outlineTouchStartY - touch.clientY;
+  }
+  if (outlineCanScrollBy(deltaY)) return;
+  event.preventDefault();
+}
+
+function handleOutlineTouchStart(event) {
+  outlineTouchStartY = event.touches[0]?.clientY || 0;
+}
+
+function setMobileBackgroundScrollLock(locked) {
+  if (locked === mobileBackgroundScrollLocked) return;
+  mobileBackgroundScrollLocked = locked;
+  const method = locked ? "addEventListener" : "removeEventListener";
+  document[method]("touchmove", preventBackgroundTouchMove, { passive: false });
+  document[method]("wheel", preventBackgroundTouchMove, { passive: false });
+}
+
+function setOutlineScrollTrap(active) {
+  if (active === outlineScrollTrapActive) return;
+  outlineScrollTrapActive = active;
+  const method = active ? "addEventListener" : "removeEventListener";
+  elements.outline[method]("wheel", preventOutlineScrollChain, { passive: false });
+  elements.outline[method]("touchstart", handleOutlineTouchStart, { passive: true });
+  elements.outline[method]("touchmove", preventOutlineScrollChain, { passive: false });
+}
+
+function syncOutlineScrollTrap() {
+  setOutlineScrollTrap(compactOutlineMql.matches && elements.outline.classList.contains("open"));
+}
+
+function lockMobileScroll() {
+  if (!mobileSidebarMql.matches) return;
+  setMobileBackgroundScrollLock(true);
+  if (mobileScrollLocked || !isStandalonePwa()) return;
+  mobileScrollLockY = window.scrollY || document.documentElement.scrollTop || 0;
+  mobileScrollLocked = true;
+  document.body.style.position = "fixed";
+  document.body.style.top = `-${mobileScrollLockY}px`;
+  document.body.style.left = "0";
+  document.body.style.right = "0";
+  document.body.style.width = "100%";
+}
+
+function unlockMobileScroll() {
+  setMobileBackgroundScrollLock(false);
+  if (!mobileScrollLocked) return;
+  mobileScrollLocked = false;
+  document.body.style.position = "";
+  document.body.style.top = "";
+  document.body.style.left = "";
+  document.body.style.right = "";
+  document.body.style.width = "";
+  // Restore the page position instantly when leaving the mobile sidebar.
+  jumpToScrollTop(mobileScrollLockY);
+}
+
+mobileSidebarMql.addEventListener("change", function (event) {
+  if (!event.matches) closeMobilePanels();
+});
+
+compactOutlineMql.addEventListener("change", syncOutlineScrollTrap);
+
+window.addEventListener("beforeinstallprompt", function (event) {
+  event.preventDefault();
+  deferredInstallPrompt = event;
+  updateInstallButtonVisibility();
+});
+
+window.addEventListener("appinstalled", function () {
+  deferredInstallPrompt = null;
+  updateInstallButtonVisibility();
+});
+
+async function registerServiceWorker() {
+  if (!("serviceWorker" in navigator) || location.protocol === "file:") return;
+  try {
+    await navigator.serviceWorker.register("./sw.js", {
+      scope: "./",
+      updateViaCache: "none",
+    });
+  } catch (error) {
+    console.warn("Service worker registration failed:", error);
+  }
+}
+
 function pageRoute(pageId, headingId = "") {
   return `#/page/${encodeURIComponent(pageId)}${headingId ? `/${encodeURIComponent(headingId)}` : ""}`;
+}
+
+function navigateToPage(pageId, headingId = "", options = {}) {
+  if (options.language && state.language !== options.language) {
+    state.language = options.language;
+  }
+  const hash = pageRoute(pageId, headingId);
+  const sameRoute = hash === location.hash;
+  if (sameRoute && options.source !== "search") return;
+  if (hash !== location.hash) {
+    history.pushState(null, "", hash);
+  }
+  lastLocationRouteHash = hash;
+  route({
+    pageId,
+    headingId,
+    source: options.source || "navigation",
+  });
 }
 
 function getRoute() {
@@ -85,6 +455,12 @@ function getRoute() {
     pageId: decodeURIComponent(match?.[1] || state.catalog?.pages[0]?.id || ""),
     headingId: match?.[2] ? decodeURIComponent(match[2]) : "",
   };
+}
+
+function routeFromLocation() {
+  if (location.hash === lastLocationRouteHash) return;
+  lastLocationRouteHash = location.hash;
+  route();
 }
 
 async function loadSearchIndex() {
@@ -104,7 +480,10 @@ async function loadPage(pageId) {
     const request = loadData(
       `pages/${encodeURIComponent(pageId)}.json`,
       () => localData.pages[pageId],
-    );
+    ).catch((error) => {
+      state.pageCache.delete(pageId);
+      throw error;
+    });
     state.pageCache.set(pageId, request);
   }
   return state.pageCache.get(pageId);
@@ -113,10 +492,6 @@ async function loadPage(pageId) {
 function syncSearchToggleVisibility() {
   var shouldShow = Boolean(state.query.trim()) || elements.searchPanel.matches(":focus-within");
   elements.searchToggle.style.display = shouldShow ? "flex" : "none";
-}
-
-function visiblePageIds() {
-  return new Set(state.catalog.pages.map(function (page) { return page.id; }));
 }
 
 function extractExcerpt(text, query, contextChars) {
@@ -134,8 +509,10 @@ function extractExcerpt(text, query, contextChars) {
 }
 
 function highlightMatches(text, query) {
-  var escaped = query.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-  return text.replace(new RegExp("(" + escaped + ")", "gi"), "<mark>$1</mark>");
+  var safeText = escapeHtml(text);
+  var safeQuery = escapeHtml(query);
+  var escaped = escapeRegExp(safeQuery);
+  return safeText.replace(new RegExp("(" + escaped + ")", "gi"), "<mark>$1</mark>");
 }
 
 function findSearchResults(query) {
@@ -166,19 +543,22 @@ function findSearchResults(query) {
     if (!aInHeading && bInHeading) return 1;
     return 0;
   });
-  return results.slice(0, 12);
+  return results;
 }
 
 function renderSearchResultsInNav() {
   var results = findSearchResults(state.query.trim());
-  elements.searchSummary.textContent = results.length
-    ? "找到 " + results.length + " 个匹配结果"
+  var total = results.length;
+  elements.searchSummary.textContent = total
+    ? "找到 " + total + " 个匹配结果"
     : "没有找到匹配的主题";
-  if (!results.length) {
+  if (!total) {
     elements.manualNav.innerHTML = '<div class="nav-empty">没有匹配结果</div>';
     return;
   }
-  elements.manualNav.innerHTML = results.map(function (r) {
+  var showCount = Math.min(state.searchShowCount, total);
+  var visibleResults = results.slice(0, showCount);
+  var html = visibleResults.map(function (r) {
     var headingLine = r.heading
       ? '<span class="result-heading">' + escapeHtml(r.heading) + '</span>'
       : '';
@@ -191,26 +571,26 @@ function renderSearchResultsInNav() {
       '</button>'
     );
   }).join("");
+  if (showCount < total) {
+    html += '<button class="search-load-more" type="button">加载更多（' + (total - showCount) + '）</button>';
+  }
+  elements.manualNav.innerHTML = html;
   elements.manualNav.querySelectorAll(".search-result").forEach(function (btn) {
     btn.addEventListener("click", function () {
-      var hash = pageRoute(btn.dataset.pageId, btn.dataset.headingId);
       var targetLanguage = state.searchEn ? "en" : "zh";
-      if (state.language !== targetLanguage) {
-        state.language = targetLanguage;
-      }
-      if (hash === location.hash) {
-        if (state.currentPage) {
-          renderPage(state.currentPage, btn.dataset.headingId || "");
-        }
-        highlightPageContent(state.query.trim());
-        requestAnimationFrame(function () {
-          ensureSearchHighlightVisible(btn.dataset.headingId);
-        });
-      } else {
-        location.hash = hash;
-      }
+      navigateToPage(btn.dataset.pageId, btn.dataset.headingId || "", {
+        language: targetLanguage,
+        source: "search",
+      });
     });
   });
+  var loadMoreBtn = elements.manualNav.querySelector(".search-load-more");
+  if (loadMoreBtn) {
+    loadMoreBtn.addEventListener("click", function () {
+      state.searchShowCount += 20;
+      renderSearchResultsInNav();
+    });
+  }
 }
 
 function highlightPageContent(query) {
@@ -223,7 +603,7 @@ function highlightPageContent(query) {
   var walker = document.createTreeWalker(content, NodeFilter.SHOW_TEXT, null);
   var textNodes = [];
   while (walker.nextNode()) textNodes.push(walker.currentNode);
-  var escaped = query.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  var escaped = escapeRegExp(query);
   var regex = new RegExp("(" + escaped + ")", "gi");
   textNodes.forEach(function (node) {
     var text = node.textContent;
@@ -249,7 +629,7 @@ function highlightPageContent(query) {
   });
 }
 
-function ensureSearchHighlightVisible(headingId) {
+function ensureSearchHighlightVisible(headingId, forceScroll = false) {
   var highlights = elements.document.querySelectorAll(".search-highlight");
   if (!highlights.length) return;
   var target = highlights[0];
@@ -268,7 +648,7 @@ function ensureSearchHighlightVisible(headingId) {
   }
   var rect = target.getBoundingClientRect();
   var viewportHeight = window.innerHeight;
-  if (rect.bottom > viewportHeight || rect.top < 0) {
+  if (forceScroll || rect.bottom > viewportHeight || rect.top < 0) {
     target.scrollIntoView({ behavior: "smooth", block: "center" });
   }
 }
@@ -363,10 +743,9 @@ function renderNavigation(focusActive) {
     if (focusActive) scrollActiveNavigationIntoView();
     return;
   }
-  const ids = visiblePageIds();
   const forceExpanded = Boolean(state.query);
   elements.manualNav.innerHTML = state.catalog.sections.map((section) => {
-    const pages = state.catalog.pages.filter((page) => page.section === section.id && ids.has(page.id));
+    const pages = state.catalog.pages.filter((page) => page.section === section.id);
     if (!pages.length) return "";
     const expanded = forceExpanded || state.expandedSections.has(section.id);
     return `
@@ -385,11 +764,11 @@ function renderNavigation(focusActive) {
   }).join("");
 
   elements.searchSummary.textContent = state.query
-    ? `找到 ${ids.size} 个相关主题`
+    ? "正在准备搜索结果…"
     : "可搜索中英文标题与正文";
   elements.manualNav.querySelectorAll("[data-page-id]").forEach((button) => {
     button.addEventListener("click", () => {
-      location.hash = pageRoute(button.dataset.pageId);
+      navigateToPage(button.dataset.pageId);
       closeMobilePanels();
     });
   });
@@ -413,7 +792,8 @@ function renderNavigation(focusActive) {
 }
 
 function renderOutline(page) {
-  elements.outline.innerHTML = page.headings
+  var headings = getPageHeadings(page, state.language);
+  elements.outline.innerHTML = headings
     .filter((heading) => heading.title)
     .map((heading) => `
       <a class="level-${heading.level}" href="${pageRoute(page.id, heading.id)}">
@@ -426,7 +806,7 @@ function configurePageButton(button, page, label) {
   button.disabled = !page;
   button.querySelector("span").textContent = label;
   button.querySelector("strong").textContent = page?.titleZh || "—";
-  button.onclick = page ? () => { location.hash = pageRoute(page.id); } : null;
+  button.onclick = page ? () => { navigateToPage(page.id); } : null;
 }
 
 function configurePageLinks() {
@@ -455,13 +835,137 @@ function configurePageLinks() {
       link.rel = "noreferrer";
     }
   });
-  elements.document.querySelectorAll(".manual-content details a, .manual-content details [id]").forEach((element) => {
-    if (!element.id) return;
-    element.closest("details")?.setAttribute("data-anchor-container", element.id);
+}
+
+function getReadableScrollRatio() {
+  var maxScroll = Math.max(0, document.documentElement.scrollHeight - window.innerHeight);
+  return maxScroll ? window.scrollY / maxScroll : 0;
+}
+
+function getPageHeadings(page, language) {
+  if (!page) return [];
+  return language === "en" ? (page.englishHeadings || page.headings) : page.headings;
+}
+
+function getContentHeadings() {
+  return Array.from(document.querySelectorAll(contentHeadingSelector))
+    .filter((heading) => heading.closest("details")?.open !== false);
+}
+
+function getContentDisclosureStates() {
+  return Array.from(elements.document.querySelectorAll(".manual-content details"))
+    .map((details) => details.open);
+}
+
+function restoreContentDisclosureStates(states) {
+  if (!states?.length) return;
+  elements.document.querySelectorAll(".manual-content details").forEach((details, index) => {
+    if (typeof states[index] === "boolean") details.open = states[index];
   });
 }
 
-function renderStandalonePage(page, headingId = "") {
+function getVisibleHeadingAnchor() {
+  var headings = getContentHeadings();
+  var minVisibleTop = Infinity;
+  var best = null;
+  var bestTop = 0;
+
+  headings.forEach((heading) => {
+    var top = heading.getBoundingClientRect().top;
+    if (top >= 0 && top < window.innerHeight && top < minVisibleTop) {
+      minVisibleTop = top;
+      best = heading;
+      bestTop = top;
+    }
+  });
+  if (best) return { id: best.id, top: bestTop };
+
+  var closestAbove = -Infinity;
+  headings.forEach((heading) => {
+    var top = heading.getBoundingClientRect().top;
+    if (top < 0 && top > closestAbove) {
+      closestAbove = top;
+      best = heading;
+      bestTop = top;
+    }
+  });
+  return best ? { id: best.id, top: bestTop } : null;
+}
+
+function getMappedHeadingIndex(page, headingId, fromLanguage, toLanguage) {
+  var sourceHeadings = getPageHeadings(page, fromLanguage);
+  var targetHeadings = getPageHeadings(page, toLanguage);
+  var index = sourceHeadings.findIndex(function (heading) { return heading.id === headingId; });
+  if (index < 0) return -1;
+
+  var sourceHeading = sourceHeadings[index];
+  var targetHeading = targetHeadings[index];
+  if (!targetHeading) return -1;
+  if (sourceHeadings.length !== targetHeadings.length) return -1;
+  if (sourceHeading.level !== targetHeading.level) return -1;
+  return index;
+}
+
+function restoreScrollByRatio(scrollRatio) {
+  var maxScroll = Math.max(0, document.documentElement.scrollHeight - window.innerHeight);
+  jumpToScrollTop(Math.round(maxScroll * scrollRatio));
+}
+
+function jumpToScrollTop(top) {
+  var root = document.documentElement;
+  var previousScrollBehavior = root.style.scrollBehavior;
+  root.style.scrollBehavior = "auto";
+  window.scrollTo(0, top);
+  root.style.scrollBehavior = previousScrollBehavior;
+}
+
+function scrollTargetToPreferredTop(target, preferredTop) {
+  if (!document.body.contains(target)) return;
+  var targetTop = target.getBoundingClientRect().top;
+  var maxScroll = Math.max(0, document.documentElement.scrollHeight - window.innerHeight);
+  var nextTop = Math.min(Math.max(0, window.scrollY + targetTop - preferredTop), maxScroll);
+  jumpToScrollTop(Math.round(nextTop));
+}
+
+function scrollToHeadingIndex(index, fallbackRatio, preferredTop = null) {
+  requestAnimationFrame(() => {
+    var headings = getPageHeadings(state.currentPage, state.language);
+    var targetId = headings[index]?.id;
+    if (!targetId) {
+      restoreScrollByRatio(fallbackRatio);
+      return;
+    }
+    var target = document.getElementById(targetId);
+    if (!target) {
+      restoreScrollByRatio(fallbackRatio);
+      return;
+    }
+    target.closest("details")?.setAttribute("open", "");
+    if (Number.isFinite(preferredTop)) {
+      scrollTargetToPreferredTop(target, preferredTop);
+      requestAnimationFrame(function () { scrollTargetToPreferredTop(target, preferredTop); });
+      setTimeout(function () { scrollTargetToPreferredTop(target, preferredTop); }, 120);
+      return;
+    }
+    target.scrollIntoView();
+  });
+}
+
+function scrollToPagePosition(headingId = "", skipScroll = false) {
+  if (skipScroll) return;
+  if (headingId) {
+    requestAnimationFrame(function () {
+      var target = document.getElementById(headingId);
+      if (!target) return;
+      target.closest("details")?.setAttribute("open", "");
+      target.scrollIntoView();
+    });
+    return;
+  }
+  window.scrollTo({ top: 0, behavior: "instant" });
+}
+
+function renderStandalonePage(page, headingId = "", skipScroll = false) {
   state.currentPage = page;
   elements.breadcrumbs.innerHTML = escapeHtml(page.titleZh);
   elements.pageCounter.textContent = "";
@@ -483,21 +987,10 @@ function renderStandalonePage(page, headingId = "") {
   configurePageButton(elements.nextPage, null, "下一主题");
   renderNavigation();
   document.title = page.titleZh + " | " + state.catalog.meta.title;
-  if (headingId) {
-    requestAnimationFrame(function () {
-      var target = document.getElementById(headingId);
-      if (target) {
-        var details = target.closest("details");
-        if (details) details.setAttribute("open", "");
-        target.scrollIntoView();
-      }
-    });
-  } else {
-    window.scrollTo({ top: 0, behavior: "instant" });
-  }
+  scrollToPagePosition(headingId, skipScroll);
 }
 
-function renderPage(page, headingId = "") {
+function renderPage(page, headingId = "", skipScroll = false) {
   state.currentPage = page;
   ensureActiveNavigationExpanded();
   const index = state.catalog.pages.findIndex((candidate) => candidate.id === page.id);
@@ -512,15 +1005,15 @@ function renderPage(page, headingId = "") {
       <p class="eyebrow">${escapeHtml(page.sectionZh)} · CHAPTER ${String(page.order).padStart(2, "0")}</p>
       <h1>${escapeHtml(page.titleZh)}</h1>
       <p class="english-title">${escapeHtml(page.title)}</p>
-      <span class="translation-badge">${
-        page.translationStatus === "complete"
-          ? "● 中文翻译已完成 · 可切换英文原文"
-          : "△ 中文正文翻译进行中 · 当前显示完整英文原文"
-      }</span>
+     <span class="translation-badge">${
+       page.translationStatus === "complete"
+          ? '<span class="translation-badge-dot">●</span> 中文翻译已完成 · 可切换英文原文'
+          : '<span class="translation-badge-dot">△</span> 中文正文翻译进行中 · 当前显示完整英文原文'
+     }</span>
     </header>
     <div class="manual-content">${state.language === "en" ? page.englishHtml : page.contentHtml}</div>
   `;
-  elements.languageToggle.textContent = state.language === "zh" ? "中文 / EN" : "中文 / EN";
+  elements.languageToggle.textContent = "中文 / EN";
   elements.languageToggle.disabled = page.translationStatus !== "complete";
   renderOutline(page);
   configurePageLinks();
@@ -528,25 +1021,20 @@ function renderPage(page, headingId = "") {
   configurePageButton(elements.nextPage, next, "下一主题");
   renderNavigation(true);
   document.title = `${page.titleZh} | ${state.catalog.meta.title}`;
-  if (headingId) {
-    requestAnimationFrame(() => {
-      const target = document.getElementById(headingId);
-      target?.closest("details")?.setAttribute("open", "");
-      target?.scrollIntoView();
-    });
-  } else {
-    window.scrollTo({ top: 0, behavior: "instant" });
-  }
+  scrollToPagePosition(headingId, skipScroll);
   if (next) loadPage(next.id).catch(() => {});
 }
 
-async function route() {
+async function route(routeOptions = null) {
   if (!state.catalog) return;
-  const { pageId, headingId } = getRoute();
+  const requestId = ++routeRequestId;
+  const { pageId, headingId } = routeOptions || getRoute();
+  const isSearchNavigation = routeOptions?.source === "search";
   const summary = state.catalog.pages.find((candidate) => candidate.id === pageId);
   if (!summary) {
     try {
       const page = await loadPage(pageId);
+      if (requestId !== routeRequestId) return;
       if (page && page.standalone) {
         renderStandalonePage(page, headingId);
         return;
@@ -557,41 +1045,85 @@ async function route() {
   }
   elements.document.setAttribute("aria-busy", "true");
   try {
-    renderPage(await loadPage(pageId), headingId);
+    const page = await loadPage(pageId);
+    if (requestId !== routeRequestId) return;
+    renderPage(page, isSearchNavigation ? "" : headingId, isSearchNavigation);
     if (state.query.trim() && (state.searchIndexZh || state.searchIndexEn)) {
       highlightPageContent(state.query.trim());
       requestAnimationFrame(function () {
-        ensureSearchHighlightVisible(headingId);
+        if (requestId !== routeRequestId) return;
+        ensureSearchHighlightVisible(headingId, isSearchNavigation);
       });
     }
   } catch (error) {
+    if (requestId !== routeRequestId) return;
     elements.document.innerHTML = `<div class="error-state"><h2>章节载入失败</h2><code>${escapeHtml(error.message)}</code></div>`;
   } finally {
-    elements.document.removeAttribute("aria-busy");
+    if (requestId === routeRequestId) {
+      elements.document.removeAttribute("aria-busy");
+    }
   }
 }
 
 function toggleSidebar() {
   const open = elements.sidebar.classList.toggle("open");
   elements.scrim.classList.toggle("open", open);
+  if (open) {
+    lockMobileScroll();
+  } else {
+    unlockMobileScroll();
+  }
 }
 
 function closeMobilePanels() {
   elements.sidebar.classList.remove("open");
   elements.outline.classList.remove("open");
   elements.scrim.classList.remove("open");
+  setOutlineScrollTrap(false);
+  unlockMobileScroll();
 }
 
 async function start() {
   try {
     state.catalog = await loadData("catalog.json", () => localData.catalog);
+
+    /* — Load themes from build data — */
+    try {
+      state.themes = await loadData("themes.json", () => localData.themes);
+    } catch (e) {
+      console.warn("Failed to load themes, using fallback:", e);
+    }
+    if (!state.themes || !state.themes.length) {
+      state.themes = [{ id: "acid", label: "SSL 经典绿", color: "#c7ff37", default: true }];
+    }
+    var def = state.themes.find(function (t) { return t.default; });
+    state.defaultTheme = def ? def.id : state.themes[0].id;
+    state.themePreset = state.defaultTheme;
+
     expandAllNavigation();
+    /* — Init theme from localStorage — */
+    try {
+      const saved = localStorage.getItem("ssl-manual-theme");
+      if (saved === "dark" || saved === "light" || saved === "auto") state.theme = saved;
+    } catch (_) {}
+    applyTheme();
+    syncThemeButton();
+    initThemePreset();
+    const themeMedia = window.matchMedia("(prefers-color-scheme: light)");
+    themeMedia.addEventListener("change", function () {
+      if (state.theme === "auto") {
+        applyTheme();
+        syncThemeButton();
+      }
+    });
     elements.databaseStatus.textContent =
       `${state.catalog.meta.pageCount} TOPICS`;
     elements.searchLabel.textContent =
       `搜索全部 ${state.catalog.meta.pageCount} 个主题`;
     renderNavigation();
     await route();
+    updateInstallButtonVisibility();
+    registerServiceWorker();
   } catch (error) {
     elements.databaseStatus.textContent = "CONTENT ERROR";
     elements.document.innerHTML = `
@@ -607,6 +1139,7 @@ async function start() {
 var searchTimer;
 elements.searchInput.addEventListener("input", function (event) {
   state.query = event.target.value;
+  state.searchShowCount = 12;
   syncSearchToggleVisibility();
   clearTimeout(searchTimer);
   if (!state.query.trim()) {
@@ -629,15 +1162,54 @@ elements.searchPanel.addEventListener("focusout", function () {
 });
 elements.menuButton.addEventListener("click", toggleSidebar);
 elements.scrim.addEventListener("click", closeMobilePanels);
-elements.outlineButton.addEventListener("click", () => elements.outline.classList.toggle("open"));
+elements.outlineButton.addEventListener("click", () => {
+  const open = elements.outline.classList.toggle("open");
+  syncOutlineScrollTrap();
+});
+elements.installButton.addEventListener("click", async function () {
+  if (!deferredInstallPrompt) return;
+  deferredInstallPrompt.prompt();
+  try {
+    await deferredInstallPrompt.userChoice;
+  } finally {
+    deferredInstallPrompt = null;
+    updateInstallButtonVisibility();
+  }
+});
 document.addEventListener("click", (event) => {
   if (!elements.outline.classList.contains("open")) return;
   if (elements.outline.contains(event.target) || elements.outlineButton.contains(event.target)) return;
   elements.outline.classList.remove("open");
+  syncOutlineScrollTrap();
+});
+
+document.addEventListener("click", function (event) {
+  var dd = elements.presetDropdown;
+  if (!dd || !dd.classList.contains("open")) return;
+  if (dd.contains(event.target) || elements.presetToggle.contains(event.target)) return;
+  setPresetDropdownOpen(false);
+  hidePresetOptionTooltip();
+});
+
+elements.presetItems?.addEventListener("click", function (event) {
+  var btn = event.target.closest(".preset-option");
+  if (!btn) return;
+  selectThemePreset(btn.dataset.preset);
+});
+
+elements.presetItems?.addEventListener("mouseover", function (event) {
+  var btn = event.target.closest(".preset-option");
+  if (!btn || !elements.presetItems.contains(btn)) return;
+  showPresetOptionTooltip({ currentTarget: btn });
+});
+
+elements.presetItems?.addEventListener("mouseleave", function () {
+  hidePresetOptionTooltip();
 });
 
 elements.searchEnToggle.addEventListener("change", function () {
     state.searchEn = this.checked;
+    state.searchShowCount = 12;
     if (state.query.trim()) {
       clearTimeout(searchTimer);
       loadSearchIndex().then(function () {
@@ -647,26 +1219,99 @@ elements.searchEnToggle.addEventListener("change", function () {
       });
     }
   });
+  elements.themeToggle.addEventListener("pointerdown", handleThemePress);
+  elements.themeToggle.addEventListener("pointerup", handleThemeRelease);
+  elements.themeToggle.addEventListener("pointercancel", handleThemeCancel);
+  elements.themeToggle.addEventListener("pointerleave", handleThemeCancel);
+  elements.presetToggle.addEventListener("click", togglePresetDropdown);
   elements.languageToggle.addEventListener("click", () => {
-  if (state.currentPage?.translationStatus !== "complete") return;
-  state.language = state.language === "zh" ? "en" : "zh";
-  if (state.currentPage?.standalone) {
-    renderStandalonePage(state.currentPage);
-  } else {
-    renderPage(state.currentPage);
-  }
-  if (state.query.trim() && (state.searchIndexZh || state.searchIndexEn)) {
-    setTimeout(function () { highlightPageContent(state.query.trim()); }, 0);
-  }
-});
-window.addEventListener("hashchange", function () { route(); });
+    if (state.currentPage?.translationStatus !== "complete") return;
+    if (elements.document.classList.contains("language-transition-out")) return;
+
+    var fromLanguage = state.language;
+    var toLanguage = fromLanguage === "zh" ? "en" : "zh";
+    var headingAnchor = getVisibleHeadingAnchor();
+    var targetIdx = headingAnchor
+      ? getMappedHeadingIndex(state.currentPage, headingAnchor.id, fromLanguage, toLanguage)
+      : -1;
+    var scrollRatio = getReadableScrollRatio();
+    var disclosureStates = getContentDisclosureStates();
+
+    window.clearTimeout(languageTransitionTimer);
+    elements.languageToggle.disabled = true;
+    elements.document.classList.add("language-transition-out");
+    languageTransitionTimer = window.setTimeout(function () {
+      state.language = toLanguage;
+      if (state.currentPage?.standalone) {
+        renderStandalonePage(state.currentPage, "", true);
+      } else {
+        renderPage(state.currentPage, "", true);
+      }
+      restoreContentDisclosureStates(disclosureStates);
+      if (state.query.trim() && (state.searchIndexZh || state.searchIndexEn)) {
+        setTimeout(function () { highlightPageContent(state.query.trim()); }, 0);
+      }
+
+      if (targetIdx >= 0) {
+        scrollToHeadingIndex(targetIdx, scrollRatio, headingAnchor?.top);
+      } else {
+        restoreScrollByRatio(scrollRatio);
+      }
+      elements.document.classList.remove("language-transition-out");
+      elements.document.classList.add("language-transition-in");
+      window.setTimeout(function () {
+        elements.document.classList.remove("language-transition-in");
+      }, 20);
+      elements.languageToggle.disabled = state.currentPage?.translationStatus !== "complete";
+    }, 120);
+  });
+window.addEventListener("hashchange", routeFromLocation);
+window.addEventListener("popstate", routeFromLocation);
 window.addEventListener("keydown", (event) => {
   if (event.key === "/" && document.activeElement !== elements.searchInput) {
     event.preventDefault();
     elements.searchInput.focus();
   }
-  if (event.key === "Escape") { closeMobilePanels(); }
+  if (event.key === "Escape") {
+    if (elements.outline.classList.contains("open")) {
+      elements.outline.classList.remove("open");
+      syncOutlineScrollTrap();
+      return;
+    }
+    closeMobilePanels();
+  }
 });
+
+
+/* — Mobile swipe gesture for sidebar (PWA-only, ≤760px) — */
+(function () {
+  if (!isStandalonePwa()) return;
+  if (!mobileSidebarMql.matches) return;
+
+  var x0, y0;
+
+  document.addEventListener("touchstart", function (e) {
+    if (!mobileSidebarMql.matches) return;
+    if (e.target === elements.searchInput) return;
+    if (!elements.sidebar.classList.contains("open") &&
+        (elements.scrim.contains(e.target) || elements.searchPanel.contains(e.target))) return;
+    x0 = e.touches[0].clientX;
+    y0 = e.touches[0].clientY;
+  }, { passive: true });
+
+  document.addEventListener("touchend", function (e) {
+    if (!mobileSidebarMql.matches || x0 === undefined) return;
+    var w = window.innerWidth;
+    var startX = x0;
+    var dx = e.changedTouches[0].clientX - x0;
+    var dy = Math.abs(e.changedTouches[0].clientY - y0);
+    x0 = y0 = undefined;
+    if (dy > w * 0.08 || Math.abs(dx) < w * 0.12) return;
+
+    if (!elements.sidebar.classList.contains("open") && dx > w * 0.12 && startX < w * 0.5) { toggleSidebar(); return; }
+    if (elements.sidebar.classList.contains("open") && dx < -(w * 0.12)) { closeMobilePanels(); }
+  }, { passive: true });
+})();
 
 syncSearchToggleVisibility();
 start();

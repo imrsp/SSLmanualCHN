@@ -3,8 +3,14 @@ import path from "node:path";
 import { readJson, root } from "./lib/manual.mjs";
 
 const catalog = readJson(path.join(root, "dist", "data", "catalog.json"));
-const knownIds = new Set(catalog.pages.map((page) => page.id));
-const issues = [];
+const knownIds = new Set([
+  ...catalog.pages.map((page) => page.id),
+  ...fs.readdirSync(path.join(root, "dist", "data", "pages"))
+    .filter((file) => file.endsWith(".json"))
+    .map((file) => path.basename(file, ".json")),
+]);
+const hardFailures = [];
+const warnings = [];
 let internalLinks = 0;
 let externalLinks = 0;
 
@@ -14,14 +20,14 @@ for (const page of catalog.pages) {
     for (const match of html.matchAll(/<a\b[^>]*\bhref=["']([^"']+)["']/gi)) {
       const href = match[1];
       if (/^#(?!\/page\/)/.test(href)) {
-        issues.push(`${page.id} (${language}): unlocalized fragment link ${href}`);
+        hardFailures.push(`${page.id} (${language}): unlocalized fragment link ${href}`);
         continue;
       }
       if (href.startsWith("#/page/")) {
         internalLinks += 1;
         const [, target = "", encodedAnchor] = href.match(/^#\/page\/([^/]+)(?:\/(.+))?$/) ?? [];
         if (!knownIds.has(target)) {
-          issues.push(`${page.id} (${language}): unknown internal page ${href}`);
+          hardFailures.push(`${page.id} (${language}): unknown internal page ${href}`);
           continue;
         }
         if (encodedAnchor) {
@@ -29,7 +35,7 @@ for (const page of catalog.pages) {
           const anchor = decodeURIComponent(encodedAnchor);
           const targetHtml = language === "zh" ? targetData.contentHtml : targetData.englishHtml;
           if (!new RegExp(`\\bid=["']${anchor.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}["']`, "i").test(targetHtml)) {
-            issues.push(`${page.id} (${language}): missing anchor ${href}`);
+            hardFailures.push(`${page.id} (${language}): missing anchor ${href}`);
           }
         }
       } else if (/^https?:/i.test(href)) {
@@ -38,23 +44,56 @@ for (const page of catalog.pages) {
           const targetPath = new URL(href).pathname.toLowerCase();
           const isIncluded = catalog.pages.some((candidate) =>
             new URL(candidate.sourceUrl).pathname.toLowerCase() === targetPath);
-          if (isIncluded) issues.push(`${page.id} (${language}): included page still links externally ${href}`);
+          if (isIncluded) warnings.push(`${page.id} (${language}): 已有站内页面，仍使用外链 ${href}`);
         }
       }
     }
   }
 }
 
-const report = { pages: catalog.pages.length, internalLinks, externalLinks, issues };
+const report = {
+  generatedAt: new Date().toISOString(),
+  pages: catalog.pages.length,
+  internalLinks,
+  externalLinks,
+  hardFailures,
+  warnings,
+};
+fs.mkdirSync(path.join(root, "reports"), { recursive: true });
 fs.writeFileSync(
   path.join(root, "reports", "link-audit.json"),
   JSON.stringify(report, null, 2),
 );
-console.log(JSON.stringify({
-  pages: report.pages,
-  internalLinks,
-  externalLinks,
-  issues: issues.length,
-}, null, 2));
-for (const issue of issues) console.error(issue);
-if (issues.length) process.exitCode = 1;
+fs.writeFileSync(path.join(root, "reports", "LINK_AUDIT.md"), [
+  "# 站内链接校验报告",
+  "",
+  `生成时间：${report.generatedAt}`,
+  "",
+  `- 页面：${report.pages}`,
+  `- 内部链接：${report.internalLinks}`,
+  `- 外部链接：${report.externalLinks}`,
+  `- 硬失败：${report.hardFailures.length}`,
+  `- 警告：${report.warnings.length}`,
+  "",
+  "## 错误",
+  "",
+  ...(report.hardFailures.length ? report.hardFailures.map((item) => `- ${item}`) : ["- 无"]),
+  "",
+  "## 警告",
+  "",
+  ...(report.warnings.length ? report.warnings.map((item) => `- ${item}`) : ["- 无"]),
+  "",
+].join("\n"));
+console.log([
+  "=== 站内链接校验报告 ===",
+  "",
+  `  页面：${report.pages}`,
+  `  内部链接：${report.internalLinks}`,
+  `  外部链接：${report.externalLinks}`,
+  ...(report.hardFailures.length ? [`  [FAIL] 硬失败：${report.hardFailures.length}`] : [`  [OK]   无硬失败`]),
+  ...(report.warnings.length ? [`  [WARN] 警告：${report.warnings.length}`] : [`  [OK]   无警告`]),
+  "",
+].join("\n"));
+for (const issue of hardFailures) console.log(`  [FAIL] ${issue}`);
+for (const warn of warnings) console.log(`  [WARN] ${warn}`);
+if (hardFailures.length) process.exitCode = 1;

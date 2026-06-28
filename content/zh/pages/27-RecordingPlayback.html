@@ -19,72 +19,72 @@
   <p class="source">章节：构建演出 | 来源：<a href="https://livehelp.solidstatelogic.com/Help/RecordingPlayback.html">https://livehelp.solidstatelogic.com/Help/RecordingPlayback.html</a></p>
 <h2>多轨录音与回放（录音机与排练模式）</h2>
 
-<p>SSL Live 控制台的每条 Channel 路径在信号链顶部均设有 <b>Record Send</b> 和 <b>Record Return</b> 点，位置在 Input A/B 选择之后、Trim 之前。Record Send 始终启用，可路由至多轨录音设备。如下文所述，Record Return 可同时接入多条 Channel。录音跳线路由可通过 Channel View 的 Input/Routing Detail View、XY Routing，或 I/O 菜单中的 Recorder 批量路由功能完成。</p>
+<p>SSL Live 控制台的每条通道路径在信号链顶部均设有 <b>Record Send（录音发送）</b> 和 <b>Record Return（录音返回）</b> 点，位置在 Input A/B 选择之后、Trim 之前。录音发送始终启用，可路由至多轨录音设备。如下文所述，录音返回可同时接入多条通道。录音跳线路由可通过通道视图的输入/路由详细视图、XY 路由，或 I/O 菜单中的 Recorder 批量路由功能完成。</p>
 
 <span class="note">
   <span class="notetitle">V5.2 及更高版本：</span><br>
-  V5.2 显著增强了彩排和录音功能，新增多个切换组、灵活路由以及锁定覆盖功能。八个可自由分配的切换组可分别管理多组乐器，甚至同一演出文件中的不同演出阵容，使彩排时能够快速进行动态比较。结合全局、分组和本地切换选项，以及每条 Channel 的“锁定到”覆盖功能，可以快速地在现场输入与回放输入之间切换单条 Channel。
+  V5.2 显著增强了彩排和录音功能，新增多个切换组、灵活路由以及锁定覆盖功能。八个可自由分配的切换组可分别管理多组乐器，甚至同一演出文件中的不同演出阵容，使彩排时能够快速进行动态比较。结合全局、分组和本地切换选项，以及每条通道的“锁定到”覆盖功能，可以快速地在现场输入与回放输入之间切换单条通道。
   <br><br>
-  录音机的批量 I/O 路由现由通用 MADI 和 Dante Expander 模块处理，控制台不再使用“Live Recorder”设备概念。Channel 的 Record Send 和 Record Return 可自由路由，因此任意 I/O 都可用于录音，任意控制台路径也可被录制，为录音和彩排回放提供更灵活的配置。
+  录音机的批量 I/O 路由现由 Generic MADI 和 Dante Expander 模块处理，控制台不再使用 “Live Recorder” 设备概念。通道的的录音发送和录音返回可自由路由，因此任意 I/O 都可用于录音，任意控制台路径也可被录制，为录音和彩排回放提供更灵活的配置。
   <br><br>
-  旧版 Live Recorder 使用固定且自动维护的递增路由，将 Channel Record Send/Return 与录音机通道对应。其优点是更改 Channel 格式或顺序时会自动更新路由，缺点是路由固定、无法自由修改。新版允许用户完全自行管理路由，因此不再自动维护路由；两种机制无法同时存在。MADI 和 Dante I/O 设备提供新的批量路由命令，可在 Console Configuration 完成后快速路由所有 Channel。之后若更改 Channel 格式，操作人员需要检查并更新相应的录音机路由。
+  旧版 Live Recorder 使用固定且自动维护的递增路由，将通道录音/返回与录音机通道对应。其优点是更改通道格式或顺序时会自动更新路由，缺点是路由固定、无法自由修改。新版允许用户完全自行管理路由，因此不再自动维护路由；两种机制无法同时存在。MADI 和 Dante I/O 设备提供新的批量路由命令，可在 Console Configuration 完成后快速路由所有通道。之后若更改通道格式，操作人员需要检查并更新相应的录音机路由。
   <br><br>
-  使用旧版软件保存的演出文件，在 Live V5.2 中加载并再次保存时会自动升级。原 Live Recorder 会转换为通用 MADI I/O；此前与 Recorder ID 对应的控制台 Channel 会自动加入相应的新切换组。新演出文件默认将所有 Channel 加入全局切换组，并以空白的 Record Send/Return 路由开始。
+  使用旧版软件保存的演出文件，在 Live V5.2 中加载并再次保存时会自动升级。原 Live Recorder 会转换为通用 MADI I/O；旧版通过 Recorder ID 绑定到录音通路的通道，会自动加入相应的新切换组。新演出文件默认将所有通道加入全局切换组，并以空白的录音发送/返回路由开始。
 </span>
 
 <h3>排练模式切换组</h3>
 
-<p><strong>Rehearse Mode</strong> 按钮位于 <strong>MENU</strong> &gt; <strong>Setup</strong> &gt; <strong>Options</strong> &gt; <strong>USER</strong> 选项卡。启用后，可通过控制台 Channel 回放录制的音频，以便工程师测试系统，或让表演者配合之前的演出录音进行彩排。系统提供八个彩排切换组，可按需要切换不同的 Channel 集合。双击组名称文本框即可命名，例如“Drums”。每个组均有对应颜色，用于在各 Channel 条和状态栏中标识切换组状态。</p>
+<p><strong>Rehearse Mode</strong> 按钮位于 <strong>MENU</strong> &gt; <strong>Setup</strong> &gt; <strong>Options</strong> &gt; <strong>USER</strong> 选项卡。启用后，可通过控制台通道回放录制的音频，以便工程师测试系统，或让表演者配合之前的演出录音进行彩排。系统提供八个彩排切换组，可按需要切换不同的通道集合。双击组名称文本框即可命名，例如“鼓组”。每个组均有对应颜色，用于在各通道条和状态栏中标识切换组状态。</p>
 
 <img style="display: block; margin: 5px auto; width: 300px;" src="https://livehelp.solidstatelogic.com/Help/images/t_Rehearse_mode.png" alt="">
 <img style="display: block; margin: 5px auto;" src="https://livehelp.solidstatelogic.com/Help/images/t_Rehearse_status.png" alt="">
 
 <span class="note">
-  <span class="notetitle">注意：</span>Rehearse Mode 也可通过 User Key 或 Event System 触发；详情参阅<a href="https://livehelp.solidstatelogic.com/Help/OptionsUserKeys.html"><span class="hyperlink">用户按键选项</span></a>和<a href="https://livehelp.solidstatelogic.com/Help/EventManager.html"><span class="hyperlink">事件管理器</span></a>。
+  <span class="notetitle">注意：</span>排练模式也可通过用户按键或事件管理器触发；详情参阅 <a href="https://livehelp.solidstatelogic.com/Help/OptionsUserKeys.html"><span class="hyperlink">用户按键选项</span></a> 和 <a href="https://livehelp.solidstatelogic.com/Help/EventManager.html"><span class="hyperlink">事件管理器</span></a>。
 </span>
 
-<p>按住 <strong>Global Rehearse Mode</strong> 按钮可启用该功能，同时切换所有处于 <strong>Follow Global</strong> 或 <strong>Follow Group</strong> 模式的路径；处于 <strong>Follow Local</strong> 模式的路径不受影响。可在输入路径的 <strong>Channel Detail View</strong> 中将路径指定为全局、分组或本地切换：</p>
+<p>按住 <strong>Global Rehearse Mode</strong> 按钮可启用该功能，同时切换所有处于 <strong>Follow Global</strong> 或 <strong>Follow Group</strong> 模式的路径；处于 <strong>Follow Local</strong> 模式的路径不受影响。可在输入路径的 <strong>通道详细视图</strong> 中将路径指定为全局、分组或本地切换：</p>
 
 <ul>
-  <li><strong>Follow Global</strong>：默认选项。路径不属于任何组，但会随 Global Rehearse Mode 切换。</li>
-  <li><strong>Follow Group &lt;N&gt;</strong>：将路径分配到指定组，并随该组切换。</li>
-  <li><strong>Follow Local</strong>：不分配切换组。Channel 默认使用现场输入，但可在本地切换到彩排输入。</li>
+  <li><strong>Follow Global（跟随全局）</strong>：默认选项。路径不属于任何组，但会随全局排练模式切换。</li>
+  <li><strong>Follow Group （跟随组）&lt;N&gt;</strong>：将路径分配到指定组，并随该组切换。</li>
+  <li><strong>Follow Local（跟随本地）</strong>：不分配切换组。通道默认使用现场输入，但可在本地切换到彩排输入。</li>
 </ul>
 
 <img style="display: block; margin: 15px auto; width: 1200px;" src="https://livehelp.solidstatelogic.com/Help/images/t_Rehearse_pathdetail.png" alt="">
 
-<p>简单配置可让所有 Channel 保持 <strong>Follow Global</strong>，从而一次切换控制台上的全部 Channel。也可按乐器类型等方式建立独立组，实现用户自定义切换。<strong>Follow Local</strong> 可将某条 Channel 持久地排除在所有切换组之外，适合效果返回，或始终由回放设备馈送到 Channel 输入的信号源。以上分配均随演出文件存储和调用。</p>
+<p>简单配置可让所有通道保持 <strong>Follow Global</strong>，从而一次切换控制台上的全部通道。也可按乐器类型等方式建立独立组，实现用户自定义切换。<strong>Follow Local</strong> 可将某条通道持久地排除在所有切换组之外，适合效果返回，或始终由回放设备馈送到通道输入的信号源。以上分配均随演出文件存储和调用。</p>
 
-<p><strong>Lock to Live Input</strong> 与 <strong>Lock to Rehearsal Input</strong> 是一对覆盖功能，可强制路径使用现场输入或 Record Return。启用其中一项会取消另一项；关闭其中一项不会自动启用另一项。即使路径处于 Follow Global 或 Follow Group 模式，也可随时使用这些锁定功能。</p>
+<p><strong>Lock to Live Input（锁定到现场输入）</strong>与 <strong>Lock to Rehearsal Input（锁定到彩排输入）</strong>是一对覆盖功能，可强制路径使用现场输入或录音返回。启用其中一项会取消另一项；关闭其中一项不会自动启用另一项。即使路径处于跟随全局或跟随组模式，也可随时使用这些锁定功能。</p>
 
 <ul>
-  <li>启用 <strong>Lock to Rehearsal Input</strong> 时按钮呈橙色，Channel 的 Input A/B/Tape 指示也会呈橙色。</li>
-  <li>启用 <strong>Lock to Live Input</strong> 时按钮呈青色，Channel 的 Input A/B 指示保持常规显示。</li>
+  <li>启用 <strong>Lock to Rehearsal Input</strong> 时按钮呈橙色，通道的 Input A/B/Tape 指示也会呈橙色。</li>
+  <li>启用 <strong>Lock to Live Input</strong> 时按钮呈青色，通道的 Input A/B 指示保持常规显示。</li>
 </ul>
 
-<p>路径处于 <strong>Lock to Live</strong> 或 <strong>Lock to Rehearsal</strong> 状态时，其输入不会随分组或全局切换而改变。锁定状态不存入演出文件或场景。该功能可在一次演出流程中快速强制某条 Channel 使用现场或彩排/回放输入。例如某位乐手迟到或某件乐器发生故障时，可暂时将该 Channel 切换到回放，使演出或彩排继续进行；若歌手希望在彩排结束后再练习几次，也可将其话筒锁定到现场输入，同时让其他 Channel 保持排练模式。</p>
+<p>路径处于 <strong>锁定到现场</strong> 或 <strong>锁定到彩排</strong> 状态时，其输入不会随分组或全局切换而改变。锁定状态不存入演出文件或场景。该功能可在一次演出流程中快速强制某条通道使用现场或彩排/回放输入。例如某位乐手迟到或某件乐器发生故障时，可暂时将该通道切换到回放，使演出或彩排继续进行；若歌手希望在彩排结束后再练习几次，也可将其话筒锁定到现场输入，同时让其他通道保持排练模式。</p>
 
 <h3>Recorder I/O</h3>
 
-<p>Channel Record Send/Return 支持手动路由，因此任意 I/O 都可用作录音机和彩排回放设备。其操作方式与其他信号跳线路由相同，并随演出文件存储和调用。</p>
+<p>通道录音发送/返回支持手动路由，因此任意 I/O 都可用作录音机和彩排回放设备。其操作方式与其他信号跳线路由相同，并随演出文件存储和调用。</p>
 
-<p>MADI 和 Dante Expander 连接可配置为“Recorder”。每台 Recorder 会分配一个 Channel 区块，例如在 96 kHz 下为 1-32、33-64 等。分配区块后，可同时对 I/O 和 Channel Record Send/Return 执行批量路由。完成 <strong>Console Configuration</strong> 中的 Channel 分配后，即可快速配置 Recorder I/O 与路由，并确保所有 Channel 都被录制。</p>
+<p>MADI 和 Dante Expander 连接可配置为“Recorder”（录音机）。每台录音机会分配一个通道区块，例如在 96 kHz 下为 1-32、33-64 等。分配区块后，可同时对 I/O 和通道录音发送/返回执行批量路由。完成 <strong>Console Configuration</strong> 中的通道分配后，即可快速配置录音机 I/O 与路由，并确保所有通道都被录制。</p>
 
 <ul>
-  <li><strong>Make All</strong>：按 1:1 将 Channel Record Send 路由至该设备，并将该设备路由至 Channel Record Return。</li>
-  <li><strong>Clear Destination</strong>：移除所有路由到该设备的信号，并移除所有路由到相应 Channel Record Return 的信号。</li>
-  <li><strong>Clear All</strong>：移除该设备与相应 Channel Record Send/Return 之间的全部双向路由。</li>
+  <li><strong>Make All</strong>：按 1:1 将通道录音发送路由至该设备，并将该设备路由至通道录音返回。</li>
+  <li><strong>Clear Destination</strong>：移除所有路由到该设备的信号，并移除所有路由到相应通道录音返回的信号。</li>
+  <li><strong>Clear All</strong>：移除该设备与相应通道录音发送/返回之间的全部双向路由。</li>
 </ul>
 
-<p>1:1 路由按控制台 Channel 路径中的连续信号计算。例如，一条立体声 Channel 路径会占用两个 I/O 信号。</p>
+<p>1:1 路由按控制台通道路径中的连续信号计算。例如，一条立体声通道路径会占用两个 I/O 信号。</p>
 
 <p>只有所有目标点均为空闲时，才能执行 Make。只有存在可清除的路由时，清除功能才可用。请注意路由具有方向性：一对多只是信号分配，可通过跳线路由轻松实现；多对一需要求和或混音，必须使用母线，因此不属于跳线路由功能。要让接收点改接其他信号，必须先清除或替换其现有路由。</p>
 
 <img style="display: block; margin: 15px auto; width: 1200px;" src="https://livehelp.solidstatelogic.com/Help/images/t_Rehearse_bulk.png" alt="">
 
-<p>将 I/O 设备设为 <strong>Not Set</strong> 会自动执行 <strong>Clear Destinations</strong>，释放 Channel Record Return 和 I/O 输出，以便从其他信号进行路由。Channel Record Send 和 I/O 输入可能已被合理地路由到 Recorder 之外的其他目标，因此将 Recorder I/O 改为 <strong>Not Set</strong> 时不会清除这些路由。</p>
+<p>将 I/O 设备设为 <strong>Not Set</strong> 会自动执行 <strong>Clear Destinations</strong>，释放通道录音返回和 I/O 输出，以便从其他信号进行路由。通道录音发送和 I/O 输入可能已被合理地路由到 Recorder 之外的其他目标，因此将 Recorder I/O 改为 <strong>Not Set</strong> 时不会清除这些路由。</p>
 
-<p>将 Dante Expander 设为 Recorder 后，其所有 Channel 都会被强制用作 VTL（Virtual Tie Line），而不是用于动态 Dante 路由。</p>
+<p>将 Dante Expander 设为 Recorder 后，其所有通道都会被强制用作 VTL（Virtual Tie Line, Dante 虚拟跳线），而不是用于动态 Dante 路由。</p>
 
 <h3>建议用例与工作流程</h3>
 
@@ -104,16 +104,16 @@
 
 <ul>
   <li>将控制台 I/O 端口设为 None，以移除 Recorder 分配和路由；然后重新选择 MADI 并配置 Recorder 选项。</li>
-  <li>将 Recorder 设为 Not Set，以移除 Recorder 分配和路由；然后选择新的 Channel 区块。</li>
-  <li>逐台 Recorder 重新分配 Channel 区块，并在操作过程中清除旧路由、建立新路由。</li>
+  <li>将 Recorder 设为 Not Set，以移除 Recorder 分配和路由；然后选择新的通道区块。</li>
+  <li>逐台 Recorder 重新分配通道区块，并在操作过程中清除旧路由、建立新路由。</li>
 </ul>
 
-<p>MADI 和 Dante Expander I/O 页面中的 Recorder 选项用于批量路由和快速设置。也可通过 XY Routing 和 Channel View Routing，在录音设备与 Channel Record Send/Return 之间连接信号。</p>
+<p>MADI 和 Dante Expander I/O 页面中的 Recorder 选项用于批量路由和快速设置。也可通过 XY 路由和通道视图路由，在录音设备与通道录音发送/返回之间连接信号。</p>
 
-<p>如果之后更改了 Channel 格式，操作人员必须检查并更新所需的 Recorder 路由。</p>
+<p>如果之后更改了通道格式，操作人员必须检查并更新所需的 Recorder 路由。</p>
 
 <span class="note">
-  <span class="notetitle">注意：</span>Record Send 始终保持启用。因此，即使处于 Rehearse Mode，来自舞台的现场信号仍会继续发送至录音设备。
+  <span class="notetitle">注意：</span>录音发送始终保持启用。因此，即使处于排练模式，来自舞台的现场信号仍会继续发送至录音设备。
 </span>
 
 <h2>实用链接</h2>

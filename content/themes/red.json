@@ -1,0 +1,64 @@
+{
+  "name": "red",
+  "label": "经典红",
+  "order": 2,
+  "description": "红色强调色主题，经典 SSL 红",
+  "author": "DMT Club",
+  "hue": {
+    "primary": 3,
+    "link": 160,
+    "warn": 38,
+    "error": 355
+  },
+  "dark": {
+    "acid": {
+      "s": 85,
+      "l": 55
+    },
+    "cyan": {
+      "s": 80,
+      "l": 58
+    },
+    "amber": {
+      "s": 95,
+      "l": 62
+    },
+    "red": {
+      "s": 80,
+      "l": 60
+    }
+  },
+  "light": {
+    "acid": {
+      "s": 55,
+      "l": 38
+    },
+    "cyan": {
+      "s": 60,
+      "l": 34
+    },
+    "amber": {
+      "s": 85,
+      "l": 40
+    },
+    "red": {
+      "s": 55,
+      "l": 46
+    }
+  },
+  "brandAccentText": "#fff5f0",
+  "brandAccentTextLight": "#fff5f0",
+  "aboutGlow": {
+    "dark": {
+      "r": 230,
+      "g": 60,
+      "b": 45
+    },
+    "light": {
+      "r": 160,
+      "g": 40,
+      "b": 30
+    }
+  },
+  "color": "#91201A"
+}

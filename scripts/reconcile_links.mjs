@@ -2,7 +2,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { readJson, root } from "./lib/manual.mjs";
 
-const manifest = readJson(path.join(root, "content", "en", "manifest.json"));
+const manifest = readJson(path.join(root, "content", "manifest.json"));
 function links(html, sourceUrl) {
   const result = [];
   const activeHtml = (html.match(/<body[^>]*>([\s\S]*?)<\/body>/i)?.[1] ?? html)
@@ -36,6 +36,12 @@ for (const page of manifest) {
   }
 }
 
-console.log(JSON.stringify({ pages: manifest.length, issues: issues.length }, null, 2));
-for (const issue of issues) console.error(issue);
+console.log([
+  "=== 链接一致性校验报告 ===",
+  "",
+  `  页面：${manifest.length}`,
+  ...(issues.length ? [`  [FAIL] 问题页面：${issues.length}`] : [`  [OK]   全部一致`]),
+  "",
+].join("\n"));
+for (const issue of issues) console.log(`  [FAIL] ${issue}`);
 if (issues.length) process.exitCode = 1;

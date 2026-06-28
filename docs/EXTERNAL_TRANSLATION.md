@@ -1,62 +1,59 @@
 # 使用外部模型辅助翻译
 
-本文记录如何把逐章初译交给 MiniMax 等兼容 API，减少主 Agent 的模型用量。外部模型只生成候选译文；术语、结构和最终质量仍由本项目校验与人工审校负责。
+本文档描述的是**可选的初译候选稿工作流**，不是项目默认维护流程。默认流程仍然是基于英文基准、项目 glossary、项目校验和人工审校完成正式译文。
+
+外部大语言模型可以用于生成章节初译，降低人工起草成本；但术语一致性、HTML 结构保真和最终质量，仍由本项目脚本与人工审校负责。
+
+## 适用场景
+
+- 未翻译章节的批量初译
+- 英文源站更新后的增量修订草稿
+- 人工审校前先生成可编辑候选稿
+
+## 原则
+
+1. 一次只处理一个章节，避免长上下文失控。
+2. 提示词中必须附带 `docs/glossary.csv` 和 `docs/TERMINOLOGY.md`。
+3. 必须要求模型完整返回 HTML，禁止改标签、属性、链接、图片路径、数字、单位、型号、命令和 UI 标签。
+4. 写入译文后必须运行 `npm run check`。
+5. 所有正式入库译文都必须再经过人工逐段复核。
+
+## 推荐提示词结构
+
+- 角色：SSL Live 手册技术文档翻译
+- 输入：英文 HTML 正文
+- 术语：完整粘贴 `docs/glossary.csv` 与必要规则
+- 约束：不得改 HTML 结构、链接、资源路径、数字、命令、产品名、UI 标签
+- 输出：仅返回 HTML，不加解释，不包 Markdown 代码块
+
+## 建议参数
+
+- `temperature`: 0.1 到 0.3
+- `top_p`: 0.9
+- 关闭不必要的 reasoning / thinking 扩展
+- 不使用工具调用和图像能力
 
 ## 推荐流程
 
-1. 只向模型提交一个章节，不提交整个仓库或 `dist/`。
-2. 提示词附带 `content/glossary.csv`、`content/TERMINOLOGY.md` 和当前英文正文。
-3. 要求完整返回 HTML，禁止改动标签、属性、链接、图片路径、数字、单位、型号、命令和 UI 标签。
-4. 将结果写入对应的 `content/zh/pages/NN-Slug.html`。
-5. 运行 `npm run check`；集中验收时再运行 `npm run validate:strict`。
-6. 对照英文逐段审校，重点检查漏译、术语、表格、链接和警告文本。
+1. 读取 `content/en/pages/NN-Slug.html`
+2. 组合英文正文、`docs/glossary.csv`、必要规则
+3. 调用外部模型生成候选译文
+4. 写入 `content/zh/pages/NN-Slug.html`
+5. 运行 `npm run check`
+6. 查看 `/reports`，先修阻断项，再处理人工复核项
+7. 人工逐段比对英文完成审校
 
-不要把多个长章节合并为一次请求。逐章请求便于失败重试、费用统计和结构校验，也能避免一次错误污染多页。
+## 常见风险
 
-## MiniMax API
-
-MiniMax 提供 OpenAI 兼容接口，基础地址为 `https://api.minimax.io/v1`。截至 2026-06-12，官方文档列出的当前模型包括 `MiniMax-M3` 与 `MiniMax-M2.7`；模型和价格可能变化，执行批量任务前应重新查看官方模型与价格页。
-
-翻译属于低随机性的文本转换任务，建议先用 `MiniMax-M3`、关闭 thinking、设置较低 temperature，并记录响应中的 token usage。不要把 API Key 写入仓库：
-
-```bash
-export MINIMAX_API_KEY='your-key'
-```
-
-最小请求示例：
-
-```bash
-curl https://api.minimax.io/v1/chat/completions \
-  -H "Authorization: Bearer $MINIMAX_API_KEY" \
-  -H 'Content-Type: application/json' \
-  -d '{
-    "model": "MiniMax-M3",
-    "thinking": {"type": "disabled"},
-    "temperature": 0.2,
-    "messages": [
-      {"role": "system", "content": "Translate the supplied SSL Live manual HTML into Simplified Chinese. Preserve every HTML tag, attribute, URL, image path, number, unit, product name, command, and UI label. Return HTML only."},
-      {"role": "user", "content": "<article>...</article>"}
-    ]
-  }'
-```
-
-## 在 Codex 中切换 MiniMax
-
-MiniMax 官方也提供 Codex 配置方式，可在 `~/.codex/config.toml` 中增加自定义 provider，并将 `wire_api` 设为 `responses`。这会让 MiniMax 直接承担 Agent 工作，不只承担翻译。
-
-对本项目更稳妥的分工是：主 Agent 负责拆分章节、文件操作、校验和审校；MiniMax API 只负责逐章候选翻译。这样成本可控，也不会把仓库操作权限和长上下文消耗交给翻译模型。
+- 模型会自作主张“修正”HTML，导致结构校验失败。
+- 多次重复翻译同一章节，术语会漂移。
+- `<details>`、表格、复杂嵌套列表保真度较差，必须重点检查。
+- 即使报告通过，也不能替代人工判断某些英文是否应作为界面名保留。
 
 ## 成本控制
 
-- 先用一篇短文做术语和 HTML 保真测试，再批量执行。
-- 固定系统提示和术语表，利用提供商的 prompt caching（如果所选计费方式支持）。
-- 关闭不需要的 thinking；翻译不需要 Agent 工具调用或图片理解。
-- 保存每次请求的模型、输入/输出 token、费用和目标文件，便于比较模型。
-- 对失败章节单独重试，不重新发送已完成章节。
-
-## 官方资料
-
-- [MiniMax Codex 配置](https://platform.minimax.io/docs/token-plan/codex)
-- [MiniMax OpenAI 兼容接口](https://platform.minimax.io/docs/api-reference/text-openai-api)
-- [MiniMax 模型说明](https://platform.minimax.io/docs/guides/models-intro)
-- [MiniMax 按量价格](https://platform.minimax.io/docs/guides/pricing-paygo)
+- 先用短章节做术语和 HTML 保真测试。
+- 固定系统提示和术语表，便于复用 prompt cache。
+- 保存模型、token、费用、目标文件，便于比较性价比。
+- 只重试失败章节，不重新发送已完成章节。
+- API Key 只通过环境变量提供，不写入仓库。

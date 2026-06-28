@@ -7,17 +7,15 @@
   "scripts": {
     "build": "node scripts/build_static_site.mjs",
     "validate": "node scripts/validate_project.mjs && node scripts/validate_translations.mjs",
-    "validate:strict": "STRICT_TRANSLATIONS=1 node scripts/validate_translations.mjs",
-    "audit": "node scripts/audit_content.mjs",
+    "audit:content": "node scripts/audit_content.mjs",
     "audit:links": "node scripts/audit_links.mjs",
     "audit:external-links": "node scripts/audit_external_links.mjs",
     "audit:terminology": "node scripts/audit_terminology.mjs",
     "links:reconcile": "node scripts/reconcile_links.mjs",
     "upstream:snapshot": "node scripts/snapshot_upstream.mjs",
-    "check": "npm run build && npm run validate && npm run audit && npm run audit:links && npm run audit:terminology",
+    "check": "npm run build && npm run validate && npm run audit:content && npm run audit:links && npm run audit:terminology && npm run audit:external-links && npm run audit:seo",
     "serve": "node scripts/serve.mjs",
-    "translation:export": "node scripts/build_translation_handoff.mjs",
-    "translation:import": "node scripts/import_translated_handoff.mjs"
+    "audit:seo": "node scripts/audit_seo.mjs"
   },
   "engines": {
     "node": ">=20"
