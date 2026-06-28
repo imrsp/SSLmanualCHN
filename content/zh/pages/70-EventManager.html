@@ -20,7 +20,7 @@
 <h2>事件管理器</h2>
 
 <p>
-    事件管理器可用于在控制台上编排由状态驱动的操作。事件可在 Event Manager 页面（<span class="label">Menu</span>
+    事件管理器可用于在控制台上编排由状态驱动的操作。事件可在事件管理器页面（<span class="label">Menu</span>
     > <span class="label">Tools</span> >
     <span class="label">Event&nbsp;Manager</span>）中配置。页面上半部分显示所有已配置事件的列表。启用侧边栏中的 Edit 按钮即可修改事件列表。
 </p>
@@ -59,8 +59,8 @@
 <h3 id="Sources">事件源</h3>
 
 <p>
-    使用 <span class="label">Add&nbsp;Source</span> 按钮添加新的事件源。每个事件最多可添加 12 个源。选择 Sources 区域右上角相应的
-    <span class="label">Any</span> 或 <span class="label">All</span> 条件，并设置 <b>Trigger</b> 选项，即可指定满足任一或全部源条件时触发事件。当任一或全部事件源状态变为真时，事件状态也会变为真，并触发所有事件目标操作。
+    使用 <span class="label">Add&nbsp;Source</span> 按钮添加新的事件源。每个事件最多可添加 12 个源。选择 Sources 区域右上角相应的 <b>Trigger</b> 选项，可指定事件源的触发条件为
+    <span class="label">Any</span> 或 <span class="label">All</span> 。当任一或全部事件源状态变为 true 时，事件状态也会变为 true，并触发所有事件目标动作。
 </p>
 
 <p>
@@ -205,7 +205,7 @@
              alt="" />
 
         <p>
-            现在可将此 Automation 事件源链接到场景的
+            现在可将此自动化事件源链接到场景的
             <a href="https://livehelp.solidstatelogic.com/Help/AutoIOActions.html"><span class="hyperlink">Output&nbsp;Action</span></a>。在控制台的
             <a href="https://livehelp.solidstatelogic.com/Help/AutoOverview.html"><span class="hyperlink">Automation</span></a>
             页面中选择所需场景，进入
@@ -225,10 +225,10 @@
         </div>
 
         <p>
-            <span class="label">Arm</span> 对 Output Action 执行 Arm，以确保场景触发时该操作会执行。
+            <span class="label">Arm</span> 对 Output Action 执行待命，以确保场景触发时该操作会执行。
         </p>
 
-        <p>已链接的场景会显示在 Event Manager 页面中。</p>
+        <p>已链接的场景会显示在事件管理器页面中。</p>
     </div>
     <div class="indexheader2">GP 输入（GPI）</div>
     <div>
@@ -244,18 +244,18 @@
         <p>GPI 可按多种不同的 Action 方式触发：</p>
         <ul>
             <li>
-                <span class="label">Latching</span> ：GPI 信号变为高电平时，源状态变为真并保持为真
+                <span class="label">Latching</span> ：GPI 信号变为高电平时，源状态变为 true 并保持为 true
             </li>
             <li>
-                <span class="label">Momentary</span> ：仅在 GPI 信号为高电平期间，源状态才为真
+                <span class="label">Momentary</span> ：仅在 GPI 信号为高电平期间，源状态才为 true
             </li>
             <li>
-                <span class="label">Momentary-On-Hold</span> ：GPI 信号变为高电平时源状态变为真；若 GPI 信号在 500 毫秒后变为低电平，源状态变为假，否则保持为真
+                <span class="label">Momentary-On-Hold</span> ：GPI 信号变为高电平时源状态变为 true；若 GPI 信号在 500 毫秒后变为低电平，源状态变为 false，否则保持为 true
             </li>
         </ul>
 
         <p>
-            使用 <span class="label">Inverted</span> 按钮可反转输入事件触发器的 GPI 状态；即当传入 GPI 信号变为低电平时，源状态变为真。
+            使用 <span class="label">Inverted</span> 按钮可反转输入事件触发器的 GPI 状态；即当传入 GPI 信号变为低电平时，源状态变为 true。
         </p>
 
         <img style="display: block; margin: 5px auto"
@@ -273,7 +273,7 @@
         </p>
 
         <span class="note">
-            <span class="notetitle">注意：</span> 如果某个 MIDI Input 已路由至 MIDI 端口，之后添加的 MIDI Input 会自动路由至最后使用的 MIDI 端口。
+            <span class="notetitle">注意：</span> 如果某个 MIDI 输入已路由至 MIDI 端口，之后添加的 MIDI 输入会自动路由至最后使用的 MIDI 端口。
         </span>
 
         <p>
@@ -284,7 +284,7 @@
         </p>
 
         <p>
-            源区域的其余部分用于配置预期接收的 MIDI 消息（MIDI Channel、Note Number 等，视情况而定）。
+            源区域的其余部分用于配置预期接收的 MIDI 消息（MIDI 通道、音符编号等，视情况而定）。
         </p>
 
         <img style="display: block; margin: 5px auto; width: 800px"
@@ -293,7 +293,7 @@
 
         <p>
             MIDI 事件源具有
-            <span class="label">Pulse&nbsp;Fire</span> 选项。启用后，收到指定类型的消息时，源状态会变为真并持续 500 毫秒，然后变为假，而不受输入状态影响。对于 Program Change 消息，这允许重复输入再次触发事件。若未启用 Pulse Fire，Program Change 后事件源状态会保持高电平。
+            <span class="label">Pulse&nbsp;Fire</span> 选项。启用后，收到指定类型的消息时，源状态会变为 true 并持续 500 毫秒，然后变为 false，而不受输入状态影响。对于 Program Change 消息而言，这允许重复输入再次触发事件。若未启用 Pulse Fire，Program Change 后事件源状态会保持高电平。
         </p>
 
         <span class="note">
@@ -307,19 +307,18 @@
     </div>
     <div class="indexheader2">控制台功能源</div>
     <div>
-        <p>
-            多种控制台功能可用于触发事件。完整列表如下。
-        </p>
 
         <p>
-            信号路径功能需要输入具体的信号路径编号（也可启用
-            <span class="label">Any&nbsp;Path</span> ，在所选类型的任一信号路径达到指定状态时触发事件源）。
+            路径功能需要输入具体的路径编号（也可启用
+            <span class="label">Any&nbsp;Path</span> ，在所选类型的任一路径达到指定状态时触发事件源）。
         </p>
 
         <img style="display: block; margin: 5px auto"
              src="https://livehelp.solidstatelogic.com/Help/images/g_EventMgr_ConsoleFunctionInput.png"
              alt="" />
-
+        <p>
+            多种控制台功能可用于触发事件。完整列表如下。
+        </p>
         <table class="nestedlist" style="text-align: left; margin: 0px">
             <tbody class="small">
                 <tr>
@@ -448,7 +447,7 @@
                     </th>
                     <th rowspan="28">DAW 1 - 4</th>
                     <th rowspan="11">通道条主控开关</th>
-                    <th rowspan="4">Select - Assign</th>
+                    <th rowspan="4">选择 - 分配</th>
                     <th>Send A - E</th>
                 </tr>
                 <tr>
@@ -461,7 +460,7 @@
                     <th>Flip</th>
                 </tr>
                 <tr>
-                    <th rowspan="2">Global</th>
+                    <th rowspan="2">全局</th>
                     <th>Suspend</th>
                 </tr>
                 <tr>
@@ -492,7 +491,7 @@
                     <th>Save</th>
                 </tr>
                 <tr>
-                    <th>Status/Group</th>
+                    <th>状态/分组</th>
                     <th>Suspend</th>
                 </tr>
                 <tr>
@@ -595,19 +594,19 @@
 
         <ul>
             <li>
-                <span class="label">Latching</span> ：按下 User Key 时，源状态变为真并保持为真
+                <span class="label">Latching</span> ：按下 User Key 时，源状态变为 true 并保持为 true
             </li>
             <li>
-                <span class="label">Momentary</span> ：仅在按住 User Key 期间，源状态才为真
+                <span class="label">Momentary</span> ：仅在按住 User Key 期间，源状态才为 true
             </li>
             <li>
-                <span class="label">Momentary-On-Hold</span> ：按下 User Key 时源状态变为真；若在 500 毫秒后释放 User Key，源状态变为假，否则保持为真
+                <span class="label">Momentary-On-Hold</span> ：按下 User Key 时源状态变为 true；若在 500 毫秒后释放 User Key，源状态变为 false，否则保持为 true
             </li>
         </ul>
 
         <p>
-            每个事件只能添加一个 User Key 源。该事件的 User Key 源随后会像通常一样出现在控制台任意 User Key 的分配选项中；可从相应的
-            <a href="https://livehelp.solidstatelogic.com/Help/OptionsUserKeys.html"><span class="hyperlink">用户选项页面</span></a>
+            每个事件只能添加一个用户按键源。该事件的用户按键源随后会像通常一样出现在控制台任意 User Key 的分配选项中；可从相应的
+            <a href="https://livehelp.solidstatelogic.com/Help/OptionsUserKeys.html"><span class="hyperlink">用户按键选项页面</span></a>
             （<span class="label">MENU</span> > <span class="label">Setup</span> >
             <span class="label">Options</span> >
             <span class="label">USER&nbsp;KEYS</span>）进行分配。
@@ -616,16 +615,16 @@
     <div class="indexheader2">推子源</div>
     <div>
         <p>
-            当信号路径推子达到指定的 dB <b>Threshold</b>时，可使用 Fader Function 源触发事件。
+            当路径推子达到指定的 dB <b>阈值</b>时，可使用 Fader Function 源触发事件。
         </p>
 
         <p>
-            推子功能需要输入具体的信号路径编号（也可启用
-            <span class="label">Any&nbsp;Path</span> ，在所选类型的任一信号路径达到指定状态时触发事件源）。
+            推子功能需要输入具体的路径编号（也可启用
+            <span class="label">Any&nbsp;Path</span> ，在所选类型的任一路径达到指定状态时触发事件源）。
         </p>
 
         <p>
-            选择一个或多个信号路径后，设置 <b>Threshold</b> ，并指定源应在高于
+            选择一个或多个路径后，设置 <b>Threshold</b> ，并指定源应在高于
             <span class="label">Trigger&nbsp;Above</span> 还是低于
             <span class="label">Trigger&nbsp;Below</span> 阈值时触发。
         </p>
@@ -644,7 +643,7 @@
 <h3 id="Destinations">事件目标</h3>
 
 <p>
-    使用 <span class="label">Add&nbsp;Destination</span> 按钮添加新的事件目标。每个事件最多可添加 12 个目标。事件状态变为真时，会执行所有目标操作。
+    使用 <span class="label">Add&nbsp;Destination</span> 按钮添加新的事件目标。每个事件最多可添加 12 个目标。事件状态变为 true 时，会执行所有目标操作。
 </p>
 
 <p>
@@ -662,7 +661,7 @@
 </p>
 
 <p>
-    使用源区域中的 <span class="label">Test</span> 按钮测试事件状态变为真（以测试所有已配置目标）。使用目标区域中的
+    使用源区域中的 <span class="label">Test</span> 按钮测试事件状态变为 true（以测试所有已配置目标）。使用目标区域中的
     <span class="label">Test</span> 按钮测试所选目标。
 </p>
 
@@ -757,7 +756,7 @@
              alt="" />
 
         <p>
-            现在可将此 Automation 事件目标链接到场景的
+            现在可将此自动化事件目标链接到场景的
             <a href="https://livehelp.solidstatelogic.com/Help/AutoIOActions.html"><span class="hyperlink">Input&nbsp;Action</span></a>。在控制台的
             <a href="https://livehelp.solidstatelogic.com/Help/AutoOverview.html"><span class="hyperlink">Automation</span></a>
             页面中选择所需场景，进入
@@ -771,10 +770,10 @@
         </p>
 
         <p>
-            <span class="label">Arm</span> 对 Input Action 执行 Arm，以确保事件激活时触发场景。
+            <span class="label">Arm</span> 对 Input Action 执行待命，以确保事件激活时触发场景。
         </p>
 
-        <p>已链接的场景会显示在 Event Manager 页面中。</p>
+        <p>已链接的场景会显示在事件管理器页面中。</p>
     </div>
     <div class="indexheader2">GP 输出（GPO）</div>
     <div>
@@ -791,24 +790,24 @@
 
         <ul>
             <li>
-                <span class="label">Latching</span> ：事件状态变为真时切换 GPO 状态
+                <span class="label">Latching</span> ：事件状态变为 true 时切换 GPO 状态
             </li>
             <li>
                 <span class="label">Momentary</span> ：GPO 状态跟随事件状态
             </li>
             <li>
-                <span class="label">Pulse</span> ：事件状态变为真时，GPO 闭合脉冲持续 500 毫秒
+                <span class="label">Pulse</span> ：事件状态变为 true 时，GPO 闭合脉冲持续 500 毫秒
             </li>
             <li>
-                <span class="label">Turn On</span> ：事件状态变为真时 GPO 闭合；需要第二个事件才能重新断开 GPO
+                <span class="label">Turn On</span> ：事件状态变为 true 时 GPO 闭合；需要第二个事件才能重新断开 GPO
             </li>
             <li>
-                <span class="label">Turn Off</span> ：事件状态变为真时 GPO 断开；需要第二个事件才能重新闭合
+                <span class="label">Turn Off</span> ：事件状态变为 true 时 GPO 断开；需要第二个事件才能重新闭合
             </li>
         </ul>
 
         <p>
-            使用 <span class="label">Inverted</span> 按钮可反转 GPO 状态与事件状态的对应关系；即事件状态变为真时 GPO 断开，反之亦然。
+            使用 <span class="label">Inverted</span> 按钮可反转 GPO 状态与事件状态的对应关系；即事件状态变为 true 时 GPO 断开，反之亦然。
         </p>
 
         <img style="display: block; margin: 5px auto"
@@ -826,7 +825,7 @@
         </p>
 
         <p>
-            如果某个 MIDI Output 已路由至 MIDI 端口，之后添加的 MIDI Output 会自动路由至最后使用的 MIDI 端口。
+            如果某个 MIDI 输出已路由至 MIDI 端口，之后添加的 MIDI 输出会自动路由至最后使用的 MIDI 端口。
         </p>
 
         <p>
@@ -837,7 +836,7 @@
         </p>
 
         <p>
-            目标区域的其余部分用于配置要发送的 MIDI 消息（MIDI Channel、Note Number 等，视情况而定）。
+            目标区域的其余部分用于配置要发送的 MIDI 消息（MIDI 通道、音符编号等，视情况而定）。
         </p>
 
         <img style="display: block; margin: 5px auto; width: 800px"
@@ -855,10 +854,7 @@
     </div>
     <div class="indexheader2">控制台功能目标</div>
     <div>
-        <p>
-            事件可执行多种控制台功能。完整列表如下。
-        </p>
-
+       
         <img style="display: block; margin: 5px auto; width: 800px"
              src="https://livehelp.solidstatelogic.com/Help/images/g_EventMgr_ConsoleFunctionOutput.png"
              alt="" />
@@ -872,16 +868,16 @@
                 <span class="label">Follow&nbsp;On</span> ：功能状态跟随事件状态
             </li>
             <li>
-                <span class="label">Follow&nbsp;Off</span> ：功能状态跟随事件状态的反相
+                <span class="label">Follow&nbsp;Off</span> ：功能状态跟随事件状态的相反状态
             </li>
             <li>
-                <span class="label">Toggle</span> ：每当事件状态变为真时切换功能状态
+                <span class="label">Toggle</span> ：每当事件状态变为 true 时切换功能状态
             </li>
             <li>
-                <span class="label">Turn&nbsp;On</span> ：事件状态变为真时开启功能；需要第二个事件或直接操作该功能才能将其关闭
+                <span class="label">Turn&nbsp;On</span> ：事件状态变为 true 时开启功能；需要第二个事件或直接操作该功能才能将其关闭
             </li>
             <li>
-                <span class="label">Turn&nbsp;Off</span> ：事件状态变为真时关闭功能；需要第二个事件或直接操作该功能才能将其开启
+                <span class="label">Turn&nbsp;Off</span> ：事件状态变为 true 时关闭功能；需要第二个事件或直接操作该功能才能将其开启
             </li>
         </ul>
 
@@ -889,6 +885,11 @@
             信号路径功能需要输入具体的信号路径编号（也可启用
             <span class="label">All&nbsp;Paths</span> 以影响所选类型的所有信号路径）。
         </p>
+        
+         <p>
+            事件可执行多种控制台功能。完整列表如下。
+        </p>
+
 
         <table class="nestedlist" style="text-align: left; margin: 0px">
             <tbody class="small">
@@ -922,7 +923,7 @@
                 </tr>
                 <tr>
                     <th rowspan="10">
-                        <a href="https://livehelp.solidstatelogic.com/Help/Solo.html"><span class="hyperlink">Solo Setup</span></a>
+                        <a href="https://livehelp.solidstatelogic.com/Help/Solo.html"><span class="hyperlink">独奏设置</span></a>
                     </th>
                     <td colspan="3">SIP</td>
                 </tr>
@@ -959,7 +960,7 @@
                     <th>
                         <a href="https://livehelp.solidstatelogic.com/Help/SignalSwitcher.html"><span class="hyperlink">信号切换器</span></a>
                     </th>
-                    <th colspan="2">Signal Switcher 1 - 4</th>
+                    <th colspan="2">信号切换器 1 - 4</th>
                     <td>Input B</td>
                 </tr>
                 <tr>
@@ -969,7 +970,7 @@
                 </tr>
                 <tr>
                     <th rowspan="7">
-                        <a href="https://livehelp.solidstatelogic.com/Help/AutoOverview.html"><span class="hyperlink">Automation</span></a>
+                        <a href="https://livehelp.solidstatelogic.com/Help/AutoOverview.html"><span class="hyperlink">自动化</span></a>
                     </th>
                     <td colspan="3">Fire Next / Previous</td>
                 </tr>
@@ -997,7 +998,7 @@
                 <tr>
                     <th>I/O 功能</th>
                     <td colspan="3">
-                        Recalibrate All
+                        重新校准
                         <span style="font-weight: normal">所有已连接 Net I/O 舞台接口箱中受本机控制的输入</span>
                     </td>
                 </tr>
@@ -1009,7 +1010,7 @@
                 </tr>
 
                 <tr>
-                    <th rowspan="14">信号路径功能</th>
+                    <th rowspan="14">路径功能</th>
                     <th rowspan="14">
                         Channel&nbsp;/ Stem&nbsp;/<br />
                         Aux / Master&nbsp;/<br />
@@ -1020,77 +1021,77 @@
                 </tr>
                 <tr>
                     <td colspan="3">
-                        Solo <span style="font-weight: normal">（不包括 Solo 信号路径）</span>
+                        Solo <span style="font-weight: normal">（不包括 Solo 路径）</span>
                     </td>
                 </tr>
                 <tr>
                     <td colspan="3">
                         TB IN
-                        <span style="font-weight: normal">（仅限 Stem/Aux/Master 信号路径）</span>
+                        <span style="font-weight: normal">（仅限 Stem/Aux/Master 路径）</span>
                     </td>
                 </tr>
                 <tr>
                     <td colspan="3">
                         Input A/B toggle
-                        <span style="font-weight: normal">（仅限 Channel 信号路径）</span>
+                        <span style="font-weight: normal">（仅限 Channel 路径）</span>
                     </td>
                 </tr>
                 <tr>
                     <td colspan="3">
                         Input B
-                        <span style="font-weight: normal">（仅限 Channel 信号路径）</span>
+                        <span style="font-weight: normal">（仅限 Channel 路径）</span>
                     </td>
                 </tr>
                 <tr>
                     <td colspan="3">
-                        Insert A IN <span style="font-weight: normal">（不包括 VCA 信号路径）</span>
+                        Insert A IN <span style="font-weight: normal">（不包括 VCA 路径）</span>
                     </td>
                 </tr>
                 <tr>
                     <td colspan="3">
-                        Insert B IN <span style="font-weight: normal">（不包括 VCA 信号路径）</span>
+                        Insert B IN <span style="font-weight: normal">（不包括 VCA 路径）</span>
                     </td>
                 </tr>
                 <tr>
                     <td colspan="3">
                         Comp IN
-                        <span style="font-weight: normal">（仅限带处理功能的信号路径）</span>
+                        <span style="font-weight: normal">（仅限带处理功能的路径）</span>
                     </td>
                 </tr>
                 <tr>
                     <td colspan="3">
                         Gate IN
-                        <span style="font-weight: normal">（仅限带处理功能的信号路径）</span>
+                        <span style="font-weight: normal">（仅限带处理功能的路径）</span>
                     </td>
                 </tr>
                 <tr>
                     <td colspan="3">
                         EQ IN
-                        <span style="font-weight: normal">（仅限带处理功能的信号路径）</span>
+                        <span style="font-weight: normal">（仅限带处理功能的路径）</span>
                     </td>
                 </tr>
                 <tr>
                     <td colspan="3">
                         Filters IN
-                        <span style="font-weight: normal">（仅限带处理功能的信号路径）</span>
+                        <span style="font-weight: normal">（仅限带处理功能的路径）</span>
                     </td>
                 </tr>
                 <tr>
                     <td colspan="3">
                         Delay IN
-                        <span style="font-weight: normal">（仅限带处理功能的信号路径）</span>
+                        <span style="font-weight: normal">（仅限带处理功能的路径）</span>
                     </td>
                 </tr>
                 <tr>
                     <td colspan="3">
                         All Pass IN
-                        <span style="font-weight: normal">（仅限带处理功能的信号路径）</span>
+                        <span style="font-weight: normal">（仅限带处理功能的路径）</span>
                     </td>
                 </tr>
                 <tr>
                     <th colspan="2">
-                        Routing
-                        <span style="font-weight: normal">（仅限 Channel/Stem/Aux/Talkback 信号路径）</span>
+                        路由
+                        <span style="font-weight: normal">（仅限 Channel/Stem/Aux/Talkback 路径）</span>
                     </th>
                     <td>Master / Stem / Aux IN</td>
                 </tr>
@@ -1101,7 +1102,7 @@
                     </th>
                     <th rowspan="41">DAW 1 - 4</th>
                     <th rowspan="13">通道条主控开关</th>
-                    <th rowspan="4">Select - Assign</th>
+                    <th rowspan="4">选择 - 分配</th>
                     <td>Send A - E</td>
                 </tr>
                 <tr>
@@ -1114,7 +1115,7 @@
                     <td>Flip</td>
                 </tr>
                 <tr>
-                    <th rowspan="2">Global</th>
+                    <th rowspan="2">全局</th>
                     <td>Suspend</td>
                 </tr>
                 <tr>
@@ -1128,7 +1129,7 @@
                     <td>Channel Down / Up</td>
                 </tr>
                 <tr>
-                    <th rowspan="5">Window</th>
+                    <th rowspan="5">窗口</th>
                     <td>Transport</td>
                 </tr>
                 <tr>
@@ -1159,7 +1160,7 @@
                     <td>F8/ESC</td>
                 </tr>
                 <tr>
-                    <th>Status/Group</th>
+                    <th>状态/分组</th>
                     <td>Suspend</td>
                 </tr>
                 <tr>
@@ -1288,16 +1289,16 @@
     <div class="indexheader2">推子目标</div>
     <div>
         <p>
-            事件可通过 Fader Function 事件目标，将信号路径推子设置到指定电平。
+            事件可通过 Fader Function 事件目标，将路径推子设置到指定电平。
         </p>
 
         <p>
-            推子功能需要输入具体的信号路径编号（也可启用
-            <span class="label">All&nbsp;Paths</span> 以影响所选类型的所有信号路径）。
+            推子功能需要输入具体的路径编号（也可启用
+            <span class="label">All&nbsp;Paths</span> 以影响所选类型的所有路径）。
         </p>
 
         <p>
-            选择一个或多个信号路径后，为其设置所需的 dB 值。
+            选择一个或多个路径后，为其设置所需的 dB 值。
         </p>
 
         <img style="display: block; margin: 5px auto; width: 800px"
