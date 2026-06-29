@@ -38,29 +38,29 @@
 </span>
 
 <p>
-    DAW 控制可以按连续的 8 个通道为一组进行配置，每个 DAW 最多使用四组，在控制台上提供 32 个用于 DAW Control 的实体推子。
-    系统同时提供通道滚动键和推子组切换键，因此可访问的 Pro Tools Session 音轨数量不受限制；可根据需要滚动音轨或按推子组将其调入控制台推子。
-    也可使用 Pro Tools Memory Locations 调用特定音轨布局。
+    DAW 控制可以按连续的 8 个通道为一组进行配置，每个 DAW 最多使用四组，在控制台上提供 32 个用于 DAW 控制的实体推子。
+    系统同时提供通道滚动键和推子库切换键，因此可访问的 Pro Tools 工程音轨数量不受限制；可根据需要滚动音轨或按推子库将其调入控制台推子。
+    也可使用 Pro Tools Memory Locations （记忆定位点）调用特定音轨布局。
 </p>
 
 <p>
-    DAW 通过 SSL Live Fader Tiles 控制，此时各控件映射至 DAW 混音器功能，而非控制台内部处理功能。
+    DAW 通过 SSL Live 推子区块控制，此时各控件映射至 DAW 混音器功能，而非控制台内部处理功能。
     推子控制 DAW 音轨电平，编码器控制音轨声像和发送电平。<b>Flip</b> 功能可让推子控制发送电平。
     可通过 <span class="label">Q</span> 开关设置音轨录音预备和自动化模式。
 </p>
 
 <p>
-    使用 SSL Live 作为 Pro Tools 混音 Session 的控制器时，推荐采用两种方案。
+    使用 SSL Live 作为 Pro Tools 混音工程的控制器时，推荐采用两种方案。
     当 Pro Tools 与其他现场音频源一起用作播放源时，可设置一个 HUI 端口，在操作面上提供 8 条 DAW 控制路径，
-    并与其他 8 推子控制器一样以 8 条音轨为增量切换推子组。
+    并与其他 8 个推子的控制器一样以 8 条音轨为增量切换推子库。
     这些 DAW 控制路径可与控制台操作面上的音频路径组合，形成混合工作流程。
-    或者，如果 DAW 控制是控制台的主要用途，通常更适合在两个 Fader Tile 上配置 24 推子操作面（三个 HUI 端口），
-    并以 24 条音轨为增量切换推子组，从而尽量减少推子组切换操作。
+    或者，如果 DAW 控制是控制台的主要用途，通常更适合在两个推子区块上配置有 24 个推子的操作面（三个 HUI 端口），
+    并以 24 条音轨为增量切换推子库，从而尽量减少推子库切换操作。
 </p>
 
 <p>
-    Channel View 屏幕中的 DAW 弹出面板包含多组按钮，可用于分配编码器功能及设置音轨自动化模式。
-    该面板还提供走带控制、通道滚动及推子组切换按钮，以及其他实用的主控功能。下文将详细说明这些功能。
+    通道视图屏幕中的 DAW 弹出面板包含多组按钮，可用于分配编码器功能及设置音轨自动化模式。
+    该面板还提供走带控制、通道滚动及推子库切换按钮，以及其他实用的主控功能。下文将详细说明这些功能。
     所有这些功能以及 HUI 协议中提供的其他命令，均可映射至 <a href="https://livehelp.solidstatelogic.com/Help/OptionsUserKeys.html"><span class="hyperlink">User Keys</span></a>。
 </p>
 
@@ -85,35 +85,35 @@
             </ul>
         </li>
         <li>
-            Session 音轨导航
+            工程音轨导航
             <ul>
-                <li>Channel Up/Down</li>
-                <li>Bank Up/Down</li>
+                <li>通道上/下</li>
+                <li>推子组上/下</li>
             </ul>
         </li>
         <li>
             自动化
             <ul>
-                <li>Automation Suspend</li>
-                <li>Fill to Start、End、Mix</li>
+                <li>自动化挂起</li>
+                <li>写入开头、结尾、全轨</li>
             </ul>
         </li>
         <li>
             时间线
             <ul>
-                <li>Stop、Play、Record</li>
-                <li>Return to Zero (RTZ)</li>
-                <li>Loop</li>
-                <li>Next Marker、Previous Marker</li>
-                <li>Goto Marker 1</li>
+                <li>停止、播放、录音</li>
+                <li>返回起点</li>
+                <li>循环</li>
+                <li>下一个标记点、上一个标记点</li>
+                <li>跳至标记点 1</li>
             </ul>
         </li>
         <li>
             常规功能
             <ul>
-                <li>All Record</li>
-                <li>Group Suspend</li>
-                <li>Sends to Fader (Flip)</li>
+                <li>全轨录音</li>
+                <li>编组挂起</li>
+                <li>发送到推子 (Flip)</li>
                 <li>修饰键：Shift、Opt/All、Alt 和 Ctrl</li>
             </ul>
         </li>
@@ -159,7 +159,7 @@
 
 <p>
     在 DAW Control Setup 页面中启用 DAW 端口后，DAW 控制器通道将显示在 <a href="https://livehelp.solidstatelogic.com/Help/LayerManager.html"><span class="hyperlink">推子层管理器</span></a> 的 DAW Source Layer 中。
-    随后可根据需要将通道放入 User Banks。请注意，DAW Channel Label 会同时显示 DAW 端口编号和通道编号。
+    随后可根据需要将通道放入用户推子组。请注意，DAW Channel Label 会同时显示 DAW 端口编号和通道编号。
     与 Pro Tools 系统建立连接后，该标签将替换为从 DAW 接收的四字符 Pro Tools 音轨标签。
 </p>
 
@@ -167,7 +167,7 @@
 
 <p>请注意，TaCo 目前不支持 DAW 通道。</p>
 
-<h3>Fader Tile 控制</h3>
+<h3>推子区块控制</h3>
 
 <img style="display: block; margin: 5px auto;" src="https://livehelp.solidstatelogic.com/Help/images/g_DAW_FaderTile.png" alt="">
 
@@ -177,7 +177,7 @@
 
 <h3>DAW 弹出面板</h3>
 <p>
-    可通过 Channel View 页面右侧的侧边栏访问 DAW 弹出面板。按下 <span class="label">DAW</span> 按钮打开主弹出面板。
+    可通过通道视图页面右侧的侧边栏访问 DAW 弹出面板。按下 <span class="label">DAW</span> 按钮打开主弹出面板。
     下文详细介绍可从该弹出面板控制的各项功能。
 </p>
 
@@ -192,7 +192,7 @@
 
 <h3>DAW 弹出面板按钮模式</h3>
 
-<p>标准触摸按钮采用“一次触发”操作，即松开按钮时执行所示功能。上图中以红色突出显示的按钮说明采用不同的操作方式：</p>
+<p>标准触摸按钮采用“单次触发”操作，即松开按钮时执行所示功能。上图中以红色突出显示的按钮说明采用不同的操作方式：</p>
 
 <h4>修饰键</h4>
 
@@ -212,7 +212,7 @@
 <p>
     可采用两种操作模式：
     <ul>
-        <li>按住推子条的 <span class="label">Q</span> 开关，然后使用触摸屏按钮选择所需自动化模式。该按钮将以“一次触发”模式工作。</li>
+        <li>按住推子条的 <span class="label">Q</span> 开关，然后使用触摸屏按钮选择所需自动化模式。该按钮将以“单次触发”模式工作。</li>
         <li>按住一个自动化模式按钮，该模式将保持锁定。随后可通过多个通道各自的 <span class="label">Q</span> 开关，将这些通道设为已锁定的模式。再次触摸模式按钮可解除锁定。</li>
     </ul>
 </p>
