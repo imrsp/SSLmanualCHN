@@ -181,6 +181,13 @@
     "About": "关于",
     "LAN-009": "LAN-009 配置 Live 控制台以使用 Dante I/O",
     "LAN-010": "LAN-010 Live Dante VTL / DDR 概念与配置",
-    "LAN-012": "LAN-012 Live 控制台 IP 地址配置指南"
+    "LAN-012": "LAN-012 Live 控制台 IP 地址配置指南",
+    "SetupClockingExA": "系统示例 A: 通过 MADI 将舞台接口箱连接至 Live 控制台",
+    "SetupClockingExB": "系统示例 B: 让 Live 控制台从外部时钟源获取时钟",
+    "SetupClockingExC": "系统示例 C: 通过 MADI 将舞台接口箱连接至两台 Live 控制台",
+    "SetupClockingExD": "系统示例 D: 通过 Blacklight II 将舞台接口箱连接至 Live 控制台",
+    "SetupClockingExE": "系统示例 E: 通过 Blacklight II 将舞台接口箱连接至两台 Live 控制台",
+    "SetupClockingExF": "系统示例 F: 将舞台接口箱连接至三台 Live 控制台",
+    "SetupClockingExG": "系统示例 G: 48 kHz 舞台接口箱菊花链配置"
   }
 }

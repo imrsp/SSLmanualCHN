@@ -745,5 +745,68 @@
     "outputFile": "pages/83-LAN-012.html",
     "headingCount": 13,
     "bodyCharacters": 14160
+  },
+  {
+    "order": 84,
+    "section": "Live Application Note",
+    "title": "Setup: Clocking - System Example A: Connecting stageboxes to a Live console via MADI",
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/SetupClockingExA.html",
+    "outputFile": "pages/84-SetupClockingExA.html",
+    "headingCount": 3,
+    "bodyCharacters": 1614
+  },
+  {
+    "order": 85,
+    "section": "Live Application Note",
+    "title": "Setup: Clocking - System Example B: Clocking the Live console from an external source",
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/SetupClockingExB.html",
+    "outputFile": "pages/85-SetupClockingExB.html",
+    "headingCount": 3,
+    "bodyCharacters": 1494
+  },
+  {
+    "order": 86,
+    "section": "Live Application Note",
+    "title": "Setup: Clocking - System Example C: Connecting stageboxes to two Live consoles via MADI",
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/SetupClockingExC.html",
+    "outputFile": "pages/86-SetupClockingExC.html",
+    "headingCount": 3,
+    "bodyCharacters": 2039
+  },
+  {
+    "order": 87,
+    "section": "Live Application Note",
+    "title": "Setup: Clocking - System Example D: Connecting stageboxes to a Live console over Blacklight II",
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/SetupClockingExD.html",
+    "outputFile": "pages/87-SetupClockingExD.html",
+    "headingCount": 3,
+    "bodyCharacters": 4802
+  },
+  {
+    "order": 88,
+    "section": "Live Application Note",
+    "title": "Setup: Clocking - System Example E: Connecting stageboxes to two Live consoles over Blacklight II",
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/SetupClockingExE.html",
+    "outputFile": "pages/88-SetupClockingExE.html",
+    "headingCount": 3,
+    "bodyCharacters": 4686
+  },
+  {
+    "order": 89,
+    "section": "Live Application Note",
+    "title": "Setup: Clocking - System Example F: Connecting stageboxes to three Live consoles",
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/SetupClockingExF.html",
+    "outputFile": "pages/89-SetupClockingExF.html",
+    "headingCount": 3,
+    "bodyCharacters": 1878
+  },
+  {
+    "order": 90,
+    "section": "Live Application Note",
+    "title": "Setup: Clocking - System Example G: Daisy-chained stageboxes for 48 kHz operation",
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/SetupClockingExG.html",
+    "outputFile": "pages/90-SetupClockingExG.html",
+    "headingCount": 3,
+    "bodyCharacters": 3549
   }
 ]

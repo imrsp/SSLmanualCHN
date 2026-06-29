@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Setup: Clocking - System Example A: Connecting stageboxes to a Live console via MADI</title>
+</head>
+<body>
+  <p class="source">Section: Live Application Note | Source: <a href="https://livehelp.solidstatelogic.com/Help/SetupClockingExA.html">https://livehelp.solidstatelogic.com/Help/SetupClockingExA.html</a></p>
+<h2>System Example A: Connecting stageboxes to a Live console via MADI</h2>
+  
+  <ol>
+    <li>
+      Set the Live console's clock source to Internal (Int), as described in the main <a href="Clocking.html"><span class="hyperlink">Clocking</span></a> section.<br>
+      
+      <img style="display: block; margin: 10px auto;" src="assets/manual/Help/images/SetupClocking/image004.png" alt="">
+    </li>
+    
+    <li>
+        Connect each stagebox MADI port <span style="font-weight: bold;">1 Out</span> & <span style="font-weight: bold;">In</span> to the console using a pair of 75&nbsp;&#8486; BNC coax cables 
+        (max 75&nbsp;m, conforming to spec defined in the <a href="InstallGuide.html"><span class="hyperlink">Installation Guide</span></a>). The stagebox will be automatically detected by the console and this console will be the Master console with full control.<br>
+
+        <img style="display: block; margin: 10px auto;" src="assets/manual/Help/images/SetupClocking/image005.png" alt="">
+    </li>
+    
+    <li>
+      If a redundant MADI connection is required, ensure each stagebox MADI port <span style="font-weight: bold;">1</span> is connected to an odd numbered port on the console and connect each stagebox MADI port 
+        <span style="font-weight: bold;">2 Out</span> & <span style="font-weight: bold;">In</span> to the next console MADI port (e.g. stagebox ports <span style="font-weight: bold;">1</span> & <span style="font-weight: bold;">2</span> 
+        to console ports <span style="font-weight: bold;">A1</span> & <span style="font-weight: bold;">A2</span> respectively). In the console's I/O page (<span style="font-weight: bold;">Menu > Setup > I/O</span>) 
+        turn on <span class="label">Redundancy&nbsp;Status</span> for the relevant pair of MADI ports.<br>
+      
+      <img style="display: block; margin: 10px auto;" src="assets/manual/Help/images/SetupClocking/image006.png" alt="">
+    </li>
+    
+    <li>Ensure each stagebox is set to clock from MADI, as described in the main <a href="Clocking.html"><span class="hyperlink">Clocking</span></a> section.</li>
+  </ol>
+  
+  <img style="display: block; margin: 10px auto;" src="assets/manual/Help/images/SetupClocking/image007.png" alt="">
+
+  <h2>System Examples</h2>
+  
+  Setup: Clocking - System Example A: Connecting stageboxes to a Live console via MADI<br>
+  
+  <a href="SetupClockingExB.html"><span class="hyperlink">Setup: Clocking - System Example B: Clocking the Live console from an external source</span></a><br>
+
+  <a href="SetupClockingExC.html"><span class="hyperlink">Setup: Clocking - System Example C: Connecting stageboxes to two Live consoles via MADI</span></a><br>
+
+  <a href="SetupClockingExD.html"><span class="hyperlink">Setup: Clocking - System Example D: Connecting stageboxes to a Live console over Blacklight II</span></a><br>
+
+  <a href="SetupClockingExE.html"><span class="hyperlink">Setup: Clocking - System Example E: Connecting stageboxes to two Live consoles over Blacklight II</span></a><br>
+
+  <a href="SetupClockingExF.html"><span class="hyperlink">Setup: Clocking - System Example F: Connecting stageboxes to three Live consoles</span></a><br>
+
+  <a href="SetupClockingExG.html"><span class="hyperlink">Setup: Clocking - System Example G: Daisy-chained stageboxes for 48 kHz operation</span></a><br>
+
+  <h2>Useful Links</h2>
+
+  <a href="Clocking.html"><span class="hyperlink">Clocking</span></a><br>
+
+  <a href="LinkIndex.html"><span class="hyperlink">Index and Glossary</span></a><br>
+</body>
+</html>

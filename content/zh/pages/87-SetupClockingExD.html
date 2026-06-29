@@ -1,0 +1,265 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>时钟设置示例D：通过 Blacklight II 将舞台接口箱连接至 Live 控制台</title>
+</head>
+<body>
+  <p class="source">章节：LIVE 应用笔记 | 来源：<a href="https://livehelp.solidstatelogic.com/Help/SetupClockingExD.html">https://livehelp.solidstatelogic.com/Help/SetupClockingExD.html</a></p>
+<h2>系统示例D：通过 Blacklight II 将舞台接口箱连接至 Live 控制台</h2>
+
+<span class="note">
+    <span class="notetitle">注意：</span>当使用多达 128 路输入（4 个 MADI 端口）时，将舞台接口箱/MADI 设备连接到奇数编号的 BLII Concentrator 端口可以最大限度地提高在 96 kHz 和 48 kHz 采样率运行中的兼容性。
+    这降低了物理上重新插拔 MADI 连接和重新路由输入的需求，因为在 48 kHz 运行期间偶数编号端口停用时，冗余连接方案仍然有效。
+</span>
+
+<ol>
+    <li>将 Live 控制台的时钟源设置为 Internal（内部），如主 <a href="Clocking.html"><span class="hyperlink">时钟设置</span></a> 章节所述。</li>
+
+    <li>
+        将每个舞台接口箱的 MADI 端口 <span style="font-weight: bold;">Out</span> 和 <span style="font-weight: bold;">In</span> 连接到 Blacklight II MADI Concentrator 背面的 <span style="font-weight: bold;">A</span> MADI 端口
+        ，使用两根 75&nbsp;&#8486; BNC 同轴电缆（最长 75&nbsp;米，符合 <a href="InstallGuide.html"><span class="hyperlink">安装指南</span></a> 中定义的规格）。<br>
+
+        <img style="display: block; margin: 10px auto;" src="assets/manual/Help/images/SetupClocking/image012.png" alt="">
+    </li>
+
+    <li>
+        如果需要冗余 MADI 连接，请将每个舞台接口箱的 MADI 端口 <span style="font-weight: bold;">2 Out</span> 和 <span style="font-weight: bold;">In</span> 连接到相应的
+        Blacklight II Concentrator 上的 <span style="font-weight: bold;">B</span> MADI 端口（例如，舞台接口箱端口 <span style="font-weight: bold;">1</span> 和 <span style="font-weight: bold;">2</span>
+        分别连接到端口 <span style="font-weight: bold;">A1</span> 和 <span style="font-weight: bold;">B1</span>）。请注意 8 端口和 16 端口 Blacklight Concentrator 的不同连接点：<br>
+
+        <img style="display: block; margin: 10px auto;" src="assets/manual/Help/images/SetupClocking/image013.png" alt="">
+
+        如果使用的是 8 端口版本的 BLII Concentrator（背面有一排 8 个 MADI 端口），请在控制台的 I/O 页面中为相关 MADI 端口对启用 <span class="label">Redundancy&nbsp;Status</span>
+        （<span style="font-weight: bold;">Menu > Setup > I/O</span>）的 BL II 栏下（显示的端口对应 Concentrator 单元背面的物理 MADI 端口）。<br>
+        16 端口版本 BLII Concentrator 上的 MADI 连接始终为冗余模式，因此无需在软件中手动启用冗余模式。
+    </li>
+
+    <li>确保每个舞台接口箱设置为从 MADI 获取时钟，如主 <a href="Clocking.html"><span class="hyperlink">时钟设置</span></a> 章节所述。</li>
+
+    <li>
+        将 Blacklight Concentrator 端口 <span style="font-weight: bold;">A Main</span>（以及如果需要冗余 Blacklight 连接则为 <span style="font-weight: bold;">A Backup</span>）连接到（主）控制台上的 Blacklight 端口
+        <span style="font-weight: bold;">1a</span>（如果采用冗余连接则为 <span style="font-weight: bold;">1b</span>）。控制台的 Blacklight 端口
+        <span style="font-weight: bold;">2a</span> 和 <span style="font-weight: bold;">2b</span> 可用于连接第二个 Blacklight Concentrator 单元。<br>
+
+        <img style="display: block; margin: 10px auto;" src="assets/manual/Help/images/SetupClocking/image014.png" alt="">
+    </li>
+
+    <li>
+        控制台将通过 Blacklight 连接为 Blacklight Concentrator 提供时钟，Concentrator 再通过 MADI 为每个舞台接口箱提供时钟。<br>
+
+        <img style="display: block; margin: 10px auto;" src="assets/manual/Help/images/SetupClocking/image015.png" alt=""><br>
+    </li>
+</ol>
+
+<p>
+    下表总结了所需的连接：
+</p>
+
+<p>
+    <div>
+        <table class="insideborder" style="width:800px; display: block; margin: auto;" cellpadding="4" cellspacing="1">
+            <tbody>
+                <tr>
+                    <th>Blacklight II 连接</th>
+                    <th colspan="2">说明</th>
+                </tr>
+                <tr>
+                    <td>A Main</td>
+                    <td>连接至 Live 主控制台</td>
+                    <td rowspan="2">} Redundant pair</td>
+                </tr>
+                <tr>
+                    <td>A Backup</td>
+                    <td>备份连接至 Live 主控制台</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</p>
+
+<!-- Start of BLII Concentrator MADI Connections Snippet -->
+<!-- Also used in SetupClockingExE.html -->
+<div id="accordion" style="width:800px; display: block; margin: auto;">
+    <div class="indexheader2 accordion-section-title">8 端口 BLII Concentrator</div>
+    <div style="padding: 1em 0;" class="accordion-section-content">
+        <table class="insideborder" style="width: 790px; display: block; margin: auto;" cellpadding="4" cellspacing="1">
+            <tbody>
+                <tr>
+                    <th>MADI 连接<br />（8 端口 BLII Concentrator）</th>
+                    <th colspan="2">冗余模式：<br />4 个 MADI 舞台接口箱</th>
+                    <th>非冗余模式：<br />8 个 MADI 舞台接口箱</th>
+                </tr>
+                <tr>
+                    <td>1A</td>
+                    <td>连接至舞台接口箱 1</td>
+                    <td rowspan="2">} Redundant pair</td>
+                    <td>连接至舞台接口箱 1</td>
+                </tr>
+                <tr>
+                    <td>1B</td>
+                    <td>备份连接至舞台接口箱 1</td>
+                    <td>连接至舞台接口箱 2</td>
+                </tr>
+                <tr>
+                    <td>2A</td>
+                    <td>连接至舞台接口箱 2</td>
+                    <td rowspan="2">} Redundant pair</td>
+                    <td>连接至舞台接口箱 3</td>
+                </tr>
+                <tr>
+                    <td>2B</td>
+                    <td>备份连接至舞台接口箱 2</td>
+                    <td>连接至舞台接口箱 4</td>
+                </tr>
+                <tr>
+                    <td>3A</td>
+                    <td>连接至舞台接口箱 3</td>
+                    <td rowspan="2">} Redundant pair</td>
+                    <td>连接至舞台接口箱 5</td>
+                </tr>
+                <tr>
+                    <td>3B</td>
+                    <td>备份连接至舞台接口箱 3</td>
+                    <td>连接至舞台接口箱 6</td>
+                </tr>
+                <tr>
+                    <td>4A</td>
+                    <td>连接至舞台接口箱 4</td>
+                    <td rowspan="2">} Redundant pair</td>
+                    <td>连接至舞台接口箱 7</td>
+                </tr>
+                <tr>
+                    <td>4B</td>
+                    <td>备份连接至舞台接口箱 4</td>
+                    <td>连接至舞台接口箱 8</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <p>
+            请注意，可以混合使用冗余和非冗余连接，例如两个舞台接口箱以冗余方式连接到 1A-2B，四个舞台接口箱以非冗余方式连接到 3A-4B。
+            确保在软件中为以冗余方式连接的舞台接口箱启用 <span class="label">Redundancy&nbsp;Status</span> 按钮。
+        </p>
+    </div>
+    <div class="indexheader2 accordion-section-title">16 端口 BLII Concentrator</div>
+    <div style="padding: 1em 0;" class="accordion-section-content">
+        <table class="insideborder" style="width: 790px; display: block; margin: auto;" cellpadding="4" cellspacing="1">
+            <tbody>
+                <tr>
+                    <th>MADI 连接<br />（16 端口 BLII Concentrator）</th>
+                    <th colspan="2">冗余模式：<br />4 个 MADI 舞台接口箱</th>
+                </tr>
+                <tr>
+                    <td>1A</td>
+                    <td>连接至舞台接口箱 1</td>
+                    <td rowspan="2">} Redundant pair</td>
+                </tr>
+                <tr>
+                    <td>1B</td>
+                    <td>备份连接至舞台接口箱 1</td>
+                </tr>
+                <tr>
+                    <td>2A</td>
+                    <td>连接至舞台接口箱 2</td>
+                    <td rowspan="2">} Redundant pair</td>
+                </tr>
+                <tr>
+                    <td>2B</td>
+                    <td>备份连接至舞台接口箱 2</td>
+                </tr>
+                <tr>
+                    <td>3A</td>
+                    <td>连接至舞台接口箱 3</td>
+                    <td rowspan="2">} Redundant pair</td>
+                </tr>
+                <tr>
+                    <td>3B</td>
+                    <td>备份连接至舞台接口箱 3</td>
+                </tr>
+                <tr>
+                    <td>4A</td>
+                    <td>连接至舞台接口箱 4</td>
+                    <td rowspan="2">} Redundant pair</td>
+                </tr>
+                <tr>
+                    <td>4B</td>
+                    <td>备份连接至舞台接口箱 4</td>
+                </tr>
+                <tr>
+                    <td>5A</td>
+                    <td>连接至舞台接口箱 5</td>
+                    <td rowspan="2">} Redundant pair</td>
+                </tr>
+                <tr>
+                    <td>5B</td>
+                    <td>备份连接至舞台接口箱 5</td>
+                </tr>
+                <tr>
+                    <td>6A</td>
+                    <td>连接至舞台接口箱 6</td>
+                    <td rowspan="2">} Redundant pair</td>
+                </tr>
+                <tr>
+                    <td>6B</td>
+                    <td>备份连接至舞台接口箱 6</td>
+                </tr>
+                <tr>
+                    <td>7A</td>
+                    <td>连接至舞台接口箱 7</td>
+                    <td rowspan="2">} Redundant pair</td>
+                </tr>
+                <tr>
+                    <td>7B</td>
+                    <td>备份连接至舞台接口箱 7</td>
+                </tr>
+                <tr>
+                    <td>8A</td>
+                    <td>连接至舞台接口箱 8</td>
+                    <td rowspan="2">} Redundant pair</td>
+                </tr>
+                <tr>
+                    <td>8B</td>
+                    <td>备份连接至舞台接口箱 8</td>
+                </tr>
+            </tbody>
+        </table>
+
+    </div>
+</div>
+
+<script>
+    $(function () {
+        $("#accordion:nth-child(1n)").accordion({
+            heightStyle: "content",
+            collapsible: true,
+            active: 1
+        });
+    });
+</script>
+<!-- End of BLII Concentrator MADI Connections Snippet -->
+
+<h2>系统示例</h2>
+
+<a href="SetupClockingExA.html"><span class="hyperlink">时钟设置 - 系统示例A：通过 MADI 将舞台接口箱连接至 Live 控制台</span></a><br>
+
+<a href="SetupClockingExB.html"><span class="hyperlink">时钟设置 - 系统示例B：让 Live 控制台从外部时钟源获取时钟</span></a><br>
+
+<a href="SetupClockingExC.html"><span class="hyperlink">时钟设置 - 系统示例C：通过 MADI 将舞台接口箱连接至两台 Live 控制台</span></a><br>
+
+时钟设置 - 系统示例D：通过 Blacklight II 将舞台接口箱连接至 Live 控制台<br>
+
+<a href="SetupClockingExE.html"><span class="hyperlink">时钟设置 - 系统示例E：通过 Blacklight II 将舞台接口箱连接至两台 Live 控制台</span></a><br>
+
+<a href="SetupClockingExF.html"><span class="hyperlink">时钟设置 - 系统示例F：将舞台接口箱连接至三台 Live 控制台</span></a><br>
+
+<a href="SetupClockingExG.html"><span class="hyperlink">时钟设置 - 系统示例G：48 kHz 舞台接口箱菊花链配置</span></a><br>
+
+<h2>实用链接</h2>
+
+<a href="Clocking.html"><span class="hyperlink">时钟设置</span></a><br>
+
+<a href="LinkIndex.html"><span class="hyperlink">索引与术语表</span></a><br>
+</body>
+</html>

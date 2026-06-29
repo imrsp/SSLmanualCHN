@@ -7,66 +7,69 @@ const distDir = path.join(root, "dist");
 const pagesDir = path.join(distDir, "seo");
 
 const results = { passed: [], failed: [] };
-
 function check(condition, label) {
   if (condition) results.passed.push(label);
   else results.failed.push(label);
 }
 
-// Check robots.txt
-const robotsPath = path.join(distDir, "robots.txt");
-check(
-  fs.existsSync(robotsPath),
-  "robots.txt exists"
-);
-if (fs.existsSync(robotsPath)) {
-  const robots = fs.readFileSync(robotsPath, "utf8");
-  check(
-    robots.includes("Sitemap:"),
-    "robots.txt contains Sitemap directive"
-  );
-  check(
-    robots.includes("Allow:"),
-    "robots.txt contains Allow directive"
-  );
+// -- Read manifest to determine expected content boundaries --
+const manifestPath = path.join(root, "content", "manifest.json");
+const manifest = fs.existsSync(manifestPath)
+  ? JSON.parse(fs.readFileSync(manifestPath, "utf8"))
+  : [];
+const expectedPageCount = manifest.length;
+
+// Helper: extract page id from outputFile like "pages/01-Intro.html"
+function pageIdFromOutputFile(of) {
+  return of.replace(/^pages\/\d+-?/, "").replace(/\.html$/, "");
 }
 
-// Check sitemap.xml
+// -- Discover standalone pages from source content --
+const zhPagesDir = path.join(root, "content", "zh", "pages");
+const standalonePageIds = [];
+if (fs.existsSync(zhPagesDir)) {
+  for (const f of fs.readdirSync(zhPagesDir)) {
+    if (!f.endsWith(".html")) continue;
+    const html = fs.readFileSync(path.join(zhPagesDir, f), "utf8");
+    const m = html.match(/<meta\s+name="x-standalone-id"\s+content="([^"]+)"\s*\/?>/i);
+    if (m) standalonePageIds.push(m[1]);
+  }
+}
+
+// -- robotx.txt --
+const robotsPath = path.join(distDir, "robots.txt");
+check(fs.existsSync(robotsPath), "robots.txt exists");
+if (fs.existsSync(robotsPath)) {
+  const robots = fs.readFileSync(robotsPath, "utf8");
+  check(robots.includes("Sitemap:"), "robots.txt contains Sitemap directive");
+  check(robots.includes("Allow:"), "robots.txt contains Allow directive");
+}
+
+// -- sitemap.xml --
 const sitemapPath = path.join(distDir, "sitemap.xml");
-check(
-  fs.existsSync(sitemapPath),
-  "sitemap.xml exists"
-);
+check(fs.existsSync(sitemapPath), "sitemap.xml exists");
 let sitemapEntries = 0;
 if (fs.existsSync(sitemapPath)) {
   const sitemap = fs.readFileSync(sitemapPath, "utf8");
-  check(
-    sitemap.startsWith("<?xml"),
-    "sitemap.xml is well-formed XML"
-  );
+  check(sitemap.startsWith("<?xml"), "sitemap.xml is well-formed XML");
   sitemapEntries = sitemap.split("<url>").length - 1;
   check(
-    sitemapEntries >= 84,
-    "sitemap.xml has at least 84 entries (got " + sitemapEntries + ")"
+    sitemapEntries >= expectedPageCount,
+    "sitemap.xml has at least " + expectedPageCount + " entries (got " + sitemapEntries + ")"
   );
-  check(
-    sitemap.includes("index.html"),
-    "sitemap.xml includes index.html"
-  );
+  check(sitemap.includes("index.html"), "sitemap.xml includes index.html");
 }
 
-// Check prerender pages
-check(
-  fs.existsSync(pagesDir),
-  "dist/seo/ directory exists"
-);
+// -- Prerender pages dir --
+check(fs.existsSync(pagesDir), "dist/seo/ directory exists");
 
 let pageFiles = [];
 if (fs.existsSync(pagesDir)) {
   pageFiles = fs.readdirSync(pagesDir).filter(f => f.endsWith(".html"));
+  const expectedFiles = expectedPageCount + standalonePageIds.length;
   check(
-    pageFiles.length >= 83,
-    "dist/seo/ has at least 83 HTML files (got " + pageFiles.length + ")"
+    pageFiles.length >= expectedFiles,
+    "dist/seo/ has at least " + expectedFiles + " HTML files (got " + pageFiles.length + ")"
   );
 
   let pagesWithTitle = 0;
@@ -80,7 +83,6 @@ if (fs.existsSync(pagesDir)) {
 
   for (const file of pageFiles) {
     const content = fs.readFileSync(path.join(pagesDir, file), "utf8");
-
     if (content.includes("<title>")) pagesWithTitle++;
     if (content.includes('name="description"')) pagesWithDescription++;
     if (content.includes('rel="canonical"')) pagesWithCanonical++;
@@ -91,60 +93,52 @@ if (fs.existsSync(pagesDir)) {
     if (content.includes('location.replace') || content.includes('http-equiv="refresh"')) pagesWithRedirect++;
   }
 
-  check(pagesWithTitle === pageFiles.length,
-    "All " + pageFiles.length + " pages have <title> tag");
-  check(pagesWithDescription === pageFiles.length,
-    "All " + pageFiles.length + " pages have meta description");
-  check(pagesWithCanonical === pageFiles.length,
-    "All " + pageFiles.length + " pages have canonical link");
-  check(pagesWithJsonLd === pageFiles.length,
-    "All " + pageFiles.length + " pages have JSON-LD structured data");
-  check(pagesWithOgTitle === pageFiles.length,
-    "All " + pageFiles.length + " pages have og:title");
-  check(pagesWithTwitterCard === pageFiles.length,
-    "All " + pageFiles.length + " pages have twitter:card");
-  check(pagesWithHreflang === pageFiles.length,
-    "All " + pageFiles.length + " pages have hreflang links");
-  check(pagesWithRedirect === pageFiles.length,
-    "All " + pageFiles.length + " pages have SPA redirect");
+  check(pagesWithTitle === pageFiles.length, "All " + pageFiles.length + " pages have <title> tag");
+  check(pagesWithDescription === pageFiles.length, "All " + pageFiles.length + " pages have meta description");
+  check(pagesWithCanonical === pageFiles.length, "All " + pageFiles.length + " pages have canonical link");
+  check(pagesWithJsonLd === pageFiles.length, "All " + pageFiles.length + " pages have JSON-LD structured data");
+  check(pagesWithOgTitle === pageFiles.length, "All " + pageFiles.length + " pages have og:title");
+  check(pagesWithTwitterCard === pageFiles.length, "All " + pageFiles.length + " pages have twitter:card");
+  check(pagesWithHreflang === pageFiles.length, "All " + pageFiles.length + " pages have hreflang links");
+  check(pagesWithRedirect === pageFiles.length, "All " + pageFiles.length + " pages have SPA redirect");
 
-  // Check prev/next on middle pages
-  const aboutContent = pageFiles.includes("Intro.html")
-    ? fs.readFileSync(path.join(pagesDir, "Intro.html"), "utf8")
-    : "";
-  check(
-    aboutContent.includes('rel="next"') && !aboutContent.includes('rel="prev"'),
-    "First page (Intro) has rel=next but no rel=prev"
-  );
-
-  const lastPage = pageFiles.includes("LAN-012.html")
-    ? fs.readFileSync(path.join(pagesDir, "LAN-012.html"), "utf8")
-    : "";
-  check(
-    lastPage.includes('rel="prev"') && !lastPage.includes('rel="next"'),
-    "Last page (LAN-012) has rel=prev but no rel=next"
-  );
-
-  // Check standalone page
-  const standaloneFile = pageFiles.find(f => f === "about-dmt.html");
-  check(
-    !!standaloneFile,
-    "Standalone page (about-dmt.html) exists"
-  );
-  if (standaloneFile) {
-    const standaloneContent = fs.readFileSync(path.join(pagesDir, standaloneFile), "utf8");
+  // -- First page: prev/next --
+  if (manifest.length > 0) {
+    const firstId = pageIdFromOutputFile(manifest[0].outputFile);
+    const firstContent = pageFiles.includes(firstId + ".html")
+      ? fs.readFileSync(path.join(pagesDir, firstId + ".html"), "utf8")
+      : "";
     check(
-      standaloneContent.includes('name="description"'),
-      "Standalone page has meta description"
+      firstContent.includes('rel="next"') && !firstContent.includes('rel="prev"'),
+      "First page (" + firstId + ") has rel=next but no rel=prev"
     );
+  }
+
+  // -- Last page: prev/next --
+  if (manifest.length > 0) {
+    const lastId = pageIdFromOutputFile(manifest[manifest.length - 1].outputFile);
+    const lastContent = pageFiles.includes(lastId + ".html")
+      ? fs.readFileSync(path.join(pagesDir, lastId + ".html"), "utf8")
+      : "";
     check(
-      standaloneContent.includes('type="application/ld+json"'),
-      "Standalone page has JSON-LD"
+      lastContent.includes('rel="prev"') && !lastContent.includes('rel="next"'),
+      "Last page (" + lastId + ") has rel=prev but no rel=next"
     );
+  }
+
+  // -- Standalone pages --
+  for (const sid of standalonePageIds) {
+    const found = pageFiles.some(f => f === sid + ".html");
+    check(found, "Standalone page (" + sid + ") exists");
+    if (found) {
+      const sc = fs.readFileSync(path.join(pagesDir, sid + ".html"), "utf8");
+      check(sc.includes('name="description"'), "Standalone page (" + sid + ") has meta description");
+      check(sc.includes('type="application/ld+json"'), "Standalone page (" + sid + ") has JSON-LD");
+    }
   }
 }
 
-// Check SPA index.html meta tags
+// -- SPA index.html meta tags --
 const indexPath = path.join(distDir, "index.html");
 if (fs.existsSync(indexPath)) {
   const html = fs.readFileSync(indexPath, "utf8");
@@ -156,7 +150,7 @@ if (fs.existsSync(indexPath)) {
   check(html.includes('name="robots"'), "SPA index.html has robots meta");
 }
 
-// Summary
+// -- Summary --
 console.log([
   "=== SEO 审计报告 ===",
   "",
