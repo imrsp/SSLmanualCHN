@@ -154,7 +154,7 @@
 
 <p>
   要在控制台上配置 KLANG 集成，请转到 <b>Setup</b> >
-  <b>Options</b> > <b>外部控制</b>.
+  <b>Options</b> > <b>External Control</b>.
 </p>
 
 <p>在表格中选择 KLANG 行。</p>
@@ -200,7 +200,7 @@
 <h2 id="routing">路由</h2>
 
 <p>
-  当 Channel 与 KLANG 输入关联时，该通道的输出会自动路由至 SKI。Aux 与 Mix 返回路径同样如此，关联的 KLANG Mix 会馈入 Aux 的交叉点汇总矩阵。
+  当通道与 KLANG 输入关联时，该通道的输出会自动路由至 SKI。Aux 与 Mix 返回路径同样如此，关联的 KLANG Mix 会馈入 Aux 的交叉点汇总矩阵。
 </p>
 
 <p>
@@ -240,12 +240,12 @@
 </p>
 
 <p>
-  在每条已与 KLANG 输入关联的 Channel 路径中，
-  <span class="label">KLANG Mode</span> 将显示在以下界面的 Aux 发送 GUI 中： <b>Detail View</b>。仅当所选交叉点正在馈送已与 KLANG Mix 关联的 Aux 时，才会显示此按钮。
+  在每条已与 KLANG 输入关联的通道路径中，
+  其详细视图的 Aux 发送 GUI 内将出现 <span class="label">KLANG Mode</span>。仅当所选交叉点正在馈送已与 KLANG Mix 关联的 Aux 时，才会显示此按钮。
 </p>
 
 <p>
-  启用 <span class="label">KLANG Mode</span> 并切换到此 GUI 后，所选 Channel 路径会立即加入 KLANG Mix。此后， <span class="label">Gain</span> 和
+  启用 <span class="label">KLANG Mode</span> 并切换到此 GUI 后，所选通道路径会立即加入 KLANG Mix。此后， <span class="label">Gain</span> 和
   <span class="label">In</span> 参数将与 KLANG 系统的
   <b>Level</b> 和 <b>Mute</b> 参数关联。
 </p>
@@ -261,36 +261,36 @@
 </p>
 
 <p>
-  启用以下功能后，可通过触控或 Channel Tile 编码器操作这些参数： <span class="label">Follow Detail</span> 。
+  <span class="label">Follow Detail</span> 启用后，可通过触控或通道区块的旋钮操作这些参数： 
 </p>
 
 <h3>声像模式</h3>
 <p>
-  Stereo、3D 和 i3D 选项可将声像设置为非双耳的
-  <b>Stereo</b> 平面、默认的 <b>3D</b> 双耳轨道，或
+  Stereo、3D 和 i3D 选项分别将声像设置为非双耳的
+  <b>立体声</b> 平面、默认的 <b>3D</b> 双耳轨道，或
   <b>i3D</b> 轨道（通过头部跟踪，可在听者转头时保持声像位置。有关 i3D 模式的使用说明，请参阅 KLANG 文档）。
 </p>
 
 <h3>方位角</h3>
 <p>
-  <span class="label">Azimuth</span>表示对象在 3D 轨道或立体声平面中的位置。沿轨道拖动 Channel 节点即可控制该参数，从而改变信号在 KLANG 双耳混音中的感知位置。
+  <span class="label">Azimuth</span>表示对象在 3D 轨道或立体声平面中的位置。沿轨道拖动通道节点即可控制该参数，从而改变信号在 KLANG 双耳混音中的感知位置。
 </p>
 
 <h3>宽度</h3>
 <p>
-  此功能仅适用于立体声 Channel，
-  <span class="label">宽度</span> 参数控制对象在轨道或平面中占据的范围，可通过捏合手势进行控制。
+  此功能仅适用于立体声通道，
+  <span class="label">Width</span> 参数控制对象在轨道或平面中占据的范围，可通过捏合手势进行控制。
 </p>
 
 <h3>高度</h3>
 <p>
   轨道 GUI 旁的滑块用于控制对象的
-  <span class="label">高度</span> 。此控件仅在 3D 模式下有效，可将对象的感知位置移至视线高度上方或下方。
+  <span class="label">Height</span> 。此控件仅在 3D 模式下有效，可将对象的感知位置移至视线高度上方或下方。
 </p>
 
 <h3>音色</h3>
 <p>
-  <span class="label">Tone</span> 参数控制 Personal Tone Filter，可针对每个 Mix 的每个输入 Channel 调整高低频内容之间的音色平衡。
+  <span class="label">Tone</span> 参数控制 Personal Tone Filter，可针对每个 Mix 的每个输入通道调整高低频内容之间的音色平衡。
 </p>
 
 <h3>独奏</h3>
@@ -305,20 +305,20 @@
 
 <span class="note">
   <b> 注意： </b>
-  在 KLANG Mode 下，Aux Detail View 中仍会显示馈送点选择器。但从 Channel 到 KLANG 的馈送点始终遵循路径配置页面中的 Direct Output 选择，而不是 Aux 馈送点。
+  在 KLANG Mode 下，Aux 详细视图中仍会显示馈送点选择器。但从通道到 KLANG 的馈送点始终遵循路径配置页面中的 Direct Output 选择，而不是 Aux 馈送点。
 </span>
 
 <h2 id="other">其他功能</h2>
 
-<h3>旁路 KLANG</h3>
+<h3>旁通 KLANG</h3>
 
 <p>
   运行期间，如与 KLANG 处理器之间的通信或音频传输出现问题，需要快速切回内部 Aux 母线。SKI 中提供一个标为
-  <span class="label">Bypass KLANG</span>，可立即完成切换。该功能也可分配为 User Key，并映射到 Tile 的实体按钮，以便紧急情况下快速操作。
+  <span class="label">Bypass KLANG</span>，可立即完成切换。该功能也可分配为用户按键，并映射到区块的实体按钮，以便紧急情况下快速操作。
 </p>
 
 <p>
-  内部交叉点的声像不会与 KLANG 系统保持同步，但增益和静音会同步。旁路 KLANG 后可获得电平大致匹配的混音，但声像将恢复为该交叉点使用 KLANG Mode 之前的设置；或者，如果所选 Aux 已启用
+  内部交叉点的声像不会与 KLANG 系统保持同步，但增益和静音会同步。旁通 KLANG 后可获得电平大致匹配的混音，但声像将恢复为该交叉点使用 KLANG Mode 之前的设置；或者，如果所选 Aux 已启用
   <span class="label">Follow Pan</span> ，交叉点声像将跟随所选路径的 Master 声像。
 </p>
 
