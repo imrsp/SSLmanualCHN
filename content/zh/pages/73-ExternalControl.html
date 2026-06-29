@@ -220,8 +220,8 @@
 
         <span class="note">
             <span class="notetitle">注意事项：</span><br>
-            为使控制台 Channel 编号正确报告给 L-ISA，控制台必须设置为
-            使用 <a href="https://livehelp.solidstatelogic.com/Help/ConsoleConfig.html#Numbering"><span class="hyperlink">Console Configuration 页面中的 <b>Default</b> Channel 编号方式</span></a>。<br>
+            为使控制台通道编号正确报告给 L-ISA，控制台必须设置为
+            使用 <a href="https://livehelp.solidstatelogic.com/Help/ConsoleConfig.html#Numbering"><span class="hyperlink">Console Configuration 页面中的 <b>Default</b> 通道编号方式</span></a>。<br>
             L-ISA 支持单声道和立体声格式的 Source。控制台路径格式必须与所关联的 L-ISA Source 匹配。<br>
             L-ISA Controller 仅通过 DeskLink 与控制台 Channel 1-256 和 Stem 1-64 通信。可在 <a href="https://livehelp.solidstatelogic.com/Help/ConsoleConfig.html#ConsoleConfigPage"><span class="hyperlink">Console Configuration</span></a> 页面中将控制台路径移至编号较低的 Slot。
         </span>
@@ -268,7 +268,7 @@
         </p>
 
         <p>
-            <b>Desk</b> 指示灯为绿色时，表示所有 L-ISA Source 均已成功分配到控制台 Channel 输入通道和 Stem。若指示灯为橙色，则需要进一步操作，以正确配置 L-ISA Source 与控制台路径的分配。单击 L-ISA Controller 中的通知图标可查看错误类型。
+            <b>Desk</b> 指示灯为绿色时，表示所有 L-ISA Source 均已成功分配到控制台 Channel 和 Stem。若指示灯为橙色，则需要进一步操作，以正确配置 L-ISA Source 与控制台路径的分配。单击 L-ISA Controller 中的通知图标可查看错误类型。
         </p>
 
         <img style="display: block; margin: 5px auto; width: 300px;" src="https://livehelp.solidstatelogic.com/Help/images/s_LISA_ConfigErrorNotification.png" alt="">
@@ -279,7 +279,7 @@
         </p>
 
         <p>
-            任何配置不匹配（例如将单声道 L-ISA Source 分配给立体声控制台 Channel）都会以橙色警告三角形标记
+            任何配置不匹配（例如将单声道 L-ISA Source 分配给立体声控制台通道）都会以橙色警告三角形标记
             配置不匹配会在 L-ISA 的 <b>Desk&nbsp;Layout</b> 选项卡中以<img style="width: 20px;" src="https://livehelp.solidstatelogic.com/Help/images/b_LISA_WarningTriangle.png" alt="警告三角形">标记；单击标记可查看详情。
         </p>
 
@@ -289,7 +289,7 @@
         <h3>可用控件</h3>
 
         <p>
-            在 Channel 输入通道或 Stem 上启用 L-ISA DeskLink 后，该路径的 <b>External&nbsp;Control</b> 详细视图页面会显示 L-ISA 控制界面，可控制关联 L-ISA Source 的以下参数：
+            在 Channel 或 Stem 上启用 L-ISA DeskLink 后，该路径的 <b>External&nbsp;Control</b> 详细视图页面会显示 L-ISA 控制界面，可控制关联 L-ISA Source 的以下参数：
             <ul>
                 <li><b>Pan</b></li>
                 <li><b>Width</b></li>
@@ -372,7 +372,7 @@
         <h3>简介</h3>
 
         <p>
-            SSL 与 Meyer Sound 合作，使用户可从控制台界面集成控制 Spacemap Go 沉浸式扬声器系统。Spacemap Source 可与控制台 Channel 输入通道或 Stem 关联，并可完整控制每个 Source 的 XY 声像、交叉淡变、扩散和轨迹走带传输控件。
+            SSL 与 Meyer Sound 合作，使用户可从控制台界面集成控制 Spacemap Go 沉浸式扬声器系统。Spacemap Source 可与控制台 Channel 或 Stem 关联，并可完整控制每个 Source 的 XY 声像、交叉淡变、扩散和轨迹走带传输控件。
         </p>
 
         <span class="note">
