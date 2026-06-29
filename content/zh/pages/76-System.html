@@ -30,7 +30,7 @@
 
 <p>此设置决定控制台中与 0&nbsp;dBFS 对应的 dBu 电平（控制台的所有电平表均以 0&nbsp;dBFS 为基准）。</p>
 
-<p>例如，当 Operating Level 设为 24&nbsp;dBu 时，20&nbsp;dBu 的输入信号将在电平表上显示为 -4&nbsp;dBFS。同样，输出 -6&nbsp;dBFS 信号时，模拟输出端将得到 +18&nbsp;dBu 的信号。</p>
+<p>例如，当工作电平设为 24&nbsp;dBu 时，20&nbsp;dBu 的输入信号将在电平表上显示为 -4&nbsp;dBFS。同样，输出 -6&nbsp;dBFS 信号时，模拟输出端将得到 +18&nbsp;dBu 的信号。</p>
 
 <span class="note">
     <span class="notetitle">注意：</span> MADI 舞台接口箱和本地 I/O 输出可按设备相对于工作电平进行微调。请在 I/O Setup 页面选择相应舞台接口箱或 Local I/O 卡，然后使用 Output Trim 滑块。更多信息请参阅 <a href="https://livehelp.solidstatelogic.com/Help/LocalMADIConfig.html"><span class="notehyperlink">本地与 MADI I/O 配置</span></a> 章节。<br />
@@ -54,18 +54,18 @@
 <p>该 <span style="font-weight:bold;">控制台名称</span> 可在此编辑。通过远程操作面（SOLSA、TaCo 或处于远程模式的另一台控制台）连接本控制台时，将引用此名称。</p>
 
 <p>
-    该 <span style="font-weight:bold;">Control ID</span> （可在 <span style="font-weight:bold;">MENU</span> > <span class="label">Setup</span> > <span class="label">Options</span> > <span class="label">NETWORK</span> 页签中查看）用于在取得 Net I/O 设备参数的 Ownership 时确定控制台名称。不过， <span style="font-weight:bold;">Control ID</span> 也取自 <span style="font-weight:bold;">控制台名称</span>。
+    该 <span style="font-weight:bold;">Control ID</span> （可在 <span style="font-weight:bold;">MENU</span> > <span class="label">Setup</span> > <span class="label">Options</span> > <span class="label">NETWORK</span> 页签中查看）用于在取得 Net I/O 设备参数的所有权时确定控制台名称。不过， <span style="font-weight:bold;">Control ID</span> 也取自 <span style="font-weight:bold;">控制台名称</span>。
 </p>
 <p>双击名称字段以编辑控制台名称，然后长按 <span class="label">Apply</span>。 </p>
 <span class="note">
-    <span class="notetitle">请注意：</span><br>更改控制台名称会使控制台关机，并丢失对所有 Net I/O 设备参数的 Ownership。这表示必须手动重新取得之前拥有的输入（或其他设置），才能恢复控制。有关取得输入和舞台接口箱设置 Ownership 的说明，请参阅 <a href="https://livehelp.solidstatelogic.com/Help/DanteNetIO.html#Ownership"><span class="notehyperlink">控制 Net I/O 舞台接口箱与 Ownership</span></a>。
+    <span class="notetitle">请注意：</span><br>更改控制台名称会使控制台关机，并丢失对所有 Net I/O 设备参数的所有权。这表示必须手动重新取得之前拥有的输入（或其他设置），才能恢复控制。有关取得输入和舞台接口箱设置所有权的说明，请参阅 <a href="https://livehelp.solidstatelogic.com/Help/DanteNetIO.html#Ownership"><span class="notehyperlink">控制 Net I/O 舞台接口箱与 Ownership</span></a>。
 </span>
 
 
 <h2>硬件配置</h2>
 
-<p>该 <span class="label">Rebuild Hardware Configuration</span> 按钮用于配置控制台，以便与 Remote Tile 配合使用。</p>
-<p>有关设置 Remote Tile 的更多信息，请参阅 <a href="https://livehelp.solidstatelogic.com/Help/RemoteTile.html"><span class="hyperlink">设置：Remote Tile</span></a>。</p>
+<p>该 <span class="label">Rebuild Hardware Configuration</span> 按钮用于配置控制台，以便与远程区块配合使用。</p>
+<p>有关设置远程区块的更多信息，请参阅 <a href="https://livehelp.solidstatelogic.com/Help/RemoteTile.html"><span class="hyperlink">设置：Remote Tile</span></a>。</p>
 
 
 <h2>操作面</h2>
