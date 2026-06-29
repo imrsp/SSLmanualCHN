@@ -1,7 +1,7 @@
 {
   "description": "SSL Live 中文操作手册 — Solid State Logic Live 调音台的完整操作指南，涵盖信号路由、混音、效果器、自动化、Dante 网络、外部控制等全部功能的中文说明。",
-  "keywords": "SSL Live, SSL调音台, 数字调音台操作手册, Solid State Logic, 现场扩声, 音频手册, 中文操作指南, Dante, 调音台教程",
-  "url": "https://<domain>/",
+  "keywords": "SSL Live, SSL调音台, SSL说明书, 数字调音台手册, Solid State Logic, 现场扩声, 音频手册, Dante, 调音台教程",
+  "url": "https://livehelp.rslive.tech/",
   "ogImage": "assets/manual/pwa-icon-512.png",
   "noindexPageIds": [
     "About",

@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>时钟设置示例G：48 kHz 菊花链舞台接口箱配置</title>
+</head>
+<body>
+  <p class="source">章节：LIVE 应用笔记 | 来源：<a href="https://livehelp.solidstatelogic.com/Help/SetupClockingExG.html">https://livehelp.solidstatelogic.com/Help/SetupClockingExG.html</a></p>
+<h2>系统示例G：48 kHz 菊花链舞台接口箱配置</h2>
+
+<p>
+    SSL Live 上的每对 MADI 端口在 48&nbsp;kHz 下能够以冗余方式传输 64 通道。由于每个 SSL MADI 舞台接口箱有 32 通道，如果可用的 MADI 端口对数不足以满足需求，可以使用以下说明将最多两个舞台接口箱进行菊花链连接 
+    。
+</p>
+
+<p>
+    对于较小的配置，SSL 建议分别按照 <a href="SetupClockingExD.html"><span class="hyperlink">系统示例D</span></a>（单控制台系统）或 <a href="SetupClockingExE.html"><span class="hyperlink">系统示例E</span></a>（双控制台系统）进行操作。
+    在 48k 运行模式下，只能使用 BLII Concentrator 的<span style="font-weight: bold;">奇数</span>编号 MADI 端口。
+</p>
+
+<span class="note">
+    <span class="notetitle">请注意：</span>不能在菊花链中的第二个舞台接口箱上使用 MIDI 连接。
+    如果舞台接口箱端需要 MIDI 连接，请使用第一个舞台接口箱上的 MIDI 连接。
+</span>
+
+<ol>
+    <li>按照之前系统页面中的说明设置 Live 控制台的时钟源和采样率。</li>
+
+    <li>
+        全程使用 75&nbsp;&#8486; BNC 同轴电缆（最长 75&nbsp;米，符合 <a href="InstallGuide.html"><span class="hyperlink">安装指南</span></a> 中定义的规格）， 
+        将第一个舞台接口箱的 MADI 端口 <span style="font-weight: bold;">1 In</span> 连接到控制台的 MADI <span style="font-weight: bold;">Out</span> 端口。
+    </li>
+
+    <li>将第一个舞台接口箱的 MADI 端口 <span style="font-weight: bold;">1 Out</span> 连接到第二个舞台接口箱的 MADI 端口 <span style="font-weight: bold;">1 In</span>。</li>
+
+    <li>
+        将第二个舞台接口箱的 MADI 端口 <span style="font-weight: bold;">1 Out</span> 连接到控制台的 MADI <span style="font-weight: bold;">In</span> 端口。<br>
+
+        <img style="display: block; margin: 10px auto;" src="assets/manual/Help/images/SetupClocking/48k_Stagebox_Config_1.png" alt="">
+    </li>
+
+    <li>
+        在 48 kHz 采样率下，控制台 MADI 端口始终以奇偶冗余对的形式运行，但舞台接口箱也可以根据需要以非冗余方式连接。<br>
+        如果需要冗余 MADI 连接，请确保上述第一个舞台接口箱上的 MADI 端口 <span style="font-weight: bold;">1 In</span> 和第二个舞台接口箱上的 <span style="font-weight: bold;">1 Out</span> 连接到控制台上的一个奇数编号 MADI 端口。<br>
+        接下来，将第一个舞台接口箱的 MADI 端口 <span style="font-weight: bold;">2 In</span> 和第二个舞台接口箱的 <span style="font-weight: bold;">2 Out</span> 连接到控制台上的下一个 MADI 端口 
+        （例如，舞台接口箱端口 <span style="font-weight: bold;">1</span> 和 <span style="font-weight: bold;">2</span> 分别连接到控制台端口 <span style="font-weight: bold;">A1</span> 和 <span style="font-weight: bold;">A2</span>）。<br>
+        最后，通过将第一个舞台接口箱的 MADI 端口 <span style="font-weight: bold;">2 Out</span> 连接到第二个舞台接口箱的 <span style="font-weight: bold;">2 In</span> 来菊花链连接两个舞台接口箱。<br>
+
+        <img style="display: block; margin: 10px auto;" src="assets/manual/Help/images/SetupClocking/48k_Stagebox_Config_2.png" alt="">
+    </li>
+
+    <li>
+        除控制台外，每个舞台接口箱还必须配置为以 48 kHz 采样率运行。 按住第一个舞台接口箱背面的 <span class="label">REMOTE</span> 和 <span class="label">CLOCK</span> 按钮，直到左侧的挂锁符号闪烁绿色。 
+        按下 <span class="label">RATE</span> 按钮，直到 <span style="font-weight: bold;">48</span> LED 亮起（其他三个 RATE LED 应熄灭）。 按下 <span class="label">ID</span> 按钮，直到 <span style="font-weight: bold;">1-32</span> LED 亮起。<br>
+
+        <img style="display: block; margin: 10px auto;" src="assets/manual/Help/images/SetupClocking/SB_setup_48k_1-32.png" alt="">
+    </li>
+
+    <li>
+        对第二个舞台接口箱重复该过程，这次将 <span class="label">RATE</span> 设置为 <span style="font-weight: bold;">48</span>，将 <span class="label">ID</span> 设置为 <span style="font-weight: bold;">33-64</span>。<br>
+
+        <img style="display: block; margin: 10px auto;" src="assets/manual/Help/images/SetupClocking/SB_setup_48k_33-64.png" alt="">
+    </li>
+    <li>
+        如果连接到 8 端口 Blacklight Concentrator，请按照上述步骤操作，将冗余连接连接到奇偶端口编号。<br>
+        如果连接到 16 端口 Blacklight Concentrator，所有偶数端口将被禁用。 按上述方式将两个舞台接口箱连接在一起（第一个舞台接口箱的 MADI 端口 <span style="font-weight: bold;">1 Out</span> 和 <span style="font-weight: bold;">2 Out</span> 
+        分别连接到第二个舞台接口箱的端口 <span style="font-weight: bold;">1 In</span> 和 <span style="font-weight: bold;">2 In</span>），然后将剩余的 
+        <span style="font-weight: bold;">In</span>/<span style="font-weight: bold;">Out</span> 端口连接到 Blacklight Concentrator 上的一对 <span style="font-weight: bold;">A</span> 和 <span style="font-weight: bold;">B</span> 端口。<br>
+
+        <img style="display: block; margin: 10px auto;" src="assets/manual/Help/images/SetupClocking/48k_Stagebox_Config_BL16.png" alt=""><br>
+    </li>
+</ol>
+<h2>系统示例</h2>
+
+<a href="SetupClockingExA.html"><span class="hyperlink">时钟设置 - 系统示例A：通过 MADI 连接舞台接口箱至 Live 控制台</span></a><br>
+
+<a href="SetupClockingExB.html"><span class="hyperlink">时钟设置 - 系统示例B：从外部时钟源同步 Live 控制台</span></a><br>
+<a href="SetupClockingExC.html"><span class="hyperlink">时钟设置 - 系统示例C：通过 MADI 连接舞台接口箱至两台 Live 控制台</span></a><br>
+<a href="SetupClockingExD.html"><span class="hyperlink">时钟设置 - 系统示例D：通过 Blacklight II 连接舞台接口箱至 Live 控制台</span></a><br>
+<a href="SetupClockingExE.html"><span class="hyperlink">时钟设置 - 系统示例E：通过 Blacklight II 连接舞台接口箱至两台 Live 控制台</span></a><br>
+<a href="SetupClockingExF.html"><span class="hyperlink">时钟设置 - 系统示例F：连接舞台接口箱至三台 Live 控制台</span></a><br>
+  时钟设置 - 系统示例G：48 kHz 菊花链舞台接口箱配置<br>
+<h2>实用链接</h2>
+<a href="Clocking.html"><span class="hyperlink">时钟设置</span></a><br>
+<a href="LinkIndex.html"><span class="hyperlink">索引与术语表</span></a><br>
+</body>
+</html>

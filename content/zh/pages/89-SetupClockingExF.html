@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>时钟设置示例F：连接舞台接口箱至三台 Live 控制台</title>
+</head>
+<body>
+  <p class="source">章节：LIVE 应用笔记 | 来源：<a href="https://livehelp.solidstatelogic.com/Help/SetupClockingExF.html">https://livehelp.solidstatelogic.com/Help/SetupClockingExF.html</a></p>
+<h2>系统示例F：连接舞台接口箱至三台 Live 控制台</h2>
+  
+  <ol>
+    <li>按照 <a href="SetupClockingExE.html"><span class="hyperlink">系统示例E</span></a> 中的说明通过 Blacklight 将舞台接口箱连接至前两台控制台。 第三台控制台将成为第二个从控制台，按以下说明设置。</li>
+    <li>
+      使用一根 75&nbsp;&#8486; BNC 同轴电缆将每个舞台接口箱的 MADI 端口 <span style="font-weight: bold;">3</span>（仅 <span style="font-weight: bold;">Out</span>）连接到第三台 Live 控制台 
+        （最长 75&nbsp;米，符合 <a href="InstallGuide.html"><span class="hyperlink">安装指南</span></a> 中定义的规格）。
+    </li>
+    <li>
+      如果需要冗余 MADI 连接，请确保每个舞台接口箱的 MADI 端口 <span style="font-weight: bold;">3</span> 连接到第三台控制台上的奇数编号端口，并将每个舞台接口箱的 MADI 端口 
+        <span style="font-weight: bold;">4</span>（仅 <span style="font-weight: bold;">Out</span>）连接到下一个控制台 MADI 端口（例如，舞台接口箱端口 <span style="font-weight: bold;">3</span> 和 <span style="font-weight: bold;">4</span> 
+        分别连接到第三台控制台端口 <span style="font-weight: bold;">A1</span> 和 <span style="font-weight: bold;">A2</span>）。
+    </li>
+    <li>将第三台控制台设置为从连接到舞台接口箱的 MADI 端口获取时钟，如主 <a href="Clocking.html"><span class="hyperlink">时钟设置</span></a> 章节所述。</li>
+    <li>如果正在使用冗余 MADI 连接，请在第三台控制台的 I/O 页面中为相关 MADI 端口对启用 <span class="label">Redundancy&nbsp;Status</span>。</li>
+    <li>前两台控制台和所有舞台接口箱将按照 <a href="SetupClockingExE.html"><span class="hyperlink">系统示例E</span></a> 的方式获取时钟。第三台控制台将跟随舞台接口箱的时钟（舞台接口箱的时钟来自主控制台，通过 Blacklight Concentrator 传输）。</li>
+  </ol>
+  
+  <img style="display: block; margin: 10px auto;" src="assets/manual/Help/images/SetupClocking/image018.png" alt=""><br>
+
+  <h2>系统示例</h2>
+
+  <a href="SetupClockingExA.html"><span class="hyperlink">时钟设置 - 系统示例A：通过 MADI 连接舞台接口箱至 Live 控制台</span></a><br>
+
+  <a href="SetupClockingExB.html"><span class="hyperlink">时钟设置 - 系统示例B：从外部时钟源同步 Live 控制台</span></a><br>
+
+  <a href="SetupClockingExC.html"><span class="hyperlink">时钟设置 - 系统示例C：通过 MADI 连接舞台接口箱至两台 Live 控制台</span></a><br>
+
+  <a href="SetupClockingExD.html"><span class="hyperlink">时钟设置 - 系统示例D：通过 Blacklight II 连接舞台接口箱至 Live 控制台</span></a><br>
+
+  <a href="SetupClockingExE.html"><span class="hyperlink">时钟设置 - 系统示例E：通过 Blacklight II 连接舞台接口箱至两台 Live 控制台</span></a><br>
+
+  时钟设置 - 系统示例F：连接舞台接口箱至三台 Live 控制台<br>
+
+  <a href="SetupClockingExG.html"><span class="hyperlink">时钟设置 - 系统示例G：48 kHz 菊花链舞台接口箱配置</span></a><br>
+
+  <h2>实用链接</h2>
+
+  <a href="Clocking.html"><span class="hyperlink">时钟设置</span></a><br>
+
+  <a href="LinkIndex.html"><span class="hyperlink">索引与术语表</span></a><br>
+</body>
+</html>
