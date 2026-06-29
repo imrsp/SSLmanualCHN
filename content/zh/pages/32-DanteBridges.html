@@ -22,7 +22,7 @@
 <p>BLII Bridge 设计为放置在控制台附近，并且同一时间只能由一个控制台使用。</p>
 <p>Net I/O BLII Bridge 兼容所有配备 BLII 端口及 Dante 接口、且运行系统软件 4.5 及以上版本的 SSL Live 调音台， 并支持 AES67 和 SMPTE 2110-30 AoIP 网络传输标准。</p>
 <p class="note"><span class="notetitle">注意：</span></p>
-<p>在 Dante 网络上使用 BLII Bridge 时请注意网络带宽。 在包含 BLII Bridge 且 I/O 规模比较大的网络上，交换机之间可能需要配置 10 Gigabit 上联链路。</p>
+<p>在 Dante 网络上使用 BLII Bridge 时请注意网络带宽。 在包含 BLII Bridge 且 I/O 规模比较大的网络上，交换机之间可能需要配置 10 Gigabit 上行链路。</p>
 <h3>前面板 LED</h3>
 <p>BLII Bridge 的前面板上有四个 LED 指示灯：PSU、BL S、SRC 和 NET S，用于指示电源和时钟状态。</p>
 <table>
@@ -67,7 +67,7 @@
     <td>设置为从 Dante 网络时钟，并检测到网络上的 Leader Clock</td>
   </tr>
 </table>
-<p>注意：当 NetS 闪烁红色时 - 设备仅为 PTPv1 Clock Leader / AES67 禁用</p>
+<p>注意：当 NetS 闪烁红色时 - 设备仅作为 PTPv1 时钟主设备，此时 AES67 功能禁用。</p>
 <h3>前面板连接</h3>
 <p>前面板上有一对 SFP 插槽用于 Dante 网络连接：</p>
 <figure><img src="https://livehelp.solidstatelogic.com/Help/images/g_BLIIBridgeFrontCons.png" alt="图片 2"><figcaption>图片 2</figcaption></figure>
@@ -205,7 +205,7 @@
 <p>X-Light Bridge 设计为放置在舞台上，并且同一时间只能由一个控制台使用。</p>
 <p>X-Light Bridge 与所有运行软件版本 4.8 或更高版本的配备 X-Light 的 SSL Live 控制台兼容， 并支持 AES67 和 SMPTE 2110-30 AoIP 网络传输标准。</p>
 <p class="note"><span class="notetitle">注意：</span></p>
-<p>在 Dante 网络上使用 X-Light Bridge 时请注意网络带宽。 在包含 X-Light Bridge 且 I/O 规模较大的网络中，交换机之间可能需要配置 10 Gigabit 上联链路。</p>
+<p>在 Dante 网络上使用 X-Light Bridge 时请注意网络带宽。 在包含 X-Light Bridge 且 I/O 规模较大的网络中，交换机之间可能需要配置 10 Gigabit 上行链路。</p>
 <h3>前面板连接</h3>
 <p>前面板上有一对冗余 X-Light 端口，用于连接到 SSL Live 控制台：</p>
 <figure><img src="https://livehelp.solidstatelogic.com/Help/images/g_XLightBridgeFrontConns.png" alt="图片 8"><figcaption>图片 8</figcaption></figure>
@@ -349,7 +349,7 @@
 <p>采样率在 Dante Controller 中更改。 双击 BLII/X-Light Bridge 并转到“Device Config”选项卡。 在“Sample Rate”部分，单击下拉菜单并选择所需的采样率。系统将要求您确认采样率更改。单击 <span class="label">Yes</span>。</p>
 <p>必须重新启动 BLII/X-Light Bridge 才能使此更改生效。 单击窗口底部的 <span class="label">Reboot</span>。系统将要求您确认重新启动。单击 <span class="label">Yes</span>。</p>
 <div id="accordion">
-<div class="indexheader2">在多个采样率和 BLII/X-Light Bridge 下工作</div>
+<div class="indexheader2">在多个采样率下使用 BLII/X-Light Bridge</div>
 <div>
 <p>如果在同一网络上使用多个采样率以及 BLII/X-Light Bridge，则必须遵循以下说明。 BLII/X-Light Bridge 和控制台必须始终以相同的采样率运行。</p>
 <p>要连接同一网络上不同采样率的设备，这些设备必须通过 Dante Expander 模块使用虚拟跳线与控制台建立双向路由。</p>
