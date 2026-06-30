@@ -466,7 +466,7 @@ function navigateToPage(pageId, headingId = "", options = {}) {
   const sameRoute = hash === location.hash;
   if (sameRoute && options.source !== "search") return;
   if (hash !== location.hash) {
-    history.pushState(null, "", hash);
+    history.pushState({ pageId }, "", hash);
   }
   lastLocationRouteHash = hash;
   route({
@@ -884,11 +884,57 @@ function getContentDisclosureStates() {
     .map((details) => details.open);
 }
 
+let contentDisclosureSyncSuppressed = false;
+
 function restoreContentDisclosureStates(states) {
   if (!states?.length) return;
-  elements.document.querySelectorAll(".manual-content details").forEach((details, index) => {
-    if (typeof states[index] === "boolean") details.open = states[index];
-  });
+  contentDisclosureSyncSuppressed = true;
+  try {
+    elements.document.querySelectorAll(".manual-content details").forEach((details, index) => {
+      if (typeof states[index] === "boolean") details.open = states[index];
+    });
+  } finally {
+    contentDisclosureSyncSuppressed = false;
+  }
+}
+
+function getHistoryContentDisclosureStates(pageId) {
+  if (!pageId) return null;
+  const historyState = history.state;
+  if (
+    historyState &&
+    typeof historyState === "object" &&
+    historyState.pageId === pageId &&
+    Array.isArray(historyState.disclosureStates)
+  ) {
+    return historyState.disclosureStates;
+  }
+}
+
+function syncContentDisclosureHistory(pageId = state.currentPage?.id, disclosureStates = null) {
+  if (!pageId || contentDisclosureSyncSuppressed) return;
+  const nextState = {
+    ...(history.state && typeof history.state === "object" ? history.state : {}),
+    pageId,
+    disclosureStates: Array.isArray(disclosureStates) ? disclosureStates : getContentDisclosureStates(),
+  };
+  try {
+    history.replaceState(nextState, "", location.href);
+  } catch (_) {}
+}
+
+function restoreHistoryContentDisclosureStates(pageId) {
+  const states = getHistoryContentDisclosureStates(pageId);
+  if (states) restoreContentDisclosureStates(states);
+}
+
+function applyContentDisclosureHistory(pageId, disclosureStates = null) {
+  if (Array.isArray(disclosureStates)) {
+    restoreContentDisclosureStates(disclosureStates);
+  } else {
+    restoreHistoryContentDisclosureStates(pageId);
+  }
+  syncContentDisclosureHistory(pageId, disclosureStates);
 }
 
 function getVisibleHeadingAnchor() {
@@ -992,7 +1038,7 @@ function scrollToPagePosition(headingId = "", skipScroll = false) {
   window.scrollTo({ top: 0, behavior: "instant" });
 }
 
-function renderStandalonePage(page, headingId = "", skipScroll = false) {
+function renderStandalonePage(page, headingId = "", skipScroll = false, disclosureStates = null) {
   state.currentPage = page;
   elements.breadcrumbs.innerHTML = escapeHtml(page.titleZh);
   elements.pageCounter.textContent = "";
@@ -1009,6 +1055,7 @@ function renderStandalonePage(page, headingId = "", skipScroll = false) {
   } else {
     elements.outline.innerHTML = "";
   }
+  applyContentDisclosureHistory(page.id, disclosureStates);
   configurePageLinks();
   configurePageButton(elements.previousPage, null, "上一主题");
   configurePageButton(elements.nextPage, null, "下一主题");
@@ -1017,7 +1064,7 @@ function renderStandalonePage(page, headingId = "", skipScroll = false) {
   scrollToPagePosition(headingId, skipScroll);
 }
 
-function renderPage(page, headingId = "", skipScroll = false) {
+function renderPage(page, headingId = "", skipScroll = false, disclosureStates = null) {
   state.currentPage = page;
   ensureActiveNavigationExpanded();
   const index = state.catalog.pages.findIndex((candidate) => candidate.id === page.id);
@@ -1043,6 +1090,7 @@ function renderPage(page, headingId = "", skipScroll = false) {
   elements.languageToggle.textContent = "中文 / EN";
   elements.languageToggle.disabled = page.translationStatus !== "complete";
   renderOutline(page);
+  applyContentDisclosureHistory(page.id, disclosureStates);
   configurePageLinks();
   configurePageButton(elements.previousPage, previous, "上一主题");
   configurePageButton(elements.nextPage, next, "下一主题");
@@ -1234,6 +1282,13 @@ elements.presetItems?.addEventListener("mouseleave", function () {
   hidePresetOptionTooltip();
 });
 
+document.addEventListener("toggle", function (event) {
+  if (contentDisclosureSyncSuppressed) return;
+  if (!(event.target instanceof HTMLDetailsElement)) return;
+  if (!event.target.closest(".manual-content")) return;
+  syncContentDisclosureHistory();
+}, true);
+
 elements.searchEnToggle.addEventListener("change", function () {
     state.searchEn = this.checked;
     state.searchShowCount = 12;
@@ -1270,11 +1325,10 @@ elements.searchEnToggle.addEventListener("change", function () {
     languageTransitionTimer = window.setTimeout(function () {
       state.language = toLanguage;
       if (state.currentPage?.standalone) {
-        renderStandalonePage(state.currentPage, "", true);
+        renderStandalonePage(state.currentPage, "", true, disclosureStates);
       } else {
-        renderPage(state.currentPage, "", true);
+        renderPage(state.currentPage, "", true, disclosureStates);
       }
-      restoreContentDisclosureStates(disclosureStates);
       if (state.query.trim() && (state.searchIndexZh || state.searchIndexEn)) {
         setTimeout(function () { highlightPageContent(state.query.trim()); }, 0);
       }
