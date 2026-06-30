@@ -1315,6 +1315,10 @@ window.addEventListener("keydown", (event) => {
   if (!isStandalonePwa()) return;
   if (!mobileSidebarMql.matches) return;
 
+  // Reserve a thin left-edge zone for the browser's own back-swipe gesture.
+  // Sidebar opening only starts outside this zone so the two gestures do not
+  // compete on the same touch sequence.
+  var sidebarEdgeSwipeGuard = 48;
   var x0, y0;
 
   document.addEventListener("touchstart", function (e) {
@@ -1335,7 +1339,13 @@ window.addEventListener("keydown", (event) => {
     x0 = y0 = undefined;
     if (dy > w * 0.08 || Math.abs(dx) < w * 0.12) return;
 
-    if (!elements.sidebar.classList.contains("open") && dx > w * 0.12 && startX < w * 0.5) { toggleSidebar(); return; }
+    if (!elements.sidebar.classList.contains("open") &&
+        dx > w * 0.12 &&
+        startX > sidebarEdgeSwipeGuard &&
+        startX < w * 0.5) {
+      toggleSidebar();
+      return;
+    }
     if (elements.sidebar.classList.contains("open") && dx < -(w * 0.12)) { closeMobilePanels(); }
   }, { passive: true });
 })();
