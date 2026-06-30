@@ -64,7 +64,15 @@
 
 * { box-sizing: border-box; }
 
-html { scroll-behavior: smooth; }
+html {
+  background: var(--black);
+  scroll-behavior: smooth;
+}
+
+html.sidebar-open,
+body.sidebar-open {
+  background: var(--sidebar-bg);
+}
 
 body {
   margin: 0;
@@ -1049,10 +1057,11 @@ kbd { padding: 2px 5px; border: 1px solid var(--line); color: var(--muted); back
     position: fixed;
     z-index: 50;
     top: calc(var(--topbar-height) + var(--safe-top));
-    bottom: 0;
+    bottom: calc(-1 * var(--safe-bottom));
     left: 0;
     width: min(88vw, 350px);
     height: auto;
+    padding-bottom: var(--safe-bottom);
     transform: translateX(-105%);
     transition: transform .24s ease;
     overflow-y: auto;
@@ -1062,27 +1071,10 @@ kbd { padding: 2px 5px; border: 1px solid var(--line); color: var(--muted); back
   .scrim {
     position: fixed;
     z-index: 40;
-    inset: calc(var(--topbar-height) + var(--safe-top)) 0 0;
+    inset: calc(var(--topbar-height) + var(--safe-top)) 0 calc(-1 * var(--safe-bottom));
     background: rgba(0,0,0,.6);
   }
   .scrim.open { display: block; }
-  .sidebar::after,
-  .scrim::after {
-    content: "";
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    height: var(--safe-bottom);
-    pointer-events: none;
-  }
-  .sidebar::after {
-    width: min(88vw, 350px);
-    background: var(--sidebar-bg);
-  }
-  .scrim::after {
-    right: 0;
-    background: inherit;
-  }
  .reader {
    width: 100%;
    max-width: 100vw;

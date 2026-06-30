@@ -56,11 +56,28 @@ function getEffectiveTheme() {
   return window.matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark";
 }
 
+function syncThemeColor() {
+  const meta = document.querySelector('meta[name="theme-color"]');
+  if (!meta) return;
+  const effective = getEffectiveTheme();
+  if (document.documentElement.classList.contains("sidebar-open")) {
+    meta.content = effective === "dark" ? "#121613" : "#f0f1ef";
+  } else {
+    meta.content = effective === "dark" ? "#111513" : "#f5f6f3";
+  }
+}
+
 function applyTheme() {
   const effective = getEffectiveTheme();
   document.documentElement.setAttribute("data-theme", effective);
-  const meta = document.querySelector('meta[name="theme-color"]');
-  if (meta) meta.content = effective === "dark" ? "#111513" : "#f5f6f3";
+  syncThemeColor();
+}
+
+function setSidebarChrome(open) {
+  const active = open && mobileSidebarMql.matches;
+  document.documentElement.classList.toggle("sidebar-open", active);
+  document.body.classList.toggle("sidebar-open", active);
+  syncThemeColor();
 }
 
 /* — Theme management: quick-tap toggles, long-press resets to auto — */
@@ -312,16 +329,40 @@ function isStandalonePwa() {
 
 var mobileSidebarMql = window.matchMedia("(max-width: 760px)");
 var compactOutlineMql = window.matchMedia("(max-width: 980px)");
-var mobileScrollLockY = 0;
-var mobileScrollLocked = false;
 var mobileBackgroundScrollLocked = false;
 var outlineScrollTrapActive = false;
+var sidebarTouchStartY = 0;
 var outlineTouchStartY = 0;
 
 function preventBackgroundTouchMove(event) {
   if (!elements.sidebar.classList.contains("open")) return;
-  if (elements.sidebar.contains(event.target)) return;
+  if (canSidebarHandleScroll(event)) return;
   event.preventDefault();
+}
+
+function canSidebarHandleScroll(event) {
+  if (!elements.sidebar.contains(event.target)) return false;
+  var scrollArea = event.target.closest?.("#manualNav");
+  if (!scrollArea) return false;
+  var maxScrollTop = scrollArea.scrollHeight - scrollArea.clientHeight;
+  if (maxScrollTop <= 0) return false;
+
+  var deltaY = 0;
+  if (event.type === "wheel") {
+    deltaY = event.deltaY;
+  } else if (event.type === "touchmove") {
+    var touch = event.touches[0];
+    if (!touch) return false;
+    deltaY = sidebarTouchStartY - touch.clientY;
+  }
+
+  if (deltaY < 0) return scrollArea.scrollTop > 0;
+  if (deltaY > 0) return scrollArea.scrollTop < maxScrollTop;
+  return true;
+}
+
+function handleSidebarTouchStart(event) {
+  sidebarTouchStartY = event.touches[0]?.clientY || 0;
 }
 
 function outlineCanScrollBy(deltaY) {
@@ -355,6 +396,7 @@ function setMobileBackgroundScrollLock(locked) {
   if (locked === mobileBackgroundScrollLocked) return;
   mobileBackgroundScrollLocked = locked;
   const method = locked ? "addEventListener" : "removeEventListener";
+  document[method]("touchstart", handleSidebarTouchStart, { passive: true });
   document[method]("touchmove", preventBackgroundTouchMove, { passive: false });
   document[method]("wheel", preventBackgroundTouchMove, { passive: false });
 }
@@ -374,28 +416,13 @@ function syncOutlineScrollTrap() {
 
 function lockMobileScroll() {
   if (!mobileSidebarMql.matches) return;
+  setSidebarChrome(true);
   setMobileBackgroundScrollLock(true);
-  if (mobileScrollLocked || !isStandalonePwa()) return;
-  mobileScrollLockY = window.scrollY || document.documentElement.scrollTop || 0;
-  mobileScrollLocked = true;
-  document.body.style.position = "fixed";
-  document.body.style.top = `-${mobileScrollLockY}px`;
-  document.body.style.left = "0";
-  document.body.style.right = "0";
-  document.body.style.width = "100%";
 }
 
 function unlockMobileScroll() {
+  setSidebarChrome(false);
   setMobileBackgroundScrollLock(false);
-  if (!mobileScrollLocked) return;
-  mobileScrollLocked = false;
-  document.body.style.position = "";
-  document.body.style.top = "";
-  document.body.style.left = "";
-  document.body.style.right = "";
-  document.body.style.width = "";
-  // Restore the page position instantly when leaving the mobile sidebar.
-  jumpToScrollTop(mobileScrollLockY);
 }
 
 mobileSidebarMql.addEventListener("change", function (event) {
