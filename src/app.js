@@ -42,7 +42,7 @@ const elements = {
   menuButton: document.querySelector("#menuButton"),
   outlineButton: document.querySelector("#outlineButton"),
   scrim: document.querySelector("#scrim"),
-  appShell: document.querySelector(".app-shell"),
+
 };
 let deferredInstallPrompt = null;
 let routeRequestId = 0;
@@ -378,22 +378,22 @@ function lockMobileScroll() {
   if (mobileScrollLocked || !isStandalonePwa()) return;
   mobileScrollLockY = window.scrollY || document.documentElement.scrollTop || 0;
   mobileScrollLocked = true;
-  elements.appShell.style.position = "fixed";
-  elements.appShell.style.top = `-${mobileScrollLockY}px`;
-  elements.appShell.style.left = "0";
-  elements.appShell.style.right = "0";
-  elements.appShell.style.width = "100%";
+  document.body.style.position = "fixed";
+  document.body.style.top = `-${mobileScrollLockY}px`;
+  document.body.style.left = "0";
+  document.body.style.right = "0";
+  document.body.style.width = "100%";
 }
 
 function unlockMobileScroll() {
   setMobileBackgroundScrollLock(false);
   if (!mobileScrollLocked) return;
   mobileScrollLocked = false;
-  elements.appShell.style.position = "";
-  elements.appShell.style.top = "";
-  elements.appShell.style.left = "";
-  elements.appShell.style.right = "";
-  elements.appShell.style.width = "";
+  document.body.style.position = "";
+  document.body.style.top = "";
+  document.body.style.left = "";
+  document.body.style.right = "";
+  document.body.style.width = "";
   // Restore the page position instantly when leaving the mobile sidebar.
   jumpToScrollTop(mobileScrollLockY);
 }
