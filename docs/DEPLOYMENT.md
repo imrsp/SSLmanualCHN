@@ -29,6 +29,19 @@ PWA 安装和 service worker 只在 `https`、`localhost` 或 `127.0.0.1` 上工
 
 构建时还会给数据请求附带 `__BUILD_HASH__` 参数，用于浏览器更新时失效旧缓存。
 
+### 推荐的 SW 分层策略
+
+站点是静态发布形态，默认应尽量保留缓存收益，只对“会直接影响新版本可见性”的资源做主动更新：
+
+- `data/catalog.json`：`networkFirst`，因为它决定目录、章节列表和新页面是否可见。
+- `data/themes.json`：`networkFirst`，因为它只影响主题预设列表，体积小且应尽快反映新构建。
+- `data/search-index-en.json`、`data/search-index-zh.json`：`cacheFirst`，优先保留搜索体验速度，版本更新由构建哈希和 SW 换代兜底。
+- `data/pages/*.json`：`cacheFirst`，正文分片按需加载，优先吃缓存。
+- `themes/*.css`：`cacheFirst`，主题样式是典型静态资源，构建哈希已能保证换版。
+- `src/*.js`、`src/*.css`：`cacheFirst`，文件名已哈希化，更新依赖新构建产物本身。
+
+应用启动时会读取 `window.__BUILD_HASH__` 并与本地记录的上一次版本比较；只有构建哈希变化时，才主动触发一次 Service Worker `update()` 检查。这个做法适合 iOS PWA 这类对缓存切换较慢的环境，同时不会让同版本页面重复打扰用户。
+
 ## Nginx
 
 以下为带 SSL 和 gzip 的完整配置。项目缓存规则集中在 `# === SSL Live Manual Cache Policy START/END ===` 块内。

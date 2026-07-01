@@ -284,6 +284,67 @@ const dataUrl = (path) => {
   return url;
 };
 const localData = globalThis.__SSL_MANUAL_DATA__ ??= { pages: {} };
+const buildHashStorageKey = "ssl-manual-build-hash";
+
+function getCurrentBuildHash() {
+  return typeof window.__BUILD_HASH__ !== "undefined" ? String(window.__BUILD_HASH__) : "";
+}
+
+function readStoredBuildHash() {
+  try {
+    return localStorage.getItem(buildHashStorageKey) || "";
+  } catch (_) {
+    return "";
+  }
+}
+
+function storeCurrentBuildHash(buildHash) {
+  if (!buildHash) return;
+  try {
+    localStorage.setItem(buildHashStorageKey, buildHash);
+  } catch (_) {}
+}
+
+function waitForServiceWorkerControllerChange(timeoutMs) {
+  return new Promise((resolve) => {
+    if (!navigator.serviceWorker?.controller) {
+      resolve();
+      return;
+    }
+    let settled = false;
+    const timer = window.setTimeout(done, timeoutMs);
+    function done() {
+      if (settled) return;
+      settled = true;
+      window.clearTimeout(timer);
+      navigator.serviceWorker.removeEventListener("controllerchange", onChange);
+      resolve();
+    }
+    function onChange() {
+      done();
+    }
+    navigator.serviceWorker.addEventListener("controllerchange", onChange);
+  });
+}
+
+async function refreshServiceWorkerForNewBuild() {
+  if (!("serviceWorker" in navigator) || location.protocol === "file:") return;
+  const currentBuildHash = getCurrentBuildHash();
+  const storedBuildHash = readStoredBuildHash();
+  if (!currentBuildHash || !storedBuildHash || currentBuildHash === storedBuildHash) return;
+
+  try {
+    const registration = await navigator.serviceWorker.getRegistration("./");
+    if (registration) {
+      await registration.update();
+      await waitForServiceWorkerControllerChange(1500);
+    }
+  } catch (error) {
+    console.warn("Service worker refresh failed:", error);
+  } finally {
+    storeCurrentBuildHash(currentBuildHash);
+  }
+}
 
 function loadDataScript(path) {
   return new Promise((resolve, reject) => {
@@ -1163,6 +1224,7 @@ function closeMobilePanels() {
 
 async function start() {
   try {
+    await refreshServiceWorkerForNewBuild();
     state.catalog = await loadData("catalog.json", () => localData.catalog);
 
     /* — Load themes from build data — */
@@ -1202,6 +1264,7 @@ async function start() {
     await route();
     updateInstallButtonVisibility();
     registerServiceWorker();
+    storeCurrentBuildHash(getCurrentBuildHash());
   } catch (error) {
     elements.databaseStatus.textContent = "CONTENT ERROR";
     elements.document.innerHTML = `
