@@ -1,0 +1,76 @@
+# Deploy dist/ to remote server via SSH
+#
+# Required repository secrets (Settings → Secrets and variables → Actions):
+#   SSH_HOST          -- server hostname or IP
+#   SSH_USER          -- SSH login username
+#   SSH_KEY           -- private SSH key (deploy key or your key's private half)
+#   SSH_TARGET_BETA        -- server destination path, e.g. /srv/ssl-live-manual
+#   SSH_KNOWN_HOSTS   -- server host key fingerprint (mandatory, prevents MITM attacks)
+
+name: Beta Channel Deploy
+
+on:
+  push:
+    branches: [beta]
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: 'npm'
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+
+      - name: Install fonttools for font subsetting
+        run: pip install "fonttools[woff]"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build and validate
+        run: npm run check
+
+      - name: Deploy dist/ to server
+        env:
+          SSH_HOST: ${{ secrets.SSH_HOST }}
+          SSH_USER: ${{ secrets.SSH_USER }}
+          SSH_KEY: ${{ secrets.SSH_KEY }}
+          SSH_TARGET_BETA: ${{ secrets.SSH_TARGET_BETA }}
+          SSH_KNOWN_HOSTS: ${{ secrets.SSH_KNOWN_HOSTS }}
+        run: |
+          mkdir -p ~/.ssh
+          chmod 700 ~/.ssh
+          echo "$SSH_KEY" > ~/.ssh/deploy_key
+          chmod 600 ~/.ssh/deploy_key
+
+          if [ -z "$SSH_KNOWN_HOSTS" ]; then
+            echo "❌ ERROR: SSH_KNOWN_HOSTS secret is missing or empty."
+            echo "Deployment stopped to prevent potential Man-in-the-Middle (MITM) attacks."
+            exit 1
+          fi
+
+          echo "$SSH_KNOWN_HOSTS" > ~/.ssh/known_hosts
+
+          SSH_CMD="ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=yes"
+
+          # Atomic-like deployment using rsync's built-in temp directory:
+          # --delete-delay marks files for removal but only cleans up after transfer completes
+          # --delay-updates writes new files to .~tmp~ then atomically renames into place
+          # Keep server-managed ACME challenge files intact.
+          rsync -rltvzO --delete-delay --delay-updates \
+            --filter="protect .user.ini" \
+            --filter="protect .well-known/" \
+            --filter="protect .well-known/***" \
+            -e "$SSH_CMD" \
+            dist/ "${SSH_USER}@${SSH_HOST}:${SSH_TARGET_BETA}"

@@ -6,6 +6,14 @@
 
 图片与附件放在 `public/assets/manual/`。正文引用使用 `assets/manual/...`，不要写绝对路径。
 
+`public/assets/manual/manifest.json` 是手动维护的资源清单，记录已下载图片、PDF 等发布资源的来源与本地路径；它不是构建产物。状态分三类：
+
+- `downloaded`：已从源站成功拉取，本地正常显示。
+- `replaced`：源站 404，但项目内已补充替换文件，替换资源统一放在 `public/assets/manual/missing/`。
+- `placeholder`：源站 404，且本地尚未补齐；构建时会给对应图片元素加 `hidden` 并移除 `src`，直接不显示。
+
+只有在新增、移除或重命名 `public/assets/manual/` 下的资源时才更新它。
+
 只保留正文实际引用的发布资源；官方旧站的 Angular、jQuery、旧导航资源和无关运行时脚本不属于本站依赖。
 
 ## 修改元数据

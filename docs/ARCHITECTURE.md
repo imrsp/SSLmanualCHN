@@ -56,6 +56,7 @@ dist/robots.txt
 - `content/themes/`：主题预设 JSON。
 - `src/`：静态阅读器源码。
 - `public/`：原样复制到发布物中的图片、PDF、favicon 和其他静态资源。
+- `public/assets/manual/manifest.json`：手动维护的资源清单，用于告诉构建脚本哪些手册资源应被本地化并复制到发布物中。`downloaded` 和 `replaced` 资源会正常显示，`placeholder` 资源会在构建时被标记为 `hidden`，并由 CSS 直接隐藏。
 - `scripts/`：构建、验证、审计、本地预览、快照工具。
 - `upstream/ssl-live-help/`：构建与审计使用的稳定上游基线。
 - `upstream/snapshots/`：带日期和差异信息的官方源站完整转储。

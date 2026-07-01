@@ -26,9 +26,12 @@ const sectionById = new Map(site.sections.map((section, index) => [
   section.id,
   { ...section, order: index + 1 },
 ]));
+const manualAssetsByUrl = new Map(
+  assetManifest.map((asset) => [asset.sourceUrl.replace(/^http:/, "https:"), asset]),
+);
 const localAssets = new Map(
   assetManifest
-    .filter((asset) => ["downloaded", "placeholder"].includes(asset.status))
+    .filter((asset) => ["downloaded", "replaced"].includes(asset.status))
     .map((asset) => [asset.sourceUrl.replace(/^http:/, "https:"), asset.localPath]),
 );
 const internalPages = new Map(
@@ -68,6 +71,25 @@ function localizeAssets(html, sourceUrl) {
     const normalized = `${absolute.protocol}//${absolute.host}${absolute.pathname}`.replace(/^http:/, "https:");
     const localPath = localAssets.get(normalized);
     return localPath ? `${attribute}=${quote}${localPath}${quote}` : match;
+  });
+}
+
+function markPlaceholderAssets(html, sourceUrl) {
+  return html.replace(/<img\b[^>]*>/gi, (tag) => {
+    const reference = tag.match(/\bsrc\s*=\s*(["'])([^"']+)\1/i)?.[2];
+    if (!reference) return tag;
+    let absolute;
+    try {
+      absolute = new URL(reference, sourceUrl);
+    } catch {
+      return tag;
+    }
+    const normalized = `${absolute.protocol}//${absolute.host}${absolute.pathname}`.replace(/^http:/, "https:");
+    const asset = manualAssetsByUrl.get(normalized);
+    if (asset?.status !== "placeholder") return tag;
+    const withoutSrc = tag.replace(/\s+src\s*=\s*(["'])([^"']+)\1/i, "");
+    if (/\shidden(\s|>|\/)/i.test(withoutSrc)) return withoutSrc;
+    return withoutSrc.replace(/>$/, " hidden>");
   });
 }
 
@@ -324,7 +346,10 @@ function prepareDocument(filePath, sourceUrl, pageTitle) {
     normalizeLegacyMarkup(
       removePageTitleHeading(
         transformAccordions(
-          localizeAssets(stripDocument(fs.readFileSync(filePath, "utf8")), sourceUrl),
+          markPlaceholderAssets(
+            localizeAssets(stripDocument(fs.readFileSync(filePath, "utf8")), sourceUrl),
+            sourceUrl,
+          ),
         ),
         pageTitle,
       ),

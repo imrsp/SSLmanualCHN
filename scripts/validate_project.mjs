@@ -42,6 +42,7 @@ const missingBuiltPages = catalog.pages
     path.join("dist", "data", "pages", `${page.id}.js`),
   ])
   .filter((file) => !fs.existsSync(path.join(root, file)));
+const publishedAssetStatuses = new Set(["downloaded", "replaced"]);
 
 const pageIntegrityIssues = [];
 const securityIssues = [];
@@ -96,14 +97,14 @@ const missingAssets = [...new Set(localReferences)]
 const remoteImages = [...allBuiltHtml.matchAll(/<img[^>]+src=["']https?:/gi)].length;
 const publishedAssets = new Set(
   assetManifest
-    .filter((asset) => ["downloaded", "placeholder"].includes(asset.status))
+    .filter((asset) => publishedAssetStatuses.has(asset.status))
     .map((asset) => asset.localPath),
 );
 const unusedPublishedAssets = [...publishedAssets]
   .filter((file) => file !== "assets/manual/missing-image.svg")
   .filter((file) => !localReferences.includes(file));
 const staleAssetEntries = assetManifest
-  .filter((asset) => !["downloaded", "placeholder"].includes(asset.status));
+  .filter((asset) => !publishedAssetStatuses.has(asset.status) && asset.status !== "placeholder");
 
 const forbiddenPatterns = [
   { name: "PowerShell", pattern: /\b(?:powershell|pwsh)\b/i },

@@ -56,11 +56,28 @@ function getEffectiveTheme() {
   return window.matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark";
 }
 
+function syncThemeColor() {
+  const meta = document.querySelector('meta[name="theme-color"]');
+  if (!meta) return;
+  const effective = getEffectiveTheme();
+  if (document.documentElement.classList.contains("sidebar-open")) {
+    meta.content = effective === "dark" ? "#121613" : "#f0f1ef";
+  } else {
+    meta.content = effective === "dark" ? "#111513" : "#f5f6f3";
+  }
+}
+
 function applyTheme() {
   const effective = getEffectiveTheme();
   document.documentElement.setAttribute("data-theme", effective);
-  const meta = document.querySelector('meta[name="theme-color"]');
-  if (meta) meta.content = effective === "dark" ? "#111513" : "#f5f6f3";
+  syncThemeColor();
+}
+
+function setSidebarChrome(open) {
+  const active = open && mobileSidebarMql.matches;
+  document.documentElement.classList.toggle("sidebar-open", active);
+  document.body.classList.toggle("sidebar-open", active);
+  syncThemeColor();
 }
 
 /* — Theme management: quick-tap toggles, long-press resets to auto — */
@@ -312,16 +329,40 @@ function isStandalonePwa() {
 
 var mobileSidebarMql = window.matchMedia("(max-width: 760px)");
 var compactOutlineMql = window.matchMedia("(max-width: 980px)");
-var mobileScrollLockY = 0;
-var mobileScrollLocked = false;
 var mobileBackgroundScrollLocked = false;
 var outlineScrollTrapActive = false;
+var sidebarTouchStartY = 0;
 var outlineTouchStartY = 0;
 
 function preventBackgroundTouchMove(event) {
   if (!elements.sidebar.classList.contains("open")) return;
-  if (elements.sidebar.contains(event.target)) return;
+  if (canSidebarHandleScroll(event)) return;
   event.preventDefault();
+}
+
+function canSidebarHandleScroll(event) {
+  if (!elements.sidebar.contains(event.target)) return false;
+  var scrollArea = event.target.closest?.("#manualNav");
+  if (!scrollArea) return false;
+  var maxScrollTop = scrollArea.scrollHeight - scrollArea.clientHeight;
+  if (maxScrollTop <= 0) return false;
+
+  var deltaY = 0;
+  if (event.type === "wheel") {
+    deltaY = event.deltaY;
+  } else if (event.type === "touchmove") {
+    var touch = event.touches[0];
+    if (!touch) return false;
+    deltaY = sidebarTouchStartY - touch.clientY;
+  }
+
+  if (deltaY < 0) return scrollArea.scrollTop > 0;
+  if (deltaY > 0) return scrollArea.scrollTop < maxScrollTop;
+  return true;
+}
+
+function handleSidebarTouchStart(event) {
+  sidebarTouchStartY = event.touches[0]?.clientY || 0;
 }
 
 function outlineCanScrollBy(deltaY) {
@@ -355,6 +396,7 @@ function setMobileBackgroundScrollLock(locked) {
   if (locked === mobileBackgroundScrollLocked) return;
   mobileBackgroundScrollLocked = locked;
   const method = locked ? "addEventListener" : "removeEventListener";
+  document[method]("touchstart", handleSidebarTouchStart, { passive: true });
   document[method]("touchmove", preventBackgroundTouchMove, { passive: false });
   document[method]("wheel", preventBackgroundTouchMove, { passive: false });
 }
@@ -374,28 +416,13 @@ function syncOutlineScrollTrap() {
 
 function lockMobileScroll() {
   if (!mobileSidebarMql.matches) return;
+  setSidebarChrome(true);
   setMobileBackgroundScrollLock(true);
-  if (mobileScrollLocked || !isStandalonePwa()) return;
-  mobileScrollLockY = window.scrollY || document.documentElement.scrollTop || 0;
-  mobileScrollLocked = true;
-  document.body.style.position = "fixed";
-  document.body.style.top = `-${mobileScrollLockY}px`;
-  document.body.style.left = "0";
-  document.body.style.right = "0";
-  document.body.style.width = "100%";
 }
 
 function unlockMobileScroll() {
+  setSidebarChrome(false);
   setMobileBackgroundScrollLock(false);
-  if (!mobileScrollLocked) return;
-  mobileScrollLocked = false;
-  document.body.style.position = "";
-  document.body.style.top = "";
-  document.body.style.left = "";
-  document.body.style.right = "";
-  document.body.style.width = "";
-  // Restore the page position instantly when leaving the mobile sidebar.
-  jumpToScrollTop(mobileScrollLockY);
 }
 
 mobileSidebarMql.addEventListener("change", function (event) {
@@ -439,7 +466,7 @@ function navigateToPage(pageId, headingId = "", options = {}) {
   const sameRoute = hash === location.hash;
   if (sameRoute && options.source !== "search") return;
   if (hash !== location.hash) {
-    history.pushState(null, "", hash);
+    history.pushState({ pageId }, "", hash);
   }
   lastLocationRouteHash = hash;
   route({
@@ -857,11 +884,57 @@ function getContentDisclosureStates() {
     .map((details) => details.open);
 }
 
+let contentDisclosureSyncSuppressed = false;
+
 function restoreContentDisclosureStates(states) {
   if (!states?.length) return;
-  elements.document.querySelectorAll(".manual-content details").forEach((details, index) => {
-    if (typeof states[index] === "boolean") details.open = states[index];
-  });
+  contentDisclosureSyncSuppressed = true;
+  try {
+    elements.document.querySelectorAll(".manual-content details").forEach((details, index) => {
+      if (typeof states[index] === "boolean") details.open = states[index];
+    });
+  } finally {
+    contentDisclosureSyncSuppressed = false;
+  }
+}
+
+function getHistoryContentDisclosureStates(pageId) {
+  if (!pageId) return null;
+  const historyState = history.state;
+  if (
+    historyState &&
+    typeof historyState === "object" &&
+    historyState.pageId === pageId &&
+    Array.isArray(historyState.disclosureStates)
+  ) {
+    return historyState.disclosureStates;
+  }
+}
+
+function syncContentDisclosureHistory(pageId = state.currentPage?.id, disclosureStates = null) {
+  if (!pageId || contentDisclosureSyncSuppressed) return;
+  const nextState = {
+    ...(history.state && typeof history.state === "object" ? history.state : {}),
+    pageId,
+    disclosureStates: Array.isArray(disclosureStates) ? disclosureStates : getContentDisclosureStates(),
+  };
+  try {
+    history.replaceState(nextState, "", location.href);
+  } catch (_) {}
+}
+
+function restoreHistoryContentDisclosureStates(pageId) {
+  const states = getHistoryContentDisclosureStates(pageId);
+  if (states) restoreContentDisclosureStates(states);
+}
+
+function applyContentDisclosureHistory(pageId, disclosureStates = null) {
+  if (Array.isArray(disclosureStates)) {
+    restoreContentDisclosureStates(disclosureStates);
+  } else {
+    restoreHistoryContentDisclosureStates(pageId);
+  }
+  syncContentDisclosureHistory(pageId, disclosureStates);
 }
 
 function getVisibleHeadingAnchor() {
@@ -965,7 +1038,7 @@ function scrollToPagePosition(headingId = "", skipScroll = false) {
   window.scrollTo({ top: 0, behavior: "instant" });
 }
 
-function renderStandalonePage(page, headingId = "", skipScroll = false) {
+function renderStandalonePage(page, headingId = "", skipScroll = false, disclosureStates = null) {
   state.currentPage = page;
   elements.breadcrumbs.innerHTML = escapeHtml(page.titleZh);
   elements.pageCounter.textContent = "";
@@ -982,6 +1055,7 @@ function renderStandalonePage(page, headingId = "", skipScroll = false) {
   } else {
     elements.outline.innerHTML = "";
   }
+  applyContentDisclosureHistory(page.id, disclosureStates);
   configurePageLinks();
   configurePageButton(elements.previousPage, null, "上一主题");
   configurePageButton(elements.nextPage, null, "下一主题");
@@ -990,7 +1064,7 @@ function renderStandalonePage(page, headingId = "", skipScroll = false) {
   scrollToPagePosition(headingId, skipScroll);
 }
 
-function renderPage(page, headingId = "", skipScroll = false) {
+function renderPage(page, headingId = "", skipScroll = false, disclosureStates = null) {
   state.currentPage = page;
   ensureActiveNavigationExpanded();
   const index = state.catalog.pages.findIndex((candidate) => candidate.id === page.id);
@@ -1016,6 +1090,7 @@ function renderPage(page, headingId = "", skipScroll = false) {
   elements.languageToggle.textContent = "中文 / EN";
   elements.languageToggle.disabled = page.translationStatus !== "complete";
   renderOutline(page);
+  applyContentDisclosureHistory(page.id, disclosureStates);
   configurePageLinks();
   configurePageButton(elements.previousPage, previous, "上一主题");
   configurePageButton(elements.nextPage, next, "下一主题");
@@ -1207,6 +1282,13 @@ elements.presetItems?.addEventListener("mouseleave", function () {
   hidePresetOptionTooltip();
 });
 
+document.addEventListener("toggle", function (event) {
+  if (contentDisclosureSyncSuppressed) return;
+  if (!(event.target instanceof HTMLDetailsElement)) return;
+  if (!event.target.closest(".manual-content")) return;
+  syncContentDisclosureHistory();
+}, true);
+
 elements.searchEnToggle.addEventListener("change", function () {
     state.searchEn = this.checked;
     state.searchShowCount = 12;
@@ -1243,11 +1325,10 @@ elements.searchEnToggle.addEventListener("change", function () {
     languageTransitionTimer = window.setTimeout(function () {
       state.language = toLanguage;
       if (state.currentPage?.standalone) {
-        renderStandalonePage(state.currentPage, "", true);
+        renderStandalonePage(state.currentPage, "", true, disclosureStates);
       } else {
-        renderPage(state.currentPage, "", true);
+        renderPage(state.currentPage, "", true, disclosureStates);
       }
-      restoreContentDisclosureStates(disclosureStates);
       if (state.query.trim() && (state.searchIndexZh || state.searchIndexEn)) {
         setTimeout(function () { highlightPageContent(state.query.trim()); }, 0);
       }
@@ -1288,6 +1369,10 @@ window.addEventListener("keydown", (event) => {
   if (!isStandalonePwa()) return;
   if (!mobileSidebarMql.matches) return;
 
+  // Reserve a thin left-edge zone for the browser's own back-swipe gesture.
+  // Sidebar opening only starts outside this zone so the two gestures do not
+  // compete on the same touch sequence.
+  var sidebarEdgeSwipeGuard = 48;
   var x0, y0;
 
   document.addEventListener("touchstart", function (e) {
@@ -1308,7 +1393,13 @@ window.addEventListener("keydown", (event) => {
     x0 = y0 = undefined;
     if (dy > w * 0.08 || Math.abs(dx) < w * 0.12) return;
 
-    if (!elements.sidebar.classList.contains("open") && dx > w * 0.12 && startX < w * 0.5) { toggleSidebar(); return; }
+    if (!elements.sidebar.classList.contains("open") &&
+        dx > w * 0.12 &&
+        startX > sidebarEdgeSwipeGuard &&
+        startX < w * 0.5) {
+      toggleSidebar();
+      return;
+    }
     if (elements.sidebar.classList.contains("open") && dx < -(w * 0.12)) { closeMobilePanels(); }
   }, { passive: true });
 })();
