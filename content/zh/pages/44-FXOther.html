@@ -57,23 +57,25 @@
 <p>Rate 控制定义了信号左右声像间摆动的速率。这会根据 Tempo 控制的输入自动更新，但也可以手动调整。</p>
 <p>LFO Mode 决定调制声像位置所用的控制信号波形。选项为正弦波、锯齿波或三角波。</p>
 <p>LFO Reset 按钮允许用户将 LFO 的相位重置为以下位置之一：</p>
-<table>
-  <tr>
-    <td><img style="display: block; margin: 0 auto;" src="https://livehelp.solidstatelogic.com/Help/images/g_FXAutoPanFrmL.png" alt="从左边缘开始"></td>
-    <th>从左边缘开始</th>
-  </tr>
-  <tr>
-    <td><img style="display: block; margin: 0 auto;" src="https://livehelp.solidstatelogic.com/Help/images/g_FXAutoPanC-L.png" alt="从中心到左边缘"></td>
-    <td>从中心到左边缘</td>
-  </tr>
-  <tr>
-    <td><img style="display: block; margin: 0 auto;" src="https://livehelp.solidstatelogic.com/Help/images/g_FXAutoPanC-R.png" alt="从中心到右边缘"></td>
-    <td>从中心到右边缘</td>
-  </tr>
-  <tr>
-    <td><img style="display: block; margin: 0 auto;" src="https://livehelp.solidstatelogic.com/Help/images/g_FXAutoPanFrmR.png" alt="从右边缘开始"></td>
-    <td>从右边缘开始</td>
-  </tr>
+<table class="insideborder" style="width: auto; margin: 15px 0px;" cellpadding="4" cellspacing="1">
+  <tbody>
+    <tr>
+      <td class="solidborder"><img style="display: block; margin: 0 auto;" src="https://livehelp.solidstatelogic.com/Help/images/g_FXAutoPanFrmL.png" alt="从左边缘开始"></td>
+      <th class="solidborder">从左边缘开始</th>
+    </tr>
+    <tr>
+      <td class="solidborder"><img style="display: block; margin: 0 auto;" src="https://livehelp.solidstatelogic.com/Help/images/g_FXAutoPanC-L.png" alt="从中心到左边缘"></td>
+      <td class="solidborder">从中心到左边缘</td>
+    </tr>
+    <tr>
+      <td class="solidborder"><img style="display: block; margin: 0 auto;" src="https://livehelp.solidstatelogic.com/Help/images/g_FXAutoPanC-R.png" alt="从中心到右边缘"></td>
+      <td class="solidborder">从中心到右边缘</td>
+    </tr>
+    <tr>
+      <td class="solidborder"><img style="display: block; margin: 0 auto;" src="https://livehelp.solidstatelogic.com/Help/images/g_FXAutoPanFrmR.png" alt="从右边缘开始"></td>
+      <td class="solidborder">从右边缘开始</td>
+    </tr>
+  </tbody>
 </table>
 <p>Steps 控制允许用户创建完全平滑的声像移动（当 Steps = ∞ 时），或通过离散的、等距的点进行声像移动（当 Steps 为有限值时）。Steps = 2 将在 100% 左和 100% 右创建点，产生 Ping Pong 效果，以 Tempo/Rate 控制设置的速度在左右之间交替。 Steps = 3 将在中心创建一个额外的点，循环顺序为 100% 左、中心、100% 右、中心。</p>
 <p>Smooth 控制允许离散点之间的“交叉淡变”量，使信号不会在点之间移动得那么突然。</p>
@@ -84,70 +86,72 @@
 <p>六个增益推子控制每个频带中原始信号和降噪信号之间的干/湿混合。在 0 dB 增益时，原始信号和降噪信号之间是均等混合。增加增益会增加加回混音中的原始信号量。</p>
 <p><b>Threshold</b> 设置噪声的电平。低于此电平的任何内容都会被噪声检测算法视为噪声。</p>
 <p><b>Range</b> 定义 De-Noiser 工作的频率范围。这些范围是：</p>
-<table>
-  <tr>
-    <th>Range (范围)</th>
-    <th>Band 1</th>
-    <th>Band 2</th>
-    <th>Band 3</th>
-    <th>Band 4</th>
-    <th>Band 5</th>
-    <th>Band 6</th>
-  </tr>
-  <tr>
-    <td>Full (35 Hz - 10.2 kHz)</td>
-    <td>35 Hz</td>
-    <td>110 Hz</td>
-    <td>340 Hz</td>
-    <td>1.1 kHz</td>
-    <td>3.3 kHz</td>
-    <td>10.2 kHz</td>
-  </tr>
-  <tr>
-    <td>High (4.5 kHz - 15.9 kHz)</td>
-    <td>4.5 kHz</td>
-    <td>5.8 kHz</td>
-    <td>7.5 kHz</td>
-    <td>9.6 kHz</td>
-    <td>12.4 kHz</td>
-    <td>15.9 kHz</td>
-  </tr>
-  <tr>
-    <td>Mid High (291 Hz - 12.4 kHz)</td>
-    <td>291 Hz</td>
-    <td>616 Hz</td>
-    <td>1.3 kHz</td>
-    <td>2.8 kHz</td>
-    <td>5.8 kHz</td>
-    <td>12.4 kHz</td>
-  </tr>
-  <tr>
-    <td>Mid (266 Hz - 4.5 kHz)</td>
-    <td>266 Hz</td>
-    <td>468 Hz</td>
-    <td>825 Hz</td>
-    <td>1.5 kHz</td>
-    <td>2.6 kHz</td>
-    <td>4.5 kHz</td>
-  </tr>
-  <tr>
-    <td>Low Mid (32 Hz - 3.7 kHz)</td>
-    <td>32 Hz</td>
-    <td>83 Hz</td>
-    <td>215 Hz</td>
-    <td>557 Hz</td>
-    <td>1.4 kHz</td>
-    <td>3.7 kHz</td>
-  </tr>
-  <tr>
-    <td>Low (26 Hz - 312 Hz)</td>
-    <td>26 Hz</td>
-    <td>42 Hz</td>
-    <td>70 Hz</td>
-    <td>115 Hz</td>
-    <td>189 Hz</td>
-    <td>312 Hz</td>
-  </tr>
+<table class="insideborder" style="width: 790px; margin: 10px 0px; font-size: smaller" cellpadding="4" cellspacing="1">
+  <tbody>
+    <tr>
+      <th class="solidborder">Range (范围)</th>
+      <th class="solidborder">Band 1</th>
+      <th class="solidborder">Band 2</th>
+      <th class="solidborder">Band 3</th>
+      <th class="solidborder">Band 4</th>
+      <th class="solidborder">Band 5</th>
+      <th class="solidborder">Band 6</th>
+    </tr>
+    <tr>
+      <th class="solidborder">Full (35 Hz - 10.2 kHz)</th>
+      <td class="solidborder">35 Hz</td>
+      <td class="solidborder">110 Hz</td>
+      <td class="solidborder">340 Hz</td>
+      <td class="solidborder">1.1 kHz</td>
+      <td class="solidborder">3.3 kHz</td>
+      <td class="solidborder">10.2 kHz</td>
+    </tr>
+    <tr>
+      <th class="solidborder">High (4.5 kHz - 15.9 kHz)</th>
+      <td class="solidborder">4.5 kHz</td>
+      <td class="solidborder">5.8 kHz</td>
+      <td class="solidborder">7.5 kHz</td>
+      <td class="solidborder">9.6 kHz</td>
+      <td class="solidborder">12.4 kHz</td>
+      <td class="solidborder">15.9 kHz</td>
+    </tr>
+    <tr>
+      <th class="solidborder">Mid High (291 Hz - 12.4 kHz)</th>
+      <td class="solidborder">291 Hz</td>
+      <td class="solidborder">616 Hz</td>
+      <td class="solidborder">1.3 kHz</td>
+      <td class="solidborder">2.8 kHz</td>
+      <td class="solidborder">5.8 kHz</td>
+      <td class="solidborder">12.4 kHz</td>
+    </tr>
+    <tr>
+      <th class="solidborder">Mid (266 Hz - 4.5 kHz)</th>
+      <td class="solidborder">266 Hz</td>
+      <td class="solidborder">468 Hz</td>
+      <td class="solidborder">825 Hz</td>
+      <td class="solidborder">1.5 kHz</td>
+      <td class="solidborder">2.6 kHz</td>
+      <td class="solidborder">4.5 kHz</td>
+    </tr>
+    <tr>
+      <th class="solidborder">Low Mid (32 Hz - 3.7 kHz)</th>
+      <td class="solidborder">32 Hz</td>
+      <td class="solidborder">83 Hz</td>
+      <td class="solidborder">215 Hz</td>
+      <td class="solidborder">557 Hz</td>
+      <td class="solidborder">1.4 kHz</td>
+      <td class="solidborder">3.7 kHz</td>
+    </tr>
+    <tr>
+      <th class="solidborder">Low (26 Hz - 312 Hz)</th>
+      <td class="solidborder">26 Hz</td>
+      <td class="solidborder">42 Hz</td>
+      <td class="solidborder">70 Hz</td>
+      <td class="solidborder">115 Hz</td>
+      <td class="solidborder">189 Hz</td>
+      <td class="solidborder">312 Hz</td>
+    </tr>
+  </tbody>
 </table>
 <p><b>ATK</b> 和 <b>REL</b> 控制决定滤波器的启动和释放速度。</p>
 <h3>操作</h3>
