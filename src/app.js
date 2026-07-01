@@ -609,6 +609,9 @@ function renderSearchResultsInNav() {
         language: targetLanguage,
         source: "search",
       });
+      if (mobileSidebarMql.matches) {
+        closeMobilePanels();
+      }
     });
   });
   var loadMoreBtn = elements.manualNav.querySelector(".search-load-more");
