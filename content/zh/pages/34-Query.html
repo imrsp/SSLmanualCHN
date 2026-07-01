@@ -1,32 +1,32 @@
 <h2>查询</h2>
 <figure><img src="https://livehelp.solidstatelogic.com/Help/images/G_Qbutton.png" alt="图片 1"><figcaption>图片 1</figcaption></figure>
-<p>Query 是一个快速查找功能，允许您查看去往/来自特定信号路径的所有发送。</p>
-<p>要进入 Query 模式，请按下推子区块上任何信号路径的 Q 按钮。</p>
+<p>Query 是一个快速查找功能，允许您查看进出某条信号路径的所有发送。</p>
+<p>要进入 Query 模式，请按下推子区块上任意信号路径的 <span class="label">Q</span> 按钮。</p>
 <ul>
-  <li>对于输入通道，Query 会收集从它馈送的 Aux、Stem 和 Master，以及控制该通道的任何 VCA；</li>
-  <li>对于混音母线（Aux、Stem 或 Master），Query 模式会收集馈送到它的所有通道以及由它馈送的任何其他混音母线，以及控制它的任何 VCA。</li>
+  <li>对于输入通道，Query 会收集从它馈送的 Aux、Stem 和 Master，以及控制该通道的所有 VCA；</li>
+  <li>对于混音母线（Aux、Stem 或 Master），Query 模式会收集馈送到它的所有通道以及由它馈送的所有其他混音母线，以及控制它的所有 VCA。</li>
   <li>对于 VCA，Query 会收集由它控制的所有通道和母线。</li>
 </ul>
-<p>当为某个信号路径启用 Query 时，其他控制台推子区块将用于显示去往/来自被 Query 信号路径的信号流。</p>
-<p>也可以从 Focus 和 Main Fader 通过按下它们关联的 Q 按钮来进行 Query。 在这些情况下，所有推子区块将更改为显示被 Query 通道的源/目标路径。</p>
-<p>再次按下 Q 按钮退出 Query。</p>
+<p>当为某个信号路径启用 Query 时，其余控制台推子区块将被用于显示进出 Query 信号路径的信号流。</p>
+<p>也可以从 Focus 和 Main 推子进行 Query，按下它们各自关联的 <span class="label">Q</span> 按钮即可。 在种情况下，所有推子区块将显示被 Query 通道的源路径与目标路径。</p>
+<p>再次按下 <span class="label">Q</span> 按钮退出 Query。</p>
 <h2>Query 模式</h2>
 <p>有两种 Query 模式：</p>
-<p><strong>压缩 Query</strong> 意味着其他推子区块停止显示User Layer，而是仅显示正在发送到被 Query 信号路径或从被 Query 信号路径接收的信号路径。在压缩模式下，被 Query 信号路径的 Q 按钮将闪烁绿色。贡献信号路径按系统顺序（Channels、Stems、Auxes、Masters、VCAs）显示，相同类型的信号路径组合在一起。贡献信号路径的附加页面显示在附加的库中，可以像往常一样使用 CALL 按钮加载这些库。</p>
-<p><strong>扩展 Query</strong> 意味着其他推子区块继续显示User Layer，并且 Q 按钮显示该信号路径是正在发送到还是从被 Query 信号路径接收。红色 Q 按钮表示该信号路径正在从被 Query 信号路径接收。绿色 Q 按钮表示该信号路径正在馈送被 Query 信号路径。在扩展模式下，被 Query 信号路径的 Q 按钮将闪烁紫色。</p>
+<p><strong>Compressed Query</strong> 意味着其他推子区块停止显示 User Layer，变成仅列出与被 Query 路径相关的路由，包括正在发送到被 Query 信号路径或从被 Query 信号路径接收的信号路径。在 Compressed 模式下，被 Query 信号路径的 <span class="label">Q</span> 按钮将闪烁绿色。贡献信号路径按系统顺序（Channels、Stems、Auxes、Masters、VCAs）显示，相同类型的信号路径组合在一起。若相关发送路径超出一页容量，多余路径会以库的形式分页显示，可以像往常一样使用 <span class="label">CALL</span> 按钮加载这些库。</p>
+<p><strong>Expanded Query</strong> 意味着其他推子区块继续显示User Layer，并且 <span class="label">Q</span> 按钮显示与被 Query 路径相关的路由，包括正在发送到被 Query 信号路径或从被 Query 信号路径接收的信号路径。红色 <span class="label">Q</span> 按钮表示该信号路径正在从被 Query 信号路径接收。绿色 <span class="label">Q</span> 按钮表示该信号路径正在馈送被 Query 信号路径。在 Expanded 模式下，被 Query 信号路径的 <span class="label">Q</span> 按钮将闪烁紫色。</p>
 <p>可以为每种信号路径类型设置 Query 模式。要设置 Query 模式，请前往 MENU &gt; Setup &gt; Options &gt; SURFACE 选项卡， 然后点击“Query Mode”列中相应的交叉点。</p>
 <figure><img src="https://livehelp.solidstatelogic.com/Help/images/g_QFocusFader.png" alt="图片 2"><figcaption>图片 2</figcaption></figure>
 <h2>Query 控制模式</h2>
-<p>在 Query 中时可以调整对母线的发送。这些可以显示在快速控制上或推子上。</p>
-<p>对于监听混音，在 Query Aux 时在推子上选择发送是调整监听混音的快速方法。</p>
-<p>在 Routes 模式下显示 Query，会显示 Query 中信号路径的通道条，推子保持为每个信号路径的主推子，快速控制分配给最后选择的信号路径处理参数。</p>
-<p>在快速控制上显示 Query，会将从/到其他信号路径的被 Query 信号路径的发送电平放到快速控制编码器上。 Query 一个 Aux 会将从每个通道到该 Aux 的发送电平分配到快速控制编码器上。Query 一个输入通道会将该通道到其分配的任何 Stem 或 Aux 的发送电平分配上去。</p>
-<p>在推子上显示 Query，会将去往/来自被 Query 信号路径的发送电平放到每个源/目标路径的推子上。 在此模式下，快速控制编码器默认为每个发送的声像控制（如果适用）。</p>
-<p>可以为每种信号路径类型设置 Query 控制模式。要设置 Query 模式，请前往 MENU &gt; Setup &gt; Options &gt; SURFACE 选项卡， 然后点击“Control Mode”列中相应的交叉点。</p>
+<p>在 Query 时可以调整母线的发送。这些都可以显示在快捷控制上或推子上。</p>
+<p>对于监听混音，在 Query Aux 时在推子上选择发送是调整监听混音的快捷方法。</p>
+<p>将 Query 显示为 <strong>Routes</strong> 显示模式时，会显示 Query 中信号路径的通道条，推子保持为每个信号路径的主推子，快捷控制分配给最后选择的信号路径处理参数。</p>
+<p>将 Query 显示为 <strong>Quick Controls</strong> 显示模式时，与被 Query 路径相关的发送电平会被映射到各推子区块顶部的快捷控制旋钮。 Query 一个 Aux 会将每个通道到该 Aux 的发送电平分配到快捷控制旋钮上。Query 一个输入通道会将该通道发往其所属 Stem / Aux 的发送电平将分配到旋钮上。</p>
+<p>将 Query 显示为 <strong>Fader</strong> 显示模式时，每个相关源路径与目标路径的推子将显示该路径与被 Query 路径之间的发送电平。 在此模式下，快捷控制编码器默认为每个发送的声像控制（如果适用）。</p>
+<p>可以为每种信号路径类型设置 Query 控制模式。设置 Query 模式，请前往 MENU &gt; Setup &gt; Options &gt; SURFACE 选项卡， 然后点击“Control Mode”列中相应的交叉点。</p>
 <h3>VCA 对母线发送的控制</h3>
-<p>Query 也可用于访问 VCA 的 V-Aux 和 V-Stem 发送。这些类似于微调，用于从 VCA 路径调整其所有成员路径的 Aux/Stem 贡献量（更多详情请参阅<a href="https://livehelp.solidstatelogic.com/Help/BusRouting.html#VcaBusSends"><span class="hyperlink">母线路由</span></a>部分）。</p>
-<p>控制台推子区块上的 VCA 路径可用于调整 V-Aux 和 V-Stem 电平。将 Auxes/Stems 路径类型的控制模式设置为“Quick Controls”或“Faders”，以为该路径类型启用“VCA Control”列。</p>
-<p>当在禁用 VCA Control 的情况下 Query 一个 Aux/Stem 时， 控制台操作界面上的任何 VCA 推子将调整主 VCA 推子（调整其所有成员的推子电平；而不是它们的 Aux/Stem 贡献量）。 启用 VCA Control 后，Query 一个 Aux/Stem 将导致 VCA 调整 V-Aux/V-Stem 电平（即它们的成员 Aux/Stem 贡献量）， 可以通过 VCA 路径的推子或快速控制（推子继续调整主 VCA 推子）进行调整，具体取决于所选的 Control Mode。</p>
+<p>Query 也可用于访问 VCA 的 V-Aux 和 V-Stem 发送。它们的作用类似于 trim（偏移），用于从 VCA 路径调整其所有成员路径的 Aux/Stem 发送电平（更多详情请参阅<a href="https://livehelp.solidstatelogic.com/Help/BusRouting.html#VcaBusSends"><span class="hyperlink">母线路由</span></a>部分）。</p>
+<p>控制台推子区块上的 VCA 路径可用于调整 V-Aux 和 V-Stem 电平。将 Auxes/Stems 路径类型的控制模式设置为“Quick Controls”或“Faders”，即可为该路径类型启用“VCA Control”列。</p>
+<p>当在禁用 VCA Control 的情况下 Query 一个 Aux/Stem 时， 控制台操作界面上的任意 VCA 推子仍为调整主 VCA 推子（调整其所有成员的推子电平；而不是它们的 Aux/Stem 发送电平）。 启用 VCA Control 后，Query 一个 Aux/Stem 将导致 VCA 调整 V-Aux/V-Stem 电平（即它们的成员 Aux/Stem 发送电平）， 可以通过 VCA 路径的推子或快捷控制（推子继续调整主 VCA 推子）进行调整，具体取决于所选的 Control Mode。</p>
 <table>
   <tr>
     <th>Aux/Stem 控制模式</th>
@@ -67,29 +67,31 @@
 </table>
 <h2>Query Assign</h2>
 <p>Query Assign 可用于快速将信号路径分配到被 Query 的信号路径。</p>
-<p>按住信号路径的 Q 按钮进入 Query Assign。现在使用其他信号路径的 SELECT 按钮将它们打开或关闭到被 Query 的信号路径。</p>
-<p>在 Query Assign 中时，被 Query 信号路径的 Q 按钮将闪烁紫色。控制模式将与为该信号路径类型设置的模式匹配。</p>
-<p>再次按下被 Query 信号路径的 Q 按钮退出 Query Assign。</p>
-<p>提示：也可以通过按住第一个信号路径的 SELECT 按钮，然后按下最后一个信号路径的 SELECT 按钮来选择一系列信号路径。推子区块上这两个路径之间的所有信号路径都将被选中。也可以跨多个推子区块进行范围选择。</p>
-<h2>屏幕查询</h2>
-<p>Screen Query 选项允许用户从屏幕上查询一个路径，并使用控制台的所有推子区块来显示贡献信号路径。</p>
+<p>按住信号路径的 <span class="label">Q</span> 按钮进入 Query Assign。现在使用其他信号路径的 <span class="label">SELECT</span> 按钮即可开启或关闭该通道对被 Query 路径的发送。</p>
+<p>在 Query Assign 时，被 Query 信号路径的 <span class="label">Q</span> 按钮将闪烁紫色。视图采用的 Control Mode（控制模式）与该类路径类型在设置中所配置的一致。</p>
+<p>再次按下被 Query 信号路径的 <span class="label">Q</span> 按钮退出 Query Assign。</p>
+<span class="note">
+<span class="notetitle">提示：</span>也可以通过按住第一个信号路径的 <span class="label">SELECT</span> 按钮，然后按下最后一个信号路径的 <span class="label">SELECT</span> 按钮来选择一系列信号路径。推子区块上这两个路径之间的所有信号路径都将被选中。也可以跨多个推子区块进行范围选择。</p>
+</span>
+<h2>屏幕 Query</h2>
+<p>Screen Query 选项允许用户在屏幕上直接触发对某条路径的 Query，并使用控制台将所有推子区块切换为显示该路径的相关发送。</p>
 <p>要访问 Screen Query，请前往 MENU &gt; Screen Query。使用屏幕右侧的 Channels、Stems、Auxes、Masters、VCAs 按钮选择路径类型。</p>
 <figure><img src="https://livehelp.solidstatelogic.com/Help/images/g_ScreenQuery.png" alt="图片 3"><figcaption>图片 3</figcaption></figure>
 <p>屏幕上一次最多可以显示 60 个路径。点击屏幕右侧的 1-60、61-120、121-180 等按钮以查看更多路径。</p>
-<p>点击屏幕上的任何路径以 Query 它。再次点击该路径以清除 Query。</p>
+<p>点击屏幕上的任意路径进行 Query。再次点击该路径以清除 Query。</p>
 <p>请注意：在 Screen Query 页面中点击任何路径只会 Query 该路径。 该路径不会被自动选择，除非在 MENU &gt; Setup &gt; Options &gt; SURFACE 选项卡中专门设置了。 因此，在 Screen Query 页面中点击路径对详细视图（跟随选中的路径）没有影响。</p>
-<h2>用于 TaCo 的屏幕查询</h2>
+<h2>用于 TaCo 的屏幕 Query</h2>
 <p>Screen Query 也可用于 TaCo 的工程师模式。确保 TaCo 在工程师模式下获得授权， 然后前往 MENU &gt; QUERY。</p>
 <p>使用 CHAN、STEM、AUX、MAST、VCA 按钮选择路径类型。 一次最多可以显示 36 个路径。点击 1-36、37-72、73-108 等按钮以查看更多路径。</p>
 <figure><img src="https://livehelp.solidstatelogic.com/Help/images/g_ScreenQueryTaCo.png" alt="图片 4"><figcaption>图片 4</figcaption></figure>
-<h2>查询到 Focus Fader</h2>
-<p>“Query to Focus Fader”选项会临时将 Focus Fader 上的路径替换为被 Query 的路径。这意味着控制台的所有推子区块都可以用于显示被 Query 路径的贡献信号路径。</p>
+<h2>Query 到 Focus Fader</h2>
+<p>“Query to Focus Fader”选项会临时将 Focus 推子上的路径替换为被 Query 的路径。这意味着控制台的所有推子区块都可以用于显示被 Query 路径的相关发送。</p>
 <p>要启用 Query to Focus Fader，请前往 MENU &gt; Setup &gt; Options &gt; SURFACE 选项卡。 在“Query Setup”部分，启用“Query to Focus Fader”。</p>
 <p>如果 Focus Fader 被锁定，Query to Focus Fader 将覆盖 Focus Fader 锁定并显示被 Query 的路径。当清除 Query 时，Focus Fader 将返回到锁定的路径。</p>
 <p>当禁用 Query to Focus Fader 时，Query 和 Focus Fader 恢复正常行为。</p>
 <p>也可以将 Query to Focus Fader 添加为<a href="https://livehelp.solidstatelogic.com/Help/OptionsUserKeys.html"><span class="hyperlink">用户按键</span></a>。这可以在用户键选项列表中的 Console Functions &gt; Tile Setup &gt; Query to Focus Fader 下找到。</p>
 <figure><img src="https://livehelp.solidstatelogic.com/Help/images/g_QFocusFader.png" alt="图片 5"><figcaption>图片 5</figcaption></figure>
-<h2>清除查询</h2>
+<h2>清除 Query</h2>
 <p>可以将“Clear Query”添加为<a href="https://livehelp.solidstatelogic.com/Help/OptionsUserKeys.html"><span class="hyperlink">用户按键</span></a>。 当被 Query 的路径当前在控制台操作界面上不可见时，需要清除 Query 时，此功能特别有用。</p>
 <p>要设置“Clear Query”<a href="https://livehelp.solidstatelogic.com/Help/OptionsUserKeys.html"><span class="hyperlink">用户按键</span></a>，请前往 MENU &gt; Setup &gt; Options &gt; USER 选项卡。 在“User Keys”部分，点击用户键旁边的箭头之一，然后转到 Console Functions &gt; Clear Query。</p>
 <p>现在在控制台上 Query 一个路径，可以使用这个“Clear Query”用户键来清除 Query。</p>

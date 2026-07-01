@@ -2,7 +2,7 @@
 <p>有关控制 Shure ANI22 和 ANI4IN 音频接口的说明，请参阅<a href="#ANI"><span class="hyperlink">下面的 ANI 部分</span></a>。</p>
 <h3>引言</h3>
 <p>Shure ULX-D 和 Axient Digital 系列无线麦克风能够从 Live 控制台界面进行远程控制。电池和 RF 状态也会在控制台界面中报告。 请注意，只有支持 Dante 的 ULX-D 和 Axient Digital 产品才能被控制台控制；这排除了 ULXD4 接收器。</p>
-<p>这是控制台软件中的一项许可功能，可以在 SSL 工厂或现场启用。请联系您当地的 SSL 办事处了解更多详情。 如果未启用许可证，则 Shure 无线设备可以像任何其他 Dante 设备一样使用控制台界面进行路由，但不能从控制台进行远程控制或监控。</p>
+<p>这是控制台软件的授权功能，可在 SSL 工厂出厂时激活，也可在交付后现场激活。详情请咨询当地 SSL 授权经销商。 如果未启用许可证，则 Shure 无线设备可以像任何其他 Dante 设备一样使用控制台界面进行路由，但不能从控制台进行远程控制或监控。</p>
 <figure><img src="https://livehelp.solidstatelogic.com/Help/images/ShureAxientAD4Q_front.png" alt="图片 1"><figcaption>图片 1</figcaption></figure>
 <h3>设备 IP 地址</h3>
 <p>每个 Shure 无线接收器有两个 IP 地址；一个用于 Dante 音频，一个用于控制。Dante IP 地址与其他 Dante 音频设备一样在 Dante Controller 中设置。</p>
@@ -14,14 +14,19 @@
   <li>Axient AD4D : <a class="external-link" tabindex="-1" href="https://pubs.shure.com/guide/AD4D/en-US" target="_blank"><span class="hyperlink">pubs.shure.com/guide/AD4D/en-US</span></a></li>
   <li>Axient AD4Q : <a class="external-link" tabindex="-1" href="https://pubs.shure.com/guide/AD4Q/en-US" target="_blank"><span class="hyperlink">pubs.shure.com/guide/AD4Q/en-US</span></a></li>
 </ul>
-<p>注意：确保 Dante 和控制网络接口都连接到与控制台相同的网络。</p>
-<p>如果接收器设置为 Switched 模式，则 Shure 控制和 Dante 音频数据将共存于其所有四个网络端口；这些端口中的任何一个（且只有一个）必须连接到控制台的 Dante 网络（连接将不是冗余的）。</p>
-<p>如果接收器设置为 Split/Redundant 模式，Shure 控制和 Dante 音频将使用设备背面标记的主要和次要端口。 为了正常运行，必须同时连接控制端口和 Dante 音频端口。确保所有端口都连接到正确的主要/次要网络端口。请参阅相关的 Shure 用户指南以获得指导。</p>
+<span class="note">
+<span class="notetitle">注意：</span>
+<p>确保 Dante 和控制网络接口都连接到与控制台相同的网络。</p>
+<p>如果接收器设置为 Switched 模式，则 Shure 控制和 Dante 音频数据将共存于其全部四个网络端口；这些端口中的任何一个（且只有一个）必须连接到控制台的 Dante 网络（该连接方式不提供冗余）。</p>
+<p>如果接收器设置为 Split/Redundant 模式，Shure 控制和 Dante 音频将使用设备背面标记的 Primary 和 Secondary 端口。 为了正常运行，必须同时连接控制端口和 Dante 音频端口。确保所有端口都连接到正确的 Primary/Secondary 网络端口。请参阅相关的 Shure 用户指南以获得指导。</p>
+</span>
 <h4>使用 Dante Domain Manager 的网络</h4>
 <p>请注意，对于包含 Dante Domain Manager (DDM) 服务器的网络，控制台必须登录到与 Shure 接收器相同的域才能建立路由和控制它们。 有关为启用 DDM 的网络配置控制台的详细信息，请参阅<a href="https://livehelp.solidstatelogic.com/Help/OptionsNetwork.html#DDM"><span class="hyperlink">网络选项</span></a>部分。</p>
 <h3>将 Shure 接收器配置为控制台上的设备</h3>
 <p>为了从 Live 控制台路由和控制 Shure 无线麦克风，首先必须将其添加到控制台 Dante 配置页面中的“Configured Devices”列表中 (MENU &gt; Setup &gt; I/O &gt; Dante Configuration)， 方法是将连接的设备从“Connected Devices”列表移动过来，或使用“Configure New Device”按钮手动创建新设备。 请参阅<a href="https://livehelp.solidstatelogic.com/Help/DanteConfig.html"><span class="hyperlink">配置 Dante 设备</span></a>部分了解更多详情。</p>
-<p>重要提示：如果在 V5.0 Live 控制台软件之前，Shure 无线接收器曾被配置为通用 Dante 设备，则必须执行以下步骤将其重新配置为 Shure 设备：</p>
+<span class="note">
+<span class="notetitle">重要提示：</span>
+<p>如果在 V5.0 Live 控制台软件之前，Shure 无线接收器曾被配置为通用 Dante 设备，则必须执行以下步骤将其重新配置为 Shure 设备：</p>
 <ul>
   <li>断开 Shure 无线接收器与控制台的连接</li>
   <li>重新启动控制台</li>
@@ -33,24 +38,25 @@
   <li>重新建立到/来自设备的路由</li>
   <li>保存演出文件</li>
 </ul>
-<p>配置完成后，必须在控制台的设置页面中输入接收器的控制地址。这允许控制台与设备通信。 当控制台成功与设备建立通信时，相应的 LED 将从红色变为绿色。</p>
+</span>
+<p>配置完成后，必须在控制台的设置页面中输入接收器的控制地址。控制台才能与设备通信。 当控制台成功与设备建立通信时，相应的 LED 将从红色变为绿色。</p>
 <h3>控制 Shure ULX-D/Axient Digital 无线麦克风</h3>
 <p>配置完成后，可以以标准方式将 Shure 无线麦克风输入路由到控制台通道（更多详情请参阅<a href="https://livehelp.solidstatelogic.com/Help/Routing.html"><span class="hyperlink">路由</span></a>部分）。</p>
-<p>当路由到控制台通道时，可以从控制台操作界面远程控制每个麦克风输入的输入静音（按住）和输入增益参数（前提是该功能已正确获得许可）。增益可在 -18 到 +42 dB 之间以 1 dB 步长调节。</p>
+<p>当路由到控制台通道时，可以从控制台操作界面远程控制每个麦克风输入的 <span class="label">Input&nbsp;Mute</span> （按住）和输入增益参数（前提是该功能已正确获得许可）。增益可在 -18 到 +42 dB 之间以 1 dB 步长调节。</p>
 <h3>电池和 RF 状态监控</h3>
 <p>当路由到 Shure 无线麦克风输入时，电池和 RF 状态信息会显示在通道的 Input Detail View 中。此信息也会显示在通道条顶部，代替 48V 指示器。</p>
-<p>如果接收器没有从麦克风发射器接收到任何数据，电池和 RF 指示灯将显示 X。</p>
+<p>如果接收器没有从麦克风发射器接收到任何数据，电池和 RF 指示灯将显示 <span class="label" style="color:#ff4500;">X</span> 。</p>
 <p>电池和 RF 状态也可在 I/O 设备视图中找到 (MENU &gt; Setup &gt; I/O &gt; Dante Configuration)。</p>
-<p>从“Configured Devices”列表中选择 Shure 设备，然后按下页面下部的“Inputs”按钮。 输入通道将在此列出，每个通道显示麦克风增益、静音状态、电池电量和 RF 功率电平。</p>
+<p>从“Configured Devices”列表中选择 Shure 设备，然后按下页面下部的 <span class="label">Inputs</span> 按钮。 输入通道将在此列出，每个通道都会显示麦克风增益、静音状态、电池电量和 RF 功率电平。</p>
 <figure><img src="https://livehelp.solidstatelogic.com/Help/images/g_ShureWirelessDeviceInputs.png" alt="图片 2"><figcaption>图片 2</figcaption></figure>
-<p>与其他 Dante 设备一样，选择一个输入方块会将其分配到侧边栏以进行更详细的查看。按下“Edit Settings”按钮从此处进行参数更改。</p>
+<p>与其他 Dante 设备一样，选择一个输入方块会将其分配到侧边栏以进行更详细的查看。按下 <span class="label">Edit&nbsp;Settings</span> 按钮从此处进行参数更改。</p>
 <p>注意：Shure 设备的参数只能在设备在线并连接到控制台时更改。</p>
 <h2 id="ANI">Shure ANI22 和 ANI4IN 控制</h2>
 <p>有关控制和监控 Shure ULX-D 和 Axient Digital 无线麦克风的说明，请参阅<a href="#Wireless"><span class="hyperlink">上面的 Shure 无线麦克风部分</span></a>。</p>
 <h3>引言</h3>
 <p>Shure ANI22 是一个支持 Dante 的 2 x 麦克风输入加 2 x 线路输出接口。Shure ANI4IN 是一个 4 x 麦克风输入版本。两者都通过 PoE 供电，并配有 XLR 或 block 音频连接器。</p>
 <figure><img src="https://livehelp.solidstatelogic.com/Help/images/ShureANI22_front.png" alt="图片 3"><figcaption>图片 3</figcaption></figure>
-<p>Shure ANI 输入参数可以从 SSL Live 控制台进行远程控制。这是控制台软件中的一项许可功能，可以在 SSL 工厂或现场启用。 请联系您当地的 SSL 办事处了解更多详情。 如果未启用许可证，则 Shure ANI 设备可以像任何其他 Dante 设备一样使用控制台界面进行路由，但不能由控制台进行远程控制。</p>
+<p>Shure ANI 输入参数可以从 SSL Live 控制台进行远程控制。这是控制台软件的授权功能，可在 SSL 工厂出厂时激活，也可在交付后现场激活。详情请咨询当地 SSL 授权经销商。 如果未启用许可证，则 Shure ANI 设备可以像任何其他 Dante 设备一样使用控制台界面进行路由，但不能由控制台进行远程控制。</p>
 <h3>设备 IP 地址</h3>
 <p>每个 Shure ANI 设备有两个 IP 地址；一个用于 Dante 音频，一个用于控制。Dante IP 地址与其他 Dante 音频设备一样在 Dante Controller 中设置。</p>
 <p>控制 IP 可以通过使用 Shure Web Device Discovery 应用程序 (<a class="external-link" tabindex="-1" href="https://www.shure.com/en-US/products/software/shure_web_device_discovery_application" target="_blank"><span class="hyperlink">www.shure.com/en-US/products/software/shure_web_device_discovery_application</span></a>) 找到，或者通过 DNS 名称查找。 DNS 名称的结构为 &quot;[DeviceName]-[ConnectorType]-[CtrlMacAddress].local&quot;，其中</p>
@@ -66,20 +72,22 @@
 <h4>使用 Dante Domain Manager 的网络</h4>
 <p>请注意，对于包含 Dante Domain Manager (DDM) 服务器的网络，控制台必须登录到与 ANI 设备相同的域才能建立路由和控制它们。 有关为启用 DDM 的网络配置控制台的详细信息，请参阅<a href="https://livehelp.solidstatelogic.com/Help/OptionsNetwork.html#DDM"><span class="hyperlink">网络选项</span></a>部分。</p>
 <h3>将 ANI22/ANI4IN 配置为控制台上的设备</h3>
-<p>为了从 Live 控制台路由和控制 Shure ANI 设备，首先必须将其添加到控制台 Dante 配置页面中的“Configured Devices”列表中 (MENU &gt; Setup &gt; I/O &gt; Dante Configuration)， 方法是将连接的设备从“Connected Devices”列表移动过来，或使用“Configure New Device”按钮手动创建新设备。 请参阅<a href="https://livehelp.solidstatelogic.com/Help/DanteConfig.html"><span class="hyperlink">配置 Dante 设备</span></a>部分了解更多详情。</p>
-<p>重要提示：如果在 V5.0 Live 控制台软件之前，Shure ANI 设备曾被配置为通用 Dante 设备，则必须执行以下步骤将其重新配置为 Shure 设备：</p>
+<p>为了从 Live 控制台路由和控制 Shure ANI 设备，首先必须将其添加到控制台 Dante 配置页面中的“Configured Devices”列表中 (MENU &gt; Setup &gt; I/O &gt; Dante Configuration)， 然后将已连接的设备从“Connected Devices”列表中拖动过来，或使用 <span class="label">Configure New Device</span> 按钮手动创建新设备。 请参阅<a href="https://livehelp.solidstatelogic.com/Help/DanteConfig.html"><span class="hyperlink">配置 Dante 设备</span></a>部分了解更多详情。</p>
+<span class="note">
+ <span class="notetitle">重要提示：</span> 如果 Shure ANI 设备在 V5.0 之前的 Live 控制台软件中曾被配置为 Generic Dante（通用 Dante）设备，则必须执行以下步骤将其重新配置为 Shure 设备：
 <ul>
   <li>断开 Shure ANI 设备与控制台的连接</li>
   <li>重新启动控制台</li>
   <li>加载包含配置为通用 Dante 设备的 Shure ANI 设备的演出文件</li>
-  <li>记下任何到/来自 Shure ANI 设备的路由</li>
+  <li>记录下所有与该 Shure ANI 设备相关的路由</li>
   <li>从“Configured Devices”列表中删除 Shure（通用 Dante）设备</li>
-  <li>重新连接 Shure ANI 设备，一旦被控制台检测为正确的设备类型，将它们从“Connected Devices”列表拖放到“Configured Devices”列表</li>
+  <li>重新连接 Shure ANI 设备，待控制台将其识别为正确的设备类型后，将它们从“Connected Devices”列表拖拽到“Configured Devices”列表</li>
   <li>或者，不重新连接设备，而是手动将它们添加为离线 Shure 设备（如果需要修改多个演出文件，这可能会更容易）</li>
   <li>重新建立到/来自设备的路由</li>
   <li>保存演出文件</li>
 </ul>
-<p>配置完成后，必须在控制台的设置页面中输入 ANI22/ANI4IN 的控制地址。这允许控制台与设备通信。 当控制台成功与设备建立通信时，相应的 LED 将从红色变为绿色。</p>
+</span>
+<p>配置完成后，必须在控制台的设置页面中输入 ANI22/ANI4IN 的控制地址，控制台才能与设备通信。 当控制台成功与设备建立通信时，相应的 LED 将从红色变为绿色。</p>
 <h3>使用 Shure ANI22/ANI4IN</h3>
 <p>配置完成后，可以以标准方式将 Shure ANI 麦克风输入路由到控制台通道（更多详情请参阅<a href="https://livehelp.solidstatelogic.com/Help/Routing.html"><span class="hyperlink">路由</span></a>部分）。 同样，控制台输出也可以路由到 ANI22 线路输出。</p>
 <p>当路由到控制台通道时，可以从控制台操作界面远程控制每个 ANI 麦克风输入的 +48V 幻象电源和输入增益参数（前提是该功能已正确获得许可）。增益以 3 dB 步长调节。ANI22/ANI4IN 的其他参数（PEQ、Dante 数字增益、输出电平微调等）无法从控制台界面控制，但可以通过设备的 Web 界面访问。</p>

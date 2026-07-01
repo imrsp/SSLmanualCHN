@@ -27,19 +27,19 @@
 <p><img class="center" style="width: 500px;" src="https://livehelp.solidstatelogic.com/Help/images/g_FXDynBlitzer.png" alt=""></p>
 
 <p>
-    Blitzer 是一款用途极广的压缩器，既能产生柔和的饱和压缩，也能实现强烈的砖墙式限制。它还提供可调瞬态塑形和复古风格谐波 Drive 选项，用于为声音增添色彩。
+    Blitzer 是一款用途极广的压缩器，既能产生柔和的饱和压缩，也能实现近乎砖墙的硬限幅。它还提供可调瞬态塑形和复古风格谐波 Drive 选项，用于为声音增添色彩。
 </p>
 
-<p>使用 <b>INPUT</b> 增益控件调整进入压缩器的信号电平，并使用 <b>OUTPUT</b> 增益微调压缩器输出电平。</p>
+<p>使用 <b>INPUT</b> 增益控件调整进入压缩器的信号电平，使用 <b>OUTPUT</b> 增益对压缩器输出电平做 trim 补偿。</p>
 
 <p>
-    该 <span class="label">Auto</span> Output Gain 按钮会自动施加一定的输出补偿增益，以补偿所用 Input 增益和压缩比。由于压缩曲线取决于多项因素，用于抵消 Input 增益的补偿量只是近似值；启用 <span class="label">Auto</span> 并设置其他压缩参数后，仍可手动进一步调整 Output 增益，使湿声（压缩后）与干声的电平匹配得更准确。使用下述 Mix 控件混合两路信号时，这一点尤其重要。
+    <span class="label">Auto</span> Output Gain 按钮会自动施加一定的输出补偿增益，以补偿所用的 Input 增益和压缩比带来的电平变化。由于压缩曲线取决于多项因素，因此用于抵消 Input 增益的补偿量只是近似值；启用 <span class="label">Auto</span> 并设置其他压缩参数后，仍可手动进一步调整 Output 增益，使湿声（压缩后）与干声的电平匹配得更准确。使用下述 Mix 控件混合两路信号时，这一点尤其重要。
 </p>
 
 <p><b>ATTACK</b> 和 <b>RELEASE</b> 控件用于调整压缩器的包络特性。</p>
 
 <p>
-    使用 <b>RATIO</b> 按钮选择压缩比。 <span class="label">1:1</span> 模式可在不改变动态范围的情况下为信号增加个性，而 <span class="label">BLITZ!</span> 模式则提供极为强烈的压缩效果。
+    使用 <b>RATIO</b> 按钮选择压缩比。 <span class="label">1:1</span> 模式可在不改变动态范围的情况下为信号增加染色，而 <span class="label">BLITZ!</span> 模式则提供极为强烈的压缩效果。
 </p>
 
 <p>
@@ -63,10 +63,10 @@
     可将 Bus Compressor 插入立体声混音，使各元素更好地“粘合”在一起，同时保持宏大的声音。它也能有效控制鼓组吊麦或整套鼓的动态。由于提供立体声和单声道版本，几乎所有需要高品质压缩的场景均可使用。
 </p>
 
-<p>该 <b>In Gain</b> 和 <b>Threshld</b> 控件可改变进入压缩器的信号电平，从而调整压缩量。</p>
+<p><b>In Gain</b> 和 <b>Threshld</b> 控件可改变进入压缩器的信号电平，从而调整压缩量。</p>
 
 <p>
-    该 <b>Makeup</b> 增益控件用于微调离开压缩电路的信号，补偿压缩器造成的电平衰减。
+   <b>Makeup</b> 增益控件用于微调离开压缩电路的信号，补偿压缩器造成的电平衰减。
 </p>
 
 <p><b>Attack</b>, <b>Release</b> 和 <b>Ratio</b> 控件用于改变压缩器特性。</p>
@@ -117,7 +117,7 @@
 
 <p><img class="center" style="width: 706px;" src="https://livehelp.solidstatelogic.com/Help/images/g_FXDynMultiBand.png" alt=""></p>
 
-<p>Multi-Band Compressor 提供三个压缩频段；触摸左上角的 <span class="label">Low</span>, <span class="label">Mid</span> 或 <span class="label">High</span> 按钮，选择窗口其余区域当前编辑的频段。按钮右侧的滑块用于设置 <span style="font-weight: bold;">Low</span> 与 Mid 之间，以及 Mid 与 <span style="font-weight: bold;">High</span> 频段之一的处理后位置。</p>
+<p>Multi-Band Compressor 提供三个压缩频段；触摸左上角的 <span class="label">Low</span>, <span class="label">Mid</span> 或 <span class="label">High</span> 按钮，选择窗口其余区域当前编辑的频段。按钮右侧的滑块用于设置 <span style="font-weight: bold;">Low</span> 与 Mid 之间，以及 Mid 与 <span style="font-weight: bold;">High</span> 之间的分频点。</p>
 
 <table>
     <tbody>
@@ -155,7 +155,7 @@
     <tbody>
         <tr>
             <td>
-                <p>首先选择 De-Esser 配置。左侧图示说明 <span class="label">Broad&nbsp;Band</span> 和 <span class="label">Band&nbsp;Split</span> 两种齿音消除配置之间的区别。</p>
+                <p>首先选择 De-Esser 配置。右侧图示说明 <span class="label">Broad&nbsp;Band</span> 和 <span class="label">Band&nbsp;Split</span> 两种齿音消除配置之间的区别。</p>
 
                 <p>设置 <span style="font-weight: bold;">Filter Type</span> 和 <span style="font-weight: bold;">Freq</span>uency（频率），确保 De-Esser 响应正确的频率范围。</p>
 
@@ -172,7 +172,7 @@
 
 <p>若只监听被移除的齿音，请按 <span class="label">Solo</span> 按钮。这对于确认 Threshold 是否设置正确非常有帮助。</p>
 
-<p>在<span style="font-weight: bold;">Attn</span>）衰减表位于 <span class="label">Solo</span> 按钮。</p>
+<p>衰减表 (<span style="font-weight: bold;">Attn</span>) 位于 <span class="label">Solo</span> 按钮右侧。</p>
 
 
 <h2 id="DynamicEQ">动态 EQ</h2>
@@ -194,12 +194,12 @@
     <li><b>Range</b> ：相对于基准 Gain 可施加的最大提升或衰减</li>
     <li><b>Threshold</b> ：动态 EQ 频段开始工作的电平阈值（高于或低于取决于模式）</li>
     <li><b>Ratio</b> ：动态部分启用时的增益衰减比例</li>
-    <li><b>Attack</b> &amp; <b>Release</b> ：动态部分的起音与释放时间</li>
+    <li><b>Attack</b> &amp; <b>Release</b> ：动态部分的启动与释放时间</li>
 </ul>
 
 <p><span class="note"><span class="notetitle">注意： </span>Dynamic EQ 使用自动拐点：压缩比为 1:1 时拐点为 12 dB，压缩比为 ∞:1 时变为 0 dB；即 Ratio 越高，拐点越硬。</span></p>
 
-<p>该 <b>View</b> 显示屏顶部的 View 按钮决定图表下方编码器可控制的参数；如果启用了 <span class="label">Follow&nbsp;Detail</span> ，也会决定 Quick Controls 的参数。具体如下：</p>
+<p><b>View</b> 显示屏顶部的 View 按钮决定图表下方编码器可控制的参数；如果启用了 <span class="label">Follow&nbsp;Detail</span> ，也会决定 Quick Controls 的参数。具体如下：</p>
 
 <ul>
     <li><span class="label">Band&nbsp;View</span> ：显示 <b>Freq</b>, <b>Q</b>, <b>Gain</b>, <b>Range</b>, <b>Threshld</b>, <b>Ratio</b>, <b>Attack</b> 和 <b>Release</b> ，用于所选频段</li>
@@ -286,21 +286,21 @@
 
 <p><img class="center"style="width: 750px;"  src="https://livehelp.solidstatelogic.com/Help/images/g_FXDynSourcerer.png" alt=""></p>
 
-<p>Sourcerer 是一款动态模块，可显著降低甚至消除开放话筒产生的反馈和舞台串音，使通道主声源更加清晰。</p>
+<p>Sourcerer 是一款动态处理模块，可显著降低甚至消除开放话筒产生的反馈和舞台串音，使通道主声源更加清晰。简直太神奇了！</p>
 
 <p>Sourcerer 可插入单个 Channel，也可借助 Stem 或 Aux 母线跨多个 Channel 组使用。</p>
 
-<p>调整 <b>THRESHOLD</b> 控件，使环境信号不会令 <b>SIDECHAIN&nbsp;LEVEL</b> 表超过蓝色阴影区域。</p>
+<p>调整 <b>THRESHOLD</b> 控件，使环境噪声信号不会令 <b>SIDECHAIN&nbsp;LEVEL</b> 表超过蓝色阴影区域。</p>
 
 <p>
     初始设置时，将 <b>TIME</b> 模式设为 <span class="label">Slow</span> 或 <span class="label">Medium</span> 或 
-    <b>DETECT</b> ，将 <span class="label">Peak</span> ，并将 <b>LPF</b> 和 <b>HPF</b> 滤波器设为 <b>Off</b> （分别完全顺时针和完全逆时针）。
+    <b>DETECT</b> ，将 <span class="label">Peak</span> ，以及 <b>LPF</b> 和 <b>HPF</b> 滤波器设为 <b>Off</b> （分别拧至完全顺时针和完全逆时针）。
 </p>
 
 <p>提高 <b>DEPTH</b> 控件，直到环境噪声充分降低。降噪量显示在 <b>GAIN REDUCTION</b> 表上。</p>
 
 <p>
-    要获得理想的 Sourcerer 响应，需要反复试听调整。如果主声源信号被过早衰减，请选择较慢的 <b>Time</b> 模式；如果从环境声切换到目标声源段落时增益衰减响应不够快，则选择较快模式。
+    要获得理想的 Sourcerer 响应，需要反复试听调整。如果主声源信号被过早衰减，请选择更慢的 <b>Time</b> 模式；如果从环境声到主声源段落过渡时增益衰减响应不够快，则选择更快的 Time 模式。
 </p>
 
 <p>
@@ -308,22 +308,22 @@
 </p>
 
 <p>
-    启用 <span class="label">Ext&nbsp;Key</span> 按钮可使用不同于待隔离信号路径的另一信号触发检测电路。此时仅当 Key 输入低于 Threshold 时，Sourcerer 才衰减主信号。例如在一个组（如和声歌手）上插入 Sourcerer，并使用组内某人的专用话筒触发时，这项功能非常有用。
+    启用 <span class="label">Ext&nbsp;Key</span> 按钮可使不同于待隔离信号路径的另一信号触发检测电路。此时仅当 Key 输入低于 Threshold 时，Sourcerer 才衰减主信号。例如在一个组（如和声歌手）上插入 Sourcerer，并使用组内某人的专用话筒触发时，这项功能非常有用。
 </p>
 
 
-<h2>瞬态塑形器</h2>
+<h2>瞬态整形器</h2>
 
 <p><img class="center" src="https://livehelp.solidstatelogic.com/Help/images/g_FXDynTransient.png" alt=""></p>
 
-<p>Transient Shaper 使用扩展器提高信号起音部分的幅度，在保持衰减不变的同时增强打击乐声音开头的起音。</p>
+<p>Transient Shaper 使用扩展器提高信号 Attack（启动）的幅度，在保持 Decay（衰减）不变的同时增强打击乐声音开头的启动。</p>
 
 <table>
     <tbody>
         <tr>
             <td style="vertical-align: middle; width: 319px;"><img src="https://livehelp.solidstatelogic.com/Help/images/g_TransientDiag.png" alt=""></td>
             <td style="vertical-align: top;">
-                <span style="font-weight: bold;">I/P Gain</span> 控制控制信号的检测电平，应设置为只检测需要塑形的瞬态。设置过低时 Shaper 不起作用；设置过高则会检测过多瞬态，导致处理过度、起音显得过长。默认 0 dB 是良好的起点。<br>
+                <span style="font-weight: bold;">I/P Gain</span> 可以控制信号的检测电平，应设置为只检测需要塑形的瞬态。设置过低时 Shaper 不起作用；设置过高则会检测过多瞬态，导致处理过度、启动显得过长。默认 0 dB 是良好的起点。<br>
 
                 <span class="note"><span class="notetitle">注意：</span> <span style="font-weight: bold;">I/P Gain</span> 不会直接影响输出信号增益。</span>
             </td>
@@ -331,11 +331,11 @@
     </tbody>
 </table>
 
-<p><span style="font-weight: bold;">Amount</span> 控制加入未处理信号中的处理后信号量。此处理可能显著提高信号峰值，请密切观察输出表。</p>
+<p><span style="font-weight: bold;">Amount</span> 控制已处理信号叠加到原始信号中的比例。此处理可能显著提高信号峰值，请密切观察输出表。</p>
 
-<p><span style="font-weight: bold;">Speed</span> 控制附加起音达到峰值后回落至正常信号电平所需的时间。</p>
+<p><span style="font-weight: bold;">Speed</span> 控制附加启动达到峰值后回落至正常信号电平所需的时间。</p>
 
-<p>按下 <span style="font-weight: bold;">Invert</span> 可反转处理后信号，使其从未处理信号中相减。这样会柔化起音，使打击乐声音更具厚度。</p>
+<p>按下 <span style="font-weight: bold;">Invert</span> 可反转处理后信号，使其从未处理信号中相减。这样会柔化启动，使打击乐声音更具厚度。</p>
 
 <p><span style="font-weight: bold;">Solo</span> 可监听处理后信号，帮助完成参数设置。</p>
 

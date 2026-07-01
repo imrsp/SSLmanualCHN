@@ -83,7 +83,7 @@
   {
     "order": 10,
     "section": "Introduction",
-    "title": "Stageboxes",
+    "title": "RemoteIO",
     "sourceUrl": "https://livehelp.solidstatelogic.com/Help/RemoteIO.html",
     "outputFile": "pages/10-RemoteIO.html",
     "headingCount": 14,
