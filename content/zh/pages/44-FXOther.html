@@ -1,26 +1,26 @@
 <p>有关效果器的一般信息，请参阅<a href="https://livehelp.solidstatelogic.com/Help/FXIntro.html"><span class="hyperlink">效果器机架概览</span></a>部分。</p>
 <h2>其他效果器</h2>
-<p>“Other”子菜单包含一些更高级的模块，如果您熟悉相关原理，它们应该可以直观地使用：</p>
+<p>“其他效果器”章节包含一些更高级的模块，如果您熟悉相关原理，它们应该可以直观地使用：</p>
 <h2>SolidPitch</h2>
 <p>SolidPitch 是一个在控制台上原生运行的自动调音效果。在经典的自动调音控制基础上还配有 Doubler（加倍） 和 Harmony（和声） 两部分。</p>
 <figure><img src="https://livehelp.solidstatelogic.com/Help/images/s_FXSolidPitch.png" alt="SolidPitch 效果器 "><figcaption>图片 1</figcaption></figure>
 <h3>调音</h3>
 <p>Tuning 部分用于效果器的主要目的——修正音高。</p>
 <p>键盘显示当前被视为目标音高的音符音阶。可以使用选择按钮选择预定义音阶，也可以通过直接点按键盘上的键来定义自定义音阶。</p>
-<p><span class="label">Chromatic</span> 按钮将启用所有音高，允许快速将输入调到任何 12-ET（十二平均律） 音符，尤其是在不知道所需调性的情况下。它兼当“panic”按钮，因此不能直接关闭。选择新的音阶可以退出 Chromatic 模式。</p>
+<p><span class="label">Chromatic</span>（半音）按钮将启用所有音高，允许快速将输入调到任何 12-ET（十二平均律） 音符，尤其是在不知道所需调性的情况下。它兼当默认按钮，因此不能直接关闭。选择新的音阶可以退出 Chromatic 模式。</p>
 <p><span class="label">Amount</span> ：控制信号向目标音高移动的程度。较低的值将提供细微的调音辅助，较高的值将完全修正音高。</p>
 <p><span class="label">Speed</span>：控制信号向目标音高移动的速度。较慢、较长的时间听起来更自然，较快的时间听起来更机械。</p>
 <p>注意：可以通过将 Amount 调至 0% 来旁通音高修正。</p>
 <h3>Doubler</h3>
 <p>Doubler 部分将调音后的信号添加两个额外的副本到输出中。</p>
-<p><span class="label">Doubler Mix</span>：控制仅调音信号与加倍信号的相对电平。0% 将使加倍信号静音。100% 将用加倍版本完全替换原始信号。</p>
+<p><span class="label">Doubler Mix</span>：控制仅调音后信号与加倍信号的相对电平。0% 将使加倍信号静音。100% 将用加倍版本完全替换原始信号。</p>
 <p><span class="label">Doubler Depth</span>：控制加倍器施加在信号上的音高偏移和延迟以产生分离感。范围从无变化到每个副本 30 音分和 50 毫秒延迟。</p>
 <p><span class="label">Doubler Width</span>：当使用立体声实例时，加倍信号可以分配左右声像。Width （宽度）参数控制此声像的范围。0% 表示两者居中，100% 表示它们分别顶到极左和极右。</p>
 <p>注意：在 SolidPitch 的立体声实例中，输入支路在调音或加倍之前被合并为单声道。</p>
 <h3>Harmony</h3>
-<p>Harmony 部分添加另一个调音信号的副本，这次按设定的音程再进行一次移调。</p>
+<p>Harmony 部分添加另一个调音后信号的副本，这次按设定的音程再进行一次移调。</p>
 <p><span class="label">Harmony Mix</span>：设置和声副本的电平。</p>
-<p><span class="label">Harmony Interval</span>：控制和声副本移调的音程。+7stn 的音程将副本向上移调五度。</p>
+<p><span class="label">Harmony Interval</span>：控制和声副本的音高位移量。+7stn（向上移动 7 个半音）将使副本向上提升五度（纯五度）。</p>
 <p><span class="label">Harmony Pan</span>：仅在立体声实例中，可以使用此参数调整和声信号副本的声像。</p>
 <p><span class="label">Scale Lock</span>：这确保和声副本的音高位于定义的音阶内。当此参数激活时，Harmony Interval 将向上或向下调整到音阶中最接近的音符。</p>
 <h3>其他特性</h3>
