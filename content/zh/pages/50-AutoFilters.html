@@ -20,7 +20,7 @@
 <h2>简介</h2>
 
 <p>
-    系统提供多层过滤，用于控制哪些内容会存储到自动化场景，以及从场景调用哪些内容。
+    系统提供多层过滤，用于控制哪些内容会存储到自动化场景以及从场景调用哪些内容。
 </p>
 
 <p>
@@ -34,7 +34,7 @@
 </p>
 
 <p>
-    对于信号路径及其处理部分， <b>Recall Safe</b> 功能提供额外一层保护。必须
+    对于信号路径及其处理部分， <b>Recall Safe</b> 功能额外提供一层保护。必须
     <b>禁用</b> Recall Safe 才能调用参数。
 </p>
 
@@ -43,7 +43,7 @@
 <h3>信号路径全局调用保护</h3>
 
 <p>
-    调用过滤的最高一层是 <b>Recall Safe</b>，它会将一条信号路径完全排除在自动化调用之外。可使用 <b>Path&nbsp;Global&nbsp;Recall&nbsp;Safe</b>逐条应用到整条信号路径。
+    调用过滤的最外层是 <b>Recall Safe</b>，它会将一条信号路径完全排除在自动化调用之外。可使用 <b>Path&nbsp;Global&nbsp;Recall&nbsp;Safe</b>逐条应用到整条信号路径。
 </p>
 
 <p>
@@ -64,9 +64,9 @@
 </span>
 
 <p>
-    Channel View 顶部的信号路径 ID 会以
+    通道视图顶部的信号路径 ID 会以
     <span style="font-weight: bold">紫色</span> 突出显示，表示该路径已启用
-    <b>Global&nbsp;Recall&nbsp;Safe</b> 。该路径在 Overview 页面中也会以紫色突出显示。
+    <b>Global&nbsp;Recall&nbsp;Safe</b> 。该路径在总览页面中也会以紫色突出显示。
 </p>
 
 <table class="insideborder"
@@ -76,8 +76,8 @@
        cellspacing="1">
     <tbody>
         <tr>
-            <td>Channel View：</td>
-            <td>Overview：</td>
+            <td>通道视图：</td>
+            <td>总览：</td>
         </tr>
         <tr>
             <td><img src="https://livehelp.solidstatelogic.com/Help/images/g_AutoRecallProtChanView.png" alt="" /></td>
@@ -87,8 +87,8 @@
 </table>
 
 <p>
-    <span class="label">Path&nbsp;Global&nbsp;Recall&nbsp;Safe</span> 也可作为 Quick Controls 上的硬件按钮使用。通过
-    <span style="font-weight: bold">Quick Control</span> 滚动按钮滚动到选项底部，或者在关闭 <span class="label">Follow&nbsp;Detail</span> 的情况下，将 Detail View 打开到 Config/Eyeconix 区域。
+    <span class="label">Path&nbsp;Global&nbsp;Recall&nbsp;Safe</span> 也可作为快捷控制上的硬件按钮使用。通过
+    <span style="font-weight: bold">Quick Control</span> 滚动按钮滚动到选项底部，或者在关闭 <span class="label">Follow&nbsp;Detail</span> 的情况下，将详细视图打开到 Config/Eyeconix 区域。
     <span class="label">Path&nbsp;Global&nbsp;Recall&nbsp;Safe</span> 显示在最上方按钮上，需要按住才能触发。
 </p>
 
@@ -104,7 +104,7 @@
 <h3 id="PathSectionSafe">信号路径分区调用保护</h3>
 
 <p>
-    <b>Recall Safe</b> 也可应用于信号路径的单独分区，例如只保护 Fader 和 EQ，而让其他分区仍通过下述更细化的自动化过滤器进行调用。
+    <b>Recall Safe</b> 也可应用于信号路径的单独分区，例如只锁推子和 EQ，而让其他分区仍通过下述更细化的自动化过滤器进行调用。
 </p>
 
 <p>可在以下信号路径分区启用 Recall Safe：</p>
@@ -116,7 +116,7 @@
     <li>Compressor 与 Gate</li>
     <li>Pan</li>
     <li>Delay 与 All Pass</li>
-    <li>Aux 母线交叉点*</li>
+    <li>Aux Bus Crosspoints*</li>
 </ul>
 
 <p>
@@ -124,7 +124,7 @@
 </p>
 
 <p>
-    如需对某个分区启用 Recall Safe，必须将 Channel View 页面置于
+    如需对某个分区启用调用保护，必须将通道视图页面置于
     <b>Edit&nbsp;Safe</b> 模式。此功能必须分配给
     <a href="https://livehelp.solidstatelogic.com/Help/OptionsUserKeys.html"><span class="hyperlink"><b>User Key</b></span></a>
     才能启用，例如
@@ -134,15 +134,15 @@
 <p>
     启用
     <span class="label">Channel&nbsp;View&nbsp;Edit&nbsp;Safe&nbsp;Mode</span>
-    User Key。Channel View 中的 Input 区域（路径条顶部）、Fader、EQ/Filters、Compressor/Gate、Pan 和 Delay/All Pass 按钮会变为紫色，表示处于 Edit Safe 模式。
+    User Key。通道视图中的 Input 区域（路径条顶部）、Fader、EQ/Filters、Compressor/Gate、Pan 和 Delay/All Pass 按钮会变为紫色，表示处于 Edit Safe 模式。
 </p>
 
 <p>
-    按下这些按钮可在所需处理分区启用 Safe 模式（可使用 Path Link 同时修改多条路径）。当某分区启用 Safe 模式时，Channel View 和 Detail View 的分区按钮会显示紫色三角形，表示调用自动化场景时该分区参数 <b>不会</b> 改变状态。
+    按下这些按钮可在所需处理分区启用 Safe 模式（可使用 Path Link 同时修改多条路径）。当某分区启用 Safe 模式时，通道视图和详细视图的分区按钮会显示紫色三角形，表示调用自动化场景时该分区参数 <b>不会</b> 改变状态。
 </p>
 
 <p>
-    在 Channel View Edit Safe 模式下，Detail View 和 Quick Controls 仍会正常工作。双击路径条中部附近的情境区域，或路径条底部的 Eyeconix 区域，可打开 Detail View，在 Edit Safe 模式下更改处理设置。
+    在通道视图 Edit Safe 模式下，详细视图和快捷控制仍会正常工作。双击路径条中部附近的情境区域，或路径条底部的 Eyeconix 区域，可打开详细视图，在 Edit Safe 模式下更改处理设置。
 </p>
 
 <p>
@@ -152,7 +152,7 @@
 </p>
 
 <p>
-    请注意，Global 和 Section Recall Safe 状态可 <b>选择</b> 存储在演出文件中。可在 Automation 页面的 Options 区域启用（<span class="label">MENU</span>&nbsp;&gt;&nbsp;<span class="label">Automation</span>&nbsp;&gt;&nbsp;<span class="label">Options</span>）。如果不存储，Recall Safe 状态会恢复为关闭（即调用自动化场景时，参数可能根据下文所述的其他自动化过滤器设置而改变）。这样无需更改主要自动化过滤器，即可为某场演出快速、临时地阻止参数/路径发生变化。
+    请注意，全局和分区调用保护状态可 <b>选择</b> 存储在演出文件中。可在 Automation 页面的 Options 区域启用（<span class="label">MENU</span>&nbsp;&gt;&nbsp;<span class="label">Automation</span>&nbsp;&gt;&nbsp;<span class="label">Options</span>）。如果不存储，调用保护状态会恢复为关闭（即调用自动化场景时，参数可能根据下文所述的其他自动化过滤器设置而改变）。这样无需更改主要自动化过滤器，即可为某场演出快速、临时地阻止参数/路径发生变化。
 </p>
 
 <h2 id="Filters">自动化过滤器</h2>
@@ -162,15 +162,15 @@
 </p>
 
 <p>
-    存储和/或调用场景时可排除指定功能。Store 与 Recall 可使用不同的功能过滤器：例如，希望存储某项设置但暂时不调用时，可在 Recall 页面中将其过滤掉，同时在 Store 页面中保持“未过滤”。过滤器既可全局设置，也可逐场景设置。
+    存储和/或调用场景时可排除指定功能。存储与调用可使用不同的功能过滤器：例如，希望存储某项设置但暂时不调用时，可在 Recall 页面中将其过滤掉，同时在 Store 页面中保持“未过滤”。过滤器既可全局设置，也可逐场景设置。
 </p>
 
 <!-- Start of MultiRouteInputAutoNote Snippet -->
 <!-- Also used in DetailView.html -->
 <span class="note">
-    <span class="notetitle">重要说明： </span>如果同一个舞台接口箱/本地模拟输入被路由到多个 Input Channel 和/或 Talkback Channel，则每个通道都可能控制与该模拟输入关联的同一组参数（增益、衰减等），因此这些通道会彼此保持同步。可在“Input”过滤器区域按通道自动化控制这些参数；但如果相关通道没有一起加入或移出 Store 和 Recall 范围，可能会无意间使共享模拟输入参数的自动化状态出现差异。触发包含这类差异的场景，可能导致模拟输入参数出现非预期行为。<br /><br />
+    <span class="notetitle">重要说明： </span>如果同一个舞台接口箱/本地模拟输入被路由到多个输入通道和/或对讲通道，那么每个通道都可控制与该模拟输入关联的同一组参数（增益、衰减等），因此这些通道会彼此保持同步。可在“Input”过滤器区域按通道自动化控制这些参数；但如果相关通道没有一起加入或移出 Store 和 Recall 范围，可能会无意间使共享模拟输入参数的自动化状态出现差异。触发包含这类差异的场景，可能导致模拟输入参数出现非预期行为。<br /><br />
 
-    将模拟输入路由到通道时初始化所生成的数据是每通道独立的，并非按模拟输入共享。因此必须确保为每个通道明确存储这些数据。
+    将模拟输入路由到通道时初始化所生成的数据是各通道独立的，并非按模拟输入共享。因此必须确保为每个通道明确存储这些数据。
 </span>
 <!-- End of MultiRouteInputAutoNote Snippet -->
 
@@ -195,7 +195,7 @@
 </span>
 
 <p>
-    参数必须在全局和逐场景过滤器页面中都设为存储或调用，才能真正存储/调用。更改过滤器前必须先启用 Edit 模式（见下文）。
+    参数必须在全局和逐场景的过滤器页面中都设为存储或调用，才能真正存储/调用。更改过滤器前必须先启用 Edit 模式（见下文）。
 </p>
 
 <p>
@@ -376,7 +376,7 @@
 </table>
 
 <p>
-    *数据必须在 Global 和逐场景过滤器页面中都设为存储/调用，因此此状态不一定表示数据实际会存储/调用；逐场景过滤器也必须启用。此外，还必须关闭相应信号路径/分区的 Recall Safe。
+    *数据必须在 Global 和逐场景的过滤器页面中都设为存储/调用，因此此状态不一定表示数据实际会存储/调用；逐场景过滤器也必须启用。此外，还必须关闭相应信号路径/分区的 Recall Safe。
 </p>
 
 <p>
@@ -387,7 +387,7 @@
     <span class="notetitle">提示： </span>
     <ul>
         <li>
-            建议保持 Global 过滤器启用，以便之后作为总体 Store 和 Recall 控制使用。例如，如需在所有场景中将某通道完全且永久地排除在调用之外，只需关闭其 Global 过滤器设置。
+            建议保持全局过滤器启用，以便之后作为总体存储和调用控制使用。例如，如需在所有场景中将某通道完全且永久地排除在调用之外，只需关闭其全局过滤器设置。
         </li>
         <li>
             所有新场景都会使用当前场景的过滤器设置创建。
@@ -397,14 +397,14 @@
             <span class="label">All&nbsp;Scenes</span> 编辑按钮（见下文），可轻松将过滤器设置传递到所有场景；之后仍可按需单独修改其中某些场景。
         </li>
         <li>
-            对于无需自动化的项目，请禁用 Global Store 和 Recall 过滤器，这样只有发生预期的自动化更改（例如混音更改）时， <span class="label">STORE</span> 按钮才会变为紫色。可排除的项目包括 Solo Buses、Solo Channels、Talkback Channels、Rack、Console、Fader Tile 和 Surface 设置。排除在范围之外的参数仍会存储在演出文件中。
+            对于无需自动化的项目，请禁用全局存储和调用过滤器，这样只有发生预期的自动化更改（例如混音更改）时， <span class="label">STORE</span> 按钮才会变为紫色。可排除的项目包括 Solo Buses、Solo Channels、Talkback Channels、Rack、Console、Fader Tile 和 Surface 设置。排除在范围之外的参数仍会存储在演出文件中。
         </li>
     </ul>
 </div>
 
 <span class="note">
     <span class="notetitle">重要说明： </span>调整过滤器可能导致数据丢失，使用时务必格外谨慎。<br />
-    如果参数没有已存储值（即在 Store 过滤器页面中被过滤掉），但在 Recall 过滤器页面中设为调用，则会调用该参数的 <b>默认</b> 设置。这可能造成音频电平大幅升高，例如推子被设为 0 dB。
+    如果参数没有已存储值（即在 Store 过滤器页面中被过滤掉），但在调用过滤器页面中设为调用，则会调用该参数的 <b>默认</b> 设置。这可能造成音频电平大幅升高，例如推子被设为 0 dB。
 </span>
 
 <p>
@@ -457,11 +457,11 @@
 </p>
 
 <span class="note">
-    <span class="notetitle">注意： </span>上述编辑功能会应用到所有红色
-    <span style="font-weight: bold">Edit</span> 指示灯已启用的行，包括位于当前可见路径类型范围上方或下方的行。
+    <span class="notetitle">注意： </span>上述编辑功能会应用到所有
+    <span style="font-weight: bold">Edit</span> 指示灯亮红色的行，包括位于当前可见路径类型范围上方或下方的行。
 </span>
 
-<h2 id="Store">Store/Recall 过滤器包含哪些参数？</h2>
+<h2 id="Store">存储/调用过滤器包含哪些参数？</h2>
 
 <p>
     如需了解过滤器中包含哪些参数，请参阅

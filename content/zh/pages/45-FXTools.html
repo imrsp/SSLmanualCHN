@@ -1,16 +1,16 @@
 <p>有关效果器的一般信息，请参阅<a href="https://livehelp.solidstatelogic.com/Help/FXIntro.html"><span class="hyperlink">效果器机架概览</span></a>部分。</p>
 <h2>音频工具</h2>
 <h2>Spectra-lyser（单声道/立体声）</h2>
-<p>标准 Spectra-lyser 视图提供了一个每倍频程固定点频谱分析仪，即使在低频也能提供高分辨率分析。 Gain 控制允许对输入信号添加电平偏移，以优化显示电平。 Play/Pause 按钮允许暂停图形视图以进行进一步分析。</p>
+<p>标准 Spectra-lyser 视图提供了一个每倍频程固定点数的频谱分析仪，即使在低频段也能以高分辨率呈现供分析。 <b>Gain</b> 控件允许对输入信号添加电平偏移，以优化显示电平。 Play/Pause 按钮可以暂停图形视图以进行进一步分析。</p>
 <p class="note"><span class="notetitle">注意：</span></p>
-<p>Gain 控制只影响发送到分析仪的信号；路由到模块输出的信号保持单位增益。 因此，该模块可以透明地插入到信号路径中（例如输出母线），用于反馈监控和其他频谱分析应用。</p>
+<p><b>Gain</b> 控件只影响发送到分析仪的信号；路由到模块输出的信号始终保持单位增益。 因此，该模块可以透明地插入到信号路径中（例如输出母线），用于反馈监控和其他频谱分析应用。</p>
 <figure><img src="https://livehelp.solidstatelogic.com/Help/images/g_FXSpectralyser.png" alt="图片 1"><figcaption>图片 1</figcaption></figure>
 <p>点击图形区域底部的箭头以查看分析仪的显示选项：</p>
 <figure><img src="https://livehelp.solidstatelogic.com/Help/images/g_FXSpectralyserFFTOptions.png" alt="图片 2"><figcaption>图片 2</figcaption></figure>
 <p>Slow 和 Fast 按钮决定分析仪显示信号的更新速率和平均量。</p>
-<p>R-L 按钮仅在模块的立体声版本中可用，并显示左声道和右声道之间的差异。它们可以从两个独立的信号路由过来进行比较。</p>
+<p>R-L 按钮仅在模块的立体声版本中可用，显示左声道和右声道之间的差异。它们可以从两个独立的信号路由过来进行比较。</p>
 <p>使用 Show Max 按钮可在检测到的最大幅度处显示一组十字准线。</p>
-<p>使用 Show User 按钮可在用户定义的频率处显示一组十字准线。点击图形或使用屏幕下方的编码器（在 Follow Detail 模式下）来设置频率。</p>
+<p>使用 Show User 按钮可在用户定义的频率处显示一组十字准线。点击图形或使用屏幕下方的控件（在 Follow Detail 模式下）来设置频率。</p>
 <p>Spectrogram 模式提供频率内容随时间变化的图形，显示为热图。 在 Spectrogram 视图中，同样提供平均（Slow/Fast）、用户十字准线和差异（R-L）模式。点击图形顶部的箭头查看它们。 也可以从此处将图形更新样式设置为两种模式之一：Wipe 或 Scroll。 在 Wipe 模式下，新值向下移动显示，从图形的一端循环到另一端。 在 Scroll 模式下，新值显示在图形底部，历史值向上移动显示。 Clear 按钮清除显示。</p>
 <figure><img src="https://livehelp.solidstatelogic.com/Help/images/g_FXSpectrogram.png" alt="图片 3"><figcaption>图片 3</figcaption></figure>
 <p>主屏幕、控制区块屏幕（如果安装）、SOLSA 和 TaCo 显示器具有独立的视图选项，允许每个屏幕显示分析仪或频谱图视图。</p>
@@ -19,23 +19,23 @@
 <h2>Function Generator（单声道）</h2>
 <p>Function Generator 提供一个可变频率的振荡器，带有 1 kHz 的固定选项，以及白噪声和粉噪声生成：</p>
 <figure><img src="https://livehelp.solidstatelogic.com/Help/images/g_fxToolsFunctionGen.png" alt="图片 4"><figcaption>图片 4</figcaption></figure>
-<p>使用 Gain 控制调整信号电平。Freq 控制仅在 Oscillator 模式下可用。</p>
+<p>使用 <b>Gain</b> 控制调整信号电平。<b>Freq</b> 控制仅在 Oscillator 模式下可用。</p>
 <h2>Signal Detector（单声道）</h2>
-<p>Signal Detector 模块用于触发 <a href="https://livehelp.solidstatelogic.com/Help/SignalSwitcher.html"><span class="hyperlink">Signal Switcher</span></a> 输入的更改。</p>
+<p>Signal Detector 模块用于触发 <a href="https://livehelp.solidstatelogic.com/Help/SignalSwitcher.html"><span class="hyperlink"><b>Signal Switcher</b></span></a> 输入的更改。</p>
 <figure><img src="https://livehelp.solidstatelogic.com/Help/images/g_FXSignalDetector.png" alt="图片 5"><figcaption>图片 5</figcaption></figure>
-<p>仪表显示模块输入信号的电平。建议使用来自主要音频源的具有固定幅度的专用控制信号。</p>
-<p>使用 Threshold 控制将阈值电平设置在略低于输入信号电平的位置。当信号低于阈值时，Signal Switcher 将切换到输入 B。</p>
-<p>Bypass 按钮可用于暂停从探测器模块到 Signal Switcher 的控制信号，允许设置探测器而不触发切换器的输入更改。</p>
+<p>仪表显示模块输入信号的电平。建议使用来自主音源的具有固定幅度的专用控制信号作为参考信号使用。</p>
+<p>使用 <b>Threshold</b> 控制将阈值电平设置在略低于输入信号电平的位置。当信号低于阈值时，<b>Signal Switcher</b> 将切换到输入 B。</p>
+<p>Bypass 按钮可用于暂停从检测模块到 <b>Signal Switcher</b> 的控制信号，允许在不触发切换器输入更改的前提下调试检测器参数。</p>
 <h2>SPL Meter（单声道）</h2>
 <figure><img src="https://livehelp.solidstatelogic.com/Help/images/g_FXSPLmain.png" alt="图片 6"><figcaption>图片 6</figcaption></figure>
-<p>使用 Frequency Weighting 按钮选择加权方式：</p>
+<p>使用 <b>Frequency Weighting</b> 按钮选择加权方式：</p>
 <ul>
   <li>Z : dB(Z) - 平坦频率响应（未加权）：10 Hz 至 20 kHz ±1.5 dB</li>
   <li>A : dB(A) - 最常见，整形以模拟低于 100 dB SPL 的人类听觉系统响应（基于等响曲线）</li>
   <li>C : dB(C) - 常用于峰值 SPL 测量。比 dB(A) 更平坦，以模拟高于 100 dB 时的人耳响应</li>
 </ul>
 <figure><img src="https://livehelp.solidstatelogic.com/Help/images/g_dBWeightingGraph.png" alt="图片 7"><figcaption>图片 7</figcaption></figure>
-<p>使用 Time Weighting 按钮选择启动时间常数：</p>
+<p>使用 <b>Time Weighting</b> 按钮选择启动时间常数：</p>
 <ul>
   <li>Fast : 125 毫秒</li>
   <li>Slow : 1000 毫秒</li>
@@ -44,16 +44,16 @@
 <h3>校准模式</h3>
 <p>SPL Meter 有三种校准模式。每种模式的配置复杂程度不同，并且与其准确性成正比。</p>
 <p>在 Uncalibrated 模式下，电表将在 0 dBFS 时读数为 140 dB。这是最不准确的模式。</p>
-<p>Auto 模式使用简单的校准程序，将已知的 dB SPL 电平与测得的 dB FS 电平等同起来。将已知的 dB SPL 源连接到控制台并将其路由到输入通道。 将 SPL Meter 插入通道的插入点，并将 Calibration Mode 设置为 Auto。按下 Calibrate (Z, Fast) 按钮。 这将自动将电表的频率和时间加权分别设置为 dB(Z) 和 Fast。接下来，在 Calibration Level 字段中输入已知的 dB SPL 电平。 一旦 Equivalent FS level 稳定下来，再次按下 Calibrate (Z, Fast) 按钮。 不要更改 Calibration Mode，因为这将重置校准。</p>
+<p>Auto 模式使用简单的校准程序，将已知的 dB SPL 电平与测得的 dB FS 电平等同起来。将已知的 dB SPL 源连接到控制台并将其路由到输入通道。 将 SPL Meter 插入通道的插入点，并将 <b>Calibration Mode</b> 设置为 <span class="label">Auto</span>。按下 Calibrate (Z, Fast) 按钮。 这将自动将电表的频率和时间加权分别设置为 dB(Z) 和 Fast。接下来，在 <b>Calibration Level</b> 字段中输入已知的 dB SPL 电平。 一旦 <b>Equivalent FS</b> level 稳定下来，再次按下 Calibrate (Z, Fast) 按钮。 不要更改 <b>Calibration Mode</b>，因为这将重置校准。</p>
 <figure><img src="https://livehelp.solidstatelogic.com/Help/images/g_FXSPLauto.png" alt="图片 8"><figcaption>图片 8</figcaption></figure>
 <figure><img src="https://livehelp.solidstatelogic.com/Help/images/g_FXToolsSPLMeterSensitivitySetup.png" alt="图片 9"><figcaption>图片 9</figcaption></figure>
-<p>Sensitivity 模式需要有关所用测量麦克风的信息，特别是其灵敏度（单位为 mV/Pa）。这通常可以在麦克风手册或网页的规格部分找到。</p>
+<p>Sensitivity 模式需要所用测量麦克风的有关信息，特别是其灵敏度（单位为 mV/Pa）。这通常可以在麦克风手册或网页的规格部分找到。</p>
 <p>将测量麦克风路由到输入通道，并将通道的插入点发送路由到控制台输出。将输入通道的模拟增益设置为一个标称值，以使输入不削波，并将数字微调设置为 0 dB。</p>
 <p>将已知电平 (A) 的输入信号发送到通道，并调整控制台的输出微调（在 <a href="https://livehelp.solidstatelogic.com/Help/LocalMADIConfig.html"><span class="hyperlink">I/O Setup 页面</span></a>中），直到输出电平 (B) 与已知输入电平匹配（您可能需要调整输入增益才能实现这一点）。</p>
 <p>从现在开始，不要调整输入和插入点之间的增益结构，因为这将使校准过程无效。</p>
-<p>取消控制台输出与通道插入点的路由，并将 SPL Meter 插入其位置。将 Calibration Mode 设置为 Sensitivity，并在 Mic Sensitivity 字段中输入麦克风的灵敏度。</p>
-<p>最后，将控制台的工作电平（位于 MENU &gt; Setup &gt; System / Power &gt; System 选项卡）添加到为匹配输入和输出电平而应用的输出微调偏移中，并将其输入到 SPL Meter 模块的 Output Gain 字段中。</p>
-<p>将输出微调恢复到您的操作要求，并确保麦克风和 SPL Meter 之间的增益结构保持恒定（例如，您可能希望将此通道排除在自动化调用范围之外）。</p>
+<p>取消控制台输出与通道插入点的路由，并将 SPL Meter 插入其位置。将 <b>Calibration Mode</b> 设置为 <span class="label">Sensitivity</span>，并在 <b>Mic Sensitivity</b> 字段中输入麦克风的灵敏度。</p>
+<p>最后，将控制台的操作电平（位于 MENU &gt; Setup &gt; System / Power &gt; System 选项卡）与先前为配平输入/输出电平而做的输出微调补偿量相加，并将其输入到 SPL Meter 模块的 <b>Output Gain</b> 字段中。</p>
+<p>将输出微调恢复到您的正常操作的值，并确保麦克风和 SPL Meter 之间的增益结构保持不变（例如，您可能希望将此通道排除在自动化调用范围之外）。</p>
 <figure><img src="https://livehelp.solidstatelogic.com/Help/images/g_FXSPLsens.png" alt="图片 10"><figcaption>图片 10</figcaption></figure>
 <h2>Phase-Scope（立体声/LCR）</h2>
 <h3>立体声</h3>
@@ -61,79 +61,86 @@
 <h3>LCR</h3>
 <figure><img src="https://livehelp.solidstatelogic.com/Help/images/g_fxToolsPhaseScopeLCR.png" alt="图片 12"><figcaption>图片 12</figcaption></figure>
 <p>立体声和 LCR Phase Scope 模块允许实时比较两个或三个源的相位。</p>
-<p>Type：设置峰值或 RMS 检测。 Hold：设置检测器保持时间为 3 秒、10 秒、无限或无。 还有一个选项可以 RESET 保持指示器。 Reference：设置参考测量电平。 Integration：设置积分时间为 1 秒、2 秒、10 秒、30 秒、1 分钟、2 分钟或无限。 还有一个选项可以 RESET 积分时间。</p>
+<p><b>Type</b>：设置 <span class="label">Peak</span> 或 <span class="label">RMS</span> 检测。 </p>
+<p><b>Hold</b>：设置检测器保持时间为 3 秒、10 秒、无限或无。还有一个 <span class="label">RESET</span> 可以复位保持指示器。 </p>
+<p><b>Reference</b>：设置参考测量电平。 </p>
+<p><b>Integration</b>：设置积分时间为 1 秒、2 秒、10 秒、30 秒、1 分钟、2 分钟或无限。还有一个 <span class="label">RESET</span> 可以复位积分时间。</p>
 <h2>Monitoring Modules（立体声/4.0/5.1）</h2>
 <figure><img src="https://livehelp.solidstatelogic.com/Help/images/g_FXToolsMonitoring.png" alt="图片 13"><figcaption>图片 13</figcaption></figure>
-<p>Monitoring 模块设计用于插入 Solo Channels 或其他输出通道，以提供监听源兼容性和信心检测。</p>
+<p>Monitoring 模块设计用于插入 Solo Channels 或其他输出通道，以提供监听源兼容性和信号核验。</p>
 <p>Stereo Monitoring Module 提供了立体声制作所需的所有预期兼容性监听模式。</p>
 <ul>
-  <li>单声道监听馈送可以来自立体声输入的总和，或独立来自左或右输入，并且可以使用 Mono From 和 Mono Tools 部分中的 L、R 和 L+R 按钮将选定的单声道源路由到两个监听输出或仅路由到一个扬声器。自动增益补偿保持一致的监听电平，无论单声道源和目标选择如何。</li>
+  <li>单声道监听馈送可以来自立体声输入的合并，或独立来自左/右输入，并且可以使用 <b>Mono From</b> 和 <b>Mono Tools</b> 部分中的 L、R 和 L+R 按钮将选定的单声道源路由到两个监听输出或仅路由到一个扬声器。无论单声道源和目标选择如何，自动增益补偿都将保持一致的监听电平。</li>
   <li>左通道 180° 极性反转（通过 ØL 按钮）提供立体声相位验证。由于这在单声道监听求和的上游，如果与单声道选项同时激活，立体声差异或“S”信号将被路由到监听输出，而不是立体声总和。</li>
-  <li>LR Reverse 按钮有助于识别传入源中的异常还是监听链中的问题。</li>
+  <li>LR Reverse 按钮有助于识别异常来自传入源还是监听链。</li>
 </ul>
 <p>Multi Format Monitoring Module 是一个 4.0 或 5.1 模块，包括立体声监听模块的所有功能，但增加了环绕声监听所需的额外元素。</p>
 <ul>
-  <li>5.1 到 LR 折叠，可选择在系统选项菜单 (MENU &gt; Setup &gt; Options &gt; System 选项卡) 中设置的用户可配置 Main（默认）或 Alternate 折叠系数。</li>
-  <li>单独的扬声器静音按钮，可以重新分配为扬声器独奏键。</li>
-  <li>Bass Management 页面，用于在不太理想的监听环境中配置增强的低频监听。重定向频率可以设置在 40 到 120 Hz 之间的任何位置，高通和低通滤波器可以独立在 2 阶、3 阶和 4 阶滤波器斜率之间切换。发送到 Sub 输出的求和主监听重定向信号可以通过 ±10 dB 进行微调。</li>
+  <li>5.1 至 <b>LR Folddown</b>，支持用户自行配置 <span class="label">Main</span>（默认）或 <span class="label">Alternate</span> 两套下变换系数，系数于 <b>System Options</b> 菜单（MENU &gt; Setup &gt; Options &gt; System 页）中设定。</li>
+  <li>独立的扬声器静音按钮，可以重指派为扬声器独奏键。</li>
+  <li>Bass Management 页面，用于在不太理想的监听环境中配置低频监听增强。重定向频率可以设置在 40 到 120 Hz 之间的任何位置，高通和低通滤波器可以独立在 2 阶、3 阶和 4 阶滤波器斜率之间切换。发送到 Sub 输出的求和主监听重定向信号可以通过 ±10 dB 进行微调。</li>
 </ul>
-<p>注意：由于 Solo Channels 包括 EQ、延迟和全通滤波器，并且在另一个插入点还有 FX Rack 图形 EQ 的选项，因此可以微调环绕声监听设置，而无需借助外部处理或其他外部扬声器管理硬件。</p>
+<p>注意：由于 Solo Channels 包括 EQ、延迟和全通滤波器，并且在另一个插入点还有 FX Rack 图形 EQ 的选项，因此无需借助外部处理或其他外部扬声器管理硬件实现微调环绕声监听设置。</p>
 <h2>Transfer Function Analyser</h2>
-<p>Transfer Function Analyser 是 SSL Live Effects Rack 的一个声学测量工具。</p>
+<p>Transfer Function Analyser 是 SSL Live 效果器机架的一个声学测量工具。</p>
 <figure><img src="https://livehelp.solidstatelogic.com/Help/images/g_FXTFAMagPha.png" alt="图片 14"><figcaption>图片 14</figcaption></figure>
-<p>Transfer Function Analyser 是一个分析仪，显示（线性时不变）系统的每倍频程固定点传递函数 (TF) 和脉冲响应 (IR)。 这可用于测量从扬声器到音频处理器的任何系统，尽管 Transfer Function Analyser 的主要目的是测量声学空间。</p>
-<p>Transfer Function Analyser 可以在 Tools 文件夹中找到，并提供立体声、LCR、4.0、5.1、4-Wide、8-Wide 和 12-Wide 格式。</p>
-<p>首先，以与其他效果器单元相同的方式将输入路由到 Transfer Function Analyser。 然后点击 Input Select 按钮。这将打开一个弹出菜单。 点击相应的交叉点以选择 Reference 和 Measurement 源。 再次点击 Input Select 按钮关闭弹出窗口。 默认情况下，Reference 源设置为输入 1，Measurement 源设置为输入 2。</p>
-<p>Transfer Function Analyser 可以显示传递函数的幅度、相位和相干性以及脉冲响应。 要选择要显示的测量值，请点击左上角的按钮。启用 IR 表示脉冲响应，M 表示幅度，P 表示相位。 相干性在幅度图顶部显示为红线。 如果仅显示相位图，相干性将显示在相位图顶部。 相干性阈值显示在屏幕右侧，带有一个箭头指示相干性阈值。</p>
+<p>Transfer Function Analyser 是一个分析仪，显示线性时不变系统的固定倍频程传递函数 (TF) 和脉冲响应 (IR)。 这可用于测量从扬声器到音频处理器的任何系统，尽管 Transfer Function Analyser 的主要目的是测量声学空间。</p>
+<p>Transfer Function Analyser 可以在 Tools 文件夹中找到，提供立体声、LCR、4.0、5.1、4-Wide、8-Wide 和 12-Wide 格式。</p>
+<p>首先，以与其他效果器单元相同的方式将输入路由到 Transfer Function Analyser。 然后点击 Input Select 按钮弹出一个菜单窗口。 点击相应的交叉点以选择 Reference 和 Measurement 源。 再次点击 Input Select 按钮关闭弹出窗口。 默认情况下，Reference 源设置为输入 1，Measurement 源设置为输入 2。</p>
+<p>Transfer Function Analyser 可以显示传递函数的幅度、相位和相干性以及脉冲响应。 选择要显示的测量值请点击左上角的按钮。启用 IR 显示脉冲响应，M 显示幅度，P 显示相位。 相干性在幅度图顶部以红线显示。 如果仅显示相位图，相干性将显示在相位图顶部。 相干性阈值显示在屏幕右侧，带有一个箭头指示相干性阈值。</p>
 <p>可以根据需要启用或禁用这些按钮。 当只选择一个测量值时，将显示一个较大的图形。 当启用两个测量值时，将显示两个较小的图形。 启用第三个测量值将禁用第一个选择的测量值，以便一次只能显示两个测量值（以及相干性）。</p>
-<p>可以配置两个视图，在交替查看不同测量图形时节省时间。 启用测量显示按钮会将这些图形添加到 Main 视图。启用 Alt 按钮切换到 Alternative 视图。 在此处启用测量显示按钮会将这些图形添加到 Alternative 视图。 禁用 Alt 按钮切换回 Main 视图。图形在左下角标记。</p>
-<p>脉冲响应图显示时带有 IR 显示模式、参考延迟和测量延迟（见下文）。 可以通过点击脉冲响应图底部的向上箭头调出导航控件。 有“Zoom In”和“Zoom Out”按钮可以围绕检测到的峰值缩放图形区域，以及一个“x1”按钮可以返回默认缩放。 左右箭头允许沿 x 轴滚动（当放大时）。 “Centre on Visible Peak”按钮会将图形区域集中在可见图形区域内检测到的峰值上。 “Copy Measured to Ref Delay”将测量的延迟复制到参考延迟。 此按钮与设置菜单中的“Copy to Ref Delay”按钮功能相同（见下文）。 几分钟不活动后，此弹出窗口将自动关闭。</p>
+<p>可以配置两个视图，在交替查看不同测量图形时节省时间。 启用测量显示按钮会将这些图形添加到 Main 视图。启用 <span class="label">Alt</span> 按钮切换到 Alternative 视图。 在此处启用测量显示按钮会将这些图形添加到 Alternative 视图。 禁用 <span class="label">Alt</span> 按钮切换回 Main 视图。图形在左下角标记。</p>
+<p>脉冲响应图显示时带有 IR 显示模式、参考延迟和测量延迟（见下文）。 可以通过点击脉冲响应图底部的向上箭头调出导航控件。 有“Zoom In”和“Zoom Out”按钮可以围绕检测到的峰值缩放图形区域，一个“x1”按钮可以返回默认缩放。 左右箭头允许沿 x 轴滚动（当放大时）。 “Centre on Visible Peak”按钮会将图形区域集中在可见图形区域内检测到的峰值上。 “Copy Measured to Ref Delay”将测量的延迟复制到参考延迟。 此按钮与设置菜单中的“Copy to Ref Delay”按钮功能相同（见下文）。 几分钟不活动后，此弹出窗口将自动关闭。</p>
 <figure><img src="https://livehelp.solidstatelogic.com/Help/images/g_FXTFAIRMenu.png" alt="图片 15"><figcaption>图片 15</figcaption></figure>
 <p>要重置 IR 或 TF 测量，请按下顶部的“Reset”按钮。然后选择 IR 或 TF。</p>
 <h3>设置</h3>
 <p>点击齿轮符号打开设置菜单。</p>
 <figure><img src="https://livehelp.solidstatelogic.com/Help/images/g_FXTFASettings.png" alt="图片 16"><figcaption>图片 16</figcaption></figure>
 <p><strong>脉冲响应设置</strong></p>
-<table>
-  <tr>
-    <th>Measured Delay</th>
-    <th>正在测试的系统的延迟。这是自动检测并显示在此处的。</th>
-  </tr>
-  <tr>
-    <td>Copy to Ref Delay 按钮</td>
-    <td>将 Measured Delay（显示在左侧）复制到 Reference Delay 字段。</td>
-  </tr>
-  <tr>
-    <td>Num Averages</td>
-    <td>对 IR 进行平均的连续 FFT 数量。</td>
-  </tr>
-  <tr>
-    <td>FFT Length</td>
-    <td>确定 IR 估计的长度，从而确定它可以检测的最大系统延迟。例如，96 kHz 采样率下的 256k 给出 2.67 秒的 IR 长度。</td>
-  </tr>
-  <tr>
-    <td>IR Display</td>
-    <td>Linear 显示射线 IR 并保留正值和负值（这对于确定系统极性很有用）。&lt;br&gt;Log 显示原始 IR 幅度的对数。&lt;br&gt;ETC 代表能量时间曲线，它是 Log 显示的包络。使用此显示可以更容易地识别峰值。</td>
-  </tr>
+<table class="insideborder" style="width: auto; margin: 15px 0px;" cellpadding="4" cellspacing="1">
+  <tbody>
+    <tr>
+      <th class="solidborder">Measured Delay</th>
+      <td class="solidborder">正在测试的系统的延迟。这是自动检测并显示在此处的。</td>
+    </tr>
+    <tr>
+      <th class="solidborder">Copy to Ref Delay 按钮</th>
+      <td class="solidborder">将 Measured Delay（显示在左侧）复制到 Reference Delay 字段。</td>
+    </tr>
+    <tr>
+      <th class="solidborder">Num Averages</th>
+      <td class="solidborder">对 IR 进行平均的连续 FFT 数量。</td>
+    </tr>
+    <tr>
+      <th class="solidborder">FFT Length</th>
+      <td class="solidborder">确定 IR 估计的长度，从而确定它可以检测的最大系统延迟。例如，96 kHz 采样率下的 256k 给出 2.67 秒的 IR 长度。</td>
+    </tr>
+    <tr>
+      <th class="solidborder">IR Display</th>
+      <td class="solidborder">Linear 显示射线 IR 并保留正值和负值（这对于确定系统极性很有用）。<br>Log 显示原始 IR 幅度的对数。<br>ETC 代表能量时间曲线，它是 Log 显示的包络。使用此显示可以更容易地识别峰值。</td>
+    </tr>
+  </tbody>
 </table>
 <p><strong>传递函数设置</strong></p>
-<table>
-  <tr>
-    <th>Ref Delay</th>
-    <th>参考信号延迟的量。这应设置为正在测试的系统的延迟。可以使用 IR 自动检测此值。</th>
-  </tr>
-  <tr>
-    <td>Num Averages</td>
-    <td>对 TF 进行平均的连续 FFT 数量</td>
-  </tr>
-  <tr>
-    <td>Averaging Mode</td>
-    <td>仅更改幅度的平均模式。&lt;br&gt;Magnitude Averaging Mode 取幅度值的几何平均值。当测量信号的到达时间可变时（例如在多风条件下），此模式表现更好。&lt;br&gt;Magnitude &amp; Phase Averaging Mode 保留相位信息，更适用于去除噪声。</td>
-  </tr>
-  <tr>
-    <td>Ref Threshold</td>
-    <td>图形更新的阈值。低于此阈值的参考信号不会更新图形，图形将显示为冻结。</td>
-  </tr>
+<table class="insideborder" style="width: auto; margin: 15px 0px;" cellpadding="4" cellspacing="1">
+  <tbody>
+    <tr>
+      <th class="solidborder">Ref Delay</th>
+      <td class="solidborder">参考信号延迟的量。这应设置为正在测试的系统的延迟。可以使用 IR 自动检测此值。</td>
+    </tr>
+    <tr>
+      <th class="solidborder">Num Averages</th>
+      <td class="solidborder">对 TF 进行平均的连续 FFT 数量</td>
+    </tr>
+    <tr>
+      <th class="solidborder">Averaging Mode</th>
+      <td class="solidborder">仅更改幅度的平均模式。<br>Magnitude Averaging Mode 取幅度值的几何平均值。当测量信号的到达时间可变时（例如在多风条件下），此模式表现更好。<br>Magnitude &amp; Phase Averaging Mode 保留相位信息，更适用于去除噪声。</td>
+    </tr>
+    <tr>
+      <th class="solidborder">Ref Threshold</th>
+      <td class="solidborder">图形更新的阈值。低于此阈值的参考信号不会更新图形，图形将显示为冻结。</td>
+    </tr>
+  </tbody>
 </table>
 <h2>实用链接</h2>
 <p><a href="https://livehelp.solidstatelogic.com/Help/DetailView.html"><span class="hyperlink">详细视图</span></a></p>

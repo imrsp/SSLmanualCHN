@@ -1,4 +1,4 @@
-﻿<!doctype html>
+<!doctype html>
 <html lang="zh-CN">
 <head>
   <meta charset="utf-8">
@@ -23,25 +23,25 @@
 
 <h2 id="GFlexEQ">G-Flex 图示均衡器</h2>
 
-<p>G-Flex EQ 提供完整的 32 段图示均衡。32 滤波器版本可同时使用全部频段，操作方式与传统模拟 32 段图示均衡器相同。</p>
+<p>G-Flex EQ 提供完整的 32 段图示均衡。32 段滤波版本可同时使用全部频段，操作方式与传统模拟 32 段图示均衡器相同。</p>
   
-<p>为节省处理资源，还提供 8、16 和 24 滤波器版本。这些模块可从 32 个可用频段中同时启用 8、16 或 24 个滤波器。滤波器启用时，其滑块下方的按钮会亮青色。达到上限后（DSP 图表达到 100%，其他滑块被禁用），必须点按已启用滤波器滑块下方的对应按钮将其移除并释放 DSP 资源，之后才能继续应用 EQ。</p>
+<p>为节省处理资源，还提供 8、16 和 24 段滤波器版本。这些模块可从 32 个可用频段中同时启用 8、16 或 24 段滤波器。滤波器启用时，其滑块下方的按钮会亮青色。达到上限后（DSP 图表达到 100%，其他滑块被禁用），必须点按已启用滤波器滑块下方的对应按钮将其移除并释放 DSP 资源，之后才能继续应用 EQ。</p>
   
 <img style="display: block; margin: 30px auto;" src="https://livehelp.solidstatelogic.com/Help/images/g_FXEQGraphic.png" alt="">
 
 <p>使用 <span style="font-weight: bold;">Mode</span> 按钮选择频段滑块的增益范围：±<span class="label">6 dB</span>, <span class="label">12 dB</span> 和 <span class="label">18 dB</span>.</p>
 
-<p>该 <span class="label">Const</span> （恒定 Q）与 <span class="label">Prop</span> （比例 Q）按钮用于定义 Q 曲线随增益变化的方式：</p>
+<p><span class="label">Const</span> （恒定 Q 值）与 <span class="label">Prop</span> （可变 Q 值）按钮用于定义 Q 曲线随增益变化的方式：</p>
   
 <p>在 Constant 模式下，无论频段增益如何变化，Q 曲线形状均保持不变；</p>
 
 <p>在 Proportional 模式下，增益偏离 0 dB 越多，钟形曲线越窄。</p>
 
-<p>通常认为比例 Q 均衡器比恒定 Q 均衡器更具音乐性。 </p>
+<p>通常认为可变 Q 值均衡器比恒定 Q 值均衡器更具音乐性。 </p>
 
 <p>此时可拖动各频段滑块进行调整。</p>
 
-<p>如果启用了 <span class="label">Follow&nbsp;Detail</span> ，EQ 频段中亮起并带蓝色边框的部分会分配给屏幕下方的 Quick Controls。</p>
+<p>如果启用了 <span class="label">Follow&nbsp;Detail</span> ，EQ 频段中亮起并带蓝色边框的部分会分配给屏幕下方的快捷控制。</p>
 
 <p>拖动模块右上角的大滑块可调整信号的总输出增益。</p>
   
@@ -51,11 +51,11 @@
 
 <img style="display: block; margin: 30px auto;" src="https://livehelp.solidstatelogic.com/Help/images/g_FXEQgraphicPlus.png" alt="">
 
-<p>Contour-EQ 是一种新型智能图示均衡器，通过生成更平滑的 EQ 曲线并分配 Node（节点）来加快控制：</p>
+<p>Contour-EQ 是一种新型智能图示均衡器，通过生成更平滑的 EQ 曲线并分配 Node（节点）提供更加快速便捷的控制：</p>
 
-<p>Node 是增益已被锁定的频段；移动某个频段滑块时，其周围频段也会随之移动，以被移动频段两侧的 Node 为支点，使整体 EQ 曲线尽可能平滑。</p>
+<p>Node 是增益已被锁定的频段；移动某个频段滑块时，其周围频段也会随之移动，联动以被移动频段两侧的 Node 为支点，使整体 EQ 曲线尽可能平滑。</p>
 
-<p>每次移动频段滑块后，该频段都会被设为 Node；除非明确调整，否则它不会再自动移动。</p>
+<p>每次移动频段滑块后，该频段都会被设为 Node；除非手动明确调整，否则它不会再自动移动。</p>
 
 <p>只需触摸频段下方的编号框，即可在不改变增益的情况下创建 Node 频段；编号框变为绿色表示该频段已成为 Node。</p>
 
@@ -67,7 +67,7 @@
 
 <p>为管理 Contour-EQ 使用的 DSP 资源，左上角设有 DSP 表。当该表接近 100%，且一个或多个 Node 按钮亮黄（表示无法达到所需增益）时，说明 EQ 曲线过于复杂；需简化 EQ 形状，直到 DSP 占用下降。</p>
 
-<p>如果启用了 <span class="label">Follow&nbsp;Detail</span> ，EQ 频段中亮起并带蓝色边框的部分会分配给屏幕下方的 Quick Controls。</p>
+<p>如果启用了 <span class="label">Follow&nbsp;Detail</span> ，EQ 频段中亮起并带蓝色边框的部分会分配给屏幕下方的快捷控制。</p>
 
 <p>拖动模块右上角的大滑块可调整信号的总输出增益。</p>
 
@@ -75,9 +75,9 @@
 
 <img style="display: block; margin: 10px auto; width: 550px" src="https://livehelp.solidstatelogic.com/Help/images/g_FXEQparam.png" alt="">
 
-<p>参量均衡器的功能与 <a href="https://livehelp.solidstatelogic.com/Help/PathProc.html#EQ"><span class="hyperlink">通道 EQ 详细视图</span></a>基本相同，不同之处是该模块可提供四段或八段参量均衡器，另加两个滤波器。</p>
+<p>参量均衡器的功能与 <a href="https://livehelp.solidstatelogic.com/Help/PathProc.html#EQ"><span class="hyperlink">通道 EQ 详细视图</span></a>基本相同，不同之处是该模块可提供四段或八段参量均衡器，另加两段滤波器。</p>
 
-<p>如果启用了 <span class="label">Follow&nbsp;Detail</span> ，所有 EQ 类型的频段均可分配给屏幕下方的 Quick Controls；还可使用 Fader Tile 的 <span class="label">Flip</span> 按钮将其翻转至推子。</p>
+<p>如果启用了 <span class="label">Follow&nbsp;Detail</span> ，所有 EQ 类型的频段均可分配给屏幕下方的快捷控制；还可使用推子区块的 <span class="label">Flip</span> 按钮将其翻转至推子。</p>
 
 <p>
     启用 <span class="label">Analyser</span> 按钮可在 EQ 图上叠加频谱分析仪。按下 <span class="label">Analyser&nbsp;Settings</span> 按钮可调整分析仪的偏移量，并选择显示 EQ 前或 EQ 后信号。
