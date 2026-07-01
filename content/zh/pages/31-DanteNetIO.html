@@ -107,19 +107,21 @@
 <figure><img src="https://livehelp.solidstatelogic.com/Help/images/g_DanteTakeAll.png" alt="图片 4"><figcaption>图片 4</figcaption></figure>
 <p>Network I/O 舞台接口箱的全部输入端口所有权可通过一次操作批量接管或批量释放。请前往 MENU &gt; Setup &gt; I/O &gt; Dante Configuration。 点击舞台接口箱以在其详细视图中查看设置。</p>
 <p>在舞台接口箱的 Setup 部分，按住“Inputs Ownership”。有三个选项可用：</p>
-<table>
-  <tr>
-    <th>Own All</th>
-    <td>成为所有无所有者输入的所有者</td>
-  </tr>
-  <tr>
-    <th>Take All</th>
-    <td>成为所有输入的所有者（包括其他设备拥有的输入）</td>
-  </tr>
-  <tr>
-    <th>Release All</th>
-    <td>释放控制台拥有的所有输入的所有权</td>
-  </tr>
+<table class="insideborder" style="width: auto; margin: 15px 0px;" cellpadding="4" cellspacing="1">
+  <tbody>
+    <tr>
+      <th class="solidborder">Own All</th>
+      <td class="solidborder">成为所有无所有者输入的所有者</td>
+    </tr>
+    <tr>
+      <th class="solidborder">Take All</th>
+      <td class="solidborder">成为所有输入的所有者（包括其他设备拥有的输入）</td>
+    </tr>
+    <tr>
+      <th class="solidborder">Release All</th>
+      <td class="solidborder">释放控制台拥有的所有输入的所有权</td>
+    </tr>
+  </tbody>
 </table>
 <p>多个控制设备可以同时拥有同一台舞台接口箱不同输入的所有权，但是同一路输入只能拥有一个所有者，不能共享。</p>
 </div>
@@ -139,72 +141,80 @@
 <p>但是，在使用“Load with Owner Override”时情况并非如此。该功能允许控制台在加载演出文件时从其他设备接管所有权。请参阅<a href="#LoadOverride"><span class="hyperlink">下文此部分</span></a>。</p>
 <p>注意：因此，建议用户在加载演出文件之前，清除他们要使用的舞台接口箱输入所有权。只要这些输入处于无所有者状态或由用户的控制台所有，就可以正确加载演出文件。此时，演出文件的增益设置将按预期应用。</p>
 <p>下表显示了在不同演出文件加载场景下舞台接口箱所有权状态的表现。</p>
-<table>
-  <tr>
-    <th>演出文件加载前的参数所有权状态</th>
-    <th>演出文件加载后的参数所有权状态</th>
-    <th>是否会将演出文件中的参数设置推送到舞台接口箱？</th>
-  </tr>
-  <tr>
-    <td>由控制台拥有</td>
-    <td>由控制台拥有</td>
-    <td>是</td>
-  </tr>
-  <tr>
-    <td>无所有者</td>
-    <td>由控制台拥有</td>
-    <td>是</td>
-  </tr>
-  <tr>
-    <td>由另一台设备拥有</td>
-    <td>仍由另一台设备拥有</td>
-    <td>否</td>
-  </tr>
+<table class="insideborder" style="width: auto; margin: 15px 0px;" cellpadding="4" cellspacing="1">
+  <tbody>
+    <tr>
+      <th class="solidborder">演出文件加载前的参数所有权状态</th>
+      <th class="solidborder">演出文件加载后的参数所有权状态</th>
+      <th class="solidborder">是否会将演出文件中的参数设置推送到舞台接口箱？</th>
+    </tr>
+    <tr>
+      <td class="solidborder">由控制台拥有</td>
+      <td class="solidborder">由控制台拥有</td>
+      <td class="solidborder">是</td>
+    </tr>
+    <tr>
+      <td class="solidborder">无所有者</td>
+      <td class="solidborder">由控制台拥有</td>
+      <td class="solidborder">是</td>
+    </tr>
+    <tr>
+      <td class="solidborder">由另一台设备拥有</td>
+      <td class="solidborder">仍由另一台设备拥有</td>
+      <td class="solidborder">否</td>
+    </tr>
+  </tbody>
 </table>
 <p class="note"><span class="notetitle">请注意：</span></p>
 <p>如果在保存演出文件时控制台不是输入（或其他设置）的所有者， 那么当重新加载演出文件时， 控制台也不会尝试成为此输入（或其他设置）的所有者，并且它不会受到演出文件加载的影响。</p>
 <p class="note"><span class="notetitle">例如：</span></p>
 <p>一个 L500 是 SB 32.24 上输入 1、2 和 3 的所有者，并且保存了演出文件。</p>
-<table>
-  <tr>
-    <th>通道 1 所有者</th>
-    <th>通道 2 所有者</th>
-    <th>通道 3 所有者</th>
-  </tr>
-  <tr>
-    <td>L500</td>
-    <td>L500</td>
-    <td>L500</td>
-  </tr>
+<table class="insideborder" style="width: auto; margin: 15px 0px;" cellpadding="4" cellspacing="1">
+  <tbody>
+    <tr>
+      <th class="solidborder">通道 1 所有者</th>
+      <th class="solidborder">通道 2 所有者</th>
+      <th class="solidborder">通道 3 所有者</th>
+    </tr>
+    <tr>
+      <td class="solidborder">L500</td>
+      <td class="solidborder">L500</td>
+      <td class="solidborder">L500</td>
+    </tr>
+  </tbody>
 </table>
 <p>保存演出文件后，一名使用 L200 的操作员取得了输入 1 的所有权。 使用 L500 的操作员释放了输入 2 的所有权，并保留了对输入 3 的所有权。</p>
-<table>
-  <tr>
-    <th>通道 1 所有者</th>
-    <th>通道 2 所有者</th>
-    <th>通道 3 所有者</th>
-  </tr>
-  <tr>
-    <td>L200</td>
-    <td>无</td>
-    <td>L500</td>
-  </tr>
+<table class="insideborder" style="width: auto; margin: 15px 0px;" cellpadding="4" cellspacing="1">
+  <tbody>
+    <tr>
+      <th class="solidborder">通道 1 所有者</th>
+      <th class="solidborder">通道 2 所有者</th>
+      <th class="solidborder">通道 3 所有者</th>
+    </tr>
+    <tr>
+      <td class="solidborder">L200</td>
+      <td class="solidborder">无</td>
+      <td class="solidborder">L500</td>
+    </tr>
+  </tbody>
 </table>
 <p>L500 操作员重新加载演出文件，将发生以下情况：</p>
 <p>输入 1：L500 尝试成为所有者，但输入 1 由 L200 拥有。 因此 L500 无法取得所有权。任何增益设置、+48V、Pad 等输入设置都不会从 L500 演出文件推送到舞台接口箱的输入 1。输入 1 保留其先前的增益和输入设置。</p>
 <p>输入 2：L500 尝试成为所有者。由于输入 2 没有被任何设备所有，因此 L500 成功成为所有者。 全部增益设置、+48V、Pad 等输入设置都将从 L500 演出文件推送到舞台接口箱的输入 2。</p>
 <p>输入 3：L500 尝试成为所有者，且输入 3 已由 L500 拥有。因此全部增益设置、+48V、Pad 等输入设置都将从 L500 演出文件推送到舞台接口箱的输入 3。</p>
-<table>
-  <tr>
-    <th>通道 1 所有者</th>
-    <th>通道 2 所有者</th>
-    <th>通道 3 所有者</th>
-  </tr>
-  <tr>
-    <td>L200</td>
-    <td>L500</td>
-    <td>L500</td>
-  </tr>
+<table class="insideborder" style="width: auto; margin: 15px 0px;" cellpadding="4" cellspacing="1">
+  <tbody>
+    <tr>
+      <th class="solidborder">通道 1 所有者</th>
+      <th class="solidborder">通道 2 所有者</th>
+      <th class="solidborder">通道 3 所有者</th>
+    </tr>
+    <tr>
+      <td class="solidborder">L200</td>
+      <td class="solidborder">L500</td>
+      <td class="solidborder">L500</td>
+    </tr>
+  </tbody>
 </table>
 <p>在加载包含输入设置存储的演出文件之前，请注意舞台接口箱上每个输入当前的所有权状态。 如果其他设备拥有某些输入的所有权，您的控制台将无法在加载演出文件时自动取得这些输入的所有权。</p>
 <p>在加载演出文件之前，前往 MENU &gt; Setup &gt; I/O &gt; Dante Configuration，将舞台接口箱添加到“Configured Devices”列表。 点击舞台接口箱，打开其详细视图。要取得全部输入的所有权，请在“Setup”选项卡中按住“Inputs Ownership”按钮并选择“Take All”。</p>

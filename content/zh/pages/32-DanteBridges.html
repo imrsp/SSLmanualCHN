@@ -25,47 +25,49 @@
 <p>在 Dante 网络上使用 BLII Bridge 时请注意网络带宽。 在包含 BLII Bridge 且 I/O 规模比较大的网络上，交换机之间可能需要配置 10 Gigabit 上行链路。</p>
 <h3>前面板 LED</h3>
 <p>BLII Bridge 的前面板上有四个 LED 指示灯：PSU、BL S、SRC 和 NET S，用于指示电源和时钟状态。</p>
-<table>
-  <tr>
-    <th>LED</th>
-    <th>熄灭</th>
-    <th>常亮红色</th>
-    <th>红绿闪烁</th>
-    <th>绿灯闪烁</th>
-    <th>常亮绿色</th>
-  </tr>
-  <tr>
-    <td>PSU</td>
-    <td>两个 PSU 都关闭</td>
-    <td>只有一个 PSU 功能正常</td>
-    <td>不适用</td>
-    <td>不适用</td>
-    <td>两个 PSU 都功能正常</td>
-  </tr>
-  <tr>
-    <td>BL S</td>
-    <td>BLII Bridge 未设置为同步到外部 BLII 源和/或未连接到控制台</td>
-    <td>不适用</td>
-    <td>不适用</td>
-    <td>重新同步 - 正在搜索有效的时钟源</td>
-    <td>时钟锁定到 BLII 且传入时钟源存在</td>
-  </tr>
-  <tr>
-    <td>SRC</td>
-    <td>设备同步到时钟源</td>
-    <td>设备正在重新同步（搜索有效的时钟源）</td>
-    <td>不适用</td>
-    <td>不适用</td>
-    <td>不适用</td>
-  </tr>
-  <tr>
-    <td>NET S</td>
-    <td>未配置为从 Dante 网络时钟</td>
-    <td>设备设置为从 Dante 网络时钟，但没有网络连接</td>
-    <td>主要或次要网络端口未连接</td>
-    <td>重新同步 - 正在搜索有效的时钟源</td>
-    <td>设置为从 Dante 网络时钟，并检测到网络上的 Leader Clock</td>
-  </tr>
+<table class="insideborder" style="width: auto; margin: 15px 0px;" cellpadding="4" cellspacing="1">
+  <tbody>
+    <tr>
+      <th class="solidborder">LED</th>
+      <th class="solidborder">熄灭</th>
+      <th class="solidborder">常亮红色</th>
+      <th class="solidborder">红绿闪烁</th>
+      <th class="solidborder">绿灯闪烁</th>
+      <th class="solidborder">常亮绿色</th>
+    </tr>
+    <tr>
+      <th class="solidborder">PSU</th>
+      <td class="solidborder">两个 PSU 都关闭</td>
+      <td class="solidborder">只有一个 PSU 功能正常</td>
+      <td class="solidborder">不适用</td>
+      <td class="solidborder">不适用</td>
+      <td class="solidborder">两个 PSU 都功能正常</td>
+    </tr>
+    <tr>
+      <th class="solidborder">BL S</th>
+      <td class="solidborder">BLII Bridge 未设置为同步到外部 BLII 源和/或未连接到控制台</td>
+      <td class="solidborder">不适用</td>
+      <td class="solidborder">不适用</td>
+      <td class="solidborder">重新同步 - 正在搜索有效的时钟源</td>
+      <td class="solidborder">时钟锁定到 BLII 且传入时钟源存在</td>
+    </tr>
+    <tr>
+      <th class="solidborder">SRC</th>
+      <td class="solidborder">设备同步到时钟源</td>
+      <td class="solidborder">设备正在重新同步（搜索有效的时钟源）</td>
+      <td class="solidborder">不适用</td>
+      <td class="solidborder">不适用</td>
+      <td class="solidborder">不适用</td>
+    </tr>
+    <tr>
+      <th class="solidborder">NET S</th>
+      <td class="solidborder">未配置为从 Dante 网络时钟</td>
+      <td class="solidborder">设备设置为从 Dante 网络时钟，但没有网络连接</td>
+      <td class="solidborder">主要或次要网络端口未连接</td>
+      <td class="solidborder">重新同步 - 正在搜索有效的时钟源</td>
+      <td class="solidborder">设置为从 Dante 网络时钟，并检测到网络上的 Leader Clock</td>
+    </tr>
+  </tbody>
 </table>
 <p>注意：当 NetS 闪烁红色时 - 设备仅作为 PTPv1 时钟主设备，此时 AES67 功能禁用。</p>
 <h3>前面板连接</h3>
@@ -73,47 +75,49 @@
 <figure><img src="https://livehelp.solidstatelogic.com/Help/images/g_BLIIBridgeFrontCons.png" alt="图片 2"><figcaption>图片 2</figcaption></figure>
 <p>这些插槽将预装 RJ45，但也可以装填单模或多模光纤 SFP。</p>
 <p>状态 LED 含义如下：</p>
-<table>
-  <tr>
-    <th>LED</th>
-    <th>熄灭</th>
-    <th>闪烁红色</th>
-    <th>红绿闪烁</th>
-    <th>绿灯闪烁</th>
-    <th>常亮绿色</th>
-  </tr>
-  <tr>
-    <td>ACT</td>
-    <td>设备已关闭</td>
-    <td>不适用</td>
-    <td>设备已开启</td>
-    <td>不适用</td>
-    <td>不适用</td>
-  </tr>
-  <tr>
-    <td>SFP</td>
-    <td>未安装 SFP</td>
-    <td>不适用</td>
-    <td>不适用</td>
-    <td>不适用</td>
-    <td>已安装 SFP</td>
-  </tr>
-  <tr>
-    <td>GM</td>
-    <td>设备不是 GM（或 Dante Pri 和 Sec 都已断开）</td>
-    <td>仅 PTPv2 GM</td>
-    <td>不适用</td>
-    <td>仅 PTPv1 GM</td>
-    <td>PTPv1 和 PTPv2 GM</td>
-  </tr>
-  <tr>
-    <td>STAT</td>
-    <td>硬件故障</td>
-    <td>音频静音。BLII Bridge 在重新同步期间自动静音音频</td>
-    <td>不适用</td>
-    <td>硬件正常</td>
-    <td>不适用</td>
-  </tr>
+<table class="insideborder" style="width: auto; margin: 15px 0px;" cellpadding="4" cellspacing="1">
+  <tbody>
+    <tr>
+      <th class="solidborder">LED</th>
+      <th class="solidborder">熄灭</th>
+      <th class="solidborder">闪烁红色</th>
+      <th class="solidborder">红绿闪烁</th>
+      <th class="solidborder">绿灯闪烁</th>
+      <th class="solidborder">常亮绿色</th>
+    </tr>
+    <tr>
+      <th class="solidborder">ACT</th>
+      <td class="solidborder">设备已关闭</td>
+      <td class="solidborder">不适用</td>
+      <td class="solidborder">设备已开启</td>
+      <td class="solidborder">不适用</td>
+      <td class="solidborder">不适用</td>
+    </tr>
+    <tr>
+      <th class="solidborder">SFP</th>
+      <td class="solidborder">未安装 SFP</td>
+      <td class="solidborder">不适用</td>
+      <td class="solidborder">不适用</td>
+      <td class="solidborder">不适用</td>
+      <td class="solidborder">已安装 SFP</td>
+    </tr>
+    <tr>
+      <th class="solidborder">GM</th>
+      <td class="solidborder">设备不是 GM（或 Dante Pri 和 Sec 都已断开）</td>
+      <td class="solidborder">仅 PTPv2 GM</td>
+      <td class="solidborder">不适用</td>
+      <td class="solidborder">仅 PTPv1 GM</td>
+      <td class="solidborder">PTPv1 和 PTPv2 GM</td>
+    </tr>
+    <tr>
+      <th class="solidborder">STAT</th>
+      <td class="solidborder">硬件故障</td>
+      <td class="solidborder">音频静音。BLII Bridge 在重新同步期间自动静音音频</td>
+      <td class="solidborder">不适用</td>
+      <td class="solidborder">硬件正常</td>
+      <td class="solidborder">不适用</td>
+    </tr>
+  </tbody>
 </table>
 <p>Program USB 端口用于执行设备更新。更新 BLII Bridge 的说明将随所有相关更新包一起提供。</p>
 <h3>后面板连接</h3>
@@ -124,28 +128,30 @@
 <figure><img src="https://livehelp.solidstatelogic.com/Help/images/g_BLIIBridgeBackCons.png" alt="图片 3"><figcaption>图片 3</figcaption></figure>
 <p>每个端口还有一个 RX 和 SFP 状态 LED。 最左边的一对 RX 和 SFP LED 指的是 Port A Main，左边第二个指的是 Port A Backup。左边第三和第四对 LED 指的是 Port B，未使用。</p>
 <p>状态 LED 含义如下：</p>
-<table>
-  <tr>
-    <th>LED</th>
-    <th>熄灭</th>
-    <th>常亮红色</th>
-    <th>绿灯闪烁</th>
-    <th>常亮绿色</th>
-  </tr>
-  <tr>
-    <td>RX</td>
-    <td>不适用</td>
-    <td>端口未连接</td>
-    <td>端口已连接，并且是冗余连接中的活动端口</td>
-    <td>端口已连接，并且是冗余连接中的非活动端口</td>
-  </tr>
-  <tr>
-    <td>SFP</td>
-    <td>未安装 SFP</td>
-    <td>不适用</td>
-    <td>不适用</td>
-    <td>已安装 SFP</td>
-  </tr>
+<table class="insideborder" style="width: auto; margin: 15px 0px;" cellpadding="4" cellspacing="1">
+  <tbody>
+    <tr>
+      <th class="solidborder">LED</th>
+      <th class="solidborder">熄灭</th>
+      <th class="solidborder">常亮红色</th>
+      <th class="solidborder">绿灯闪烁</th>
+      <th class="solidborder">常亮绿色</th>
+    </tr>
+    <tr>
+      <th class="solidborder">RX</th>
+      <td class="solidborder">不适用</td>
+      <td class="solidborder">端口未连接</td>
+      <td class="solidborder">端口已连接，并且是冗余连接中的活动端口</td>
+      <td class="solidborder">端口已连接，并且是冗余连接中的非活动端口</td>
+    </tr>
+    <tr>
+      <th class="solidborder">SFP</th>
+      <td class="solidborder">未安装 SFP</td>
+      <td class="solidborder">不适用</td>
+      <td class="solidborder">不适用</td>
+      <td class="solidborder">已安装 SFP</td>
+    </tr>
+  </tbody>
 </table>
 <h3>将 BLII Bridge 连接到 SSL Live 控制台</h3>
 <p>将 BLII Bridge 连接到 SSL Live 控制台需要以下设备：</p>
@@ -211,81 +217,85 @@
 <figure><img src="https://livehelp.solidstatelogic.com/Help/images/g_XLightBridgeFrontConns.png" alt="图片 8"><figcaption>图片 8</figcaption></figure>
 <h3>前面板 LED</h3>
 <p>X-Light Bridge 的前面板上有八个 LED 指示灯：PSU、XL S、SRC、NET S 用于指示电源和时钟状态...</p>
-<table>
-  <tr>
-    <th>LED</th>
-    <th>熄灭</th>
-    <th>常亮红色</th>
-    <th>红绿闪烁</th>
-    <th>绿灯闪烁</th>
-    <th>常亮绿色</th>
-  </tr>
-  <tr>
-    <td>PSU</td>
-    <td>两个 PSU 都关闭</td>
-    <td>只有一个 PSU 功能正常</td>
-    <td>不适用</td>
-    <td>不适用</td>
-    <td>两个 PSU 都功能正常</td>
-  </tr>
-  <tr>
-    <td>XL S</td>
-    <td>X-Light Bridge 未设置为同步到外部 X-Light 源和/或未连接到控制台</td>
-    <td>不适用</td>
-    <td>不适用</td>
-    <td>重新同步 - 正在搜索有效的时钟源</td>
-    <td>时钟锁定到 X-Light 且传入时钟源存在</td>
-  </tr>
-  <tr>
-    <td>SRC</td>
-    <td>设备同步到时钟源</td>
-    <td>设备正在重新同步（搜索有效的时钟源）</td>
-    <td>不适用</td>
-    <td>不适用</td>
-    <td>不适用</td>
-  </tr>
-  <tr>
-    <td>NET S</td>
-    <td>未配置为从 Dante 网络时钟</td>
-    <td>设备设置为从 Dante 网络时钟，但没有网络连接</td>
-    <td>主要或次要网络端口未连接</td>
-    <td>重新同步 - 正在搜索有效的时钟源</td>
-    <td>设置为从 Dante 网络时钟，并检测到网络上的 Leader Clock</td>
-  </tr>
+<table class="insideborder" style="width: auto; margin: 15px 0px;" cellpadding="4" cellspacing="1">
+  <tbody>
+    <tr>
+      <th class="solidborder">LED</th>
+      <th class="solidborder">熄灭</th>
+      <th class="solidborder">常亮红色</th>
+      <th class="solidborder">红绿闪烁</th>
+      <th class="solidborder">绿灯闪烁</th>
+      <th class="solidborder">常亮绿色</th>
+    </tr>
+    <tr>
+      <th class="solidborder">PSU</th>
+      <td class="solidborder">两个 PSU 都关闭</td>
+      <td class="solidborder">只有一个 PSU 功能正常</td>
+      <td class="solidborder">不适用</td>
+      <td class="solidborder">不适用</td>
+      <td class="solidborder">两个 PSU 都功能正常</td>
+    </tr>
+    <tr>
+      <th class="solidborder">XL S</th>
+      <td class="solidborder">X-Light Bridge 未设置为同步到外部 X-Light 源和/或未连接到控制台</td>
+      <td class="solidborder">不适用</td>
+      <td class="solidborder">不适用</td>
+      <td class="solidborder">重新同步 - 正在搜索有效的时钟源</td>
+      <td class="solidborder">时钟锁定到 X-Light 且传入时钟源存在</td>
+    </tr>
+    <tr>
+      <th class="solidborder">SRC</th>
+      <td class="solidborder">设备同步到时钟源</td>
+      <td class="solidborder">设备正在重新同步（搜索有效的时钟源）</td>
+      <td class="solidborder">不适用</td>
+      <td class="solidborder">不适用</td>
+      <td class="solidborder">不适用</td>
+    </tr>
+    <tr>
+      <th class="solidborder">NET S</th>
+      <td class="solidborder">未配置为从 Dante 网络时钟</td>
+      <td class="solidborder">设备设置为从 Dante 网络时钟，但没有网络连接</td>
+      <td class="solidborder">主要或次要网络端口未连接</td>
+      <td class="solidborder">重新同步 - 正在搜索有效的时钟源</td>
+      <td class="solidborder">设置为从 Dante 网络时钟，并检测到网络上的 Leader Clock</td>
+    </tr>
+  </tbody>
 </table>
 <p>注意：当 NetS 闪烁红色时 - 设备仅作为 PTPv1 时钟主设备，此时 AES67 功能禁用。</p>
 <p>...以及两对 AUDIO 和 LINK LED，用于显示到控制台的 MAIN 和 BACKUP X-Light 光纤连接的状态。</p>
-<table>
-  <tr>
-    <th>LED</th>
-    <th>常亮红色</th>
-    <th>绿灯闪烁</th>
-    <th>常亮绿色</th>
-  </tr>
-  <tr>
-    <td>AUDIO MAIN</td>
-    <td>没有通过 X-Light 光纤连接到控制台的主连接</td>
-    <td>到控制台的主音频连接良好，并且是活动连接</td>
-    <td>到控制台的主音频连接良好（备份）</td>
-  </tr>
-  <tr>
-    <td>LINK MAIN</td>
-    <td>不适用</td>
-    <td>到控制台的主链路连接良好</td>
-    <td>不适用</td>
-  </tr>
-  <tr>
-    <td>AUDIO BACKUP</td>
-    <td>没有通过 X-Light 光纤连接到控制台的备份连接</td>
-    <td>到控制台的备份音频连接良好，并且是活动连接</td>
-    <td>到控制台的备份音频连接良好（备份）</td>
-  </tr>
-  <tr>
-    <td>LINK BACKUP</td>
-    <td>不适用</td>
-    <td>到控制台的备份链路连接良好</td>
-    <td>不适用</td>
-  </tr>
+<table class="insideborder" style="width: auto; margin: 15px 0px;" cellpadding="4" cellspacing="1">
+  <tbody>
+    <tr>
+      <th class="solidborder">LED</th>
+      <th class="solidborder">常亮红色</th>
+      <th class="solidborder">绿灯闪烁</th>
+      <th class="solidborder">常亮绿色</th>
+    </tr>
+    <tr>
+      <th class="solidborder">AUDIO MAIN</th>
+      <td class="solidborder">没有通过 X-Light 光纤连接到控制台的主连接</td>
+      <td class="solidborder">到控制台的主音频连接良好，并且是活动连接</td>
+      <td class="solidborder">到控制台的主音频连接良好（备份）</td>
+    </tr>
+    <tr>
+      <th class="solidborder">LINK MAIN</th>
+      <td class="solidborder">不适用</td>
+      <td class="solidborder">到控制台的主链路连接良好</td>
+      <td class="solidborder">不适用</td>
+    </tr>
+    <tr>
+      <th class="solidborder">AUDIO BACKUP</th>
+      <td class="solidborder">没有通过 X-Light 光纤连接到控制台的备份连接</td>
+      <td class="solidborder">到控制台的备份音频连接良好，并且是活动连接</td>
+      <td class="solidborder">到控制台的备份音频连接良好（备份）</td>
+    </tr>
+    <tr>
+      <th class="solidborder">LINK BACKUP</th>
+      <td class="solidborder">不适用</td>
+      <td class="solidborder">到控制台的备份链路连接良好</td>
+      <td class="solidborder">不适用</td>
+    </tr>
+  </tbody>
 </table>
 <h3>后面板连接</h3>
 <p>X-Light Bridge 包含一对冗余电源，由设备背面的 IEC 连接器供电。</p>
