@@ -2902,9 +2902,8 @@
   {
     "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/StageboxMPL16-8.png",
     "localPath": "assets/manual/missing/StageboxMPL16-8.png",
-    "bytes": 0,
-    "status": "placeholder",
-    "error": "远程服务器返回错误: (404) 未找到。"
+    "bytes": 325818,
+    "status": "replaced"
   },
   {
     "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/StageboxSB1612.png",

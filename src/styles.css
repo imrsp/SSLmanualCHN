@@ -829,6 +829,7 @@ kbd { padding: 2px 5px; border: 1px solid var(--line); color: var(--muted); back
 .document p, .document li { font-size: 16px; }
 .document a { color: var(--cyan); text-underline-offset: 3px; }
 .document img { display: block; max-width: 100%; height: auto; margin: 24px auto; border: 1px solid #38443d; background: #fff; }
+.document img[hidden] { display: none !important; }
 .document img.manual-inline-icon {
   display: inline-block;
   max-width: 100%;
