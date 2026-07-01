@@ -878,11 +878,14 @@ kbd { padding: 2px 5px; border: 1px solid var(--line); color: var(--muted); back
 
 .manual-disclosures {
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
   gap: 10px;
   margin: 24px 0 34px;
 }
 
 .manual-disclosure {
+  width: 100%;
+  min-width: 0;
   border: 1px solid var(--line);
   background: #121714;
 }
@@ -890,6 +893,9 @@ kbd { padding: 2px 5px; border: 1px solid var(--line); color: var(--muted); back
 .manual-disclosure summary {
   position: relative;
   display: block;
+  width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
   padding: 0 52px 0 18px;
   background: #1a211d;
   cursor: pointer;
@@ -922,8 +928,23 @@ kbd { padding: 2px 5px; border: 1px solid var(--line); color: var(--muted); back
 }
 
 .manual-disclosure-content {
+  width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
   padding: 8px 18px 20px;
   border-top: 1px solid var(--line);
+  overflow-wrap: anywhere;
+}
+
+.manual-disclosure-content img {
+  max-width: 100%;
+  height: auto;
+}
+
+.manual-disclosure-content table {
+  display: block;
+  max-width: 100%;
+  overflow-x: auto;
 }
 
 .manual-disclosure-content > :first-child { margin-top: 14px; }
