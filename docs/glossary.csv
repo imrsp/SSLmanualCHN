@@ -4,11 +4,35 @@ Channel,通道,通用,指输入通道时可译为“输入通道”
 Bus,母线,通用,行业通用译法
 VCA,VCA,通用,首次出现可说明为压控放大器组
 Showfile,演出文件,工程,SSL 工程文件
+Save,保存,界面,"按钮名保留英文；正文常译作保存"
+Save As,另存为,界面,"按钮名保留英文；正文可按语境写保存为"
+Notes,备注,界面,"字段名或说明区常译作备注"
+Edit Mode,编辑模式,界面,"界面标签保留英文；正文统一译为编辑模式"
+Edit,编辑,界面,"作为界面按钮或功能名时可保留英文；正文可译为编辑"
+Console Configuration,控制台配置,章节标题,"菜单标签保留英文；正文推荐译法"
+Detail View,详细视图,界面,"页面名或功能名保留英文；正文统一译为详细视图"
+Quick Controls,快速控制,界面,"按钮/页面名保留英文；正文统一译为快速控制"
+PEQ,PEQ,功能,"参数均衡器缩写，通常保留英文"
+context,上下文,通用,"评论中常用于说明语境判断"
+Focus,Focus,界面,"按钮/模式名保留英文"
+Focus Fader,Focus 推子,界面,"保留 Focus 作为界面名"
+Main,Main,界面,"按钮/模式名保留英文"
+Main Fader,Main 推子,界面,"保留 Main 作为界面名"
+Post All,Post All,界面,"处理点标签保留英文；正文可写全处理后"
+Post Fader,Post Fader,界面,"处理点标签保留英文；正文可写推子后"
+Post Trim,Post Trim,界面,"处理点标签保留英文；正文可写微调后"
+Dry Path,干路径,信号,
 Scene,场景,自动化,自动化系统中的快照或场景
 Tile,区块,操作面,"指 Fader、Master、Control、Remote Tile"
 Fader Tile,推子区块,操作面,
 Master Tile,主控区块,操作面,
 Control Tile,控制区块,操作面,
+Remote Tile,远程推子区块,硬件,
+Remote Console,远程控制台,硬件,
+resource bars,资源条,界面,"路径联动等相关页面术语"
+Signal Switcher,信号切换器,功能,
+Recalibrate All,重新校准全部,功能,"按钮名/操作名可保留英文"
+Stagebox Owner,Stagebox 所有者,功能,"按语境可写无所有者等更自然表达"
 Stagebox,舞台接口箱,I/O,标题中可附英文
 Surface,操作面,硬件,指实体控制台表面
 Console,控制台,硬件,
@@ -36,6 +60,20 @@ Recall,调用,自动化,
 Automation,自动化,自动化,
 Snapshot,快照,自动化,
 User Key,用户按键,界面,
+Follow Detail,Follow Detail,模式,"模式名或按钮名保留英文；可按语境补中文"
+Sourcerer,Sourcerer,FX,"产品名保留英文；正文可写主声源隔离器"
+Broad Band,Broad Band,FX,模式标签保留英文
+Band Split,Band Split,FX,模式标签保留英文
+Polarity,相位翻转,参数,"界面可写 Polarity（相位翻转）"
+HPF,HPF,参数,"界面可写 HPF（高通滤波器）"
+Pad,Pad,界面,按钮/硬件名保留英文
+Transmit,Transmit,信号,"Dante 语境下常译为发送"
+Dante Expander,Dante 扩展模块,Dante,保留英文功能名
+BLII&X-Light Bridge,BLII&X-Light Bridge,Dante,桥接设备名保留英文
+Connectivity,Connectivity,网络,"设备/拓扑语境保留英文"
+gain slider,增益滑块,界面,"屏幕滑块，不是 fader 推子"
+encoder,旋钮,硬件,"屏幕编码器或实体编码器按语境译为旋钮"
+contribution,相关发送/贡献,功能,"按上下文判断，不直译为贡献"
 Patch,跳线 / 分配,信号,Patch Manager 统一译为“跳线管理器”
 Clocking,时钟设置,系统,
 Sample Rate,采样率,系统,
