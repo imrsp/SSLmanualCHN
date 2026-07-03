@@ -17,7 +17,7 @@
 </head>
 <body>
   <p class="source">章节：混音 | 来源： <a href="https://livehelp.solidstatelogic.com/Help/AutoIOActions.html">https://livehelp.solidstatelogic.com/Help/AutoIOActions.html</a></p>
-<p>LIVE 的自动化 Input 和 Output Actions 可让场景由远程触发，也可让控制台控制外部事件，例如外接效果器的跳线切换。</p>
+<p>LIVE 的自动化 Input 和 Output Actions 可让场景由远程触发，也可让控制台控制外部事件，例如外接效果器的路由变化。</p>
 
 <h2 id="InputActions">输入动作</h2>
 
@@ -49,7 +49,7 @@
 
         <p>左侧按钮定义触发动作的输入跳变类型：上升沿或下降沿。</p>
 
-        <p>右侧按钮用于将各触发器切换为 <span class="label">In</span>。一个 Input Action 可将多个 GPI 引脚切换为 <span class="label">In</span> ，这样任意一个 <span style="font-weight: bold;">任意</span> 已路由的 GPI 信号源都可触发场景。</p>
+        <p>右侧按钮用于将各触发器切换为 <span class="label">In</span>。一个 Input Action 可将多个 GPI 引脚切换为 <span class="label">In</span> ，这样<span style="font-weight: bold;">任意一个</span>已路由的 GPI 信号源都可触发场景。</p>
     </div>
     <div class="indexheader2">MIDI 输入动作</div>
     <div>
@@ -161,10 +161,10 @@
         </p>
 
         <ul>
-            <li><span class="label">Note&nbsp;On</span> 消息包含 <span style="font-weight: bold;">Note Number（音符号）</span> （0-127）、 <span style="font-weight: bold;">Note Name（音名）</span> 和 <span style="font-weight: bold;">Velocity（力度）</span> （1-127）参数。按钮启用时可在 <span class="label">All&nbsp;Channels</span> 上发送；按钮禁用时可在指定 <span style="font-weight: bold;">Channel</span> （1-16）上发送。</li>
-            <li><span class="label">Note&nbsp;Off</span> 消息包含 <span style="font-weight: bold;">Note Number（音符号）</span> （0-127）和 <span style="font-weight: bold;">Note Name（音名）</span> 参数。按钮启用时可在 <span class="label">All&nbsp;Channels</span> 上发送；按钮禁用时可在指定 <span style="font-weight: bold;">Channel</span> （1-16）上发送。</li>
-            <li><span class="label">PGM&nbsp;Change</span> 消息只包含 <span style="font-weight: bold;">Channel</span> 编号和 <span style="font-weight: bold;">Program Number（音色号）</span> （1-128）参数。</li>
-            <li><span class="label">CTRL&nbsp;Change</span> 消息包含 <span style="font-weight: bold;">Channel</span> 编号、 <span style="font-weight: bold;">Control Number（CC号）</span> （0-119）和 <span style="font-weight: bold;">Control Value（C值）</span> （0-127）参数。</li>
+            <li><span class="label">Note&nbsp;On</span> 消息包含 <span style="font-weight: bold;">Note Number</span> （0-127）、 <span style="font-weight: bold;">Note Name</span> 和 <span style="font-weight: bold;">Velocity</span> （1-127）参数。按钮启用时可在 <span class="label">All&nbsp;Channels</span> 上发送；按钮禁用时可在指定 <span style="font-weight: bold;">Channel</span> （1-16）上发送。</li>
+            <li><span class="label">Note&nbsp;Off</span> 消息包含 <span style="font-weight: bold;">Note Number</span> （0-127）和 <span style="font-weight: bold;">Note Name</span> 参数。按钮启用时可在 <span class="label">All&nbsp;Channels</span> 上发送；按钮禁用时可在指定 <span style="font-weight: bold;">Channel</span> （1-16）上发送。</li>
+            <li><span class="label">PGM&nbsp;Change</span> 消息只包含 <span style="font-weight: bold;">Channel</span> 编号和 <span style="font-weight: bold;">Program Number</span> （1-128）参数。</li>
+            <li><span class="label">CTRL&nbsp;Change</span> 消息包含 <span style="font-weight: bold;">Channel</span> 编号、 <span style="font-weight: bold;">Control Number</span> （0-119）和 <span style="font-weight: bold;">Control Value</span> （0-127）参数。</li>
         </ul>
     </div>
     <div class="indexheader2">Event 输出动作</div>
