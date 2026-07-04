@@ -84,7 +84,7 @@
         {
           "id": "Remote Surfaces",
           "title": "Remote Surfaces",
-          "titleZh": "远程操作面",
+          "titleZh": "扩展台面",
           "pageIds": [
             "TaCo",
             "RemoteControl",
@@ -164,8 +164,8 @@
     "OptionsExtCtrl": "外部控制选项",
     "SOLSAOffline": "SOLSA 离线软件",
     "TaCo": "TaCo 平板控制",
-    "RemoteControl": "远程操作面",
-    "RemoteTile": "远程区块",
+    "RemoteControl": "扩展台面",
+    "RemoteTile": "扩展区块",
     "ExtScreen": "外接屏幕",
     "PatchManager": "跳线管理器",
     "EventManager": "事件管理器",
