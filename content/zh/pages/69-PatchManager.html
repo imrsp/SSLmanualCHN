@@ -20,13 +20,12 @@
 <h2>跳线管理器</h2>
 <p>
     通过 <b>Patch Manager</b> 页面（位于 <span class="label">MENU</span> > <span class="label">Setup</span> > <span class="label">File Manager</span> >
-    <span class="label">Patch Manager</span> 页签）可用于加载和保存当前演出的输入跳线配置。
+    <span class="label">Patch Manager</span> 标签页）可用于加载和保存当前演出的输入跳线配置。
 </p>
 
 <h2>保存输入跳线</h2>
 <p>
-    默认文件位置为控制台内部驱动器。可使用驱动器和文件夹按钮（具体说明参见
-    <a href="https://livehelp.solidstatelogic.com/Help/Showfiles.html"><span class="hyperlink">演出文件浏览器</span></a>）选择其他保存位置。要保存输入跳线，只需按下 <span class="label">Save As</span> 并输入文件名。使用 <span class="label">Save</span> 按钮可覆盖之前保存的跳线文件。
+    默认文件位置为控制台内部驱动器。可使用驱动器和文件夹按钮（具体说明参见<a href="https://livehelp.solidstatelogic.com/Help/Showfiles.html"><span class="hyperlink">演出文件浏览器</span></a>）选择其他保存位置。要保存输入跳线，只需按下 <span class="label">Save As</span> 并输入文件名。使用 <span class="label">Save</span> 按钮可覆盖之前保存的跳线文件。
 </p>
 
 <p>
@@ -137,26 +136,26 @@
 </span>
 
 <p>
-    请注意，加载的跳线以通道 ID 编号为依据。发生以下情况时，单条路由将 <b>不会</b> 被导入：
+    请注意，加载的跳线以通道 ID 编号为依据。发生以下情况时，单条路由将<b>不会</b>被导入：
 </p>
 
 <ul>
     <li>控制台上存在该通道 ID，但文件中不存在，或反之*</li>
     <li>控制台或文件中不存在给定通道 ID 的对应通道分支</li>
-    <li>路由来源不是舞台接口箱（例如本地 I/O、其他信号路径、FX 机架等）</li>
+    <li>路由来源不是舞台接口箱（例如本地 I/O、其他路径、FX 机架等）</li>
     <li>文件中定义的舞台接口箱名称和类型未在控制台上配置</li>
     <li>任一条路由字段为空</li>
     <li>控制台的路由容量已用尽</li>
 </ul>
 
-<p>* 请注意，通道 ID 编号可按以下两种方式之一显示： <b>Default</b> 或 <b>Auto-Renumber</b>，具体由 <a href="https://livehelp.solidstatelogic.com/Help/ConsoleConfig.html#Numbering"><span class="hyperlink">控制台配置页面</span></a>定义。SSL 建议在使用跳线管理器时采用 <b>Default</b> 编号方式。不建议在保存和加载跳线文件之间更改编号方案。</p>
+<p>* 请注意，通道 ID 编号可按以下两种方式之一显示： <b>Default</b> 或 <b>Auto-Renumber</b>，具体由<a href="https://livehelp.solidstatelogic.com/Help/ConsoleConfig.html#Numbering"><span class="hyperlink">控制台配置页面</span></a>定义。SSL 建议在使用跳线管理器时采用 <b>Default</b> 编号方式。不建议在保存和加载跳线文件之间时更改编号方案。</p>
 
 <p>
     从文件中未导入路由的控制台通道，会在加载后保留其现有控制台路由。
 </p>
 
 <p>
-    若要明确清除通道当前的路由，必须在<b>NONE</b>值输入到 <b>Input A Route</b> 列中。 <b>Input A Device</b> 和 <b>Device Type</b> 列可以留空。
+    若要明确清除通道当前的路由，必须将 "<b>NONE</b>" 值输入到 <b>Input A Route</b> 列中。 <b>Input A Device</b> 和 <b>Device Type</b> 列可以留空。
 </p>
 
 <span class="note">

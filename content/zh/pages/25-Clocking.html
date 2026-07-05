@@ -49,7 +49,7 @@
 
 <p>
     控制台可使用内部时钟，也可通过视频、AES、字时钟、MADI、Blacklight II（双 SSL 控制台系统）或 Dante 获取外部时钟。
-    请在 <span class="label">Menu</span> &gt; <span class="label">Setup</span> &gt; <span class="label">Options</span> &gt; <span class="label">SYSTEM</span> 页签中选择。
+    请在 <span class="label">Menu</span> &gt; <span class="label">Setup</span> &gt; <span class="label">Options</span> &gt; <span class="label">SYSTEM</span> 标签页中选择。
 </p>
 
 <p>
@@ -116,7 +116,7 @@
 
         <p>
             要手动选择主时钟，请将该设备设为 <span style="font-weight:bold;">Preferred Leader（首选主时钟）</span>。
-            为此，请打开 <span style="font-weight:bold;">Dante Controller</span> 并单击 <span class="label">Clock&nbsp;Status</span> 页签。
+            为此，请打开 <span style="font-weight:bold;">Dante Controller</span> 并单击 <span class="label">Clock&nbsp;Status</span> 标签页。
             为所选主时钟勾选 <span style="font-weight:bold;">Preferred Leader</span> 复选框。
         <p>
 
@@ -137,14 +137,14 @@
         <p>在此配置中，控制台以外的某台 Dante 设备担任主时钟。控制台及网络中的所有其他设备均跟随该主时钟。</p>
 
         <p>
-            在 <span style="font-weight:bold;">Dante Controller</span> 中进入 <span class="label">Clock&nbsp;Status</span> 页签。
+            在 <span style="font-weight:bold;">Dante Controller</span> 中进入 <span class="label">Clock&nbsp;Status</span> 标签页。
             如果希望指定主时钟设备，请为该设备勾选 <span style="font-weight:bold;">Preferred Leader</span>。
             Dante 有自己的时钟选举流程，因此并非必须设置 <span style="font-weight:bold;">Preferred Leader</span>。
             在本示例中，请确保网络中所有其他设备均未勾选 <span style="font-weight:bold;">Preferred Leader</span> 和 <span style="font-weight:bold;">Sync to External</span>
             （包括控制台的 Dante 扩展模块以及适用时的 BLII/X-Light Bridge）。
 
         <p>
-            在控制台上进入 <span class="label">MENU</span> &gt; <span class="label">Setup</span> &gt; <span class="label">Options</span> &gt; <span class="label">SYSTEM</span> 页签。
+            在控制台上进入 <span class="label">MENU</span> &gt; <span class="label">Setup</span> &gt; <span class="label">Options</span> &gt; <span class="label">SYSTEM</span> 标签页。
             在 <span style="font-weight:bold;">SYSTEM&nbsp;CLOCK</span> 区域中，选择 <span class="label">Dante&nbsp;Expander</span> 作为 <b>Main</b> 时钟源，然后按住 <span class="label">APPLY</span>。
             确认 <span style="font-weight:bold;">Current</span> 时钟源字段显示 <span style="font-weight:bold;">Dante&nbsp;Expander</span>。
         </p>
@@ -175,7 +175,7 @@
         <p>在此配置中，控制台是网络主时钟，网络中的所有其他设备均跟随控制台时钟。</p>
 
         <p>
-            要进行此设置，请在控制台上进入 <span class="label">MENU</span> &gt; <span class="label">Setup</span> &gt; <span class="label">Options</span> &gt; <span class="label">SYSTEM</span> 页签。
+            要进行此设置，请在控制台上进入 <span class="label">MENU</span> &gt; <span class="label">Setup</span> &gt; <span class="label">Options</span> &gt; <span class="label">SYSTEM</span> 标签页。
             在 <span style="font-weight:bold;">SYSTEM CLOCK</span> 区域中，选择 <span class="label">Int</span>（控制台内部时钟）作为 <b>Main</b> 时钟源，然后按住 <span class="label">APPLY</span>。
             确认 <span style="font-weight:bold;">Current</span> 时钟源字段显示 <span style="font-weight:bold;">Int</span>。
         </p>
@@ -183,7 +183,7 @@
         <img style="display: block; margin: 15px auto;" src="https://livehelp.solidstatelogic.com/Help/images/g_OptionsSystemClock.png" alt="">
 
         <p>
-            在 <span style="font-weight:bold;">Dante Controller</span> 中进入 <span class="label">Clock&nbsp;Status</span> 页签。
+            在 <span style="font-weight:bold;">Dante Controller</span> 中进入 <span class="label">Clock&nbsp;Status</span> 标签页。
             为控制台的 Dante Expander 勾选 <span style="font-weight:bold;">Preferred Leader</span> 和 <span style="font-weight:bold;">Enable Sync To External</span> 复选框。
         </p>
 
@@ -218,7 +218,7 @@
         <p>
             还必须将 BLII/X-Light Bridge 配置为从 Dante 网络获取时钟。
             确保其 <span class="label">Preferred&nbsp;Leader</span> 和 <span class="label">Enable&nbsp;Sync&nbsp;To&nbsp;External</span> 复选框在
-            <span style="font-weight:bold;">Dante&nbsp;Controller</span> 的 <span class="label">Clock&nbsp;Status</span> 页签中均<b>未勾选</b>。
+            <span style="font-weight:bold;">Dante&nbsp;Controller</span> 的 <span class="label">Clock&nbsp;Status</span> 标签页中均<b>未勾选</b>。
         </p>
 
         <p>这样可确保 BLII/X-Light Bridge 不从控制台获取时钟，而是设置为接收 Dante 网络时钟。</p>
@@ -282,7 +282,7 @@
 
 <p>
     Live 系统可在 96 kHz（推荐）或 48 kHz 采样率下运行。使用 System 页面
-    （<span class="label">MENU</span> &gt; <span class="label">Setup</span> &gt; <span class="label">System&nbsp;/&nbsp;Power</span> &gt; <span class="label">System</span> 页签）中的 <span class="label">96&nbsp;kHz</span> 和 <span class="label">48&nbsp;kHz</span> 按钮更改控制台采样率。舞台接口箱也必须改为与控制台采样率一致；见下文。
+    （<span class="label">MENU</span> &gt; <span class="label">Setup</span> &gt; <span class="label">System&nbsp;/&nbsp;Power</span> &gt; <span class="label">System</span> 标签页）中的 <span class="label">96&nbsp;kHz</span> 和 <span class="label">48&nbsp;kHz</span> 按钮更改控制台采样率。舞台接口箱也必须改为与控制台采样率一致；见下文。
 </p>
 
 <p>除 FX Loop 和可选 Dante 模块接口外，将采样率降至 48 kHz 不会增加总输入/输出数量；每个 MADI 端口在 48 kHz 下承载 64 个通道，但奇偶编号的 MADI 端口对始终互为冗余（双卡 Blacklight 集线器上的偶数编号端口会被禁用）。</p>
