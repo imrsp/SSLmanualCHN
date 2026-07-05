@@ -36,11 +36,10 @@
 </p>
 
 <span class="note">
-  <b>注意：</b>
-  使用此功能需要 KLANG 处理器。产品信息见
-  <a class="external-link" href="https://www.klang.com/" target="_blank"
+  <span class="notetitle">注意：</span>
+  使用此功能需要 KLANG 处理器。产品信息见<a class="external-link" href="https://www.klang.com/" target="_blank"
     ><span class="hyperlink">此处</span></a
-  >.
+  >。
 </span>
 
 <p>
@@ -56,7 +55,7 @@
 </ul>
 
 <span class="note">
-  <b>注意：</b>
+  <span class="notetitle">注意：</span>
   在此 SSL-KLANG 集成的初始版本中，需要一台运行 KLANG 应用程序的计算机来处理控制数据并将其传递给 KLANG 处理器。
 </span>
 
@@ -102,7 +101,7 @@
 </ul>
 
 <img
-  style="display: block; margin: 5px auto; width: 50px"
+  style="display: block; margin: 5px auto; width: 600px"
   src="https://livehelp.solidstatelogic.com/Help/images/g_KLANG_noVLAN_Dante_Setup.png"
   alt="SSL KLANG Network Routing B"
 />
@@ -113,34 +112,28 @@
 
 <ul>
   <li>
-    Set up a managed switch according to KLANG's instructions regarding VLANs.
-    They can be found
+    按照 KLANG 关于 VLAN 的说明设置一台网管型交换机。
+    可在
     <a
       class="external-link"
       href="https://www.klang.com/manuals/vlans-for-kontroller-vokal-konductor/"
       target="_blank"
-      ><span class="hyperlink">此处</span></a
-    >.
+      ><span class="hyperlink">此处</span></a>找到。
   </li>
   <li>
-    Connect the console's connectivity port to the switch, using a "Control"
-    VLAN-tagged port.
+    将调音台的 Connectivity 接口连接到交换机上带有 “Control” VLAN 标签的端口。
   </li>
   <li>
-    Connect the console's Dante port to the switch, using an untagged port (or a
-    "Dante" tagged port, depending on the setup).
+    将调音台的 Dante 接口连接到交换机上的非标签端口（或根据具体设置使用带有“Dante”标签的端口）。
   </li>
   <li>
-    Connect the KLANG processor's "Dante/Control" port to the to the switch via
-    an untagged/Dante-tagged port.
+    将 KLANG 处理器的 “Dante/Control” 接口通过非标签端口，或带有 Dante 标签的端口连接到交换机。
   </li>
   <li>
     也可将 :kontroller 连接到 KLANG Processor 的前面板端口。
   </li>
   <li>
-    Also optionally, connect a laptop to the Control and/or Dante tagged ports
-    on the switch. This will control of Dante routing via Dante Controller or
-    control of the KLANG mixes via the KLANG app.
+    还可以选择将一台笔记本电脑连接到交换机上带有 Control 和/或 Dante 标签的端口。这样可以通过 Dante Controller 软件控制 Dante 的音频路由，或者通过 KLANG app 来控制 KLANG 的混音。
   </li>
 </ul>
 
@@ -187,13 +180,13 @@
   SSL-KLANG Interface（SKI）既是查看控制台与 KLANG 关联关系的中心界面，也是中间音频路由器。借此可通过任意 I/O 传输方式向 KLANG 系统发送音频，并可按任意顺序将控制台 Channel 和 Stem 馈送至 KLANG 输入。
 </p>
 <p>
-  In the SKI GUI, the <span class="label">Associate</span> 按钮可选择要与特定 KLANG 输入关联的控制台 Channel/Stem，或选择要与 KLANG Mix 关联的立体声 Aux。这会告知控制台每条路径的 OSC 数据发送目标，并处理通道输出路由。
+  在 SKI 界面中，<span class="label">Associate</span> 按钮可选择要与特定 KLANG 输入关联的控制台 Channel/Stem，或选择要与 KLANG Mix 关联的立体声 Aux。这会告知控制台每条路径的 OSC 数据发送目标，并处理通道输出路由。
 </p>
 <p>
   Channel 和 Mix 列表还会显示各项关联所使用的 SKI 输入与输出。排查故障时，可利用这些编号追踪信号路径。
 </p>
 <span class="note">
-  <b> 注意： </b>
+  <span class="notetitle">注意：</span>
   只有单声道和立体声 Channel/Stem 路径可与输入关联，且只有立体声 Aux 可与 Mix 关联。
 </span>
 
@@ -220,7 +213,7 @@
 </p>
 
 <span class="note">
-  <b> 注意： </b>
+  <span class="notetitle">注意：</span>
   这些输入和输出路由错误会导致为输入发送错误的声像数据，并使错误的 Mix 返回控制台 Aux 母线。
 </span>
 
@@ -229,7 +222,7 @@
 </p>
 
 <span class="note">
-  <b> 注意： </b>
+  <span class="notetitle">注意：</span>
   在 Mix 编号不连续且需要留空的特殊情况下，需要重新进行部分跳线，以确保关联的 Aux 接收到与其交叉点所控制声像数据相符的正确 Mix。SKI Mix 列表中的 SKI 输入编号会指示应连接的正确输入。
 </span>
 
@@ -304,7 +297,7 @@
 </p>
 
 <span class="note">
-  <b> 注意： </b>
+  <span class="notetitle">注意：</span>
   在 KLANG Mode 下，Aux 详细视图中仍会显示馈送点选择器。但从通道到 KLANG 的馈送点始终遵循路径配置页面中的 Direct Output 选择，而不是 Aux 馈送点。
 </span>
 
@@ -313,8 +306,7 @@
 <h3>旁通 KLANG</h3>
 
 <p>
-  运行期间，如与 KLANG 处理器之间的通信或音频传输出现问题，需要快速切回内部 Aux 母线。SKI 中提供一个标为
-  <span class="label">Bypass KLANG</span>，可立即完成切换。该功能也可分配为用户按键，并映射到区块的实体按钮，以便紧急情况下快速操作。
+  运行期间，如与 KLANG 处理器之间的通信或音频传输出现问题，需要快速切回内部 Aux 母线。SKI 中提供一个标为 <span class="label">Bypass KLANG</span> 的按键，可立即完成切换。该功能也可分配为用户按键，并映射到区块的实体按钮，以便紧急情况下快速操作。
 </p>
 
 <p>
