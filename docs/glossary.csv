@@ -12,8 +12,8 @@ Edit,编辑,界面,"作为界面按钮或功能名时可保留英文；正文可
 Console Configuration,控制台配置,章节标题,"菜单标签保留英文；正文推荐译法"
 Detail View,详细视图,界面,"页面名或功能名保留英文；正文统一译为详细视图"
 Quick Controls,快速控制,界面,"按钮/页面名保留英文；正文统一译为快速控制"
-PEQ,PEQ,功能,"参数均衡器缩写，通常保留英文"
-context,上下文,通用,"评论中常用于说明语境判断"
+PEQ,参量均衡器,功能,"缩写 PEQ 通常保留英文"
+context,情境,通用,"评论中常用于说明语境判断"
 Focus,Focus,界面,"按钮/模式名保留英文"
 Focus Fader,Focus 推子,界面,"保留 Focus 作为界面名"
 Main,Main,界面,"按钮/模式名保留英文"
@@ -31,9 +31,16 @@ Remote Tile,远程推子区块,硬件,
 Remote Console,远程控制台,硬件,
 resource bars,资源条,界面,"路径联动等相关页面术语"
 Signal Switcher,信号切换器,功能,
+Signal Detector,信号检测器,功能,
+Event Manager,事件管理器,功能,
+FX Rack,效果器机架,功能,
 Recalibrate All,重新校准全部,功能,"按钮名/操作名可保留英文"
-Stagebox Owner,Stagebox 所有者,功能,"按语境可写无所有者等更自然表达"
+Stagebox Ownership,舞台接口箱所有权,功能,"与所有者/无所有者控制语境相关"
+Stagebox Owner,舞台接口箱所有者,功能,"按语境可写无所有者等更自然表达"
+Input Ownership,输入所有权,功能,
+GPO Ownership,GPO 所有权,功能,
 Stagebox,舞台接口箱,I/O,标题中可附英文
+front buffer,前挡板,硬件,"控制台前部接口区"
 Surface,操作面,硬件,指实体控制台表面
 Console,控制台,硬件,
 Routing,路由,信号,
@@ -60,26 +67,43 @@ Recall,调用,自动化,
 Automation,自动化,自动化,
 Snapshot,快照,自动化,
 User Key,用户按键,界面,
+User Keys,用户按键,界面,"复数界面标签保留英文；正文可写用户按键"
+System Layer,系统层,操作面,"界面标签保留英文；正文按语境译为系统层"
+Mute Safe,静音保护,功能,"模式名或按钮名保留英文"
+Auto Mute Safe,自动静音保护,功能,"模式名或按钮名保留英文"
+Temporary Auto Mute Safe,临时自动静音保护,功能,"模式名或按钮名保留英文"
 Follow Detail,Follow Detail,模式,"模式名或按钮名保留英文；可按语境补中文"
 Sourcerer,Sourcerer,FX,"产品名保留英文；正文可写主声源隔离器"
 Broad Band,Broad Band,FX,模式标签保留英文
 Band Split,Band Split,FX,模式标签保留英文
+FX Loop,FX Loop,FX,功能名保留英文
+Transient Shaper,瞬态整形器,FX,通用效果器名
+Attack,启动,参数,"动态或瞬态语境下"
+Release,释放,参数,"动态语境下"
 Polarity,相位翻转,参数,"界面可写 Polarity（相位翻转）"
 HPF,HPF,参数,"界面可写 HPF（高通滤波器）"
 Pad,Pad,界面,按钮/硬件名保留英文
 Transmit,Transmit,信号,"Dante 语境下常译为发送"
-Dante Expander,Dante 扩展模块,Dante,保留英文功能名
+Dante Expander,Dante Expander,Dante,保留英文功能名
+Remote Expander,Remote Expander,硬件,产品名保留英文
 BLII&X-Light Bridge,BLII&X-Light Bridge,Dante,桥接设备名保留英文
 Connectivity,Connectivity,网络,"设备/拓扑语境保留英文"
 gain slider,增益滑块,界面,"屏幕滑块，不是 fader 推子"
 encoder,旋钮,硬件,"屏幕编码器或实体编码器按语境译为旋钮"
 contribution,相关发送/贡献,功能,"按上下文判断，不直译为贡献"
+uplink,上行链路,网络,"交换机之间的上行链路"
 Patch,跳线 / 分配,信号,Patch Manager 统一译为“跳线管理器”
+Folddown,声道下变换,FX,通用译法
 Clocking,时钟设置,系统,
 Sample Rate,采样率,系统,
 Wordclock,字时钟,系统,
 Dante Virtual Tie Line,Dante 虚拟跳线,Dante,缩写 VTL 保留
 Dante Dual Domain Route,Dante 双域路由,Dante,Dante 网络语境
+Path Linking,路径联动,功能,"章节/功能名保留英文；按钮名 Path Link 可保留英文"
+Path Link,路径联动,功能,"按钮名保留英文；正文统一译为路径联动"
+Link Group,联动组,功能,"与 Path Linking 配套使用"
+Temporary Path Linking,临时路径联动,功能,"章节标题保留英文"
+Permanently Linking Paths,永久联动路径,功能,"永久联动组语境"
 Offline Software,离线软件,软件,
 Dante Primary, Dante 主网, Dante,
 Dante Secondary, Dante 备网, Dante,
