@@ -9,7 +9,7 @@
   <li><a href="https://livehelp.solidstatelogic.com/Help/DanteConfig.html"><span class="hyperlink">双域路由与配置 Dante 设备</span></a></li>
 </ul>
 <ul>
-  <li><a href="https://livehelp.solidstatelogic.com/Help/DanteNetIO.html"><span class="hyperlink">Dante 接口箱</span></a></li>
+  <li> <a href="https://livehelp.solidstatelogic.com/Help/DanteNetIO.html"><span class="hyperlink">Dante 接口箱</span></a></li>
 </ul>
 <ul>
   <li>BLII 与 X-Light 网桥（本页）</li>
@@ -367,7 +367,7 @@
 <p>即使不需要 32 条虚拟跳线，也必须创建 32 条。 这是因为控制台在选择是通过 Dante Expander 还是 BLII/X-Light Bridge 创建双域路由时是不确定的。 因此，如果创建的虚拟跳线少于 32 条，仍会保留一些 Dante 容量，控制台可能会将其用于双域路由。 那么控制台有可能尝试与不同采样率设备建立双向的双域路由。Dante 网络路由无法在不同采样率运行的设备之间建立，因此不会创建网络路由。</p>
 <p>在 Dante Controller 中，将控制台的 Dante Expander 设置为与这些其他设备相同的采样率（与控制台和 BLII/X-Light Bridge 的采样率不同）。</p>
 <p>现在控制台和 BLII/X-Light Bridge 运行一种采样率。而 Dante Expander 和网络上的其他设备运行另一种采样率。Dante Expander 已设置为在这两种采样率之间进行采样率转换。</p>
-<p>现在通过虚拟跳线与其他设备（与控制台采样率不同）建立双向路由。有关如何执行此操作的说明，请参阅<a href="https://livehelp.solidstatelogic.com/Help/DanteVTL.html"><span class="hyperlink">Dante 虚拟跳线</span></a>。</p>
+<p>现在通过虚拟跳线与其他设备（与控制台采样率不同）建立双向路由。有关如何执行此操作的说明，请参阅 <a href="https://livehelp.solidstatelogic.com/Help/DanteVTL.html"><span class="hyperlink">Dante 虚拟跳线</span></a>。</p>
 <p class="note"><span class="notetitle">请注意：</span></p>
 <p>在此配置中，SSL 建议将控制台设置为从 BLII/X-Light Bridge 同步时钟，并将 BLII/X-Light Bridge 设置为从 Dante 网络同步时钟。请参阅上面的时钟说明。</p>
 </div>
@@ -401,14 +401,14 @@
 <figure><img src="https://livehelp.solidstatelogic.com/Help/images/g_BLIIBridgeVTL.png" alt="图片 14"><figcaption>图片 14</figcaption></figure>
 <p>在 BLII/X-Light Bridge 上，可以分别创建虚拟跳线输入和输出。</p>
 <p>创建后，BLII/X-Light Bridge 虚拟跳线将出现在路由视图中的“Bridge Virtual Tie Lines”下。为了便于导航，路由点被分成每组 32 个通道。</p>
-<p>BLII/X-Light Bridge 上的虚拟跳线的行为与在 Dante Expander 模块上的行为相同。 有关 Dante 虚拟跳线的更多信息，请参阅<a href="https://livehelp.solidstatelogic.com/Help/DanteVTL.html"><span class="hyperlink">Dante 虚拟跳线</span></a>。</p>
+<p>BLII/X-Light Bridge 上的虚拟跳线的行为与在 Dante Expander 模块上的行为相同。 有关 Dante 虚拟跳线的更多信息，请参阅 <a href="https://livehelp.solidstatelogic.com/Help/DanteVTL.html"><span class="hyperlink">Dante 虚拟跳线</span></a>。</p>
 <p>请注意：无法像使用 Dante Expander 模块那样，将 BLII/X-Light Bridge 虚拟跳线组配置为 Live Recorder ID。</p>
 <h2>实用链接</h2>
-<p><a href="https://livehelp.solidstatelogic.com/Help/DanteSetup.html"><span class="hyperlink">设置 Dante</span></a></p>
-<p><a href="https://livehelp.solidstatelogic.com/Help/DanteConfig.html"><span class="hyperlink">双域路由与配置 Dante 设备</span></a></p>
-<p><a href="https://livehelp.solidstatelogic.com/Help/DanteNetIO.html"><span class="hyperlink">Dante 接口箱</span></a></p>
-<p><a href="https://livehelp.solidstatelogic.com/Help/DanteVTL.html"><span class="hyperlink">虚拟跳线</span></a></p>
-<p><a href="https://livehelp.solidstatelogic.com/Help/LocalMADIConfig.html"><span class="hyperlink">本地/MADI I/O 配置</span></a></p>
+<p><a href="https://livehelp.solidstatelogic.com/Help/DanteSetup.html"><span class="hyperlink">Dante 设置</span></a></p>
+<p><a href="https://livehelp.solidstatelogic.com/Help/DanteConfig.html"><span class="hyperlink">Dante 双域路由</span></a></p>
+<p><a href="https://livehelp.solidstatelogic.com/Help/DanteNetIO.html"><span class="hyperlink">Dante 舞台接口箱</span></a></p>
+<p><a href="https://livehelp.solidstatelogic.com/Help/DanteVTL.html"><span class="hyperlink">Dante 虚拟跳线</span></a></p>
+<p><a href="https://livehelp.solidstatelogic.com/Help/LocalMADIConfig.html"><span class="hyperlink">本地/MADI 配置</span></a></p>
 <p><a href="https://livehelp.solidstatelogic.com/Help/Clocking.html#Dante"><span class="hyperlink">时钟设置</span></a></p>
 <p><a href="https://livehelp.solidstatelogic.com/Help/InstallGuide.html"><span class="hyperlink">安装指南</span></a></p>
-<p><a href="https://livehelp.solidstatelogic.com/Help/LinkIndex.html"><span class="hyperlink">索引与词汇表</span></a></p>
+<p><a href="https://livehelp.solidstatelogic.com/Help/LinkIndex.html"><span class="hyperlink">索引与术语表</span></a></p>
