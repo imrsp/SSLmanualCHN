@@ -50,6 +50,14 @@ async function networkFirst(request) {
   throw new Error(`No cached response for ${key}`);
 }
 
+function isNetworkFirstAsset(url) {
+  const path = relativePath(url);
+  return (
+    path === "data/catalog.json" ||
+    path === "data/themes.json"
+  );
+}
+
 function isStaticAsset(url) {
   const path = relativePath(url);
   return (
@@ -58,7 +66,7 @@ function isStaticAsset(url) {
     path.startsWith("apple-touch-icon") ||
     path.startsWith("pwa-icon") ||
     path.startsWith("src/") ||
-    path.startsWith("data/") ||
+    path.startsWith("data/pages/") ||
     path.startsWith("themes/") ||
     path.startsWith("assets/")
   );
@@ -90,6 +98,11 @@ self.addEventListener("fetch", (event) => {
   if (url.origin !== self.location.origin) return;
 
   if (event.request.mode === "navigate" || url.pathname === "/" || url.pathname.endsWith("/index.html")) {
+    event.respondWith(networkFirst(event.request));
+    return;
+  }
+
+  if (isNetworkFirstAsset(url)) {
     event.respondWith(networkFirst(event.request));
     return;
   }

@@ -41,6 +41,18 @@ const imageNames = (html) =>
 const headings = (html) =>
   [...html.matchAll(/<h([1-6])[^>]*>([\s\S]*?)<\/h\1>/gi)]
     .map((match) => ({ level: Number(match[1]), title: toPlainText(match[2]) }));
+const sameHeadingLevels = (left, right) =>
+  left.length === right.length &&
+  left.every((item, index) => item.level === right[index].level);
+const pageTitleHeadingIssue = (englishHeadings, chineseHeadings) => {
+  if (englishHeadings.length === chineseHeadings.length + 1 && sameHeadingLevels(englishHeadings.slice(1), chineseHeadings)) {
+    return `页首标题口径问题：英文页首标题“${englishHeadings[0].title}”未按页面标题剥离`;
+  }
+  if (chineseHeadings.length === englishHeadings.length + 1 && sameHeadingLevels(englishHeadings, chineseHeadings.slice(1))) {
+    return `页首标题口径问题：中文页首标题“${chineseHeadings[0].title}”未按页面标题剥离`;
+  }
+  return null;
+};
 const untranslatedBlocks = (html) => {
   const visible = html
     .replace(/<!--[\s\S]*?-->/g, "")
@@ -118,16 +130,21 @@ const pages = manifest.map((page) => {
   const englishMetrics = metrics(english);
   const chineseMetrics = metrics(chinese);
   const sourceMetrics = metrics(source);
+  const englishHeadings = headings(english);
+  const chineseHeadings = headings(chinese);
   const suspiciousTranslation = hasTranslation ? untranslatedBlocks(chinese) : [];
   const suspiciousMixedLanguage = hasTranslation ? mixedLanguageBlocks(chinese) : [];
   const issues = hasTranslation ? [] : ["待翻译"];
+  const pageTitleIssue = hasTranslation ? pageTitleHeadingIssue(englishHeadings, chineseHeadings) : null;
 
   for (const key of ["images", "tables", "links", "listItems", "notes", "disclosures"]) {
     if (englishMetrics[key] !== chineseMetrics[key]) {
       issues.push(`${key}: 英文 ${englishMetrics[key]} / 中文 ${chineseMetrics[key]}`);
     }
   }
-  if (englishMetrics.headings !== chineseMetrics.headings) {
+  if (pageTitleIssue) {
+    issues.push(pageTitleIssue);
+  } else if (englishMetrics.headings !== chineseMetrics.headings) {
     issues.push(`headings: 英文 ${englishMetrics.headings} / 中文 ${chineseMetrics.headings}`);
   }
   const englishImages = imageNames(english);
@@ -154,13 +171,14 @@ const pages = manifest.map((page) => {
     file: page.outputFile,
     title: page.title,
     titleZh,
-    metrics: { source: sourceMetrics, en: englishMetrics, zh: chineseMetrics },
-    lengthRatio: Number(lengthRatio.toFixed(2)),
-    missingImages: [...new Set(missingImages)],
-    extraImages: [...new Set(extraImages)],
-    untranslatedBlocks: suspiciousTranslation,
-    mixedLanguageBlocks: suspiciousMixedLanguage,
-    issues,
+  metrics: { source: sourceMetrics, en: englishMetrics, zh: chineseMetrics },
+  lengthRatio: Number(lengthRatio.toFixed(2)),
+  missingImages: [...new Set(missingImages)],
+  extraImages: [...new Set(extraImages)],
+  untranslatedBlocks: suspiciousTranslation,
+  mixedLanguageBlocks: suspiciousMixedLanguage,
+  pageTitleIssue,
+  issues,
   };
 });
 
@@ -169,14 +187,18 @@ const summary = {
   pages: pages.length,
   cleanPages: pages.filter((page) => !page.issues.length).length,
   reviewPages: pages.filter((page) => page.issues.length).length,
-  pagesWithHeadingCountMismatch: pages.filter((page) => page.metrics.en.headings !== page.metrics.zh.headings).length,
+  pagesWithHeadingCountMismatch: pages.filter((page) => !page.pageTitleIssue && page.metrics.en.headings !== page.metrics.zh.headings).length,
+  pagesWithPageTitleIssue: pages.filter((page) => page.pageTitleIssue).length,
   pagesWithMissingImages: pages.filter((page) => page.missingImages.length).length,
   totalIssues: pages.reduce((sum, page) => sum + page.issues.length, 0),
 };
 const headingCountWarnings = pages
-  .filter((page) => page.metrics.en.headings !== page.metrics.zh.headings)
+  .filter((page) => !page.pageTitleIssue && page.metrics.en.headings !== page.metrics.zh.headings)
   .map((page) =>
     `${page.file}: headings: 英文 ${page.metrics.en.headings} / 中文 ${page.metrics.zh.headings}`);
+const pageTitleWarnings = pages
+  .filter((page) => page.pageTitleIssue)
+  .map((page) => `${page.file}: ${page.pageTitleIssue}`);
 
 fs.mkdirSync(outputDirectory, { recursive: true });
 fs.writeFileSync(
@@ -192,6 +214,7 @@ const markdown = [
   `- 页面：${summary.pages}`,
   `- 无结构问题：${summary.cleanPages}`,
   `- 待复核：${summary.reviewPages}`,
+  `- 页首标题口径问题：${summary.pagesWithPageTitleIssue}`,
   `- 标题数量不一致：${summary.pagesWithHeadingCountMismatch}`,
   `- 含缺失图片：${summary.pagesWithMissingImages}`,
   `- 问题项：${summary.totalIssues}`,
@@ -230,6 +253,9 @@ console.log([
   `  页面：${summary.pages}`,
   `  [OK]   无结构问题：${summary.cleanPages}`,
   ...(summary.reviewPages ? [`  [WARN] 待复核：${summary.reviewPages}`] : [`  [OK]   全部通过`]),
+  ...(summary.pagesWithPageTitleIssue
+    ? [`  [WARN] 页首标题口径问题：${summary.pagesWithPageTitleIssue}`]
+    : [`  [OK]   页首标题口径问题：0`]),
   ...(summary.pagesWithHeadingCountMismatch
     ? [`  [WARN] 标题数量不一致：${summary.pagesWithHeadingCountMismatch}`]
     : [`  [OK]   标题数量一致`]),
@@ -237,4 +263,5 @@ console.log([
   ...(summary.totalIssues ? [`  [WARN] 问题项：${summary.totalIssues}`] : []),
   "",
 ].join("\n"));
+for (const warning of pageTitleWarnings) console.log(`  [WARN] ${warning}`);
 for (const warning of headingCountWarnings) console.log(`  [WARN] ${warning}`);
