@@ -10,13 +10,13 @@
 <p><span class="label">Chromatic</span>（半音）按钮将启用所有音高，允许快速将输入调到 <b>任何</b> 12-ET（十二平均律） 音符，尤其是在不知道所需调性的情况下。它兼当默认按钮，因此不能直接关闭。选择新的音阶可以退出 Chromatic 模式。</p>
 <p><span class="label">Amount</span> ：控制信号向目标音高移动的程度。较低的值将提供细微的调音辅助，较高的值将完全修正音高。</p>
 <p><span class="label">Speed</span>：控制信号向目标音高移动的速度。较慢、较长的时间听起来更自然，较快的时间听起来更机械。</p>
-<p><span class="notetitle">注意：</span>可以通过将 Amount 调至 0% 来旁通音高修正。</p>
+<p><span class="note"><span class="notetitle">注意：</span>可以通过将 Amount 调至 0% 来旁通音高修正。</span></p>
 <h3>Doubler</h3>
 <p>Doubler 部分将调音后的信号添加两个额外的副本到输出中。</p>
 <p><span class="label">Doubler Mix</span>：控制仅调音后信号与加倍信号的相对电平。0% 将使加倍信号静音。100% 将用加倍版本完全替换原始信号。</p>
 <p><span class="label">Doubler Depth</span>：控制加倍器施加在信号上的音高偏移和延迟以产生分离感。范围从无变化到每个副本 30 音分和 50 毫秒延迟。</p>
 <p><span class="label">Doubler Width</span>：当使用立体声实例时，加倍信号可以分配左右声像。Width （宽度）参数控制此声像的范围。0% 表示两者居中，100% 表示它们分别顶到极左和极右。</p>
-<p><span class="notetitle">注意：</span>在 SolidPitch 的立体声实例中，输入支路在调音或加倍之前被合并为单声道。</p>
+<p><span class="note"><span class="notetitle">注意：</span>在 SolidPitch 的立体声实例中，输入支路在调音或加倍之前被合并为单声道。</span></p>
 <h3>Harmony</h3>
 <p>Harmony 部分添加另一个调音后信号的副本，这次按设定的音程再进行一次移调。</p>
 <p><span class="label">Harmony Mix</span>：设置和声副本的电平。</p>
@@ -25,7 +25,7 @@
 <p><span class="label">Scale Lock</span>：这确保和声副本的音高位于定义的音阶内。当此参数激活时，Harmony Interval 将向上或向下调整到音阶中最接近的音符。</p>
 <h3>其他特性</h3>
 <p><b>音高热力图：</b></p>
-<p>音阶键盘上方有两个条。上方标有 IN 的条带有一个垂直线，显示输入信号的音高，并以直方图式的阴影表示输入信号的频率历史。下方标有 OUT 的条显示调音后信号的音高线、和声音高线，以及调音后信号的“音高直方图”，样式同 IN 条类似。</p>
+<p>音阶键盘上方有两个条。上方标有 <span class="label">IN</span> 的条带有一个垂直线，显示输入信号的音高，并以直方图式的阴影表示输入信号的频率历史。下方标有 OUT 的条显示调音后信号的音高线、和声音高线，以及调音后信号的“音高直方图”，样式同 IN 条类似。</p>
 <p><span class="label">Reset</span> 按钮将清除这些热力图。</p>
 <p><b>延迟：</b></p>
 <p>由于移调算法本身具有不确定的延迟，因此必须选择固定延迟为处理留出时间。最佳延迟选择取决于素材和控制台上的 DSP 负载。</p>
@@ -53,10 +53,10 @@
 <p>Auto Pan 是一个自动声像效果器，具有多种调制控制和速度同步。</p>
 <figure><img src="https://livehelp.solidstatelogic.com/Help/images/g_FXAutoPan.png" alt="图片 7"><figcaption>图片 7</figcaption></figure>
 <p>Auto Pan 可以通过按住“Tempo Link”链接到对应的 Tempo User Key （拍速自定义键），就像延迟效果单元一样。</p>
-<p>Pan 和 Width 控制用于调整立体声场内声像算法的偏移量与边界范围。</p>
-<p>Rate 控制定义了信号左右声像间摆动的速率。这会根据 Tempo 控制的输入自动更新，但也可以手动调整。</p>
-<p>LFO Mode 决定调制声像位置所用的控制信号波形。选项为正弦波、锯齿波或三角波。</p>
-<p>LFO Reset 按钮允许用户将 LFO 的相位重置为以下位置之一：</p>
+<p><b>Pan</b> 和 <b>Width</b> 控制用于调整立体声场内声像算法的偏移量与边界范围。</p>
+<p><b>Rate</b> 控制定义了信号左右声像间摆动的速率。这会根据 Tempo 控制的输入自动更新，但也可以手动调整。</p>
+<p><b>LFO Mode</b> 决定调制声像位置所用的控制信号波形。选项为正弦波、锯齿波或三角波。</p>
+<p><b>LFO Reset</b> 按钮允许用户将 LFO 的相位重置为以下位置之一：</p>
 <table class="insideborder" style="width: auto; margin: 15px 0px;" cellpadding="4" cellspacing="1">
   <tbody>
     <tr>
@@ -77,8 +77,8 @@
     </tr>
   </tbody>
 </table>
-<p>Steps 控制允许用户创建完全平滑的声像移动（当 Steps = ∞ 时），或通过离散的、等距的点进行声像移动（当 Steps 为有限值时）。Steps = 2 将在 100% 左和 100% 右创建点，产生 Ping Pong 效果，以 Tempo/Rate 控制设置的速度在左右之间交替。 Steps = 3 将在中心创建一个额外的点，循环顺序为 100% 左、中心、100% 右、中心。</p>
-<p>Smooth 控制允许离散点之间的“交叉淡变”量，使信号不会在点之间移动得那么突然。</p>
+<p><b>Steps</b> 控制允许用户创建完全平滑的声像移动（当 <b>Steps</b> = ∞ 时），或通过离散的、等距的点进行声像移动（当 <b>Steps</b> 为有限值时）。<b>Steps</b> = 2 将在 100% 左和 100% 右创建点，产生 Ping Pong 效果，以 Tempo/Rate 控制设置的速度在左右之间交替。 <b>Steps</b> = 3 将在中心创建一个额外的点，循环顺序为 100% 左、中心、100% 右、中心。</p>
+<p><b>Smooth</b> 控制允许离散点之间的“交叉淡变”量，使信号不会在点之间移动得那么突然。</p>
 <p>“Auto Pan”标题下方有一个左右表，显示 AutoPan 输出信号当前在立体声场中的位置。</p>
 <h2>De-Noiser</h2>
 <figure><img src="https://livehelp.solidstatelogic.com/Help/images/g_FXDenoiser.png" alt="图片 12"><figcaption>图片 12</figcaption></figure>
@@ -98,7 +98,7 @@
       <th class="solidborder">Band 6</th>
     </tr>
     <tr>
-      <th class="solidborder">Full (35 Hz - 10.2 kHz)</th>
+      <th class="solidborder"><span class="label">Full</span> (35 Hz - 10.2 kHz)</th>
       <td class="solidborder">35 Hz</td>
       <td class="solidborder">110 Hz</td>
       <td class="solidborder">340 Hz</td>
@@ -156,11 +156,11 @@
 <p><b>ATK</b> 和 <b>REL</b> 控制决定滤波器的启动和释放速度。</p>
 <h3>操作</h3>
 <ul>
-  <li>将 <b>Threshold</b> 设置为适当的电平，使得在每个频带中，低于阈值的都是“噪声”，高于阈值的都是“信号”。这可以通过将 <b>Range</b> 设置为 Full，所有 <b>Gains</b> 设置为 -24 dB，然后从 -80 dB 开始慢慢向上移动 <b>Threshold</b> 直到“噪声”消失来完成。</li>
-  <li>选择噪声所在的适当 <b>Range</b>。所选 <b>Range</b> 之外的任何信号内容将不受 De-Noiser 的影响。</li>
-  <li>移动 <b>Gain</b> 推子来塑造降噪效果：</li>
-  <li>如果选择负增益，当输入电平<b>低于</b> <b>Threshold</b> 时，将应用 EQ 来抑制“噪声”。</li>
-  <li>如果选择正增益，当输入电平<b>高于</b> <b>Threshold</b> 时，将应用 EQ 来提升“信号”。</li>
+  <li>将 <b>Threshold</b> 设置为适当的电平，使得在每个频带中，低于阈值的都是“噪声”，高于阈值的都是“信号”。这可以通过将 <b>Range</b> 设置为 Full，所有 Gains 设置为 -24 dB，然后从 -80 dB 开始慢慢向上移动 <b>Threshold</b> 直到“噪声”消失来完成。</li>
+  <li>选择噪声所在的适当 <b>Range</b>。所选 Range 之外的任何信号内容将不受 De-Noiser 的影响。</li>
+  <li>移动 Gain 推子来塑造降噪效果：</li>
+  <li>如果选择负增益，当输入电平<b>低于</b> Threshold 时，将应用 EQ 来抑制“噪声”。</li>
+  <li>如果选择正增益，当输入电平<b>高于</b> Threshold 时，将应用 EQ 来提升“信号”。</li>
 </ul>
 <h2>Enhancer</h2>
 <figure><img src="https://livehelp.solidstatelogic.com/Help/images/g_fxOtherEnhancer.png" alt="图片 13"><figcaption>图片 13</figcaption></figure>
@@ -168,8 +168,7 @@
 <p><b>HF Cutoff</b>：范围从 2 kHz 到 20 kHz，设置在此频率之上生成谐波的起始点。要为信号增加空气感或使高频更加透亮，请将此频率推向范围的较高端。要为信号增加更多临场感，请使用范围的较低端。</p>
 <p><b>HF Drive</b>：调整过驱量，从而控制谐波的密度和数量。</p>
 <p><b>HF Amount</b>：将增强信号添加到未处理的信号中。</p>
-<p class="note"><span class="notetitle">注意：</span></p>
-<p>只有在 <b>HF Drive</b> 和 <b>HF Amount</b> 推子都设置为非零值时，才能听到 HF Enhancer 的效果。 另外请记住，当 <b>Cutoff</b> 控制在 15 kHz 到 20 kHz 范围内时，即使存在效果也可能不会被注意到，因为这接近人类听觉范围的上限。</p>
+<p class="note"><span class="notetitle">注意：</span>只有在 <b>HF Drive</b> 和 <b>HF Amount</b> 推子都设置为非零值时，才能听到 HF Enhancer 的效果。 另外请记住，当 <b>Cutoff</b> 控制在 15 kHz 到 20 kHz 范围内时，即使存在效果也可能不会被注意到，因为这接近人类听觉范围的上限。</p>
 <p>LF Enhancer 部分类似于 HF Enhancer，但作用于从 <b>LF TOver</b>（转折点）频率向下的低频范围。它非常适合为底鼓、军鼓或通鼓增加深度和厚重感。</p>
 <p>输入信号经过低通滤波，使用 <b>LF Drive</b> 控制进行谐波丰富，并使用 <b>LF Amount</b> 控制添加到未处理的信号中。</p>
 <p>使用 <b>In Gain</b> 和 <b>Out Gain</b> 控制来调整输入和输出信号电平，以获得通过效果器的最佳信号电平。</p>
@@ -188,20 +187,20 @@
 <p>双击半音按钮左侧的文本字段以输入指定的音高偏移值。</p>
 <h2>SubmoniX</h2>
 <figure><img src="https://livehelp.solidstatelogic.com/Help/images/g_FXSubmoniX.PNG" alt="图片 17"><figcaption>图片 17</figcaption></figure>
-<p>SubmoniX 是一个次低音谐波合成器，具有四个独立控制的滤波器，每个滤波器都可以单独控制幅度、频率和带宽。 这允许微调每个合成频带的频率范围和电平。</p>
+<p><b>SubmoniX</b> 是一个次低音谐波合成器，具有四个独立控制的滤波器，每个滤波器都可以单独控制幅度、频率和带宽。 这允许微调每个合成频带的频率范围和电平。</p>
 <p>按下带编号的 IN 按钮提供单个滤波器的输入/输出切换。按住这些按钮可重置所选频带。</p>
-<p>要访问每个频带的频率和带宽控制，请点击左上角的“<b>Frequency</b>”按钮。</p>
-<p><b>Sub Gain</b> 用于控制合成低音信号的整体增益。 <b>LF Boost</b> 在合成低音和原始信号之间添加频率内容，从而实现更均匀的低频范围。 即使没有添加合成分量，这也可以用来增加低频响应。</p>
+<p>要访问每个频带的频率和带宽控制，请点击左上角的“<span class="label">Frequency</span>”按钮。</p>
+<p><span class="label">Sub Gain</span> 用于控制合成低音信号的整体增益。 <span class="label">LF Boost</span> 在合成低音和原始信号之间添加频率内容，从而实现更均匀的低频范围。 即使没有添加合成分量，这也可以用来增加低频响应。</p>
 <h2>VHD Saturator</h2>
 <figure><img src="https://livehelp.solidstatelogic.com/Help/images/g_fxOtherVHD.png" alt="图片 18"><figcaption>图片 18</figcaption></figure>
-<p>VHD Saturator 提供了一系列模拟风格的失真效果。它是对模拟电路的仿真，该电路引入二次谐波的电子管风格失真或三次谐波的晶体管风格失真，或两者的混合。 在较低的 <b>Drive</b> 设置下，失真较温和，可以增加温和的暖度，帮助乐器在混音中更好地融合，或增加一点额外的锐度，帮助乐器在混音中脱颖而出。 随着输入增益水平的提高，失真水平也会提高，直到在高 <b>Drive</b> 水平下出现严重失真。</p>
+<p>VHD Saturator 提供了一系列模拟风格的失真效果。它是对模拟电路的仿真，该电路引入二次谐波的电子管风格失真或三次谐波的晶体管风格失真，或两者的混合。 在较低的 Drive 设置下，失真较温和，可以增加温和的暖度，帮助乐器在混音中更好地融合，或增加一点额外的锐度，帮助乐器在混音中脱颖而出。 随着输入增益水平的提高，失真水平也会提高，直到在高 Drive 水平下出现严重失真。</p>
 <p>控制如下：</p>
 <ul>
   <li><b>In Gain</b> 设置驱动电平</li>
-  <li>Clip 0dB 提供额外的 6 dB 动态余量，用于创建大幅提升/失真的信号，而不会出现数字削波</li>
-  <li>Depth 控制失真的幅度</li>
-  <li>Shape 调整失真是具有平滑还是硬朗的边缘</li>
-  <li><b>Drive</b> 决定奇次和偶次谐波的混合。增加 <b>Drive</b> 控制会增加添加的偶次谐波量</li>
+  <li><span class="label">Clip 0dB</span> 提供额外的 6 dB 动态余量，用于创建大幅提升/失真的信号，而不会出现数字削波</li>
+  <li><b>Depth</b> 控制失真的幅度</li>
+  <li><b>Shape</b> 调整失真是具有平滑还是硬朗的边缘</li>
+  <li><b>Drive</b> 决定奇次和偶次谐波的混合。增加 Drive 控制会增加添加的偶次谐波量</li>
   <li><b>Out Gain</b> 提供输出微调，以调整效果的最终输出电平</li>
 </ul>
 <h2>实用链接</h2>
