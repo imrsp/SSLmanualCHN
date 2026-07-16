@@ -37,14 +37,14 @@
 <p>在新演出使用之前重置 Net I/O 舞台接口箱设置是一个好习惯。可以使用“<span class="label">Reset IO Settings</span>”按钮进行重置。 该按钮位于<b>Dante I/O 配置</b>页面（<span class="label">MENU</span> &gt; <span class="label">Setup</span> &gt; <span class="label">I/O</span> &gt; Dante Configuration）中，点击舞台接口箱并导航到 <span class="label">Setup</span> 选项卡即可找到。</p>
 <figure><img src="https://livehelp.solidstatelogic.com/Help/images/g_DanteDetailView.png" alt="图片 1"><figcaption>图片 1</figcaption></figure>
 <p><span class="note"><span class="notetitle">注意：</span>您必须是舞台接口箱的所有者才能重置它。按住“<span class="label">Stagebox Ownership</span>”按钮以取得所有权。<br><br><span class="notetitle">警告：</span>重置舞台接口箱将导致主通道和补偿分离通道的电平跳变。SSL 建议在执行舞台接口箱重置之前，将接收设备上所有受影响的通道静音。</span></p>
-<p><span class="label">重置 I/O 设置</span>会重置以下设置：</p>
+<p>重置 I/O 设置会重置以下设置：</p>
 <ul>
   <li>所有的所有权状态将设置为无（参见下面的<a href="https://livehelp.solidstatelogic.com/Help/DanteNetIO.html#Ownership"><span class="hyperlink">所有权</span></a>部分）</li>
   <li>所有输入将设置为<span class="label">Mic</span>模式下的 <b>+35 dB</b> 增益</li>
   <li>所有输入的 <span class="label">+48V</span> 将关闭</li>
   <li>所有输入的 <span class="label">Pad</span> 将关闭</li>
   <li>增益补偿点将重置为 <b>+25 dB</b>（低于默认 +35 dB 麦克风增益设置 10 dB）（参见下面的<a href="https://livehelp.solidstatelogic.com/Help/DanteNetIO.html#GainShare"><span class="hyperlink">增益共享</span></a>部分）</li>
-  <li>对于 SB 32.24，重置 <span class="label">AES 输入启用</span>按钮，以便将所有输入设置为模拟（如果适用）</li>
+  <li>对于 SB 32.24，重置 AES 输入启用按钮，以便将所有输入设置为模拟（如果适用）</li>
   <li>所有输入的 AES <span class="label">SRC</span> 将关闭（如果适用）</li>
   <li><span class="label">AutoPad</span> 将关闭（如果适用）</li>
   <li>所有输入的限幅器将关闭（如果适用）</li>
@@ -68,7 +68,7 @@
 <div id="accordion">
 <div class="indexheader2">舞台接口箱所有权</div>
 <div>
-<p><span class="label">舞台接口箱所有权</span>能够对以下参数进行控制：</p>
+<p>舞台接口箱所有权能够对以下参数进行控制：</p>
 <ul>
   <li>工作电平</li>
   <li>启用 AES 输入（仅限 SB 32.24）</li>
@@ -212,7 +212,7 @@
     </tr>
   </tbody>
 </table>
-<p>在加载包含输入设置存储的演出文件之前，<span class="notetitle">请注意，</span>舞台接口箱上每个输入当前的所有权状态。 如果其他设备拥有某些输入的所有权，您的控制台将无法在加载演出文件时自动取得这些输入的所有权。</p>
+<p>在加载包含输入设置存储的演出文件之前，请注意，舞台接口箱上每个输入当前的所有权状态。 如果其他设备拥有某些输入的所有权，您的控制台将无法在加载演出文件时自动取得这些输入的所有权。</p>
 <p>在加载演出文件之前，前往 <span class="label">MENU</span> &gt; <span class="label">Setup</span> &gt; <span class="label">I/O</span> &gt; <span class="label">Dante Configuration</span>，将舞台接口箱添加到“<b>Configured Devices</b>”列表。 点击舞台接口箱，打开其详细视图。要取得全部输入的所有权，请在“<span class="label">Setup</span>”选项卡中按住“<span class="label">Inputs Ownership</span>”按钮并选择“<span class="label">Take All</span>”。</p>
 <p>要取得单个输入的所有权，请在“<span class="label">Inputs</span>”选项卡中选择您希望控制的某路输入，然后点击“<span class="label">Edit Settings</span>”。 如果输入由另一台设备（不是您的控制台）拥有，请按住“<span class="label">Take</span>”以取得所有权。如有必要，请事先与当前所有者确认！ 如果输入没有所有者，或者控制台已经是所有者，请继续处理下一个输入。 对您希望控制的全部输入重复此操作，确保在加载演出文件前，需要的输入要么没有所有者，要么所有者为您的控制台。</p>
 <p>确保舞台接口箱名称与演出文件中存储的名称匹配。</p>

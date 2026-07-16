@@ -19,7 +19,7 @@
 <p><b>双域路由</b>是 SSL 独有的功能，允许控制台直接与网络上的设备交互，无需使用 Dante Controller 来建立路由。</p>
 <p>与普通的 Dante 路由一样，双域路由默认使用单播流创建。 如果需要组播流，则必须像往常一样在 Dante Controller 中设置。 来自这些发送通道的任何现有单播双域路由将自动转换为组播。随后从这些发送通道创建的任何双域路由都将是组播。</p>
 <h3>Dante 配置页面</h3>
-<p>在可以使用双域路由从控制台直接路由到 Dante 设备之前，必须在控制台的 <span class="label">Dante 配置页面</span>中配置这些设备。</p>
+<p>在可以使用双域路由从控制台直接路由到 Dante 设备之前，必须在控制台的 Dante 配置页面中配置这些设备。</p>
 <p>前往 <span class="label">MENU</span> &gt; <span class="label">Setup</span> &gt; <span class="label">I/O</span>，然后点击菜单下方的 <span class="label">Dante Configuration</span>。</p>
 <p>页面左侧有一个 “<b>Connected Devices</b>”（已连接设备）列表。网络上的所有 Dante 设备都将在此列出。如果配置正确的设备未出现在列表中，请点击“<span class="label">Refresh Devices</span>”按钮刷新视图。</p>
 <p>页面右侧有一个 “<b>Configured Devices</b>”（已配置设备）列表。这是所有已配置供使用的 Dante 设备的列表。</p>
@@ -47,7 +47,7 @@
     </tr>
   </tbody>
 </table>
-<span class="note"><span class="notetitle">请注意：</span>当 SB 16.12 或 SB 32.24 连接了网络 A+B 链路时， 主备网络状态将始终报告两者都已连接，即使情况并非如此。 在此模式下，请查阅设备前面板上的 <b>NET A</b> 和 <b>NET B</b> LED 以了解主要和次要连接状态：</span>
+<div class="note"><span class="notetitle">请注意：</span>当 SB 16.12 或 SB 32.24 连接了网络 A+B 链路时， 主备网络状态将始终报告两者都已连接，即使情况并非如此。 在此模式下，请查阅设备前面板上的 <b>NET A</b> 和 <b>NET B</b> LED 以了解主要和次要连接状态：
 <table class="insideborder" style="width: auto; margin: 15px 0px;" cellpadding="4" cellspacing="1">
   <tbody>
     <tr>
@@ -69,6 +69,7 @@
   </tbody>
 </table>
 <p>更多信息请查阅 <a class="external-link" tabindex="-1" href="https://www.solidstatelogic.com/products/dante-live-sound?tab=documents" target="_blank"><span class="hyperlink">SB 16.12 和 SB 32.24 用户指南 (www.solidstatelogic.com/products/dante-live-sound)</span></a>。</p>
+</div>
 <p>对于 “Configured Devices”，左侧有一个单独的 LED。这显示设备是在线还是离线。</p>
 <table class="insideborder" style="width: auto; margin: 15px 0px;" cellpadding="4" cellspacing="1">
   <tbody>

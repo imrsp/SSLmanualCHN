@@ -1,7 +1,7 @@
 <h2 id="Wireless">Shure ULX-D 和 Axient Digital 无线麦克风控制与监控</h2>
 <p>有关控制 Shure ANI22 和 ANI4IN 音频接口的说明，请参阅<a href="#ANI"><span class="hyperlink">下面的 ANI 部分</span></a>。</p>
 <h3>引言</h3>
-<p>Shure ULX-D 和 Axient Digital 系列无线麦克风能够从 Live 控制台界面进行远程控制。电池和 RF 状态也会在控制台界面中报告。 <span class="notetitle">请注意，</span>只有支持 Dante 的 ULX-D 和 Axient Digital 产品才能被控制台控制；这排除了 ULXD4 接收器。</p>
+<p>Shure ULX-D 和 Axient Digital 系列无线麦克风能够从 Live 控制台界面进行远程控制。电池和 RF 状态也会在控制台界面中报告。 请注意，只有支持 Dante 的 ULX-D 和 Axient Digital 产品才能被控制台控制；这排除了 ULXD4 接收器。</p>
 <p>这是控制台软件的授权功能，可在 SSL 工厂出厂时激活，也可在交付后现场激活。详情请咨询当地 SSL 授权经销商。 如果未启用许可证，则 Shure 无线设备可以像任何其他 Dante 设备一样使用控制台界面进行路由，但不能从控制台进行远程控制或监控。</p>
 <figure><img src="https://livehelp.solidstatelogic.com/Help/images/ShureAxientAD4Q_front.png" alt="图片 1"><figcaption>图片 1</figcaption></figure>
 <h3>设备 IP 地址</h3>
@@ -21,7 +21,7 @@
 <p>如果接收器设置为 <b>Split/Redundant</b> 模式，Shure 控制和 Dante 音频将使用设备背面标记的 Primary 和 Secondary 端口。 为了正常运行，必须<b>同时</b>连接控制端口和 Dante 音频端口。确保所有端口都连接到正确的 Primary/Secondary 网络端口。请参阅相关的 Shure 用户指南以获得指导。</p>
 </span>
 <h4>使用 Dante Domain Manager 的网络</h4>
-<p><span class="notetitle">请注意，</span>对于包含 Dante Domain Manager (DDM) 服务器的网络，控制台必须登录到与 Shure 接收器相同的域才能建立路由和控制它们。 有关为启用 DDM 的网络配置控制台的详细信息，请参阅<a href="https://livehelp.solidstatelogic.com/Help/OptionsNetwork.html#DDM"><span class="hyperlink">网络选项</span></a>部分。</p>
+<p>请注意，对于包含 Dante Domain Manager (DDM) 服务器的网络，控制台必须登录到与 Shure 接收器相同的域才能建立路由和控制它们。 有关为启用 DDM 的网络配置控制台的详细信息，请参阅<a href="https://livehelp.solidstatelogic.com/Help/OptionsNetwork.html#DDM"><span class="hyperlink">网络选项</span></a>部分。</p>
 <h3>将 Shure 接收器配置为控制台上的设备</h3>
 <p>为了从 Live 控制台路由和控制 Shure 无线麦克风，首先必须将其添加到控制台 <b>Dante 配置页面</b>中的“<b>Configured Devices</b>”列表中 (MENU &gt; Setup &gt; I/O &gt; Dante Configuration)， 方法是将连接的设备从“<b>Connected Devices</b>”列表移动过来，或使用“<span class="label">Configure New Device</span>”按钮手动创建新设备。 请参阅<a href="https://livehelp.solidstatelogic.com/Help/DanteConfig.html"><span class="hyperlink">配置 Dante 设备</span></a>部分了解更多详情。</p>
 <span class="note">
@@ -70,7 +70,7 @@
 <p>控制台和 ANI22/ANI4IN 接口的 Dante Primary 网络接口必须配置在同一子网中。 请参阅 <a href="https://livehelp.solidstatelogic.com/Help/DanteSetup.html"><span class="hyperlink">Dante 设置</span></a>部分和 Shure ANI 用户指南 (<a class="external-link" tabindex="-1" href="https://pubs.shure.com/guide/ANI22/en-US" target="_blank"><span class="hyperlink">pubs.shure.com/guide/ANI22/en-US</span></a> 或 <a class="external-link" tabindex="-1" href="https://pubs.shure.com/guide/ANI4IN/en-US" target="_blank"><span class="hyperlink">pubs.shure.com/guide/ANI4IN/en-US</span></a>) 以获得帮助。</p>
 <p><span class="note"><span class="notetitle">注意：</span>确保 Shure ANI 设备通过支持 PoE 的交换机端口连接到网络。</span></p>
 <h4>使用 Dante Domain Manager 的网络</h4>
-<p><span class="notetitle">请注意，</span>对于包含 Dante Domain Manager (DDM) 服务器的网络，控制台必须登录到与 ANI 设备相同的域才能建立路由和控制它们。 有关为启用 DDM 的网络配置控制台的详细信息，请参阅<a href="https://livehelp.solidstatelogic.com/Help/OptionsNetwork.html#DDM"><span class="hyperlink">网络选项</span></a>部分。</p>
+<p>请注意，对于包含 Dante Domain Manager (DDM) 服务器的网络，控制台必须登录到与 ANI 设备相同的域才能建立路由和控制它们。 有关为启用 DDM 的网络配置控制台的详细信息，请参阅<a href="https://livehelp.solidstatelogic.com/Help/OptionsNetwork.html#DDM"><span class="hyperlink">网络选项</span></a>部分。</p>
 <h3>将 ANI22/ANI4IN 配置为控制台上的设备</h3>
 <p>为了从 Live 控制台路由和控制 Shure ANI 设备，首先必须将其添加到控制台 <b>Dante 配置页面</b>中的“<b>Configured Devices</b>”列表中 (MENU &gt; Setup &gt; I/O &gt; Dante Configuration)， 然后将已连接的设备从“<b>Connected Devices</b>”列表中拖动过来，或使用 <span class="label">Configure New Device</span> 按钮手动创建新设备。 请参阅<a href="https://livehelp.solidstatelogic.com/Help/DanteConfig.html"><span class="hyperlink">配置 Dante 设备</span></a>部分了解更多详情。</p>
 <span class="note">
