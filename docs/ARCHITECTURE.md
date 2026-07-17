@@ -51,6 +51,8 @@ dist/robots.txt
 ## 目录职责
 
 - `content/`：人工维护的正文与元数据，是内容事实来源。
+- `content/seo.json`：部署 URL、description、keywords、OG 图片、noindex 页面和 sitemap 回退日期的唯一 SEO 配置源。构建时同步生成 SPA 标签、预渲染标签和 `robots.txt`。
+- `content/upstream-patches.json`：记录上游原文中已确认、但本站需要主动修正的错误；工程校验会确认上游证据仍存在且中英文目标均已应用补丁。
 - `content/en/pages/`：英文基准正文。
 - `content/zh/pages/`：中文译文和 standalone 页面。
 - `content/themes/`：主题预设 JSON。
@@ -123,7 +125,7 @@ standalone 页面特点：
  
  此外还生成：
  
- - `dist/robots.txt` — 允许所有爬虫，指向 sitemap
+ - `dist/robots.txt` — 根据 `content/seo.json` 动态生成，允许所有爬虫并指向 sitemap
  - `dist/sitemap.xml` — 涵盖首页、index.html、所有章节页和 standalone 页的完整站点地图
  
  构建脚本新增产出：

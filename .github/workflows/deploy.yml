@@ -14,6 +14,10 @@ on:
     branches: [main]
   workflow_dispatch:
 
+concurrency:
+  group: ssl-live-manual-remote-deployment
+  cancel-in-progress: false
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
@@ -49,6 +53,10 @@ jobs:
           SSH_TARGET: ${{ secrets.SSH_TARGET }}
           SSH_KNOWN_HOSTS: ${{ secrets.SSH_KNOWN_HOSTS }}
         run: |
+          set -euo pipefail
+
+          node scripts/validate_deploy_target.mjs "$SSH_TARGET" "$SSH_USER"
+
           mkdir -p ~/.ssh
           chmod 700 ~/.ssh
           echo "$SSH_KEY" > ~/.ssh/deploy_key
@@ -64,6 +72,10 @@ jobs:
 
           SSH_CMD="ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=yes"
 
+          REMOTE_HOME="$($SSH_CMD "${SSH_USER}@${SSH_HOST}" 'cd ~ && pwd -P')"
+          RESOLVED_TARGET="$($SSH_CMD "${SSH_USER}@${SSH_HOST}" "cd -- '$SSH_TARGET' && pwd -P")"
+          node scripts/validate_deploy_target.mjs "$RESOLVED_TARGET" "$SSH_USER" "$REMOTE_HOME"
+
           # Atomic-like deployment using rsync's built-in temp directory:
           # --delete-delay marks files for removal but only cleans up after transfer completes
           # --delay-updates writes new files to .~tmp~ then atomically renames into place
@@ -73,4 +85,4 @@ jobs:
             --filter="protect .well-known/" \
             --filter="protect .well-known/***" \
             -e "$SSH_CMD" \
-            dist/ "${SSH_USER}@${SSH_HOST}:${SSH_TARGET}"
+            dist/ "${SSH_USER}@${SSH_HOST}:${RESOLVED_TARGET}/"

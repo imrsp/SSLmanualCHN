@@ -11,16 +11,16 @@
 ## 架构概览
 
 ```text
-content/en/pages + content/zh/pages + content/manifest.json + content/site.json
+content/en/pages + content/zh/pages + content/manifest.json + content/site.json + content/seo.json
                                          |
                                          v
                               scripts/build_static_site.mjs
                                          |
                                          v
-dist/seo/<id>.html        ← 预渲染页面（84 个）
-dist/sitemap.xml          ← 站点地图（86 条）
+dist/seo/<id>.html        ← 每个章节与 standalone 页各一份预渲染页面
+dist/sitemap.xml          ← 由当前章节与 standalone 页动态生成的站点地图
 dist/robots.txt           ← 爬虫指令
-src/index.html            ← SPA 入口（含增强 meta 标签）
+src/index.html            ← SPA 入口模板（SEO 字段由构建注入）
 ```
 
 ### 预渲染页面 (`dist/seo/<id>.html`)
@@ -44,17 +44,17 @@ src/index.html            ← SPA 入口（含增强 meta 标签）
 |---|---|---|
 | `<title>` | 中文标题 `\| SSL Live 中文操作手册` | `content/site.json` `pageTitlesZhById` |
 | `<meta name="description">` | 正文首段 160 字摘要 | `extractMetaDescription()` 自动抽取 |
-| `<meta name="robots">` | `index, follow` 或 `noindex, follow` | 默认 `index`，特定页面手动设为 `noindex` |
+| `<meta name="robots">` | `index, follow` 或 `noindex, follow` | 默认 `index`，`content/seo.json` 可配置 `noindexPageIds` |
 | `<meta property="og:title">` | 页面中文标题 | 同 title |
 | `<meta property="og:description">` | 同 meta description | 同上 |
 | `<meta property="og:type">` | `article` | 固定 |
-| `<meta property="og:url">` | 预渲染页面的 canonical URL | `site.url` + `/seo/<id>.html` |
-| `<meta property="og:image">` | 分享预览图片 | `site.ogImage` |
+| `<meta property="og:url">` | 预渲染页面的 canonical URL | `content/seo.json` 的 `url` + `/seo/<id>.html` |
+| `<meta property="og:image">` | 分享预览图片 | `content/seo.json` 的 `ogImage` |
 | `<meta property="og:locale">` | `zh_CN` | 固定 |
 | `<meta name="twitter:card">` | `summary_large_image` | 固定 |
 | `<meta name="twitter:title">` | 同 og:title | 同上 |
 | `<meta name="twitter:description">` | 同 og:description | 同上 |
-| `<link rel="canonical">` | 规范 URL，指向本预渲染页面 | `site.url` + `/seo/<id>.html` |
+| `<link rel="canonical">` | 规范 URL，指向本预渲染页面 | `content/seo.json` 的 `url` + `/seo/<id>.html` |
 | `<link rel="alternate" hreflang="zh-CN">` | 中文版本 | 同 canonical |
 | `<link rel="alternate" hreflang="x-default">` | 默认版本 | 同 canonical |
 | `<link rel="prev">` / `<link rel="next">` | 按 manifest order 顺序的前后章节 | 自动计算 |
@@ -62,7 +62,7 @@ src/index.html            ← SPA 入口（含增强 meta 标签）
 
 ### SPA 入口 (`dist/index.html`)
 
-全局标签在 `src/index.html` 中定义，构建时原样复制到 `dist/index.html`：
+全局标签的结构在 `src/index.html` 中定义，具体值由构建从 `content/seo.json` 注入到 `dist/index.html`：
 
 - `<meta name="description">` — 站点级描述
 - `<meta name="keywords">` — 站点级关键字
@@ -101,31 +101,21 @@ src/index.html            ← SPA 入口（含增强 meta 标签）
 
 ### 部署域名
 
-构建产物的所有 URL 使用占位符 `https://<domain>/`。部署前替换为实际域名：
+部署 URL 只在 `content/seo.json` 的 `url` 字段维护，并应包含实际协议、域名及可选子路径。`description`、`keywords`、`ogImage` 和 `noindexPageIds` 也以该文件为唯一配置源。
 
-- `content/site.json` 中的 `url` 字段
-- `src/index.html` 中的所有 `<domain>` 引用
-- `public/robots.txt` 中的 `Sitemap:` 行
-
-建议部署后通过以下命令全局替换：
-
-```bash
-# 替换为实际域名
-sed -i '' 's|<domain>|manual.example.com|g' dist/sitemap.xml dist/seo/*.html dist/index.html
-sed -i '' 's|<domain>|manual.example.com|g' dist/robots.txt
-```
+构建会自动同步这些字段到 SPA 入口、所有预渲染页面、sitemap 和 `robots.txt`。`ogImage` 使用相对路径时必须对应 `public/` 下的真实发布文件；构建和 SEO 审计都会阻止缺失文件、残留模板占位符或配置不一致。
 
 ### 禁止索引的页面
 
-当前设为 `noindex, follow` 的页面（`scripts/build_static_site.mjs`）：
+当前在 `content/seo.json` 的 `noindexPageIds` 中设为 `noindex, follow` 的页面：
 
 - `About` — 版权和版本历史页，内容价值有限
 - `about-dmt` — 关于本站的 standalone 页
 
-如需修改，编辑 `generatePrerenderPage()` 中的 `noindexIds` 集合：
+如需修改，直接调整 `content/seo.json`：
 
-```js
-var noindexIds = new Set(["About", "about-dmt"]);
+```json
+"noindexPageIds": ["About", "about-dmt"]
 ```
 
 ### 搜索引擎提交
@@ -143,8 +133,8 @@ var noindexIds = new Set(["About", "about-dmt"]);
 
 `npm run build` 或 `npm run check` 会自动产出：
 
-- `dist/seo/*.html` — 84 个预渲染页面（83 章节 + 1 standalone）
-- `dist/sitemap.xml` — 86 条站点地图（首页 + index.html + 84 预渲染页）
+- `dist/seo/*.html` — 每个章节和 standalone 页面各一份
+- `dist/sitemap.xml` — 首页、index、全部章节和 standalone 页
 - `dist/robots.txt` — 允许所有爬虫，禁止抓取 `data/`、`themes/`、`src/`
 
 ### 独立审计
@@ -153,12 +143,12 @@ var noindexIds = new Set(["About", "about-dmt"]);
 npm run audit:seo
 ```
 
-检验 28 项指标，包括：
+检验项目包括：
 
 - `robots.txt` 存在且含 Sitemap 指令
-- `sitemap.xml` 存在且条目数 ≥ 84
+- `sitemap.xml` 存在且条目数覆盖当前 manifest
 - 所有 `seo/*.html` 文件存在
-- 每页都有 `<title>`、description、canonical、JSON-LD、OG、Twitter、hreflang、SPA 重定向
+- 每页都有 `<title>`、description、canonical、JSON-LD、OG、Twitter、hreflang、SPA 重定向，正文 ID 唯一且不存在无 JavaScript 强制跳转
 - 首页有 `rel=next`，末页有 `rel=prev`
 - standalone 页存在且有 description 和 JSON-LD
 - SPA 入口 `index.html` 有 description、OG、Twitter、canonical、sitemap、robots
@@ -169,13 +159,13 @@ npm run audit:seo
 
 ## sitemap 的 lastmod
 
-每个页面的 `<lastmod>` 取自相应中文源文件的 `mtime`，而非构建日期：
+每个页面的 `<lastmod>` 优先取自相应源文件最后一次 Git 提交的日期：
 
 - 章节页：`content/zh/pages/<NN-Slug>.html` 的修改日期
 - standalone 页：`content/zh/pages/<slug>.html` 的修改日期
 - 首页/index：`content/seo.json` 的修改日期
 
-只编辑内容文件才会刷新 `lastmod`，单纯重建不会触发搜索引擎重新抓取。
+设置 `SOURCE_DATE_EPOCH` 时统一使用该日期，以支持可复现构建；无法读取 Git 历史时使用 `content/seo.json` 的 `defaultLastModified`。文件系统 mtime 不参与结果，单纯重新 checkout 或重建不会产生新的构建版本。
 
 ---
 
@@ -211,6 +201,5 @@ location /seo/ {
 | `scripts/build_static_site.mjs` | 生成预渲染页面 + sitemap |
 | `scripts/lib/manual.mjs` | `extractMetaDescription()` 描述抽取 |
 | `scripts/audit_seo.mjs` | SEO 完整性审计 |
-| `public/robots.txt` | 爬虫指令模板 |
-| `src/index.html` | SPA 入口（全局 SEO 标签） |
+| `src/index.html` | SPA 入口模板（SEO 字段由构建注入） |
 | `content/seo.json` | SEO 全局配置（`description`、`keywords`、`url`、`ogImage`、`noindexPageIds`） |

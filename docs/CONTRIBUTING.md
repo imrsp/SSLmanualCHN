@@ -21,6 +21,8 @@
 - 英文标题、来源、顺序、章节输出文件：`content/manifest.json`
 - 中文标题、章节分组、站点元数据：`content/site.json`
 - 主题预设：`content/themes/*.json`
+- SEO 配置：`content/seo.json`；不要在 `src/index.html` 或其他文件中硬编码部署 URL、description、keywords 或 OG 图片
+- 上游勘误：同时修改中英文正文，并在 `content/upstream-patches.json` 登记上游快照、原值、修正值和目标文件
 - 人类可读术语规则：`docs/TERMINOLOGY.md`
 - 工具可读术语数据：`docs/glossary.csv`
 

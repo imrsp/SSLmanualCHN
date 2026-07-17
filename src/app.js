@@ -284,65 +284,66 @@ const dataUrl = (path) => {
   return url;
 };
 const localData = globalThis.__SSL_MANUAL_DATA__ ??= { pages: {} };
-const buildHashStorageKey = "ssl-manual-build-hash";
 
 function getCurrentBuildHash() {
   return typeof window.__BUILD_HASH__ !== "undefined" ? String(window.__BUILD_HASH__) : "";
 }
 
-function readStoredBuildHash() {
-  try {
-    return localStorage.getItem(buildHashStorageKey) || "";
-  } catch (_) {
-    return "";
-  }
+function serviceWorkerUrl(buildHash) {
+  const url = new URL("./sw.js", document.baseURI);
+  url.searchParams.set("v", buildHash);
+  return url.href;
 }
 
-function storeCurrentBuildHash(buildHash) {
-  if (!buildHash) return;
-  try {
-    localStorage.setItem(buildHashStorageKey, buildHash);
-  } catch (_) {}
+function controllerMatchesBuildHash(buildHash) {
+  const controller = navigator.serviceWorker?.controller;
+  if (!controller) return false;
+  return new URL(controller.scriptURL).searchParams.get("v") === buildHash;
 }
 
-function waitForServiceWorkerControllerChange(timeoutMs) {
+function waitForServiceWorkerController(buildHash, timeoutMs) {
   return new Promise((resolve) => {
-    if (!navigator.serviceWorker?.controller) {
-      resolve();
+    if (controllerMatchesBuildHash(buildHash)) {
+      resolve(true);
       return;
     }
     let settled = false;
-    const timer = window.setTimeout(done, timeoutMs);
-    function done() {
+    const timer = window.setTimeout(() => done(false), timeoutMs);
+    function done(updated) {
       if (settled) return;
       settled = true;
       window.clearTimeout(timer);
       navigator.serviceWorker.removeEventListener("controllerchange", onChange);
-      resolve();
+      resolve(updated);
     }
     function onChange() {
-      done();
+      if (controllerMatchesBuildHash(buildHash)) done(true);
     }
     navigator.serviceWorker.addEventListener("controllerchange", onChange);
   });
 }
 
-async function refreshServiceWorkerForNewBuild() {
+async function prepareServiceWorkerForBuild() {
   if (!("serviceWorker" in navigator) || location.protocol === "file:") return;
   const currentBuildHash = getCurrentBuildHash();
-  const storedBuildHash = readStoredBuildHash();
-  if (!currentBuildHash || !storedBuildHash || currentBuildHash === storedBuildHash) return;
+  if (!currentBuildHash) return;
+  const hadController = Boolean(navigator.serviceWorker.controller);
 
   try {
-    const registration = await navigator.serviceWorker.getRegistration("./");
-    if (registration) {
-      await registration.update();
-      await waitForServiceWorkerControllerChange(1500);
+    const registration = await navigator.serviceWorker.register(
+      serviceWorkerUrl(currentBuildHash),
+      { scope: "./", updateViaCache: "none" },
+    );
+    if (!hadController || controllerMatchesBuildHash(currentBuildHash)) return;
+    if (navigator.onLine === false) return;
+
+    await registration.update();
+    const updated = await waitForServiceWorkerController(currentBuildHash, 10000);
+    if (!updated) {
+      console.warn("Service worker update did not take control; it will retry on the next load.");
     }
   } catch (error) {
-    console.warn("Service worker refresh failed:", error);
-  } finally {
-    storeCurrentBuildHash(currentBuildHash);
+    console.warn("Service worker preparation failed:", error);
   }
 }
 
@@ -503,18 +504,6 @@ window.addEventListener("appinstalled", function () {
   updateInstallButtonVisibility();
 });
 
-async function registerServiceWorker() {
-  if (!("serviceWorker" in navigator) || location.protocol === "file:") return;
-  try {
-    await navigator.serviceWorker.register("./sw.js", {
-      scope: "./",
-      updateViaCache: "none",
-    });
-  } catch (error) {
-    console.warn("Service worker registration failed:", error);
-  }
-}
-
 function pageRoute(pageId, headingId = "") {
   return `#/page/${encodeURIComponent(pageId)}${headingId ? `/${encodeURIComponent(headingId)}` : ""}`;
 }
@@ -537,11 +526,21 @@ function navigateToPage(pageId, headingId = "", options = {}) {
   });
 }
 
+function decodeRouteComponent(value, fallback = "") {
+  if (!value) return fallback;
+  try {
+    return decodeURIComponent(value);
+  } catch (_) {
+    return fallback;
+  }
+}
+
 function getRoute() {
   const match = location.hash.match(/^#\/page\/([^/]+)(?:\/(.+))?$/);
+  const defaultPageId = state.catalog?.pages[0]?.id || "";
   return {
-    pageId: decodeURIComponent(match?.[1] || state.catalog?.pages[0]?.id || ""),
-    headingId: match?.[2] ? decodeURIComponent(match[2]) : "",
+    pageId: decodeRouteComponent(match?.[1], defaultPageId),
+    headingId: decodeRouteComponent(match?.[2]),
   };
 }
 
@@ -1224,7 +1223,7 @@ function closeMobilePanels() {
 
 async function start() {
   try {
-    await refreshServiceWorkerForNewBuild();
+    await prepareServiceWorkerForBuild();
     state.catalog = await loadData("catalog.json", () => localData.catalog);
 
     /* — Load themes from build data — */
@@ -1263,8 +1262,6 @@ async function start() {
     renderNavigation();
     await route();
     updateInstallButtonVisibility();
-    registerServiceWorker();
-    storeCurrentBuildHash(getCurrentBuildHash());
   } catch (error) {
     elements.databaseStatus.textContent = "CONTENT ERROR";
     elements.document.innerHTML = `

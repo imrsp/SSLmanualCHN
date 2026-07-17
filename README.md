@@ -43,12 +43,16 @@ npm run serve
 ├── content/                  # 可编辑内容
 │   ├── manifest.json         # 英文章节清单与站点顺序
 │   ├── site.json             # 章节分组、中文标题、站点元数据
+│   ├── seo.json              # SEO 单一配置源
+│   ├── upstream-patches.json # 已确认的上游勘误及本地补丁记录
 │   ├── en/pages/             # 英文基准正文，一章一文件
 │   └── zh/pages/             # 中文译文，一章一文件
 ├── docs/glossary.csv         # 机器可读术语表
 ├── src/                      # 阅读器源码
 ├── public/                   # 原样复制到站点的图片、PDF 等资源
-├── scripts/                  # 构建、校验、审计与本地服务
+├── scripts/                  # 项目工具统一目录
+│   ├── lib/                  # 构建与校验共享函数
+│   └── test_manual.mjs       # Node.js 自动化回归测试
 ├── upstream/                 # 官方站点原始快照，仅用于溯源
 ├── docs/                     # 架构、翻译、贡献和部署说明
 └── dist/                     # 构建产物，不提交版本库
