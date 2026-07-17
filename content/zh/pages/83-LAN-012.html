@@ -116,7 +116,7 @@
         <li>每个网络接口的 IP 地址必须唯一。</li>
         <li>Dante Primary 和 Secondary 网络绝不可物理连接。</li>
         <li>Dante Primary 和 Secondary 地址必须位于不同子网（详见下文）。</li>
-        <li>设置为自动配置时，Dante Primary 将使用 169.254.x.x 子网。这是标准 IPv4 协议行为，因此与Connectivity 网络一致。</li>
+        <li>设置为自动配置时，Dante Primary 将使用 169.254.x.x 子网。这是标准 IPv4 协议行为，因此与 Connectivity 网络一致。</li>
         <li>设置为自动配置时，Dante Secondary 将使用 172.31.x.x 子网。该范围仍属于 IPv4 私有地址，并非自动配置专用，使其用于 Secondary 自动配置是 Dante 特有的做法。</li>
         <li>除配置在不同子网外，Connectivity 网络、Dante Primary 和 Dante Secondary 应视为三个物理分离的网络，各自拥有独立的网络硬件。*</li>
         <li>在 Live 控制台中，FPP 不可在任何两个网络中看到相同的子网。这包括自动配置到 169.254.x.x 子网的网络。</li>

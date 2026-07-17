@@ -19,7 +19,7 @@
   <p class="source">章节：构建演出 | 来源：<a href="https://livehelp.solidstatelogic.com/Help/LocalMADIConfig.html">https://livehelp.solidstatelogic.com/Help/LocalMADIConfig.html</a></p>
 <h2>I/O 设置：Local/MADI 配置</h2>
 
-<p><span style="font-weight: bold;">Local/MADI Configuration（本地/MADI 配置）</span> 用于定义本地连接和 MADI 连接的 I/O 名称及设置。这些设置会随演出文件保存。</p>
+<p><span style="font-weight: bold;">Local/MADI Configuration（本地/MADI 配置）</span>用于定义本地连接和 MADI 连接的 I/O 名称及设置。这些设置会随演出文件保存。</p>
 
 <p>要打开此菜单，请前往 <span class="label">Menu</span> > 设置 > <span class="label">I/O</span>，然后点击 <span class="label">Local/MADI Configuration</span>。</p>
 
@@ -30,7 +30,7 @@
 <p>每一列代表一种不同的 I/O 卡类型：</p>
 
 <ul class="tab">
-    <li><span style="font-weight: bold;">Local</span> 显示 <span style="font-weight: bold;">Internal（本地）</span> I/O、<span style="font-weight: bold;">FX Loop</span> MADI 光纤和可选的 <span style="font-weight: bold;">Dante</span> 模块。</li>
+    <li><span style="font-weight: bold;">Local</span> 显示 <span style="font-weight: bold;">Internal（本地）</span>I/O、<span style="font-weight: bold;">FX Loop</span> MADI 光纤和可选的 <span style="font-weight: bold;">Dante</span> 模块。</li>
     <li><span style="font-weight: bold;">MADI</span> 显示控制台背面的 BNC/SC 光纤 MADI 端口。这些端口按四个或八个一组排列，列标题中以字母（<span style="font-weight: bold;">A</span>、<span style="font-weight: bold;">B</span> 或 <span style="font-weight: bold;">C</span>）标识，并与控制台后面板的标注一致。</li>
     <li><span style="font-weight: bold;">BLII</span> 或 <span style="font-weight: bold;">X-Light</span> 表示可选的 Blacklight II/X-Light 端口，用于连接 Blacklight II to MADI Conccentrator、Net I/O BLII Bridge 或 X-Light Bridge。最多可安装两个 BLII 端口，列标题和控制台后面板上分别以 <span style="font-weight: bold;">1</span> 或 <span style="font-weight: bold;">2</span> 标识。</li>
 </ul>
@@ -39,61 +39,33 @@
 
 <h2>配置 BLII/X-Light 端口</h2>
 
-<p>
-    Blacklight II (BLII) 和 X-Light 是 SSL 专有的高带宽数字音频传输协议。
-    BLII 可通过一根或一对冗余的 Neutrik OpticalCON Duo 多模光纤（也可特别订购单模光纤选件），双向传输 256 个 96 kHz 或 48 kHz 音频通道。MADI 舞台接口箱的控制数据也通过 BLII 传输。
-</p>
+<p>Blacklight II (BLII) 和 X-Light 是 SSL 专有的高带宽数字音频传输协议。BLII 可通过一根或一对冗余的 Neutrik OpticalCON Duo 多模光纤（也可特别订购单模光纤选件），双向传输 256 个 96 kHz 或 48 kHz 音频通道。MADI 舞台接口箱的控制数据也通过 BLII 传输。</p>
 
 <p>X-Light 可通过一根或一对冗余的 Neutrik OpticalCON Quad 多模光纤，双向传输 256 个 96 kHz 或 48 kHz 音频通道。控制台的 Dante 控制信号和本地 Dante Expander 音频也通过 X-Light 传输。</p>
 
-<p>
-    要将 SSL Live 控制台上的 BLII/X-Light 端口用于 MADI 设备和 SSL MADI 舞台接口箱，必须使用 <span style="font-weight:bold;">BLII to MADI Concentrator</span>。
-    位于舞台端的 BLII to MADI Concentrator 随后用于将标准同轴 MADI 分配至模拟及 AES/EBU 舞台接口箱、第二台 SSL Live 控制台或其他 MADI 设备。
-</p>
+<p>要将 SSL Live 控制台上的 BLII/X-Light 端口用于 MADI 设备和 SSL MADI 舞台接口箱，必须使用 <span style="font-weight:bold;">BLII to MADI Concentrator</span>。位于舞台端的 BLII to MADI Concentrator 随后用于将标准同轴 MADI 分配至模拟及 AES/EBU 舞台接口箱、第二台 SSL Live 控制台或其他 MADI 设备。</p>
 
-<p>
-    在非加固固定安装场合/非巡演级固定安装场合中，要将 SSL Live 控制台上的 BLII/X-Light 端口用于 Dante 设备及 SSL Net I/O Dante 舞台接口箱，建议使用 <span style="font-weight:bold;">Net I/O BLII Bridge</span>。
-    与控制台放置在一起的 BLII Bridge 用于扩展控制台的 Dante I/O 数量。
-</p>
+<p>在非加固固定安装场合/非巡演级固定安装场合中，要将 SSL Live 控制台上的 BLII/X-Light 端口用于 Dante 设备及 SSL Net I/O Dante 舞台接口箱，建议使用 <span style="font-weight:bold;">Net I/O BLII Bridge</span>。与控制台放置在一起的 BLII Bridge 用于扩展控制台的 Dante I/O 数量。</p>
 
-<p>
-    在巡演级加固场合中，要将 SSL Live 控制台上的 BLII/X-Light 端口用于 Dante 设备及 SSL Net I/O Dante 舞台接口箱，建议使用 <span style="font-weight:bold;">Net I/O X-Light Bridge</span>。
-    位于舞台端的 X-Light Bridge 用于扩展控制台的 Dante I/O 数量。
-</p>
+<p>在巡演级加固场合中，要将 SSL Live 控制台上的 BLII/X-Light 端口用于 Dante 设备及 SSL Net I/O Dante 舞台接口箱，建议使用 <span style="font-weight:bold;">Net I/O X-Light Bridge</span>。位于舞台端的 X-Light Bridge 用于扩展控制台的 Dante I/O 数量。</p>
 
 <p>要配置 BLII/X-Light 端口，请在控制台上前往 <span class="label">MENU</span> > 设置 > <span class="label">I/O</span> > <span class="label">Local/MADI Configuration</span>。</p>
 <p>连接 BLII to MADI Concentrator/BLII Bridge/X-Light Bridge 时，如果相关 BLII/X-Light 端口中尚未配置设备，所连接的设备将被自动检测并配置。</p>
 <p>如果相关 BLII/X-Light 端口中已配置设备，则需要手动配置该端口。</p>
 
-<p>
-    配置 BLII/X-Light 端口：
-    <ol>
-        <li>点击相应端口的列标题以查看该端口的设置。</li>
-        <li>
-            在端口的详细视图中按住 <span class="label">Physical Port Selection:</span>，然后选择 Blacklight II（用于 <span class="label">BLII&nbsp;Concentrator</span> 或 <span class="label">Net&nbsp;I/O&nbsp;BLII&nbsp;Bridge</span>）或 X-Light（用于 <span class="label">X-Light&nbsp;Bridge</span>）。
-            请注意，对于 L450、L550 和 L650，X-Light 始终连接到第二个 BLII/X-Light 端口（I/O 页面最右侧一列）。
-        </li>
-        <li>按住 <span class="label">Configure Port For:</span>，并在需要时选择所需设备。</li>
-    </ol>
-</p>
+<p>配置 BLII/X-Light 端口：<ol><li>点击相应端口的列标题以查看该端口的设置。</li><li>在端口的详细视图中按住 <span class="label">Physical Port Selection:</span>，然后选择 Blacklight II（用于 <span class="label">BLII&nbsp;Concentrator</span> 或 <span class="label">Net&nbsp;I/O&nbsp;BLII&nbsp;Bridge</span>）或 X-Light（用于 <span class="label">X-Light&nbsp;Bridge</span>）。请注意，对于 L450、L550 和 L650，X-Light 始终连接到第二个 BLII/X-Light 端口（I/O 页面最右侧一列）。</li><li>按住 <span class="label">Configure Port For:</span>，并在需要时选择所需设备。</li></ol></p>
 
 <img style="display: block; margin: 25px auto;" src="https://livehelp.solidstatelogic.com/Help/images/g_BLIIBridgeConfig.png" alt="">
 
-<span class="note">
-    <span class="notetitle">注意：</span>同时安装 BLII 和 X-Light 端口的 L100、L200 和 L350 控制台，一次只能使用其中<span style="font-weight:bold;">一种</span>端口类型。<br>
+<span class="note"><span class="notetitle">注意：</span>同时安装 BLII 和 X-Light 端口的 L100、L200 和 L350 控制台，一次只能使用其中<span style="font-weight:bold;">一种</span>端口类型。<br>
 </span>
 
-<span class="note">
-    <span class="notetitle">警告：</span><br>重新配置 BLII/X-Light 端口时请谨慎，因为现有路由将被取消。<br>
-    - 如果将 BLII 端口从 BLII-MADI Concentrator 重新配置为 BLII Bridge，控制台与通过 BLII-MADI Concentrator 连接的设备之间的所有现有路由都将被取消。<br>
-    - 如果将 BLII 端口从 BLII Bridge 重新配置为 BLII-MADI Concentrator，则无论路由经过 BLII Bridge 还是 Dante Expander 模块，<span style="font-weight:bold;">所有</span> Dante 双域路由都将被取消。
-    已建立到 Dante Expander 模块的虚拟跳线路由将保留。
-</span>
+<span class="note"><span class="notetitle">警告：</span><br>重新配置 BLII/X-Light 端口时请谨慎，因为现有路由将被取消。<br>- 如果将 BLII 端口从 BLII-MADI Concentrator 重新配置为 BLII Bridge，控制台与通过 BLII-MADI Concentrator 连接的设备之间的所有现有路由都将被取消。<br>- 如果将 BLII 端口从 BLII Bridge 重新配置为 BLII-MADI Concentrator，则无论路由经过 BLII Bridge 还是 Dante Expander 模块，<span style="font-weight:bold;">所有</span> Dante 双域路由都将被取消。已建立到 Dante Expander 模块的虚拟跳线路由将保留。</span>
 
 <p>BLII/X-Light 端口配置存储在演出文件中。</p>
 
 <p>如果使用 <span style="font-weight:bold;">BLII to MADI Concentrator</span>，该设备现已配置完毕，可以使用。</p>
-<p>如果使用 <span style="font-weight:bold;">Net I/O BLII Bridge</span> 或 <span style="font-weight:bold;">X-Light Bridge</span>，请参阅 <a href="https://livehelp.solidstatelogic.com/Help/DanteBridges.html"><span class="hyperlink">使用 BLII 和 X-Light Bridge</span></a>。</p>
+<p>如果使用 <span style="font-weight:bold;">Net I/O BLII Bridge</span> 或 <span style="font-weight:bold;">X-Light Bridge</span>，请参阅<a href="https://livehelp.solidstatelogic.com/Help/DanteBridges.html"><span class="hyperlink">使用 BLII 和 X-Light Bridge</span></a>。</p>
 
 
 <h2>MADI 和经由 BLII 的 MADI</h2>
@@ -123,7 +95,7 @@
     <li><span style="font-weight: bold;">ML I.32</span> - 仅 32 路模拟输入</li>
     <li><span style="font-weight: bold;">ML O.32</span> - 仅 32 路模拟输出</li>
     <li><span style="font-weight: bold;">D 32.32</span> - 16 对 AES I/O</li>
-    <li><span style="font-weight: bold;">Live Recorder</span> - 连接 MADI 多轨录音机以用于排练模式；此选项已在 V5.2 中移除，应改用 Generic MADI。&nbsp;&nbsp;</li>
+    <li><span style="font-weight: bold;">Live Recorder</span> - 连接 MADI 多轨录音机以用于排练模式；此选项已在 V5.2 中移除，应改用 Generic MADI。</li>
 </ul>
 
 <span class="note"><span class="notetitle">注意：</span>如果控制台以 96 kHz 运行，任何通用 MADI 设备都<span style="font-weight: bold;">必须</span>支持 96 kHz 64 通道模式（96 kHz 时为 32 通道）的帧格式（非传统帧格式）。</span>
@@ -148,12 +120,7 @@
 
 <p>第一个端口的设置现在将应用于这一对端口。</p>
 
-<span class="note">
-    <span class="notetitle">注意：</span><br>
-    从控制台到任意 Blacklight II.MADI Concentrator 的光纤连接始终支持冗余，只需接入第二根光纤。此处的冗余是指从控制台或 Blacklight II Concentrator 到后续设备的 MADI 冗余。<br><br>
-    如果使用 16 端口 Blacklight II.MADI Concentrator，每个端口始终支持冗余，因此无需开启 <span class="label">Redundancy&nbsp;Status</span> 按钮。<br><br>
-    连接 16 端口 Blacklight II.MADI Concentrator 后，每个端口会显示四个状态灯。左侧一对对应下排 MADI 接口；右侧一对对应上排 MADI 接口。与 8 端口版本相同，上方指示灯表示 MADI 锁定状态（绿色 = 已锁定，红色 = 未锁定），下方指示灯表示哪个冗余端口处于活动状态（绿色 = 活动，红色 = 备用）。
-</span>
+<span class="note"><span class="notetitle">注意：</span><br>从控制台到任意 Blacklight II.MADI Concentrator 的光纤连接始终支持冗余，只需接入第二根光纤。此处的冗余是指从控制台或 Blacklight II Concentrator 到后续设备的 MADI 冗余。<br><br>如果使用 16 端口 Blacklight II.MADI Concentrator，每个端口始终支持冗余，因此无需开启 <span class="label">Redundancy&nbsp;Status</span> 按钮。<br><br>连接 16 端口 Blacklight II.MADI Concentrator 后，每个端口会显示四个状态灯。左侧一对对应下排 MADI 接口；右侧一对对应上排 MADI 接口。与 8 端口版本相同，上方指示灯表示 MADI 锁定状态（绿色 = 已锁定，红色 = 未锁定），下方指示灯表示哪个冗余端口处于活动状态（绿色 = 活动，红色 = 备用）。</span>
 
 <h2>MADI 舞台接口箱端口配置</h2>
 
@@ -163,15 +130,9 @@
 
 <h3>设置：</h3>
 
-<p>
-    双击黑色的<span style="font-weight: bold;">名称</span>框会弹出键盘，可在其中输入端口名称。<br>
-    <span class="label">Set&nbsp;Names</span> 按钮可用于为设备选择预设名称。请注意，这不会影响各个输入和输出的名称，只会更改设备本身的名称。
-</p>
+<p>双击黑色的<span style="font-weight: bold;">名称</span>框会弹出键盘，可在其中输入端口名称。<br><span class="label">Set&nbsp;Names</span> 按钮可用于为设备选择预设名称。请注意，这不会影响各个输入和输出的名称，只会更改设备本身的名称。</p>
 
-<p>
-    <span style="font-weight: bold;">Output Trim</span> 滑块以控制台的 <span style="font-weight: bold;">Operating Level</span> 为基准，对舞台接口箱的所有模拟线路输出施加全局电平微调
-    （在 <span style="font-weight: bold;">Menu > Setup > System&nbsp;/&nbsp;Power</span> > <span class="label">System</span> 选项卡中设置）。请注意，这不会影响可选的麦克风分配输出（如已安装）；这些输出始终为麦克风电平。
-</p>
+<p><span style="font-weight: bold;">Output Trim</span> 滑块以控制台的 <span style="font-weight: bold;">Operating Level</span> 为基准，对舞台接口箱的所有模拟线路输出施加全局电平微调（在 <span style="font-weight: bold;">Menu > Setup > System/Power</span> > <span class="label">System</span> 选项卡中设置）。请注意，这不会影响可选的麦克风分配输出（如已安装）；这些输出始终为麦克风电平。</p>
 
 <p><span class="label">Clear&nbsp;Attention</span> 按钮会清除本地 I/O 上所有 <span style="font-weight: bold;">Att</span> 指示灯。页面其余部分显示格式和时钟信息。</p>
 
@@ -227,37 +188,20 @@
 
 <h3>内置 I/O</h3>
 
-<p>
-    <span style="font-weight: bold;">Internal</span> 详细信息对话框提供 <span style="font-weight: bold;">ANA OUT Trim（模拟输出微调）</span> 滑块，
-    该滑块以控制台的 <span style="font-weight: bold;">Operating Level（工作电平）</span> 为基准，对所有本地模拟输出施加全局电平微调
-    （在 <span style="font-weight: bold;">Menu > Setup > System&nbsp;/&nbsp;Power</span> > <span class="label">System</span> 选项卡中设置）。
-    <span class="label">Clear&nbsp;Attention</span> 按钮会清除本地 I/O 上所有 <span style="font-weight: bold;">Att</span> 指示灯。
-</p>
+<p><span style="font-weight: bold;">Internal</span> 详细信息对话框提供 <span style="font-weight: bold;">ANA OUT Trim（模拟输出微调）</span>滑块，该滑块以控制台的 <span style="font-weight: bold;">Operating Level（工作电平）</span>为基准，对所有本地模拟输出施加全局电平微调（在 <span style="font-weight: bold;">Menu > Setup > System/Power</span> > <span class="label">System</span> 选项卡中设置）。<span class="label">Clear&nbsp;Attention</span> 按钮会清除本地 I/O 上所有 <span style="font-weight: bold;">Att</span> 指示灯。</p>
 
-<p>
-    窗口右侧为每个本地 AES 连接提供一个方框。点击这些方框可访问主要 AES 设置，
-    如上文 <span style="font-weight: bold; font-style: italic;">AES I/O</span> 中所述。
-</p>
+<p>窗口右侧为每个本地 AES 连接提供一个方框。点击这些方框可访问主要 AES 设置，如上文 <span style="font-weight: bold; font-style: italic;">AES I/O</span> 中所述。</p>
 
 <p>其余 I/O 详细信息对话框仅显示有关卡或端口的主要信息。</p>
 
 <h3 id="Dante">Dante</h3>
-<p>Live 控制台还可安装 Dante Expander模块。它可为控制台增加最多 64 路 Dante I/O（取决于采样率；见下文）。</p>
+<p>Live 控制台还可安装 Dante Expander 模块。它可为控制台增加最多 64 路 Dante I/O（取决于采样率；见下文）。</p>
 
-<p>
-    在 I/O 页面最左侧一列中选择 Dante Expander 模块。屏幕下部会显示 Dante Expander 的选项。
-    <span style="font-weight: bold;">Recorder ID</span> 按钮将在下一节说明：<a href="https://livehelp.solidstatelogic.com/Help/RecordingPlayback.html"><span class="hyperlink">多轨录音与播放</span></a>。选择 <span class="label">Free&nbsp;Route</span> 按钮，
-    可在控制台路由系统中自由路由 Dante I/O。
-</p>
+<p>在 I/O 页面最左侧一列中选择 Dante Expander 模块。屏幕下部会显示 Dante Expander 的选项。<span style="font-weight: bold;">Recorder ID</span> 按钮将在下一节说明：<a href="https://livehelp.solidstatelogic.com/Help/RecordingPlayback.html"><span class="hyperlink">多轨录音与播放</span></a>。选择 <span class="label">Free&nbsp;Route</span> 按钮，可在控制台路由系统中自由路由 Dante I/O。</p>
 
 <!-- Start of Dante Sample Rates Snippet -->
 <!-- Also used in DanteSetup.html -->
-<p>
-    控制台上可用于路由的通道数会随控制台和 Dante 网络的采样率而变化。
-    如果 Dante 网络使用的采样率或时钟域与控制台不同，请启用 <span class="label">SRC&nbsp;In</span> 按钮。
-    这会对控制台与 Dante 网络之间的输入和输出音频进行采样率转换。下表概括了可用的采样率组合
-    （请注意，所列数量适用于每个方向，例如 32 = 32 路输入<b>和</b> 32 路输出）：
-</p>
+<p>控制台上可用于路由的通道数会随控制台和 Dante 网络的采样率而变化。如果 Dante 网络使用的采样率或时钟域与控制台不同，请启用 <span class="label">SRC&nbsp;In</span> 按钮。这会对控制台与 Dante 网络之间的输入和输出音频进行采样率转换。下表概括了可用的采样率组合（请注意，所列数量适用于每个方向，例如 32 = 32 路输入<b>和</b> 32 路输出）：</p>
 
 <div>
     <table class="insideborder" style=\"width: auto; margin 15px 0px;\" cellpadding="4" cellspacing="1">
@@ -308,28 +252,17 @@
     </table>
 </div>
 
-<span class="note">
-    <span class="notetitle">注意：</span>除非已启用 <span class="label">SRC&nbsp;In</span> 按钮，否则必须将 Dante Expander的采样率设为与控制台采样率一致。
-    可在与控制台 Dante Expander位于同一网络、运行 Dante Controller 软件的计算机上进行设置。或者，从 Live v6.2 开始，也可在 Dante Configuration 页面的 Connected Devices 列表中查看和更改控制台 Expander 的采样率。
-</span>
+<span class="note"><span class="notetitle">注意：</span>除非已启用 <span class="label">SRC&nbsp;In</span> 按钮，否则必须将 Dante Expander 的采样率设为与控制台采样率一致。可在与控制台 Dante Expander 位于同一网络、运行 Dante Controller 软件的计算机上进行设置。或者，从 Live v6.2 开始，也可在 Dante Configuration 页面的 Connected Devices 列表中查看和更改控制台 Expander 的采样率。</span>
 <!-- End of Dante Sample Rates Snippet -->
 
 
-<p>
-    启用 Dante SRC 时，不应让控制台从 Dante 网络获取时钟。有关与 Dante 网络之间时钟设置的更多信息，
-    请参阅 <a href="https://livehelp.solidstatelogic.com/Help/Clocking.html#Dante"><span class="hyperlink">系统时钟设置</span></a> 一节。
-</p>
+<p>启用 Dante SRC 时，不应让控制台从 Dante 网络获取时钟。有关与 Dante 网络之间时钟设置的更多信息，请参阅<a href="https://livehelp.solidstatelogic.com/Help/Clocking.html#Dante"><span class="hyperlink">系统时钟设置</span></a>一节。</p>
 
 <p>有关设置 Dante、Net I/O 舞台接口箱或 BLII/X-Light Bridge 的更多信息，请参阅 <a href="https://livehelp.solidstatelogic.com/Help/DanteConfig.html"><span class="hyperlink">I/O 设置：Dante</span></a>。</p>
 
 <h3>AES67</h3>
 
-<p>
-    AES67 是 IP 音频网络的互操作标准。控制台的 Dante 接口支持 AES67；
-    可在 Dante Controller 中设备的 <span style="font-weight: bold;">AES67&nbsp;Config</span> 选项卡启用。
-    启用后，可使用 Dante Controller 创建 AES67 流，将音频传输至其他支持 AES67 的兼容设备。
-    有关创建 AES67 流的信息，请参阅 Audinate Dante Controller 手册。
-</p>
+<p>AES67 是 IP 音频网络的互操作标准。控制台的 Dante 接口支持 AES67；可在 Dante Controller 中设备的 <span style="font-weight: bold;">AES67&nbsp;Config</span> 选项卡启用。启用后，可使用 Dante Controller 创建 AES67 流，将音频传输至其他支持 AES67 的兼容设备。有关创建 AES67 流的信息，请参阅 Audinate Dante Controller 手册。</p>
 
 
 <h2>实用链接：</h2>
