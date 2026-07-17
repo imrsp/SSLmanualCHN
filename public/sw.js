@@ -1,4 +1,5 @@
-const CACHE_NAME = `ssl-manual-${__CACHE_VERSION__}`;
+const CACHE_VERSION = __CACHE_VERSION__;
+const CACHE_NAME = `ssl-manual-${CACHE_VERSION}`;
 const PRECACHE_URLS = __PRECACHE_URLS__;
 const CACHE_PREFIX = "ssl-manual-";
 const SCOPE_PATH = new URL(self.registration.scope).pathname;
@@ -6,7 +7,6 @@ const SCOPE_PATH = new URL(self.registration.scope).pathname;
 function normalizeRequestUrl(requestUrl) {
   const url = new URL(requestUrl);
   if (url.origin !== self.location.origin) return url;
-  url.searchParams.delete("v");
   if (url.pathname === "/" || url.pathname.endsWith("/")) {
     url.pathname = `${url.pathname}index.html`;
   }
@@ -67,6 +67,7 @@ function isStaticAsset(url) {
     path.startsWith("pwa-icon") ||
     path.startsWith("src/") ||
     path.startsWith("data/pages/") ||
+    path.startsWith("data/search-index-") ||
     path.startsWith("themes/") ||
     path.startsWith("assets/")
   );

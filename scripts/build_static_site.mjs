@@ -2,6 +2,7 @@ import fs from "node:fs";
 import crypto from "node:crypto";
 import { execSync } from "node:child_process";
 import path from "node:path";
+import { createBuildHash } from "./lib/build_hash.mjs";
 import {
   root,
   markInlineImages,
@@ -667,15 +668,8 @@ function collectOutputFiles(dir) {
   return result;
 }
 
-const allOutputFiles = collectOutputFiles(outputDirectory)
-  .filter((filePath) => !["index.html", "sw.js"].includes(path.basename(filePath)))
-  .sort();
-
-const dataHasher = crypto.createHash("sha256");
-for (const filePath of allOutputFiles) {
-  dataHasher.update(fs.readFileSync(filePath));
-}
-const buildHash = dataHasher.digest("hex").slice(0, 12);
+const allOutputFiles = collectOutputFiles(outputDirectory);
+const buildHash = createBuildHash(allOutputFiles, outputDirectory);
 
 // Hash and rename app.js
 const appJsPath = path.join(outputDirectory, "src", "app.js");
@@ -736,10 +730,10 @@ if (fs.existsSync(swPath)) {
     "./pwa-icon-512-maskable.png",
     `./src/${appHashed}`,
     `./src/${cssHashed}`,
-    "./data/catalog.json",
-    "./data/search-index-en.json",
-    "./data/search-index-zh.json",
-    "./data/themes.json",
+    `./data/catalog.json?v=${buildHash}`,
+    `./data/search-index-en.json?v=${buildHash}`,
+    `./data/search-index-zh.json?v=${buildHash}`,
+    `./data/themes.json?v=${buildHash}`,
   ];
   const swSource = fs.readFileSync(swPath, "utf8")
     .replace("__CACHE_VERSION__", JSON.stringify(buildHash))

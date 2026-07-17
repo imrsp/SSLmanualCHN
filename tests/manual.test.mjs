@@ -1,7 +1,11 @@
 import assert from "node:assert/strict";
 import fs from "node:fs";
+import os from "node:os";
 import path from "node:path";
 import test from "node:test";
+import vm from "node:vm";
+
+import { createBuildHash } from "../scripts/lib/build_hash.mjs";
 
 import {
   markInlineImages,
@@ -114,4 +118,54 @@ test("Dante VTL note remains one explicit paragraph and does not consume followi
     /<p class="note"><span class="notetitle">请注意：<\/span>[\s\S]*?<\/p>\s*<p>在创建双域路由之前/,
   );
   assert.doesNotMatch(prepared, /<div class="note"><span class="notetitle">请注意：/);
+});
+
+test("build hash ignores catalog generation time but tracks deployable content", (t) => {
+  const directory = fs.mkdtempSync(path.join(os.tmpdir(), "ssl-manual-build-hash-"));
+  t.after(() => fs.rmSync(directory, { recursive: true, force: true }));
+  const catalogPath = path.join(directory, "data", "catalog.json");
+  const workerPath = path.join(directory, "sw.js");
+  fs.mkdirSync(path.dirname(catalogPath), { recursive: true });
+  fs.writeFileSync(catalogPath, '{"meta":{"generatedAt":"first"},"pages":["Intro"]}');
+  fs.writeFileSync(workerPath, "worker-v1");
+
+  const files = [catalogPath, workerPath];
+  const firstHash = createBuildHash(files, directory);
+  fs.writeFileSync(catalogPath, '{"meta":{"generatedAt":"second"},"pages":["Intro"]}');
+  assert.equal(createBuildHash(files, directory), firstHash);
+
+  fs.writeFileSync(workerPath, "worker-v2");
+  assert.notEqual(createBuildHash(files, directory), firstHash);
+});
+
+test("service worker keeps build versions in data cache keys and handles search indexes", () => {
+  const source = fs.readFileSync(path.join(root, "public", "sw.js"), "utf8")
+    .replace("__CACHE_VERSION__", JSON.stringify("test-build"))
+    .replace("__PRECACHE_URLS__", "[]");
+  const context = vm.createContext({
+    URL,
+    self: {
+      location: { origin: "https://example.test" },
+      registration: { scope: "https://example.test/manual/" },
+      addEventListener() {},
+    },
+  });
+  vm.runInContext(source, context);
+
+  const firstKey = vm.runInContext(
+    'cacheKeyFor("https://example.test/manual/data/pages/Intro.json?v=first")',
+    context,
+  );
+  const secondKey = vm.runInContext(
+    'cacheKeyFor("https://example.test/manual/data/pages/Intro.json?v=second")',
+    context,
+  );
+  assert.notEqual(firstKey, secondKey);
+  assert.equal(
+    vm.runInContext(
+      'isStaticAsset(new URL("https://example.test/manual/data/search-index-zh.json?v=test-build"))',
+      context,
+    ),
+    true,
+  );
 });

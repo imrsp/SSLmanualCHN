@@ -27,7 +27,7 @@ PWA 安装和 service worker 只在 `https`、`localhost` 或 `127.0.0.1` 上工
 - `assets/manual/`：手册图片和 PDF，中等缓存（30d）。
 - 其他静态资源：通用回退规则，中等缓存（30d）。
 
-构建时还会给数据请求附带 `__BUILD_HASH__` 参数，用于浏览器更新时失效旧缓存。
+构建时还会给数据请求和 Service Worker 脚本附带 `__BUILD_HASH__` 参数。该参数保留在数据缓存键中，用于在浏览器更新时失效旧缓存；构建时间等非内容字段不参与哈希，保证相同输入生成相同版本。
 
 ### 推荐的 SW 分层策略
 
@@ -40,7 +40,7 @@ PWA 安装和 service worker 只在 `https`、`localhost` 或 `127.0.0.1` 上工
 - `themes/*.css`：`cacheFirst`，主题样式是典型静态资源，构建哈希已能保证换版。
 - `src/*.js`、`src/*.css`：`cacheFirst`，文件名已哈希化，更新依赖新构建产物本身。
 
-应用启动时会读取 `window.__BUILD_HASH__` 并与本地记录的上一次版本比较；只有构建哈希变化时，才主动触发一次 Service Worker `update()` 检查。这个做法适合 iOS PWA 这类对缓存切换较慢的环境，同时不会让同版本页面重复打扰用户。
+应用启动时会使用带构建哈希的 `sw.js` URL 注册 Service Worker。已有旧版 Service Worker 接管页面时，应用会等待新版 controller 真正接管后再加载正文；更新超时或失败不会被记录为成功，下一次进入站点仍会重试。首次访问和离线访问不会为等待 Service Worker 而阻塞正文加载。
 
 ## Nginx
 
