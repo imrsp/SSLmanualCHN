@@ -1,8 +1,9 @@
 const CACHE_VERSION = __CACHE_VERSION__;
-const CACHE_NAME = `ssl-manual-${CACHE_VERSION}`;
 const PRECACHE_URLS = __PRECACHE_URLS__;
-const CACHE_PREFIX = "ssl-manual-";
 const SCOPE_PATH = new URL(self.registration.scope).pathname;
+const SCOPE_KEY = encodeURIComponent(SCOPE_PATH);
+const CACHE_PREFIX = `ssl-manual-${SCOPE_KEY}-`;
+const CACHE_NAME = `${CACHE_PREFIX}${CACHE_VERSION}`;
 
 function normalizeRequestUrl(requestUrl) {
   const url = new URL(requestUrl);

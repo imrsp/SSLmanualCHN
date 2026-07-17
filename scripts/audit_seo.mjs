@@ -1,10 +1,14 @@
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import { decodeHtmlEntities } from "./lib/html_entities.mjs";
+import { generateRobotsTxt, resolveSeoConfig } from "./lib/seo_config.mjs";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const distDir = path.join(root, "dist");
 const pagesDir = path.join(distDir, "seo");
+const seoConfig = JSON.parse(fs.readFileSync(path.join(root, "content", "seo.json"), "utf8"));
+const resolvedSeo = resolveSeoConfig(seoConfig);
 
 const results = { passed: [], failed: [] };
 function check(condition, label) {
@@ -43,6 +47,7 @@ if (fs.existsSync(robotsPath)) {
   const robots = fs.readFileSync(robotsPath, "utf8");
   check(robots.includes("Sitemap:"), "robots.txt contains Sitemap directive");
   check(robots.includes("Allow:"), "robots.txt contains Allow directive");
+  check(robots === generateRobotsTxt(resolvedSeo), "robots.txt is generated from content/seo.json");
 }
 
 // -- sitemap.xml --
@@ -58,6 +63,12 @@ if (fs.existsSync(sitemapPath)) {
     "sitemap.xml has at least " + expectedPageCount + " entries (got " + sitemapEntries + ")"
   );
   check(sitemap.includes("index.html"), "sitemap.xml includes index.html");
+  check(!sitemap.includes("<domain>"), "sitemap.xml contains no deployment placeholders");
+  const sitemapLocations = [...sitemap.matchAll(/<loc>([^<]+)<\/loc>/g)].map((match) => match[1]);
+  check(
+    sitemapLocations.every((location) => location.startsWith(resolvedSeo.siteUrl)),
+    "All sitemap URLs use content/seo.json url",
+  );
 }
 
 // -- Prerender pages dir --
@@ -80,6 +91,10 @@ if (fs.existsSync(pagesDir)) {
   let pagesWithTwitterCard = 0;
   let pagesWithHreflang = 0;
   let pagesWithRedirect = 0;
+  let pagesWithoutMetaRefresh = 0;
+  let pagesWithUniqueIds = 0;
+  let pagesWithConfiguredOgImage = 0;
+  let pagesWithoutLeakedEntities = 0;
 
   for (const file of pageFiles) {
     const content = fs.readFileSync(path.join(pagesDir, file), "utf8");
@@ -90,7 +105,13 @@ if (fs.existsSync(pagesDir)) {
     if (content.includes('property="og:title"')) pagesWithOgTitle++;
     if (content.includes('name="twitter:card"')) pagesWithTwitterCard++;
     if (content.includes('hreflang=')) pagesWithHreflang++;
-    if (content.includes('location.replace') || content.includes('http-equiv="refresh"')) pagesWithRedirect++;
+    if (content.includes("location.replace")) pagesWithRedirect++;
+    if (!/http-equiv=["']?refresh/i.test(content)) pagesWithoutMetaRefresh++;
+    const ids = [...content.matchAll(/\bid=["']([^"']+)["']/gi)].map((match) => match[1]);
+    if (ids.length === new Set(ids).size) pagesWithUniqueIds++;
+    if (content.includes(`property="og:image" content="${resolvedSeo.ogImageUrl}"`)) pagesWithConfiguredOgImage++;
+    const description = content.match(/<meta\s+name="description"\s+content="([^"]*)"/i)?.[1] ?? "";
+    if (!/&[A-Za-z][A-Za-z0-9]+;/.test(decodeHtmlEntities(description))) pagesWithoutLeakedEntities++;
   }
 
   check(pagesWithTitle === pageFiles.length, "All " + pageFiles.length + " pages have <title> tag");
@@ -101,6 +122,10 @@ if (fs.existsSync(pagesDir)) {
   check(pagesWithTwitterCard === pageFiles.length, "All " + pageFiles.length + " pages have twitter:card");
   check(pagesWithHreflang === pageFiles.length, "All " + pageFiles.length + " pages have hreflang links");
   check(pagesWithRedirect === pageFiles.length, "All " + pageFiles.length + " pages have SPA redirect");
+  check(pagesWithoutMetaRefresh === pageFiles.length, "All " + pageFiles.length + " pages preserve content without JavaScript");
+  check(pagesWithUniqueIds === pageFiles.length, "All " + pageFiles.length + " pages have unique element IDs");
+  check(pagesWithConfiguredOgImage === pageFiles.length, "All " + pageFiles.length + " pages use content/seo.json ogImage");
+  check(pagesWithoutLeakedEntities === pageFiles.length, "All " + pageFiles.length + " descriptions contain no leaked HTML entities");
 
   // -- First page: prev/next --
   if (manifest.length > 0) {
@@ -142,12 +167,20 @@ if (fs.existsSync(pagesDir)) {
 const indexPath = path.join(distDir, "index.html");
 if (fs.existsSync(indexPath)) {
   const html = fs.readFileSync(indexPath, "utf8");
+  const metaContent = (name) => decodeHtmlEntities(
+    html.match(new RegExp(`<meta\\s+name=["']${name}["']\\s+content=["']([^"']*)`, "i"))?.[1] ?? "",
+  );
   check(html.includes('name="description"'), "SPA index.html has meta description");
   check(html.includes('property="og:title"'), "SPA index.html has og:title");
   check(html.includes('name="twitter:card"'), "SPA index.html has twitter:card");
   check(html.includes('rel="canonical"'), "SPA index.html has canonical link");
   check(html.includes('rel="sitemap"'), "SPA index.html has sitemap link");
   check(html.includes('name="robots"'), "SPA index.html has robots meta");
+  check(!html.includes("__SEO_") && !html.includes("<domain>"), "SPA index.html contains no SEO template placeholders");
+  check(metaContent("description") === resolvedSeo.description, "SPA index.html uses content/seo.json description");
+  check(metaContent("keywords") === resolvedSeo.keywords, "SPA index.html uses content/seo.json keywords");
+  check(html.includes(`rel="canonical" href="${resolvedSeo.siteUrl}"`), "SPA index.html uses content/seo.json url");
+  check(html.includes(`property="og:image" content="${resolvedSeo.ogImageUrl}"`), "SPA index.html uses content/seo.json ogImage");
 }
 
 // -- Summary --

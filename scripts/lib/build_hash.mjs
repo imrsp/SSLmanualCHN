@@ -11,6 +11,11 @@ function normalizeBuildInput(relativePath, content) {
       ),
     );
   }
+  if (relativePath === "sitemap.xml") {
+    return Buffer.from(
+      content.toString("utf8").replace(/<lastmod>[^<]*<\/lastmod>/g, "<lastmod></lastmod>"),
+    );
+  }
   return content;
 }
 

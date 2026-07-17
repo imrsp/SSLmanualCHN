@@ -3,6 +3,10 @@ import crypto from "node:crypto";
 import { execSync } from "node:child_process";
 import path from "node:path";
 import { createBuildHash } from "./lib/build_hash.mjs";
+import { assertSafeContentHtml } from "./lib/content_security.mjs";
+import { assertSafeManifestOutputFile, assertSafePathSegment } from "./lib/safe_paths.mjs";
+import { generateRobotsTxt, renderIndexSeoTemplate, resolveSeoConfig } from "./lib/seo_config.mjs";
+import { getSourceDate } from "./lib/sitemap_dates.mjs";
 import {
   root,
   markInlineImages,
@@ -20,7 +24,22 @@ const outputDirectory = path.join(root, "dist");
 const site = readJson(path.join(contentDirectory, "site.json"));
 const manifest = readJson(path.join(contentDirectory, "manifest.json"));
 const seoConfig = readJson(path.join(contentDirectory, "seo.json"));
+const resolvedSeo = resolveSeoConfig(seoConfig);
 const assetManifest = readJson(path.join(root, "public", "assets", "manual", "manifest.json"));
+for (const [index, item] of manifest.entries()) {
+  assertSafeManifestOutputFile(item.outputFile, `content/manifest.json entry ${index + 1} outputFile`);
+  assertSafePathSegment(
+    path.basename(item.outputFile, ".html").replace(/^\d+-/, ""),
+    `content/manifest.json entry ${index + 1} page id`,
+  );
+}
+if (!/^https?:/i.test(resolvedSeo.ogImage)) {
+  const publicDirectory = path.join(root, "public");
+  const ogImagePath = path.resolve(publicDirectory, resolvedSeo.ogImage);
+  if (!ogImagePath.startsWith(`${publicDirectory}${path.sep}`) || !fs.existsSync(ogImagePath)) {
+    throw new Error(`content/seo.json ogImage does not resolve to a published file: ${resolvedSeo.ogImage}`);
+  }
+}
 const pageTitleZhById = site.pageTitlesZhById;
 const sectionById = new Map(site.sections.map((section, index) => [
   section.id,
@@ -42,16 +61,6 @@ const internalPages = new Map(
   }),
 );
 const anchorsByLanguage = { en: new Map(), zh: new Map() };
-const unsafeContentPatterns = [
-  { name: "script tag", pattern: /<script\b/i },
-  { name: "event handler attribute", pattern: /\son[a-z]+\s*=/i },
-  { name: "javascript URL", pattern: /\b(?:href|src|xlink:href|action|formaction)\s*=\s*(?:"\s*javascript:|'\s*javascript:|[^\s>]*javascript:)/i },
-  { name: "dangerous data URL", pattern: /\b(?:href|src|xlink:href|action|formaction)\s*=\s*(?:"\s*data\s*:\s*(?:text\/html|image\/svg\+xml|application\/xml|text\/xml)|'\s*data\s*:\s*(?:text\/html|image\/svg\+xml|application\/xml|text\/xml)|[^\s>]*data\s*:\s*(?:text\/html|image\/svg\+xml|application\/xml|text\/xml))/i },
-  { name: "embedded browsing context", pattern: /<(?:iframe|object|embed|base|form|input|button|textarea|select)\b/i },
-  { name: "srcdoc attribute", pattern: /\ssrcdoc\s*=/i },
-  { name: "meta refresh", pattern: /<meta\b[^>]+http-equiv\s*=\s*(?:"refresh"|'refresh'|refresh)/i },
-  { name: "inline svg/math", pattern: /<(?:svg|math)\b/i },
-];
 
 function getPageTitleZh(pageId) {
   const title = pageTitleZhById?.[pageId];
@@ -112,14 +121,6 @@ function localizeInternalLinks(html, sourceUrl, language) {
       : "";
     return `href=${quote}#/page/${id}${anchor}${quote}`;
   });
-}
-
-function assertSafeContentHtml(html, label) {
-  for (const check of unsafeContentPatterns) {
-    if (check.pattern.test(html)) {
-      throw new Error(`Unsafe manual HTML in ${label}: ${check.name}`);
-    }
-  }
 }
 
 function addBlankLinkRel(html) {
@@ -257,7 +258,12 @@ fs.rmSync(outputDirectory, { recursive: true, force: true });
 fs.mkdirSync(path.join(outputDirectory, "data", "pages"), { recursive: true });
 fs.mkdirSync(path.join(outputDirectory, "src"), { recursive: true });
 fs.cpSync(path.join(root, "public"), outputDirectory, { recursive: true });
-fs.copyFileSync(path.join(root, "src", "index.html"), path.join(outputDirectory, "index.html"));
+const indexTemplate = fs.readFileSync(path.join(root, "src", "index.html"), "utf8");
+fs.writeFileSync(
+  path.join(outputDirectory, "index.html"),
+  renderIndexSeoTemplate(indexTemplate, resolvedSeo),
+);
+fs.writeFileSync(path.join(outputDirectory, "robots.txt"), generateRobotsTxt(resolvedSeo));
 for (const file of ["app.js", "styles.css"]) {
   fs.copyFileSync(path.join(root, "src", file), path.join(outputDirectory, "src", file));
 }
@@ -273,6 +279,7 @@ if (fs.existsSync(themesDir)) {
   fs.mkdirSync(themesOut, { recursive: true });
   themeFiles.forEach(function (tf) {
     const config = JSON.parse(fs.readFileSync(path.join(themesDir, tf), "utf8"));
+    assertSafePathSegment(config.name, `${path.relative(root, path.join(themesDir, tf))} theme name`);
     const h = config.hue;
     const dk = config.dark;
     const lt = config.light;
@@ -441,6 +448,7 @@ function discoverStandalonePages() {
     if (!standaloneId) {
       throw new Error(`Standalone page ${file} is missing x-standalone-id`);
     }
+    assertSafePathSegment(standaloneId, `Standalone page ${file} id`);
     if (chapterIds.has(standaloneId)) {
       throw new Error(`Standalone page id conflicts with chapter id: ${standaloneId} (${file})`);
     }
@@ -555,14 +563,11 @@ function generatePrerenderPage(pageData, prevPage, nextPage) {
       return 'href="' + url + '"';
     }
   );
-  const siteUrl = seoConfig.url && seoConfig.url !== "https://<domain>/"
-    ? seoConfig.url : "https://<domain>/";
+  const siteUrl = resolvedSeo.siteUrl;
   var pageUrl = siteUrl + "seo/" + pageData.id + ".html";
   var title = pageData.titleZh + " | " + site.title;
   var description = extractMetaDescription(pageData.contentHtml);
-  var ogImage = seoConfig.ogImage
-    ? (seoConfig.ogImage.indexOf("http") === 0 ? seoConfig.ogImage : siteUrl + seoConfig.ogImage)
-    : siteUrl + "pwa-icon-512.png";
+  var ogImage = resolvedSeo.ogImageUrl;
 
   var jsonLd = JSON.stringify({
     "@context": "https://schema.org",
@@ -588,7 +593,8 @@ function generatePrerenderPage(pageData, prevPage, nextPage) {
   var ogDesc = escapeXml(description || seoConfig.description);
   var ogTitle = escapeXml(pageData.titleZh);
 
-  return "<!doctype html>\n<html lang=\"zh-CN\">\n<head>\n  <meta charset=\"utf-8\">\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n  <meta name=\"description\" content=\"" + metaDesc + "\">\n  <meta name=\"robots\" content=\"" + robotsContent + "\">\n  <meta property=\"og:title\" content=\"" + ogTitle + "\">\n  <meta property=\"og:description\" content=\"" + ogDesc + "\">\n  <meta property=\"og:type\" content=\"article\">\n  <meta property=\"og:url\" content=\"" + escapeXml(pageUrl) + "\">\n  <meta property=\"og:image\" content=\"" + escapeXml(ogImage) + "\">\n  <meta property=\"og:locale\" content=\"zh_CN\">\n  <meta name=\"twitter:card\" content=\"summary_large_image\">\n  <meta name=\"twitter:title\" content=\"" + ogTitle + "\">\n  <meta name=\"twitter:description\" content=\"" + ogDesc + "\">" + links + "\n  <title>" + escapeXml(title) + "</title>\n  <script type=\"application/ld+json\">" + jsonLd + "</script>\n</head>\n<body>\n" + crawlContent + crawlContent + "\n<script>location.replace(\"../index.html#/page/" + pageData.id + "\");</script>\n<noscript><meta http-equiv=\"refresh\" content=\"0;url=../index.html#/page/" + pageData.id + "\"></noscript>\n</body>\n</html>\n";
+  var spaUrl = "../index.html#/page/" + pageData.id;
+  return "<!doctype html>\n<html lang=\"zh-CN\">\n<head>\n  <meta charset=\"utf-8\">\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n  <meta name=\"description\" content=\"" + metaDesc + "\">\n  <meta name=\"robots\" content=\"" + robotsContent + "\">\n  <meta property=\"og:title\" content=\"" + ogTitle + "\">\n  <meta property=\"og:description\" content=\"" + ogDesc + "\">\n  <meta property=\"og:type\" content=\"article\">\n  <meta property=\"og:url\" content=\"" + escapeXml(pageUrl) + "\">\n  <meta property=\"og:image\" content=\"" + escapeXml(ogImage) + "\">\n  <meta property=\"og:locale\" content=\"zh_CN\">\n  <meta name=\"twitter:card\" content=\"summary_large_image\">\n  <meta name=\"twitter:title\" content=\"" + ogTitle + "\">\n  <meta name=\"twitter:description\" content=\"" + ogDesc + "\">" + links + "\n  <title>" + escapeXml(title) + "</title>\n  <script type=\"application/ld+json\">" + jsonLd + "</script>\n</head>\n<body>\n" + crawlContent + "\n<script>location.replace(" + JSON.stringify(spaUrl) + ");</script>\n</body>\n</html>\n";
 }
 
 for (var i = 0; i < pages.length; i++) {
@@ -612,12 +618,13 @@ for (var si = 0; si < standalonePages.length; si++) {
 console.log("[seo] Generated " + (pages.length + standalonePages.length) + " prerender pages in seo/");
 
 /* ── Generate sitemap.xml ── */
-var sitemapSiteUrl = seoConfig.url && seoConfig.url !== "https://<domain>/"
-  ? seoConfig.url : "https://<domain>/";
+var sitemapSiteUrl = resolvedSeo.siteUrl;
 
 function getSitemapDate(filePath) {
-  try { return fs.statSync(filePath).mtime.toISOString().split("T")[0]; }
-  catch (_) { return new Date().toISOString().split("T")[0]; }
+  return getSourceDate(filePath, {
+    rootDirectory: root,
+    fallbackDate: resolvedSeo.defaultLastModified,
+  });
 }
 
 function sitemapUrl(loc, priority, changefreq, lastmod) {
@@ -625,7 +632,7 @@ function sitemapUrl(loc, priority, changefreq, lastmod) {
 }
 
 var sitemapEntries = [];
-var siteDate = getSitemapDate(path.join(contentDirectory, "site.json"));
+var siteDate = getSitemapDate(path.join(contentDirectory, "seo.json"));
 sitemapEntries.push(sitemapUrl("", 1.0, "weekly", siteDate));
 sitemapEntries.push(sitemapUrl("index.html", 0.9, "weekly", siteDate));
 
@@ -635,14 +642,14 @@ for (var i = 0; i < pages.length; i++) {
     return path.basename(item.outputFile, ".html").replace(/^\d+-/, "") === page.id;
   });
   var zhPath = manifestItem ? path.join(contentDirectory, "zh", manifestItem.outputFile) : "";
-  var mtime = getSitemapDate(zhPath);
+  var lastModified = getSitemapDate(zhPath);
   var priority = 0.9 - (i / pages.length) * 0.3;
-  sitemapEntries.push(sitemapUrl("seo/" + page.id + ".html", priority, "weekly", mtime));
+  sitemapEntries.push(sitemapUrl("seo/" + page.id + ".html", priority, "weekly", lastModified));
 }
 
 for (var si = 0; si < standalonePages.length; si++) {
-  var spMtime = getSitemapDate(standalonePages[si].chinesePath);
-  sitemapEntries.push(sitemapUrl("seo/" + standalonePages[si].id + ".html", 0.4, "monthly", spMtime));
+  var standaloneLastModified = getSitemapDate(standalonePages[si].chinesePath);
+  sitemapEntries.push(sitemapUrl("seo/" + standalonePages[si].id + ".html", 0.4, "monthly", standaloneLastModified));
 }
 
 var sitemap = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\">\n" + sitemapEntries.join("\n") + "\n</urlset>\n";

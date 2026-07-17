@@ -526,11 +526,21 @@ function navigateToPage(pageId, headingId = "", options = {}) {
   });
 }
 
+function decodeRouteComponent(value, fallback = "") {
+  if (!value) return fallback;
+  try {
+    return decodeURIComponent(value);
+  } catch (_) {
+    return fallback;
+  }
+}
+
 function getRoute() {
   const match = location.hash.match(/^#\/page\/([^/]+)(?:\/(.+))?$/);
+  const defaultPageId = state.catalog?.pages[0]?.id || "";
   return {
-    pageId: decodeURIComponent(match?.[1] || state.catalog?.pages[0]?.id || ""),
-    headingId: match?.[2] ? decodeURIComponent(match[2]) : "",
+    pageId: decodeRouteComponent(match?.[1], defaultPageId),
+    headingId: decodeRouteComponent(match?.[2]),
   };
 }
 

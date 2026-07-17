@@ -5,7 +5,12 @@ import path from "node:path";
 import test from "node:test";
 import vm from "node:vm";
 
-import { createBuildHash } from "../scripts/lib/build_hash.mjs";
+import { createBuildHash } from "./lib/build_hash.mjs";
+import { findUnsafeContentIssues } from "./lib/content_security.mjs";
+import { validateDeployTarget } from "./lib/deploy_target.mjs";
+import { assertSafeManifestOutputFile, assertSafePathSegment } from "./lib/safe_paths.mjs";
+import { generateRobotsTxt, renderIndexSeoTemplate, resolveSeoConfig } from "./lib/seo_config.mjs";
+import { validateUpstreamPatches } from "./lib/upstream_patches.mjs";
 
 import {
   markInlineImages,
@@ -13,8 +18,77 @@ import {
   removePageTitleHeading,
   root,
   stripDocument,
+  toPlainText,
   transformAccordions,
-} from "../scripts/lib/manual.mjs";
+} from "./lib/manual.mjs";
+
+test("plain-text extraction decodes every named and numeric entity used by manual content", () => {
+  assert.equal(
+    toPlainText("<p>HUI&trade; &copy; &reg; &gamma; &Oslash; &emsp; &#8486; &#x3a9;</p>"),
+    "HUI™ © ® γ Ø Ω Ω",
+  );
+
+  for (const language of ["en", "zh"]) {
+    const pagesDirectory = path.join(root, "content", language, "pages");
+    for (const fileName of fs.readdirSync(pagesDirectory).filter((name) => name.endsWith(".html"))) {
+      const text = toPlainText(fs.readFileSync(path.join(pagesDirectory, fileName), "utf8"));
+      assert.doesNotMatch(text, /&[A-Za-z][A-Za-z0-9]+;/, `${language}/${fileName}: unresolved named entity`);
+      assert.doesNotMatch(text, /&#(?:[0-9]+|[xX][0-9A-Fa-f]+);/, `${language}/${fileName}: unresolved numeric entity`);
+    }
+  }
+});
+
+test("content security checks decoded URL attributes", () => {
+  assert.deepEqual(findUnsafeContentIssues('<a href="https://example.test/">Safe</a>'), []);
+  assert.deepEqual(findUnsafeContentIssues('<a href="java&#x73;cript:alert(1)">Unsafe</a>'), ["javascript URL"]);
+  assert.deepEqual(findUnsafeContentIssues('<a href="java&#115cript:alert(1)">Unsafe</a>'), ["javascript URL"]);
+  assert.deepEqual(findUnsafeContentIssues('<a href="java&Tab;script&colon;alert(1)">Unsafe</a>'), ["javascript URL"]);
+  assert.deepEqual(findUnsafeContentIssues('<img src="data&colon;image/svg+xml,x">'), ["dangerous data URL"]);
+});
+
+test("generated output identifiers are restricted to safe path segments", () => {
+  assert.equal(assertSafePathSegment("LAN-009", "page id"), "LAN-009");
+  assert.equal(assertSafeManifestOutputFile("pages/02-GettingStarted.html", "output"), "pages/02-GettingStarted.html");
+  assert.throws(() => assertSafePathSegment("../../outside", "page id"), /safe path segment/);
+  assert.throws(() => assertSafeManifestOutputFile("pages/../../outside.html", "output"), /must match/);
+});
+
+test("deployment targets reject broad, home and shell-interpreted paths", () => {
+  assert.equal(validateDeployTarget("/srv/ssl-live-manual", { sshUser: "deploy" }), "/srv/ssl-live-manual");
+  assert.equal(validateDeployTarget("/home/deploy/sites/manual", { sshUser: "deploy" }), "/home/deploy/sites/manual");
+  for (const target of ["", "/", "/srv", "/var/www", "/home/deploy", "/srv/site/../", "/srv/site;touch-pwned"]) {
+    assert.throws(() => validateDeployTarget(target, { sshUser: "deploy" }), /Deployment target/);
+  }
+  assert.throws(
+    () => validateDeployTarget("/srv/manual", { sshUser: "deploy", remoteHome: "/srv/manual" }),
+    /remote home directory/,
+  );
+});
+
+test("SEO templates are rendered only from content/seo.json values", () => {
+  const seo = resolveSeoConfig({
+    description: "Description & details",
+    keywords: "one, two",
+    url: "https://example.test/manual",
+    ogImage: "pwa-icon-512.png",
+    defaultLastModified: "2026-07-17",
+  });
+  const rendered = renderIndexSeoTemplate(
+    '<meta name="description" content="__SEO_DESCRIPTION__"><meta name="keywords" content="__SEO_KEYWORDS__"><link rel="canonical" href="__SEO_SITE_URL__"><meta property="og:image" content="__SEO_OG_IMAGE_URL__">',
+    seo,
+  );
+  assert.match(rendered, /Description &amp; details/);
+  assert.match(rendered, /https:\/\/example\.test\/manual\//);
+  assert.match(rendered, /https:\/\/example\.test\/manual\/pwa-icon-512\.png/);
+  assert.match(generateRobotsTxt(seo), /Sitemap: https:\/\/example\.test\/manual\/sitemap\.xml/);
+  assert.doesNotMatch(rendered, /__SEO_/);
+});
+
+test("registered upstream patches remain present in snapshots and applied to targets", () => {
+  const registry = readJson(path.join(root, "content", "upstream-patches.json"));
+  const manifest = readJson(path.join(root, "content", "manifest.json"));
+  assert.deepEqual(validateUpstreamPatches(registry, { rootDirectory: root, manifest }), []);
+});
 
 test("removePageTitleHeading uses exact normalized titles and explicit aliases", () => {
   assert.equal(
@@ -125,13 +199,17 @@ test("build hash ignores catalog generation time but tracks deployable content",
   t.after(() => fs.rmSync(directory, { recursive: true, force: true }));
   const catalogPath = path.join(directory, "data", "catalog.json");
   const workerPath = path.join(directory, "sw.js");
+  const sitemapPath = path.join(directory, "sitemap.xml");
   fs.mkdirSync(path.dirname(catalogPath), { recursive: true });
   fs.writeFileSync(catalogPath, '{"meta":{"generatedAt":"first"},"pages":["Intro"]}');
   fs.writeFileSync(workerPath, "worker-v1");
+  fs.writeFileSync(sitemapPath, "<url><lastmod>2026-07-16</lastmod></url>");
 
-  const files = [catalogPath, workerPath];
+  const files = [catalogPath, workerPath, sitemapPath];
   const firstHash = createBuildHash(files, directory);
   fs.writeFileSync(catalogPath, '{"meta":{"generatedAt":"second"},"pages":["Intro"]}');
+  assert.equal(createBuildHash(files, directory), firstHash);
+  fs.writeFileSync(sitemapPath, "<url><lastmod>2026-07-17</lastmod></url>");
   assert.equal(createBuildHash(files, directory), firstHash);
 
   fs.writeFileSync(workerPath, "worker-v2");
@@ -161,6 +239,7 @@ test("service worker keeps build versions in data cache keys and handles search 
     context,
   );
   assert.notEqual(firstKey, secondKey);
+  assert.equal(vm.runInContext("CACHE_NAME", context), "ssl-manual-%2Fmanual%2F-test-build");
   assert.equal(
     vm.runInContext(
       'isStaticAsset(new URL("https://example.test/manual/data/search-index-zh.json?v=test-build"))',
@@ -168,4 +247,15 @@ test("service worker keeps build versions in data cache keys and handles search 
     ),
     true,
   );
+
+  const betaContext = vm.createContext({
+    URL,
+    self: {
+      location: { origin: "https://example.test" },
+      registration: { scope: "https://example.test/beta/" },
+      addEventListener() {},
+    },
+  });
+  vm.runInContext(source, betaContext);
+  assert.notEqual(vm.runInContext("CACHE_NAME", betaContext), vm.runInContext("CACHE_NAME", context));
 });

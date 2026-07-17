@@ -1,11 +1,14 @@
 import fs from "node:fs";
 import path from "node:path";
 import { root, readJson } from "./lib/manual.mjs";
+import { findUnsafeContentIssues } from "./lib/content_security.mjs";
+import { validateUpstreamPatches } from "./lib/upstream_patches.mjs";
 
 const requiredFiles = [
   "package.json",
   "content/site.json",
   "content/manifest.json",
+  "content/upstream-patches.json",
   "docs/TERMINOLOGY.md",
   "docs/glossary.csv",
   "src/index.html",
@@ -29,6 +32,11 @@ const sourceManifest = readJson(path.join(root, "content", "manifest.json"));
 const site = readJson(path.join(root, "content", "site.json"));
 const catalog = readJson(path.join(root, "dist", "data", "catalog.json"));
 const assetManifest = readJson(path.join(root, "public", "assets", "manual", "manifest.json"));
+const upstreamPatches = readJson(path.join(root, "content", "upstream-patches.json"));
+const upstreamPatchIssues = validateUpstreamPatches(upstreamPatches, {
+  rootDirectory: root,
+  manifest: sourceManifest,
+});
 const pageTitleZhById = site.pageTitlesZhById;
 const manifestPageIds = sourceManifest.map((page) => path.basename(page.outputFile, ".html").replace(/^\d+-/, ""));
 const manifestPageIdSet = new Set(manifestPageIds);
@@ -46,24 +54,14 @@ const publishedAssetStatuses = new Set(["downloaded", "replaced"]);
 
 const pageIntegrityIssues = [];
 const securityIssues = [];
-const unsafeContentPatterns = [
-  { name: "script tag", pattern: /<script\b/i },
-  { name: "event handler attribute", pattern: /\son[a-z]+\s*=/i },
-  { name: "javascript URL", pattern: /\b(?:href|src|xlink:href|action|formaction)\s*=\s*(?:"\s*javascript:|'\s*javascript:|[^\s>]*javascript:)/i },
-  { name: "dangerous data URL", pattern: /\b(?:href|src|xlink:href|action|formaction)\s*=\s*(?:"\s*data\s*:\s*(?:text\/html|image\/svg\+xml|application\/xml|text\/xml)|'\s*data\s*:\s*(?:text\/html|image\/svg\+xml|application\/xml|text\/xml)|[^\s>]*data\s*:\s*(?:text\/html|image\/svg\+xml|application\/xml|text\/xml))/i },
-  { name: "embedded browsing context", pattern: /<(?:iframe|object|embed|base|form|input|button|textarea|select)\b/i },
-  { name: "srcdoc attribute", pattern: /\ssrcdoc\s*=/i },
-  { name: "meta refresh", pattern: /<meta\b[^>]+http-equiv\s*=\s*(?:"refresh"|'refresh'|refresh)/i },
-  { name: "inline svg/math", pattern: /<(?:svg|math)\b/i },
-];
 function getAttribute(tag, name) {
   return tag.match(new RegExp(`\\b${name}\\s*=\\s*(["'])([^"']*)\\1`, "i"))?.[2] ?? "";
 }
 const allBuiltHtml = catalog.pages.map((page) => {
   const data = readJson(path.join(root, "dist", "data", "pages", `${page.id}.json`));
   for (const [language, html] of [["zh", data.contentHtml], ["en", data.englishHtml]]) {
-    for (const check of unsafeContentPatterns) {
-      if (check.pattern.test(html)) securityIssues.push(`${page.id} (${language}): ${check.name}`);
+    for (const issue of findUnsafeContentIssues(html)) {
+      securityIssues.push(`${page.id} (${language}): ${issue}`);
     }
     for (const anchor of html.matchAll(/<a\b[^>]*>/gi)) {
       const tag = anchor[0];
@@ -131,6 +129,7 @@ const hardFailures = [
   ...missingAssets,
   ...pageIntegrityIssues,
   ...securityIssues,
+  ...upstreamPatchIssues,
 ];
 if (!pageTitleZhById || typeof pageTitleZhById !== "object" || Array.isArray(pageTitleZhById)) {
   hardFailures.push("Missing or invalid site.pageTitlesZhById mapping");
@@ -179,6 +178,7 @@ const report = {
   remoteImages,
   pageIntegrityIssues,
   securityIssues,
+  upstreamPatchIssues,
   hardFailures,
   reportFindings,
 };

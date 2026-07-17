@@ -9,7 +9,7 @@
 #### Added
 
 - **术语表扩充** — 根据 Proofreading Pull Request 的修改历史与讨论，为 `docs/glossary.csv` 新增 62 条术语规则，补充界面、硬件、Dante、自动化、效果器、路由和参数等类别
-- **手册回归测试** — 新增 `tests/manual.test.mjs`，覆盖页首标题匹配、折叠章节转换、行内图片识别、全手册结构标签平衡、中文源码清理债和 Dante VTL Note 段落边界
+- **手册回归测试** — 新增 `scripts/test_manual.mjs`，覆盖页首标题匹配、折叠章节转换、行内图片识别、全手册结构标签平衡、中文源码清理债和 Dante VTL Note 段落边界
 - **测试纳入完整检查** — 新增 `npm test`，并将其接入 `npm run check`；同步更新 README 与贡献指南
 
 #### Changed
