@@ -5,6 +5,7 @@
   "license": "GPL-3.0-or-later",
   "type": "module",
   "scripts": {
+    "test": "node --test tests/*.test.mjs",
     "build": "node scripts/build_static_site.mjs",
     "validate": "node scripts/validate_project.mjs && node scripts/validate_translations.mjs",
     "audit:content": "node scripts/audit_content.mjs",
@@ -13,7 +14,7 @@
     "audit:terminology": "node scripts/audit_terminology.mjs",
     "links:reconcile": "node scripts/reconcile_links.mjs",
     "upstream:snapshot": "node scripts/snapshot_upstream.mjs",
-    "check": "npm run build && npm run validate && npm run audit:content && npm run audit:links && npm run audit:terminology && npm run audit:external-links && npm run audit:seo",
+    "check": "npm test && npm run build && npm run validate && npm run audit:content && npm run audit:links && npm run audit:terminology && npm run audit:external-links && npm run audit:seo",
     "serve": "node scripts/serve.mjs",
     "audit:seo": "node scripts/audit_seo.mjs"
   },
