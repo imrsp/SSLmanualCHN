@@ -98,15 +98,25 @@ function innerHtml(elementHtml) {
 }
 
 function normalizeTitle(html) {
-  return toPlainText(html).replace(/\s+/g, " ").trim().toLocaleLowerCase();
+  return toPlainText(html)
+    .normalize("NFKC")
+    .replace(/\s*:\s*/g, ":")
+    .replace(/\s+/g, " ")
+    .trim()
+    .toLocaleLowerCase();
 }
 
-function titleKey(html) {
-  return normalizeTitle(html).match(/[a-z0-9]+|[\u4e00-\u9fff]/g)?.sort().join("") ?? "";
-}
+const titleAliases = [
+  ["Automation Overview", "Automation: Overview"],
+  ["Automation Scene List", "Automation: Scene List"],
+  ["Dante 设置", "设置 Dante"],
+].map((group) => new Set(group.map(normalizeTitle)));
 
 function titlesMatch(a, b) {
-  return normalizeTitle(a) === normalizeTitle(b) || titleKey(a) === titleKey(b);
+  const normalizedA = normalizeTitle(a);
+  const normalizedB = normalizeTitle(b);
+  if (normalizedA === normalizedB) return true;
+  return titleAliases.some((group) => group.has(normalizedA) && group.has(normalizedB));
 }
 
 function removeRepeatedLeadingHeading(content, title) {
@@ -160,25 +170,6 @@ export function removePageTitleHeading(html, pageTitle) {
   return html;
 }
 
-export function normalizeLegacyMarkup(html) {
-  return html
-    .replace(
-      /<p class="note">\s*(<span class="notetitle">[\s\S]*?<\/span>)\s*<\/p>\s*<p>([\s\S]*?)<\/p>/gi,
-      '<div class="note">$1 $2</div>',
-    )
-    .replace(
-      /<figure>\s*(<img\b[^>]*>)\s*<figcaption>图片\s*\d+<\/figcaption>\s*<\/figure>/gi,
-      "$1",
-    )
-    .replace(/<\/ul>\s*<ul>/gi, "")
-    .replace(/<p>\s*\*\*([^*]+)\*\*\s*<\/p>/gi, "<h4>$1</h4>")
-    .replace(
-      /<p>\s*(注意|请注意|警告|重要提示|例如|SSL 建议)\s*[：:]\s*([\s\S]*?)<\/p>/gi,
-      '<div class="note"><span class="notetitle">$1：</span>$2</div>',
-    )
-    .replace(/\*\*([^*\n]+)\*\*/g, "<strong>$1</strong>");
-}
-
 function hasBlockImageIntent(imageHtml) {
   const className = imageHtml.match(/\bclass=["']([^"']+)["']/i)?.[1] ?? "";
   const style = imageHtml.match(/\bstyle=["']([^"']+)["']/i)?.[1] ?? "";
@@ -230,10 +221,4 @@ export function extractMetaDescription(html, maxChars = 160) {
     }
   }
   return desc;
-}
-
-export function toFirstLine(text) {
-  const clean = text.replace(/\s+/g, " ").trim();
-  const firstSentence = clean.match(/^[^\u3002.。]*[\u3002.。]?/)?.[0] ?? clean;
-  return firstSentence.length > 200 ? clean.slice(0, 197) + "\u2026" : firstSentence;
 }

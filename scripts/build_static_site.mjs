@@ -4,7 +4,6 @@ import { execSync } from "node:child_process";
 import path from "node:path";
 import {
   root,
-  normalizeLegacyMarkup,
   markInlineImages,
   readJson,
   removePageTitleHeading,
@@ -333,9 +332,7 @@ function writeDataFiles(jsonPath, value, assignment) {
 function prepareStandaloneDocument(filePath) {
   const raw = stripDocument(fs.readFileSync(filePath, "utf8"));
   const structured = markInlineImages(
-    normalizeLegacyMarkup(
-      transformAccordions(raw),
-    ),
+    transformAccordions(raw),
   );
   assertSafeContentHtml(structured, path.relative(root, filePath));
   return addHeadingIds(dedupeIds(addBlankLinkRel(structured)));
@@ -343,16 +340,14 @@ function prepareStandaloneDocument(filePath) {
 
 function prepareDocument(filePath, sourceUrl, pageTitle) {
   const structured = markInlineImages(
-    normalizeLegacyMarkup(
-      removePageTitleHeading(
-        transformAccordions(
-          markPlaceholderAssets(
-            localizeAssets(stripDocument(fs.readFileSync(filePath, "utf8")), sourceUrl),
-            sourceUrl,
-          ),
+    removePageTitleHeading(
+      transformAccordions(
+        markPlaceholderAssets(
+          localizeAssets(stripDocument(fs.readFileSync(filePath, "utf8")), sourceUrl),
+          sourceUrl,
         ),
-        pageTitle,
       ),
+      pageTitle,
     ),
   );
   assertSafeContentHtml(structured, path.relative(root, filePath));

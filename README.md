@@ -13,6 +13,7 @@
 ### 🛠️ 快捷构建命令
 ```bash
 npm run build
+npm test
 npm run validate
 npm run audit:content
 npm run serve
@@ -62,7 +63,8 @@ npm run serve
 
 * `npm run build`：生成静态站点
 * `npm run serve`：在本地预览 `dist/`
-* `npm run check`：构建 + 执行所有阻断校验与报告生成（含下面七个分别报告）
+* `npm test`：运行构建辅助函数和全手册 HTML 结构回归测试
+* `npm run check`：测试 + 构建 + 执行所有阻断校验与报告生成（含下面七个分别报告）
 
 ### 📊 校验与审计报告
 

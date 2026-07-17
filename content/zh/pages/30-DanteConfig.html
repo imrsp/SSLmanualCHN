@@ -1,17 +1,9 @@
 <p>以下页面介绍如何配置 SSL Live 控制台以接入 Dante 网络、在 Dante 设备之间进行路由，以及控制 SSL Net I/O 舞台接口箱并共享增益：</p>
 <ul>
   <li><a href="https://livehelp.solidstatelogic.com/Help/DanteSetup.html"><span class="hyperlink">设置 Dante</span></a></li>
-</ul>
-<ul>
   <li><a href="https://livehelp.solidstatelogic.com/Help/DanteVTL.html"><span class="hyperlink">虚拟跳线</span></a></li>
-</ul>
-<ul>
   <li>双域路由与配置 Dante 设备（本页）</li>
-</ul>
-<ul>
   <li><a href="https://livehelp.solidstatelogic.com/Help/DanteNetIO.html"><span class="hyperlink">Dante 接口箱</span></a></li>
-</ul>
-<ul>
   <li><a href="https://livehelp.solidstatelogic.com/Help/DanteBridges.html"><span class="hyperlink">BLII 与 X-Light 网桥</span></a></li>
 </ul>
 <h2>配置 Dante 设备和使用双域路由</h2>
@@ -23,9 +15,9 @@
 <p>前往 <span class="label">MENU</span> &gt; <span class="label">Setup</span> &gt; <span class="label">I/O</span>，然后点击菜单下方的 <span class="label">Dante Configuration</span>。</p>
 <p>页面左侧有一个“<b>Connected Devices</b>”（已连接设备）列表。网络上的所有 Dante 设备都将在此列出。如果配置正确的设备未出现在列表中，请点击“<span class="label">Refresh Devices</span>”按钮刷新视图。</p>
 <p>页面右侧有一个“<b>Configured Devices</b>”（已配置设备）列表。这是所有已配置供使用的 Dante 设备的列表。</p>
-<figure><img src="https://livehelp.solidstatelogic.com/Help/images/g_DanteDevices.png" alt="图片 1"><figcaption>图片 1</figcaption></figure>
+<img src="https://livehelp.solidstatelogic.com/Help/images/g_DanteDevices.png" alt="图片 1">
 <p>“Configured Devices”列表上方有两个资源条，用于指示可用的双域路由输入和输出总数以及当前使用的数量。显示的总数将取决于采样率、虚拟跳线的数量以及是否使用了 BLII/X-Light 网桥。当创建双域路由时，资源条会填充浅蓝色或深蓝色：</p>
-<figure><img src="https://livehelp.solidstatelogic.com/Help/images/g_DanteResourceBar.png" alt="图片 2"><figcaption>图片 2</figcaption></figure>
+<img src="https://livehelp.solidstatelogic.com/Help/images/g_DanteResourceBar.png" alt="图片 2">
 <p><b>浅蓝色：</b>指向离线“Configured Devices”的路由（未连接到网络的设备，用于在舞台接口箱实际存在之前准备演出文件）</p>
 <p><b>深蓝色：</b>指向在线“Configured Devices”的路由（已连接到网络的设备）</p>
 <p>每个设备都有一系列状态 LED：</p>
@@ -87,27 +79,15 @@
   </tbody>
 </table>
 <p>点击“Connected Devices”或“Configured Devices”列表中的任何设备都会调出该设备的详细视图。如果设备是“Connected Device”，则无法编辑舞台接口箱设置。如果设备是“Configured Device”，则可以在此更改所有舞台接口箱设置和参数（例如增益、+48V、工作电平等等）。</p>
-<figure><img src="https://livehelp.solidstatelogic.com/Help/images/g_DanteDetailView.png" alt="图片 4"><figcaption>图片 4</figcaption></figure>
+<img src="https://livehelp.solidstatelogic.com/Help/images/g_DanteDetailView.png" alt="图片 4">
 <p>以下信息显示在“<span class="label">Setup</span>”选项卡中：</p>
 <ul>
   <li><b>Dante 设备名称</b>（应从 Dante Controller 更改，而不是从控制台更改）</li>
-</ul>
-<ul>
   <li><b>I/O 容量</b></li>
-</ul>
-<ul>
   <li>SSL 设备的 <b>PSU 状态</b></li>
-</ul>
-<ul>
   <li>主网和备网<b>网络状态</b></li>
-</ul>
-<ul>
   <li><b>IP 地址</b>（如果子网不一致，将显示为红色）</li>
-</ul>
-<ul>
   <li>Dante 和控制台<b>采样率</b>（如果采样率不一致且控制台的 Dante SRC 关闭，将显示为红色）</li>
-</ul>
-<ul>
   <li>设备<b>温度</b>（如果可用）</li>
 </ul>
 <span class="note"><span class="notetitle">请注意：</span>Dante 路由与设备名称相关联。因此更改 Dante 设备名称将删除所有路由。重命名设备应在 Dante Controller 中进行，而不是在控制台上。在更改设备名称之前，Dante Controller 中会出现一个警告对话框，通知用户音频路由将中断。</span>
@@ -115,7 +95,7 @@
 <h3>配置在线 Dante 设备</h3>
 <p>现在我们将配置一个在线设备以进行双域路由。在线设备是连接到网络的设备。</p>
 <p>首先，启用 <span class="label">Edit</span>。然后点击并拖动左侧“Connected Devices”列表中的一个设备。一旦您开始拖动设备，“Configured Devices”列表底部会出现一个 <span class="label">+</span> 号。将设备拖放到 <span class="label">+</span> 号上。</p>
-<figure><img src="https://livehelp.solidstatelogic.com/Help/images/g_DantePlus.png" alt="图片 5"><figcaption>图片 5</figcaption></figure>
+<img src="https://livehelp.solidstatelogic.com/Help/images/g_DantePlus.png" alt="图片 5">
 <p>此设备现在已添加到“Configured Devices”列表中，您现在可以在路由视图或 <span class="label">XY Routing</span> 页面中对其进行双向路由。</p>
 <h3>配置离线 Dante 设备</h3>
 <p>即使物理设备不存在，也可以添加、配置离线设备并对其进行双向路由。当设备可用时，这些设置随后可以与在线设备关联（见下文）。</p>
@@ -164,7 +144,7 @@
 <p>*前提是满足所有所有权要求（参见<a href="https://livehelp.solidstatelogic.com/Help/DanteNetIO.html#Ownership"><span class="hyperlink">所有权</span></a>部分）</p>
 <p>**前提是此设备与网络上其他设备之间的现有路由不存在路由冲突（参见<a href="https://livehelp.solidstatelogic.com/Help/DanteConfig.html#Conflict"><span class="hyperlink">路由冲突</span></a>）。</p>
 <p>要关联离线和在线设备，首先点击 <span class="label">Edit</span>，然后将在线的“Connected Device”拖放到相应的离线“Configured device”上。</p>
-<figure><img src="https://livehelp.solidstatelogic.com/Help/images/g_DanteAssign.png" alt="图片 6"><figcaption>图片 6</figcaption></figure>
+<img src="https://livehelp.solidstatelogic.com/Help/images/g_DanteAssign.png" alt="图片 6">
 <p>点击“<span class="label">Assign to Configured Device</span>”进行确认。</p>
 <span class="note"><span class="notetitle">请注意：</span>设备类型必须相同才能生效。如果类型不同，控制台将不允许关联。</span>
 <p>离线和在线设备现在已关联，离线设备的所有设置和路由都将分配给在线设备（前提是没有所有权或路由冲突）。</p>
@@ -180,14 +160,8 @@
 <p>这种情况可能在以下情况下发生：</p>
 <ul>
   <li>操作员（从控制台）手动在控制台和另一个 Dante 设备之间建立路由时</li>
-</ul>
-<ul>
   <li>加载包含 Dante 路由的演出文件时</li>
-</ul>
-<ul>
   <li>控制台开机且最近的演出文件包含 Dante 路由时</li>
-</ul>
-<ul>
   <li>将保存有路由的离线“Configured Device”关联到在线的“Connected Device”时</li>
 </ul>
 <h3>先到先得</h3>
@@ -222,15 +196,11 @@
 <p>Dante 和 AoIP 的优点和挑战在于可以自由地连接任何地方的任何设备。SSL Live 通过将 Dante API 与自动设备发现相结合来解决这个问题，提供了一个简单的拖放界面，用于将发现的设备添加到控制台的配置中，以简化路由。对于较大网络上的固定安装，SSL Live 的“<strong>Dante Allowed Device List</strong>”允许您管理哪些 Dante 设备在控制台上可见和可路由，非常适合自由工程师访问控制台但某些资源必须保持受限的固定安装。</p>
 <p>此功能在获得 Dante Allowed Device List 许可证后启用，可将可见设备限制为仅“AllowedDevicesConfig.xml”文件中列出的设备，如果未获得许可，则保持所有标准控制台功能。支持 SSL 网络 I/O 和第三方设备，虽然 Rx 订阅仍可通过 Dante Controller 管理，但 SSL 界面会在路由 GUI 中使用带阴影的棕色覆盖层标记受限的 Rx 通道，防止路由更改或演出文件覆盖。如果您有 Dante Allowed Device List 的使用案例，请与您的 SSL 销售或支持代表讨论工作流程和许可事宜。</p>
 <p>Dante Allowed Device List 可确保网络资源的安全，确保只能访问选定的设备和通道。非常适合大型、灵活的音频网络。</p>
-<figure><img src="https://livehelp.solidstatelogic.com/Help/images/u_DanteConfig_Allowed_dev_list.png" alt="图片 7"><figcaption>图片 7</figcaption></figure>
+<img src="https://livehelp.solidstatelogic.com/Help/images/u_DanteConfig_Allowed_dev_list.png" alt="图片 7">
 <p>允许设备列表基于设备名称而不是 Dante 设备 UID。这具有以下含义：</p>
 <ul>
   <li>可以离线（在控制台或 SOLSA 上）配置（和命名）设备并将路由存储在演出文件中，以后可以在检测到正确名称的允许设备时将这些路由播放到网络上。</li>
-</ul>
-<ul>
   <li>更改 Dante 网络上设备的名称将需要在利用此功能的每个控制台上更新允许列表（需要访问服务页面）。</li>
-</ul>
-<ul>
   <li>可以在 Dante Controller（或其他具有控制功能的界面）中重命名设备，以匹配允许列表中存在的设备名称，从而启用该设备在控制台上的使用（受允许列表中定义的受限 Rx 通道约束），而无需修改允许列表。</li>
 </ul>
 <h2>实用链接</h2>

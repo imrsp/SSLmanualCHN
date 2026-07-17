@@ -1,7 +1,6 @@
 import fs from "node:fs";
 import path from "node:path";
 import {
-  normalizeLegacyMarkup,
   readJson,
   removePageTitleHeading,
   root,
@@ -20,11 +19,9 @@ const latestSnapshot = fs.existsSync(snapshotsDirectory)
   : null;
 const count = (html, pattern) => [...html.matchAll(pattern)].length;
 const normalized = (html, title) =>
-  normalizeLegacyMarkup(
-    removePageTitleHeading(
-      transformAccordions(stripDocument(html).replace(/<!--[\s\S]*?-->/g, "")),
-      title,
-    ),
+  removePageTitleHeading(
+    transformAccordions(stripDocument(html).replace(/<!--[\s\S]*?-->/g, "")),
+    title,
   );
 const upstreamMain = (html) => {
   const main = html.match(
@@ -124,9 +121,7 @@ const pages = manifest.map((page) => {
   const english = normalized(englishRaw, page.title);
   const titleZh = getPageTitleZh(path.basename(page.outputFile, ".html").replace(/^\d+-/, ""));
   const chinese = normalized(chineseRaw, titleZh);
-  const source = normalizeLegacyMarkup(
-    removePageTitleHeading(transformAccordions(upstreamMain(sourceRaw)), page.title),
-  );
+  const source = removePageTitleHeading(transformAccordions(upstreamMain(sourceRaw)), page.title);
   const englishMetrics = metrics(english);
   const chineseMetrics = metrics(chinese);
   const sourceMetrics = metrics(source);

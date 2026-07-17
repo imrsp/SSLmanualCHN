@@ -34,6 +34,7 @@ npm run check
 
 它会依次运行：
 
+- `npm test`
 - `npm run build`
 - `npm run validate`
 - `npm run audit:content`
