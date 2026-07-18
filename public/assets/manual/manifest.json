@@ -1734,9 +1734,9 @@
     "status": "downloaded"
   },
   {
-    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_GenericOscDetailView.png",
-    "localPath": "assets/manual/Help/images/g_GenericOscDetailView.png",
-    "bytes": 29556,
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_GenericOscDetailViewXY.png",
+    "localPath": "assets/manual/Help/images/g_GenericOscDetailViewXY.png",
+    "bytes": 93273,
     "status": "downloaded"
   },
   {
@@ -1815,6 +1815,12 @@
     "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_KLANGAudioRoutingDiagram.png",
     "localPath": "assets/manual/Help/images/g_KLANGAudioRoutingDiagram.png",
     "bytes": 90043,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_KLANGAudioRoutingExample.png",
+    "localPath": "assets/manual/Help/images/g_KLANGAudioRoutingExample.png",
+    "bytes": 491100,
     "status": "downloaded"
   },
   {
@@ -2112,12 +2118,6 @@
     "status": "downloaded"
   },
   {
-    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_OSCdetailSMGsnapshot.png",
-    "localPath": "assets/manual/Help/images/g_OSCdetailSMGsnapshot.png",
-    "bytes": 198338,
-    "status": "downloaded"
-  },
-  {
     "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_OSCsetupGenericDeviceConfig.png",
     "localPath": "assets/manual/Help/images/g_OSCsetupGenericDeviceConfig.png",
     "bytes": 16642,
@@ -2137,10 +2137,9 @@
   },
   {
     "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_OSCsetupGenericMethodsSwitchesConfig.png",
-    "localPath": "assets/manual/missing/",
-    "bytes": 0,
-    "status": "placeholder",
-    "error": "远程服务器返回错误: (404) 未找到。"
+    "localPath": "assets/manual/Help/images/g_OSCsetupGenericMethodsSwitchesConfig.png",
+    "bytes": 18317,
+    "status": "downloaded"
   },
   {
     "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_OSCsetupGenericSelected.png",

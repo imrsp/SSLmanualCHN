@@ -98,6 +98,42 @@ test("registered upstream patches remain present in snapshots and applied to tar
   assert.deepEqual(validateUpstreamPatches(registry, { rootDirectory: root, manifest }), []);
 });
 
+test("21.0.4 External Control and KLANG changes remain synchronized", () => {
+  for (const language of ["en", "zh"]) {
+    const externalControl = fs.readFileSync(
+      path.join(root, "content", language, "pages", "73-ExternalControl.html"),
+      "utf8",
+    );
+    const klang = fs.readFileSync(
+      path.join(root, "content", language, "pages", "74-KLANG.html"),
+      "utf8",
+    );
+
+    assert.match(externalControl, /g_GenericOscDetailViewXY\.png/);
+    assert.doesNotMatch(externalControl, /g_GenericOscDetailView\.png|g_OSCdetailSMGsnapshot\.png/);
+    assert.match(klang, /g_KLANGAudioRoutingExample\.png/);
+    assert.match(klang, /BusRouting\.html#VcaBusSends/);
+    assert.match(klang, language === "en" ? /<h3>Automation<\/h3>/ : /<h3>自动化<\/h3>/);
+  }
+
+  const assets = readJson(path.join(root, "public", "assets", "manual", "manifest.json"));
+  const bySourceUrl = new Map(assets.map((asset) => [asset.sourceUrl, asset]));
+  for (const name of [
+    "g_GenericOscDetailViewXY.png",
+    "g_KLANGAudioRoutingExample.png",
+    "g_OSCsetupGenericMethodsSwitchesConfig.png",
+  ]) {
+    const sourceUrl = `https://livehelp.solidstatelogic.com/Help/images/${name}`;
+    const asset = bySourceUrl.get(sourceUrl);
+    assert.equal(asset?.status, "downloaded", `${name}: resource must be downloadable`);
+    assert.equal(
+      fs.existsSync(path.join(root, "public", asset.localPath)),
+      true,
+      `${name}: localized file must exist`,
+    );
+  }
+});
+
 test("upstream source revisions are extracted, compared and diffed deterministically", () => {
   assert.equal(
     extractSourceRevision('<p>Document Revision Number: <span style="font-weight:bold">21.0.4</span></p>'),

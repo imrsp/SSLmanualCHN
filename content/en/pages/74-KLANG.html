@@ -119,7 +119,7 @@
 </ul>
 
 <img
-  style="display: block; margin: 5px auto; width: 50px"
+  style="display: block; margin: 5px auto; width: 800px"
   src="https://livehelp.solidstatelogic.com/Help/images/g_KLANG_noVLAN_Dante_Setup.png"
   alt="SSL KLANG Network Routing B"
 />
@@ -258,6 +258,14 @@
   mixes in exactly the same way.
 </p>
 
+<p>Here is an example of correct 1-to-1 routing to a KLANG Vokal:</p>
+
+<img
+  style="display: block; margin: 5px auto; width: 800px"
+  src="https://livehelp.solidstatelogic.com/Help/images/g_KLANGAudioRoutingExample.png"
+  alt="SSL KLANG Audio Routing Example"
+/>
+
 <span class="note">
   <b> Note: </b>
   Incorrectly routing these inputs and outputs will result in incorrect panning
@@ -306,6 +314,14 @@
   src="https://livehelp.solidstatelogic.com/Help/images/g_KLANG_ChanAuxCrosspoint.png"
   alt="Chan-Aux KLANG Crosspoint"
 />
+
+<span class="note">
+  <b>Note:</b>
+  <a href="https://livehelp.solidstatelogic.com/Help/BusRouting.html#VcaBusSends"
+    ><span class="hyperlink">VCA (V-Aux) control</span></a
+  >
+  of KLANG-linked gain parameters is not supported.
+</span>
 
 <p>
   Several KLANG-specific parameters and functions are also available - azimuth,
@@ -397,6 +413,27 @@
   <span class="label">Follow Pan</span> is turned on for the selected aux, the
   crosspoint panning will have followed the Master pan of the selected path.
 </p>
+
+<h3>Automation</h3>
+
+<p>
+  KLANG panning data will be stored in scenes and is recallable as normal.
+  However, due to the complexity of the integration, the data is stored against
+  the KLANG channels in the SKI, as opposed to the channel and stem paths
+  themselves. This means that the parameters aren't protected by Path Global
+  Recall Safe.
+</p>
+
+<p>
+  To recall protect the KLANG panning data, use the Recall Filters in the
+  Automation page. The appropriate filter is located in the "KLANG Channel" row
+  and the "OSC &amp; Ext Pan" column.
+</p>
+
+<span class="note">
+  <b>Note:</b> It is not recommended to use automation fades for KLANG
+  parameters.
+</span>
 
 <h2>Useful Links</h2>
 
