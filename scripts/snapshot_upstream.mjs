@@ -2,6 +2,7 @@ import crypto from "node:crypto";
 import fs from "node:fs";
 import path from "node:path";
 import { root, readJson } from "./lib/manual.mjs";
+import { finalizeSnapshot } from "./lib/snapshot_publish.mjs";
 
 const origin = "https://livehelp.solidstatelogic.com";
 const manifest = readJson(path.join(root, "content", "manifest.json"));
@@ -11,15 +12,16 @@ const date = new Intl.DateTimeFormat("en-CA", {
   month: "2-digit",
   day: "2-digit",
 }).format(new Date());
-const snapshotRoot = path.join(root, "upstream", "snapshots", date);
+const snapshotsRoot = path.join(root, "upstream", "snapshots");
+fs.mkdirSync(snapshotsRoot, { recursive: true });
+const finalSnapshotRoot = path.join(snapshotsRoot, date);
+const snapshotRoot = fs.mkdtempSync(path.join(snapshotsRoot, `.${date}-`));
 const filesRoot = path.join(snapshotRoot, "site");
-const previousSnapshots = fs.existsSync(path.join(root, "upstream", "snapshots"))
-  ? fs.readdirSync(path.join(root, "upstream", "snapshots"))
-      .filter((entry) => entry < date && fs.existsSync(path.join(root, "upstream", "snapshots", entry, "manifest.json")))
-      .sort()
-  : [];
+const previousSnapshots = fs.readdirSync(snapshotsRoot)
+  .filter((entry) => entry < date && fs.existsSync(path.join(snapshotsRoot, entry, "manifest.json")))
+  .sort();
 const previousManifestPath = previousSnapshots.length
-  ? path.join(root, "upstream", "snapshots", previousSnapshots.at(-1), "manifest.json")
+  ? path.join(snapshotsRoot, previousSnapshots.at(-1), "manifest.json")
   : null;
 
 const queue = manifest.map((page) => page.sourceUrl);
@@ -142,13 +144,25 @@ if (previousManifestPath) {
   };
 }
 fs.writeFileSync(path.join(snapshotRoot, "diff.json"), JSON.stringify(diff, null, 2));
-fs.writeFileSync(
-  path.join(root, "upstream", "snapshots", "latest.json"),
-  JSON.stringify({ date, manifest: `${date}/manifest.json`, diff: `${date}/diff.json` }, null, 2),
-);
+const published = finalizeSnapshot({
+  failures,
+  stagingRoot: snapshotRoot,
+  snapshotRoot: finalSnapshotRoot,
+  latestPath: path.join(snapshotsRoot, "latest.json"),
+  latestRecord: { date, manifest: `${date}/manifest.json`, diff: `${date}/diff.json` },
+});
+
+if (!published) {
+  console.error(JSON.stringify({
+    error: "Upstream snapshot is incomplete; latest.json was not updated.",
+    failures,
+  }, null, 2));
+  process.exitCode = 1;
+}
 
 console.log(JSON.stringify({
-  snapshot: snapshotRoot,
+  snapshot: published ? finalSnapshotRoot : null,
+  published,
   files: records.length,
   bytes: records.reduce((sum, record) => sum + record.bytes, 0),
   failures: failures.length,

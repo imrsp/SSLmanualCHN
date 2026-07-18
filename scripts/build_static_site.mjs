@@ -25,6 +25,7 @@ const site = readJson(path.join(contentDirectory, "site.json"));
 const manifest = readJson(path.join(contentDirectory, "manifest.json"));
 const seoConfig = readJson(path.join(contentDirectory, "seo.json"));
 const resolvedSeo = resolveSeoConfig(seoConfig);
+const noindexPageIds = new Set(seoConfig.noindexPageIds || []);
 const assetManifest = readJson(path.join(root, "public", "assets", "manual", "manifest.json"));
 for (const [index, item] of manifest.entries()) {
   assertSafeManifestOutputFile(item.outputFile, `content/manifest.json entry ${index + 1} outputFile`);
@@ -550,8 +551,7 @@ function escapeXml(str) {
 }
 
 function generatePrerenderPage(pageData, prevPage, nextPage) {
-  var noindexIds = new Set(seoConfig.noindexPageIds || []);
- var robotsContent = noindexIds.has(pageData.id) ? "noindex, follow" : "index, follow";
+  var robotsContent = noindexPageIds.has(pageData.id) ? "noindex, follow" : "index, follow";
   var crawlContent = addBlankLinkRel(pageData.contentHtml).replace(
     /href="#\/page\/([^"]+)"/g,
     function(match, path) {
@@ -634,10 +634,10 @@ function sitemapUrl(loc, priority, changefreq, lastmod) {
 var sitemapEntries = [];
 var siteDate = getSitemapDate(path.join(contentDirectory, "seo.json"));
 sitemapEntries.push(sitemapUrl("", 1.0, "weekly", siteDate));
-sitemapEntries.push(sitemapUrl("index.html", 0.9, "weekly", siteDate));
 
 for (var i = 0; i < pages.length; i++) {
   var page = pages[i];
+  if (noindexPageIds.has(page.id)) continue;
   var manifestItem = manifest.find(function(item) {
     return path.basename(item.outputFile, ".html").replace(/^\d+-/, "") === page.id;
   });
@@ -648,6 +648,7 @@ for (var i = 0; i < pages.length; i++) {
 }
 
 for (var si = 0; si < standalonePages.length; si++) {
+  if (noindexPageIds.has(standalonePages[si].id)) continue;
   var standaloneLastModified = getSitemapDate(standalonePages[si].chinesePath);
   sitemapEntries.push(sitemapUrl("seo/" + standalonePages[si].id + ".html", 0.4, "monthly", standaloneLastModified));
 }

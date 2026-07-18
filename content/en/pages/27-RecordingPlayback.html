@@ -42,15 +42,15 @@
 		<img style="display: block; margin: 5px auto;" src="https://livehelp.solidstatelogic.com/Help/images/t_Rehearse_status.png" alt="">
 
 <span class="note">
-    <span class="notetitle">Note:</span> Rehearse mode can also be triggered from User Keys and Events System; see the <a href="https://livehelp.solidstatelogic.com/Help/OptionsUserKeys.html"><span class="hyperlink">User Keys Options</span> or <a href="https://livehelp.solidstatelogic.com/Help/EventManager.html"><span class="hyperlink">Event&nbsp;Manager</span></a> section</a>.
+    <span class="notetitle">Note:</span> Rehearse mode can also be triggered from User Keys and Events System; see the <a href="https://livehelp.solidstatelogic.com/Help/OptionsUserKeys.html"><span class="hyperlink">User Keys Options</span></a> or <a href="https://livehelp.solidstatelogic.com/Help/EventManager.html"><span class="hyperlink">Event&nbsp;Manager</span></a> section.
 </span>	
 	<p>
 	A <strong>Global Rehearse Mode</strong> button (press &amp; hold to activate) switches all paths in <strong>Follow Global</strong> or a <strong>Follow Group</strong> mode (not <strong>Follow Local</strong> mode), in and out of Rehearse mode simultaneously. Channel Paths are assigned to Global, Group or Local switching in the Input <strong>Channel Detail View</strong>.&nbsp; &nbsp;</p>
-	<p>	
+	<ul>
 	  <li><strong>Follow Global</strong> - The default option - The path is NOT in a group but IS changed when the global rehearsal mode is switched.</li>
 		<li><strong>Follow Group &lt;N&gt;</strong> - Assigns the path to the group to be switched with that group.</li>
 		<li><strong>Follow Local</strong> - No switching group assigned, channel defaults to live input but can be locally switched to rehearsal input.</li>
-	</p>
+	</ul>
 		
 		<img style="display: block; margin: 15px auto; width: 1200px;" src="https://livehelp.solidstatelogic.com/Help/images/t_Rehearse_pathdetail.png" alt="">
 		
@@ -58,21 +58,23 @@
 		
 	<p>A pair of <strong>Lock to Live Input</strong> and <strong>Lock to Rehearsal Input</strong> override functions force a path to the live input or the record return. Turning one lock on cancels the other, turning either lock off does not turn to the other lock on. The "lock to" functions can be used at any time, even when a path is in follow global or follow group mode.</p>
 	
-	<p>
+	<ul>
 	<li><strong>Lock to Rehearsal Input</strong> button is orange when engaged, the Channel input A/B/tape indication is orange when the path is locked to rehearsal input.</li>
 	<li><strong>Lock to Live Input</strong> button is cyan when engaged, the Channel input A/B indication remains as standard when the path is locked to live input.</li>	
-		</p>
+		</ul>
 		
 		<p>When a path is in <strong>Lock to Live</strong> or <strong>Lock to Rehearsal</strong> that paths input is NOT changed by group or global switching. The lock to switch states are not saved in the showfile or scene. The "lock to" functions can provide a fast way to force a channel to live or rehearsal/replay input on that run through the show. Perhaps one musician is late for soundcheck, or one instrument malfunctions; switching this one channel to playback allows the show or rehearsal to continue while it is resolved. If the singer wants to run through a few more times after soundcheck, their mic can be locked to live input while rehearsal is engaged for everyone else.</p>
 		
 <h3>Recorder IO</h3>
 		<p>The ability to manual route channel record sends and returns, allows any IO to be used as the recorder and rehearsal replay machine. Routing is performed in the same way as any other signal patching and is stored and recalled with showfiles. </p>
 		
-		<p>MADI and Dante Expander connections can be configured as "recorders." Recorders are given a channel block (e.g. 1-32, 33-64, ... @96 kHz). When assigned channel blocks bulk routing actions for both the IO and the channel record send/return can be performed. This allows a recorder IO and routing to be configured quickly once channel allocation in <stromg>Console Config</stromg> has been completed, ensuring all channels are being recorded. </p>
+		<p>MADI and Dante Expander connections can be configured as "recorders." Recorders are given a channel block (e.g. 1-32, 33-64, ... @96 kHz). When assigned channel blocks bulk routing actions for both the IO and the channel record send/return can be performed. This allows a recorder IO and routing to be configured quickly once channel allocation in <strong>Console Config</strong> has been completed, ensuring all channels are being recorded. </p>
 		
+		<ul>
 		<li><strong>Make All</strong> - will route signals 1:1 from channel record send to this device, and from this device to channel record returns.</li>
 		<li><strong>Clear Destination</strong> - will remove all signals routed to this device and remove all signals routed to these channel record returns.</li>
 		<li><strong>Clear All</strong> - will remove all routes made to and from both this device and these channels record send and returns.</li>
+		</ul>
 		
 		<p>The 1:1 routing is based on incremental signals across the console channel paths, i.e., a stereo channel path will use 2 signals on the IO.</p>
 		

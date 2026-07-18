@@ -9,6 +9,7 @@ const distDir = path.join(root, "dist");
 const pagesDir = path.join(distDir, "seo");
 const seoConfig = JSON.parse(fs.readFileSync(path.join(root, "content", "seo.json"), "utf8"));
 const resolvedSeo = resolveSeoConfig(seoConfig);
+const noindexPageIds = new Set(seoConfig.noindexPageIds || []);
 
 const results = { passed: [], failed: [] };
 function check(condition, label) {
@@ -58,13 +59,30 @@ if (fs.existsSync(sitemapPath)) {
   const sitemap = fs.readFileSync(sitemapPath, "utf8");
   check(sitemap.startsWith("<?xml"), "sitemap.xml is well-formed XML");
   sitemapEntries = sitemap.split("<url>").length - 1;
+  const indexablePageIds = manifest
+    .map((page) => pageIdFromOutputFile(page.outputFile))
+    .filter((pageId) => !noindexPageIds.has(pageId));
+  const indexableStandaloneIds = standalonePageIds.filter((pageId) => !noindexPageIds.has(pageId));
+  const expectedSitemapLocations = [
+    resolvedSeo.siteUrl,
+    ...indexablePageIds.map((pageId) => new URL(`seo/${pageId}.html`, resolvedSeo.siteUrl).href),
+    ...indexableStandaloneIds.map((pageId) => new URL(`seo/${pageId}.html`, resolvedSeo.siteUrl).href),
+  ];
   check(
-    sitemapEntries >= expectedPageCount,
-    "sitemap.xml has at least " + expectedPageCount + " entries (got " + sitemapEntries + ")"
+    sitemapEntries === expectedSitemapLocations.length,
+    "sitemap.xml has exactly " + expectedSitemapLocations.length + " indexable entries (got " + sitemapEntries + ")"
   );
-  check(sitemap.includes("index.html"), "sitemap.xml includes index.html");
   check(!sitemap.includes("<domain>"), "sitemap.xml contains no deployment placeholders");
   const sitemapLocations = [...sitemap.matchAll(/<loc>([^<]+)<\/loc>/g)].map((match) => match[1]);
+  check(
+    sitemapLocations.length === expectedSitemapLocations.length
+      && expectedSitemapLocations.every((location) => sitemapLocations.includes(location)),
+    "sitemap.xml contains only canonical indexable URLs",
+  );
+  check(
+    [...noindexPageIds].every((pageId) => !sitemapLocations.some((location) => location.endsWith(`/seo/${pageId}.html`))),
+    "sitemap.xml excludes every content/seo.json noindex page",
+  );
   check(
     sitemapLocations.every((location) => location.startsWith(resolvedSeo.siteUrl)),
     "All sitemap URLs use content/seo.json url",

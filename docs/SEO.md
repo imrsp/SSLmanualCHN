@@ -134,7 +134,7 @@ src/index.html            ← SPA 入口模板（SEO 字段由构建注入）
 `npm run build` 或 `npm run check` 会自动产出：
 
 - `dist/seo/*.html` — 每个章节和 standalone 页面各一份
-- `dist/sitemap.xml` — 首页、index、全部章节和 standalone 页
+- `dist/sitemap.xml` — canonical 首页，以及未列入 `noindexPageIds` 的章节和 standalone 页
 - `dist/robots.txt` — 允许所有爬虫，禁止抓取 `data/`、`themes/`、`src/`
 
 ### 独立审计
@@ -146,7 +146,7 @@ npm run audit:seo
 检验项目包括：
 
 - `robots.txt` 存在且含 Sitemap 指令
-- `sitemap.xml` 存在且条目数覆盖当前 manifest
+- `sitemap.xml` 存在，且仅包含 canonical 首页和允许索引的内容页
 - 所有 `seo/*.html` 文件存在
 - 每页都有 `<title>`、description、canonical、JSON-LD、OG、Twitter、hreflang、SPA 重定向，正文 ID 唯一且不存在无 JavaScript 强制跳转
 - 首页有 `rel=next`，末页有 `rel=prev`
@@ -163,7 +163,7 @@ npm run audit:seo
 
 - 章节页：`content/zh/pages/<NN-Slug>.html` 的修改日期
 - standalone 页：`content/zh/pages/<slug>.html` 的修改日期
-- 首页/index：`content/seo.json` 的修改日期
+- 首页：`content/seo.json` 的修改日期
 
 设置 `SOURCE_DATE_EPOCH` 时统一使用该日期，以支持可复现构建；无法读取 Git 历史时使用 `content/seo.json` 的 `defaultLastModified`。文件系统 mtime 不参与结果，单纯重新 checkout 或重建不会产生新的构建版本。
 

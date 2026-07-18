@@ -13,8 +13,8 @@
 ### 🛠️ 快捷构建命令
 ```bash
 npm run build
+npm run check
 npm test
-npm run validate
 npm run audit:content
 npm run serve
 ```
@@ -25,12 +25,11 @@ npm run serve
 * **本地调试：** 调试时可以直接用浏览器打开 `dist/index.html`；要测试安装态和离线态，请使用 `npm run serve` 在 `localhost` 下访问。
 * **数据兼容：** 构建产物同时包含用于 Web 服务器的 JSON 数据和用于 `file://` 本地访问的同粒度脚本数据。
 * **PWA 支持：** 站点提供 `manifest.webmanifest` 与 service worker，安装功能只对 `http(s)`/`localhost` 生效，`file://` 仅作为本地兼容回退；服务端更新会在下次进入站点时自动生效。
-* **免免环境运行：** 未安装 npm 时可直接运行：
+* **免 npm 环境运行：** 未安装 npm 时可直接运行：
 
 ```bash
   node scripts/build_static_site.mjs
   node scripts/validate_project.mjs
-  node scripts/validate_translations.mjs
   node scripts/serve.mjs
 ```
 
@@ -67,8 +66,8 @@ npm run serve
 
 * `npm run build`：生成静态站点
 * `npm run serve`：在本地预览 `dist/`
-* `npm test`：运行构建辅助函数和全手册 HTML 结构回归测试
 * `npm run check`：测试 + 构建 + 执行所有阻断校验与报告生成（含下面七个分别报告）
+* `npm test`：运行构建辅助函数和全手册 HTML 结构回归测试
 
 ### 📊 校验与审计报告
 
