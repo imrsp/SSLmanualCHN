@@ -135,6 +135,12 @@
 
 这些规则定义在 `:root[data-theme="light"]` 及相关 light-mode 选择器中，见 [src/styles.css](/Users/imrsp/Documents/Codex/SSLmanualCHN/src/styles.css:1084)。
 
+## 章节加载骨架
+
+章节切换共用 `src/app.js` 的路由加载状态。页面分片请求超过 200ms 时，正文区域显示一组固定骨架；缓存命中或快速请求直接渲染正文，首次内容库启动提示不使用该骨架。
+
+骨架沿用正常正文的标题、段落、提示块、图片、表格和代码块布局，不显示加载文案，也不使用独立卡片或进度指示。颜色来自现有主题 token；扫光只由骨架根节点的单个伪元素实现，并在 `prefers-reduced-motion: reduce` 下完全关闭。
+
 ## 新增主题的最短流程
 
 1. 复制一个现有 `content/themes/*.json` 作为模板。

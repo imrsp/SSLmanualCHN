@@ -748,6 +748,161 @@ kbd { padding: 2px 5px; border: 1px solid var(--line); color: var(--muted); back
   transform: translateY(-2px);
 }
 
+.document.page-loading {
+  position: relative;
+  overflow: hidden;
+}
+
+.page-skeleton {
+  --skeleton-fill: color-mix(in srgb, var(--muted) 24%, var(--panel));
+  --skeleton-fill-strong: color-mix(in srgb, var(--muted) 38%, var(--panel));
+  --skeleton-surface: color-mix(in srgb, var(--panel-soft) 82%, transparent);
+  position: relative;
+  min-height: 960px;
+  pointer-events: none;
+  user-select: none;
+}
+
+.page-skeleton::after {
+  content: "";
+  position: absolute;
+  z-index: 3;
+  top: -5%;
+  bottom: -5%;
+  left: -36%;
+  width: 28%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    color-mix(in srgb, var(--ink) 7%, transparent),
+    transparent
+  );
+  transform: translate3d(0, 0, 0) skewX(-10deg);
+  animation: page-skeleton-shimmer 1.45s ease-in-out infinite;
+  will-change: transform;
+}
+
+@keyframes page-skeleton-shimmer {
+  to { transform: translate3d(520%, 0, 0) skewX(-10deg); }
+}
+
+.skeleton-block {
+  display: block;
+  border-radius: 3px;
+  background: var(--skeleton-fill);
+}
+
+.page-skeleton-header {
+  min-height: 174px;
+}
+
+.skeleton-eyebrow {
+  width: min(27%, 230px);
+  height: 12px;
+  margin-bottom: 18px;
+}
+
+.skeleton-title {
+  width: min(72%, 630px);
+  height: clamp(42px, 5vw, 54px);
+  margin-bottom: 16px;
+  background: var(--skeleton-fill-strong);
+}
+
+.skeleton-subtitle {
+  width: min(48%, 390px);
+  height: 14px;
+}
+
+.skeleton-badge {
+  width: 220px;
+  height: 30px;
+  margin-top: 20px;
+  border: 1px solid var(--line);
+  background: var(--skeleton-surface);
+}
+
+.page-skeleton-content {
+  padding-bottom: 20px;
+}
+
+.skeleton-heading {
+  width: min(34%, 280px);
+  height: 28px;
+  margin-bottom: 22px;
+  background: var(--skeleton-fill-strong);
+}
+
+.skeleton-heading-short {
+  width: min(27%, 220px);
+  margin-top: 42px;
+}
+
+.skeleton-paragraph {
+  display: grid;
+  gap: 10px;
+  margin-bottom: 30px;
+}
+
+.skeleton-line {
+  width: 100%;
+  height: 12px;
+}
+
+.skeleton-line:nth-child(2) { width: 91%; }
+.skeleton-line:nth-child(3) { width: 74%; }
+
+.skeleton-note {
+  display: grid;
+  gap: 10px;
+  margin: 24px 0 0;
+  padding: 16px 18px;
+  border: 1px solid var(--line);
+  border-left: 4px solid color-mix(in srgb, var(--amber) 68%, var(--line));
+  background: color-mix(in srgb, var(--amber) 5%, transparent);
+}
+
+.skeleton-note-title {
+  width: min(24%, 170px);
+  height: 14px;
+  background: color-mix(in srgb, var(--amber) 24%, var(--panel));
+}
+
+.skeleton-media {
+  height: clamp(190px, 27vw, 320px);
+  margin: 28px 0;
+  border: 1px solid var(--line);
+  background: var(--skeleton-surface);
+}
+
+.skeleton-table {
+  display: grid;
+  grid-template-columns: minmax(0, .85fr) minmax(0, 1.15fr);
+  margin: 28px 0;
+  border-top: 1px solid var(--line);
+  border-left: 1px solid var(--line);
+}
+
+.skeleton-table span {
+  min-height: 48px;
+  border-right: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  background: color-mix(in srgb, var(--skeleton-fill) 52%, transparent);
+}
+
+.skeleton-table span:nth-child(-n+2) {
+  background: var(--skeleton-surface);
+}
+
+.skeleton-code {
+  display: grid;
+  gap: 10px;
+  margin-top: 28px;
+  padding: 18px;
+  border: 1px solid var(--line);
+  background: var(--panel);
+}
+
 .manual-content {
   width: 100%;
   min-width: 0;
@@ -1115,6 +1270,13 @@ kbd { padding: 2px 5px; border: 1px solid var(--line); color: var(--muted); back
   .eyebrow { font-size: 10px; }
   .english-title { font-size: 13px; overflow-wrap: anywhere; }
   .translation-badge { max-width: 100%; white-space: normal; line-height: 1.5; }
+  .page-skeleton-header { min-height: 146px; }
+  .skeleton-title { width: 82%; height: 40px; }
+  .skeleton-subtitle { width: 62%; }
+  .skeleton-badge { width: 180px; height: 28px; }
+  .skeleton-heading { width: 44%; height: 24px; }
+  .skeleton-heading-short { width: 36%; }
+  .skeleton-media { height: clamp(180px, 56vw, 250px); }
   .document p, .document li { font-size: 16px; }
   .document h2 { font-size: 23px; }
   .document h3 { font-size: 19px; }
@@ -1363,6 +1525,7 @@ kbd { padding: 2px 5px; border: 1px solid var(--line); color: var(--muted); back
 
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
+  .page-skeleton::after { display: none; animation: none !important; }
   *,
   *::before,
   *::after {
