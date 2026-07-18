@@ -52,6 +52,7 @@ dist/robots.txt
 
 - `content/`：人工维护的正文与元数据，是内容事实来源。
 - `content/seo.json`：部署 URL、description、keywords、OG 图片、noindex 页面和 sitemap 回退日期的唯一 SEO 配置源。构建时同步生成 SPA 标签、预渲染标签和 `robots.txt`。
+- `content/upstream.json`：源站配置与内容合并进度的唯一记录；`mergedRevision` 表示当前中英文正文已经完整合并到的源站文档修订号，可以落后于最新抓取版本。
 - `content/upstream-patches.json`：记录上游原文中已确认、但本站需要主动修正的错误；工程校验会确认上游证据仍存在且中英文目标均已应用补丁。
 - `content/en/pages/`：英文基准正文。
 - `content/zh/pages/`：中文译文和 standalone 页面。
@@ -60,8 +61,8 @@ dist/robots.txt
 - `public/`：原样复制到发布物中的图片、PDF、favicon 和其他静态资源。
 - `public/assets/manual/manifest.json`：手动维护的资源清单，用于告诉构建脚本哪些手册资源应被本地化并复制到发布物中。`downloaded` 和 `replaced` 资源会正常显示，`placeholder` 资源会在构建时被标记为 `hidden`，并由 CSS 直接隐藏。
 - `scripts/`：构建、验证、审计、本地预览、快照工具。
-- `upstream/ssl-live-help/`：构建与审计使用的稳定上游基线。
-- `upstream/snapshots/`：带日期和差异信息的官方源站完整转储。
+- `upstream/snapshots/<Document Revision Number>/`：按官方文档修订号保存的不可覆盖源站转储。
+- `upstream/snapshots/latest.json`：最新已抓取版本指针；内容审计不直接跟随它，而是使用 `content/upstream.json` 的 `mergedRevision`，避免异步合并期间误报。
 - `reports/`：所有非运行时报告输出。
 - `dist/`：可删除、可重复生成的发布目录。
 

@@ -1,0 +1,314 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html ng-app="sslLiveHelp">
+<head>
+    <meta content="text/html; charset=ISO-8859-1" http-equiv="content-type">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=yes">
+
+    <link href="../Help/style/style.css" rel="stylesheet">
+    <link href="../Help/style/jquery-ui-1.13.2.structure.css" rel="stylesheet">
+    <title>Patch Manager</title>
+    <script src="../Help/js/jquery-3.6.0.min.js"></script>
+    <script src="../Help/js/jquery-ui/1.13.2/jquery-ui.min.js"></script>
+    <!--<script type="text/javascript" src="cordova.js"></script>-->
+    <!-- Nav / search panels 2017 updates -->
+    <script>
+    window.baseDir = '../';
+    window.data = 'null';
+    </script>
+    <link rel="stylesheet" type="text/css" href="../Help/fonts/font-awesome-4.7.0/css/font-awesome.min.css" />
+    <link rel="stylesheet" type="text/css" href="../Help/style/sass-styles.css">
+    <script src="../Help/js/fastclick.js"></script>
+    <script src="../Help/js/lodash.core.min.js"></script>
+    <!--<script src="../Help/js/angular/1.2/angular.min.js"></script>-->  <!-- On a console -->
+    <script src="../Help/js/angular/1.8/angular.min.js"></script>   <!--Not on a console -->
+    <script src="../Help/js/ngStorage.min.js"></script>
+    <!--<script src="../Help/js/angular/1.2/angular-sanitize.min.js"></script>-->  <!-- On a console -->
+    <!--<script src="../Help/js/angular/1.2/angular-animate.min.js"></script>-->   <!-- On a console -->
+    <script src="../Help/js/angular/1.8/angular-sanitize.min.js"></script>  <!--Not on a console -->
+    <script src="../Help/js/angular/1.8/angular-animate.min.js"></script>   <!--Not on a console -->
+    <script src="../Help/js/lunr-2.3.min.js"></script>
+    <script src="../Help/js/menu.js"></script>
+
+</head>
+
+<body ng-controller="NavController as vm">
+
+    <!--<nav class="nav" ng-class="{ 'nav--visible' : vm.visible }" ng-if="vm.visible" role="navigation" aria-label="Primary">-->  <!-- On a console --> 
+    <nav class="nav" ng-class="{ 'nav--visible' : vm.visible }" role="navigation" aria-label="Primary"> <!--Not on a console -->
+        <!-- Search form -->
+        <div role="search">
+            <form class="nav__search" ng-if="vm.isSearchSupported">
+                <label class="nav__search-icon" for="query"><i aria-label="Search" title="Search" class="fa fa-search"></i></label>
+                <input type="search" id="query" class="nav__search-input" placeholder="Search..." ng-model="vm.query" />
+            </form>
+        </div>
+
+        <div class="nav__scroll" ng-style="vm.styleBasedOnSearchSupported">
+
+            <!-- Main nav -->
+            <ul class="main-nav" ng-hide="vm.query">
+                <li class="main-nav__item" ng-repeat="item in vm.nav">
+
+                    <!-- Link to page -->
+                    <a ng-if="item.url" ng-class="{'main-nav__link--active' : item.url===vm.currentPage}" class="main-nav__link" ng-attr-href="{{ vm.baseDir }}{{ item.url }}">
+                        {{ item.title }}
+                    </a>
+
+                    <!-- Expandable heading -->
+                    <span ng-click="vm.toggleExpanded(item.title)" ng-if="!item.url" class="main-nav__title">
+                        {{ item.title }}
+                        <span ng-if="!vm.isExpanded(item.title)" class="fa fa-caret-right"></span>
+                        <span ng-if="vm.isExpanded(item.title)" class="fa fa-caret-down"></span>
+                    </span>
+
+                    <!-- Subnav -->
+                    <ul ng-if="vm.isExpanded(item.title)" class="main-nav fx-fade">
+                        <li ng-repeat="sub in item.children" class="main-nav__item">
+
+                            <!-- Link to page -->
+                            <a ng-if="sub.url" ng-class="{'main-nav__link--active' : sub.url===vm.currentPage}" class="main-nav__link main-nav__link--level1" ng-attr-href="{{ vm.baseDir }}{{ sub.url }}">
+                                {{ sub.title }}
+                            </a>
+
+                            <!-- Expandable heading -->
+                            <span ng-click="vm.toggleExpanded(sub.title)" ng-if="!sub.url" class="main-nav__title main-nav__title--level1">
+                                {{ sub.title }}
+                                <span ng-if="!vm.isExpanded(sub.title)" class="fa fa-caret-right"></span>
+                                <span ng-if="vm.isExpanded(sub.title)" class="fa fa-caret-down"></span>
+                            </span>
+
+                            <!-- Sub-sub nav -->
+                            <ul ng-if="sub.children && vm.isExpanded(sub.title)" class="main-nav fx-fade">
+                                <li ng-repeat="subsub in sub.children" class="main-nav__item">
+
+                                    <!-- Link to page -->
+                                    <a ng-class="{'main-nav__link--active' : subsub.url===vm.currentPage}" class="main-nav__link main-nav__link--level2" ng-attr-href="{{ vm.baseDir }}{{ subsub.url }}" ng-bind-html="subsub.title">
+                                    </a>
+
+                                </li>
+                            </ul>
+
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+
+            <!-- Search results list -->
+            <ul class="search-results">
+                <li class="search-result" ng-repeat="result in vm.results">
+                    <a class="search-result__link" ng-attr-href="{{ vm.baseDir }}{{ 'Help/' + result.id }}">
+                        <h3 class="search-result__title">{{ result.title }}</h3>
+                        <p class="search-result__excerpt" ng-bind-html="result.excerpt"></p>
+                    </a>
+                </li>
+            </ul>
+
+            <!-- Keep screen on option - PhoneGap insomnia -->
+            <ul class="main-nav" ng-if="vm.isPhoneGap">
+                <li class="main-nav__item">
+                    <label class="main-nav__title">
+                        Keep Screen On
+                        <input style="display: none" type="checkbox" ng-model="vm.keepScreenOn" />
+                        <i ng-class="{'fa--cleared' : !vm.keepScreenOn, 'fa--checked' : vm.keepScreenOn}" class="fa fa-check"></i>
+                    </label>
+                </li>
+            </ul>
+
+
+        </div>
+    </nav>
+
+    <nav class="header" role="navigation" aria-label="Secondary">
+        <a ng-if="!vm.onAConsole" href="../index.html" class="header__btn" title="Home"><i class="fa fa-home"></i></a>
+        <div ng-if="!vm.onAConsole" class="header__history">
+            <a onclick="javascript:window.history.back()" class="header__btn"><i title="Back" class="fa fa-chevron-left"></i></a>
+            <a onclick="javascript:window.history.forward()" class="header__btn"><i title="Forwards" class="fa fa-chevron-right"></i></a>
+        </div>
+        <div align="right">
+            <a class="header__btn header__btn--nav" ng-click="vm.toggleVisibility()">
+                <i ng-if="!vm.visible" class="fa fa-bars"></i>
+                <i ng-if="vm.visible" class="fa fa-close"></i>
+            </a>
+        </div>
+    </nav>
+
+
+    <!-- Main content -->
+    <div id="main">
+        
+
+
+<div><a href="ExtScreen.html"><img class="TutorialNav" src="images/n_TutPrevious.png" alt=""><span class="TutorialNav">PREVIOUS: External Screen</span></a></div>
+
+<h2>Patch Manager</h2>
+<p>
+    The <b>Patch Manager</b> page (located under <span class="label">MENU</span> > <span class="label">Setup</span> > <span class="label">File Manager</span> >
+    <span class="label">Patch Manager</span> tab) can be used to load and save the input patch for your show.
+</p>
+
+<h2>Input Patch Save</h2>
+<p>
+    The default file location is on the console's internal drive. Use the drive and folder buttons (as described in the
+    <a href="Showfiles.html"><span class="hyperlink">showfiles browser</span></a>) to select a different destination if desired.
+    To save your input patch, simply press <span class="label">Save As</span> and enter a filename.
+    Use the <span class="label">Save</span> button to overwrite the previously saved patch file.
+</p>
+
+<p>
+    This will save the currently configured input patch (all Channel Input A routes from stagebox inputs) to a CSV (comma-separated values) file.
+    This file can then be opened in a spreadsheet application such as Microsoft Excel for review or editing.
+</p>
+
+<p>
+    This allows the input patch from a showfile to be easily edited offline, or even imported into another showfile with the same channel configuration
+    (see below for more information on importing patch list files).
+    This file can also be a useful starting point for creating a more complete patch list file, augmented with microphone and mic stand information etc.
+</p>
+
+<p>The exported patch information is organised into the following fields:</p>
+
+<ul>
+    <li><b>Ch #</b> - the channel number as defined in the <a href="ConsoleConfig.html"><span class="hyperlink">Console Configuration</span></a> page</li>
+    <li><b>Ch Leg</b> - the leg number of formatted channels. Blank for mono, 1 for the first (left) leg of a stereo channel, 2 for the 2nd leg etc.</li>
+    <li><b>Ch Name</b> - the user defined channel name, appended with the leg label if multichannel (L, R etc.)</li>
+    <li><b>Input A Device</b> - the I/O device (stagebox) used for the Input A route to this channel</li>
+    <li><b>Input A Route</b> - the input number on the I/O device (prefixed with <b>AES</b> if an AES/EBU input on a mixed signal stagebox)</li>
+    <li><b>Device Type</b> - the type of device routed to; <b>Dante</b>, <b>MADI</b> or <b>Local</b> (not imported)</li>
+</ul>
+
+<p>A typical file will look something like:</p>
+
+<blockquote>
+    <div>
+        <table class="insideborder" style="width: auto; margin: 15px 0px;" cellpadding="4" cellspacing="1">
+            <tbody>
+                <tr>
+                    <td colspan="6" align="left">[Information]<br>File header information (do not edit)<br>[PatchData]</td>
+                </tr>
+                <tr>
+                    <th>Ch #</th>
+                    <th>Ch Leg</th>
+                    <th>Ch Name</th>
+                    <th>Input A Device</th>
+                    <th>Input A Route</th>
+                    <th>Device Type</th>
+                </tr>
+                <tr>
+                    <td>1</td>
+                    <td></td>
+                    <td>Kick</td>
+                    <td>IO 1-32</td>
+                    <td>1</td>
+                    <td>MADI</td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td></td>
+                    <td>Snare</td>
+                    <td>IO 1-32</td>
+                    <td>2</td>
+                    <td>MADI</td>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td></td>
+                    <td>Hats</td>
+                    <td>IO 1-32</td>
+                    <td>3</td>
+                    <td>MADI</td>
+                </tr>
+                <tr>
+                    <td>4</td>
+                    <td></td>
+                    <td>Bass DI</td>
+                    <td>Backline-IO</td>
+                    <td>1</td>
+                    <td>Dante</td>
+                </tr>
+                <tr>
+                    <td>5</td>
+                    <td>1</td>
+                    <td>Pads L</td>
+                    <td>Backline-IO</td>
+                    <td>AES1</td>
+                    <td>Dante</td>
+                </tr>
+                <tr>
+                    <td>5</td>
+                    <td>2</td>
+                    <td>Pads R</td>
+                    <td>Backline-IO</td>
+                    <td>AES2</td>
+                    <td>Dante</td>
+                </tr>
+                <tr>
+                    <td>6</td>
+                    <td></td>
+                    <td>Talkback</td>
+                    <td></td>
+                    <td></td>
+                    <td>Local</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</blockquote>
+
+
+<h2>Input Patch Load</h2>
+<p>
+    The Patch Manager page can also be used to load a CSV input patch file using the <span class="label">Load</span> button.
+</p>
+
+<span class="note">
+    <span class="notetitle">Warning:</span> Loading CSV patch files will change channel input routes. Care should be taken that the patch list correctly matches the console configuration currently in use.
+</span>
+
+<p>
+    Note that the loaded patch is based on channel ID number. Individual routes will <b>not</b> be imported if:
+</p>
+
+<ul>
+    <li>The channel ID exists on the console but not in the file or vice versa*</li>
+    <li>The individual channel leg does not exist for a given channel ID on the console or in the file</li>
+    <li>The route is from anything other than a stagebox (local I/O, other paths, FX rack etc.)</li>
+    <li>The stagebox name and type defined in the file is not configured on the console</li>
+    <li>Any of the routing fields are blank</li>
+    <li>The console runs out of routing capacity</li>
+</ul>
+
+<p>* Note that the channel ID numbers may be reported in one of two ways; <b>Default</b> or <b>Auto-Renumber</b>, as defined in the <a href="ConsoleConfig.html#Numbering"><span class="hyperlink">Console Config page</span></a>. 
+    SSL recommend the use of <b>Default</b> numbering when using the Patch Manager. Changing the numbering scheme between Saving and Loading a patch file is not recommended.</p>
+
+<p>
+    Any console channels whose routes are not imported from the file will retain their existing console route(s) on load.
+</p>
+
+<p>
+    To explicitly clear a channel of its current route, "<b>NONE</b>" must be entered into the <b>Input A Route</b> column. The <b>Input A Device</b> and <b>Device Type</b> columns can be left blank.
+</p>
+
+<span class="note">
+    <span class="notetitle">Tip:</span> The Patch Manager can be used to transfer channel input routes from one stagebox to another,
+    e.g. from a MADI port to a Blacklight II connected stagebox or vice versa if a showfile has been prepared for one scenario but the venue is configured for another.<br />
+    First, load the showfile containing the old stagebox configuration then save a patch file as described above. Make a note of the old stagebox names.
+    Create new stageboxes in the new I/O ports with the same names as the old stageboxes and delete the old stageboxes from the I/O page.
+    Finally, load the patch file saved previously. This will remake the routes to the new stageboxes with the same names as the old ones.<br />
+    Note that input routes other than to Channel Input A and routes to stagebox outputs will not be remade using this method.
+</span>
+
+
+<h2>Useful Links</h2>
+<p><a href="GUI.html"><span class="hyperlink">Touchscreen Controls</span></a></p>
+
+<a href="LinkIndex.html"><span class="hyperlink">Index and Glossary</span></a><br>
+
+<div class="TutorialNavNext"> <a href="EventManager.html"><span class="TutorialNav">NEXT: Event Manager</span> <img class="TutorialNav" src="images/n_TutNext.png" alt=""></a></div>
+
+
+    </div>
+
+    <script src="../Help/js/OpenAccordionFromLink.js"></script>
+</body>
+</html>

@@ -10,3 +10,7 @@
 *.woff binary
 *.woff2 binary
 *.zip binary
+
+# Preserve upstream response bytes so snapshot SHA-256 values survive Git checkouts.
+# Keep text diffs available for review even though line endings are not normalized.
+upstream/snapshots/*/site/** -text diff

@@ -1,0 +1,525 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html ng-app="sslLiveHelp">
+<head>
+    <meta content="text/html; charset=ISO-8859-1" http-equiv="content-type">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=yes">
+
+    <link href="../Help/style/style.css" rel="stylesheet">
+    <link href="../Help/style/jquery-ui-1.13.2.structure.css" rel="stylesheet">
+    <title>Other Effects</title>
+    <script src="../Help/js/jquery-3.6.0.min.js"></script>
+    <script src="../Help/js/jquery-ui/1.13.2/jquery-ui.min.js"></script>
+    <!--<script type="text/javascript" src="cordova.js"></script>-->
+    <!-- Nav / search panels 2017 updates -->
+    <script>
+    window.baseDir = '../';
+    window.data = 'null';
+    </script>
+    <link rel="stylesheet" type="text/css" href="../Help/fonts/font-awesome-4.7.0/css/font-awesome.min.css" />
+    <link rel="stylesheet" type="text/css" href="../Help/style/sass-styles.css">
+    <script src="../Help/js/fastclick.js"></script>
+    <script src="../Help/js/lodash.core.min.js"></script>
+    <!--<script src="../Help/js/angular/1.2/angular.min.js"></script>-->  <!-- On a console -->
+    <script src="../Help/js/angular/1.8/angular.min.js"></script>   <!--Not on a console -->
+    <script src="../Help/js/ngStorage.min.js"></script>
+    <!--<script src="../Help/js/angular/1.2/angular-sanitize.min.js"></script>-->  <!-- On a console -->
+    <!--<script src="../Help/js/angular/1.2/angular-animate.min.js"></script>-->   <!-- On a console -->
+    <script src="../Help/js/angular/1.8/angular-sanitize.min.js"></script>  <!--Not on a console -->
+    <script src="../Help/js/angular/1.8/angular-animate.min.js"></script>   <!--Not on a console -->
+    <script src="../Help/js/lunr-2.3.min.js"></script>
+    <script src="../Help/js/menu.js"></script>
+
+</head>
+
+<body ng-controller="NavController as vm">
+
+    <!--<nav class="nav" ng-class="{ 'nav--visible' : vm.visible }" ng-if="vm.visible" role="navigation" aria-label="Primary">-->  <!-- On a console --> 
+    <nav class="nav" ng-class="{ 'nav--visible' : vm.visible }" role="navigation" aria-label="Primary"> <!--Not on a console -->
+        <!-- Search form -->
+        <div role="search">
+            <form class="nav__search" ng-if="vm.isSearchSupported">
+                <label class="nav__search-icon" for="query"><i aria-label="Search" title="Search" class="fa fa-search"></i></label>
+                <input type="search" id="query" class="nav__search-input" placeholder="Search..." ng-model="vm.query" />
+            </form>
+        </div>
+
+        <div class="nav__scroll" ng-style="vm.styleBasedOnSearchSupported">
+
+            <!-- Main nav -->
+            <ul class="main-nav" ng-hide="vm.query">
+                <li class="main-nav__item" ng-repeat="item in vm.nav">
+
+                    <!-- Link to page -->
+                    <a ng-if="item.url" ng-class="{'main-nav__link--active' : item.url===vm.currentPage}" class="main-nav__link" ng-attr-href="{{ vm.baseDir }}{{ item.url }}">
+                        {{ item.title }}
+                    </a>
+
+                    <!-- Expandable heading -->
+                    <span ng-click="vm.toggleExpanded(item.title)" ng-if="!item.url" class="main-nav__title">
+                        {{ item.title }}
+                        <span ng-if="!vm.isExpanded(item.title)" class="fa fa-caret-right"></span>
+                        <span ng-if="vm.isExpanded(item.title)" class="fa fa-caret-down"></span>
+                    </span>
+
+                    <!-- Subnav -->
+                    <ul ng-if="vm.isExpanded(item.title)" class="main-nav fx-fade">
+                        <li ng-repeat="sub in item.children" class="main-nav__item">
+
+                            <!-- Link to page -->
+                            <a ng-if="sub.url" ng-class="{'main-nav__link--active' : sub.url===vm.currentPage}" class="main-nav__link main-nav__link--level1" ng-attr-href="{{ vm.baseDir }}{{ sub.url }}">
+                                {{ sub.title }}
+                            </a>
+
+                            <!-- Expandable heading -->
+                            <span ng-click="vm.toggleExpanded(sub.title)" ng-if="!sub.url" class="main-nav__title main-nav__title--level1">
+                                {{ sub.title }}
+                                <span ng-if="!vm.isExpanded(sub.title)" class="fa fa-caret-right"></span>
+                                <span ng-if="vm.isExpanded(sub.title)" class="fa fa-caret-down"></span>
+                            </span>
+
+                            <!-- Sub-sub nav -->
+                            <ul ng-if="sub.children && vm.isExpanded(sub.title)" class="main-nav fx-fade">
+                                <li ng-repeat="subsub in sub.children" class="main-nav__item">
+
+                                    <!-- Link to page -->
+                                    <a ng-class="{'main-nav__link--active' : subsub.url===vm.currentPage}" class="main-nav__link main-nav__link--level2" ng-attr-href="{{ vm.baseDir }}{{ subsub.url }}" ng-bind-html="subsub.title">
+                                    </a>
+
+                                </li>
+                            </ul>
+
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+
+            <!-- Search results list -->
+            <ul class="search-results">
+                <li class="search-result" ng-repeat="result in vm.results">
+                    <a class="search-result__link" ng-attr-href="{{ vm.baseDir }}{{ 'Help/' + result.id }}">
+                        <h3 class="search-result__title">{{ result.title }}</h3>
+                        <p class="search-result__excerpt" ng-bind-html="result.excerpt"></p>
+                    </a>
+                </li>
+            </ul>
+
+            <!-- Keep screen on option - PhoneGap insomnia -->
+            <ul class="main-nav" ng-if="vm.isPhoneGap">
+                <li class="main-nav__item">
+                    <label class="main-nav__title">
+                        Keep Screen On
+                        <input style="display: none" type="checkbox" ng-model="vm.keepScreenOn" />
+                        <i ng-class="{'fa--cleared' : !vm.keepScreenOn, 'fa--checked' : vm.keepScreenOn}" class="fa fa-check"></i>
+                    </label>
+                </li>
+            </ul>
+
+
+        </div>
+    </nav>
+
+    <nav class="header" role="navigation" aria-label="Secondary">
+        <a ng-if="!vm.onAConsole" href="../index.html" class="header__btn" title="Home"><i class="fa fa-home"></i></a>
+        <div ng-if="!vm.onAConsole" class="header__history">
+            <a onclick="javascript:window.history.back()" class="header__btn"><i title="Back" class="fa fa-chevron-left"></i></a>
+            <a onclick="javascript:window.history.forward()" class="header__btn"><i title="Forwards" class="fa fa-chevron-right"></i></a>
+        </div>
+        <div align="right">
+            <a class="header__btn header__btn--nav" ng-click="vm.toggleVisibility()">
+                <i ng-if="!vm.visible" class="fa fa-bars"></i>
+                <i ng-if="vm.visible" class="fa fa-close"></i>
+            </a>
+        </div>
+    </nav>
+
+
+    <!-- Main content -->
+    <div id="main">
+        
+
+<div><a href="FXReverbs.html"><img class="TutorialNav" src="images/n_TutPrevious.png" alt=""><span class="TutorialNav">PREVIOUS: Reverb Effects</span></a></div>
+
+<p>For more information about Effects in general, please see the <a href="FXIntro.html"><span class="hyperlink">Effects Rack Overview</span></a> section.</p>
+
+<h2>Other Effects</h2>
+<p>The 'Other' submenu brings up a few more advanced modules which should function intuitively if you are familiar with the principles involved:</p>
+
+<h2 id="SolidPitch">SolidPitch</h2>
+
+<p>SolidPitch is an automatic tuning effect that runs natively on the console. Classic automatic tuning controls are accompanied by a Doubler and a section which adds a harmony voice.</p>
+
+<img style="display: block; margin: 25px auto; width: 600px" src="images/s_FXSolidPitch.png" alt="SolidPitch Effect">
+
+<h3 id="Tuning">Tuning</h3>
+<p>The Tuning section's controls are for the main purpose of the effect - correcting pitch.</p>
+
+<p>The keyboard shows the current scale of notes that are treated as target pitches. Pre-defined scales can be chosen with the selection buttons, or custom scales can be defined by pressing the keyboard's keys themselves.</p>
+
+<p>The <span class="label">Chromatic</span> button will enable all pitches, allowing a quick way of tuning the input to <b>any</b> 12-ET note, especially if the desired key is not known. It functions as a panic button, so cannot be turned off directly. Choose a new scale to exit Chromatic mode.</p>
+
+<p><span class="label">Amount</span> : This controls how far the signal is shifted towards the target pitch. Lower values will give subtle tuning assistance, and higher values will completely correct the pitch.</p>
+<p><span class="label">Speed</span> : This controls how fast the signal is shifted towards the target pitch. Slower, longer times sound more natural, faster times sound more robotic.</p>
+
+<span class="note">
+    <b>Note:</b> The pitch correction can be bypassed by turning the Amount to 0%.
+</span>
+
+<h3 id="Doubler">Doubler</h3>
+<p>The doubling section adds two extra copies of the tuned signal to the output.</p>
+<p><span class="label">Doubler Mix</span> : This controls the relative level of the tuned-only signal to the doubled signal. 0% will make the doubled signal silent. 100% will completely replace the original signal with the doubled versions.</p>
+<p><span class="label">Doubler Depth</span> : This controls the detuning and delay that the doubler imparts on the signal to create separation. It ranges from no variation to a 30 cent detune and a 50ms delay per copy.</p>
+<p><span class="label">Doubler Width</span> : When using a stereo instance, the doubled signals can be panned left and right. The width parameter controls the extent of this panning. 0% means both are panned centrally, 100% means they are panned hard left and right respectively.</p>
+
+<span class="note"><b>Note:</b> In a stereo instance of SolidPitch, the input legs are summed to mono before being tuned or doubled.</span>
+
+<h3 id="Harmony">Harmony</h3>
+<p>The harmony section adds another copy of the tuned signal, this time pitch shifted again by a set interval.</p>
+<p><span class="label">Harmony Mix</span> : This sets the level of the harmony copy.</p>
+<p><span class="label">Harmony Interval</span> : This controls the interval the harmony copy is shifted by. An interval of +7stn shifts the copy up by a fifth.</p>
+<p><span class="label">Harmony Pan</span> : In a stereo instance only, the harmony can be panned left and right with this parameter.</p>
+<p><span class="label">Scale Lock</span> : This ensures that the harmony copy's pitch lies within the defined scale. The Harmony Interval will be adjusted up or down to the closest note in the scale when this parameter is active.</p>
+
+<h3 id="SolidPitch-Other">Other features</h3>
+<p>
+    <b>Pitch Heatmaps:</b>
+<p>Above the scale keyboard are two bars. The top one, labelled IN, features a vertical line that shows the input signal's pitch, and histogram-style shading to give a representation of the frequency history of the input signal. The bottom bar, labelled OUT, shows a line for the pitch of the tuned signal, a line for the pitch of the harmony, and a similar “pitch histogram” of the tuned signal.</p>
+<p>The <span class="label">Reset</span> button will clear these heatmaps.</p>
+<p>
+    <b>Latency:</b>
+<p>As part of the pitch shifting algorithm has an indeterminate delay, a fixed latency must be selected to allow the processing time. The best latency choice depends on the material and DSP load on the console.</p>
+<p>
+    <b>A4 Reference:</b>
+<p>This allows an A4 reference frequency other than 440Hz to be used.</p>
+
+<h2 id="Fusion">Fusion</h2>
+
+<p>
+    The Fusion FX emulates the five key colour circuits found on the award-winning SSL Fusion hardware: Vintage Drive, Violet EQ, HF Compressor, Stereo Image, and Transformer. These modules provide five colouration tools designed to bring the perfect combination of added tonal character, weight and space to your mix bus or stereo stems.
+    The Tempest version provides a single HPF for the entire chain, along with individual input and output trims for each processing block (as found in the plug-ins). Where relevant, the mix controls found on the plug-ins are also included.
+</p>
+
+<p>
+    All modules are provided in a single FX to enable simple inclusion on main and stem buses. Each processing block can be enabled individually, meaning blocks can be used individually, or combined as desired. The processing blocks can be reordered to achieve the desired processing order.
+</p>
+
+<h3 id="Fusion_Vintage_Drive">Fusion Vintage Drive</h3>
+<p><img class="center" src="images/u_FXOther_Fusion_VintDriv.png" alt=""></p>
+<p>Vintage Drive is a unique non-linear harmonic enhancement circuit that brings cohesion and strength to your mix. Drive and Density controls interact to produce harmonic saturation and soft compression derived from overloading an analogue circuit. It can be used lightly for subtle thickening saturation or driven hard for more extreme distortion. </p>
+
+<h3 id="Fusion_Violet_EQ">Fusion Violet EQ</h3>
+<p><img class="center" src="images/u_FXOther_Fusion_VioletEQ.png" alt=""></p>
+<p>Violet EQ is an all-new minimum phase-shift, two-band shelving EQ. It draws on the SSL legacy of carefully selected frequencies and response curves to create a musical and intuitive EQ designed to quickly dial in low-end weight and high-end sheen. High and Low frequency circuits each offer four switched frequency points and +/-9dB attenuation.  </p>
+
+<h3 id="Fusion_HF_Comp">Fusion HF Compressor</h3>
+<p><img class="center" src="images/u_FXOther_Fusion_HFComp.png" alt=""></p>
+<p>High Frequency Compressor recreates the distinctive high frequency smoothing circuit from SSL Fusion. A compressor that effects high frequencies only, optimised for smooth and transparent harshness reduction and a tape-like high-frequency roll off, great for taming brittle high frequency fizz.</p>
+
+<h3 id="Fusion_ST_Img">Fusion Stereo Image</h3>
+<p><img class="center" src="images/u_FXOther_Fusion_STImg.png" alt=""></p>
+<p>Stereo Image enhancer provides a Mid-Side circuit that manipulates the Side signal, allowing for widening and spatial manipulation of the stereo field. The Space circuit is a frequency-dependent width control based on the concept of Stereo Shuffling, allowing injection of interesting depth effects into the mix. Stereo Image exposes a Shuffle control for changing the frequency cut-off in the Space circuit, allowing you to add weight and presence or carve space in the stereo field.</p>
+
+<h3 id="Fusion_Transf">Fusion Transformer</h3>
+<p><img class="center" src="images/u_FXOther_Fusion_Transformer.png" alt=""></p>
+<p>Emulating the 600-ohm, 1:1-wound under-damped transformer found in the Fusion hardware, Transformer introduces subtle low-frequency saturation, alongside a high-frequency phase-shift. From subtle presence and body on vocals and instruments, to tight lows and sizzling highs on mixes and masters, the combination of processing effects Transformer offers could be the magic your mix or master is after. Use Shine to attenuate the HF phase shift and turn up the Amount control to amplify harmonic distortion. Both controls can be used to drive the processing effect beyond the original circuit found in the Fusion hardware.</p>
+
+<h2 id="AutoPan">Auto Pan</h2>
+
+<p>Auto Pan is an automated panning effects unit with a variety of modulation controls and tempo link. </p>
+
+<img style="display: block; margin: 25px auto;" src="images/g_FXAutoPan.png" alt="">
+
+<p>Auto Pan can be linked to the appropriate Tap Tempo User Key by pressing and holding Tempo Link just as with delay effects units.</p>
+
+<p>The <span style="font-weight:bold;">Pan</span> and <span style="font-weight:bold;">Width</span> controls provide the ability to adjust the offset and boundaries of the panning algorithm within the stereo field.</p>
+
+<p>The <span style="font-weight:bold;">Rate</span> control defines the speed at which the signal is panned from side to side. This updates automatically with input from the Tempo controls, but can also be adjusted manually.</p>
+
+<p><span style="font-weight:bold;">LFO Mode</span> determines the shape of the control signal used to modulate the pan setting. The options are sine, sawtooth or triangle.</p>
+
+<p><span style="font-weight:bold;">LFO Reset</span> buttons allow the user to reset the phase of the LFO to one of the following positions:</p>
+
+<div>
+    <table class="insideborder" style="width: auto; margin: 15px 0px;" cellpadding="4" cellspacing="1">
+        <tbody>
+            <tr>
+                <td class="solidborder"><img style="display: block; margin: 0px auto;" src="images/g_FXAutoPanFrmL.png" alt""></td>
+                <td class="solidborder">From the Left edge</td>
+            </tr>
+            <tr>
+                <td class="solidborder"><img style="display: block; margin: 0px auto;" src="images/g_FXAutoPanC-L.png" alt""></td>
+                <td class="solidborder">From the Centre to the Left edge</td>
+            </tr>
+            <tr>
+                <td class="solidborder"><img style="display: block; margin: 0px auto;" src="images/g_FXAutoPanC-R.png" alt""></td>
+                <td class="solidborder">From the Centre to the Right edge</td>
+            </tr>
+            <tr>
+                <td class="solidborder"><img style="display: block; margin: 0px auto;" src="images/g_FXAutoPanFrmR.png" alt""></td>
+                <td class="solidborder">From the Right edge</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<p>
+    The <span style="font-weight:bold;">Steps</span> control allows the user to create a completely smooth panning movement (when <span style="font-weight:bold;">Steps</span> = &infin;), or to pan through discrete, equally spaced, points (when <span style="font-weight:bold;">Steps</span> < &infin;).
+
+    For example, setting <span style="font-weight:bold;">Steps</span> = 2 will create points at 100% left and 100% right, resulting in a Ping Pong effect, alternating between left and right at the rate set by the Tempo/Rate controls.
+
+    <span style="font-weight:bold;">Steps</span> = 3 will create an additional point in the centre, repeating the cycle 100% left, centre, 100% right, centre.
+</p>
+
+<p>The <span style="font-weight:bold;">Smooth</span> control allows an amount of 'crossfading' between discrete points, so that the signal does not move between points so abruptly.</p>
+
+<p>There is a Left-Right meter below the 'Auto Pan' title displaying where the AutoPan output signal is currently positioned in the stereo space.</p>
+
+<br>
+
+<h2>De-Noiser</h2>
+
+<p><img class="center" src="images/g_FXDenoiser.png" alt=""></p>
+
+<p>The De-Noiser module is a frequency-selective noise reduction algorithm, allowing you to dial in the 'shape' of the noise to eliminate it more effectively.</p>
+
+<p>The six gain sliders control the wet/dry mix between the 'noisy' and de-noised signals in each band. At 0 dB gain, there is an equal mix between the noisy and de-noised signals. Increasing the gain increases the amount of the noisy signal added back into the mix.</p>
+
+<p><span style="font-weight: bold;">Threshold</span> sets the level of the noise. Anything below this is considered noise by the noise detection algorithm.</p>
+
+<p><span style="font-weight: bold;">Range</span> defines the frequency ranges over which the De-Noiser works. These are:</p>
+
+<table class="insideborder" style="width: 790px; margin: 10px 0px; font-size: smaller">
+    <tbody>
+        <tr>
+            <th style="vertical-align: bottom;">Range</th>
+            <th style="width: 89px; vertical-align: bottom;">Band 1</th>
+            <th style="width: 89px; vertical-align: bottom;">Band 2</th>
+            <th style="width: 89px; vertical-align: bottom;">Band 3</th>
+            <th style="width: 89px; vertical-align: bottom;">Band 4</th>
+            <th style="width: 89px; vertical-align: bottom;">Band 5</th>
+            <th style="width: 89px; vertical-align: bottom;">Band 6</th>
+        </tr>
+        <tr>
+            <th style="vertical-align: middle; text-align: right;">Full (35 Hz - 10.2 kHz)</th>
+            <td style="vertical-align: top;">35 Hz</td>
+            <td style="vertical-align: top;">110 Hz</td>
+            <td style="vertical-align: top;">340 Hz</td>
+            <td style="vertical-align: top;">1.1 kHz</td>
+            <td style="vertical-align: top;">3.3 kHz</td>
+            <td style="vertical-align: top;">10.2 kHz</td>
+        </tr>
+        <tr>
+            <th style="vertical-align: middle; text-align: right;">High (4.5 kHz - 15.9 kHz)</th>
+            <td style="vertical-align: top;">4.5 kHz</td>
+            <td style="vertical-align: top;">5.8 kHz</td>
+            <td style="vertical-align: top;">7.5 kHz</td>
+            <td style="vertical-align: top;">9.6 kHz</td>
+            <td style="vertical-align: top;">12.4 kHz</td>
+            <td style="vertical-align: top;">15.9 kHz</td>
+        </tr>
+        <tr>
+            <th style="vertical-align: middle; text-align: right;">Mid High (291 Hz - 12.12.4 kHz)</th>
+            <td style="vertical-align: top;">291 Hz</td>
+            <td style="vertical-align: top;">616 Hz</td>
+            <td style="vertical-align: top;">1.3 kHz</td>
+            <td style="vertical-align: top;">2.8 kHz</td>
+            <td style="vertical-align: top;">5.8 kHz</td>
+            <td style="vertical-align: top;">12.4 kHz</td>
+        </tr>
+        <tr>
+            <th style="vertical-align: middle; text-align: right;">Mid (266 Hz - 4.5 kHz)</th>
+            <td style="vertical-align: top;">266 Hz</td>
+            <td style="vertical-align: top;">468 Hz</td>
+            <td style="vertical-align: top;">825 Hz</td>
+            <td style="vertical-align: top;">1.5 kHz</td>
+            <td style="vertical-align: top;">2.6 kHz</td>
+            <td style="vertical-align: top;">4.5 kHz</td>
+        </tr>
+        <tr>
+            <th style="vertical-align: middle; text-align: right;">Low Mid (32 Hz - 3.7 kHz)</th>
+            <td style="vertical-align: top;">32 Hz</td>
+            <td style="vertical-align: top;">83 Hz</td>
+            <td style="vertical-align: top;">215 Hz</td>
+            <td style="vertical-align: top;">557 Hz</td>
+            <td style="vertical-align: top;">1.4 kHz</td>
+            <td style="vertical-align: top;">3.7 kHz</td>
+        </tr>
+        <tr>
+            <th style="vertical-align: middle; text-align: right;">Low (26 Hz - 312 Hz)</th>
+            <td style="vertical-align: top;">26 Hz</td>
+            <td style="vertical-align: top;">42 Hz</td>
+            <td style="vertical-align: top;">70 Hz</td>
+            <td style="vertical-align: top;">115 Hz</td>
+            <td style="vertical-align: top;">189 Hz</td>
+            <td style="vertical-align: top;">312 Hz</td>
+        </tr>
+    </tbody>
+</table>
+
+<p><span style="font-weight: bold;">ATK</span> and <span style="font-weight: bold;">REL</span> controls determine the Attack and Release speed of the filters.</p>
+
+<h3>Operation</h3>
+
+<ol>
+    <li>Set the <span style="font-weight: bold;">Threshold</span> to the appropriate level such that, in each band, everything below the threshold is 'noise' and everything above it is 'signal'. This can be done by setting the <span style="font-weight: bold;">Range</span> to <span class="label">Full</span>, all the Gains to -24 dB, and then by slowly moving the <span style="font-weight: bold;">Threshold</span> up from -80 dB until the 'noise' disappears.</li>
+    <li>Select the appropriate <span style="font-weight: bold;">Range</span> in which the noise resides. Any signal content outside the selected Range will not be affected by the De-Noiser.</li>
+    <li>
+        Move the Gain faders to shape the noise reduction:
+        <ul>
+            <li>If a negative Gain is selected, then EQ is applied to suppress the 'noise' when the level of the input is <span style="font-weight: bold;">below</span> the Threshold.</li>
+            <li>If a positive Gain is selected, then EQ is applied to boost the 'signal' when the level of the input is <span style="font-weight: bold;">above</span> the Threshold.</li>
+        </ul>
+    </li>
+</ol>
+
+
+<br>
+
+<h2>Enhancer</h2>
+
+<p><img class="center" src="images/g_fxOtherEnhancer.png" alt=""></p>
+
+<p>The <span style="font-weight: bold;">HF</span> controls add a combination of 2nd and 3rd order harmonics, which have the effect of enriching the high frequency range. This overdrive characteristic will work from the frequency set by the <span style="font-weight: bold;">Cutoff</span> control upwards with a varying amount of harmonic content. This process is not possible with a standard EQ, as instead of raising the relative level of a set of frequencies, it is adding harmonics to those frequencies therefore producing a more pleasing effect.</p>
+
+<p><span style="font-weight: bold;">HF Cut</span>off: Ranging from 2 kHz up to 20 kHz, the this sets the frequency above which harmonics are generated. To add air or sparkle to a signal, push this frequency towards the higher end of the range. To give more presence to a signal, use the lower end of the range.</p>
+
+<p><span style="font-weight: bold;">HF Drive</span>: This adjusts the amount of overdrive and consequently controls the density and amount of harmonic content.</p>
+
+<p><span style="font-weight: bold;">HF Amount</span>: This adds the enhanced signal to the unprocessed signal.</p>
+
+<p>
+    <span class="note">
+        <span class="notetitle">Notes:</span><br>
+        The HF Enhancer effect will not be heard until both the <span style="font-weight: bold;">HF Drive</span> and <span style="font-weight: bold;">HF Amount</span> faders are set to a non-zero value.<br><br>
+        Also bear in mind that when the <span style="font-weight: bold;">Cutoff</span> control is in the 15 kHz to 20 kHz range, the effect may not be noticed even though it is present, because this is near to the top of the range of human hearing.
+    </span>
+</p>
+
+<p>The LF Enhancer section is similar to the HF Enhancer, but works on the low frequency range from the <span style="font-weight: bold;">LF TOver</span> (turnover) frequency downwards. It's great for adding depth and weight to kick drums, snare or toms.</p>
+<p>The incoming signal is low-pass filtered, harmonically enriched using the <span style="font-weight: bold;">LF Drive</span> control and added to the unprocessed signal using the <span style="font-weight: bold;">LF Amount</span> control.</p>
+
+<p>Use the <span style="font-weight: bold;">In Gain</span> and <span style="font-weight: bold;">Out Gain</span> controls to adjust the incoming and outgoing signal levels for optimum signal level through the effect.</p>
+
+
+<br>
+
+
+<h2 id="AmpCabinet">Amp Cabinet</h2>
+
+<p><img class="center" src="images/g_fxOtherAmpCab.png" alt=""></p>
+
+<p>Uses oversampling to emulate a guitar amplifier.</p>
+<p>Use <span style="font-weight: bold;">Pre-Amp</span> gain to adjust the input gain to the effect module.</p>
+<p><span style="font-weight: bold;">Boost</span>, <span style="font-weight: bold;">Presence</span> and <span style="font-weight: bold;">Edge</span> add low, mid and high frequency drive respectively.</p>
+<p><span style="font-weight: bold;">Drive</span> controls the amount of amp distortion.</p>
+<p><span style="font-weight: bold;">Bass</span> and <span style="font-weight: bold;">Treble</span> act as general tone controls for the overall effect.</p>
+<p><span style="font-weight: bold;">Out-Gain</span> determines the output gain from the effect module.</p>
+
+<br>
+
+
+<h2>Bass Amp</h2>
+
+<p><img class="center" src="images/g_fxOtherBassAmp.png" alt=""></p>
+
+<p>Uses oversampling to emulate a bass guitar tube amplifier.</p>
+<p><span style="font-weight: bold;">Drive</span> controls the amount of input gain, emulating overdriving a tube input stage.</p>
+<p><span style="font-weight: bold;">Presence</span> adds upper harmonic content to add more 'bite' to the signal.</p>
+<p><span style="font-weight: bold;">Blend</span> controls the amount of tube emulation added to the 'dry' signal.</p>
+<p><span style="font-weight: bold;">Bass</span>, <span style="font-weight: bold;">Mid</span> and <span style="font-weight: bold;">Treble</span> controls act as general tone controls for the overall signal.</p>
+<p><span style="font-weight: bold;">Out-Gain</span> determines the output gain from the effect module.</p>
+
+<br>
+
+<h2 id="PitchShifter">Pitch Shifter</h2>
+
+<p><img class="center" src="images/g_fxOtherPitch.png" alt=""></p>
+
+<p>The <span style="font-weight: bold;">Mix</span> control adjusts the amount of pitch shifted versus original signal is output from the effect module.</p>
+
+<p>Use the <span style="font-weight: bold;">Pitch</span> controls to adjust the shift in pitch. The <span class="label">-&nbsp;semitone</span> and <span class="label">+&nbsp;semitone</span> buttons nudge the pitch in whole semitone increments, while the <span style="font-weight: bold;">Fine</span> slider allows finer adjustment of the pitch.</p>
+
+<p>Double tap the text field to the left of the semitone buttons to enter a specific pitch shift value.</p>
+
+<br>
+
+
+<h2 id="Submonix">SubmoniX</h2>
+
+<img style="display: block; margin: 25px auto;" src="images/g_FXSubmoniX.PNG" alt="">
+
+<p>
+    <span style="font-weight:bold;">SubmoniX</span> is a sub-bass harmonic synthesiser with four individually controlled filters, each of which has discrete control of amplitude, frequency and bandwidth.
+    This allows fine tuning of the frequency range and level of each synthesised band.
+</p>
+
+<p>Individual filter in/out switching is provided by pressing the numbered <span class="label">IN</span> buttons. Press &amp; hold these to reset the selected band.</p>
+
+<p>To access the frequency and bandwidth controls for each band, tap the <span class="label">Frequency</span> button in the top left.</p>
+
+<p>
+    <span class="label">Sub&nbsp;Gain</span> is used to control the overall gain of the synthesised bass signal.
+    <span class="label">LF&nbsp;Boost</span> adds frequency content between the synthesised bass and the original signal, allowing a more even low end frequency range.
+    This can be used to increase the low frequency response even when no synthesised components have been added.
+</p>
+
+
+<br>
+
+
+<h2>VHD Saturator</h2>
+
+<p><img class="center" src="images/g_fxOtherVHD.png" alt=""></p>
+
+
+<p>
+    VHD Saturator delivers a range of analogue style distortion effects. It is an emulation of an analogue circuit that introduces either 2nd order valve style or 3rd order transistor style distortion or a blend of the two.
+    At low drive settings the distortion is mild and can add gentle warming to help instruments sit nicely in a mix or to add a little extra edge to help instruments cut through a mix.
+    As input gain levels are increased so too is the level of distortion until at high drive levels heavy distortion occurs.
+</p>
+
+<p>
+    The controls are:
+    <ul>
+        <li><span style="font-weight:bold;">In Gain</span> sets the drive level</li>
+        <li><span class="label">Clip 0dB</span> provides an additional 6 dB of headroom for creating heavily boosted/distorted signals without digital clipping</li>
+        <li><span style="font-weight:bold;">Depth</span> controls the amplitude of the distortion</li>
+        <li><span style="font-weight:bold;">Shape</span> adjusts whether the distortion has smooth or hard edges</li>
+        <li><span style="font-weight:bold;">Drive</span> determines the blend of odd and even order harmonics. Increasing the Drive control increases the amount of even harmonics added</li>
+        <li><span style="font-weight:bold;">Out Gain</span> provides an output trim to adjust to final output level of the effect</li>
+    </ul>
+</p>
+
+
+<h2>Useful Links</h2>
+<a href="DetailView.html"><span class="hyperlink">Detail View</span></a>
+<br>
+<a href="FXIntro.html"><span class="hyperlink">Effects Rack Overview</span></a>
+<br>
+<a href="FXDelays.html"><span class="hyperlink">Delay Effects</span></a>
+<br>
+<a href="FXDynamics.html"><span class="hyperlink">Dynamics Effects</span></a>
+<br>
+<a href="FXEQs.html"><span class="hyperlink">EQ Effects</span></a>
+<br>
+<a href="FXModulation.html"><span class="hyperlink">Modulation Effects</span></a>
+<br>
+<a href="FXReverbs.html"><span class="hyperlink">Reverb Effects</span></a>
+<br>
+<a href="FXTools.html"><span class="hyperlink">Audio Tools</span></a>
+<br>
+<a href="FXAutoMix.html"><span class="hyperlink">Automix</span></a>
+<br>
+<a href="LinkIndex.html"><span class="hyperlink">Index and Glossary</span></a>
+<br>
+
+
+<div class="TutorialNavNext"> <a href="FXTools.html"><span class="TutorialNav">NEXT: Audio Tools</span> <img class="TutorialNav" src="images/n_TutNext.png" alt=""></a></div>
+
+
+
+    </div>
+
+    <script src="../Help/js/OpenAccordionFromLink.js"></script>
+</body>
+</html>

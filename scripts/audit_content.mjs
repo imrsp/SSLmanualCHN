@@ -11,12 +11,10 @@ import {
 
 const manifest = readJson(path.join(root, "content", "manifest.json"));
 const site = readJson(path.join(root, "content", "site.json"));
+const upstream = readJson(path.join(root, "content", "upstream.json"));
 const pageTitleZhById = site.pageTitlesZhById;
 const outputDirectory = path.join(root, "reports");
-const snapshotsDirectory = path.join(root, "upstream", "snapshots");
-const latestSnapshot = fs.existsSync(snapshotsDirectory)
-  ? fs.readdirSync(snapshotsDirectory).sort().at(-1)
-  : null;
+const contentSnapshot = upstream.mergedRevision;
 const count = (html, pattern) => [...html.matchAll(pattern)].length;
 const normalized = (html, title) =>
   removePageTitleHeading(
@@ -112,9 +110,14 @@ const pages = manifest.map((page) => {
   const chinesePath = path.join(root, "content", "zh", page.outputFile);
   const hasTranslation = fs.existsSync(chinesePath);
   const chineseRaw = hasTranslation ? fs.readFileSync(chinesePath, "utf8") : englishRaw;
-  const sourcePath = latestSnapshot
-    ? path.join(root, "upstream", "snapshots", latestSnapshot, "site", new URL(page.sourceUrl).pathname)
-    : null;
+  const sourcePath = path.join(
+    root,
+    "upstream",
+    "snapshots",
+    contentSnapshot,
+    "site",
+    new URL(page.sourceUrl).pathname,
+  );
   const sourceRaw = sourcePath && fs.existsSync(sourcePath)
     ? fs.readFileSync(sourcePath, "utf8")
     : englishRaw;

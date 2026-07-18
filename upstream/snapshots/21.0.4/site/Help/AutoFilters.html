@@ -1,0 +1,740 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html ng-app="sslLiveHelp">
+<head>
+    <meta content="text/html; charset=ISO-8859-1" http-equiv="content-type">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=yes">
+
+    <link href="../Help/style/style.css" rel="stylesheet">
+    <link href="../Help/style/jquery-ui-1.13.2.structure.css" rel="stylesheet">
+    <title>Automation: Store & Recall Filters</title>
+    <script src="../Help/js/jquery-3.6.0.min.js"></script>
+    <script src="../Help/js/jquery-ui/1.13.2/jquery-ui.min.js"></script>
+    <!--<script type="text/javascript" src="cordova.js"></script>-->
+    <!-- Nav / search panels 2017 updates -->
+    <script>
+    window.baseDir = '../';
+    window.data = 'null';
+    </script>
+    <link rel="stylesheet" type="text/css" href="../Help/fonts/font-awesome-4.7.0/css/font-awesome.min.css" />
+    <link rel="stylesheet" type="text/css" href="../Help/style/sass-styles.css">
+    <script src="../Help/js/fastclick.js"></script>
+    <script src="../Help/js/lodash.core.min.js"></script>
+    <!--<script src="../Help/js/angular/1.2/angular.min.js"></script>-->  <!-- On a console -->
+    <script src="../Help/js/angular/1.8/angular.min.js"></script>   <!--Not on a console -->
+    <script src="../Help/js/ngStorage.min.js"></script>
+    <!--<script src="../Help/js/angular/1.2/angular-sanitize.min.js"></script>-->  <!-- On a console -->
+    <!--<script src="../Help/js/angular/1.2/angular-animate.min.js"></script>-->   <!-- On a console -->
+    <script src="../Help/js/angular/1.8/angular-sanitize.min.js"></script>  <!--Not on a console -->
+    <script src="../Help/js/angular/1.8/angular-animate.min.js"></script>   <!--Not on a console -->
+    <script src="../Help/js/lunr-2.3.min.js"></script>
+    <script src="../Help/js/menu.js"></script>
+
+</head>
+
+<body ng-controller="NavController as vm">
+
+    <!--<nav class="nav" ng-class="{ 'nav--visible' : vm.visible }" ng-if="vm.visible" role="navigation" aria-label="Primary">-->  <!-- On a console --> 
+    <nav class="nav" ng-class="{ 'nav--visible' : vm.visible }" role="navigation" aria-label="Primary"> <!--Not on a console -->
+        <!-- Search form -->
+        <div role="search">
+            <form class="nav__search" ng-if="vm.isSearchSupported">
+                <label class="nav__search-icon" for="query"><i aria-label="Search" title="Search" class="fa fa-search"></i></label>
+                <input type="search" id="query" class="nav__search-input" placeholder="Search..." ng-model="vm.query" />
+            </form>
+        </div>
+
+        <div class="nav__scroll" ng-style="vm.styleBasedOnSearchSupported">
+
+            <!-- Main nav -->
+            <ul class="main-nav" ng-hide="vm.query">
+                <li class="main-nav__item" ng-repeat="item in vm.nav">
+
+                    <!-- Link to page -->
+                    <a ng-if="item.url" ng-class="{'main-nav__link--active' : item.url===vm.currentPage}" class="main-nav__link" ng-attr-href="{{ vm.baseDir }}{{ item.url }}">
+                        {{ item.title }}
+                    </a>
+
+                    <!-- Expandable heading -->
+                    <span ng-click="vm.toggleExpanded(item.title)" ng-if="!item.url" class="main-nav__title">
+                        {{ item.title }}
+                        <span ng-if="!vm.isExpanded(item.title)" class="fa fa-caret-right"></span>
+                        <span ng-if="vm.isExpanded(item.title)" class="fa fa-caret-down"></span>
+                    </span>
+
+                    <!-- Subnav -->
+                    <ul ng-if="vm.isExpanded(item.title)" class="main-nav fx-fade">
+                        <li ng-repeat="sub in item.children" class="main-nav__item">
+
+                            <!-- Link to page -->
+                            <a ng-if="sub.url" ng-class="{'main-nav__link--active' : sub.url===vm.currentPage}" class="main-nav__link main-nav__link--level1" ng-attr-href="{{ vm.baseDir }}{{ sub.url }}">
+                                {{ sub.title }}
+                            </a>
+
+                            <!-- Expandable heading -->
+                            <span ng-click="vm.toggleExpanded(sub.title)" ng-if="!sub.url" class="main-nav__title main-nav__title--level1">
+                                {{ sub.title }}
+                                <span ng-if="!vm.isExpanded(sub.title)" class="fa fa-caret-right"></span>
+                                <span ng-if="vm.isExpanded(sub.title)" class="fa fa-caret-down"></span>
+                            </span>
+
+                            <!-- Sub-sub nav -->
+                            <ul ng-if="sub.children && vm.isExpanded(sub.title)" class="main-nav fx-fade">
+                                <li ng-repeat="subsub in sub.children" class="main-nav__item">
+
+                                    <!-- Link to page -->
+                                    <a ng-class="{'main-nav__link--active' : subsub.url===vm.currentPage}" class="main-nav__link main-nav__link--level2" ng-attr-href="{{ vm.baseDir }}{{ subsub.url }}" ng-bind-html="subsub.title">
+                                    </a>
+
+                                </li>
+                            </ul>
+
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+
+            <!-- Search results list -->
+            <ul class="search-results">
+                <li class="search-result" ng-repeat="result in vm.results">
+                    <a class="search-result__link" ng-attr-href="{{ vm.baseDir }}{{ 'Help/' + result.id }}">
+                        <h3 class="search-result__title">{{ result.title }}</h3>
+                        <p class="search-result__excerpt" ng-bind-html="result.excerpt"></p>
+                    </a>
+                </li>
+            </ul>
+
+            <!-- Keep screen on option - PhoneGap insomnia -->
+            <ul class="main-nav" ng-if="vm.isPhoneGap">
+                <li class="main-nav__item">
+                    <label class="main-nav__title">
+                        Keep Screen On
+                        <input style="display: none" type="checkbox" ng-model="vm.keepScreenOn" />
+                        <i ng-class="{'fa--cleared' : !vm.keepScreenOn, 'fa--checked' : vm.keepScreenOn}" class="fa fa-check"></i>
+                    </label>
+                </li>
+            </ul>
+
+
+        </div>
+    </nav>
+
+    <nav class="header" role="navigation" aria-label="Secondary">
+        <a ng-if="!vm.onAConsole" href="../index.html" class="header__btn" title="Home"><i class="fa fa-home"></i></a>
+        <div ng-if="!vm.onAConsole" class="header__history">
+            <a onclick="javascript:window.history.back()" class="header__btn"><i title="Back" class="fa fa-chevron-left"></i></a>
+            <a onclick="javascript:window.history.forward()" class="header__btn"><i title="Forwards" class="fa fa-chevron-right"></i></a>
+        </div>
+        <div align="right">
+            <a class="header__btn header__btn--nav" ng-click="vm.toggleVisibility()">
+                <i ng-if="!vm.visible" class="fa fa-bars"></i>
+                <i ng-if="vm.visible" class="fa fa-close"></i>
+            </a>
+        </div>
+    </nav>
+
+
+    <!-- Main content -->
+    <div id="main">
+        
+
+<div>
+    <a href="AutoSceneList.html">
+        <img class="TutorialNav" src="images/n_TutPrevious.png" alt="" /><span class="TutorialNav">PREVIOUS: Scene List Management</span>
+    </a>
+</div>
+
+<h2>Introduction</h2>
+
+<p>
+    There are multiple layers of filtering that can be applied to control what
+    gets stored to and recalled from automation scenes.
+</p>
+
+<p>
+    When storing data to a scene, parameter updates are passed through a set of
+    granular <b>Global</b> and <b>Per-Scene Store Filters</b> (described
+    <a href="AutoFilters.html#Filters"><span class="hyperlink">below</span></a>). A given parameter must be <b>enabled</b> in both Global and Per-Scene
+    filters for it to be stored in the current scene.
+</p>
+
+<p>
+    When recalling data from a scene, previously stored parameters are passed
+    through a similar but independent set of <b>Global</b> and
+    <b>Per-Scene Recall Filters</b> which must be <b>enabled</b> for recall of
+    data to take place.
+</p>
+
+<p>
+    An additional layer of protection is provided for paths and their processing
+    sections through the <b>Recall Safe</b> feature. Recall Safe must be
+    <b>disabled</b> to enable recall of parameters.
+</p>
+
+<h2 id="RecallSafe">Automation Recall Safe</h2>
+
+<h3>Path Global Recall Safe</h3>
+
+<p>
+    The 'top' layer of recall filtering is <b>Recall Safe</b>, which completely
+    excludes a path from automation recall. This can be applied to entire paths on
+    a path-by-path basis using <b>Path&nbsp;Global&nbsp;Recall&nbsp;Safe</b>.
+</p>
+
+<p>
+    Open the
+    <a href="DetailView.html"><span class="hyperlink">Detail View Config/Eyeconix</span></a>
+    page. Press and hold
+    <span class="label">Path&nbsp;Global&nbsp;Recall&nbsp;Safe</span> to engage.
+</p>
+
+<img style="display: block; margin: 10px auto; width: 200px"
+     src="images/g_AutomationRecallProtect.png"
+     alt="" />
+
+<span class="note">
+    <span class="notetitle">Tip:</span> Use
+    <a href="PathLink.html"><span class="hyperlink"><b>Path Link</b></span></a>
+    to engage Recall Safe on multiple paths simultaneously.
+</span>
+
+<p>
+    The path ID at the top of the Channel View is highlighted
+    <span style="font-weight: bold">purple</span> to indicate paths with
+    <b>Global&nbsp;Recall&nbsp;Safe</b> enabled. The path will also be highlighted
+    purple in the Overview page.
+</p>
+
+<table class="insideborder"
+       style="margin-left: auto; margin-right: auto"
+       border="0"
+       cellpadding="4"
+       cellspacing="1">
+    <tbody>
+        <tr>
+            <td>Channel View:</td>
+            <td>Overview:</td>
+        </tr>
+        <tr>
+            <td><img src="images/g_AutoRecallProtChanView.png" alt="" /></td>
+            <td><img src="images/g_AutoRecallProtOverview.png" alt="" /></td>
+        </tr>
+    </tbody>
+</table>
+
+<p>
+    <span class="label">Path&nbsp;Global&nbsp;Recall&nbsp;Safe</span> is also
+    available as a hardware button on the quick controls. Using the
+    <span style="font-weight: bold">Quick Control</span> scroll buttons, scroll to
+    the bottom of the options or open the Detail View to the Config/Eyeconix
+    section with <span class="label">Follow&nbsp;Detail</span> off.
+    <span class="label">Path&nbsp;Global&nbsp;Recall&nbsp;Safe</span> is presented
+    on the uppermost button and is a press and hold function.
+</p>
+
+<span class="note">
+    <span class="notetitle">Notes:</span><br />
+    Recall Safe states may optionally be stored in showfiles. This can be enabled
+    from the Options section of the Automation page (<span class="label">MENU</span>&nbsp;&gt;&nbsp;<span class="label">Automation</span>&nbsp;&gt;&nbsp;<span class="label">Options</span>).<br /><br />
+    <span class="label">Path&nbsp;Global&nbsp;Recall&nbsp;Safe</span> overrides
+    the Global Recall Filter described below. This means all Recall scope
+    parameter settings below are primed for when
+    <span class="label">Path&nbsp;Global&nbsp;Recall&nbsp;Safe</span> is
+    disengaged.<br /><br />
+    Engaging
+    <span class="label">Path&nbsp;Global&nbsp;Recall&nbsp;Safe</span> only
+    prevents a path from recalling. Changes made to this path will still be stored
+    if parameters are on in the Store Filter (described below).
+</span>
+
+<h3 id="PathSectionSafe">Path Section Recall Safe</h3>
+
+<p>
+    <b>Recall Safe</b> can also be applied to individual sections of a path, e.g.
+    only the Fader and EQ, leaving the other sections to be recalled through the
+    more granular automation filters described below.
+</p>
+
+<p>Recall Safe can be enabled on the following path sections:</p>
+
+<ul>
+    <li>Input (Gain, Trim etc.)</li>
+    <li>Fader &amp; Mute</li>
+    <li>EQ &amp; Filters</li>
+    <li>Compressor &amp; Gate</li>
+    <li>Pan</li>
+    <li>Delay &amp; All Pass</li>
+    <li>Aux Bus Crosspoints*</li>
+</ul>
+
+<p>
+    *This recall-safes one bus send at a time. To recall-safe all Aux sends per
+    path, please see the <b>Automation Filters</b> section below
+</p>
+
+<p>
+    To enable Recall Safe on a section, the Channel View page must be put into
+    <b>Edit&nbsp;Safe</b> mode. This must be assigned to a
+    <a href="OptionsUserKeys.html"><span class="hyperlink"><b>User Key</b></span></a>
+    to activate, e.g. the
+    <a href="ChanView.html#UserDAW"><span class="hyperlink">User Keys popout in the Channel View</span></a>.
+</p>
+
+<p>
+    Engage the
+    <span class="label">Channel&nbsp;View&nbsp;Edit&nbsp;Safe&nbsp;Mode</span>
+    User Key. The Input section (top of path strip), Fader, EQ/Filters,
+    Compressor/Gate, Pan and Delay/All Pass buttons in the Channel View will turn
+    purple to indicate they are in Edit Safe mode.
+</p>
+
+<p>
+    Press these buttons to engage Safe mode on the desired section of processing
+    (Path Link can be used to modify multiple paths simultaneously). A purple
+    triangle will be shown in the Channel View and Detail View section buttons
+    when Safe mode is active on that section, indicating that the section
+    parameters will <b>not</b> change state when automation scenes are recalled.
+</p>
+
+<p>
+    The Detail View and Quick Controls will continue to operate as normal while in
+    Channel View Edit Safe mode. Double-tap the context area towards the middle of
+    the path strip or the Eyeconix area at the bottom of the path strip to open
+    the Detail View to make processing changes while in Edit Safe mode.
+</p>
+
+<p>
+    Disengage the
+    <span class="label">Channel&nbsp;View&nbsp;Edit&nbsp;Safe&nbsp;Mode</span>
+    User Key when you have finished editing Safe states.
+</p>
+
+<p>
+    Note that Global and Section Recall Safe states may <b>optionally</b> be
+    stored in showfiles. This can be enabled from the Options section of the
+    Automation page (<span class="label">MENU</span>&nbsp;&gt;&nbsp;<span class="label">Automation</span>&nbsp;&gt;&nbsp;<span class="label">Options</span>). If not stored, the
+    Recall Safe states will revert to off (i.e. parameters may change when
+    automation scenes are recalled, depending on the other automation filter
+    settings, described below). This allows parameters/paths to be quickly and
+    temporarily prevented from changing for a certain show without altering the
+    main automation filters.
+</p>
+
+<h2 id="Filters">Automation Filters</h2>
+
+<p>
+    More granular store and recall filtering is provided in the Automation page
+    (<span class="label">MENU</span>&nbsp;&gt;&nbsp;<span class="label">Automation</span>).
+</p>
+
+<p>
+    Functions can be excluded when scenes are stored and/or recalled. These
+    function filters can be different for store vs. recall - if you want to store
+    a setting but not recall it for now, you can filter it out in the Recall page,
+    but leave it 'unfiltered' in the Store page. Filters can be programmed on a
+    global basis, or scene by scene.
+</p>
+
+<!-- Start of MultiRouteInputAutoNote Snippet -->
+<!-- Also used in DetailView.html -->
+<span class="note">
+    <span class="notetitle">Important Note: </span>If the same stagebox/local
+    analogue input is routed into multiple Input Channels and/or Talkback
+    Channels, then each of those channels may have control of the same set of
+    parameters associated with that analogue input (gain, pad etc.) and will
+    therefore remain synchronised with one another. Control of those parameters
+    may be automated per-channel under the 'Input' filter section, but differences
+    in the automated states of those shared analogue input parameters may
+    inadvertently be introduced if the channels are not dropped in or out of Store
+    and Recall scope together. Firing a scene with such differences in it may
+    result in undesired behaviour of the analogue input's parameters.<br /><br />
+
+    Data generated during the initialisation of routing analogue inputs to
+    channels is specific to each channel, not per analogue input. Care must
+    therefore be taken to ensure this data is explicitly stored for each channel.
+</span>
+<!-- End of MultiRouteInputAutoNote Snippet -->
+
+<p>
+    To access the filters for a particular scene, touch the scene in the scene
+    list and touch the <span class="label">Store&nbsp;Filter</span> or
+    <span class="label">Recall&nbsp;Filter</span> button at the top of the
+    Automation screen, then select <span class="label">Scene&nbsp;Mode</span> at
+    the top of the screen.
+</p>
+
+<p>
+    To access the global filters, touch the
+    <span class="label">Global&nbsp;Mode</span> button in the relevant filters
+    page.
+</p>
+
+<p>A filter grid will appear:</p>
+
+<img style="display: block; margin: 25px auto"
+     src="images/g_autoGlobalRecallFiltmain.png"
+     alt="" />
+
+<span class="note">
+    <span class="notetitle">Note: </span>The colour of the screen's indicators
+    are purple for Recall filters (as above) and blue for Store filters.
+</span>
+
+<p>
+    Elements must be set to store or recall in both the global and per-scene
+    filter pages for that parameter to be stored/recalled. Edit mode must first be
+    enabled to make any changes to the filters (see below).
+</p>
+
+<p>
+    Path types (Channels, Auxes, Masters etc.) are listed as rows in the grid,
+    while individual elements (EQ, Fader, Mute etc.) are listed as columns.
+</p>
+
+<p>
+    Each path type row can be expanded to display each individual path of that
+    type, by selecting the required row and touching the
+    <span class="label">Show&nbsp;Details</span> button at the top of the screen.
+</p>
+
+<img style="display: block; margin: 25px auto"
+     src="images/g_autoGlobalRecallFiltopen.png"
+     alt="" />
+
+<p>
+    Each coloured indicator represents a specific element in a specific path or
+    path type. Grid cells that are grey indicate that a particular element doesn't
+    exist or is disabled.
+</p>
+
+<p>
+    The indicators appear 'lit' when they are included in that store or recall
+    function, and appear 'unlit' if they are filtered out (excluded from store or
+    recall).
+</p>
+
+<h3>Store Filters</h3>
+<table class="insideborder"
+       style="margin: 10px 0px"
+       border="0"
+       cellpadding="4"
+       cellspacing="1">
+    <tbody>
+        <tr>
+            <th></th>
+            <th><span style="font-weight: bold">Global filter page</span></th>
+            <th><span style="font-weight: bold">Scene filter page</span></th>
+        </tr>
+        <tr>
+            <td style="width: 40px; padding: 0px 5px">
+                <img src="images/g_autoStoreFilterDots_Enabled.png" alt="" />
+            </td>
+            <td>Global (<span style="font-weight: bold">Store enabled*</span>)</td>
+            <td>
+                Scene and Global filter on (<span style="font-weight: bold">Store enabled</span>)
+            </td>
+        </tr>
+        <tr>
+            <td style="width: 40px; padding: 0px 5px">
+                <img src="images/g_autoRecallFilterDots_Disabled.png" alt="" />
+            </td>
+            <td>
+                Global filter off (<span style="font-weight: bold">Store disabled</span>)
+            </td>
+            <td>
+                Scene filter off and Global filter on (<span style="font-weight: bold">Store disabled</span>)
+            </td>
+        </tr>
+        <tr>
+            <td style="width: 40px; padding: 0px 5px">
+                <img src="images/g_autoRecallFilterDots_SceneAndGlobalDisabled.png"
+                     alt="" />
+            </td>
+            <td>N/A</td>
+            <td>
+                Scene and Global filter off (<span style="font-weight: bold">Store disabled</span>)
+            </td>
+        </tr>
+        <tr>
+            <td style="width: 40px; padding: 0px 5px">
+                <img src="images/g_autoStoreFilterDots_SceneEnabledGlobalDisabled.png"
+                     alt="" />
+            </td>
+            <td>N/A</td>
+            <td>
+                Scene filter on, Global filter off (<span style="font-weight: bold">Store disabled</span>)
+            </td>
+        </tr>
+        <tr>
+            <td style="width: 40px; padding: 0px 5px">
+                <img src="images/g_autoStoreFilterDots_SomeEnabled.png" alt="" />
+            </td>
+            <td>
+                Some Global filter elements on (<span style="font-weight: bold">Store enabled*</span>
+                on those elements)
+            </td>
+            <td>
+                Some Scene filter elements on, Global filters on (<span style="font-weight: bold">Store enabled</span>
+                on those elements)
+            </td>
+        </tr>
+        <tr>
+            <td style="width: 40px; padding: 0px 5px">
+                <img src="images/g_autoStoreFilterDots_SceneAndGlobalSomeEnabled.png"
+                     alt="" />
+            </td>
+            <td>N/A</td>
+            <td>
+                Some Scene filter elements off, Global filters off (<span style="font-weight: bold">Store disabled</span>)
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+<h3>Recall Filters</h3>
+<table class="insideborder"
+       style="margin: 10px 0px"
+       border="0"
+       cellpadding="4"
+       cellspacing="1">
+    <tbody>
+        <tr>
+            <th></th>
+            <th><span style="font-weight: bold">Global filter page</span></th>
+            <th><span style="font-weight: bold">Scene filter page</span></th>
+        </tr>
+        <tr>
+            <td style="width: 40px; padding: 0px 5px">
+                <img src="images/g_autoRecallFilterDots_Enabled.png" alt="" />
+            </td>
+            <td>Global (<span style="font-weight: bold">Recall enabled*</span>)</td>
+            <td>
+                Scene and Global filter on (<span style="font-weight: bold">Recall enabled</span>)
+            </td>
+        </tr>
+        <tr>
+            <td style="width: 40px; padding: 0px 5px">
+                <img src="images/g_autoRecallFilterDots_Disabled.png" alt="" />
+            </td>
+            <td>
+                Global filter off (<span style="font-weight: bold">Recall disabled</span>)
+            </td>
+            <td>
+                Scene filter off and Global filter on (<span style="font-weight: bold">Recall disabled</span>)
+            </td>
+        </tr>
+        <tr>
+            <td style="width: 40px; padding: 0px 5px">
+                <img src="images/g_autoRecallFilterDots_SceneAndGlobalDisabled.png"
+                     alt="" />
+            </td>
+            <td>N/A</td>
+            <td>
+                Scene and Global filter off (<span style="font-weight: bold">Recall disabled</span>)
+            </td>
+        </tr>
+        <tr>
+            <td style="width: 40px; padding: 0px 5px">
+                <img src="images/g_autoRecallFilterDots_SceneEnabledGlobalDisabled.png"
+                     alt="" />
+            </td>
+            <td>N/A</td>
+            <td>
+                Scene filter on, Global filter off (<span style="font-weight: bold">Recall disabled</span>)
+            </td>
+        </tr>
+        <tr>
+            <td style="width: 40px; padding: 0px 5px">
+                <img src="images/g_autoRecallFilterDots_SomeEnabled.png" alt="" />
+            </td>
+            <td>
+                Some Global filter elements on (<span style="font-weight: bold">Recall enabled*</span>
+                on those elements)
+            </td>
+            <td>
+                Some Scene filter elements on, Global filters on (<span style="font-weight: bold">Recall enabled</span>
+                on those elements)
+            </td>
+        </tr>
+        <tr>
+            <td style="width: 40px; padding: 0px 5px">
+                <img src="images/g_autoRecallFilterDots_SceneAndGlobalSomeEnabled.png"
+                     alt="" />
+            </td>
+            <td>N/A</td>
+            <td>
+                Some Scene filter elements off, Global filters off (<span style="font-weight: bold">Recall disabled</span>)
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+<p>
+    *Data must be set to store/recall in both Global and per-scene filter pages,
+    so this state does not necessarily mean the data will be stored/recall; the
+    per-scene filter must also be enabled. Recall Safe must also be disabled for
+    the path/section in question.
+</p>
+
+<p>
+    Tap on the <span class="label">?</span> button in the top right of the screen
+    to view these definitions on the console.
+</p>
+
+<div class="note">
+    <span class="notetitle">Tips: </span>
+    <ul>
+        <li>
+            Keep the Global filters enabled for use later as overall Store and Recall
+            control. For example, to completely and permanently isolate a channel from
+            recall across all scenes, simply turn off its Global filter settings.
+        </li>
+        <li>
+            Any new scenes will be created using the filter settings of the current
+            scene.
+        </li>
+        <li>
+            Use the per-scene filters and the
+            <span class="label">All&nbsp;Scenes</span> edit button (described below)
+            to easily propagate filter settings to all scenes (some of which may then
+            be individually modified as needed).
+        </li>
+        <li>
+            Disable Global Store and Recall filters for items that aren't necessary to
+            automate, so the <span class="label">STORE</span> button turns purple only
+            when intended automation changes are made (such as mix changes). Items to
+            exclude may include: Solo Buses, Solo Channels, Talkback Channels, Rack,
+            Console, Fader Tile and Surface settings. Scoped out parameters will still
+            be stored in the showfile.
+        </li>
+    </ul>
+</div>
+
+<span class="note">
+    <span class="notetitle">Important Note: </span>Adjusting filters can result in
+    loss of data so great care should be taken when using them.<br />
+    If a parameter does not have a stored value (i.e. if it has been filtered out
+    in the Store filters page), but it has been set to recall in the Recall
+    filters page, then the <b>default</b> setting for that parameter will be
+    recalled. This could result in a large increase in audio level, e.g. faders
+    set to 0 dB.
+</span>
+
+<p>
+    You can change the filter settings by first enabling edit mode; Touch the
+    <span class="label">Edit</span> button (near the top right corner of the
+    screen) to enable.
+</p>
+
+<p>
+    Per-scene filter changes can be made to just the selected scene, all scenes
+    within the same Group (see
+    <a href="AutoGrouping.html"><span class="hyperlink">Scene Groups</span></a>) or all scenes in the list by changing the edit range mode; Press & hold the
+    button located just above the <span class="label">Edit</span> button and
+    choose <span class="label">Edit&nbsp;Single</span> (default),
+    <span class="label">Edit&nbsp;Group</span> or
+    <span class="label">Edit&nbsp;All</span>. Subsequent filter changes will now
+    be applied to the defined range of scenes.
+</p>
+
+<p>Touch an individual indicator in the grid to toggle its state.</p>
+
+<p>
+    It is also possible to change entire rows and columns using the round
+    <span style="font-weight: bold">Edit</span> indicators at the end of each row
+    and column:
+</p>
+
+<p>
+    Touch any round <span style="font-weight: bold">Edit</span> indicator to
+    select it. It will go red to indicate that its row or column is being edited.
+</p>
+
+<p>
+    Multiple rows and columns can be selected. You can also select the complete
+    set of rows and columns by touching the
+    <span style="font-weight: bold">Edit</span> label itself.
+</p>
+
+<p>
+    The three edit functions listed below the
+    <span class="label">Edit</span> button will now be available:
+</p>
+
+<p>
+    Touch the <span class="label">Set&nbsp;All</span> to include all selected
+    indicators in the store or recall.
+</p>
+
+<p>
+    Touch <span class="label">Toggle</span> to invert the states of all selected
+    indicators.
+</p>
+
+<p>
+    Touch <span class="label">Reset&nbsp;All</span> to exclude all selected
+    indicators from the store or recall.
+</p>
+
+<p>
+    Touch <span class="label">Edit</span> again to disable edit mode, and touch
+    the <span class="label">Scene&nbsp;View</span> button at the top of the screen
+    to return to the scene list.
+</p>
+
+<span class="note">
+    <span class="notetitle">Note: </span>The edit functions above will be applied
+    to all rows with their red
+    <span style="font-weight: bold">Edit</span> indicator set, even ones above or
+    below the currently visible set of path types.
+</span>
+
+<h2 id="Store">Which Parameters are Included in the Store/Recall Filters?</h2>
+
+<p>
+    To find out which parameters are included in the filters please go to
+    <a href="Storage.html"><span class="hyperlink">Storage</span></a>.
+</p>
+
+<h2>Links to Further Automation Help:</h2>
+
+<ul>
+    <li>
+        <a href="AutoOverview.html"><span class="hyperlink">Automation Overview</span></a>
+    </li>
+    <li>
+        <a href="AutoTime.html"><span class="hyperlink">Scene Time Functions</span></a>
+    </li>
+    <li>
+        <a href="AutoNamesNotes.html"><span class="hyperlink">Scene Names and Notes</span></a>
+    </li>
+    <li>
+        <a href="AutoIOActions.html"><span class="hyperlink">Scene Input and Output Actions</span></a>
+    </li>
+    <li>
+        <a href="AutoGrouping.html"><span class="hyperlink">Scene Groups</span></a>
+    </li>
+    <li>
+        <a href="AutoSceneList.html"><span class="hyperlink">Scene List Management</span></a>
+    </li>
+    <li>
+        <a href="AutoPreview.html"><span class="hyperlink">Automation Preview Mode</span></a>
+    </li>
+</ul>
+<br />
+<a href="LinkIndex.html"><span class="hyperlink">Index and Glossary</span></a>
+<br />
+
+<div class="TutorialNavNext">
+    <a href="AutoGrouping.html">
+        <span class="TutorialNav">NEXT: Scene Groups</span>
+        <img class="TutorialNav" src="images/n_TutNext.png" alt="" />
+    </a>
+</div>
+
+
+    </div>
+
+    <script src="../Help/js/OpenAccordionFromLink.js"></script>
+</body>
+</html>

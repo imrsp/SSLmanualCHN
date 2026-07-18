@@ -1,0 +1,292 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html ng-app="sslLiveHelp">
+<head>
+    <meta content="text/html; charset=ISO-8859-1" http-equiv="content-type">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=yes">
+
+    <link href="../Help/style/style.css" rel="stylesheet">
+    <link href="../Help/style/jquery-ui-1.13.2.structure.css" rel="stylesheet">
+    <title>Local I/O</title>
+    <script src="../Help/js/jquery-3.6.0.min.js"></script>
+    <script src="../Help/js/jquery-ui/1.13.2/jquery-ui.min.js"></script>
+    <!--<script type="text/javascript" src="cordova.js"></script>-->
+    <!-- Nav / search panels 2017 updates -->
+    <script>
+    window.baseDir = '../';
+    window.data = 'null';
+    </script>
+    <link rel="stylesheet" type="text/css" href="../Help/fonts/font-awesome-4.7.0/css/font-awesome.min.css" />
+    <link rel="stylesheet" type="text/css" href="../Help/style/sass-styles.css">
+    <script src="../Help/js/fastclick.js"></script>
+    <script src="../Help/js/lodash.core.min.js"></script>
+    <!--<script src="../Help/js/angular/1.2/angular.min.js"></script>-->  <!-- On a console -->
+    <script src="../Help/js/angular/1.8/angular.min.js"></script>   <!--Not on a console -->
+    <script src="../Help/js/ngStorage.min.js"></script>
+    <!--<script src="../Help/js/angular/1.2/angular-sanitize.min.js"></script>-->  <!-- On a console -->
+    <!--<script src="../Help/js/angular/1.2/angular-animate.min.js"></script>-->   <!-- On a console -->
+    <script src="../Help/js/angular/1.8/angular-sanitize.min.js"></script>  <!--Not on a console -->
+    <script src="../Help/js/angular/1.8/angular-animate.min.js"></script>   <!--Not on a console -->
+    <script src="../Help/js/lunr-2.3.min.js"></script>
+    <script src="../Help/js/menu.js"></script>
+
+</head>
+
+<body ng-controller="NavController as vm">
+
+    <!--<nav class="nav" ng-class="{ 'nav--visible' : vm.visible }" ng-if="vm.visible" role="navigation" aria-label="Primary">-->  <!-- On a console --> 
+    <nav class="nav" ng-class="{ 'nav--visible' : vm.visible }" role="navigation" aria-label="Primary"> <!--Not on a console -->
+        <!-- Search form -->
+        <div role="search">
+            <form class="nav__search" ng-if="vm.isSearchSupported">
+                <label class="nav__search-icon" for="query"><i aria-label="Search" title="Search" class="fa fa-search"></i></label>
+                <input type="search" id="query" class="nav__search-input" placeholder="Search..." ng-model="vm.query" />
+            </form>
+        </div>
+
+        <div class="nav__scroll" ng-style="vm.styleBasedOnSearchSupported">
+
+            <!-- Main nav -->
+            <ul class="main-nav" ng-hide="vm.query">
+                <li class="main-nav__item" ng-repeat="item in vm.nav">
+
+                    <!-- Link to page -->
+                    <a ng-if="item.url" ng-class="{'main-nav__link--active' : item.url===vm.currentPage}" class="main-nav__link" ng-attr-href="{{ vm.baseDir }}{{ item.url }}">
+                        {{ item.title }}
+                    </a>
+
+                    <!-- Expandable heading -->
+                    <span ng-click="vm.toggleExpanded(item.title)" ng-if="!item.url" class="main-nav__title">
+                        {{ item.title }}
+                        <span ng-if="!vm.isExpanded(item.title)" class="fa fa-caret-right"></span>
+                        <span ng-if="vm.isExpanded(item.title)" class="fa fa-caret-down"></span>
+                    </span>
+
+                    <!-- Subnav -->
+                    <ul ng-if="vm.isExpanded(item.title)" class="main-nav fx-fade">
+                        <li ng-repeat="sub in item.children" class="main-nav__item">
+
+                            <!-- Link to page -->
+                            <a ng-if="sub.url" ng-class="{'main-nav__link--active' : sub.url===vm.currentPage}" class="main-nav__link main-nav__link--level1" ng-attr-href="{{ vm.baseDir }}{{ sub.url }}">
+                                {{ sub.title }}
+                            </a>
+
+                            <!-- Expandable heading -->
+                            <span ng-click="vm.toggleExpanded(sub.title)" ng-if="!sub.url" class="main-nav__title main-nav__title--level1">
+                                {{ sub.title }}
+                                <span ng-if="!vm.isExpanded(sub.title)" class="fa fa-caret-right"></span>
+                                <span ng-if="vm.isExpanded(sub.title)" class="fa fa-caret-down"></span>
+                            </span>
+
+                            <!-- Sub-sub nav -->
+                            <ul ng-if="sub.children && vm.isExpanded(sub.title)" class="main-nav fx-fade">
+                                <li ng-repeat="subsub in sub.children" class="main-nav__item">
+
+                                    <!-- Link to page -->
+                                    <a ng-class="{'main-nav__link--active' : subsub.url===vm.currentPage}" class="main-nav__link main-nav__link--level2" ng-attr-href="{{ vm.baseDir }}{{ subsub.url }}" ng-bind-html="subsub.title">
+                                    </a>
+
+                                </li>
+                            </ul>
+
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+
+            <!-- Search results list -->
+            <ul class="search-results">
+                <li class="search-result" ng-repeat="result in vm.results">
+                    <a class="search-result__link" ng-attr-href="{{ vm.baseDir }}{{ 'Help/' + result.id }}">
+                        <h3 class="search-result__title">{{ result.title }}</h3>
+                        <p class="search-result__excerpt" ng-bind-html="result.excerpt"></p>
+                    </a>
+                </li>
+            </ul>
+
+            <!-- Keep screen on option - PhoneGap insomnia -->
+            <ul class="main-nav" ng-if="vm.isPhoneGap">
+                <li class="main-nav__item">
+                    <label class="main-nav__title">
+                        Keep Screen On
+                        <input style="display: none" type="checkbox" ng-model="vm.keepScreenOn" />
+                        <i ng-class="{'fa--cleared' : !vm.keepScreenOn, 'fa--checked' : vm.keepScreenOn}" class="fa fa-check"></i>
+                    </label>
+                </li>
+            </ul>
+
+
+        </div>
+    </nav>
+
+    <nav class="header" role="navigation" aria-label="Secondary">
+        <a ng-if="!vm.onAConsole" href="../index.html" class="header__btn" title="Home"><i class="fa fa-home"></i></a>
+        <div ng-if="!vm.onAConsole" class="header__history">
+            <a onclick="javascript:window.history.back()" class="header__btn"><i title="Back" class="fa fa-chevron-left"></i></a>
+            <a onclick="javascript:window.history.forward()" class="header__btn"><i title="Forwards" class="fa fa-chevron-right"></i></a>
+        </div>
+        <div align="right">
+            <a class="header__btn header__btn--nav" ng-click="vm.toggleVisibility()">
+                <i ng-if="!vm.visible" class="fa fa-bars"></i>
+                <i ng-if="vm.visible" class="fa fa-close"></i>
+            </a>
+        </div>
+    </nav>
+
+
+    <!-- Main content -->
+    <div id="main">
+        
+
+
+<div><a href="ControlTile.html"><img class="TutorialNav" src="images/n_TutPrevious.png" alt=""><span class="TutorialNav">PREVIOUS: Control Tile</span></a></div>
+
+<h2>Local I/O</h2>
+
+<p>All SSL Live console models have the same types of Local I/O. The quantity of each I/O type varies for each model. A full list of I/O capacity by console model can be found at the bottom of this page.</p>
+
+<br>
+
+<h2>Analogue</h2>
+
+<p>
+    The Live local I/O and Stageboxes use SSL's patented mic amp technology to deliver <span style="font-weight:bold;">SSL SuperAnalogue<sup>TM</sup></span> performance
+    with better than industry standard studio grade mic pre's combined with 24bit/96 kHz DAC's to deliver a frequency response that is within 0.05 dB from 20 Hz to 20 kHz (within 1.3 dB down to 10 Hz) and a THD of 0.005%.
+    The circuitry is DC coupled (no electrolytic capacitors in the signal path) and high input impedance.
+    Mic amp gain is controlled with extreme precision in more than 16,000 steps ensuring totally smooth control, very good common mode rejection and extremely low distortion.
+</p>
+
+<br>
+
+<h2>MADI</h2>
+<p>SSL Live consoles feature SC Fibre and BNC coaxial MADI connections to interface with <span style="font-weight:bold;">SSL Live MADI Stageboxes</span> or other third party MADI devices.</p>
+
+<br>
+
+<h2>Dante</h2>
+<p>
+    A <span style="font-weight:bold;">Dante Brooklyn II</span> module offers 32x32 channels of I/O at 96 kHz (or 64x64 channels at 48 kHz) over a redundant connection.
+    These Dante connections also offer mic amp control of <span style="font-weight:bold;">SSL Network I/O Stageboxes</span>.
+</p>
+
+<p>Using SSL's Dante dual-domain routing, it is possible to make both the console side and the Dante side of the route from the console screen. So there is no need to use Dante Controller to make any routes.</p>
+
+<br>
+
+<h2>Blacklight II</h2>
+<p>
+    For higher channel count systems, SSL's proprietary <span style="font-weight:bold;">Blacklight II</span> high bandwidth transport connections are used
+    to reduce the number of interconnecting cables.
+    Blacklight II carries 256 @ 96 kHz audio signals, bi-directionally down a single fibre cable.
+</p>
+<p>
+    Blacklight II can be converted into MADI or Dante using a <span style="font-weight:bold;">BLII-MADI Concentrator</span> or a <span style="font-weight:bold;">BLII-Dante Bridge</span> respectively.
+</p>
+<p>Blacklight II uses Neutrik OpticalCON DUO connectors.</p>
+
+
+<p>Blacklight II is commonly notated as <span style="font-weight:bold;">BLII</span>.</p>
+
+<br>
+
+<h2>AES</h2>
+<p>SSL Live consoles also feature AES I/O with fully variable sample rate conversion.</p>
+
+<br>
+
+<h2>Compare Models</h2>
+
+<div>
+    <table class="insideborder" style="width: auto; margin: 15px 0px;" cellpadding="4" cellspacing="1">
+        <tbody>
+            <tr>
+                <th width="10%"></th>
+                <th width="15%">L100</th>
+                <th width="15%">L200</th>
+                <th width="15%">L350</th>
+                <th width="15%">L450</th>
+                <th width="15%">L550</th>
+                <th width="15%">L650</th>
+            </tr>
+            <tr>
+                <th>Analogue I/O</th>
+                <td colspan="2">12 Mic/Line Inputs, 2 Talkback Inputs, 3.5&nbsp;mm Stereo Input | 12 Line Outputs, 2 Stereo Headphone Outputs</td>
+                <td colspan="4">16 Mic/Line Inputs (inc. 2 Talkback Inputs) | 16 Line Outputs (inc. 2 Stereo Headphone Outputs)*</td>
+            </tr>
+            <tr>
+                <th>Optional Analogue I/O</th>
+                <td colspan="4">N/A</td>
+                <td>16 Mic/Line Inputs | 16 Line Outputs</td>
+                <td>N/A</td>
+            </tr>
+            <tr>
+                <th>AES/EBU I/O</th>
+                <td colspan="6">4 pairs with SRC (8 I/O channels)</td>
+            </tr>
+            <tr>
+                <th>Optional AES/EBU I/O</th>
+                <td colspan="4">N/A</td>
+                <td>4 pairs with SRC (8 I/O channels)</td>
+                <td>N/A</td>
+            </tr>
+            <tr>
+                <th>MADI I/O Ports</th>
+                <td>4 (or 2 redundant pairs) total<br />4 x Coax</td>
+                <td colspan="3">8 (or 4 redundant pairs) total<br />6 x Coax, 2 x Fibre</td>
+                <td>16 (or 8 redundant pairs) total<br />12 x Coax, 4 x Fibre</td>
+                <td>8 (or 4 redundant pairs) total<br />6 x Coax, 2 x Fibre</td>
+            </tr>
+            <tr>
+                <th>MADI FX Loop</th>
+                <td colspan="6">1 fibre port (32 x 32 at 96 kHz | 64 x 64 at 48 kHz)</td>
+            </tr>
+            <tr>
+                <th>Local Dante Expansion (Option)</th>
+                <td colspan="6">32 x 32 at 96 kHz (64 x 64 at 48 kHz)</td>
+            </tr>
+            <tr>
+                <th>Blacklight&nbsp;II (Option)</th>
+                <td colspan="3" rowspan="2">1 redundant pair**</td>
+                <td colspan="3">1 redundant pair</td>
+            </tr>
+            <tr>
+                <th>X-Light (Option)</th>
+                <td colspan="3">1 redundant pair</td>
+            </tr>
+            <tr>
+                <th>Maximum I/O</th>
+                <td>536</td>
+                <td colspan="2">664</td>
+                <td>920</td>
+                <td>1200</td>
+                <td>920</td>
+            </tr>
+            <tr>
+                <th>Power Supply</th>
+                <td>1 single (redundant pair optional)</td>
+                <td colspan="5">1 redundant pair</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<p>* Front-mounted Talkback and Headphone connectors are wired in parallel with analogue XLR I/O sockets on the rear of the console for added flexibility. Simultaneous use of front and rear connectors is not recommended.</p>
+<p>** Consoles can have both Blacklight II and X-Light interfaces fitted but only one can be in use at a time.</p>
+
+<span class="note"><span class="notetitle">Note: </span> This table only shows the current available configurations of SSL Live console models.</span>
+
+<h2>Useful Links</h2>
+<p><a href="RemoteIO.html"><span class="hyperlink">Remote I/O</span></a></p>
+<p><a href="LocalMADIConfig.html"><span class="hyperlink">Local & MADI I/O Config</span></a></p>
+<p><a href="DanteSetup.html"><span class="hyperlink">Dante Config</span></a></p>
+<a href="LinkIndex.html"><span class="hyperlink">Index and Glossary</span></a>
+<br>
+
+<div class="TutorialNavNext"> <a href="RemoteIO.html"><span class="TutorialNav">NEXT: Stageboxes</span> <img class="TutorialNav" src="images/n_TutNext.png" alt=""></a></div>
+
+
+    </div>
+
+    <script src="../Help/js/OpenAccordionFromLink.js"></script>
+</body>
+</html>

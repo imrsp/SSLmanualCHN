@@ -3,12 +3,15 @@ import path from "node:path";
 import { root, readJson } from "./lib/manual.mjs";
 import { findUnsafeContentIssues } from "./lib/content_security.mjs";
 import { validateUpstreamPatches } from "./lib/upstream_patches.mjs";
+import { validateUpstreamTracking } from "./lib/upstream_snapshot.mjs";
 
 const requiredFiles = [
   "package.json",
   "content/site.json",
   "content/manifest.json",
+  "content/upstream.json",
   "content/upstream-patches.json",
+  "upstream/snapshots/latest.json",
   "docs/TERMINOLOGY.md",
   "docs/glossary.csv",
   "src/index.html",
@@ -32,10 +35,17 @@ const sourceManifest = readJson(path.join(root, "content", "manifest.json"));
 const site = readJson(path.join(root, "content", "site.json"));
 const catalog = readJson(path.join(root, "dist", "data", "catalog.json"));
 const assetManifest = readJson(path.join(root, "public", "assets", "manual", "manifest.json"));
+const upstream = readJson(path.join(root, "content", "upstream.json"));
+const latestUpstreamSnapshot = readJson(path.join(root, "upstream", "snapshots", "latest.json"));
 const upstreamPatches = readJson(path.join(root, "content", "upstream-patches.json"));
 const upstreamPatchIssues = validateUpstreamPatches(upstreamPatches, {
   rootDirectory: root,
   manifest: sourceManifest,
+});
+const upstreamTrackingIssues = validateUpstreamTracking(upstream, {
+  rootDirectory: root,
+  manifest: sourceManifest,
+  latestPointer: latestUpstreamSnapshot,
 });
 const pageTitleZhById = site.pageTitlesZhById;
 const manifestPageIds = sourceManifest.map((page) => path.basename(page.outputFile, ".html").replace(/^\d+-/, ""));
@@ -130,6 +140,7 @@ const hardFailures = [
   ...pageIntegrityIssues,
   ...securityIssues,
   ...upstreamPatchIssues,
+  ...upstreamTrackingIssues,
 ];
 if (!pageTitleZhById || typeof pageTitleZhById !== "object" || Array.isArray(pageTitleZhById)) {
   hardFailures.push("Missing or invalid site.pageTitlesZhById mapping");
@@ -165,6 +176,10 @@ const reportFindings = {
 
 const report = {
   generatedAt: new Date().toISOString(),
+  upstreamRevisions: {
+    merged: upstream.mergedRevision,
+    latestSnapshot: latestUpstreamSnapshot.sourceRevision,
+  },
   pages: catalog.pages.length,
   translatedPages: catalog.meta.translatedCount,
   sections: catalog.sections.length,
@@ -179,6 +194,7 @@ const report = {
   pageIntegrityIssues,
   securityIssues,
   upstreamPatchIssues,
+  upstreamTrackingIssues,
   hardFailures,
   reportFindings,
 };
@@ -195,6 +211,8 @@ fs.writeFileSync(path.join(root, "reports", "VALIDATION_PROJECT.md"), [
   "",
   `- 章节：${report.pages}`,
   `- 已翻译章节：${report.translatedPages}`,
+  `- 项目已合并源站版本：${report.upstreamRevisions.merged}`,
+  `- 最新已抓取源站版本：${report.upstreamRevisions.latestSnapshot}`,
   `- 硬失败：${report.hardFailures.length}`,
   `- 报告项：${report.reportFindings.unusedPublishedAssets.length + report.reportFindings.staleAssetEntries.length + report.reportFindings.platformResidue.length}`,
   "",

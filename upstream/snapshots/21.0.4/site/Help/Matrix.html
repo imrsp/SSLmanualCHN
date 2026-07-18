@@ -1,0 +1,219 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html ng-app="sslLiveHelp">
+<head>
+    <meta content="text/html; charset=ISO-8859-1" http-equiv="content-type">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=yes">
+
+    <link href="../Help/style/style.css" rel="stylesheet">
+    <link href="../Help/style/jquery-ui-1.13.2.structure.css" rel="stylesheet">
+    <title>Matrix</title>
+    <script src="../Help/js/jquery-3.6.0.min.js"></script>
+    <script src="../Help/js/jquery-ui/1.13.2/jquery-ui.min.js"></script>
+    <!--<script type="text/javascript" src="cordova.js"></script>-->
+    <!-- Nav / search panels 2017 updates -->
+    <script>
+    window.baseDir = '../';
+    window.data = 'null';
+    </script>
+    <link rel="stylesheet" type="text/css" href="../Help/fonts/font-awesome-4.7.0/css/font-awesome.min.css" />
+    <link rel="stylesheet" type="text/css" href="../Help/style/sass-styles.css">
+    <script src="../Help/js/fastclick.js"></script>
+    <script src="../Help/js/lodash.core.min.js"></script>
+    <!--<script src="../Help/js/angular/1.2/angular.min.js"></script>-->  <!-- On a console -->
+    <script src="../Help/js/angular/1.8/angular.min.js"></script>   <!--Not on a console -->
+    <script src="../Help/js/ngStorage.min.js"></script>
+    <!--<script src="../Help/js/angular/1.2/angular-sanitize.min.js"></script>-->  <!-- On a console -->
+    <!--<script src="../Help/js/angular/1.2/angular-animate.min.js"></script>-->   <!-- On a console -->
+    <script src="../Help/js/angular/1.8/angular-sanitize.min.js"></script>  <!--Not on a console -->
+    <script src="../Help/js/angular/1.8/angular-animate.min.js"></script>   <!--Not on a console -->
+    <script src="../Help/js/lunr-2.3.min.js"></script>
+    <script src="../Help/js/menu.js"></script>
+
+</head>
+
+<body ng-controller="NavController as vm">
+
+    <!--<nav class="nav" ng-class="{ 'nav--visible' : vm.visible }" ng-if="vm.visible" role="navigation" aria-label="Primary">-->  <!-- On a console --> 
+    <nav class="nav" ng-class="{ 'nav--visible' : vm.visible }" role="navigation" aria-label="Primary"> <!--Not on a console -->
+        <!-- Search form -->
+        <div role="search">
+            <form class="nav__search" ng-if="vm.isSearchSupported">
+                <label class="nav__search-icon" for="query"><i aria-label="Search" title="Search" class="fa fa-search"></i></label>
+                <input type="search" id="query" class="nav__search-input" placeholder="Search..." ng-model="vm.query" />
+            </form>
+        </div>
+
+        <div class="nav__scroll" ng-style="vm.styleBasedOnSearchSupported">
+
+            <!-- Main nav -->
+            <ul class="main-nav" ng-hide="vm.query">
+                <li class="main-nav__item" ng-repeat="item in vm.nav">
+
+                    <!-- Link to page -->
+                    <a ng-if="item.url" ng-class="{'main-nav__link--active' : item.url===vm.currentPage}" class="main-nav__link" ng-attr-href="{{ vm.baseDir }}{{ item.url }}">
+                        {{ item.title }}
+                    </a>
+
+                    <!-- Expandable heading -->
+                    <span ng-click="vm.toggleExpanded(item.title)" ng-if="!item.url" class="main-nav__title">
+                        {{ item.title }}
+                        <span ng-if="!vm.isExpanded(item.title)" class="fa fa-caret-right"></span>
+                        <span ng-if="vm.isExpanded(item.title)" class="fa fa-caret-down"></span>
+                    </span>
+
+                    <!-- Subnav -->
+                    <ul ng-if="vm.isExpanded(item.title)" class="main-nav fx-fade">
+                        <li ng-repeat="sub in item.children" class="main-nav__item">
+
+                            <!-- Link to page -->
+                            <a ng-if="sub.url" ng-class="{'main-nav__link--active' : sub.url===vm.currentPage}" class="main-nav__link main-nav__link--level1" ng-attr-href="{{ vm.baseDir }}{{ sub.url }}">
+                                {{ sub.title }}
+                            </a>
+
+                            <!-- Expandable heading -->
+                            <span ng-click="vm.toggleExpanded(sub.title)" ng-if="!sub.url" class="main-nav__title main-nav__title--level1">
+                                {{ sub.title }}
+                                <span ng-if="!vm.isExpanded(sub.title)" class="fa fa-caret-right"></span>
+                                <span ng-if="vm.isExpanded(sub.title)" class="fa fa-caret-down"></span>
+                            </span>
+
+                            <!-- Sub-sub nav -->
+                            <ul ng-if="sub.children && vm.isExpanded(sub.title)" class="main-nav fx-fade">
+                                <li ng-repeat="subsub in sub.children" class="main-nav__item">
+
+                                    <!-- Link to page -->
+                                    <a ng-class="{'main-nav__link--active' : subsub.url===vm.currentPage}" class="main-nav__link main-nav__link--level2" ng-attr-href="{{ vm.baseDir }}{{ subsub.url }}" ng-bind-html="subsub.title">
+                                    </a>
+
+                                </li>
+                            </ul>
+
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+
+            <!-- Search results list -->
+            <ul class="search-results">
+                <li class="search-result" ng-repeat="result in vm.results">
+                    <a class="search-result__link" ng-attr-href="{{ vm.baseDir }}{{ 'Help/' + result.id }}">
+                        <h3 class="search-result__title">{{ result.title }}</h3>
+                        <p class="search-result__excerpt" ng-bind-html="result.excerpt"></p>
+                    </a>
+                </li>
+            </ul>
+
+            <!-- Keep screen on option - PhoneGap insomnia -->
+            <ul class="main-nav" ng-if="vm.isPhoneGap">
+                <li class="main-nav__item">
+                    <label class="main-nav__title">
+                        Keep Screen On
+                        <input style="display: none" type="checkbox" ng-model="vm.keepScreenOn" />
+                        <i ng-class="{'fa--cleared' : !vm.keepScreenOn, 'fa--checked' : vm.keepScreenOn}" class="fa fa-check"></i>
+                    </label>
+                </li>
+            </ul>
+
+
+        </div>
+    </nav>
+
+    <nav class="header" role="navigation" aria-label="Secondary">
+        <a ng-if="!vm.onAConsole" href="../index.html" class="header__btn" title="Home"><i class="fa fa-home"></i></a>
+        <div ng-if="!vm.onAConsole" class="header__history">
+            <a onclick="javascript:window.history.back()" class="header__btn"><i title="Back" class="fa fa-chevron-left"></i></a>
+            <a onclick="javascript:window.history.forward()" class="header__btn"><i title="Forwards" class="fa fa-chevron-right"></i></a>
+        </div>
+        <div align="right">
+            <a class="header__btn header__btn--nav" ng-click="vm.toggleVisibility()">
+                <i ng-if="!vm.visible" class="fa fa-bars"></i>
+                <i ng-if="vm.visible" class="fa fa-close"></i>
+            </a>
+        </div>
+    </nav>
+
+
+    <!-- Main content -->
+    <div id="main">
+        
+
+  <div><a href="FXIntro.html"><img class="TutorialNav" src="images/n_TutPrevious.png" alt=""><span class="TutorialNav">PREVIOUS: FX Rack</span></a></div>
+  
+  <h2>Matrix</h2>
+
+  <p>SSL Live has four matrices. These allow you to reduce the number of crosspoints you can see to those you are likely to use, focusing in on relevant parts of the 'full matrix' rather than having to sift through a large page of mostly redundant controls.</p>
+
+  <p>Matrix channels provide basic control of the matrix outputs before they reach the outside world.</p>
+
+  <p>The basic configuration of the four matrices is defined in the Console Configuration page (<span class="label">MENU</span> > <span class="label">Setup</span> > <span class="label">Console&nbsp;Configuration</span>).</p>
+
+  <p>If you haven't already configured the size your matrices, please refer to <a href="ConsoleConfig.html"><span class="hyperlink">Console Configuration</span>.</a></p>
+
+  <p>Access the matrices from the main screen menu (<span class="label">MENU</span> > <span class="label">Matrix</span>).</p>
+
+  <p>To choose which matrix is displayed, press the <span class="label">Matrix&nbsp;A</span>, <span class="label">Matrix&nbsp;B</span>, <span class="label">Matrix&nbsp;C</span> or <span class="label">Matrix&nbsp;D</span> button on the right edge of the screen.</p>
+
+  <p>That matrix will appear in the main part of the screen, with each row referring to an input, and each column referring to an output:</p>
+
+  <img style="display: block; margin: 20px auto;" src="images/g_matrix.png" alt="">
+
+  <p>If the matrix is too large to display all of its crosspoints in the screen simultaneously, use the <span style="font-weight: bold;">Navigation</span> cursor keys in the right side of the screen to scroll the display up and down, or left and right.</p>
+
+  <h3>Input Routing</h3>
+
+  <p>To route a signal to a matrix input:</p>
+
+  <p>Select the row whose input you wish to route by touching it. Tap the <span class="label">Routing</span> button; a standard Routing dialogue will appear.</p>
+
+  <span class="note"><span class="notetitle">Note: </span>Matrix routing is always done on a mono basis. Multichannel signals must be routed as separate mono signals.</span>
+
+  <p>The selected input will appear in the text box above the controls for each output column in the selected row.</p>
+
+  <span class="note"><span class="notetitle">Note: </span>For more details about using a Routing display, see <a href="Routing.html"><span class="notehyperlink">Routing</span></a>.</span>
+
+  <span class="note"><span class="notetitle">Note: </span>Output routing is performed from the Matrix Output channel, as described below.</span>
+
+  <h3>Output Activation and Level Control</h3>
+
+  <p>
+      If the <span class="label">Lock</span> button (top right) is inactive, you can activate each crosspoint by touching its <span style="font-weight: bold;">In</span> button in the Main Screen display; you can then drag the adjacent <span style="font-weight: bold;">Gain</span> encoder up and right to increase the output level.
+      To enter a specific value, double-tap on the gain value to activate the on-screen keyboard.
+  </p>
+
+  <p>If the <span class="label">Lock</span> button is active, the crosspoints within the matrix cannot be altered using the screen:</p>
+
+  <p>Touch the crosspoint row you wish to alter so that it is highlighted;</p>
+
+  <p>Crosspoint controls for that row will now be assigned to the Quick Controls immediately below the screen: press the upper Quick Key to switch the crosspoint in, and turn the Quick Encoder to adjust the gain.</p>
+
+  <p><img style="width: 147px; height: 116px; margin: 20px 20px 0px 0px;" src="images/g_PanelQuicksBasic2.png" alt=""></p>
+
+  <span class="note"><span class="notetitle">Note: </span>
+    This Quick Control operation requires <span style="font-weight: bold;">Follow Detail</span> mode to be active. Touch the <span style="font-weight: bold;">Follow Detail</span> button (bottom right corner of the Main Screen) 
+    to toggle between <span style="font-weight: bold;">Follow Channel</span> (button inactive) and <span style="font-weight: bold;">Follow Detail</span> (button active).
+  </span>
+
+  <h2 id="MatrixOutputChannels">Matrix Output Routing</h2>
+
+  <p>Matrix path faders allow for master level control before audio leaves the console. Matrix paths have all full path processing (EQ, Filters, Delay etc.) <em>except</em> dynamics, plus access to Eyeconix, naming, inserts, and output routing.</p>
+
+  <p>Matrix outputs are routed using the standard routing display accessed via <span class="label">Route Output</span> in the <span style="font-weight: bold;">Input/Routing</span> Detail View dialogue. Access this page by double-tapping on the top of the Matrix Channel strip in the Channel View.</p>
+
+  <span class="note"><span class="notetitle">Note:</span> Matrix routing is always done on a mono basis.</span>
+
+
+  <h2>Useful Links</h2>
+
+  <a href="Routing.html"><span class="hyperlink">Routing</span></a><br>
+
+  <a href="LinkIndex.html"><span class="hyperlink">Index and Glossary</span></a><br>
+
+  <div class="TutorialNavNext"> <a href="Clocking.html"><span class="TutorialNav">NEXT: Clocking &amp; I/O Connections</span> <img class="TutorialNav" src="images/n_TutNext.png" alt=""></a></div>
+
+
+    </div>
+
+    <script src="../Help/js/OpenAccordionFromLink.js"></script>
+</body>
+</html>

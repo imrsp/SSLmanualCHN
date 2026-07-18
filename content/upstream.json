@@ -1,0 +1,23 @@
+{
+  "schemaVersion": 1,
+  "origin": "https://livehelp.solidstatelogic.com",
+  "revisionUrl": "https://livehelp.solidstatelogic.com/Help/About.html",
+  "mergedRevision": "21.0.3",
+  "allowedSnapshotFailures": [
+    {
+      "url": "https://livehelp.solidstatelogic.com/Help/images/g_SoloPopOut.png",
+      "statuses": [404],
+      "reason": "The official Solo page references this image, but the source server currently returns 404."
+    },
+    {
+      "url": "https://livehelp.solidstatelogic.com/Help/images/StageboxMPL16-8.png",
+      "statuses": [404],
+      "reason": "The official Remote I/O page references this missing image; the project already provides a reviewed replacement asset."
+    },
+    {
+      "url": "https://livehelp.solidstatelogic.com/Help/TutChansPaths.html",
+      "statuses": [404],
+      "reason": "The official About page retains this historical release-note link, but the linked source page no longer exists."
+    }
+  ]
+}
