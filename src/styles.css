@@ -1535,3 +1535,339 @@ kbd { padding: 2px 5px; border: 1px solid var(--line); color: var(--muted); back
     transition-duration: .01ms !important;
   }
 }
+
+@page {
+  size: auto;
+  margin: 0 0 18mm;
+
+  @bottom-center {
+    content: counter(page);
+    color: #595959;
+    font-family: Arial, sans-serif;
+    font-size: 9pt;
+    font-weight: 400;
+    text-align: center;
+    vertical-align: middle;
+  }
+}
+
+@media print {
+  :root {
+    color-scheme: light;
+    --black: #fff;
+    --panel: #fff;
+    --panel-soft: #f3f3f3;
+    --line: #b8b8b8;
+    --ink: #171717;
+    --muted: #555;
+    --cyan: #1f4b62;
+    --amber: #725111;
+  }
+
+  *,
+  *::before,
+  *::after {
+    box-shadow: none !important;
+    text-shadow: none !important;
+  }
+
+  html,
+  body {
+    width: auto;
+    min-width: 0;
+    overflow: visible;
+    background: #fff !important;
+    color: #171717;
+    print-color-adjust: economy;
+    -webkit-print-color-adjust: economy;
+  }
+
+  .topbar,
+  .sidebar,
+  .reader-toolbar,
+  .outline,
+  .page-navigation,
+  .scrim,
+  .translation-badge,
+  .page-skeleton,
+  .loading-state,
+  .print-omit,
+  #presetOptionTooltip {
+    display: none !important;
+  }
+
+  .app-shell,
+  .reader-layout,
+  .document,
+  .manual-content {
+    display: block;
+    width: auto;
+    min-width: 0;
+    max-width: none;
+    min-height: 0;
+    margin: 0;
+    padding: 0;
+    overflow: visible;
+  }
+
+  .reader {
+    display: block;
+    width: auto;
+    min-width: 0;
+    max-width: none;
+    min-height: 0;
+    margin: 0;
+    padding: 16mm 16mm 0;
+    overflow: visible;
+    -webkit-box-decoration-break: clone;
+    box-decoration-break: clone;
+  }
+
+  .document {
+    color: #202020;
+    font-size: 10.5pt;
+    line-height: 1.58;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
+  .document-header {
+    margin: 0 0 9mm;
+    padding: 0 0 6mm;
+    border-bottom: .25mm solid #aaa;
+    break-after: avoid-page;
+    page-break-after: avoid;
+  }
+
+  .document-header::before {
+    content: "SSL LIVE  ·  中文操作手册";
+    display: block;
+    width: fit-content;
+    margin: 0 0 8mm;
+    padding: 1.4mm 2.4mm 1.2mm;
+    border: .35mm solid #333;
+    color: #171717;
+    font: 700 8.5pt/1.2 var(--font-sans);
+    letter-spacing: .13em;
+  }
+
+  .document-header::after {
+    display: none;
+  }
+
+  .eyebrow {
+    margin-bottom: 3mm;
+    color: #444;
+    font-size: 8pt;
+    letter-spacing: .08em;
+  }
+
+  .document-header h1 {
+    color: #111 !important;
+    font-size: 24pt;
+    line-height: 1.16;
+    letter-spacing: -.02em;
+  }
+
+  .english-title {
+    margin-top: 3mm;
+    color: #555;
+    font-size: 9.5pt;
+    line-height: 1.4;
+  }
+
+  .document h2,
+  .document h3,
+  .document h4,
+  .document h5,
+  .document h6 {
+    color: #171717 !important;
+    break-after: avoid-page;
+    page-break-after: avoid;
+    break-inside: avoid-page;
+    page-break-inside: avoid;
+  }
+
+  .document h2 { margin: 8mm 0 3mm; font-size: 16pt; }
+  .document h3 { margin: 6mm 0 2.5mm; font-size: 13pt; }
+  .document h4,
+  .document h5,
+  .document h6 { margin: 5mm 0 2mm; font-size: 11.5pt; }
+
+  .document p,
+  .document li {
+    font-size: 10.5pt;
+    orphans: 3;
+    widows: 3;
+  }
+
+  .document a {
+    color: #173f54 !important;
+    text-decoration: underline;
+    text-decoration-thickness: .2mm;
+  }
+
+  .document .search-highlight {
+    color: inherit !important;
+    background: transparent !important;
+  }
+
+  .document img,
+  .document figure,
+  .document pre,
+  .document blockquote,
+  .document .note {
+    break-inside: avoid-page;
+    page-break-inside: avoid;
+  }
+
+  .document img {
+    max-width: 100% !important;
+    max-height: 75vh;
+    height: auto !important;
+    margin: 4mm auto !important;
+    border-color: #bbb;
+    object-fit: contain;
+  }
+
+  .document img.manual-inline-icon {
+    max-height: 2.2em;
+    margin: 0 .15em !important;
+    border: 0;
+  }
+
+  .document th img,
+  .document td img {
+    max-width: 100% !important;
+    height: auto !important;
+    margin: 0 auto !important;
+    border: 0;
+  }
+
+  .document figure { margin: 4mm 0; }
+  .document figcaption { color: #555; font-size: 8.5pt; }
+
+  .document table,
+  .manual-disclosure-content table {
+    display: table !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    table-layout: auto;
+    overflow: visible;
+    border-collapse: collapse;
+    font-size: 8.5pt;
+    line-height: 1.35;
+  }
+
+  .document thead { display: table-header-group; }
+  .document tfoot { display: table-footer-group; }
+  .document tr {
+    break-inside: avoid-page;
+    page-break-inside: avoid;
+  }
+
+  .document th,
+  .document td {
+    width: auto !important;
+    min-width: 0 !important;
+    padding: 1.6mm 2mm;
+    border: .25mm solid #aaa !important;
+    background: transparent !important;
+    color: #202020 !important;
+    overflow-wrap: anywhere;
+  }
+
+  .document th {
+    background: #ededed !important;
+    font-weight: 700;
+  }
+
+  .document .note {
+    margin: 5mm 0;
+    padding: 3.5mm 4mm;
+    border: .25mm solid #b6a06f;
+    border-left: 1mm solid #80611f;
+    color: #2c271d;
+    background: #faf8f2 !important;
+  }
+
+  .document .notetitle { color: #5f470f; }
+  .document .label {
+    padding: .15em .35em;
+    border: .25mm solid #888;
+    color: #111;
+    background: transparent !important;
+    white-space: nowrap;
+  }
+
+  .document .tag {
+    border: .25mm solid #888;
+    color: #222 !important;
+    background: transparent !important;
+  }
+
+  .manual-content [style*="width"] {
+    max-width: 100% !important;
+  }
+
+  .document img[align],
+  .document .center > img {
+    float: none !important;
+    margin-right: auto !important;
+    margin-left: auto !important;
+  }
+
+  .manual-disclosures {
+    display: block;
+    margin: 5mm 0;
+  }
+
+  .manual-content details:not([open]) > :not(summary) {
+    display: block !important;
+  }
+
+  .manual-content details > summary {
+    cursor: default;
+    list-style: none;
+    break-after: avoid-page;
+    page-break-after: avoid;
+  }
+
+  .manual-content details > summary::-webkit-details-marker { display: none; }
+  .manual-content details > summary::marker { content: ""; }
+
+  .manual-disclosure {
+    margin: 0 0 5mm;
+    border: .25mm solid #aaa;
+    background: transparent !important;
+    break-inside: auto;
+    page-break-inside: auto;
+  }
+
+  .manual-disclosure summary {
+    padding: 0 4mm;
+    border-bottom: .25mm solid #aaa;
+    background: #ededed !important;
+    cursor: default;
+    break-after: avoid-page;
+    page-break-after: avoid;
+  }
+
+  .manual-disclosure summary::after { display: none; }
+  .manual-disclosure summary h2 {
+    margin: 0;
+    padding: 3mm 0;
+    font-size: 12pt;
+  }
+
+  .manual-disclosure-content,
+  details:not([open]) > .manual-disclosure-content {
+    display: block !important;
+    padding: 2mm 4mm 4mm;
+    border-top: 0;
+  }
+
+  .lan-document-title { color: #171717; font-size: 17pt; }
+  .lan-document-subject { color: #333; }
+  .lan-document-version { color: #555; }
+}

@@ -900,7 +900,28 @@ function configurePageButton(button, page, label) {
   button.onclick = page ? () => { navigateToPage(page.id); } : null;
 }
 
+function markPrintOmissions() {
+  elements.document.querySelectorAll(".manual-content h1, .manual-content h2, .manual-content h3, .manual-content h4, .manual-content h5, .manual-content h6")
+    .forEach((heading) => {
+      const title = heading.textContent.replace(/\s+/g, " ").trim().toLowerCase();
+      if (title !== "实用链接" && title !== "useful links") return;
+
+      const headingLevel = Number(heading.tagName.slice(1));
+      let element = heading;
+      while (element) {
+        if (
+          element !== heading &&
+          /^H[1-6]$/.test(element.tagName) &&
+          Number(element.tagName.slice(1)) <= headingLevel
+        ) break;
+        element.classList.add("print-omit");
+        element = element.nextElementSibling;
+      }
+    });
+}
+
 function configurePageLinks() {
+  markPrintOmissions();
   const pageBySourceFile = new Map(
     state.catalog.pages.map((page) => [new URL(page.sourceUrl).pathname.split("/").pop(), page]),
   );
@@ -949,6 +970,25 @@ function getContentDisclosureStates() {
 }
 
 let contentDisclosureSyncSuppressed = false;
+let printDisclosureStates = null;
+
+function prepareContentForPrint() {
+  if (printDisclosureStates !== null) return;
+  const disclosures = Array.from(elements.document.querySelectorAll(".manual-content details"));
+  printDisclosureStates = disclosures.map((details) => details.open);
+  contentDisclosureSyncSuppressed = true;
+  disclosures.forEach((details) => { details.open = true; });
+}
+
+function restoreContentAfterPrint() {
+  if (printDisclosureStates === null) return;
+  const disclosureStates = printDisclosureStates;
+  printDisclosureStates = null;
+  elements.document.querySelectorAll(".manual-content details").forEach((details, index) => {
+    if (typeof disclosureStates[index] === "boolean") details.open = disclosureStates[index];
+  });
+  requestAnimationFrame(() => { contentDisclosureSyncSuppressed = false; });
+}
 
 function restoreContentDisclosureStates(states) {
   if (!states?.length) return;
@@ -1456,6 +1496,9 @@ document.addEventListener("toggle", function (event) {
   if (!event.target.closest(".manual-content")) return;
   syncContentDisclosureHistory();
 }, true);
+
+window.addEventListener("beforeprint", prepareContentForPrint);
+window.addEventListener("afterprint", restoreContentAfterPrint);
 
 elements.searchEnToggle.addEventListener("change", function () {
     state.searchEn = this.checked;
