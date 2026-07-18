@@ -27,6 +27,8 @@ node scripts/snapshot_upstream.mjs
 - `upstream/snapshots/YYYY-MM-DD/diff.json`：相对上一次抓取的新增、修改、删除 URL
 - `upstream/snapshots/latest.json`：指向最新转储
 
+抓取先写入临时目录。只有全部 URL 抓取成功后，脚本才会替换当天快照并更新 `latest.json`；任何抓取失败都会以非零状态退出，保留原有当天快照和 `latest.json`。
+
 ## 使用规则
 
 - 新抓取先进入 `upstream/snapshots/`，不要直接替换 `upstream/ssl-live-help/`。

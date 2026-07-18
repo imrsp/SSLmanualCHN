@@ -48,6 +48,7 @@ let deferredInstallPrompt = null;
 let routeRequestId = 0;
 let lastLocationRouteHash = "";
 let languageTransitionTimer = null;
+const PAGE_SKELETON_DELAY_MS = 200;
 
 /* — Theme management — */
 function getEffectiveTheme() {
@@ -899,7 +900,28 @@ function configurePageButton(button, page, label) {
   button.onclick = page ? () => { navigateToPage(page.id); } : null;
 }
 
+function markPrintOmissions() {
+  elements.document.querySelectorAll(".manual-content h1, .manual-content h2, .manual-content h3, .manual-content h4, .manual-content h5, .manual-content h6")
+    .forEach((heading) => {
+      const title = heading.textContent.replace(/\s+/g, " ").trim().toLowerCase();
+      if (title !== "实用链接" && title !== "useful links") return;
+
+      const headingLevel = Number(heading.tagName.slice(1));
+      let element = heading;
+      while (element) {
+        if (
+          element !== heading &&
+          /^H[1-6]$/.test(element.tagName) &&
+          Number(element.tagName.slice(1)) <= headingLevel
+        ) break;
+        element.classList.add("print-omit");
+        element = element.nextElementSibling;
+      }
+    });
+}
+
 function configurePageLinks() {
+  markPrintOmissions();
   const pageBySourceFile = new Map(
     state.catalog.pages.map((page) => [new URL(page.sourceUrl).pathname.split("/").pop(), page]),
   );
@@ -948,6 +970,25 @@ function getContentDisclosureStates() {
 }
 
 let contentDisclosureSyncSuppressed = false;
+let printDisclosureStates = null;
+
+function prepareContentForPrint() {
+  if (printDisclosureStates !== null) return;
+  const disclosures = Array.from(elements.document.querySelectorAll(".manual-content details"));
+  printDisclosureStates = disclosures.map((details) => details.open);
+  contentDisclosureSyncSuppressed = true;
+  disclosures.forEach((details) => { details.open = true; });
+}
+
+function restoreContentAfterPrint() {
+  if (printDisclosureStates === null) return;
+  const disclosureStates = printDisclosureStates;
+  printDisclosureStates = null;
+  elements.document.querySelectorAll(".manual-content details").forEach((details, index) => {
+    if (typeof disclosureStates[index] === "boolean") details.open = disclosureStates[index];
+  });
+  requestAnimationFrame(() => { contentDisclosureSyncSuppressed = false; });
+}
 
 function restoreContentDisclosureStates(states) {
   if (!states?.length) return;
@@ -1101,7 +1142,99 @@ function scrollToPagePosition(headingId = "", skipScroll = false) {
   window.scrollTo({ top: 0, behavior: "instant" });
 }
 
+function getChapterNeighbors(page) {
+  const index = state.catalog.pages.findIndex((candidate) => candidate.id === page.id);
+  return {
+    previous: state.catalog.pages[index - 1],
+    next: state.catalog.pages[index + 1],
+  };
+}
+
+function syncChapterChrome(page) {
+  const { previous, next } = getChapterNeighbors(page);
+  elements.breadcrumbs.innerHTML =
+    `<strong>${String(page.order).padStart(2, "0")}</strong> / ${escapeHtml(page.sectionZh)} / ${escapeHtml(page.titleZh)}`;
+  elements.pageCounter.textContent =
+    `${String(page.order).padStart(2, "0")} / ${state.catalog.meta.pageCount}`;
+  configurePageButton(elements.previousPage, previous, "上一主题");
+  configurePageButton(elements.nextPage, next, "下一主题");
+  return { previous, next };
+}
+
+function clearPageLoadingState() {
+  elements.document.classList.remove("page-loading");
+}
+
+function syncLoadingNavigation(pageId = "") {
+  elements.manualNav.querySelectorAll(".nav-link[data-page-id]").forEach((button) => {
+    button.classList.toggle("active", button.dataset.pageId === pageId);
+  });
+}
+
+function renderPageSkeleton(page) {
+  const alreadyVisible = elements.document.classList.contains("page-loading");
+  if (!alreadyVisible) {
+    elements.document.classList.add("page-loading");
+    elements.document.innerHTML = `
+      <div class="page-skeleton" aria-hidden="true">
+        <header class="document-header page-skeleton-header">
+          <span class="skeleton-block skeleton-eyebrow"></span>
+          <span class="skeleton-block skeleton-title"></span>
+          <span class="skeleton-block skeleton-subtitle"></span>
+          <span class="skeleton-block skeleton-badge"></span>
+        </header>
+        <div class="manual-content page-skeleton-content">
+          <span class="skeleton-block skeleton-heading"></span>
+          <div class="skeleton-paragraph">
+            <span class="skeleton-block skeleton-line"></span>
+            <span class="skeleton-block skeleton-line"></span>
+            <span class="skeleton-block skeleton-line"></span>
+          </div>
+          <div class="skeleton-note">
+            <span class="skeleton-block skeleton-note-title"></span>
+            <span class="skeleton-block skeleton-line"></span>
+            <span class="skeleton-block skeleton-line"></span>
+          </div>
+          <span class="skeleton-block skeleton-heading skeleton-heading-short"></span>
+          <div class="skeleton-paragraph">
+            <span class="skeleton-block skeleton-line"></span>
+            <span class="skeleton-block skeleton-line"></span>
+            <span class="skeleton-block skeleton-line"></span>
+          </div>
+          <div class="skeleton-media"></div>
+          <div class="skeleton-table">
+            <span></span><span></span>
+            <span></span><span></span>
+            <span></span><span></span>
+          </div>
+          <div class="skeleton-code">
+            <span class="skeleton-block skeleton-line"></span>
+            <span class="skeleton-block skeleton-line"></span>
+            <span class="skeleton-block skeleton-line"></span>
+          </div>
+        </div>
+      </div>
+    `;
+    jumpToScrollTop(0);
+  }
+
+  if (page) {
+    syncChapterChrome(page);
+  } else {
+    elements.breadcrumbs.textContent = "";
+    elements.pageCounter.textContent = "";
+    configurePageButton(elements.previousPage, null, "上一主题");
+    configurePageButton(elements.nextPage, null, "下一主题");
+  }
+  syncLoadingNavigation(page?.id);
+  elements.outline.innerHTML = "";
+  elements.outline.classList.remove("open");
+  syncOutlineScrollTrap();
+  elements.languageToggle.disabled = true;
+}
+
 function renderStandalonePage(page, headingId = "", skipScroll = false, disclosureStates = null) {
+  clearPageLoadingState();
   state.currentPage = page;
   elements.breadcrumbs.innerHTML = escapeHtml(page.titleZh);
   elements.pageCounter.textContent = "";
@@ -1128,15 +1261,10 @@ function renderStandalonePage(page, headingId = "", skipScroll = false, disclosu
 }
 
 function renderPage(page, headingId = "", skipScroll = false, disclosureStates = null) {
+  clearPageLoadingState();
   state.currentPage = page;
   ensureActiveNavigationExpanded();
-  const index = state.catalog.pages.findIndex((candidate) => candidate.id === page.id);
-  const previous = state.catalog.pages[index - 1];
-  const next = state.catalog.pages[index + 1];
-  elements.breadcrumbs.innerHTML =
-    `<strong>${String(page.order).padStart(2, "0")}</strong> / ${escapeHtml(page.sectionZh)} / ${escapeHtml(page.titleZh)}`;
-  elements.pageCounter.textContent =
-    `${String(page.order).padStart(2, "0")} / ${state.catalog.meta.pageCount}`;
+  const { next } = syncChapterChrome(page);
   elements.document.innerHTML = `
     <header class="document-header">
       <p class="eyebrow">${escapeHtml(page.sectionZh)} · CHAPTER ${String(page.order).padStart(2, "0")}</p>
@@ -1155,8 +1283,6 @@ function renderPage(page, headingId = "", skipScroll = false, disclosureStates =
   renderOutline(page);
   applyContentDisclosureHistory(page.id, disclosureStates);
   configurePageLinks();
-  configurePageButton(elements.previousPage, previous, "上一主题");
-  configurePageButton(elements.nextPage, next, "下一主题");
   renderNavigation(true);
   document.title = `${page.titleZh} | ${state.catalog.meta.title}`;
   scrollToPagePosition(headingId, skipScroll);
@@ -1169,23 +1295,34 @@ async function route(routeOptions = null) {
   const { pageId, headingId } = routeOptions || getRoute();
   const isSearchNavigation = routeOptions?.source === "search";
   const summary = state.catalog.pages.find((candidate) => candidate.id === pageId);
-  if (!summary) {
-    try {
-      const page = await loadPage(pageId);
-      if (requestId !== routeRequestId) return;
-      if (page && page.standalone) {
-        renderStandalonePage(page, headingId);
-        return;
-      }
-    } catch {}
-    location.replace(pageRoute(state.catalog.pages[0].id));
-    return;
-  }
+
+  window.clearTimeout(languageTransitionTimer);
+  languageTransitionTimer = null;
+  elements.document.classList.remove("language-transition-out", "language-transition-in");
+  elements.languageToggle.disabled = true;
   elements.document.setAttribute("aria-busy", "true");
+
+  const showSkeleton = function () {
+    if (requestId !== routeRequestId) return;
+    renderPageSkeleton(summary);
+  };
+  const skeletonTimer = elements.document.classList.contains("page-loading")
+    ? null
+    : window.setTimeout(showSkeleton, PAGE_SKELETON_DELAY_MS);
+  if (skeletonTimer === null) showSkeleton();
+
   try {
     const page = await loadPage(pageId);
     if (requestId !== routeRequestId) return;
-    renderPage(page, isSearchNavigation ? "" : headingId, isSearchNavigation);
+    if (summary) {
+      renderPage(page, isSearchNavigation ? "" : headingId, isSearchNavigation);
+    } else if (page && page.standalone) {
+      renderStandalonePage(page, headingId);
+      return;
+    } else {
+      location.replace(pageRoute(state.catalog.pages[0].id));
+      return;
+    }
     if (state.query.trim() && (state.searchIndexZh || state.searchIndexEn)) {
       highlightPageContent(state.query.trim());
       requestAnimationFrame(function () {
@@ -1195,9 +1332,17 @@ async function route(routeOptions = null) {
     }
   } catch (error) {
     if (requestId !== routeRequestId) return;
+    if (!summary) {
+      location.replace(pageRoute(state.catalog.pages[0].id));
+      return;
+    }
+    clearPageLoadingState();
+    elements.outline.innerHTML = "";
     elements.document.innerHTML = `<div class="error-state"><h2>章节载入失败</h2><code>${escapeHtml(error.message)}</code></div>`;
   } finally {
+    window.clearTimeout(skeletonTimer);
     if (requestId === routeRequestId) {
+      clearPageLoadingState();
       elements.document.removeAttribute("aria-busy");
     }
   }
@@ -1351,6 +1496,9 @@ document.addEventListener("toggle", function (event) {
   if (!event.target.closest(".manual-content")) return;
   syncContentDisclosureHistory();
 }, true);
+
+window.addEventListener("beforeprint", prepareContentForPrint);
+window.addEventListener("afterprint", restoreContentAfterPrint);
 
 elements.searchEnToggle.addEventListener("change", function () {
     state.searchEn = this.checked;

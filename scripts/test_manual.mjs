@@ -10,6 +10,7 @@ import { findUnsafeContentIssues } from "./lib/content_security.mjs";
 import { validateDeployTarget } from "./lib/deploy_target.mjs";
 import { assertSafeManifestOutputFile, assertSafePathSegment } from "./lib/safe_paths.mjs";
 import { generateRobotsTxt, renderIndexSeoTemplate, resolveSeoConfig } from "./lib/seo_config.mjs";
+import { finalizeSnapshot } from "./lib/snapshot_publish.mjs";
 import { validateUpstreamPatches } from "./lib/upstream_patches.mjs";
 
 import {
@@ -88,6 +89,72 @@ test("registered upstream patches remain present in snapshots and applied to tar
   const registry = readJson(path.join(root, "content", "upstream-patches.json"));
   const manifest = readJson(path.join(root, "content", "manifest.json"));
   assert.deepEqual(validateUpstreamPatches(registry, { rootDirectory: root, manifest }), []);
+});
+
+test("incomplete upstream snapshots cannot replace the published snapshot or latest pointer", (t) => {
+  const directory = fs.mkdtempSync(path.join(os.tmpdir(), "ssl-manual-snapshot-"));
+  t.after(() => fs.rmSync(directory, { recursive: true, force: true }));
+  const snapshotRoot = path.join(directory, "2026-07-18");
+  const latestPath = path.join(directory, "latest.json");
+  const stagingRoot = path.join(directory, ".2026-07-18-test");
+  fs.mkdirSync(snapshotRoot);
+  fs.mkdirSync(stagingRoot);
+  fs.writeFileSync(path.join(snapshotRoot, "marker.txt"), "published");
+  fs.writeFileSync(path.join(stagingRoot, "marker.txt"), "incomplete");
+  fs.writeFileSync(latestPath, '{"date":"2026-07-17"}');
+
+  const published = finalizeSnapshot({
+    failures: [{ url: "https://example.test/missing", error: "404" }],
+    stagingRoot,
+    snapshotRoot,
+    latestPath,
+    latestRecord: { date: "2026-07-18" },
+  });
+
+  assert.equal(published, false);
+  assert.equal(fs.readFileSync(path.join(snapshotRoot, "marker.txt"), "utf8"), "published");
+  assert.deepEqual(JSON.parse(fs.readFileSync(latestPath, "utf8")), { date: "2026-07-17" });
+  assert.equal(fs.existsSync(stagingRoot), false);
+
+  const completeStagingRoot = path.join(directory, ".2026-07-18-complete");
+  fs.mkdirSync(completeStagingRoot);
+  fs.writeFileSync(path.join(completeStagingRoot, "marker.txt"), "complete");
+  assert.equal(finalizeSnapshot({
+    failures: [],
+    stagingRoot: completeStagingRoot,
+    snapshotRoot,
+    latestPath,
+    latestRecord: { date: "2026-07-18" },
+  }), true);
+  assert.equal(fs.readFileSync(path.join(snapshotRoot, "marker.txt"), "utf8"), "complete");
+  assert.deepEqual(JSON.parse(fs.readFileSync(latestPath, "utf8")), { date: "2026-07-18" });
+});
+
+test("RecordingPlayback keeps links and lists structurally valid", () => {
+  const filePath = path.join(root, "content", "en", "pages", "27-RecordingPlayback.html");
+  const html = fs.readFileSync(filePath, "utf8").replace(/<!--[\s\S]*?-->/g, "");
+  let anchorDepth = 0;
+  let listDepth = 0;
+
+  assert.doesNotMatch(html, /<stromg\b/i, "RecordingPlayback: misspelled <strong> tag");
+  assert.doesNotMatch(html, /<p\b[^>]*>\s*<(?:ul|ol)\b/i, "RecordingPlayback: list nested inside paragraph");
+  for (const match of html.matchAll(/<(\/)?(a|ul|ol|li)\b[^>]*>/gi)) {
+    const closing = Boolean(match[1]);
+    const tag = match[2].toLowerCase();
+    if (tag === "a") {
+      if (closing) anchorDepth -= 1;
+      else {
+        assert.equal(anchorDepth, 0, "RecordingPlayback: nested anchor");
+        anchorDepth += 1;
+      }
+    } else if (tag === "ul" || tag === "ol") {
+      listDepth += closing ? -1 : 1;
+    } else if (!closing) {
+      assert.ok(listDepth > 0, "RecordingPlayback: list item without a list parent");
+    }
+  }
+  assert.equal(anchorDepth, 0, "RecordingPlayback: unbalanced anchors");
+  assert.equal(listDepth, 0, "RecordingPlayback: unbalanced lists");
 });
 
 test("removePageTitleHeading uses exact normalized titles and explicit aliases", () => {

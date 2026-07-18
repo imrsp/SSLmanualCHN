@@ -230,7 +230,7 @@ manual.example.com {
  
  当前 SEO 规则：
  
- - 所有中文页面允许被索引（`index, follow`）。
+ - 中文页面默认允许被索引；`content/seo.json` `noindexPageIds` 中的页面使用 `noindex, follow`，并从 sitemap 排除。
  - 英文版内容不单独设 URL，未标记 `hreflang="en"`，不被索引。
  - `robots.txt` 禁止抓取 `data/`、`themes/`、`src/` 目录。
- - `data/`、`themes/` 和 `seo/` 目录建议配置短缓存策略。
+ - `data/`、`themes/` 使用带构建哈希的长缓存；`seo/` 禁止缓存，确保预渲染正文随发布及时更新。

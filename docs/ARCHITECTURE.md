@@ -117,7 +117,7 @@ standalone 页面特点：
  - `<meta name="description">` — 从正文自动抽取的描述文本
  - `<meta property="og:*">` / `<meta name="twitter:*">` — 社交分享标签
  - `<link rel="canonical">` — 规范 URL
- - `<link rel="alternate" hreflang="zh-CN">` / `hreflang="x-default"` — 语言版本声明（英文版被标记为 `noindex`，不单独列出）
+ - `<link rel="alternate" hreflang="zh-CN">` / `hreflang="x-default"` — 中文与默认版本声明；英文内容没有独立预渲染 URL，因此不声明 `hreflang="en"`
  - `<link rel="prev">` / `<link rel="next">` — 前后章节导航
  - `<script type="application/ld+json">` — TechArticle 结构化数据
  
@@ -126,7 +126,7 @@ standalone 页面特点：
  此外还生成：
  
  - `dist/robots.txt` — 根据 `content/seo.json` 动态生成，允许所有爬虫并指向 sitemap
- - `dist/sitemap.xml` — 涵盖首页、index.html、所有章节页和 standalone 页的完整站点地图
+ - `dist/sitemap.xml` — 涵盖 canonical 首页，以及未列入 `content/seo.json` `noindexPageIds` 的章节页和 standalone 页
  
  构建脚本新增产出：
  
