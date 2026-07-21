@@ -54,7 +54,7 @@
 </ul>
 
 <img
-  style="display: block; margin: 5px auto; width: 600px"
+  style="display: block; margin: 5px auto; width: 800px"
   src="https://livehelp.solidstatelogic.com/Help/images/g_KLANG_MADI_Setup.png"
   alt="SSL KLANG Network Routing A"
 />
@@ -69,7 +69,7 @@
 </ul>
 
 <img
-  style="display: block; margin: 5px auto; width: 600px"
+  style="display: block; margin: 5px auto; width: 800px"
   src="https://livehelp.solidstatelogic.com/Help/images/g_KLANG_noVLAN_Dante_Setup.png"
   alt="SSL KLANG Network Routing B"
 />
@@ -157,6 +157,14 @@
 
 <p>这种 KLANG 集成与路由方式允许使用需要不同音频传输方式的多个处理器。例如，Mix 可通过 MADI、Dante 甚至模拟连接返回控制台；只要路由至 SKI 的正确输入，它们就会以完全相同的方式馈入 Aux Mix。</p>
 
+<p>以下为正确将信号一对一路由至 KLANG Vokal 的示例：</p>
+
+<img
+  style="display: block; margin: 5px auto; width: 800px"
+  src="https://livehelp.solidstatelogic.com/Help/images/g_KLANGAudioRoutingExample.png"
+  alt="SSL KLANG Audio Routing Example"
+/>
+
 <span class="note"><span class="notetitle">注意：</span>这些输入和输出路由错误会导致为输入发送错误的声像数据，并使错误的 Mix 返回控制台 Aux 母线。</span>
 
 <p>此时 Aux 母线的输入将包含 KLANG 双耳混音，以及内部直接发送到该母线的各路径信号。随后可按常规方式将此 Aux 的输出路由至艺人的耳返。</p>
@@ -176,6 +184,8 @@
   src="https://livehelp.solidstatelogic.com/Help/images/g_KLANG_ChanAuxCrosspoint.png"
   alt="Chan-Aux KLANG Crosspoint"
 />
+
+<span class="note"><span class="notetitle">注意：</span>与 KLANG 关联的增益参数不支持<a href="https://livehelp.solidstatelogic.com/Help/BusRouting.html#VcaBusSends"><span class="hyperlink">VCA（V-Aux）控制</span></a>。</span>
 
 <p>还可使用多项 KLANG 专用参数和功能：方位角、宽度、高度、声像模式、音色、独奏和聚焦。</p>
 
@@ -211,6 +221,14 @@
 <p>运行期间，如与 KLANG 处理器之间的通信或音频传输出现问题，需要快速切回内部 Aux 母线。SKI 中提供一个标为 <span class="label">Bypass KLANG</span> 的按键，可立即完成切换。该功能也可分配为用户按键，并映射到区块的实体按钮，以便紧急情况下快速操作。</p>
 
 <p>内部交叉点的声像不会与 KLANG 系统保持同步，但增益和静音会同步。旁通 KLANG 后可获得电平大致匹配的混音，但声像将恢复为该交叉点使用 KLANG Mode 之前的设置；或者，如果所选 Aux 已启用 <span class="label">Follow Pan</span>，交叉点声像将跟随所选路径的 Master 声像。</p>
+
+<h3>自动化</h3>
+
+<p>KLANG 声像数据会存储在场景中，并可像普通数据一样调用。不过，由于集成较为复杂，这些数据存储在 SKI 内的 KLANG Channel 上，而不是存储在 Channel 和 Stem 路径本身。这意味着这些参数不受 Path Global Recall Safe 保护。</p>
+
+<p>要对 KLANG 声像数据实施调用保护，请使用 Automation 页面中的 Recall Filters。相应的过滤器位于“KLANG Channel”行和“OSC &amp; Ext Pan”列。</p>
+
+<span class="note"><span class="notetitle">注意：</span>不建议对 KLANG 参数使用自动化淡变。</span>
 
 <h2>实用链接</h2>
 

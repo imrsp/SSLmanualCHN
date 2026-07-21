@@ -43,6 +43,7 @@ npm run serve
 │   ├── manifest.json         # 英文章节清单与站点顺序
 │   ├── site.json             # 章节分组、中文标题、站点元数据
 │   ├── seo.json              # SEO 单一配置源
+│   ├── upstream.json         # 源站地址、项目已合并版本及已知抓取例外
 │   ├── upstream-patches.json # 已确认的上游勘误及本地补丁记录
 │   ├── en/pages/             # 英文基准正文，一章一文件
 │   └── zh/pages/             # 中文译文，一章一文件
@@ -80,7 +81,7 @@ npm run serve
 
 ### 💾 溯源管理
 
-* `npm run upstream:snapshot`：保存官方源站完整转储并生成更新差异
+* `npm run upstream:snapshot`：先检查官方文档修订号；版本未变则退出，版本更新时保存新转储并生成差异
 
 ---
 

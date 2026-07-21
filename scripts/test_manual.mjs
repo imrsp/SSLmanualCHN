@@ -12,6 +12,13 @@ import { assertSafeManifestOutputFile, assertSafePathSegment } from "./lib/safe_
 import { generateRobotsTxt, renderIndexSeoTemplate, resolveSeoConfig } from "./lib/seo_config.mjs";
 import { finalizeSnapshot } from "./lib/snapshot_publish.mjs";
 import { validateUpstreamPatches } from "./lib/upstream_patches.mjs";
+import {
+  compareSourceRevisions,
+  createSnapshotDiff,
+  extractSourceRevision,
+  isAllowedSnapshotFailure,
+  validateUpstreamTracking,
+} from "./lib/upstream_snapshot.mjs";
 
 import {
   markInlineImages,
@@ -91,43 +98,143 @@ test("registered upstream patches remain present in snapshots and applied to tar
   assert.deepEqual(validateUpstreamPatches(registry, { rootDirectory: root, manifest }), []);
 });
 
-test("incomplete upstream snapshots cannot replace the published snapshot or latest pointer", (t) => {
+test("21.0.4 External Control and KLANG changes remain synchronized", () => {
+  for (const language of ["en", "zh"]) {
+    const externalControl = fs.readFileSync(
+      path.join(root, "content", language, "pages", "73-ExternalControl.html"),
+      "utf8",
+    );
+    const klang = fs.readFileSync(
+      path.join(root, "content", language, "pages", "74-KLANG.html"),
+      "utf8",
+    );
+
+    assert.match(externalControl, /g_GenericOscDetailViewXY\.png/);
+    assert.doesNotMatch(externalControl, /g_GenericOscDetailView\.png|g_OSCdetailSMGsnapshot\.png/);
+    assert.match(klang, /g_KLANGAudioRoutingExample\.png/);
+    assert.match(klang, /BusRouting\.html#VcaBusSends/);
+    assert.match(klang, language === "en" ? /<h3>Automation<\/h3>/ : /<h3>自动化<\/h3>/);
+  }
+
+  const assets = readJson(path.join(root, "public", "assets", "manual", "manifest.json"));
+  const bySourceUrl = new Map(assets.map((asset) => [asset.sourceUrl, asset]));
+  for (const name of [
+    "g_GenericOscDetailViewXY.png",
+    "g_KLANGAudioRoutingExample.png",
+    "g_OSCsetupGenericMethodsSwitchesConfig.png",
+  ]) {
+    const sourceUrl = `https://livehelp.solidstatelogic.com/Help/images/${name}`;
+    const asset = bySourceUrl.get(sourceUrl);
+    assert.equal(asset?.status, "downloaded", `${name}: resource must be downloadable`);
+    assert.equal(
+      fs.existsSync(path.join(root, "public", asset.localPath)),
+      true,
+      `${name}: localized file must exist`,
+    );
+  }
+});
+
+test("upstream source revisions are extracted, compared and diffed deterministically", () => {
+  assert.equal(
+    extractSourceRevision('<p>Document Revision Number: <span style="font-weight:bold">21.0.4</span></p>'),
+    "21.0.4",
+  );
+  assert.equal(compareSourceRevisions("21.0.4", "21.0.3"), 1);
+  assert.equal(compareSourceRevisions("21.0.3", "21.0.3.0"), 0);
+  assert.equal(compareSourceRevisions("20.9.9", "21.0.0"), -1);
+  assert.throws(() => extractSourceRevision("<p>No revision here</p>"), /Document Revision Number/);
+
+  const previous = {
+    sourceRevision: "21.0.3",
+    records: [
+      { url: "https://example.test/unchanged", sha256: "same" },
+      { url: "https://example.test/changed", sha256: "before" },
+      { url: "https://example.test/removed", sha256: "gone" },
+    ],
+  };
+  const current = [
+    { url: "https://example.test/unchanged", sha256: "same" },
+    { url: "https://example.test/changed", sha256: "after" },
+    { url: "https://example.test/added", sha256: "new" },
+  ];
+  assert.deepEqual(createSnapshotDiff(current, previous, "21.0.4"), {
+    schemaVersion: 1,
+    sourceRevision: "21.0.4",
+    previous: "21.0.3",
+    added: ["https://example.test/added"],
+    changed: ["https://example.test/changed"],
+    removed: ["https://example.test/removed"],
+  });
+});
+
+test("only explicitly registered upstream HTTP failures are allowed", () => {
+  const rules = [{ url: "https://example.test/missing.png", statuses: [404], reason: "Known source failure for testing" }];
+  assert.equal(isAllowedSnapshotFailure({ url: rules[0].url, kind: "dependency", status: 404 }, rules), true);
+  assert.equal(isAllowedSnapshotFailure({ url: rules[0].url, kind: "seed", status: 404 }, rules), false);
+  assert.equal(isAllowedSnapshotFailure({ url: rules[0].url, kind: "dependency", status: 500 }, rules), false);
+  assert.equal(isAllowedSnapshotFailure({ url: "https://example.test/other.png", kind: "dependency", status: 404 }, rules), false);
+  assert.equal(isAllowedSnapshotFailure({ url: rules[0].url, kind: "dependency", status: null }, rules), false);
+});
+
+test("project content and latest snapshot revisions are tracked independently", () => {
+  const config = readJson(path.join(root, "content", "upstream.json"));
+  const manifest = readJson(path.join(root, "content", "manifest.json"));
+  const latestPointer = readJson(path.join(root, "upstream", "snapshots", "latest.json"));
+  assert.deepEqual(validateUpstreamTracking(config, { rootDirectory: root, manifest, latestPointer }), []);
+});
+
+test("snapshot publication preserves incomplete and already published versions", (t) => {
   const directory = fs.mkdtempSync(path.join(os.tmpdir(), "ssl-manual-snapshot-"));
   t.after(() => fs.rmSync(directory, { recursive: true, force: true }));
-  const snapshotRoot = path.join(directory, "2026-07-18");
+  const snapshotRoot = path.join(directory, "21.0.3");
   const latestPath = path.join(directory, "latest.json");
-  const stagingRoot = path.join(directory, ".2026-07-18-test");
+  const stagingRoot = path.join(directory, ".21.0.4-incomplete");
   fs.mkdirSync(snapshotRoot);
   fs.mkdirSync(stagingRoot);
   fs.writeFileSync(path.join(snapshotRoot, "marker.txt"), "published");
   fs.writeFileSync(path.join(stagingRoot, "marker.txt"), "incomplete");
-  fs.writeFileSync(latestPath, '{"date":"2026-07-17"}');
+  fs.writeFileSync(latestPath, '{"sourceRevision":"21.0.3"}');
 
   const published = finalizeSnapshot({
     failures: [{ url: "https://example.test/missing", error: "404" }],
     stagingRoot,
     snapshotRoot,
     latestPath,
-    latestRecord: { date: "2026-07-18" },
+    latestRecord: { sourceRevision: "21.0.4" },
   });
 
   assert.equal(published, false);
   assert.equal(fs.readFileSync(path.join(snapshotRoot, "marker.txt"), "utf8"), "published");
-  assert.deepEqual(JSON.parse(fs.readFileSync(latestPath, "utf8")), { date: "2026-07-17" });
+  assert.deepEqual(JSON.parse(fs.readFileSync(latestPath, "utf8")), { sourceRevision: "21.0.3" });
   assert.equal(fs.existsSync(stagingRoot), false);
 
-  const completeStagingRoot = path.join(directory, ".2026-07-18-complete");
+  const nextSnapshotRoot = path.join(directory, "21.0.4");
+  const completeStagingRoot = path.join(directory, ".21.0.4-complete");
   fs.mkdirSync(completeStagingRoot);
   fs.writeFileSync(path.join(completeStagingRoot, "marker.txt"), "complete");
   assert.equal(finalizeSnapshot({
     failures: [],
     stagingRoot: completeStagingRoot,
-    snapshotRoot,
+    snapshotRoot: nextSnapshotRoot,
     latestPath,
-    latestRecord: { date: "2026-07-18" },
+    latestRecord: { sourceRevision: "21.0.4" },
   }), true);
-  assert.equal(fs.readFileSync(path.join(snapshotRoot, "marker.txt"), "utf8"), "complete");
-  assert.deepEqual(JSON.parse(fs.readFileSync(latestPath, "utf8")), { date: "2026-07-18" });
+  assert.equal(fs.readFileSync(path.join(snapshotRoot, "marker.txt"), "utf8"), "published");
+  assert.equal(fs.readFileSync(path.join(nextSnapshotRoot, "marker.txt"), "utf8"), "complete");
+  assert.deepEqual(JSON.parse(fs.readFileSync(latestPath, "utf8")), { sourceRevision: "21.0.4" });
+
+  const collisionStagingRoot = path.join(directory, ".21.0.4-collision");
+  fs.mkdirSync(collisionStagingRoot);
+  fs.writeFileSync(path.join(collisionStagingRoot, "marker.txt"), "replacement");
+  assert.throws(() => finalizeSnapshot({
+    failures: [],
+    stagingRoot: collisionStagingRoot,
+    snapshotRoot: nextSnapshotRoot,
+    latestPath,
+    latestRecord: { sourceRevision: "21.0.4" },
+  }), /will not be overwritten/);
+  assert.equal(fs.existsSync(collisionStagingRoot), false);
+  assert.equal(fs.readFileSync(path.join(nextSnapshotRoot, "marker.txt"), "utf8"), "complete");
 });
 
 test("RecordingPlayback keeps links and lists structurally valid", () => {

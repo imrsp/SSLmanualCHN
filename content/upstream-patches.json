@@ -5,7 +5,7 @@
       "id": "getting-started-netmask-typo",
       "recordedAt": "2026-07-17",
       "sourceUrl": "https://livehelp.solidstatelogic.com/Help/GettingStarted.html",
-      "upstreamSnapshot": "upstream/snapshots/2026-06-10/site/Help/GettingStarted.html",
+      "upstreamSnapshot": "upstream/snapshots/21.0.3/site/Help/GettingStarted.html",
       "reason": "The upstream quick-start guide contains an invalid 25.255.0.0 netmask in four example blocks; nearby instructions and related network documentation consistently specify 255.255.0.0.",
       "original": "25.255.0.0",
       "replacement": "255.255.0.0",

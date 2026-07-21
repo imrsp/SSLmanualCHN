@@ -7,7 +7,10 @@ export function finalizeSnapshot({ failures, stagingRoot, snapshotRoot, latestPa
     return false;
   }
 
-  fs.rmSync(snapshotRoot, { recursive: true, force: true });
+  if (fs.existsSync(snapshotRoot)) {
+    fs.rmSync(stagingRoot, { recursive: true, force: true });
+    throw new Error(`Snapshot already exists and will not be overwritten: ${snapshotRoot}`);
+  }
   fs.renameSync(stagingRoot, snapshotRoot);
 
   const temporaryLatestPath = path.join(

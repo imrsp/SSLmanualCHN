@@ -1,0 +1,228 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html ng-app="sslLiveHelp">
+<head>
+    <meta content="text/html; charset=ISO-8859-1" http-equiv="content-type">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=yes">
+
+    <link href="../Help/style/style.css" rel="stylesheet">
+    <link href="../Help/style/jquery-ui-1.13.2.structure.css" rel="stylesheet">
+    <title>Copy</title>
+    <script src="../Help/js/jquery-3.6.0.min.js"></script>
+    <script src="../Help/js/jquery-ui/1.13.2/jquery-ui.min.js"></script>
+    <!--<script type="text/javascript" src="cordova.js"></script>-->
+    <!-- Nav / search panels 2017 updates -->
+    <script>
+    window.baseDir = '../';
+    window.data = 'null';
+    </script>
+    <link rel="stylesheet" type="text/css" href="../Help/fonts/font-awesome-4.7.0/css/font-awesome.min.css" />
+    <link rel="stylesheet" type="text/css" href="../Help/style/sass-styles.css">
+    <script src="../Help/js/fastclick.js"></script>
+    <script src="../Help/js/lodash.core.min.js"></script>
+    <!--<script src="../Help/js/angular/1.2/angular.min.js"></script>-->  <!-- On a console -->
+    <script src="../Help/js/angular/1.8/angular.min.js"></script>   <!--Not on a console -->
+    <script src="../Help/js/ngStorage.min.js"></script>
+    <!--<script src="../Help/js/angular/1.2/angular-sanitize.min.js"></script>-->  <!-- On a console -->
+    <!--<script src="../Help/js/angular/1.2/angular-animate.min.js"></script>-->   <!-- On a console -->
+    <script src="../Help/js/angular/1.8/angular-sanitize.min.js"></script>  <!--Not on a console -->
+    <script src="../Help/js/angular/1.8/angular-animate.min.js"></script>   <!--Not on a console -->
+    <script src="../Help/js/lunr-2.3.min.js"></script>
+    <script src="../Help/js/menu.js"></script>
+
+</head>
+
+<body ng-controller="NavController as vm">
+
+    <!--<nav class="nav" ng-class="{ 'nav--visible' : vm.visible }" ng-if="vm.visible" role="navigation" aria-label="Primary">-->  <!-- On a console --> 
+    <nav class="nav" ng-class="{ 'nav--visible' : vm.visible }" role="navigation" aria-label="Primary"> <!--Not on a console -->
+        <!-- Search form -->
+        <div role="search">
+            <form class="nav__search" ng-if="vm.isSearchSupported">
+                <label class="nav__search-icon" for="query"><i aria-label="Search" title="Search" class="fa fa-search"></i></label>
+                <input type="search" id="query" class="nav__search-input" placeholder="Search..." ng-model="vm.query" />
+            </form>
+        </div>
+
+        <div class="nav__scroll" ng-style="vm.styleBasedOnSearchSupported">
+
+            <!-- Main nav -->
+            <ul class="main-nav" ng-hide="vm.query">
+                <li class="main-nav__item" ng-repeat="item in vm.nav">
+
+                    <!-- Link to page -->
+                    <a ng-if="item.url" ng-class="{'main-nav__link--active' : item.url===vm.currentPage}" class="main-nav__link" ng-attr-href="{{ vm.baseDir }}{{ item.url }}">
+                        {{ item.title }}
+                    </a>
+
+                    <!-- Expandable heading -->
+                    <span ng-click="vm.toggleExpanded(item.title)" ng-if="!item.url" class="main-nav__title">
+                        {{ item.title }}
+                        <span ng-if="!vm.isExpanded(item.title)" class="fa fa-caret-right"></span>
+                        <span ng-if="vm.isExpanded(item.title)" class="fa fa-caret-down"></span>
+                    </span>
+
+                    <!-- Subnav -->
+                    <ul ng-if="vm.isExpanded(item.title)" class="main-nav fx-fade">
+                        <li ng-repeat="sub in item.children" class="main-nav__item">
+
+                            <!-- Link to page -->
+                            <a ng-if="sub.url" ng-class="{'main-nav__link--active' : sub.url===vm.currentPage}" class="main-nav__link main-nav__link--level1" ng-attr-href="{{ vm.baseDir }}{{ sub.url }}">
+                                {{ sub.title }}
+                            </a>
+
+                            <!-- Expandable heading -->
+                            <span ng-click="vm.toggleExpanded(sub.title)" ng-if="!sub.url" class="main-nav__title main-nav__title--level1">
+                                {{ sub.title }}
+                                <span ng-if="!vm.isExpanded(sub.title)" class="fa fa-caret-right"></span>
+                                <span ng-if="vm.isExpanded(sub.title)" class="fa fa-caret-down"></span>
+                            </span>
+
+                            <!-- Sub-sub nav -->
+                            <ul ng-if="sub.children && vm.isExpanded(sub.title)" class="main-nav fx-fade">
+                                <li ng-repeat="subsub in sub.children" class="main-nav__item">
+
+                                    <!-- Link to page -->
+                                    <a ng-class="{'main-nav__link--active' : subsub.url===vm.currentPage}" class="main-nav__link main-nav__link--level2" ng-attr-href="{{ vm.baseDir }}{{ subsub.url }}" ng-bind-html="subsub.title">
+                                    </a>
+
+                                </li>
+                            </ul>
+
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+
+            <!-- Search results list -->
+            <ul class="search-results">
+                <li class="search-result" ng-repeat="result in vm.results">
+                    <a class="search-result__link" ng-attr-href="{{ vm.baseDir }}{{ 'Help/' + result.id }}">
+                        <h3 class="search-result__title">{{ result.title }}</h3>
+                        <p class="search-result__excerpt" ng-bind-html="result.excerpt"></p>
+                    </a>
+                </li>
+            </ul>
+
+            <!-- Keep screen on option - PhoneGap insomnia -->
+            <ul class="main-nav" ng-if="vm.isPhoneGap">
+                <li class="main-nav__item">
+                    <label class="main-nav__title">
+                        Keep Screen On
+                        <input style="display: none" type="checkbox" ng-model="vm.keepScreenOn" />
+                        <i ng-class="{'fa--cleared' : !vm.keepScreenOn, 'fa--checked' : vm.keepScreenOn}" class="fa fa-check"></i>
+                    </label>
+                </li>
+            </ul>
+
+
+        </div>
+    </nav>
+
+    <nav class="header" role="navigation" aria-label="Secondary">
+        <a ng-if="!vm.onAConsole" href="../index.html" class="header__btn" title="Home"><i class="fa fa-home"></i></a>
+        <div ng-if="!vm.onAConsole" class="header__history">
+            <a onclick="javascript:window.history.back()" class="header__btn"><i title="Back" class="fa fa-chevron-left"></i></a>
+            <a onclick="javascript:window.history.forward()" class="header__btn"><i title="Forwards" class="fa fa-chevron-right"></i></a>
+        </div>
+        <div align="right">
+            <a class="header__btn header__btn--nav" ng-click="vm.toggleVisibility()">
+                <i ng-if="!vm.visible" class="fa fa-bars"></i>
+                <i ng-if="vm.visible" class="fa fa-close"></i>
+            </a>
+        </div>
+    </nav>
+
+
+    <!-- Main content -->
+    <div id="main">
+        
+
+
+<div><a href="PathLink.html"><img class="TutorialNav" src="images/n_TutPrevious.png" alt=""><span class="TutorialNav">PREVIOUS: Path Linking &amp; Fast Setup</span></a></div>
+
+<h2>Copy</h2>
+<p>Path signal processing, bus, and pan settings can be copied between paths using the <span class="label">Copy</span> button in the right edge of the Channel View screen.</p>
+
+<p>The copy function can be used to copy complete channels or individual channel components (including each component of signal processing and panning).</p>
+<img style="margin: 0px 0px 5px 17px;" src="images/s_CopyChannelMenu.png" alt="" align="right">
+
+<p>
+    First tap the <span style="font-weight:bold;">copy from</span> channel on the screen, or by using the <span class="label">SELECT</span> buttons on the Fader Tiles.
+    Then tap <span class="label">Copy</span> to open the Copy window.
+</p>
+<p>The path to <span style="font-weight:bold;">copy from</span> has been indicated in <span style="font-weight:bold;">green</span>.
+
+<p>Select the parameters to copy from the list. You can also <span class="label">Set All</span> parameters, and <span class="label">Toggle</span> them on and off.</p>
+<p>
+    Now select the paths to <span style="font-weight:bold;">paste to</span> - either on the screen or using the <span class="label">SELECT</span> buttons on the Fader Tiles.
+    These <span style="font-weight:bold;">paste to</span> paths have been indicated in <span style="font-weight:bold;">purple</span>.
+</p>
+<p>Then press and hold <span class="label">Apply</span>.
+
+<p>To finish, press the <span class="label">Copy</span> again to close the window and clear the selection.</p>
+<span class="note"><span class="notetitle">Tip:</span> Use <span style="font-weight:bold;">Range Select</span> for a quick copy to multiple paths. Hold down the <span class="label">SELECT</span> button of the first path, then tap the <span class="label">SELECT</span> button of the last path in the range. Now release both buttons. This can also be done across neighbouring Fader Tiles.</span>
+
+<p>The following components can be copied individually:</p>
+<ul>
+    <li><span class="label">Full</span> and <span class="label">Dry</span> Processing <span style="font-weight: bold;">Master</span> sends</li>
+    <li><span class="label">Full</span> and <span class="label">Dry</span> Processing <span style="font-weight: bold;">Aux</span> sends</li>
+    <li><span class="label">Full</span> and <span class="label">Dry</span> Processing <span style="font-weight: bold;">Stem</span> sends</li>
+    <li>Channel <span class="label">Input</span> settings</li>
+    <li><span class="label">Pan</span></li>
+    <li><span class="label">Fader</span> level</li>
+    <li><span class="label">Mute</span> status</li>
+    <li><span class="label">EQ</span> (Full Processing and Matrix Output paths only)</li>
+    <li>High- and Low-pass <span class="label">Filters</span> (Full Processing and Matrix Output paths only)</li>
+    <li><span class="label">Compressor</span> (Full Processing paths only)</li>
+    <li><span class="label">Gate</span> (Full Processing paths only)</li>
+    <li><span class="label">Delay</span> (Full Processing and Matrix Output paths only)</li>
+    <li><span class="label">All&nbsp;Pass</span> Filter (Full Processing and Matrix Output paths only)</li>
+    <li><span class="label">VCA</span> assignments
+</ul>
+
+
+<br>
+<h2>Copying Send Mixes</h2>
+<img style="margin: 0px 0px 5px 26px;" src="images/s_CopyBusMenu.png" alt="" align="right">
+
+<p>You may recreate a particular Stem, Aux, or Master mix onto another Stem, Aux, or Master bus using Channel View <span class="label">Bus&nbsp;Copy</span>.</p>
+
+<div class="tabsmall">
+    <ol>
+        <li>Select the bus path strip to be <span style="font-weight:bold;">copied from</span>.</li>
+        <li>Touch <span class="label">Copy</span> to reveal the copy window. The path to <span style="font-weight:bold;">copy from</span> will be indicated in <span style="font-weight:bold;">green</span>.</li>
+        <li>Touch <span class="label">Bus&nbsp;Copy</span>.</li>
+        <li>Select which path types to copy. Use <span class="label">Set&nbsp;All</span> and <span class="label">Toggle</span> for even faster selection manipulation.</li>
+        <li>Now select the paths to <span style="font-weight:bold;">paste to</span>. They will be indicated in <span style="font-weight:bold;">purple</span>.</li>
+        <li>Now press and hold <span class="label">Apply</span>.
+        <li>To finish, press the <span class="label">Copy</span> again to close the window and clear the selection.</li>
+    </ol>
+</div>
+
+<span class="note">
+    <span class="notetitle">Notes:</span> Only paths that can contribute to the source path will be available in bus copy (for example, Auxes do not source to Stems).<br><br>
+
+    Bus Copy can be used to copy between bus types, e.g. to copy an Aux mix to a Stem.<br><br>
+
+    <span class="notetitle">Beware:</span> There is no way to recover settings overwritten during a copy process other than recalling them from a previously saved scene or showfile.
+</span>
+
+<h2 id="Store">Which Parameters are Included in Copy?</h2>
+
+<p>The same parameters and settings are included in Copy as are included in Scene Storage. To find out which parameters are included in the scenes please go to <a href="Storage.html"><span class="hyperlink">Storage</span></a>.</p>
+
+
+<h2>Useful Links</h2>
+
+<a href="PathLink.html"><span class="hyperlink">Path Linking</span></a><br>
+<a href="LinkIndex.html"><span class="hyperlink">Index and Glossary</span></a><br>
+
+<div class="TutorialNavNext"> <a href="FXIntro.html"><span class="TutorialNav">NEXT: Effects Rack</span> <img class="TutorialNav" src="images/n_TutNext.png" alt=""></a></div>
+
+
+    </div>
+
+    <script src="../Help/js/OpenAccordionFromLink.js"></script>
+</body>
+</html>

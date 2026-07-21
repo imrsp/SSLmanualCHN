@@ -1,0 +1,307 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html ng-app="sslLiveHelp">
+<head>
+    <meta content="text/html; charset=ISO-8859-1" http-equiv="content-type">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=yes">
+
+    <link href="../Help/style/style.css" rel="stylesheet">
+    <link href="../Help/style/jquery-ui-1.13.2.structure.css" rel="stylesheet">
+    <title>Console Options</title>
+    <script src="../Help/js/jquery-3.6.0.min.js"></script>
+    <script src="../Help/js/jquery-ui/1.13.2/jquery-ui.min.js"></script>
+    <!--<script type="text/javascript" src="cordova.js"></script>-->
+    <!-- Nav / search panels 2017 updates -->
+    <script>
+    window.baseDir = '../';
+    window.data = 'null';
+    </script>
+    <link rel="stylesheet" type="text/css" href="../Help/fonts/font-awesome-4.7.0/css/font-awesome.min.css" />
+    <link rel="stylesheet" type="text/css" href="../Help/style/sass-styles.css">
+    <script src="../Help/js/fastclick.js"></script>
+    <script src="../Help/js/lodash.core.min.js"></script>
+    <!--<script src="../Help/js/angular/1.2/angular.min.js"></script>-->  <!-- On a console -->
+    <script src="../Help/js/angular/1.8/angular.min.js"></script>   <!--Not on a console -->
+    <script src="../Help/js/ngStorage.min.js"></script>
+    <!--<script src="../Help/js/angular/1.2/angular-sanitize.min.js"></script>-->  <!-- On a console -->
+    <!--<script src="../Help/js/angular/1.2/angular-animate.min.js"></script>-->   <!-- On a console -->
+    <script src="../Help/js/angular/1.8/angular-sanitize.min.js"></script>  <!--Not on a console -->
+    <script src="../Help/js/angular/1.8/angular-animate.min.js"></script>   <!--Not on a console -->
+    <script src="../Help/js/lunr-2.3.min.js"></script>
+    <script src="../Help/js/menu.js"></script>
+
+</head>
+
+<body ng-controller="NavController as vm">
+
+    <!--<nav class="nav" ng-class="{ 'nav--visible' : vm.visible }" ng-if="vm.visible" role="navigation" aria-label="Primary">-->  <!-- On a console --> 
+    <nav class="nav" ng-class="{ 'nav--visible' : vm.visible }" role="navigation" aria-label="Primary"> <!--Not on a console -->
+        <!-- Search form -->
+        <div role="search">
+            <form class="nav__search" ng-if="vm.isSearchSupported">
+                <label class="nav__search-icon" for="query"><i aria-label="Search" title="Search" class="fa fa-search"></i></label>
+                <input type="search" id="query" class="nav__search-input" placeholder="Search..." ng-model="vm.query" />
+            </form>
+        </div>
+
+        <div class="nav__scroll" ng-style="vm.styleBasedOnSearchSupported">
+
+            <!-- Main nav -->
+            <ul class="main-nav" ng-hide="vm.query">
+                <li class="main-nav__item" ng-repeat="item in vm.nav">
+
+                    <!-- Link to page -->
+                    <a ng-if="item.url" ng-class="{'main-nav__link--active' : item.url===vm.currentPage}" class="main-nav__link" ng-attr-href="{{ vm.baseDir }}{{ item.url }}">
+                        {{ item.title }}
+                    </a>
+
+                    <!-- Expandable heading -->
+                    <span ng-click="vm.toggleExpanded(item.title)" ng-if="!item.url" class="main-nav__title">
+                        {{ item.title }}
+                        <span ng-if="!vm.isExpanded(item.title)" class="fa fa-caret-right"></span>
+                        <span ng-if="vm.isExpanded(item.title)" class="fa fa-caret-down"></span>
+                    </span>
+
+                    <!-- Subnav -->
+                    <ul ng-if="vm.isExpanded(item.title)" class="main-nav fx-fade">
+                        <li ng-repeat="sub in item.children" class="main-nav__item">
+
+                            <!-- Link to page -->
+                            <a ng-if="sub.url" ng-class="{'main-nav__link--active' : sub.url===vm.currentPage}" class="main-nav__link main-nav__link--level1" ng-attr-href="{{ vm.baseDir }}{{ sub.url }}">
+                                {{ sub.title }}
+                            </a>
+
+                            <!-- Expandable heading -->
+                            <span ng-click="vm.toggleExpanded(sub.title)" ng-if="!sub.url" class="main-nav__title main-nav__title--level1">
+                                {{ sub.title }}
+                                <span ng-if="!vm.isExpanded(sub.title)" class="fa fa-caret-right"></span>
+                                <span ng-if="vm.isExpanded(sub.title)" class="fa fa-caret-down"></span>
+                            </span>
+
+                            <!-- Sub-sub nav -->
+                            <ul ng-if="sub.children && vm.isExpanded(sub.title)" class="main-nav fx-fade">
+                                <li ng-repeat="subsub in sub.children" class="main-nav__item">
+
+                                    <!-- Link to page -->
+                                    <a ng-class="{'main-nav__link--active' : subsub.url===vm.currentPage}" class="main-nav__link main-nav__link--level2" ng-attr-href="{{ vm.baseDir }}{{ subsub.url }}" ng-bind-html="subsub.title">
+                                    </a>
+
+                                </li>
+                            </ul>
+
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+
+            <!-- Search results list -->
+            <ul class="search-results">
+                <li class="search-result" ng-repeat="result in vm.results">
+                    <a class="search-result__link" ng-attr-href="{{ vm.baseDir }}{{ 'Help/' + result.id }}">
+                        <h3 class="search-result__title">{{ result.title }}</h3>
+                        <p class="search-result__excerpt" ng-bind-html="result.excerpt"></p>
+                    </a>
+                </li>
+            </ul>
+
+            <!-- Keep screen on option - PhoneGap insomnia -->
+            <ul class="main-nav" ng-if="vm.isPhoneGap">
+                <li class="main-nav__item">
+                    <label class="main-nav__title">
+                        Keep Screen On
+                        <input style="display: none" type="checkbox" ng-model="vm.keepScreenOn" />
+                        <i ng-class="{'fa--cleared' : !vm.keepScreenOn, 'fa--checked' : vm.keepScreenOn}" class="fa fa-check"></i>
+                    </label>
+                </li>
+            </ul>
+
+
+        </div>
+    </nav>
+
+    <nav class="header" role="navigation" aria-label="Secondary">
+        <a ng-if="!vm.onAConsole" href="../index.html" class="header__btn" title="Home"><i class="fa fa-home"></i></a>
+        <div ng-if="!vm.onAConsole" class="header__history">
+            <a onclick="javascript:window.history.back()" class="header__btn"><i title="Back" class="fa fa-chevron-left"></i></a>
+            <a onclick="javascript:window.history.forward()" class="header__btn"><i title="Forwards" class="fa fa-chevron-right"></i></a>
+        </div>
+        <div align="right">
+            <a class="header__btn header__btn--nav" ng-click="vm.toggleVisibility()">
+                <i ng-if="!vm.visible" class="fa fa-bars"></i>
+                <i ng-if="vm.visible" class="fa fa-close"></i>
+            </a>
+        </div>
+    </nav>
+
+
+    <!-- Main content -->
+    <div id="main">
+        
+
+<div><a href="AutoPreview.html"><img class="TutorialNav" src="images/n_TutPrevious.png" alt=""><span class="TutorialNav">PREVIOUS: Preview Mode</span></a></div>
+
+<p>The Options can be found in <span class="label">MENU</span> > <span class="label">Setup</span> > <span class="label">Options</span>.</p>
+
+<p>
+    The following pages detail the settings in each <span class="label">Options</span> tab:<br>
+    <a href="OptionsConsole.html"><span class="hyperlink">CONSOLE Options</span></a> (this page)<br>
+    <a href="OptionsSystem.html"><span class="hyperlink">SYSTEM Options</span></a><br>
+    <a href="OptionsSurface.html"><span class="hyperlink">SURFACE Options</span></a><br>
+    <a href="OptionsUser.html"><span class="hyperlink">USER Options</span></a><br>
+    <a href="OptionsUserKeys.html"><span class="hyperlink">USER KEYS Options</span></a><br>
+    <a href="OptionsRemote.html"><span class="hyperlink">REMOTE Options</span></a><br>
+    <a href="OptionsNetwork.html"><span class="hyperlink">NETWORK Options</span></a><br>
+    <a href="OptionsDAW.html"><span class="hyperlink">DAW Options</span></a><br>
+    <a href="OptionsExtCtrl.html"><span class="hyperlink">External Control Options</span></a><br>
+</p>
+
+<h2 id="ConsoleOptions">Console Options</h2>
+
+<p>These relate to console-specific settings such as screen brightness, external screen options etc.</p>
+
+<p>Console Options are found in <span class="label">MENU</span> > <span class="label">Setup</span> > <span class="label">Options</span> > <span class="label">CONSOLE</span> tab.</p>
+
+
+<blockquote>
+    <br>
+    <table>
+        <tbody>
+            <tr>
+                <td style="vertical-align: top;">
+                    <h2 id="MouseTouch">Mouse &amp; Touch</h2>
+
+                    The duration for on-screen press & hold buttons is adjusted in the <span style="font-weight: bold;">Mouse &amp; Touch</span> area of the Options screen.<br><br>
+
+                    To change, drag the on-screen encoder or double-tap the text field. 400 ms is a good starting place.
+                </td>
+                <td style="vertical-align: middle; width: 250px;"><img style="margin: 20px 0px 0px 10px;" src="images/g_OptionsMouseTouch.png" alt=""></td>
+            </tr>
+        </tbody>
+    </table>
+
+
+    <br>
+    <table>
+        <tbody>
+            <tr>
+                <td style="vertical-align: top;">
+                    <h2>Time and Date (consoles only)</h2>
+
+                    The console's internal time and date are displayed in the <span style="font-weight: bold;">Time</span> area of the Console Options screen.<br>
+
+                    To set the time or date, touch the <span class="label">Set</span> button after the display of the current time or date and use the keyboard which appears to type the new value.<br>
+
+                    <br>
+
+                    To place a clock display on the Main Screen, touch the <span class="label">Open</span> button beside the clock time display. This display remains on top of whichever display is open in the Main Screen.<br>
+
+                    To close the clock display, touch the red <span style="font-weight: bold;">X</span> in the top right of the clock window.<br>
+                </td>
+                <td style="vertical-align: middle; width: 250px;"><img style="margin: 20px 0px 0px 10px;" src="images/g_OptionsTime.png" alt=""></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <br>
+
+    <table>
+        <tbody>
+            <tr>
+                <td style="vertical-align: top;">
+                    <h2 id="ExternalScreen">External Overview Screen Display</h2>
+
+                    The Overview screen VGA output on the rear of the console provides an additional screen output for displaying the Overview, Automation or Effects Rack pages. This can be set using the <span class="label">Overview</span>, <span class="label">Automation</span> or <span class="label">Effects Rack</span> buttons respectively in the <span style="font-weight: bold;">External Screen</span> section of the Console Options page.<br>
+                    Select <span class="label">None</span> to prevent either page being displayed on the external screen. Note that if any of the pages are set to display on the external screen but are then accessed from the Main screen, the external Overview screen will revert to <span class="label">None</span> as these pages can only be viewed in one screen at a time.
+                </td>
+                <td style="vertical-align: middle; width: 250px;"><img style="margin: 20px 0px 0px 10px;" src="images/g_OptionsExternalScreen.png" alt=""></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <br>
+
+    <table>
+        <tbody>
+            <tr>
+                <td style="vertical-align: top;">
+                    <h2>External Keyboard Locale (consoles only)</h2>
+
+                    Selecting the correct locale/region will ensure that keystrokes sent from any connected USB keyboards will be interpreted correctly by the console. Simply select the desired option from the <span style="font-weight: bold;">External Keyboard</span> section.
+                </td>
+                <td style="vertical-align: middle; width: 250px;"><img style="margin: 20px 0px 0px 10px;" src="images/g_OptionsExternalKeyboard.png" alt=""></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <br>
+
+    <h2 id="ControlSurfaceLock">Surface Lock (consoles only)</h2>
+
+    <p>It is possible to lock the control surface to prevent changes to the console's state. To lock the control surface, press & hold the <span class="label">Lock</span> button in the <span style="font-weight: bold;">Surface Lock</span> section of the Console Options page.</p>
+
+    <p>The screens will show a padlock icon indicating that the surface is now locked. The hardware tiles will not respond to any input, but will continue to show the current state of any channels visible (meters, mute/solo status, fader position etc.).</p>
+
+    <p>To unlock the surface, press the three key symbols located in the lower left, lower right and top middle of the screen. You must press all three key areas within a 5 second period.</p>
+
+    <table>
+        <tbody style="vertical-align: middle;">
+            <tr>
+                <td><img style="margin: 15px;" src="images/g_OptionsSurfaceLock.png" alt=""></td>
+                <td><img style="margin: 15px;" src="images/s_SetupScreen_LockMainKeysOn2.png" alt=""></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <br>
+
+    <table>
+        <tbody>
+            <tr>
+                <td style="vertical-align: top;">
+                    <h2 id="SurfaceBrightness">Console Brightness</h2>
+
+                    The brightness of the <span style="font-weight: bold;">Console Screens</span>, Control <span style="font-weight: bold;">Surface Tiles</span> and <span style="font-weight: bold;">Console Lights</span> (LED strip above the screen) can all be adjusted from the <span style="font-weight: bold;">Brightness</span> area of the options page.<br>
+                    The upper text field for each area of the console is the current brightness value and can be adjusted using the adjacent on-screen encoder.<br>
+                    The second field in each section is the Preset brightness for that area of the console. These can be recalled by pressing the <span class="label">Preset</span> button for each area. To store a Preset value from the current brightness value, press & hold the <span class="label">Preset</span> button and select the <span class="label">Store</span> option.<br>
+                    Double-tapping any field will bring up the on-screen keyboard, which can be used to enter a specific brightness value.<br><br>
+
+                    <span class="note"><span class="notetitle">Note: </span>These controls duplicate the Brightness controls on the Control Tile hardware (if fitted). Pressing the hardware encoder will recall the preset value; pressing & holding the encoder will store a new preset value.</span><br>
+                    These brightness settings can also be stored and recalled in the console's <a href="AutoOverview.html"><span class="hyperlink">Automation</span></a> system.
+                </td>
+                <td style="vertical-align: middle; width: 250px;"><img style="margin: 0px 0px 0px 20px;" src="images/g_OptionsBrightness.png" alt=""></td>
+            </tr>
+        </tbody>
+    </table>
+</blockquote>
+
+
+<h2>Useful Links</h2>
+
+<a href="OptionsSystem.html"><span class="hyperlink">SYSTEM Options</span></a>
+<br>
+<a href="OptionsSurface.html"><span class="hyperlink">SURFACE Options</span></a>
+<br>
+<a href="OptionsUser.html"><span class="hyperlink">USER Options</span></a>
+<br>
+<a href="OptionsUserKeys.html"><span class="hyperlink">USER KEYS Options</span></a>
+<br>
+<a href="OptionsRemote.html"><span class="hyperlink">REMOTE Options</span></a>
+<br>
+<a href="OptionsNetwork.html"><span class="hyperlink">NETWORK Options</span></a>
+<br>
+<a href="OptionsDAW.html"><span class="hyperlink">DAW Options</span></a>
+<br>
+<a href="OptionsExtCtrl.html"><span class="hyperlink">EXTERNAL CONTROL Options</span></a>
+<br>
+
+<a href="LinkIndex.html"><span class="hyperlink">Index and Glossary</span></a>
+<br>
+
+<div class="TutorialNavNext"> <a href="OptionsSystem.html"><span class="TutorialNav">NEXT: System Options</span> <img class="TutorialNav" src="images/n_TutNext.png" alt=""></a></div>
+
+  
+    </div>
+
+    <script src="../Help/js/OpenAccordionFromLink.js"></script>
+</body>
+</html>
