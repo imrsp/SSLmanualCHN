@@ -6,6 +6,7 @@ import test from "node:test";
 import vm from "node:vm";
 
 import { createBuildHash } from "./lib/build_hash.mjs";
+import { extractReleaseNotes } from "./extract_release_notes.mjs";
 import { findUnsafeContentIssues } from "./lib/content_security.mjs";
 import { validateDeployTarget } from "./lib/deploy_target.mjs";
 import { assertSafeManifestOutputFile, assertSafePathSegment } from "./lib/safe_paths.mjs";
@@ -29,6 +30,37 @@ import {
   toPlainText,
   transformAccordions,
 } from "./lib/manual.mjs";
+
+test("release notes are extracted from exactly one matching changelog version", () => {
+  const changelog = [
+    "# Changelog",
+    "",
+    "## 正式版本",
+    "",
+    "### v1.0.1 - 2026-07-27",
+    "",
+    "#### Fixed",
+    "",
+    "- Current fix",
+    "",
+    "### v1.0.0 - 2026-07-21",
+    "",
+    "- Previous release",
+    "",
+    "## 公开预览版本",
+  ].join("\n");
+
+  assert.equal(
+    extractReleaseNotes(changelog, "v1.0.1"),
+    "### v1.0.1 - 2026-07-27\n\n#### Fixed\n\n- Current fix\n",
+  );
+  assert.throws(() => extractReleaseNotes(changelog, "1.0.1"), /stable format/);
+  assert.throws(() => extractReleaseNotes(changelog, "v2.0.0"), /does not contain/);
+  assert.throws(
+    () => extractReleaseNotes(`${changelog}\n### v1.0.1 - duplicate\n`, "v1.0.1"),
+    /multiple release headings/,
+  );
+});
 
 test("plain-text extraction decodes every named and numeric entity used by manual content", () => {
   assert.equal(
