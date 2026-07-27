@@ -39,6 +39,7 @@ const elements = {
   pageCounter: document.querySelector("#pageCounter"),
   installButton: document.querySelector("#installButton"),
   sidebar: document.querySelector("#sidebar"),
+  sidebarAbout: document.querySelector(".sidebar-about"),
   menuButton: document.querySelector("#menuButton"),
   outlineButton: document.querySelector("#outlineButton"),
   scrim: document.querySelector("#scrim"),
@@ -727,15 +728,21 @@ function ensureSearchHighlightVisible(headingId, forceScroll = false) {
   if (headingId) {
     var heading = document.getElementById(headingId);
     if (heading) {
-      var headingTop = heading.getBoundingClientRect().top;
       for (var i = 0; i < highlights.length; i++) {
-        var hlBottom = highlights[i].getBoundingClientRect().bottom;
-        if (hlBottom >= headingTop - 60) {
+        if (
+          heading.contains(highlights[i]) ||
+          heading.compareDocumentPosition(highlights[i]) & Node.DOCUMENT_POSITION_FOLLOWING
+        ) {
           target = highlights[i];
           break;
         }
       }
     }
+  }
+  var disclosure = target.closest("details");
+  while (disclosure) {
+    disclosure.open = true;
+    disclosure = disclosure.parentElement?.closest("details");
   }
   var rect = target.getBoundingClientRect();
   var viewportHeight = window.innerHeight;
@@ -1444,6 +1451,7 @@ elements.searchPanel.addEventListener("focusout", function () {
   setTimeout(syncSearchToggleVisibility, 0);
 });
 elements.menuButton.addEventListener("click", toggleSidebar);
+elements.sidebarAbout.addEventListener("click", closeMobilePanels);
 elements.scrim.addEventListener("click", closeMobilePanels);
 elements.outlineButton.addEventListener("click", () => {
   const open = elements.outline.classList.toggle("open");
