@@ -727,15 +727,21 @@ function ensureSearchHighlightVisible(headingId, forceScroll = false) {
   if (headingId) {
     var heading = document.getElementById(headingId);
     if (heading) {
-      var headingTop = heading.getBoundingClientRect().top;
       for (var i = 0; i < highlights.length; i++) {
-        var hlBottom = highlights[i].getBoundingClientRect().bottom;
-        if (hlBottom >= headingTop - 60) {
+        if (
+          heading.contains(highlights[i]) ||
+          heading.compareDocumentPosition(highlights[i]) & Node.DOCUMENT_POSITION_FOLLOWING
+        ) {
           target = highlights[i];
           break;
         }
       }
     }
+  }
+  var disclosure = target.closest("details");
+  while (disclosure) {
+    disclosure.open = true;
+    disclosure = disclosure.parentElement?.closest("details");
   }
   var rect = target.getBoundingClientRect();
   var viewportHeight = window.innerHeight;
