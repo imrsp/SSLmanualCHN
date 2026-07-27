@@ -14,6 +14,26 @@ npm run check
 
 PWA 安装和 service worker 只在 `https`、`localhost` 或 `127.0.0.1` 上工作；`file://` 只作为本地直开回退，不会进入安装态。
 
+## GitHub Release
+
+合并正式版本改动并更新 `CHANGELOG.md` 后，在 `main` 的发布提交上推送稳定版本标签：
+
+```bash
+git switch main
+git pull --ff-only
+git tag v1.0.1
+git push origin v1.0.1
+```
+
+`.github/workflows/release.yml` 会确认标签符合 `vX.Y.Z` 格式且标签提交属于远端 `main`，随后运行完整的 `npm run check`。检查通过后，工作流会：
+
+- 将 `dist/` 的内容打包为 `SSLmanualCHN-vX.Y.Z.zip`，并让 `index.html` 位于压缩包根目录
+- 从 `CHANGELOG.md` 精确提取同版本的完整段落作为 Release 内容
+- 使用同一版本号作为 Git tag 和 Release 标题
+- 通过仓库自带的 `GITHUB_TOKEN` 创建 Release，无需额外配置 secret
+
+如果标签没有对应的 changelog 标题、标签格式不正确、标签提交不属于 `main` 或完整检查失败，Release 不会创建。标签应在包含本工作流的提交合并到 `main` 后再推送。
+
 ## 缓存模型
 
 当前构建产物按缓存策略分类：
