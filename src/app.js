@@ -1,7 +1,11 @@
  const state = {
    catalog: null,
+   catalogReady: false,
+   appReady: false,
    searchIndexZh: null,
    searchIndexEn: null,
+   searchIndexRequests: { zh: null, en: null },
+   searchStatus: "idle",
    searchEn: false,
    pageCache: new Map(),
    currentPage: null,
@@ -47,10 +51,15 @@ const elements = {
 };
 let deferredInstallPrompt = null;
 let routeRequestId = 0;
+let searchRequestId = 0;
 let lastLocationRouteHash = "";
 let languageTransitionTimer = null;
 let serviceWorkerPreparationScheduled = false;
 let pagePrefetchScheduleId = 0;
+let resolveCatalogReady;
+const catalogReadyPromise = new Promise((resolve) => {
+  resolveCatalogReady = resolve;
+});
 const PAGE_SKELETON_DELAY_MS = 200;
 
 /* — Theme management — */
@@ -141,19 +150,46 @@ function syncThemeButton() {
 
 /* — Theme presets — */
 let presetLinkEl = null;
+let themeStylesheetRequestId = 0;
 
 function loadThemeCSS(name) {
+  const requestId = ++themeStylesheetRequestId;
   if (name === state.defaultTheme || !name) {
     if (presetLinkEl) { presetLinkEl.remove(); presetLinkEl = null; }
-    return;
+    return Promise.resolve(true);
   }
-  if (!presetLinkEl) {
-    presetLinkEl = document.createElement("link");
-    presetLinkEl.rel = "stylesheet";
-    document.head.appendChild(presetLinkEl);
-  }
-  var cacheBuster = typeof window.__BUILD_HASH__ !== "undefined" ? window.__BUILD_HASH__ : Date.now();
-  presetLinkEl.href = "themes/" + name + ".css?" + cacheBuster;
+  const nextLink = document.createElement("link");
+  nextLink.rel = "stylesheet";
+  nextLink.media = "not all";
+  var cacheBuster = typeof window.__BUILD_HASH__ !== "undefined"
+    ? window.__BUILD_HASH__
+    : Date.now();
+  nextLink.href = "themes/" + name + ".css?" + cacheBuster;
+
+  return new Promise(function (resolve, reject) {
+    nextLink.onload = function () {
+      if (requestId !== themeStylesheetRequestId) {
+        nextLink.remove();
+        resolve(false);
+        return;
+      }
+      if (presetLinkEl) presetLinkEl.remove();
+      nextLink.onload = null;
+      nextLink.onerror = null;
+      nextLink.media = "all";
+      presetLinkEl = nextLink;
+      resolve(true);
+    };
+    nextLink.onerror = function () {
+      nextLink.remove();
+      if (requestId !== themeStylesheetRequestId) {
+        resolve(false);
+        return;
+      }
+      reject(new Error("Theme stylesheet failed to load: " + name));
+    };
+    document.head.appendChild(nextLink);
+  });
 }
 
 function isValidCssColor(value) {
@@ -206,26 +242,38 @@ function setPresetDropdownOpen(open) {
   elements.presetToggle?.parentElement?.classList.toggle("preset-dropdown-open", open);
 }
 
-function selectThemePreset(id) {
+function commitThemePreset(id, persist) {
   state.themePreset = id;
-  try { localStorage.setItem("ssl-manual-preset", id); } catch (_) {}
-  loadThemeCSS(id);
+  if (persist) {
+    try { localStorage.setItem("ssl-manual-preset", id); } catch (_) {}
+  }
   buildPresetDropdown();
+}
+
+async function selectThemePreset(id) {
   setPresetDropdownOpen(false);
   hidePresetOptionTooltip();
+  if (id === state.themePreset) return;
+  try {
+    if (await loadThemeCSS(id)) commitThemePreset(id, true);
+  } catch (error) {
+    console.warn("Failed to load theme preset, keeping current theme:", error);
+  }
 }
 
 function initThemePreset() {
+  var saved = null;
   try {
-    var saved = localStorage.getItem("ssl-manual-preset");
-    if (saved && (state.themes || []).some(function (t) { return t.id === saved; })) {
-      state.themePreset = saved;
-    }
+    saved = localStorage.getItem("ssl-manual-preset");
   } catch (_) {}
   buildPresetDropdown();
-  if (state.themePreset !== state.defaultTheme) {
-    loadThemeCSS(state.themePreset);
-  }
+  if (!saved || saved === state.defaultTheme) return;
+  if (!(state.themes || []).some(function (t) { return t.id === saved; })) return;
+  loadThemeCSS(saved).then(function (applied) {
+    if (applied) commitThemePreset(saved, false);
+  }).catch(function (error) {
+    console.warn("Failed to restore theme preset, using default theme:", error);
+  });
 }
 
 var _presetOptionTooltipEl = null;
@@ -594,16 +642,43 @@ function routeFromLocation() {
   route();
 }
 
-async function loadSearchIndex() {
+function loadSearchIndex(target) {
+  var dataKey = target === "en" ? "searchIndexEn" : "searchIndexZh";
+  if (state[dataKey]) return Promise.resolve(state[dataKey]);
+  if (state.searchIndexRequests[target]) return state.searchIndexRequests[target];
+
+  var request = loadData("search-index-" + target + ".json", function () {
+    return localData[dataKey];
+  }).then(function (index) {
+    state[dataKey] = index;
+    state.searchIndexRequests[target] = null;
+    return index;
+  }).catch(function (error) {
+    state.searchIndexRequests[target] = null;
+    throw error;
+  });
+  state.searchIndexRequests[target] = request;
+  return request;
+}
+
+function requestSearchResults(requestId) {
+  var query = state.query.trim();
+  if (!query || requestId !== searchRequestId) return;
   var target = state.searchEn ? "en" : "zh";
-  if (target === "zh" && state.searchIndexZh) return;
-  if (target === "en" && state.searchIndexEn) return;
+  state.searchStatus = "loading";
   elements.searchSummary.textContent = "正在载入全文索引…";
-  if (target === "en") {
-    state.searchIndexEn = await loadData("search-index-en.json", function () { return localData.searchIndexEn; });
-  } else {
-    state.searchIndexZh = await loadData("search-index-zh.json", function () { return localData.searchIndexZh; });
-  }
+
+  Promise.all([catalogReadyPromise, loadSearchIndex(target)]).then(function () {
+    if (requestId !== searchRequestId) return;
+    if (target !== (state.searchEn ? "en" : "zh")) return;
+    state.searchStatus = "ready";
+    renderNavigation();
+  }).catch(function (error) {
+    if (requestId !== searchRequestId) return;
+    state.searchStatus = "failed";
+    console.warn("Search index failed to load:", error);
+    elements.searchSummary.textContent = "全文索引载入失败，请稍后重试";
+  });
 }
 
 async function loadPage(pageId) {
@@ -878,6 +953,7 @@ function scrollActiveNavigationIntoView() {
 
 function renderNavigation(focusActive) {
   focusActive = focusActive || false;
+  if (!state.catalogReady) return;
   if (state.query.trim() && (state.searchIndexZh || state.searchIndexEn)) {
     renderSearchResultsInNav();
     if (focusActive) scrollActiveNavigationIntoView();
@@ -904,7 +980,11 @@ function renderNavigation(focusActive) {
   }).join("");
 
   elements.searchSummary.textContent = state.query
-    ? "正在准备搜索结果…"
+    ? state.searchStatus === "failed"
+      ? "全文索引载入失败，请稍后重试"
+      : state.searchStatus === "loading"
+        ? "正在载入全文索引…"
+        : "正在准备搜索结果…"
     : "可搜索中英文标题与正文";
   elements.manualNav.querySelectorAll("[data-page-id]").forEach((button) => {
     button.addEventListener("click", () => {
@@ -1349,7 +1429,7 @@ function renderPage(page, headingId = "", skipScroll = false, disclosureStates =
 }
 
 async function route(routeOptions = null) {
-  if (!state.catalog) return;
+  if (!state.catalogReady) return;
   const requestId = ++routeRequestId;
   cancelScheduledPagePrefetch();
   const { pageId, headingId } = routeOptions || getRoute();
@@ -1430,35 +1510,24 @@ function closeMobilePanels() {
 
 async function start() {
   try {
-    const initialRoute = getRoute(getConfiguredDefaultPageId());
+    const startupRoute = getRoute(getConfiguredDefaultPageId());
     const catalogRequest = loadData("catalog.json", () => localData.catalog);
     const themesRequest = loadData("themes.json", () => localData.themes).catch((error) => {
       console.warn("Failed to load themes, using fallback:", error);
       return null;
     });
-    const initialPageRequest = initialRoute.pageId
-      ? loadPage(initialRoute.pageId)
+    const initialPageRequest = startupRoute.pageId
+      ? loadPage(startupRoute.pageId)
       : null;
     initialPageRequest?.catch(() => {});
 
-    state.catalog = await catalogRequest;
-    state.themes = await themesRequest;
-    if (!state.themes || !state.themes.length) {
-      state.themes = [{ id: "acid", label: "SSL 经典绿", color: "#c7ff37", default: true }];
-    }
-    var def = state.themes.find(function (t) { return t.default; });
-    state.defaultTheme = def ? def.id : state.themes[0].id;
-    state.themePreset = state.defaultTheme;
-
-    expandAllNavigation();
-    /* — Init theme from localStorage — */
+    /* — Init color mode independently of content and preset metadata — */
     try {
       const saved = localStorage.getItem("ssl-manual-theme");
       if (saved === "dark" || saved === "light" || saved === "auto") state.theme = saved;
     } catch (_) {}
     applyTheme();
     syncThemeButton();
-    initThemePreset();
     const themeMedia = window.matchMedia("(prefers-color-scheme: light)");
     themeMedia.addEventListener("change", function () {
       if (state.theme === "auto") {
@@ -1466,15 +1535,34 @@ async function start() {
         syncThemeButton();
       }
     });
+
+    state.catalog = await catalogRequest;
+    state.catalogReady = true;
+    resolveCatalogReady();
+    expandAllNavigation();
     elements.databaseStatus.textContent =
       `${state.catalog.meta.pageCount} TOPICS`;
     elements.searchLabel.textContent =
       `搜索全部 ${state.catalog.meta.pageCount} 个主题`;
-    await route(initialRoute.pageId
-      ? { ...initialRoute, pageRequest: initialPageRequest }
-      : null);
+
+    const currentRoute = getRoute(
+      getConfiguredDefaultPageId() || state.catalog.pages[0]?.id || "",
+    );
+    await route(currentRoute.pageId === startupRoute.pageId
+      ? { ...currentRoute, pageRequest: initialPageRequest }
+      : currentRoute);
+    state.appReady = true;
     updateInstallButtonVisibility();
     scheduleServiceWorkerPreparation();
+
+    state.themes = await themesRequest;
+    if (!state.themes || !state.themes.length) {
+      state.themes = [{ id: "acid", label: "SSL 经典绿", color: "#c7ff37", default: true }];
+    }
+    var def = state.themes.find(function (t) { return t.default; });
+    state.defaultTheme = def ? def.id : state.themes[0].id;
+    state.themePreset = state.defaultTheme;
+    initThemePreset();
   } catch (error) {
     elements.databaseStatus.textContent = "CONTENT ERROR";
     elements.document.innerHTML = `
@@ -1493,16 +1581,14 @@ elements.searchInput.addEventListener("input", function (event) {
   state.searchShowCount = 12;
   syncSearchToggleVisibility();
   clearTimeout(searchTimer);
+  const requestId = ++searchRequestId;
   if (!state.query.trim()) {
-    renderNavigation();
+    state.searchStatus = "idle";
+    if (state.catalogReady) renderNavigation();
     return;
   }
   searchTimer = setTimeout(function () {
-    loadSearchIndex().then(function () {
-      renderNavigation();
-    }).catch(function (error) {
-      elements.searchSummary.textContent = error.message;
-    });
+    requestSearchResults(requestId);
   }, 120);
 });
 elements.searchPanel.addEventListener("focusin", function () {
@@ -1574,11 +1660,8 @@ elements.searchEnToggle.addEventListener("change", function () {
     state.searchShowCount = 12;
     if (state.query.trim()) {
       clearTimeout(searchTimer);
-      loadSearchIndex().then(function () {
-        renderNavigation();
-      }).catch(function (error) {
-        elements.searchSummary.textContent = error.message;
-      });
+      const requestId = ++searchRequestId;
+      requestSearchResults(requestId);
     }
   });
   elements.themeToggle.addEventListener("pointerdown", handleThemePress);

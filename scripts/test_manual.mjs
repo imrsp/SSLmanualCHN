@@ -496,10 +496,57 @@ test("reader keeps service worker updates and next-page prefetch outside the ren
   assert.doesNotMatch(startSource, /await prepareServiceWorkerForBuild\(/);
   assert.match(startSource, /const catalogRequest = loadData\("catalog\.json"/);
   assert.match(startSource, /const themesRequest = loadData\("themes\.json"/);
-  assert.match(startSource, /const initialPageRequest = initialRoute\.pageId/);
+  assert.match(startSource, /const initialPageRequest = startupRoute\.pageId/);
   assert.match(startSource, /scheduleServiceWorkerPreparation\(\)/);
   assert.match(appSource, /requestIdleCallback\(callback, \{ timeout: timeoutMs \}\)/);
   assert.match(appSource, /scheduleNextPagePrefetch\(page\.id, nextPage\.id\)/);
   assert.doesNotMatch(renderPageSource, /loadPage\(next\.id\)/);
   assert.match(buildSource, /window\.__DEFAULT_PAGE_ID__/);
+});
+
+test("reader startup routes the latest URL before waiting for theme metadata", () => {
+  const appSource = fs.readFileSync(path.join(root, "src", "app.js"), "utf8");
+  const startSource = appSource.slice(
+    appSource.indexOf("async function start()"),
+    appSource.indexOf("\nvar searchTimer", appSource.indexOf("async function start()")),
+  );
+
+  assert.match(startSource, /state\.catalogReady = true;\s+resolveCatalogReady\(\);/);
+  assert.match(startSource, /const currentRoute = getRoute\(/);
+  assert.match(startSource, /await route\(currentRoute\.pageId === startupRoute\.pageId/);
+  assert.match(startSource, /state\.appReady = true;/);
+  assert.ok(
+    startSource.indexOf("await route(") < startSource.indexOf("state.themes = await themesRequest"),
+    "theme metadata must not block the first chapter render",
+  );
+});
+
+test("reader search deduplicates index requests and ignores stale completions", () => {
+  const appSource = fs.readFileSync(path.join(root, "src", "app.js"), "utf8");
+  const searchSource = appSource.slice(
+    appSource.indexOf("function loadSearchIndex("),
+    appSource.indexOf("\nasync function loadPage(", appSource.indexOf("function loadSearchIndex(")),
+  );
+
+  assert.match(searchSource, /state\.searchIndexRequests\[target\]/);
+  assert.match(searchSource, /Promise\.all\(\[catalogReadyPromise, loadSearchIndex\(target\)\]\)/);
+  assert.match(searchSource, /requestId !== searchRequestId/);
+  assert.match(searchSource, /state\.searchStatus = "failed"/);
+  assert.doesNotMatch(searchSource, /error\.message/);
+});
+
+test("reader commits theme presets only after their stylesheet loads", () => {
+  const appSource = fs.readFileSync(path.join(root, "src", "app.js"), "utf8");
+  const themeSource = appSource.slice(
+    appSource.indexOf("function loadThemeCSS("),
+    appSource.indexOf("\nvar _presetOptionTooltipEl", appSource.indexOf("function loadThemeCSS(")),
+  );
+
+  assert.match(themeSource, /nextLink\.media = "not all"/);
+  assert.match(themeSource, /nextLink\.onload = function/);
+  assert.match(themeSource, /if \(await loadThemeCSS\(id\)\) commitThemePreset\(id, true\)/);
+  assert.ok(
+    themeSource.indexOf("await loadThemeCSS(id)") < themeSource.indexOf("commitThemePreset(id, true)"),
+    "selected preset state must follow stylesheet success",
+  );
 });
