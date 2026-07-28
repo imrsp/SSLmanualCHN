@@ -480,3 +480,26 @@ test("service worker keeps build versions in data cache keys and handles search 
   vm.runInContext(source, betaContext);
   assert.notEqual(vm.runInContext("CACHE_NAME", betaContext), vm.runInContext("CACHE_NAME", context));
 });
+
+test("reader keeps service worker updates and next-page prefetch outside the render-critical path", () => {
+  const appSource = fs.readFileSync(path.join(root, "src", "app.js"), "utf8");
+  const startSource = appSource.slice(
+    appSource.indexOf("async function start()"),
+    appSource.indexOf("\nvar searchTimer", appSource.indexOf("async function start()")),
+  );
+  const renderPageSource = appSource.slice(
+    appSource.indexOf("function renderPage("),
+    appSource.indexOf("\nasync function route(", appSource.indexOf("function renderPage(")),
+  );
+  const buildSource = fs.readFileSync(path.join(root, "scripts", "build_static_site.mjs"), "utf8");
+
+  assert.doesNotMatch(startSource, /await prepareServiceWorkerForBuild\(/);
+  assert.match(startSource, /const catalogRequest = loadData\("catalog\.json"/);
+  assert.match(startSource, /const themesRequest = loadData\("themes\.json"/);
+  assert.match(startSource, /const initialPageRequest = initialRoute\.pageId/);
+  assert.match(startSource, /scheduleServiceWorkerPreparation\(\)/);
+  assert.match(appSource, /requestIdleCallback\(callback, \{ timeout: timeoutMs \}\)/);
+  assert.match(appSource, /scheduleNextPagePrefetch\(page\.id, nextPage\.id\)/);
+  assert.doesNotMatch(renderPageSource, /loadPage\(next\.id\)/);
+  assert.match(buildSource, /window\.__DEFAULT_PAGE_ID__/);
+});

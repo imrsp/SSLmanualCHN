@@ -721,7 +721,8 @@ html = html.replace(
 
 html = html.replace(
   "</head>",
-  "  <script>window.__BUILD_HASH__=\"" + buildHash + "\"</script>\n</head>"
+  "  <script>window.__BUILD_HASH__=" + JSON.stringify(buildHash) +
+    ";window.__DEFAULT_PAGE_ID__=" + JSON.stringify(pages[0]?.id || "") + ";</script>\n</head>"
 );
 
 html = html.replace(

@@ -49,6 +49,8 @@ let deferredInstallPrompt = null;
 let routeRequestId = 0;
 let lastLocationRouteHash = "";
 let languageTransitionTimer = null;
+let serviceWorkerPreparationScheduled = false;
+let pagePrefetchScheduleId = 0;
 const PAGE_SKELETON_DELAY_MS = 200;
 
 /* — Theme management — */
@@ -349,6 +351,41 @@ async function prepareServiceWorkerForBuild() {
   }
 }
 
+function schedulePostRenderIdle(callback, timeoutMs = 3000) {
+  requestAnimationFrame(function () {
+    requestAnimationFrame(function () {
+      if ("requestIdleCallback" in window) {
+        window.requestIdleCallback(callback, { timeout: timeoutMs });
+        return;
+      }
+      window.setTimeout(callback, 0);
+    });
+  });
+}
+
+function scheduleServiceWorkerPreparation() {
+  if (serviceWorkerPreparationScheduled) return;
+  if (!("serviceWorker" in navigator) || location.protocol === "file:") return;
+  serviceWorkerPreparationScheduled = true;
+  schedulePostRenderIdle(function () {
+    prepareServiceWorkerForBuild();
+  }, 5000);
+}
+
+function cancelScheduledPagePrefetch() {
+  pagePrefetchScheduleId += 1;
+}
+
+function scheduleNextPagePrefetch(currentPageId, nextPageId) {
+  const scheduleId = ++pagePrefetchScheduleId;
+  if (!nextPageId || state.pageCache.has(nextPageId)) return;
+  schedulePostRenderIdle(function () {
+    if (scheduleId !== pagePrefetchScheduleId) return;
+    if (state.currentPage?.id !== currentPageId) return;
+    loadPage(nextPageId).catch(() => {});
+  });
+}
+
 function loadDataScript(path) {
   return new Promise((resolve, reject) => {
     const script = document.createElement("script");
@@ -537,9 +574,14 @@ function decodeRouteComponent(value, fallback = "") {
   }
 }
 
-function getRoute() {
+function getConfiguredDefaultPageId() {
+  return typeof window.__DEFAULT_PAGE_ID__ === "string"
+    ? window.__DEFAULT_PAGE_ID__
+    : "";
+}
+
+function getRoute(defaultPageId = state.catalog?.pages[0]?.id || "") {
   const match = location.hash.match(/^#\/page\/([^/]+)(?:\/(.+))?$/);
-  const defaultPageId = state.catalog?.pages[0]?.id || "";
   return {
     pageId: decodeRouteComponent(match?.[1], defaultPageId),
     headingId: decodeRouteComponent(match?.[2]),
@@ -889,6 +931,15 @@ function renderNavigation(focusActive) {
   if (focusActive) scrollActiveNavigationIntoView();
 }
 
+function syncNavigationForCurrentPage(focusActive = false) {
+  if (!elements.manualNav.childElementCount || state.query.trim()) {
+    renderNavigation(focusActive);
+    return;
+  }
+  syncLoadingNavigation(state.currentPage?.id);
+  if (focusActive) scrollActiveNavigationIntoView();
+}
+
 function renderOutline(page) {
   var headings = getPageHeadings(page, state.language);
   elements.outline.innerHTML = headings
@@ -1146,6 +1197,7 @@ function scrollToPagePosition(headingId = "", skipScroll = false) {
     });
     return;
   }
+  if (window.scrollY === 0) return;
   window.scrollTo({ top: 0, behavior: "instant" });
 }
 
@@ -1262,7 +1314,7 @@ function renderStandalonePage(page, headingId = "", skipScroll = false, disclosu
   configurePageLinks();
   configurePageButton(elements.previousPage, null, "上一主题");
   configurePageButton(elements.nextPage, null, "下一主题");
-  renderNavigation();
+  syncNavigationForCurrentPage();
   document.title = page.titleZh + " | " + state.catalog.meta.title;
   scrollToPagePosition(headingId, skipScroll);
 }
@@ -1290,18 +1342,20 @@ function renderPage(page, headingId = "", skipScroll = false, disclosureStates =
   renderOutline(page);
   applyContentDisclosureHistory(page.id, disclosureStates);
   configurePageLinks();
-  renderNavigation(true);
+  syncNavigationForCurrentPage(true);
   document.title = `${page.titleZh} | ${state.catalog.meta.title}`;
   scrollToPagePosition(headingId, skipScroll);
-  if (next) loadPage(next.id).catch(() => {});
+  return next;
 }
 
 async function route(routeOptions = null) {
   if (!state.catalog) return;
   const requestId = ++routeRequestId;
+  cancelScheduledPagePrefetch();
   const { pageId, headingId } = routeOptions || getRoute();
   const isSearchNavigation = routeOptions?.source === "search";
   const summary = state.catalog.pages.find((candidate) => candidate.id === pageId);
+  let nextPage = null;
 
   window.clearTimeout(languageTransitionTimer);
   languageTransitionTimer = null;
@@ -1319,10 +1373,10 @@ async function route(routeOptions = null) {
   if (skeletonTimer === null) showSkeleton();
 
   try {
-    const page = await loadPage(pageId);
+    const page = await (routeOptions?.pageRequest || loadPage(pageId));
     if (requestId !== routeRequestId) return;
     if (summary) {
-      renderPage(page, isSearchNavigation ? "" : headingId, isSearchNavigation);
+      nextPage = renderPage(page, isSearchNavigation ? "" : headingId, isSearchNavigation);
     } else if (page && page.standalone) {
       renderStandalonePage(page, headingId);
       return;
@@ -1337,6 +1391,7 @@ async function route(routeOptions = null) {
         ensureSearchHighlightVisible(headingId, isSearchNavigation);
       });
     }
+    if (nextPage) scheduleNextPagePrefetch(page.id, nextPage.id);
   } catch (error) {
     if (requestId !== routeRequestId) return;
     if (!summary) {
@@ -1375,15 +1430,19 @@ function closeMobilePanels() {
 
 async function start() {
   try {
-    await prepareServiceWorkerForBuild();
-    state.catalog = await loadData("catalog.json", () => localData.catalog);
+    const initialRoute = getRoute(getConfiguredDefaultPageId());
+    const catalogRequest = loadData("catalog.json", () => localData.catalog);
+    const themesRequest = loadData("themes.json", () => localData.themes).catch((error) => {
+      console.warn("Failed to load themes, using fallback:", error);
+      return null;
+    });
+    const initialPageRequest = initialRoute.pageId
+      ? loadPage(initialRoute.pageId)
+      : null;
+    initialPageRequest?.catch(() => {});
 
-    /* — Load themes from build data — */
-    try {
-      state.themes = await loadData("themes.json", () => localData.themes);
-    } catch (e) {
-      console.warn("Failed to load themes, using fallback:", e);
-    }
+    state.catalog = await catalogRequest;
+    state.themes = await themesRequest;
     if (!state.themes || !state.themes.length) {
       state.themes = [{ id: "acid", label: "SSL 经典绿", color: "#c7ff37", default: true }];
     }
@@ -1411,9 +1470,11 @@ async function start() {
       `${state.catalog.meta.pageCount} TOPICS`;
     elements.searchLabel.textContent =
       `搜索全部 ${state.catalog.meta.pageCount} 个主题`;
-    renderNavigation();
-    await route();
+    await route(initialRoute.pageId
+      ? { ...initialRoute, pageRequest: initialPageRequest }
+      : null);
     updateInstallButtonVisibility();
+    scheduleServiceWorkerPreparation();
   } catch (error) {
     elements.databaseStatus.textContent = "CONTENT ERROR";
     elements.document.innerHTML = `

@@ -61,7 +61,7 @@ git push origin v1.0.1
 - `themes/*.css`：`cacheFirst`，主题样式是典型静态资源，构建哈希已能保证换版。
 - `src/*.js`、`src/*.css`：`cacheFirst`，文件名已哈希化，更新依赖新构建产物本身。
 
-应用启动时会使用带构建哈希的 `sw.js` URL 注册 Service Worker。已有旧版 Service Worker 接管页面时，应用会等待新版 controller 真正接管后再加载正文；更新超时或失败不会被记录为成功，下一次进入站点仍会重试。首次访问和离线访问不会为等待 Service Worker 而阻塞正文加载。
+应用启动时会先并行加载 catalog、主题列表和当前章节，完成正文首次绘制后，再在浏览器空闲阶段使用带构建哈希的 `sw.js` URL 注册或更新 Service Worker。已有旧版 Service Worker 接管页面时，新版 controller 的准备过程不再阻塞正文；更新超时或失败不会被记录为成功，下一次进入站点仍会重试。首次访问、版本换代和离线访问都不会为等待 Service Worker 而阻塞正文加载。
 
 缓存命名空间同时包含 Service Worker scope 路径；同一域名下的正式版与 beta 子路径各自清理自己的旧缓存，不会互相删除离线数据。
 
@@ -245,6 +245,7 @@ manual.example.com {
 ## 运行特征
 
 - 首次加载请求界面壳、catalog 和当前章节。
+- catalog、主题列表和当前章节在启动阶段并行请求；每章首次绘制后的空闲阶段再预取下一章。
 - 搜索索引按需加载，不在首屏下载。
 - 主题预设列表单独加载。
 - 图片与 PDF 独立缓存，不再内嵌到 HTML。
