@@ -45,12 +45,19 @@ export function resolveSeoConfig(config) {
   return { description, keywords, siteUrl, ogImage, ogImageUrl, defaultLastModified };
 }
 
-export function renderIndexSeoTemplate(template, resolvedSeo) {
+export function resolveSiteWideNoindex(value) {
+  if (value === undefined || value === null || value === "" || value === "false") return false;
+  if (value === "true") return true;
+  throw new Error('SEO_NOINDEX must be "true" or "false" when set');
+}
+
+export function renderIndexSeoTemplate(template, resolvedSeo, { siteWideNoindex = false } = {}) {
   const replacements = new Map([
     ["__SEO_DESCRIPTION__", resolvedSeo.description],
     ["__SEO_KEYWORDS__", resolvedSeo.keywords],
     ["__SEO_SITE_URL__", resolvedSeo.siteUrl],
     ["__SEO_OG_IMAGE_URL__", resolvedSeo.ogImageUrl],
+    ["__SEO_ROBOTS__", siteWideNoindex ? "noindex, nofollow" : "index, follow"],
   ]);
   let result = template;
   for (const [token, value] of replacements) {
@@ -61,15 +68,17 @@ export function renderIndexSeoTemplate(template, resolvedSeo) {
   return result;
 }
 
-export function generateRobotsTxt(resolvedSeo) {
-  return [
+export function generateRobotsTxt(resolvedSeo, { siteWideNoindex = false } = {}) {
+  const lines = [
     "User-agent: *",
     "Allow: /",
     "Disallow: /data/",
     "Disallow: /themes/",
     "Disallow: /src/",
     "",
-    `Sitemap: ${new URL("sitemap.xml", resolvedSeo.siteUrl).href}`,
-    "",
-  ].join("\n");
+  ];
+  if (!siteWideNoindex) {
+    lines.push(`Sitemap: ${new URL("sitemap.xml", resolvedSeo.siteUrl).href}`, "");
+  }
+  return lines.join("\n");
 }

@@ -231,6 +231,8 @@ server {
 
 GitHub Actions 部署会拒绝空路径、根目录、常见系统目录、SSH 用户主目录及包含危险字符的目标，并在远端解析真实路径后再次校验。正式版与 beta 部署共享并发互斥组，避免两个 `rsync --delete-delay` 过程交错。
 
+Beta 工作流在构建和完整校验阶段设置 `SEO_NOINDEX=true`，自动让 SPA 入口和全部 SEO 预渲染页使用 `noindex, nofollow`，同时生成空 sitemap 并从 `robots.txt` 移除 Sitemap 指令。正式工作流不设置该变量，SEO 行为不变。当前部署工作流不会修改服务器配置。
+
 ## Caddy
 
 ```caddy
@@ -241,6 +243,58 @@ manual.example.com {
 ```
 
 如需更细缓存控制，再单独补 header 规则。
+
+## 可选的 X-Robots-Tag 防护
+
+若需要让 Beta 站点中的 PDF、图片等非 HTML 资源也明确禁止索引，可在服务器响应中增加：
+
+```http
+X-Robots-Tag: noindex, nofollow
+```
+
+仓库当前不会自动修改服务器配置。该响应头是 Beta 构建内 HTML `meta robots` 的补充防护，不替代构建时 noindex。
+
+专用 Beta 域名的 Nginx 配置可在对应 `server` 块中加入：
+
+```nginx
+add_header X-Robots-Tag "noindex, nofollow" always;
+```
+
+如果 Beta 位于正式域名的子路径，只能把响应头加到 Beta 路径对应的 `location`，不能加到整个正式站点：
+
+```nginx
+location ^~ /beta/ {
+    add_header X-Robots-Tag "noindex, nofollow" always;
+    # Beta 站点现有的 root/alias、缓存和静态文件规则
+}
+```
+
+Nginx 的嵌套 `location` 如果声明了自己的 `add_header`，可能不会继承上层响应头；应检查所有实际匹配的 Beta 资源响应。
+
+专用 Beta 域名的 Caddy 配置可写为：
+
+```caddy
+beta.example.com {
+    root * /srv/ssl-live-manual-beta
+    header X-Robots-Tag "noindex, nofollow"
+    file_server
+}
+```
+
+若使用同域名子路径，则使用路径匹配器限定范围：
+
+```caddy
+header /beta/* X-Robots-Tag "noindex, nofollow"
+```
+
+配置后应分别检查 HTML 和非 HTML 资源：
+
+```bash
+curl -I https://beta.example.com/
+curl -I https://beta.example.com/assets/manual/example.pdf
+```
+
+两类响应都应包含 `X-Robots-Tag: noindex, nofollow`。
 
 ## 对象存储与 Pages
 
@@ -264,6 +318,7 @@ manual.example.com {
  当前 SEO 规则：
  
  - 中文页面默认允许被索引；`content/seo.json` `noindexPageIds` 中的页面使用 `noindex, follow`，并从 sitemap 排除。
+ - Beta 部署通过 `SEO_NOINDEX=true` 自动启用全站 `noindex, nofollow`；爬虫仍可读取 HTML，但 Beta sitemap 不包含任何 URL。
  - 英文版内容不单独设 URL，未标记 `hreflang="en"`，不被索引。
  - `robots.txt` 禁止抓取 `data/`、`themes/`、`src/` 目录。
  - `data/`、`themes/` 使用带构建哈希的长缓存；`seo/` 禁止缓存，确保预渲染正文随发布及时更新。

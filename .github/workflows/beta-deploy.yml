@@ -43,6 +43,8 @@ jobs:
         run: npm ci
 
       - name: Build and validate
+        env:
+          SEO_NOINDEX: "true"
         run: npm run check
 
       - name: Deploy dist/ to server

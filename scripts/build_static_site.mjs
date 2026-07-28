@@ -5,7 +5,12 @@ import { createBuildHash, createContentHashedFileName } from "./lib/build_hash.m
 import { assertSafeContentHtml } from "./lib/content_security.mjs";
 import { generateLlmsTxt } from "./lib/llms_txt.mjs";
 import { assertSafeManifestOutputFile, assertSafePathSegment } from "./lib/safe_paths.mjs";
-import { generateRobotsTxt, renderIndexSeoTemplate, resolveSeoConfig } from "./lib/seo_config.mjs";
+import {
+  generateRobotsTxt,
+  renderIndexSeoTemplate,
+  resolveSeoConfig,
+  resolveSiteWideNoindex,
+} from "./lib/seo_config.mjs";
 import { getSourceDate } from "./lib/sitemap_dates.mjs";
 import {
   root,
@@ -25,6 +30,7 @@ const site = readJson(path.join(contentDirectory, "site.json"));
 const manifest = readJson(path.join(contentDirectory, "manifest.json"));
 const seoConfig = readJson(path.join(contentDirectory, "seo.json"));
 const resolvedSeo = resolveSeoConfig(seoConfig);
+const siteWideNoindex = resolveSiteWideNoindex(process.env.SEO_NOINDEX);
 const noindexPageIds = new Set(seoConfig.noindexPageIds || []);
 const assetManifest = readJson(path.join(root, "public", "assets", "manual", "manifest.json"));
 for (const [index, item] of manifest.entries()) {
@@ -262,9 +268,12 @@ fs.cpSync(path.join(root, "public"), outputDirectory, { recursive: true });
 const indexTemplate = fs.readFileSync(path.join(root, "src", "index.html"), "utf8");
 fs.writeFileSync(
   path.join(outputDirectory, "index.html"),
-  renderIndexSeoTemplate(indexTemplate, resolvedSeo),
+  renderIndexSeoTemplate(indexTemplate, resolvedSeo, { siteWideNoindex }),
 );
-fs.writeFileSync(path.join(outputDirectory, "robots.txt"), generateRobotsTxt(resolvedSeo));
+fs.writeFileSync(
+  path.join(outputDirectory, "robots.txt"),
+  generateRobotsTxt(resolvedSeo, { siteWideNoindex }),
+);
 for (const file of ["app.js", "styles.css"]) {
   fs.copyFileSync(path.join(root, "src", file), path.join(outputDirectory, "src", file));
 }
@@ -551,7 +560,9 @@ function escapeXml(str) {
 }
 
 function generatePrerenderPage(pageData, prevPage, nextPage) {
-  var robotsContent = noindexPageIds.has(pageData.id) ? "noindex, follow" : "index, follow";
+  var robotsContent = siteWideNoindex
+    ? "noindex, nofollow"
+    : (noindexPageIds.has(pageData.id) ? "noindex, follow" : "index, follow");
   var crawlContent = addBlankLinkRel(pageData.contentHtml).replace(
     /href="#\/page\/([^"]+)"/g,
     function(match, path) {
@@ -632,25 +643,27 @@ function sitemapUrl(loc, priority, changefreq, lastmod) {
 }
 
 var sitemapEntries = [];
-var siteDate = getSitemapDate(path.join(contentDirectory, "seo.json"));
-sitemapEntries.push(sitemapUrl("", 1.0, "weekly", siteDate));
+if (!siteWideNoindex) {
+  var siteDate = getSitemapDate(path.join(contentDirectory, "seo.json"));
+  sitemapEntries.push(sitemapUrl("", 1.0, "weekly", siteDate));
 
-for (var i = 0; i < pages.length; i++) {
-  var page = pages[i];
-  if (noindexPageIds.has(page.id)) continue;
-  var manifestItem = manifest.find(function(item) {
-    return path.basename(item.outputFile, ".html").replace(/^\d+-/, "") === page.id;
-  });
-  var zhPath = manifestItem ? path.join(contentDirectory, "zh", manifestItem.outputFile) : "";
-  var lastModified = getSitemapDate(zhPath);
-  var priority = 0.9 - (i / pages.length) * 0.3;
-  sitemapEntries.push(sitemapUrl("seo/" + page.id + ".html", priority, "weekly", lastModified));
-}
+  for (var i = 0; i < pages.length; i++) {
+    var page = pages[i];
+    if (noindexPageIds.has(page.id)) continue;
+    var manifestItem = manifest.find(function(item) {
+      return path.basename(item.outputFile, ".html").replace(/^\d+-/, "") === page.id;
+    });
+    var zhPath = manifestItem ? path.join(contentDirectory, "zh", manifestItem.outputFile) : "";
+    var lastModified = getSitemapDate(zhPath);
+    var priority = 0.9 - (i / pages.length) * 0.3;
+    sitemapEntries.push(sitemapUrl("seo/" + page.id + ".html", priority, "weekly", lastModified));
+  }
 
-for (var si = 0; si < standalonePages.length; si++) {
-  if (noindexPageIds.has(standalonePages[si].id)) continue;
-  var standaloneLastModified = getSitemapDate(standalonePages[si].chinesePath);
-  sitemapEntries.push(sitemapUrl("seo/" + standalonePages[si].id + ".html", 0.4, "monthly", standaloneLastModified));
+  for (var si = 0; si < standalonePages.length; si++) {
+    if (noindexPageIds.has(standalonePages[si].id)) continue;
+    var standaloneLastModified = getSitemapDate(standalonePages[si].chinesePath);
+    sitemapEntries.push(sitemapUrl("seo/" + standalonePages[si].id + ".html", 0.4, "monthly", standaloneLastModified));
+  }
 }
 
 var sitemap = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\">\n" + sitemapEntries.join("\n") + "\n</urlset>\n";

@@ -133,14 +133,22 @@ standalone 页面特点：
  - `dist/robots.txt` — 根据 `content/seo.json` 动态生成，允许所有爬虫并指向 sitemap
  - `dist/sitemap.xml` — 涵盖 canonical 首页，以及未列入 `content/seo.json` `noindexPageIds` 的章节页和 standalone 页
  - `dist/llms.txt` — 按 llms.txt Markdown 规范生成的 AI 智能体内容索引；按 `content/site.json` 章节分组，链接到允许索引的 `seo/*.html`
- 
- 构建脚本新增产出：
- 
- ```text
- dist/seo/*.html
- dist/sitemap.xml
- dist/robots.txt
- dist/llms.txt
- ```
- 
- `npm run audit:seo` 可独立验证所有 SEO 产物的完整性。
+
+`npm run audit:seo` 可独立验证所有 SEO 产物的完整性。
+
+### Beta 全站 noindex 构建
+
+`.github/workflows/beta-deploy.yml` 在执行 `npm run check` 时设置 `SEO_NOINDEX=true`。这是部署通道级开关，不写入 `content/seo.json`，因此不会改变正式版的 SEO 内容事实来源。
+
+全站 noindex 模式会改变以下构建产物：
+
+- `dist/index.html`：`<meta name="robots" content="noindex, nofollow">`
+- `dist/seo/*.html`：全部使用 `noindex, nofollow`，覆盖 `noindexPageIds` 的页面级默认值
+- `dist/sitemap.xml`：保留合法的空 XML 结构，但不发布 Beta URL
+- `dist/robots.txt`：继续允许爬虫读取 HTML 中的 `noindex`，但不发布 Sitemap 指令
+
+正式构建不设置 `SEO_NOINDEX`，继续生成 `index, follow`、正常 sitemap 和 Sitemap 指令。`SEO_NOINDEX` 仅接受字符串 `true` 或 `false`；其他值会使构建失败，避免拼写错误导致 Beta 意外进入可索引模式。
+
+不能用 `robots.txt` 的 `Disallow: /` 代替 `noindex`。如果爬虫无法访问 HTML，就无法读取其中的 `noindex` 指令，URL 仍可能仅凭外部链接出现在搜索结果中。
+
+服务器级 `X-Robots-Tag` 是可选的部署防护，不属于构建产物；Nginx、Caddy 配置及验证方式见[部署指南](DEPLOYMENT.md#可选的-x-robots-tag-防护)。

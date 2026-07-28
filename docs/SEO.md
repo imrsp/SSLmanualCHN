@@ -61,7 +61,7 @@ src/index.html            ← SPA 入口模板（SEO 字段由构建注入）
 |---|---|---|
 | `<title>` | 中文标题 `\| SSL Live 中文操作手册` | `content/site.json` `pageTitlesZhById` |
 | `<meta name="description">` | 正文首段 160 字摘要 | `extractMetaDescription()` 自动抽取 |
-| `<meta name="robots">` | `index, follow` 或 `noindex, follow` | 默认 `index`，`content/seo.json` 可配置 `noindexPageIds` |
+| `<meta name="robots">` | `index, follow`、`noindex, follow` 或 `noindex, nofollow` | 默认 `index`；`content/seo.json` 可配置页面级 `noindexPageIds`；Beta 构建启用全站 noindex |
 | `<meta property="og:title">` | 页面中文标题 | 同 title |
 | `<meta property="og:description">` | 同 meta description | 同上 |
 | `<meta property="og:type">` | `article` | 固定 |
@@ -87,7 +87,7 @@ src/index.html            ← SPA 入口模板（SEO 字段由构建注入）
 - `<meta name="twitter:*">` — 3 个 Twitter 标签
 - `<link rel="canonical">` — 指向站点根
 - `<link rel="sitemap">` — 指向 `sitemap.xml`
-- `<meta name="robots">` — `index, follow`
+- `<meta name="robots">` — 正式构建为 `index, follow`，Beta 构建为 `noindex, nofollow`
 
 ---
 
@@ -135,6 +135,12 @@ src/index.html            ← SPA 入口模板（SEO 字段由构建注入）
 "noindexPageIds": ["About", "about-dmt"]
 ```
 
+### Beta 全站禁止索引
+
+`.github/workflows/beta-deploy.yml` 设置 `SEO_NOINDEX=true` 后再运行 `npm run check`。构建会让 SPA 入口和全部 `seo/*.html` 使用 `noindex, nofollow`，生成不含 URL 的 sitemap，并从 `robots.txt` 移除 Sitemap 指令。`robots.txt` 仍允许爬虫访问 HTML，以确保爬虫能够读取 `noindex`。
+
+该开关不应写入 `content/seo.json`，因为它描述的是部署通道，而不是正式站点的内容规则。正式构建不设置该变量，保持正常索引行为。
+
 ### 搜索引擎提交
 
 部署后执行：
@@ -151,8 +157,8 @@ src/index.html            ← SPA 入口模板（SEO 字段由构建注入）
 `npm run build` 或 `npm run check` 会自动产出：
 
 - `dist/seo/*.html` — 每个章节和 standalone 页面各一份
-- `dist/sitemap.xml` — canonical 首页，以及未列入 `noindexPageIds` 的章节和 standalone 页
-- `dist/robots.txt` — 允许所有爬虫，禁止抓取 `data/`、`themes/`、`src/`
+- `dist/sitemap.xml` — 正式构建包含 canonical 首页及未列入 `noindexPageIds` 的内容页；Beta 构建不包含 URL
+- `dist/robots.txt` — 允许爬虫读取 HTML，禁止抓取 `data/`、`themes/`、`src/`；Beta 构建不发布 Sitemap 指令
 - `dist/llms.txt` — 仅列出允许索引的手册章节，并链接到对应预渲染页面
 
 ### 独立审计
@@ -163,14 +169,14 @@ npm run audit:seo
 
 检验项目包括：
 
-- `robots.txt` 存在且含 Sitemap 指令
-- `sitemap.xml` 存在，且仅包含 canonical 首页和允许索引的内容页
+- `robots.txt` 存在；正式构建含 Sitemap 指令，Beta 构建不含
+- `sitemap.xml` 存在；正式构建仅包含允许索引的 canonical URL，Beta 构建不包含 URL
 - `llms.txt` 位于站点根路径，格式有效、内容与当前元数据一致且不包含 noindex 页面
 - 所有 `seo/*.html` 文件存在
 - 每页都有 `<title>`、description、canonical、JSON-LD、OG、Twitter、hreflang、SPA 重定向，正文 ID 唯一且不存在无 JavaScript 强制跳转
 - 首页有 `rel=next`，末页有 `rel=prev`
 - standalone 页存在且有 description 和 JSON-LD
-- SPA 入口 `index.html` 有 description、OG、Twitter、canonical、sitemap、robots
+- SPA 入口 `index.html` 有 description、OG、Twitter、canonical、sitemap、robots，且 robots 值符合当前构建模式
 
 该审计是 `npm run check` 的最后一个阻断步骤。
 

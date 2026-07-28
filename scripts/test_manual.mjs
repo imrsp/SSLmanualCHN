@@ -11,7 +11,12 @@ import { findUnsafeContentIssues } from "./lib/content_security.mjs";
 import { validateDeployTarget } from "./lib/deploy_target.mjs";
 import { generateLlmsTxt, validateLlmsTxtFormat } from "./lib/llms_txt.mjs";
 import { assertSafeManifestOutputFile, assertSafePathSegment } from "./lib/safe_paths.mjs";
-import { generateRobotsTxt, renderIndexSeoTemplate, resolveSeoConfig } from "./lib/seo_config.mjs";
+import {
+  generateRobotsTxt,
+  renderIndexSeoTemplate,
+  resolveSeoConfig,
+  resolveSiteWideNoindex,
+} from "./lib/seo_config.mjs";
 import { finalizeSnapshot } from "./lib/snapshot_publish.mjs";
 import { validateUpstreamPatches } from "./lib/upstream_patches.mjs";
 import {
@@ -115,14 +120,31 @@ test("SEO templates are rendered only from content/seo.json values", () => {
     defaultLastModified: "2026-07-17",
   });
   const rendered = renderIndexSeoTemplate(
-    '<meta name="description" content="__SEO_DESCRIPTION__"><meta name="keywords" content="__SEO_KEYWORDS__"><link rel="canonical" href="__SEO_SITE_URL__"><meta property="og:image" content="__SEO_OG_IMAGE_URL__">',
+    '<meta name="description" content="__SEO_DESCRIPTION__"><meta name="keywords" content="__SEO_KEYWORDS__"><meta name="robots" content="__SEO_ROBOTS__"><link rel="canonical" href="__SEO_SITE_URL__"><meta property="og:image" content="__SEO_OG_IMAGE_URL__">',
     seo,
+  );
+  const noindexRendered = renderIndexSeoTemplate(
+    '<meta name="robots" content="__SEO_ROBOTS__">',
+    seo,
+    { siteWideNoindex: true },
   );
   assert.match(rendered, /Description &amp; details/);
   assert.match(rendered, /https:\/\/example\.test\/manual\//);
   assert.match(rendered, /https:\/\/example\.test\/manual\/pwa-icon-512\.png/);
+  assert.match(rendered, /content="index, follow"/);
+  assert.match(noindexRendered, /content="noindex, nofollow"/);
   assert.match(generateRobotsTxt(seo), /Sitemap: https:\/\/example\.test\/manual\/sitemap\.xml/);
+  assert.doesNotMatch(generateRobotsTxt(seo, { siteWideNoindex: true }), /Sitemap:/);
+  assert.doesNotMatch(generateRobotsTxt(seo, { siteWideNoindex: true }), /^Disallow: \/$/m);
   assert.doesNotMatch(rendered, /__SEO_/);
+});
+
+test("site-wide noindex mode only accepts explicit boolean strings", () => {
+  assert.equal(resolveSiteWideNoindex(undefined), false);
+  assert.equal(resolveSiteWideNoindex(""), false);
+  assert.equal(resolveSiteWideNoindex("false"), false);
+  assert.equal(resolveSiteWideNoindex("true"), true);
+  assert.throws(() => resolveSiteWideNoindex("1"), /SEO_NOINDEX/);
 });
 
 test("llms.txt generation follows the ordered Markdown file-list format", () => {
