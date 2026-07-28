@@ -34,3 +34,10 @@ export function createBuildHash(filePaths, baseDirectory) {
 
   return hasher.digest("hex").slice(0, 12);
 }
+
+export function createContentHashedFileName(fileName, content) {
+  const extension = path.extname(fileName);
+  const baseName = extension ? fileName.slice(0, -extension.length) : fileName;
+  const contentHash = crypto.createHash("sha256").update(content).digest("hex").slice(0, 12);
+  return `${baseName}.${contentHash}${extension}`;
+}

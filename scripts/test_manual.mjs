@@ -5,7 +5,7 @@ import path from "node:path";
 import test from "node:test";
 import vm from "node:vm";
 
-import { createBuildHash } from "./lib/build_hash.mjs";
+import { createBuildHash, createContentHashedFileName } from "./lib/build_hash.mjs";
 import { extractReleaseNotes } from "./extract_release_notes.mjs";
 import { findUnsafeContentIssues } from "./lib/content_security.mjs";
 import { validateDeployTarget } from "./lib/deploy_target.mjs";
@@ -420,6 +420,21 @@ test("build hash ignores catalog generation time but tracks deployable content",
 
   fs.writeFileSync(workerPath, "worker-v2");
   assert.notEqual(createBuildHash(files, directory), firstHash);
+});
+
+test("content-hashed asset names preserve extensions and track file contents", () => {
+  assert.equal(
+    createContentHashedFileName("font.subset.woff2", Buffer.from("font-v1")),
+    "font.subset.cea7364a8c7d.woff2",
+  );
+  assert.equal(
+    createContentHashedFileName("font.subset.woff2", Buffer.from("font-v1")),
+    createContentHashedFileName("font.subset.woff2", Buffer.from("font-v1")),
+  );
+  assert.notEqual(
+    createContentHashedFileName("font.subset.woff2", Buffer.from("font-v1")),
+    createContentHashedFileName("font.subset.woff2", Buffer.from("font-v2")),
+  );
 });
 
 test("service worker keeps build versions in data cache keys and handles search indexes", () => {

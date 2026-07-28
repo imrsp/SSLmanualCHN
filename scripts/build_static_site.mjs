@@ -1,8 +1,7 @@
 import fs from "node:fs";
-import crypto from "node:crypto";
 import { execSync } from "node:child_process";
 import path from "node:path";
-import { createBuildHash } from "./lib/build_hash.mjs";
+import { createBuildHash, createContentHashedFileName } from "./lib/build_hash.mjs";
 import { assertSafeContentHtml } from "./lib/content_security.mjs";
 import { assertSafeManifestOutputFile, assertSafePathSegment } from "./lib/safe_paths.mjs";
 import { generateRobotsTxt, renderIndexSeoTemplate, resolveSeoConfig } from "./lib/seo_config.mjs";
@@ -681,14 +680,34 @@ const buildHash = createBuildHash(allOutputFiles, outputDirectory);
 
 // Hash and rename app.js
 const appJsPath = path.join(outputDirectory, "src", "app.js");
-const appHash = crypto.createHash("sha256").update(fs.readFileSync(appJsPath)).digest("hex").slice(0, 12);
-const appHashed = "app." + appHash + ".js";
+const appHashed = createContentHashedFileName("app.js", fs.readFileSync(appJsPath));
 fs.renameSync(appJsPath, path.join(outputDirectory, "src", appHashed));
 
-// Hash and rename styles.css
+// Hash font files first, then rewrite their CSS references so both asset layers
+// change whenever a generated subset changes.
 const cssPath = path.join(outputDirectory, "src", "styles.css");
-const cssHash = crypto.createHash("sha256").update(fs.readFileSync(cssPath)).digest("hex").slice(0, 12);
-const cssHashed = "styles." + cssHash + ".css";
+let cssSource = fs.readFileSync(cssPath, "utf8");
+const fontsPath = path.join(outputDirectory, "assets", "fonts");
+const hashedFonts = [];
+if (fs.existsSync(fontsPath)) {
+  const fontFiles = fs.readdirSync(fontsPath)
+    .filter((fileName) => fileName.endsWith(".woff2"))
+    .sort();
+  for (const fontFile of fontFiles) {
+    const fontPath = path.join(fontsPath, fontFile);
+    const fontHashed = createContentHashedFileName(fontFile, fs.readFileSync(fontPath));
+    cssSource = cssSource.replaceAll(
+      `../assets/fonts/${fontFile}`,
+      `../assets/fonts/${fontHashed}`,
+    );
+    fs.renameSync(fontPath, path.join(fontsPath, fontHashed));
+    hashedFonts.push(fontHashed);
+  }
+  fs.writeFileSync(cssPath, cssSource);
+}
+
+// Hash and rename styles.css after font URLs have been finalized.
+const cssHashed = createContentHashedFileName("styles.css", fs.readFileSync(cssPath));
 fs.renameSync(cssPath, path.join(outputDirectory, "src", cssHashed));
 
 // Rewrite index.html
@@ -719,6 +738,9 @@ fs.writeFileSync(htmlFile, html);
 
 console.log("[cache] " + appHashed);
 console.log("[cache] " + cssHashed);
+for (const fontHashed of hashedFonts) {
+  console.log("[cache] " + fontHashed);
+}
 console.log("[cache] Build hash: " + buildHash);
 
 const swPath = path.join(outputDirectory, "sw.js");

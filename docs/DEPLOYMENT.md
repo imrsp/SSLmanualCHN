@@ -41,6 +41,7 @@ git push origin v1.0.1
 - `index.html`：短缓存或禁止缓存。
 - `seo/*.html`：预渲染页面，禁止缓存。
 - `src/app.<hash>.js`、`src/styles.<hash>.css`：应用壳，不可变长缓存（365d，`immutable`）。
+- `assets/fonts/*.<hash>.woff2`：字体子集，不可变长缓存（365d，`immutable`）；字体内容变化时，文件名和引用它的样式表哈希都会同步变化。
 - `data/*.json`、`themes/*.css`：构建哈希参数使缓存失效，可长缓存（365d）。
 - `manifest.webmanifest` 和 `sw.js`：禁止缓存，保证安装元数据和 SW 更新及时生效。
 - `robots.txt`、`sitemap.xml`：搜索引擎发现文件，短缓存（1d）。
@@ -172,6 +173,13 @@ server {
 
     # 应用壳（已哈希命名）：不可变长缓存
     location ~* ^/src/.*\.(js|css)$ {
+        expires 365d;
+        add_header Cache-Control "public, max-age=31536000, immutable" always;
+        access_log off;
+    }
+
+    # 字体子集（已哈希命名）：不可变长缓存
+    location ^~ /assets/fonts/ {
         expires 365d;
         add_header Cache-Control "public, max-age=31536000, immutable" always;
         access_log off;

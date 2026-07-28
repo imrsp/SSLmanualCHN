@@ -22,6 +22,7 @@ dist/manifest.webmanifest
 dist/sw.js
 dist/src/app.<hash>.js
 dist/src/styles.<hash>.css
+dist/assets/fonts/*.<hash>.woff2
 dist/data/catalog.{json,js}
 dist/data/search-index-zh.{json,js}
 dist/data/search-index-en.{json,js}
@@ -59,6 +60,7 @@ dist/robots.txt
 - `content/themes/`：主题预设 JSON。
 - `src/`：静态阅读器源码。
 - `public/`：原样复制到发布物中的图片、PDF、favicon 和其他静态资源。
+- `fonts/src/`：构建字体子集所用的 TTF 源文件；CI 构建生成 `dist/assets/fonts/*.<hash>.woff2`，并在最终样式表中写入对应的内容哈希文件名。
 - `public/assets/manual/manifest.json`：手动维护的资源清单，用于告诉构建脚本哪些手册资源应被本地化并复制到发布物中。`downloaded` 和 `replaced` 资源会正常显示，`placeholder` 资源会在构建时被标记为 `hidden`，并由 CSS 直接隐藏。
 - `scripts/`：构建、验证、审计、本地预览、快照工具。
 - `upstream/snapshots/<Document Revision Number>/`：按官方文档修订号保存的不可覆盖源站转储。
