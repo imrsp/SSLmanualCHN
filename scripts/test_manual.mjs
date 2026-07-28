@@ -9,6 +9,7 @@ import { createBuildHash, createContentHashedFileName } from "./lib/build_hash.m
 import { extractReleaseNotes } from "./extract_release_notes.mjs";
 import { findUnsafeContentIssues } from "./lib/content_security.mjs";
 import { validateDeployTarget } from "./lib/deploy_target.mjs";
+import { generateLlmsTxt, validateLlmsTxtFormat } from "./lib/llms_txt.mjs";
 import { assertSafeManifestOutputFile, assertSafePathSegment } from "./lib/safe_paths.mjs";
 import { generateRobotsTxt, renderIndexSeoTemplate, resolveSeoConfig } from "./lib/seo_config.mjs";
 import { finalizeSnapshot } from "./lib/snapshot_publish.mjs";
@@ -122,6 +123,60 @@ test("SEO templates are rendered only from content/seo.json values", () => {
   assert.match(rendered, /https:\/\/example\.test\/manual\/pwa-icon-512\.png/);
   assert.match(generateRobotsTxt(seo), /Sitemap: https:\/\/example\.test\/manual\/sitemap\.xml/);
   assert.doesNotMatch(rendered, /__SEO_/);
+});
+
+test("llms.txt generation follows the ordered Markdown file-list format", () => {
+  const llmsTxt = generateLlmsTxt({
+    site: {
+      title: "测试手册",
+      source: "https://source.example/",
+      sections: [
+        { id: "intro", titleZh: "入门" },
+        { id: "appendix", titleZh: "附录" },
+      ],
+      pageTitlesZhById: {
+        Intro: "简介",
+        About: "关于",
+        Reference: "参考",
+      },
+    },
+    manifest: [
+      { order: 1, section: "intro", title: "Introduction", outputFile: "pages/01-Intro.html" },
+      { order: 2, section: "intro", title: "About", outputFile: "pages/02-About.html" },
+      { order: 3, section: "appendix", title: "Reference", outputFile: "pages/03-Reference.html" },
+    ],
+    resolvedSeo: {
+      description: "用于验证 llms.txt 生成规则的测试手册。",
+      siteUrl: "https://manual.example/subpath/",
+    },
+    noindexPageIds: new Set(["About"]),
+  });
+
+  assert.deepEqual(validateLlmsTxtFormat(llmsTxt), []);
+  assert.match(llmsTxt, /^# 测试手册\n\n> 用于验证 llms\.txt 生成规则的测试手册。\n/);
+  assert.match(llmsTxt, /\n## 入门\n\n- \[01 简介\]\(https:\/\/manual\.example\/subpath\/seo\/Intro\.html\): 对应英文主题：Introduction。/);
+  assert.match(llmsTxt, /\n## 附录\n\n- \[03 参考\]\(https:\/\/manual\.example\/subpath\/seo\/Reference\.html\): 对应英文主题：Reference。/);
+  assert.doesNotMatch(llmsTxt, /About\.html/);
+  assert.ok(llmsTxt.endsWith("\n"));
+});
+
+test("llms.txt validation rejects headings and prose inside file-list sections", () => {
+  const invalid = [
+    "# Test",
+    "",
+    "> Summary",
+    "",
+    "## Docs",
+    "",
+    "This is not a file-list item.",
+    "",
+    "### Nested heading",
+    "",
+  ].join("\n");
+
+  const issues = validateLlmsTxtFormat(invalid);
+  assert.ok(issues.some((issue) => issue.includes("invalid file-list item")));
+  assert.ok(issues.some((issue) => issue.includes("only H1 and H2 headings")));
 });
 
 test("registered upstream patches remain present in snapshots and applied to targets", () => {

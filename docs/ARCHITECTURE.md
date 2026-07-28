@@ -33,6 +33,7 @@ dist/assets/**
 dist/seo/*.html
 dist/sitemap.xml
 dist/robots.txt
+dist/llms.txt
 ```
 
 ## 运行时加载模型
@@ -53,7 +54,7 @@ dist/robots.txt
 ## 目录职责
 
 - `content/`：人工维护的正文与元数据，是内容事实来源。
-- `content/seo.json`：部署 URL、description、keywords、OG 图片、noindex 页面和 sitemap 回退日期的唯一 SEO 配置源。构建时同步生成 SPA 标签、预渲染标签和 `robots.txt`。
+- `content/seo.json`：部署 URL、description、keywords、OG 图片、noindex 页面和 sitemap 回退日期的唯一 SEO 配置源。构建时同步生成 SPA 标签、预渲染标签、`robots.txt` 和 `llms.txt`。
 - `content/upstream.json`：源站配置与内容合并进度的唯一记录；`mergedRevision` 表示当前中英文正文已经完整合并到的源站文档修订号，可以落后于最新抓取版本。
 - `content/upstream-patches.json`：记录上游原文中已确认、但本站需要主动修正的错误；工程校验会确认上游证据仍存在且中英文目标均已应用补丁。
 - `content/en/pages/`：英文基准正文。
@@ -131,6 +132,7 @@ standalone 页面特点：
  
  - `dist/robots.txt` — 根据 `content/seo.json` 动态生成，允许所有爬虫并指向 sitemap
  - `dist/sitemap.xml` — 涵盖 canonical 首页，以及未列入 `content/seo.json` `noindexPageIds` 的章节页和 standalone 页
+ - `dist/llms.txt` — 按 llms.txt Markdown 规范生成的 AI 智能体内容索引；按 `content/site.json` 章节分组，链接到允许索引的 `seo/*.html`
  
  构建脚本新增产出：
  
@@ -138,6 +140,7 @@ standalone 页面特点：
  dist/seo/*.html
  dist/sitemap.xml
  dist/robots.txt
+ dist/llms.txt
  ```
  
  `npm run audit:seo` 可独立验证所有 SEO 产物的完整性。

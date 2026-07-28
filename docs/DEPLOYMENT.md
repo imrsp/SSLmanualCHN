@@ -44,7 +44,7 @@ git push origin v1.0.1
 - `assets/fonts/*.<hash>.woff2`：字体子集，不可变长缓存（365d，`immutable`）；字体内容变化时，文件名和引用它的样式表哈希都会同步变化。
 - `data/*.json`、`themes/*.css`：构建哈希参数使缓存失效，可长缓存（365d）。
 - `manifest.webmanifest` 和 `sw.js`：禁止缓存，保证安装元数据和 SW 更新及时生效。
-- `robots.txt`、`sitemap.xml`：搜索引擎发现文件，短缓存（1d）。
+- `robots.txt`、`sitemap.xml`、`llms.txt`：爬虫与 AI 智能体发现文件，短缓存（1d）。
 - `assets/manual/`：手册图片和 PDF，中等缓存（30d）。
 - 其他静态资源：通用回退规则，中等缓存（30d）。
 
@@ -150,6 +150,10 @@ server {
         expires 1d;
         add_header Cache-Control "public, max-age=86400" always;
     }
+    location = /llms.txt {
+        expires 1d;
+        add_header Cache-Control "public, max-age=86400" always;
+    }
 
     # SEO 预渲染页面：禁止缓存（内容随构建更新）
     location /seo/ {
@@ -223,7 +227,7 @@ server {
 
 将 `dist/` 内容同步到 document root（如 `/srv/ssl-live-manual/`）即可。
 
-部署 URL、description、keywords 和 OG 图片统一维护在 `content/seo.json`。构建会将这些字段注入 `dist/index.html`、所有 SEO 预渲染页面，并动态生成 `dist/robots.txt`；部署前不再执行字符串替换。
+部署 URL、description、keywords 和 OG 图片统一维护在 `content/seo.json`。构建会将这些字段注入 `dist/index.html`、所有 SEO 预渲染页面，并动态生成 `dist/robots.txt` 与 `dist/llms.txt`；部署前不再执行字符串替换。
 
 GitHub Actions 部署会拒绝空路径、根目录、常见系统目录、SSH 用户主目录及包含危险字符的目标，并在远端解析真实路径后再次校验。正式版与 beta 部署共享并发互斥组，避免两个 `rsync --delete-delay` 过程交错。
 
@@ -251,7 +255,7 @@ manual.example.com {
 - 图片与 PDF 独立缓存，不再内嵌到 HTML。
 - `sw.js` 会预缓存应用壳与核心元数据，并在访问过的页面分片和站点静态资源上做运行时缓存，以支持离线回访。更新后的 SW 会在下次进入站点时自动接管。
 - `file://` 本地打开时，阅读器回退到同内容的 `.js` 数据文件。
- - `seo/*.html` 预渲染页面供搜索引擎爬虫直接读取正文，附带 SPA 重定向。`sitemap.xml` 和 `robots.txt` 帮助搜索引擎发现所有页面索引。
+ - `seo/*.html` 预渲染页面供搜索引擎爬虫直接读取正文，附带 SPA 重定向。`sitemap.xml` 和 `robots.txt` 帮助搜索引擎发现所有页面索引，`llms.txt` 为大语言模型和 AI 智能体提供按章节组织的内容入口。
  
  ## 搜索引擎配置
  

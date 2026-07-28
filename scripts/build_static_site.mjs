@@ -3,6 +3,7 @@ import { execSync } from "node:child_process";
 import path from "node:path";
 import { createBuildHash, createContentHashedFileName } from "./lib/build_hash.mjs";
 import { assertSafeContentHtml } from "./lib/content_security.mjs";
+import { generateLlmsTxt } from "./lib/llms_txt.mjs";
 import { assertSafeManifestOutputFile, assertSafePathSegment } from "./lib/safe_paths.mjs";
 import { generateRobotsTxt, renderIndexSeoTemplate, resolveSeoConfig } from "./lib/seo_config.mjs";
 import { getSourceDate } from "./lib/sitemap_dates.mjs";
@@ -656,7 +657,14 @@ var sitemap = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<urlset xmlns=\"http:
 fs.writeFileSync(path.join(outputDirectory, "sitemap.xml"), sitemap);
 console.log("[seo] Generated sitemap.xml with " + sitemapEntries.length + " entries");
 
-
+const llmsTxt = generateLlmsTxt({
+  site,
+  manifest,
+  resolvedSeo,
+  noindexPageIds,
+});
+fs.writeFileSync(path.join(outputDirectory, "llms.txt"), llmsTxt);
+console.log("[agentic] Generated llms.txt");
 
 /* === Cache-busting post-processing === */
 console.log("[cache] Applying content hashes…");

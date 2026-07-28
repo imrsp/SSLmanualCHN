@@ -2,6 +2,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { decodeHtmlEntities } from "./lib/html_entities.mjs";
+import { generateLlmsTxt, validateLlmsTxtFormat } from "./lib/llms_txt.mjs";
 import { generateRobotsTxt, resolveSeoConfig } from "./lib/seo_config.mjs";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
@@ -22,6 +23,7 @@ const manifestPath = path.join(root, "content", "manifest.json");
 const manifest = fs.existsSync(manifestPath)
   ? JSON.parse(fs.readFileSync(manifestPath, "utf8"))
   : [];
+const site = JSON.parse(fs.readFileSync(path.join(root, "content", "site.json"), "utf8"));
 const expectedPageCount = manifest.length;
 
 // Helper: extract page id from outputFile like "pages/01-Intro.html"
@@ -86,6 +88,36 @@ if (fs.existsSync(sitemapPath)) {
   check(
     sitemapLocations.every((location) => location.startsWith(resolvedSeo.siteUrl)),
     "All sitemap URLs use content/seo.json url",
+  );
+}
+
+// -- llms.txt --
+const llmsTxtPath = path.join(distDir, "llms.txt");
+check(fs.existsSync(llmsTxtPath), "llms.txt exists at the site root");
+if (fs.existsSync(llmsTxtPath)) {
+  const llmsTxt = fs.readFileSync(llmsTxtPath, "utf8");
+  const llmsTxtIssues = validateLlmsTxtFormat(llmsTxt);
+  check(llmsTxtIssues.length === 0, "llms.txt follows the llms.txt Markdown format");
+  const expectedLlmsTxt = generateLlmsTxt({
+    site,
+    manifest,
+    resolvedSeo,
+    noindexPageIds,
+  });
+  check(llmsTxt === expectedLlmsTxt, "llms.txt is generated from current site, manifest and SEO metadata");
+  const llmsTxtLinks = [...llmsTxt.matchAll(/^- \[[^\]]+\]\((https:\/\/[^)]+)\)/gm)]
+    .map((match) => match[1]);
+  const expectedLlmsTxtPageIds = manifest
+    .map((page) => pageIdFromOutputFile(page.outputFile))
+    .filter((pageId) => !noindexPageIds.has(pageId));
+  check(
+    llmsTxtLinks.length === expectedLlmsTxtPageIds.length,
+    `llms.txt lists exactly ${expectedLlmsTxtPageIds.length} indexable manual pages`,
+  );
+  check(
+    [...noindexPageIds].every((pageId) =>
+      !llmsTxtLinks.some((location) => location.endsWith(`/seo/${pageId}.html`))),
+    "llms.txt excludes every content/seo.json noindex page",
   );
 }
 

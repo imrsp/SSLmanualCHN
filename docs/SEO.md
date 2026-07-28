@@ -20,6 +20,7 @@ content/en/pages + content/zh/pages + content/manifest.json + content/site.json 
 dist/seo/<id>.html        ← 每个章节与 standalone 页各一份预渲染页面
 dist/sitemap.xml          ← 由当前章节与 standalone 页动态生成的站点地图
 dist/robots.txt           ← 爬虫指令
+dist/llms.txt             ← 面向大语言模型和 AI 智能体的规范化内容索引
 src/index.html            ← SPA 入口模板（SEO 字段由构建注入）
 ```
 
@@ -33,6 +34,22 @@ src/index.html            ← SPA 入口模板（SEO 字段由构建注入）
 - 重定向脚本（真人用户 → SPA）
 
 预渲染页面之间的内链已被替换为指向其他 `seo/<id>.html` 的相对路径，爬虫可以通过这些链接发现全部页面。
+
+---
+
+## AI 智能体索引 (`dist/llms.txt`)
+
+构建根据 `content/site.json`、`content/manifest.json` 和 `content/seo.json` 自动生成站点根路径下的 `llms.txt`，不在 `public/` 中维护静态副本。
+
+文件严格使用 llms.txt Markdown 结构：
+
+1. 一个 H1 站点标题
+2. 一个 blockquote 站点摘要
+3. 无标题的用途与内容说明
+4. 按 `content/site.json` 顺序排列的 H2 章节
+5. 每个 H2 下仅包含以 Markdown 链接开头的文件列表
+
+列表只包含允许索引的手册章节，并使用 `content/seo.json` 的部署 URL 指向对应 `seo/<id>.html` 预渲染页面。`noindexPageIds` 中的章节和 standalone 页面不会进入 `llms.txt`。抓取权限仍由 `robots.txt` 表达，`llms.txt` 只提供推理时的内容导航和上下文。
 
 ---
 
@@ -136,6 +153,7 @@ src/index.html            ← SPA 入口模板（SEO 字段由构建注入）
 - `dist/seo/*.html` — 每个章节和 standalone 页面各一份
 - `dist/sitemap.xml` — canonical 首页，以及未列入 `noindexPageIds` 的章节和 standalone 页
 - `dist/robots.txt` — 允许所有爬虫，禁止抓取 `data/`、`themes/`、`src/`
+- `dist/llms.txt` — 仅列出允许索引的手册章节，并链接到对应预渲染页面
 
 ### 独立审计
 
@@ -147,6 +165,7 @@ npm run audit:seo
 
 - `robots.txt` 存在且含 Sitemap 指令
 - `sitemap.xml` 存在，且仅包含 canonical 首页和允许索引的内容页
+- `llms.txt` 位于站点根路径，格式有效、内容与当前元数据一致且不包含 noindex 页面
 - 所有 `seo/*.html` 文件存在
 - 每页都有 `<title>`、description、canonical、JSON-LD、OG、Twitter、hreflang、SPA 重定向，正文 ID 唯一且不存在无 JavaScript 强制跳转
 - 首页有 `rel=next`，末页有 `rel=prev`
@@ -184,6 +203,11 @@ location = /sitemap.xml {
     add_header Cache-Control "public";
 }
 
+location = /llms.txt {
+    expires 1d;
+    add_header Cache-Control "public";
+}
+
 location /seo/ {
     expires -1;
     add_header Cache-Control "no-cache, must-revalidate";
@@ -198,7 +222,8 @@ location /seo/ {
 
 | 文件 | 职责 |
 |---|---|
-| `scripts/build_static_site.mjs` | 生成预渲染页面 + sitemap |
+| `scripts/build_static_site.mjs` | 生成预渲染页面、sitemap 和 llms.txt |
+| `scripts/lib/llms_txt.mjs` | 生成并校验 llms.txt Markdown 结构 |
 | `scripts/lib/manual.mjs` | `extractMetaDescription()` 描述抽取 |
 | `scripts/audit_seo.mjs` | SEO 完整性审计 |
 | `src/index.html` | SPA 入口模板（SEO 字段由构建注入） |

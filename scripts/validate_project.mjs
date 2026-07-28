@@ -23,6 +23,7 @@ const requiredFiles = [
   "docs/TRANSLATION.md",
   "AGENTS.md",
   "dist/index.html",
+  "dist/llms.txt",
   "dist/data/catalog.json",
   "dist/data/catalog.js",
   "dist/data/search-index-zh.json",
