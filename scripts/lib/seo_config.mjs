@@ -63,6 +63,12 @@ export function renderIndexSeoTemplate(template, resolvedSeo, { siteWideNoindex 
   for (const [token, value] of replacements) {
     result = result.replaceAll(token, escapeHtmlAttribute(value));
   }
+  result = result.replaceAll(
+    "__SEO_SITEMAP_LINK__",
+    siteWideNoindex
+      ? ""
+      : ' <link rel="sitemap" type="application/xml" href="./sitemap.xml">',
+  );
   const unresolved = result.match(/__SEO_[A-Z_]+__/g);
   if (unresolved) throw new Error(`Unresolved SEO template tokens: ${[...new Set(unresolved)].join(", ")}`);
   return result;

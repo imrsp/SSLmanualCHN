@@ -119,12 +119,20 @@ test("SEO templates are rendered only from content/seo.json values", () => {
     ogImage: "pwa-icon-512.png",
     defaultLastModified: "2026-07-17",
   });
+  const template = [
+    '<meta name="description" content="__SEO_DESCRIPTION__">',
+    '<meta name="keywords" content="__SEO_KEYWORDS__">',
+    '<meta name="robots" content="__SEO_ROBOTS__">',
+    '<link rel="canonical" href="__SEO_SITE_URL__">',
+    '<meta property="og:image" content="__SEO_OG_IMAGE_URL__">',
+    "__SEO_SITEMAP_LINK__",
+  ].join("");
   const rendered = renderIndexSeoTemplate(
-    '<meta name="description" content="__SEO_DESCRIPTION__"><meta name="keywords" content="__SEO_KEYWORDS__"><meta name="robots" content="__SEO_ROBOTS__"><link rel="canonical" href="__SEO_SITE_URL__"><meta property="og:image" content="__SEO_OG_IMAGE_URL__">',
+    template,
     seo,
   );
   const noindexRendered = renderIndexSeoTemplate(
-    '<meta name="robots" content="__SEO_ROBOTS__">',
+    template,
     seo,
     { siteWideNoindex: true },
   );
@@ -132,7 +140,9 @@ test("SEO templates are rendered only from content/seo.json values", () => {
   assert.match(rendered, /https:\/\/example\.test\/manual\//);
   assert.match(rendered, /https:\/\/example\.test\/manual\/pwa-icon-512\.png/);
   assert.match(rendered, /content="index, follow"/);
+  assert.match(rendered, /rel="sitemap"/);
   assert.match(noindexRendered, /content="noindex, nofollow"/);
+  assert.doesNotMatch(noindexRendered, /rel="sitemap"/);
   assert.match(generateRobotsTxt(seo), /Sitemap: https:\/\/example\.test\/manual\/sitemap\.xml/);
   assert.doesNotMatch(generateRobotsTxt(seo, { siteWideNoindex: true }), /Sitemap:/);
   assert.doesNotMatch(generateRobotsTxt(seo, { siteWideNoindex: true }), /^Disallow: \/$/m);
@@ -199,6 +209,46 @@ test("llms.txt validation rejects headings and prose inside file-list sections",
   const issues = validateLlmsTxtFormat(invalid);
   assert.ok(issues.some((issue) => issue.includes("invalid file-list item")));
   assert.ok(issues.some((issue) => issue.includes("only H1 and H2 headings")));
+});
+
+test("llms.txt validation accepts the spec minimum and optional summary or file lists", () => {
+  assert.deepEqual(validateLlmsTxtFormat("# X"), []);
+  assert.deepEqual(validateLlmsTxtFormat("\uFEFF# Minimal"), []);
+  assert.deepEqual(validateLlmsTxtFormat([
+    "# With optional sections",
+    "",
+    "> Summary",
+    "",
+    "More details.",
+    "",
+    "## Docs",
+    "",
+    "* [Relative URL example](/docs)",
+    "",
+  ].join("\n")), []);
+});
+
+test("site-wide noindex produces llms.txt without manual page links", () => {
+  const llmsTxt = generateLlmsTxt({
+    site: {
+      title: "测试手册",
+      source: "https://source.example/",
+      sections: [{ id: "intro", titleZh: "入门" }],
+      pageTitlesZhById: { Intro: "简介" },
+    },
+    manifest: [
+      { order: 1, section: "intro", title: "Introduction", outputFile: "pages/01-Intro.html" },
+    ],
+    resolvedSeo: {
+      description: "用于验证 Beta 全站 noindex 的测试手册。",
+      siteUrl: "https://manual.example/beta/",
+    },
+    siteWideNoindex: true,
+  });
+
+  assert.deepEqual(validateLlmsTxtFormat(llmsTxt), []);
+  assert.doesNotMatch(llmsTxt, /^## /m);
+  assert.doesNotMatch(llmsTxt, /manual\.example\/beta\/seo\//);
 });
 
 test("registered upstream patches remain present in snapshots and applied to targets", () => {
@@ -598,6 +648,82 @@ test("reader startup routes the latest URL before waiting for theme metadata", (
   );
 });
 
+test("reader synchronizes expanded navigation state before activating a new chapter", () => {
+  const appSource = fs.readFileSync(path.join(root, "src", "app.js"), "utf8");
+  const navigationStateSource = appSource.slice(
+    appSource.indexOf("function groupKey("),
+    appSource.indexOf("\nfunction renderNavLink(", appSource.indexOf("function groupKey(")),
+  );
+  const loadingNavigationSource = appSource.slice(
+    appSource.indexOf("function syncLoadingNavigation("),
+    appSource.indexOf("\nfunction renderPageSkeleton(", appSource.indexOf("function syncLoadingNavigation(")),
+  );
+  const currentNavigationSource = appSource.slice(
+    appSource.indexOf("function syncNavigationForCurrentPage("),
+    appSource.indexOf("\nfunction renderOutline(", appSource.indexOf("function syncNavigationForCurrentPage(")),
+  );
+
+  function createPanel(className) {
+    return {
+      hidden: true,
+      classList: { contains: (candidate) => candidate === className },
+    };
+  }
+  function createButton(dataset, panel = null) {
+    const attributes = new Map();
+    const classes = new Map();
+    return {
+      dataset,
+      nextElementSibling: panel,
+      setAttribute(name, value) { attributes.set(name, value); },
+      classList: {
+        toggle(name, active) { classes.set(name, active); },
+      },
+      attributes,
+      classes,
+    };
+  }
+
+  const sectionPanel = createPanel("nav-section-pages");
+  const groupPanel = createPanel("nav-group-pages");
+  const sectionButton = createButton({ sectionId: "intro" }, sectionPanel);
+  const groupButton = createButton({ groupKey: "intro::start" }, groupPanel);
+  const previousPageButton = createButton({ pageId: "Intro" });
+  const activePageButton = createButton({ pageId: "GettingStarted" });
+  const manualNav = {
+    childElementCount: 1,
+    querySelectorAll(selector) {
+      if (selector === "[data-section-id]") return [sectionButton];
+      if (selector === "[data-group-key]") return [groupButton];
+      if (selector === ".nav-link[data-page-id]") return [previousPageButton, activePageButton];
+      return [];
+    },
+  };
+  const context = vm.createContext({ manualNav });
+  vm.runInContext([
+    "const state = {",
+    "  catalog: { sections: [{ id: 'intro', groups: [{ id: 'start', pageIds: ['Intro', 'GettingStarted'] }] }] },",
+    "  currentPage: { id: 'GettingStarted', section: 'intro' },",
+    "  expandedSections: new Set(),",
+    "  expandedGroups: new Set(),",
+    "  query: '',",
+    "};",
+    "const elements = { manualNav };",
+    navigationStateSource,
+    loadingNavigationSource,
+    currentNavigationSource,
+    "ensureActiveNavigationExpanded();",
+    "syncNavigationForCurrentPage();",
+  ].join("\n"), context);
+
+  assert.equal(sectionButton.attributes.get("aria-expanded"), "true");
+  assert.equal(groupButton.attributes.get("aria-expanded"), "true");
+  assert.equal(sectionPanel.hidden, false);
+  assert.equal(groupPanel.hidden, false);
+  assert.equal(previousPageButton.classes.get("active"), false);
+  assert.equal(activePageButton.classes.get("active"), true);
+});
+
 test("reader search deduplicates index requests and ignores stale completions", () => {
   const appSource = fs.readFileSync(path.join(root, "src", "app.js"), "utf8");
   const searchSource = appSource.slice(
@@ -626,4 +752,48 @@ test("reader commits theme presets only after their stylesheet loads", () => {
     themeSource.indexOf("await loadThemeCSS(id)") < themeSource.indexOf("commitThemePreset(id, true)"),
     "selected preset state must follow stylesheet success",
   );
+});
+
+test("reselecting the active theme cancels a pending stylesheet request", async () => {
+  const appSource = fs.readFileSync(path.join(root, "src", "app.js"), "utf8");
+  const themeSource = appSource.slice(
+    appSource.indexOf("let presetLinkEl"),
+    appSource.indexOf("\nconst escapeHtml", appSource.indexOf("let presetLinkEl")),
+  );
+  const pendingLinks = [];
+  const context = vm.createContext({
+    window: { __BUILD_HASH__: "test-build" },
+    document: {
+      createElement() {
+        return {
+          remove() { this.removed = true; },
+        };
+      },
+      head: {
+        appendChild(link) { pendingLinks.push(link); },
+      },
+      body: { appendChild() {} },
+    },
+    localStorage: {
+      getItem() { return null; },
+      setItem() {},
+    },
+    CSS: { supports() { return true; } },
+    console,
+  });
+  vm.runInContext([
+    "const state = { defaultTheme: 'acid', themePreset: 'acid', themes: [] };",
+    "const elements = { presetItems: null, presetDropdown: null, presetToggle: null };",
+    themeSource,
+    "var pendingSelection = selectThemePreset('red');",
+  ].join("\n"), context);
+
+  assert.equal(pendingLinks.length, 1);
+  await vm.runInContext("selectThemePreset('acid')", context);
+  pendingLinks[0].onload();
+  await vm.runInContext("pendingSelection", context);
+
+  assert.equal(vm.runInContext("state.themePreset", context), "acid");
+  assert.equal(pendingLinks[0].removed, true);
+  assert.equal(vm.runInContext("presetLinkEl", context), null);
 });

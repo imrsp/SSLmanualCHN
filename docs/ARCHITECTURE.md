@@ -31,7 +31,7 @@ dist/data/pages/*.{json,js}
 dist/themes/*.css
 dist/assets/**
 dist/seo/*.html
-dist/sitemap.xml
+dist/sitemap.xml（仅正式构建）
 dist/robots.txt
 dist/llms.txt
 ```
@@ -130,9 +130,9 @@ standalone 页面特点：
  
  此外还生成：
  
- - `dist/robots.txt` — 根据 `content/seo.json` 动态生成，允许所有爬虫并指向 sitemap
- - `dist/sitemap.xml` — 涵盖 canonical 首页，以及未列入 `content/seo.json` `noindexPageIds` 的章节页和 standalone 页
- - `dist/llms.txt` — 按 llms.txt Markdown 规范生成的 AI 智能体内容索引；按 `content/site.json` 章节分组，链接到允许索引的 `seo/*.html`
+ - `dist/robots.txt` — 根据 `content/seo.json` 动态生成；正式构建指向 sitemap，全站 noindex 构建不发布 Sitemap 指令
+ - `dist/sitemap.xml` — 仅正式构建生成，涵盖 canonical 首页，以及未列入 `content/seo.json` `noindexPageIds` 的章节页和 standalone 页
+ - `dist/llms.txt` — 按 llms.txt Markdown 规范生成的 AI 智能体内容索引；正式构建按 `content/site.json` 章节分组，链接到允许索引的 `seo/*.html`
 
 `npm run audit:seo` 可独立验证所有 SEO 产物的完整性。
 
@@ -144,8 +144,9 @@ standalone 页面特点：
 
 - `dist/index.html`：`<meta name="robots" content="noindex, nofollow">`
 - `dist/seo/*.html`：全部使用 `noindex, nofollow`，覆盖 `noindexPageIds` 的页面级默认值
-- `dist/sitemap.xml`：保留合法的空 XML 结构，但不发布 Beta URL
+- `dist/sitemap.xml`：不生成，SPA 入口也不声明 `rel="sitemap"`
 - `dist/robots.txt`：继续允许爬虫读取 HTML 中的 `noindex`，但不发布 Sitemap 指令
+- `dist/llms.txt`：保留站点说明，但不列出任何手册页面链接
 
 正式构建不设置 `SEO_NOINDEX`，继续生成 `index, follow`、正常 sitemap 和 Sitemap 指令。`SEO_NOINDEX` 仅接受字符串 `true` 或 `false`；其他值会使构建失败，避免拼写错误导致 Beta 意外进入可索引模式。
 

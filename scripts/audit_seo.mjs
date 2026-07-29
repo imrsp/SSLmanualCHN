@@ -72,23 +72,29 @@ if (fs.existsSync(robotsPath)) {
 
 // -- sitemap.xml --
 const sitemapPath = path.join(distDir, "sitemap.xml");
-check(fs.existsSync(sitemapPath), "sitemap.xml exists");
-let sitemapEntries = 0;
-if (fs.existsSync(sitemapPath)) {
+const sitemapExists = fs.existsSync(sitemapPath);
+check(
+  siteWideNoindex ? !sitemapExists : sitemapExists,
+  siteWideNoindex
+    ? "sitemap.xml is omitted in site-wide noindex mode"
+    : "sitemap.xml exists",
+);
+if (!siteWideNoindex && sitemapExists) {
   const sitemap = fs.readFileSync(sitemapPath, "utf8");
-  check(sitemap.startsWith("<?xml"), "sitemap.xml is well-formed XML");
-  sitemapEntries = sitemap.split("<url>").length - 1;
+  check(
+    /^<\?xml version="1\.0" encoding="UTF-8"\?>\n<urlset xmlns="http:\/\/www\.sitemaps\.org\/schemas\/sitemap\/0\.9">\n[\s\S]+\n<\/urlset>\n$/.test(sitemap),
+    "sitemap.xml uses the non-empty Sitemap protocol XML structure",
+  );
+  const sitemapEntries = sitemap.split("<url>").length - 1;
   const indexablePageIds = manifest
     .map((page) => pageIdFromOutputFile(page.outputFile))
     .filter((pageId) => !noindexPageIds.has(pageId));
   const indexableStandaloneIds = standalonePageIds.filter((pageId) => !noindexPageIds.has(pageId));
-  const expectedSitemapLocations = siteWideNoindex
-    ? []
-    : [
-      resolvedSeo.siteUrl,
-      ...indexablePageIds.map((pageId) => new URL(`seo/${pageId}.html`, resolvedSeo.siteUrl).href),
-      ...indexableStandaloneIds.map((pageId) => new URL(`seo/${pageId}.html`, resolvedSeo.siteUrl).href),
-    ];
+  const expectedSitemapLocations = [
+    resolvedSeo.siteUrl,
+    ...indexablePageIds.map((pageId) => new URL(`seo/${pageId}.html`, resolvedSeo.siteUrl).href),
+    ...indexableStandaloneIds.map((pageId) => new URL(`seo/${pageId}.html`, resolvedSeo.siteUrl).href),
+  ];
   check(
     sitemapEntries === expectedSitemapLocations.length,
     "sitemap.xml has exactly " + expectedSitemapLocations.length + " indexable entries (got " + sitemapEntries + ")"
@@ -122,13 +128,14 @@ if (fs.existsSync(llmsTxtPath)) {
     manifest,
     resolvedSeo,
     noindexPageIds,
+    siteWideNoindex,
   });
   check(llmsTxt === expectedLlmsTxt, "llms.txt is generated from current site, manifest and SEO metadata");
   const llmsTxtLinks = [...llmsTxt.matchAll(/^- \[[^\]]+\]\((https:\/\/[^)]+)\)/gm)]
     .map((match) => match[1]);
   const expectedLlmsTxtPageIds = manifest
     .map((page) => pageIdFromOutputFile(page.outputFile))
-    .filter((pageId) => !noindexPageIds.has(pageId));
+    .filter((pageId) => !siteWideNoindex && !noindexPageIds.has(pageId));
   check(
     llmsTxtLinks.length === expectedLlmsTxtPageIds.length,
     `llms.txt lists exactly ${expectedLlmsTxtPageIds.length} indexable manual pages`,
@@ -253,7 +260,12 @@ if (fs.existsSync(indexPath)) {
   check(html.includes('property="og:title"'), "SPA index.html has og:title");
   check(html.includes('name="twitter:card"'), "SPA index.html has twitter:card");
   check(html.includes('rel="canonical"'), "SPA index.html has canonical link");
-  check(html.includes('rel="sitemap"'), "SPA index.html has sitemap link");
+  check(
+    siteWideNoindex ? !html.includes('rel="sitemap"') : html.includes('rel="sitemap"'),
+    siteWideNoindex
+      ? "SPA index.html omits sitemap link in site-wide noindex mode"
+      : "SPA index.html has sitemap link",
+  );
   check(html.includes('name="robots"'), "SPA index.html has robots meta");
   check(
     metaContent("robots") === (siteWideNoindex ? "noindex, nofollow" : "index, follow"),

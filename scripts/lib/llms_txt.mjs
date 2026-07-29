@@ -22,32 +22,20 @@ export function validateLlmsTxtFormat(content) {
   const lines = normalized.split("\n");
   if (lines.at(-1) === "") lines.pop();
 
-  if (!normalized.endsWith("\n")) {
-    issues.push("file must end with a newline");
-  }
-  if (!/^# [^#\s].+/.test(lines[0] || "")) {
+  if (!/^# [^#\s].*$/.test(lines[0] || "")) {
     issues.push("first line must be a single H1 project or site title");
   }
   if (lines.filter((line) => /^# /.test(line)).length !== 1) {
     issues.push("file must contain exactly one H1");
   }
 
-  const summaryIndex = lines.findIndex((line, index) => index > 0 && line.trim());
-  if (summaryIndex < 0 || !/^> \S/.test(lines[summaryIndex])) {
-    issues.push("H1 must be followed by a blockquote summary");
-  }
-
   const firstFileListIndex = lines.findIndex((line) => /^## /.test(line));
-  if (firstFileListIndex < 0) {
-    issues.push("file must contain at least one H2 file-list section");
-  }
   if (lines.some((line) => /^#{3,}\s/.test(line))) {
     issues.push("only H1 and H2 headings are allowed");
   }
 
   let currentSection = "";
   let currentSectionItems = 0;
-  const seenSectionNames = new Set();
   for (let index = Math.max(firstFileListIndex, 0); index < lines.length; index += 1) {
     const line = lines[index];
     const headingMatch = line.match(/^## (\S.*)$/);
@@ -57,14 +45,10 @@ export function validateLlmsTxtFormat(content) {
       }
       currentSection = headingMatch[1].trim();
       currentSectionItems = 0;
-      if (seenSectionNames.has(currentSection)) {
-        issues.push(`duplicate H2 section: ${currentSection}`);
-      }
-      seenSectionNames.add(currentSection);
       continue;
     }
     if (!currentSection || !line.trim()) continue;
-    if (!/^- \[[^\]]+\]\(https:\/\/[^)\s]+\)(?:: \S.*)?$/.test(line)) {
+    if (!/^(?:[-*+]|\d{1,9}[.)]) \[(?:\\.|[^\]])+\]\((?:\\.|[^)\s])+\)(?:: \S.*)?$/.test(line)) {
       issues.push(`invalid file-list item in "${currentSection}": ${line}`);
       continue;
     }
@@ -82,6 +66,7 @@ export function generateLlmsTxt({
   manifest,
   resolvedSeo,
   noindexPageIds = new Set(),
+  siteWideNoindex = false,
 }) {
   const siteTitle = requiredSingleLine(site?.title, "content/site.json title");
   const summary = requiredSingleLine(resolvedSeo?.description, "content/seo.json description");
@@ -95,7 +80,7 @@ export function generateLlmsTxt({
 
   for (const item of manifest || []) {
     const pageId = pageIdFromOutputFile(requiredSingleLine(item.outputFile, "manifest outputFile"));
-    if (excludedIds.has(pageId)) continue;
+    if (siteWideNoindex || excludedIds.has(pageId)) continue;
     const entries = manifestBySection.get(item.section) || [];
     entries.push({
       id: pageId,

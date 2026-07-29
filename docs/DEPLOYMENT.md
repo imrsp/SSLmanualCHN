@@ -231,7 +231,7 @@ server {
 
 GitHub Actions 部署会拒绝空路径、根目录、常见系统目录、SSH 用户主目录及包含危险字符的目标，并在远端解析真实路径后再次校验。正式版与 beta 部署共享并发互斥组，避免两个 `rsync --delete-delay` 过程交错。
 
-Beta 工作流在构建和完整校验阶段设置 `SEO_NOINDEX=true`，自动让 SPA 入口和全部 SEO 预渲染页使用 `noindex, nofollow`，同时生成空 sitemap 并从 `robots.txt` 移除 Sitemap 指令。正式工作流不设置该变量，SEO 行为不变。当前部署工作流不会修改服务器配置。
+Beta 工作流在构建和完整校验阶段设置 `SEO_NOINDEX=true`，自动让 SPA 入口和全部 SEO 预渲染页使用 `noindex, nofollow`，不生成或声明 sitemap，从 `robots.txt` 移除 Sitemap 指令，并让 `llms.txt` 不列出手册页面链接。正式工作流不设置该变量，SEO 行为不变。当前部署工作流不会修改服务器配置。
 
 ## Caddy
 
@@ -318,7 +318,7 @@ curl -I https://beta.example.com/assets/manual/example.pdf
  当前 SEO 规则：
  
  - 中文页面默认允许被索引；`content/seo.json` `noindexPageIds` 中的页面使用 `noindex, follow`，并从 sitemap 排除。
- - Beta 部署通过 `SEO_NOINDEX=true` 自动启用全站 `noindex, nofollow`；爬虫仍可读取 HTML，但 Beta sitemap 不包含任何 URL。
+ - Beta 部署通过 `SEO_NOINDEX=true` 自动启用全站 `noindex, nofollow`；爬虫仍可读取 HTML，但 Beta 不发布 sitemap，`llms.txt` 也不列出手册页面链接。
  - 英文版内容不单独设 URL，未标记 `hreflang="en"`，不被索引。
  - `robots.txt` 禁止抓取 `data/`、`themes/`、`src/` 目录。
  - `data/`、`themes/` 使用带构建哈希的长缓存；`seo/` 禁止缓存，确保预渲染正文随发布及时更新。

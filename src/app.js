@@ -253,7 +253,10 @@ function commitThemePreset(id, persist) {
 async function selectThemePreset(id) {
   setPresetDropdownOpen(false);
   hidePresetOptionTooltip();
-  if (id === state.themePreset) return;
+  if (id === state.themePreset) {
+    themeStylesheetRequestId += 1;
+    return;
+  }
   try {
     if (await loadThemeCSS(id)) commitThemePreset(id, true);
   } catch (error) {
@@ -890,6 +893,21 @@ function ensureActiveNavigationExpanded() {
   if (group) state.expandedGroups.add(groupKey(section.id, group.id));
 }
 
+function syncNavigationDisclosureState() {
+  elements.manualNav.querySelectorAll("[data-section-id]").forEach((button) => {
+    const expanded = state.expandedSections.has(button.dataset.sectionId);
+    button.setAttribute("aria-expanded", String(expanded));
+    const pages = button.nextElementSibling;
+    if (pages?.classList.contains("nav-section-pages")) pages.hidden = !expanded;
+  });
+  elements.manualNav.querySelectorAll("[data-group-key]").forEach((button) => {
+    const expanded = state.expandedGroups.has(button.dataset.groupKey);
+    button.setAttribute("aria-expanded", String(expanded));
+    const pages = button.nextElementSibling;
+    if (pages?.classList.contains("nav-group-pages")) pages.hidden = !expanded;
+  });
+}
+
 function renderNavLink(page, nested = false) {
   return `
     <button class="nav-link ${nested ? "nested" : ""} ${page.id === state.currentPage?.id ? "active" : ""}"
@@ -1016,6 +1034,7 @@ function syncNavigationForCurrentPage(focusActive = false) {
     renderNavigation(focusActive);
     return;
   }
+  syncNavigationDisclosureState();
   syncLoadingNavigation(state.currentPage?.id);
   if (focusActive) scrollActiveNavigationIntoView();
 }

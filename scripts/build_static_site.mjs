@@ -642,8 +642,8 @@ function sitemapUrl(loc, priority, changefreq, lastmod) {
   return "  <url>\n    <loc>" + escapeXml(sitemapSiteUrl + loc) + "</loc>\n    <lastmod>" + lastmod + "</lastmod>\n    <changefreq>" + changefreq + "</changefreq>\n    <priority>" + priority.toFixed(1) + "</priority>\n  </url>";
 }
 
-var sitemapEntries = [];
 if (!siteWideNoindex) {
+  var sitemapEntries = [];
   var siteDate = getSitemapDate(path.join(contentDirectory, "seo.json"));
   sitemapEntries.push(sitemapUrl("", 1.0, "weekly", siteDate));
 
@@ -664,17 +664,20 @@ if (!siteWideNoindex) {
     var standaloneLastModified = getSitemapDate(standalonePages[si].chinesePath);
     sitemapEntries.push(sitemapUrl("seo/" + standalonePages[si].id + ".html", 0.4, "monthly", standaloneLastModified));
   }
-}
 
-var sitemap = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\">\n" + sitemapEntries.join("\n") + "\n</urlset>\n";
-fs.writeFileSync(path.join(outputDirectory, "sitemap.xml"), sitemap);
-console.log("[seo] Generated sitemap.xml with " + sitemapEntries.length + " entries");
+  var sitemap = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\">\n" + sitemapEntries.join("\n") + "\n</urlset>\n";
+  fs.writeFileSync(path.join(outputDirectory, "sitemap.xml"), sitemap);
+  console.log("[seo] Generated sitemap.xml with " + sitemapEntries.length + " entries");
+} else {
+  console.log("[seo] Omitted sitemap.xml in site-wide noindex mode");
+}
 
 const llmsTxt = generateLlmsTxt({
   site,
   manifest,
   resolvedSeo,
   noindexPageIds,
+  siteWideNoindex,
 });
 fs.writeFileSync(path.join(outputDirectory, "llms.txt"), llmsTxt);
 console.log("[agentic] Generated llms.txt");
