@@ -1,3 +1,5 @@
+[![Solid State Logic Live 中文操作手册](https://socialify.git.ci/imrsp/SSLmanualCHN/image?custom_language=JavaScript&description=1&font=Inter&forks=1&issues=1&language=1&name=1&owner=1&pattern=Plus&pulls=1&theme=Auto)](https://github.com/imrsp/SSLmanualCHN)
+
 # Solid State Logic Live 中文操作手册
 
 这是 SSL Live 官方在线帮助的中文整理版。项目以章节文件维护内容，构建后交付为可直接部署到任意静态 Web 服务器的站点。

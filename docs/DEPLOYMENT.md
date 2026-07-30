@@ -41,9 +41,10 @@ git push origin v1.0.1
 - `index.html`：短缓存或禁止缓存。
 - `seo/*.html`：预渲染页面，禁止缓存。
 - `src/app.<hash>.js`、`src/styles.<hash>.css`：应用壳，不可变长缓存（365d，`immutable`）。
+- `assets/fonts/*.<hash>.woff2`：字体子集，不可变长缓存（365d，`immutable`）；字体内容变化时，文件名和引用它的样式表哈希都会同步变化。
 - `data/*.json`、`themes/*.css`：构建哈希参数使缓存失效，可长缓存（365d）。
 - `manifest.webmanifest` 和 `sw.js`：禁止缓存，保证安装元数据和 SW 更新及时生效。
-- `robots.txt`、`sitemap.xml`：搜索引擎发现文件，短缓存（1d）。
+- `robots.txt`、`sitemap.xml`、`llms.txt`：爬虫与 AI 智能体发现文件，短缓存（1d）。
 - `assets/manual/`：手册图片和 PDF，中等缓存（30d）。
 - 其他静态资源：通用回退规则，中等缓存（30d）。
 
@@ -60,7 +61,7 @@ git push origin v1.0.1
 - `themes/*.css`：`cacheFirst`，主题样式是典型静态资源，构建哈希已能保证换版。
 - `src/*.js`、`src/*.css`：`cacheFirst`，文件名已哈希化，更新依赖新构建产物本身。
 
-应用启动时会使用带构建哈希的 `sw.js` URL 注册 Service Worker。已有旧版 Service Worker 接管页面时，应用会等待新版 controller 真正接管后再加载正文；更新超时或失败不会被记录为成功，下一次进入站点仍会重试。首次访问和离线访问不会为等待 Service Worker 而阻塞正文加载。
+应用启动时会先并行加载 catalog、主题列表和当前章节，完成正文首次绘制后，再在浏览器空闲阶段使用带构建哈希的 `sw.js` URL 注册或更新 Service Worker。已有旧版 Service Worker 接管页面时，新版 controller 的准备过程不再阻塞正文；更新超时或失败不会被记录为成功，下一次进入站点仍会重试。首次访问、版本换代和离线访问都不会为等待 Service Worker 而阻塞正文加载。
 
 缓存命名空间同时包含 Service Worker scope 路径；同一域名下的正式版与 beta 子路径各自清理自己的旧缓存，不会互相删除离线数据。
 
@@ -149,6 +150,10 @@ server {
         expires 1d;
         add_header Cache-Control "public, max-age=86400" always;
     }
+    location = /llms.txt {
+        expires 1d;
+        add_header Cache-Control "public, max-age=86400" always;
+    }
 
     # SEO 预渲染页面：禁止缓存（内容随构建更新）
     location /seo/ {
@@ -172,6 +177,13 @@ server {
 
     # 应用壳（已哈希命名）：不可变长缓存
     location ~* ^/src/.*\.(js|css)$ {
+        expires 365d;
+        add_header Cache-Control "public, max-age=31536000, immutable" always;
+        access_log off;
+    }
+
+    # 字体子集（已哈希命名）：不可变长缓存
+    location ^~ /assets/fonts/ {
         expires 365d;
         add_header Cache-Control "public, max-age=31536000, immutable" always;
         access_log off;
@@ -215,9 +227,11 @@ server {
 
 将 `dist/` 内容同步到 document root（如 `/srv/ssl-live-manual/`）即可。
 
-部署 URL、description、keywords 和 OG 图片统一维护在 `content/seo.json`。构建会将这些字段注入 `dist/index.html`、所有 SEO 预渲染页面，并动态生成 `dist/robots.txt`；部署前不再执行字符串替换。
+部署 URL、description、keywords 和 OG 图片统一维护在 `content/seo.json`。构建会将这些字段注入 `dist/index.html`、所有 SEO 预渲染页面，并动态生成 `dist/robots.txt` 与 `dist/llms.txt`；部署前不再执行字符串替换。
 
 GitHub Actions 部署会拒绝空路径、根目录、常见系统目录、SSH 用户主目录及包含危险字符的目标，并在远端解析真实路径后再次校验。正式版与 beta 部署共享并发互斥组，避免两个 `rsync --delete-delay` 过程交错。
+
+Beta 工作流在构建和完整校验阶段设置 `SEO_NOINDEX=true`，自动让 SPA 入口和全部 SEO 预渲染页使用 `noindex, nofollow`，不生成或声明 sitemap，从 `robots.txt` 移除 Sitemap 指令，并让 `llms.txt` 不列出手册页面链接。正式工作流不设置该变量，SEO 行为不变。当前部署工作流不会修改服务器配置。
 
 ## Caddy
 
@@ -230,6 +244,58 @@ manual.example.com {
 
 如需更细缓存控制，再单独补 header 规则。
 
+## 可选的 X-Robots-Tag 防护
+
+若需要让 Beta 站点中的 PDF、图片等非 HTML 资源也明确禁止索引，可在服务器响应中增加：
+
+```http
+X-Robots-Tag: noindex, nofollow
+```
+
+仓库当前不会自动修改服务器配置。该响应头是 Beta 构建内 HTML `meta robots` 的补充防护，不替代构建时 noindex。
+
+专用 Beta 域名的 Nginx 配置可在对应 `server` 块中加入：
+
+```nginx
+add_header X-Robots-Tag "noindex, nofollow" always;
+```
+
+如果 Beta 位于正式域名的子路径，只能把响应头加到 Beta 路径对应的 `location`，不能加到整个正式站点：
+
+```nginx
+location ^~ /beta/ {
+    add_header X-Robots-Tag "noindex, nofollow" always;
+    # Beta 站点现有的 root/alias、缓存和静态文件规则
+}
+```
+
+Nginx 的嵌套 `location` 如果声明了自己的 `add_header`，可能不会继承上层响应头；应检查所有实际匹配的 Beta 资源响应。
+
+专用 Beta 域名的 Caddy 配置可写为：
+
+```caddy
+beta.example.com {
+    root * /srv/ssl-live-manual-beta
+    header X-Robots-Tag "noindex, nofollow"
+    file_server
+}
+```
+
+若使用同域名子路径，则使用路径匹配器限定范围：
+
+```caddy
+header /beta/* X-Robots-Tag "noindex, nofollow"
+```
+
+配置后应分别检查 HTML 和非 HTML 资源：
+
+```bash
+curl -I https://beta.example.com/
+curl -I https://beta.example.com/assets/manual/example.pdf
+```
+
+两类响应都应包含 `X-Robots-Tag: noindex, nofollow`。
+
 ## 对象存储与 Pages
 
 上传 `dist/` 的全部内容并启用静态网站托管即可。建议开启 Brotli 或 gzip。
@@ -237,12 +303,13 @@ manual.example.com {
 ## 运行特征
 
 - 首次加载请求界面壳、catalog 和当前章节。
+- catalog、主题列表和当前章节在启动阶段并行请求；每章首次绘制后的空闲阶段再预取下一章。
 - 搜索索引按需加载，不在首屏下载。
 - 主题预设列表单独加载。
 - 图片与 PDF 独立缓存，不再内嵌到 HTML。
 - `sw.js` 会预缓存应用壳与核心元数据，并在访问过的页面分片和站点静态资源上做运行时缓存，以支持离线回访。更新后的 SW 会在下次进入站点时自动接管。
 - `file://` 本地打开时，阅读器回退到同内容的 `.js` 数据文件。
- - `seo/*.html` 预渲染页面供搜索引擎爬虫直接读取正文，附带 SPA 重定向。`sitemap.xml` 和 `robots.txt` 帮助搜索引擎发现所有页面索引。
+ - `seo/*.html` 预渲染页面供搜索引擎爬虫直接读取正文，附带 SPA 重定向。`sitemap.xml` 和 `robots.txt` 帮助搜索引擎发现所有页面索引，`llms.txt` 为大语言模型和 AI 智能体提供按章节组织的内容入口。
  
  ## 搜索引擎配置
  
@@ -251,6 +318,7 @@ manual.example.com {
  当前 SEO 规则：
  
  - 中文页面默认允许被索引；`content/seo.json` `noindexPageIds` 中的页面使用 `noindex, follow`，并从 sitemap 排除。
+ - Beta 部署通过 `SEO_NOINDEX=true` 自动启用全站 `noindex, nofollow`；爬虫仍可读取 HTML，但 Beta 不发布 sitemap，`llms.txt` 也不列出手册页面链接。
  - 英文版内容不单独设 URL，未标记 `hreflang="en"`，不被索引。
  - `robots.txt` 禁止抓取 `data/`、`themes/`、`src/` 目录。
  - `data/`、`themes/` 使用带构建哈希的长缓存；`seo/` 禁止缓存，确保预渲染正文随发布及时更新。

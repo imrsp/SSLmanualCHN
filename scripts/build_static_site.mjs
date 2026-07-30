@@ -1,11 +1,16 @@
 import fs from "node:fs";
-import crypto from "node:crypto";
 import { execSync } from "node:child_process";
 import path from "node:path";
-import { createBuildHash } from "./lib/build_hash.mjs";
+import { createBuildHash, createContentHashedFileName } from "./lib/build_hash.mjs";
 import { assertSafeContentHtml } from "./lib/content_security.mjs";
+import { generateLlmsTxt } from "./lib/llms_txt.mjs";
 import { assertSafeManifestOutputFile, assertSafePathSegment } from "./lib/safe_paths.mjs";
-import { generateRobotsTxt, renderIndexSeoTemplate, resolveSeoConfig } from "./lib/seo_config.mjs";
+import {
+  generateRobotsTxt,
+  renderIndexSeoTemplate,
+  resolveSeoConfig,
+  resolveSiteWideNoindex,
+} from "./lib/seo_config.mjs";
 import { getSourceDate } from "./lib/sitemap_dates.mjs";
 import {
   root,
@@ -25,6 +30,7 @@ const site = readJson(path.join(contentDirectory, "site.json"));
 const manifest = readJson(path.join(contentDirectory, "manifest.json"));
 const seoConfig = readJson(path.join(contentDirectory, "seo.json"));
 const resolvedSeo = resolveSeoConfig(seoConfig);
+const siteWideNoindex = resolveSiteWideNoindex(process.env.SEO_NOINDEX);
 const noindexPageIds = new Set(seoConfig.noindexPageIds || []);
 const assetManifest = readJson(path.join(root, "public", "assets", "manual", "manifest.json"));
 for (const [index, item] of manifest.entries()) {
@@ -262,9 +268,12 @@ fs.cpSync(path.join(root, "public"), outputDirectory, { recursive: true });
 const indexTemplate = fs.readFileSync(path.join(root, "src", "index.html"), "utf8");
 fs.writeFileSync(
   path.join(outputDirectory, "index.html"),
-  renderIndexSeoTemplate(indexTemplate, resolvedSeo),
+  renderIndexSeoTemplate(indexTemplate, resolvedSeo, { siteWideNoindex }),
 );
-fs.writeFileSync(path.join(outputDirectory, "robots.txt"), generateRobotsTxt(resolvedSeo));
+fs.writeFileSync(
+  path.join(outputDirectory, "robots.txt"),
+  generateRobotsTxt(resolvedSeo, { siteWideNoindex }),
+);
 for (const file of ["app.js", "styles.css"]) {
   fs.copyFileSync(path.join(root, "src", file), path.join(outputDirectory, "src", file));
 }
@@ -551,7 +560,9 @@ function escapeXml(str) {
 }
 
 function generatePrerenderPage(pageData, prevPage, nextPage) {
-  var robotsContent = noindexPageIds.has(pageData.id) ? "noindex, follow" : "index, follow";
+  var robotsContent = siteWideNoindex
+    ? "noindex, nofollow"
+    : (noindexPageIds.has(pageData.id) ? "noindex, follow" : "index, follow");
   var crawlContent = addBlankLinkRel(pageData.contentHtml).replace(
     /href="#\/page\/([^"]+)"/g,
     function(match, path) {
@@ -631,33 +642,45 @@ function sitemapUrl(loc, priority, changefreq, lastmod) {
   return "  <url>\n    <loc>" + escapeXml(sitemapSiteUrl + loc) + "</loc>\n    <lastmod>" + lastmod + "</lastmod>\n    <changefreq>" + changefreq + "</changefreq>\n    <priority>" + priority.toFixed(1) + "</priority>\n  </url>";
 }
 
-var sitemapEntries = [];
-var siteDate = getSitemapDate(path.join(contentDirectory, "seo.json"));
-sitemapEntries.push(sitemapUrl("", 1.0, "weekly", siteDate));
+if (!siteWideNoindex) {
+  var sitemapEntries = [];
+  var siteDate = getSitemapDate(path.join(contentDirectory, "seo.json"));
+  sitemapEntries.push(sitemapUrl("", 1.0, "weekly", siteDate));
 
-for (var i = 0; i < pages.length; i++) {
-  var page = pages[i];
-  if (noindexPageIds.has(page.id)) continue;
-  var manifestItem = manifest.find(function(item) {
-    return path.basename(item.outputFile, ".html").replace(/^\d+-/, "") === page.id;
-  });
-  var zhPath = manifestItem ? path.join(contentDirectory, "zh", manifestItem.outputFile) : "";
-  var lastModified = getSitemapDate(zhPath);
-  var priority = 0.9 - (i / pages.length) * 0.3;
-  sitemapEntries.push(sitemapUrl("seo/" + page.id + ".html", priority, "weekly", lastModified));
+  for (var i = 0; i < pages.length; i++) {
+    var page = pages[i];
+    if (noindexPageIds.has(page.id)) continue;
+    var manifestItem = manifest.find(function(item) {
+      return path.basename(item.outputFile, ".html").replace(/^\d+-/, "") === page.id;
+    });
+    var zhPath = manifestItem ? path.join(contentDirectory, "zh", manifestItem.outputFile) : "";
+    var lastModified = getSitemapDate(zhPath);
+    var priority = 0.9 - (i / pages.length) * 0.3;
+    sitemapEntries.push(sitemapUrl("seo/" + page.id + ".html", priority, "weekly", lastModified));
+  }
+
+  for (var si = 0; si < standalonePages.length; si++) {
+    if (noindexPageIds.has(standalonePages[si].id)) continue;
+    var standaloneLastModified = getSitemapDate(standalonePages[si].chinesePath);
+    sitemapEntries.push(sitemapUrl("seo/" + standalonePages[si].id + ".html", 0.4, "monthly", standaloneLastModified));
+  }
+
+  var sitemap = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\">\n" + sitemapEntries.join("\n") + "\n</urlset>\n";
+  fs.writeFileSync(path.join(outputDirectory, "sitemap.xml"), sitemap);
+  console.log("[seo] Generated sitemap.xml with " + sitemapEntries.length + " entries");
+} else {
+  console.log("[seo] Omitted sitemap.xml in site-wide noindex mode");
 }
 
-for (var si = 0; si < standalonePages.length; si++) {
-  if (noindexPageIds.has(standalonePages[si].id)) continue;
-  var standaloneLastModified = getSitemapDate(standalonePages[si].chinesePath);
-  sitemapEntries.push(sitemapUrl("seo/" + standalonePages[si].id + ".html", 0.4, "monthly", standaloneLastModified));
-}
-
-var sitemap = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\">\n" + sitemapEntries.join("\n") + "\n</urlset>\n";
-fs.writeFileSync(path.join(outputDirectory, "sitemap.xml"), sitemap);
-console.log("[seo] Generated sitemap.xml with " + sitemapEntries.length + " entries");
-
-
+const llmsTxt = generateLlmsTxt({
+  site,
+  manifest,
+  resolvedSeo,
+  noindexPageIds,
+  siteWideNoindex,
+});
+fs.writeFileSync(path.join(outputDirectory, "llms.txt"), llmsTxt);
+console.log("[agentic] Generated llms.txt");
 
 /* === Cache-busting post-processing === */
 console.log("[cache] Applying content hashes…");
@@ -681,14 +704,34 @@ const buildHash = createBuildHash(allOutputFiles, outputDirectory);
 
 // Hash and rename app.js
 const appJsPath = path.join(outputDirectory, "src", "app.js");
-const appHash = crypto.createHash("sha256").update(fs.readFileSync(appJsPath)).digest("hex").slice(0, 12);
-const appHashed = "app." + appHash + ".js";
+const appHashed = createContentHashedFileName("app.js", fs.readFileSync(appJsPath));
 fs.renameSync(appJsPath, path.join(outputDirectory, "src", appHashed));
 
-// Hash and rename styles.css
+// Hash font files first, then rewrite their CSS references so both asset layers
+// change whenever a generated subset changes.
 const cssPath = path.join(outputDirectory, "src", "styles.css");
-const cssHash = crypto.createHash("sha256").update(fs.readFileSync(cssPath)).digest("hex").slice(0, 12);
-const cssHashed = "styles." + cssHash + ".css";
+let cssSource = fs.readFileSync(cssPath, "utf8");
+const fontsPath = path.join(outputDirectory, "assets", "fonts");
+const hashedFonts = [];
+if (fs.existsSync(fontsPath)) {
+  const fontFiles = fs.readdirSync(fontsPath)
+    .filter((fileName) => fileName.endsWith(".woff2"))
+    .sort();
+  for (const fontFile of fontFiles) {
+    const fontPath = path.join(fontsPath, fontFile);
+    const fontHashed = createContentHashedFileName(fontFile, fs.readFileSync(fontPath));
+    cssSource = cssSource.replaceAll(
+      `../assets/fonts/${fontFile}`,
+      `../assets/fonts/${fontHashed}`,
+    );
+    fs.renameSync(fontPath, path.join(fontsPath, fontHashed));
+    hashedFonts.push(fontHashed);
+  }
+  fs.writeFileSync(cssPath, cssSource);
+}
+
+// Hash and rename styles.css after font URLs have been finalized.
+const cssHashed = createContentHashedFileName("styles.css", fs.readFileSync(cssPath));
 fs.renameSync(cssPath, path.join(outputDirectory, "src", cssHashed));
 
 // Rewrite index.html
@@ -702,7 +745,8 @@ html = html.replace(
 
 html = html.replace(
   "</head>",
-  "  <script>window.__BUILD_HASH__=\"" + buildHash + "\"</script>\n</head>"
+  "  <script>window.__BUILD_HASH__=" + JSON.stringify(buildHash) +
+    ";window.__DEFAULT_PAGE_ID__=" + JSON.stringify(pages[0]?.id || "") + ";</script>\n</head>"
 );
 
 html = html.replace(
@@ -719,6 +763,9 @@ fs.writeFileSync(htmlFile, html);
 
 console.log("[cache] " + appHashed);
 console.log("[cache] " + cssHashed);
+for (const fontHashed of hashedFonts) {
+  console.log("[cache] " + fontHashed);
+}
 console.log("[cache] Build hash: " + buildHash);
 
 const swPath = path.join(outputDirectory, "sw.js");

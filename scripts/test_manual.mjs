@@ -5,12 +5,18 @@ import path from "node:path";
 import test from "node:test";
 import vm from "node:vm";
 
-import { createBuildHash } from "./lib/build_hash.mjs";
+import { createBuildHash, createContentHashedFileName } from "./lib/build_hash.mjs";
 import { extractReleaseNotes } from "./extract_release_notes.mjs";
 import { findUnsafeContentIssues } from "./lib/content_security.mjs";
 import { validateDeployTarget } from "./lib/deploy_target.mjs";
+import { generateLlmsTxt, validateLlmsTxtFormat } from "./lib/llms_txt.mjs";
 import { assertSafeManifestOutputFile, assertSafePathSegment } from "./lib/safe_paths.mjs";
-import { generateRobotsTxt, renderIndexSeoTemplate, resolveSeoConfig } from "./lib/seo_config.mjs";
+import {
+  generateRobotsTxt,
+  renderIndexSeoTemplate,
+  resolveSeoConfig,
+  resolveSiteWideNoindex,
+} from "./lib/seo_config.mjs";
 import { finalizeSnapshot } from "./lib/snapshot_publish.mjs";
 import { validateUpstreamPatches } from "./lib/upstream_patches.mjs";
 import {
@@ -113,15 +119,136 @@ test("SEO templates are rendered only from content/seo.json values", () => {
     ogImage: "pwa-icon-512.png",
     defaultLastModified: "2026-07-17",
   });
+  const template = [
+    '<meta name="description" content="__SEO_DESCRIPTION__">',
+    '<meta name="keywords" content="__SEO_KEYWORDS__">',
+    '<meta name="robots" content="__SEO_ROBOTS__">',
+    '<link rel="canonical" href="__SEO_SITE_URL__">',
+    '<meta property="og:image" content="__SEO_OG_IMAGE_URL__">',
+    "__SEO_SITEMAP_LINK__",
+  ].join("");
   const rendered = renderIndexSeoTemplate(
-    '<meta name="description" content="__SEO_DESCRIPTION__"><meta name="keywords" content="__SEO_KEYWORDS__"><link rel="canonical" href="__SEO_SITE_URL__"><meta property="og:image" content="__SEO_OG_IMAGE_URL__">',
+    template,
     seo,
+  );
+  const noindexRendered = renderIndexSeoTemplate(
+    template,
+    seo,
+    { siteWideNoindex: true },
   );
   assert.match(rendered, /Description &amp; details/);
   assert.match(rendered, /https:\/\/example\.test\/manual\//);
   assert.match(rendered, /https:\/\/example\.test\/manual\/pwa-icon-512\.png/);
+  assert.match(rendered, /content="index, follow"/);
+  assert.match(rendered, /rel="sitemap"/);
+  assert.match(noindexRendered, /content="noindex, nofollow"/);
+  assert.doesNotMatch(noindexRendered, /rel="sitemap"/);
   assert.match(generateRobotsTxt(seo), /Sitemap: https:\/\/example\.test\/manual\/sitemap\.xml/);
+  assert.doesNotMatch(generateRobotsTxt(seo, { siteWideNoindex: true }), /Sitemap:/);
+  assert.doesNotMatch(generateRobotsTxt(seo, { siteWideNoindex: true }), /^Disallow: \/$/m);
   assert.doesNotMatch(rendered, /__SEO_/);
+});
+
+test("site-wide noindex mode only accepts explicit boolean strings", () => {
+  assert.equal(resolveSiteWideNoindex(undefined), false);
+  assert.equal(resolveSiteWideNoindex(""), false);
+  assert.equal(resolveSiteWideNoindex("false"), false);
+  assert.equal(resolveSiteWideNoindex("true"), true);
+  assert.throws(() => resolveSiteWideNoindex("1"), /SEO_NOINDEX/);
+});
+
+test("llms.txt generation follows the ordered Markdown file-list format", () => {
+  const llmsTxt = generateLlmsTxt({
+    site: {
+      title: "测试手册",
+      source: "https://source.example/",
+      sections: [
+        { id: "intro", titleZh: "入门" },
+        { id: "appendix", titleZh: "附录" },
+      ],
+      pageTitlesZhById: {
+        Intro: "简介",
+        About: "关于",
+        Reference: "参考",
+      },
+    },
+    manifest: [
+      { order: 1, section: "intro", title: "Introduction", outputFile: "pages/01-Intro.html" },
+      { order: 2, section: "intro", title: "About", outputFile: "pages/02-About.html" },
+      { order: 3, section: "appendix", title: "Reference", outputFile: "pages/03-Reference.html" },
+    ],
+    resolvedSeo: {
+      description: "用于验证 llms.txt 生成规则的测试手册。",
+      siteUrl: "https://manual.example/subpath/",
+    },
+    noindexPageIds: new Set(["About"]),
+  });
+
+  assert.deepEqual(validateLlmsTxtFormat(llmsTxt), []);
+  assert.match(llmsTxt, /^# 测试手册\n\n> 用于验证 llms\.txt 生成规则的测试手册。\n/);
+  assert.match(llmsTxt, /\n## 入门\n\n- \[01 简介\]\(https:\/\/manual\.example\/subpath\/seo\/Intro\.html\): 对应英文主题：Introduction。/);
+  assert.match(llmsTxt, /\n## 附录\n\n- \[03 参考\]\(https:\/\/manual\.example\/subpath\/seo\/Reference\.html\): 对应英文主题：Reference。/);
+  assert.doesNotMatch(llmsTxt, /About\.html/);
+  assert.ok(llmsTxt.endsWith("\n"));
+});
+
+test("llms.txt validation rejects headings and prose inside file-list sections", () => {
+  const invalid = [
+    "# Test",
+    "",
+    "> Summary",
+    "",
+    "## Docs",
+    "",
+    "This is not a file-list item.",
+    "",
+    "### Nested heading",
+    "",
+  ].join("\n");
+
+  const issues = validateLlmsTxtFormat(invalid);
+  assert.ok(issues.some((issue) => issue.includes("invalid file-list item")));
+  assert.ok(issues.some((issue) => issue.includes("only H1 and H2 headings")));
+});
+
+test("llms.txt validation accepts the spec minimum and optional summary or file lists", () => {
+  assert.deepEqual(validateLlmsTxtFormat("# X"), []);
+  assert.deepEqual(validateLlmsTxtFormat("\uFEFF# Minimal"), []);
+  assert.deepEqual(validateLlmsTxtFormat([
+    "# With optional sections",
+    "",
+    "> Summary",
+    "",
+    "More details.",
+    "",
+    "## Docs",
+    "",
+    "* [Relative URL example](/docs)",
+    "",
+  ].join("\n")), []);
+});
+
+test("site-wide noindex produces llms.txt without manual page links", () => {
+  const llmsTxt = generateLlmsTxt({
+    site: {
+      title: "测试手册",
+      source: "https://source.example/",
+      sections: [{ id: "intro", titleZh: "入门" }],
+      pageTitlesZhById: { Intro: "简介" },
+    },
+    manifest: [
+      { order: 1, section: "intro", title: "Introduction", outputFile: "pages/01-Intro.html" },
+    ],
+    resolvedSeo: {
+      description: "用于验证 Beta 全站 noindex 的测试手册。",
+      siteUrl: "https://manual.example/beta/",
+    },
+    siteWideNoindex: true,
+  });
+
+  assert.deepEqual(validateLlmsTxtFormat(llmsTxt), []);
+  assert.doesNotMatch(llmsTxt, /^## /m);
+  assert.doesNotMatch(llmsTxt, /manual\.example\/beta\/seo\//);
 });
 
 test("registered upstream patches remain present in snapshots and applied to targets", () => {
@@ -422,6 +549,21 @@ test("build hash ignores catalog generation time but tracks deployable content",
   assert.notEqual(createBuildHash(files, directory), firstHash);
 });
 
+test("content-hashed asset names preserve extensions and track file contents", () => {
+  assert.equal(
+    createContentHashedFileName("font.subset.woff2", Buffer.from("font-v1")),
+    "font.subset.cea7364a8c7d.woff2",
+  );
+  assert.equal(
+    createContentHashedFileName("font.subset.woff2", Buffer.from("font-v1")),
+    createContentHashedFileName("font.subset.woff2", Buffer.from("font-v1")),
+  );
+  assert.notEqual(
+    createContentHashedFileName("font.subset.woff2", Buffer.from("font-v1")),
+    createContentHashedFileName("font.subset.woff2", Buffer.from("font-v2")),
+  );
+});
+
 test("service worker keeps build versions in data cache keys and handles search indexes", () => {
   const source = fs.readFileSync(path.join(root, "public", "sw.js"), "utf8")
     .replace("__CACHE_VERSION__", JSON.stringify("test-build"))
@@ -464,4 +606,194 @@ test("service worker keeps build versions in data cache keys and handles search 
   });
   vm.runInContext(source, betaContext);
   assert.notEqual(vm.runInContext("CACHE_NAME", betaContext), vm.runInContext("CACHE_NAME", context));
+});
+
+test("reader keeps service worker updates and next-page prefetch outside the render-critical path", () => {
+  const appSource = fs.readFileSync(path.join(root, "src", "app.js"), "utf8");
+  const startSource = appSource.slice(
+    appSource.indexOf("async function start()"),
+    appSource.indexOf("\nvar searchTimer", appSource.indexOf("async function start()")),
+  );
+  const renderPageSource = appSource.slice(
+    appSource.indexOf("function renderPage("),
+    appSource.indexOf("\nasync function route(", appSource.indexOf("function renderPage(")),
+  );
+  const buildSource = fs.readFileSync(path.join(root, "scripts", "build_static_site.mjs"), "utf8");
+
+  assert.doesNotMatch(startSource, /await prepareServiceWorkerForBuild\(/);
+  assert.match(startSource, /const catalogRequest = loadData\("catalog\.json"/);
+  assert.match(startSource, /const themesRequest = loadData\("themes\.json"/);
+  assert.match(startSource, /const initialPageRequest = startupRoute\.pageId/);
+  assert.match(startSource, /scheduleServiceWorkerPreparation\(\)/);
+  assert.match(appSource, /requestIdleCallback\(callback, \{ timeout: timeoutMs \}\)/);
+  assert.match(appSource, /scheduleNextPagePrefetch\(page\.id, nextPage\.id\)/);
+  assert.doesNotMatch(renderPageSource, /loadPage\(next\.id\)/);
+  assert.match(buildSource, /window\.__DEFAULT_PAGE_ID__/);
+});
+
+test("reader startup routes the latest URL before waiting for theme metadata", () => {
+  const appSource = fs.readFileSync(path.join(root, "src", "app.js"), "utf8");
+  const startSource = appSource.slice(
+    appSource.indexOf("async function start()"),
+    appSource.indexOf("\nvar searchTimer", appSource.indexOf("async function start()")),
+  );
+
+  assert.match(startSource, /state\.catalogReady = true;\s+resolveCatalogReady\(\);/);
+  assert.match(startSource, /const currentRoute = getRoute\(/);
+  assert.match(startSource, /await route\(currentRoute\.pageId === startupRoute\.pageId/);
+  assert.match(startSource, /state\.appReady = true;/);
+  assert.ok(
+    startSource.indexOf("await route(") < startSource.indexOf("state.themes = await themesRequest"),
+    "theme metadata must not block the first chapter render",
+  );
+});
+
+test("reader synchronizes expanded navigation state before activating a new chapter", () => {
+  const appSource = fs.readFileSync(path.join(root, "src", "app.js"), "utf8");
+  const navigationStateSource = appSource.slice(
+    appSource.indexOf("function groupKey("),
+    appSource.indexOf("\nfunction renderNavLink(", appSource.indexOf("function groupKey(")),
+  );
+  const loadingNavigationSource = appSource.slice(
+    appSource.indexOf("function syncLoadingNavigation("),
+    appSource.indexOf("\nfunction renderPageSkeleton(", appSource.indexOf("function syncLoadingNavigation(")),
+  );
+  const currentNavigationSource = appSource.slice(
+    appSource.indexOf("function syncNavigationForCurrentPage("),
+    appSource.indexOf("\nfunction renderOutline(", appSource.indexOf("function syncNavigationForCurrentPage(")),
+  );
+
+  function createPanel(className) {
+    return {
+      hidden: true,
+      classList: { contains: (candidate) => candidate === className },
+    };
+  }
+  function createButton(dataset, panel = null) {
+    const attributes = new Map();
+    const classes = new Map();
+    return {
+      dataset,
+      nextElementSibling: panel,
+      setAttribute(name, value) { attributes.set(name, value); },
+      classList: {
+        toggle(name, active) { classes.set(name, active); },
+      },
+      attributes,
+      classes,
+    };
+  }
+
+  const sectionPanel = createPanel("nav-section-pages");
+  const groupPanel = createPanel("nav-group-pages");
+  const sectionButton = createButton({ sectionId: "intro" }, sectionPanel);
+  const groupButton = createButton({ groupKey: "intro::start" }, groupPanel);
+  const previousPageButton = createButton({ pageId: "Intro" });
+  const activePageButton = createButton({ pageId: "GettingStarted" });
+  const manualNav = {
+    childElementCount: 1,
+    querySelectorAll(selector) {
+      if (selector === "[data-section-id]") return [sectionButton];
+      if (selector === "[data-group-key]") return [groupButton];
+      if (selector === ".nav-link[data-page-id]") return [previousPageButton, activePageButton];
+      return [];
+    },
+  };
+  const context = vm.createContext({ manualNav });
+  vm.runInContext([
+    "const state = {",
+    "  catalog: { sections: [{ id: 'intro', groups: [{ id: 'start', pageIds: ['Intro', 'GettingStarted'] }] }] },",
+    "  currentPage: { id: 'GettingStarted', section: 'intro' },",
+    "  expandedSections: new Set(),",
+    "  expandedGroups: new Set(),",
+    "  query: '',",
+    "};",
+    "const elements = { manualNav };",
+    navigationStateSource,
+    loadingNavigationSource,
+    currentNavigationSource,
+    "ensureActiveNavigationExpanded();",
+    "syncNavigationForCurrentPage();",
+  ].join("\n"), context);
+
+  assert.equal(sectionButton.attributes.get("aria-expanded"), "true");
+  assert.equal(groupButton.attributes.get("aria-expanded"), "true");
+  assert.equal(sectionPanel.hidden, false);
+  assert.equal(groupPanel.hidden, false);
+  assert.equal(previousPageButton.classes.get("active"), false);
+  assert.equal(activePageButton.classes.get("active"), true);
+});
+
+test("reader search deduplicates index requests and ignores stale completions", () => {
+  const appSource = fs.readFileSync(path.join(root, "src", "app.js"), "utf8");
+  const searchSource = appSource.slice(
+    appSource.indexOf("function loadSearchIndex("),
+    appSource.indexOf("\nasync function loadPage(", appSource.indexOf("function loadSearchIndex(")),
+  );
+
+  assert.match(searchSource, /state\.searchIndexRequests\[target\]/);
+  assert.match(searchSource, /Promise\.all\(\[catalogReadyPromise, loadSearchIndex\(target\)\]\)/);
+  assert.match(searchSource, /requestId !== searchRequestId/);
+  assert.match(searchSource, /state\.searchStatus = "failed"/);
+  assert.doesNotMatch(searchSource, /error\.message/);
+});
+
+test("reader commits theme presets only after their stylesheet loads", () => {
+  const appSource = fs.readFileSync(path.join(root, "src", "app.js"), "utf8");
+  const themeSource = appSource.slice(
+    appSource.indexOf("function loadThemeCSS("),
+    appSource.indexOf("\nvar _presetOptionTooltipEl", appSource.indexOf("function loadThemeCSS(")),
+  );
+
+  assert.match(themeSource, /nextLink\.media = "not all"/);
+  assert.match(themeSource, /nextLink\.onload = function/);
+  assert.match(themeSource, /if \(await loadThemeCSS\(id\)\) commitThemePreset\(id, true\)/);
+  assert.ok(
+    themeSource.indexOf("await loadThemeCSS(id)") < themeSource.indexOf("commitThemePreset(id, true)"),
+    "selected preset state must follow stylesheet success",
+  );
+});
+
+test("reselecting the active theme cancels a pending stylesheet request", async () => {
+  const appSource = fs.readFileSync(path.join(root, "src", "app.js"), "utf8");
+  const themeSource = appSource.slice(
+    appSource.indexOf("let presetLinkEl"),
+    appSource.indexOf("\nconst escapeHtml", appSource.indexOf("let presetLinkEl")),
+  );
+  const pendingLinks = [];
+  const context = vm.createContext({
+    window: { __BUILD_HASH__: "test-build" },
+    document: {
+      createElement() {
+        return {
+          remove() { this.removed = true; },
+        };
+      },
+      head: {
+        appendChild(link) { pendingLinks.push(link); },
+      },
+      body: { appendChild() {} },
+    },
+    localStorage: {
+      getItem() { return null; },
+      setItem() {},
+    },
+    CSS: { supports() { return true; } },
+    console,
+  });
+  vm.runInContext([
+    "const state = { defaultTheme: 'acid', themePreset: 'acid', themes: [] };",
+    "const elements = { presetItems: null, presetDropdown: null, presetToggle: null };",
+    themeSource,
+    "var pendingSelection = selectThemePreset('red');",
+  ].join("\n"), context);
+
+  assert.equal(pendingLinks.length, 1);
+  await vm.runInContext("selectThemePreset('acid')", context);
+  pendingLinks[0].onload();
+  await vm.runInContext("pendingSelection", context);
+
+  assert.equal(vm.runInContext("state.themePreset", context), "acid");
+  assert.equal(pendingLinks[0].removed, true);
+  assert.equal(vm.runInContext("presetLinkEl", context), null);
 });

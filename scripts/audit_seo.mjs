@@ -2,13 +2,19 @@ import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { decodeHtmlEntities } from "./lib/html_entities.mjs";
-import { generateRobotsTxt, resolveSeoConfig } from "./lib/seo_config.mjs";
+import { generateLlmsTxt, validateLlmsTxtFormat } from "./lib/llms_txt.mjs";
+import {
+  generateRobotsTxt,
+  resolveSeoConfig,
+  resolveSiteWideNoindex,
+} from "./lib/seo_config.mjs";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const distDir = path.join(root, "dist");
 const pagesDir = path.join(distDir, "seo");
 const seoConfig = JSON.parse(fs.readFileSync(path.join(root, "content", "seo.json"), "utf8"));
 const resolvedSeo = resolveSeoConfig(seoConfig);
+const siteWideNoindex = resolveSiteWideNoindex(process.env.SEO_NOINDEX);
 const noindexPageIds = new Set(seoConfig.noindexPageIds || []);
 
 const results = { passed: [], failed: [] };
@@ -22,6 +28,7 @@ const manifestPath = path.join(root, "content", "manifest.json");
 const manifest = fs.existsSync(manifestPath)
   ? JSON.parse(fs.readFileSync(manifestPath, "utf8"))
   : [];
+const site = JSON.parse(fs.readFileSync(path.join(root, "content", "site.json"), "utf8"));
 const expectedPageCount = manifest.length;
 
 // Helper: extract page id from outputFile like "pages/01-Intro.html"
@@ -41,24 +48,44 @@ if (fs.existsSync(zhPagesDir)) {
   }
 }
 
-// -- robotx.txt --
+// -- robots.txt --
 const robotsPath = path.join(distDir, "robots.txt");
 check(fs.existsSync(robotsPath), "robots.txt exists");
 if (fs.existsSync(robotsPath)) {
   const robots = fs.readFileSync(robotsPath, "utf8");
-  check(robots.includes("Sitemap:"), "robots.txt contains Sitemap directive");
+  check(
+    siteWideNoindex ? !robots.includes("Sitemap:") : robots.includes("Sitemap:"),
+    siteWideNoindex
+      ? "robots.txt omits Sitemap directive in site-wide noindex mode"
+      : "robots.txt contains Sitemap directive",
+  );
   check(robots.includes("Allow:"), "robots.txt contains Allow directive");
-  check(robots === generateRobotsTxt(resolvedSeo), "robots.txt is generated from content/seo.json");
+  check(
+    !robots.split("\n").includes("Disallow: /"),
+    "robots.txt keeps HTML crawlable so noindex metadata can be read",
+  );
+  check(
+    robots === generateRobotsTxt(resolvedSeo, { siteWideNoindex }),
+    "robots.txt is generated from content/seo.json and the build mode",
+  );
 }
 
 // -- sitemap.xml --
 const sitemapPath = path.join(distDir, "sitemap.xml");
-check(fs.existsSync(sitemapPath), "sitemap.xml exists");
-let sitemapEntries = 0;
-if (fs.existsSync(sitemapPath)) {
+const sitemapExists = fs.existsSync(sitemapPath);
+check(
+  siteWideNoindex ? !sitemapExists : sitemapExists,
+  siteWideNoindex
+    ? "sitemap.xml is omitted in site-wide noindex mode"
+    : "sitemap.xml exists",
+);
+if (!siteWideNoindex && sitemapExists) {
   const sitemap = fs.readFileSync(sitemapPath, "utf8");
-  check(sitemap.startsWith("<?xml"), "sitemap.xml is well-formed XML");
-  sitemapEntries = sitemap.split("<url>").length - 1;
+  check(
+    /^<\?xml version="1\.0" encoding="UTF-8"\?>\n<urlset xmlns="http:\/\/www\.sitemaps\.org\/schemas\/sitemap\/0\.9">\n[\s\S]+\n<\/urlset>\n$/.test(sitemap),
+    "sitemap.xml uses the non-empty Sitemap protocol XML structure",
+  );
+  const sitemapEntries = sitemap.split("<url>").length - 1;
   const indexablePageIds = manifest
     .map((page) => pageIdFromOutputFile(page.outputFile))
     .filter((pageId) => !noindexPageIds.has(pageId));
@@ -89,6 +116,37 @@ if (fs.existsSync(sitemapPath)) {
   );
 }
 
+// -- llms.txt --
+const llmsTxtPath = path.join(distDir, "llms.txt");
+check(fs.existsSync(llmsTxtPath), "llms.txt exists at the site root");
+if (fs.existsSync(llmsTxtPath)) {
+  const llmsTxt = fs.readFileSync(llmsTxtPath, "utf8");
+  const llmsTxtIssues = validateLlmsTxtFormat(llmsTxt);
+  check(llmsTxtIssues.length === 0, "llms.txt follows the llms.txt Markdown format");
+  const expectedLlmsTxt = generateLlmsTxt({
+    site,
+    manifest,
+    resolvedSeo,
+    noindexPageIds,
+    siteWideNoindex,
+  });
+  check(llmsTxt === expectedLlmsTxt, "llms.txt is generated from current site, manifest and SEO metadata");
+  const llmsTxtLinks = [...llmsTxt.matchAll(/^- \[[^\]]+\]\((https:\/\/[^)]+)\)/gm)]
+    .map((match) => match[1]);
+  const expectedLlmsTxtPageIds = manifest
+    .map((page) => pageIdFromOutputFile(page.outputFile))
+    .filter((pageId) => !siteWideNoindex && !noindexPageIds.has(pageId));
+  check(
+    llmsTxtLinks.length === expectedLlmsTxtPageIds.length,
+    `llms.txt lists exactly ${expectedLlmsTxtPageIds.length} indexable manual pages`,
+  );
+  check(
+    [...noindexPageIds].every((pageId) =>
+      !llmsTxtLinks.some((location) => location.endsWith(`/seo/${pageId}.html`))),
+    "llms.txt excludes every content/seo.json noindex page",
+  );
+}
+
 // -- Prerender pages dir --
 check(fs.existsSync(pagesDir), "dist/seo/ directory exists");
 
@@ -113,9 +171,14 @@ if (fs.existsSync(pagesDir)) {
   let pagesWithUniqueIds = 0;
   let pagesWithConfiguredOgImage = 0;
   let pagesWithoutLeakedEntities = 0;
+  let pagesWithExpectedRobots = 0;
 
   for (const file of pageFiles) {
     const content = fs.readFileSync(path.join(pagesDir, file), "utf8");
+    const pageId = path.basename(file, ".html");
+    const expectedRobots = siteWideNoindex
+      ? "noindex, nofollow"
+      : (noindexPageIds.has(pageId) ? "noindex, follow" : "index, follow");
     if (content.includes("<title>")) pagesWithTitle++;
     if (content.includes('name="description"')) pagesWithDescription++;
     if (content.includes('rel="canonical"')) pagesWithCanonical++;
@@ -130,6 +193,7 @@ if (fs.existsSync(pagesDir)) {
     if (content.includes(`property="og:image" content="${resolvedSeo.ogImageUrl}"`)) pagesWithConfiguredOgImage++;
     const description = content.match(/<meta\s+name="description"\s+content="([^"]*)"/i)?.[1] ?? "";
     if (!/&[A-Za-z][A-Za-z0-9]+;/.test(decodeHtmlEntities(description))) pagesWithoutLeakedEntities++;
+    if (content.includes(`name="robots" content="${expectedRobots}"`)) pagesWithExpectedRobots++;
   }
 
   check(pagesWithTitle === pageFiles.length, "All " + pageFiles.length + " pages have <title> tag");
@@ -144,6 +208,10 @@ if (fs.existsSync(pagesDir)) {
   check(pagesWithUniqueIds === pageFiles.length, "All " + pageFiles.length + " pages have unique element IDs");
   check(pagesWithConfiguredOgImage === pageFiles.length, "All " + pageFiles.length + " pages use content/seo.json ogImage");
   check(pagesWithoutLeakedEntities === pageFiles.length, "All " + pageFiles.length + " descriptions contain no leaked HTML entities");
+  check(
+    pagesWithExpectedRobots === pageFiles.length,
+    "All " + pageFiles.length + " pages use robots metadata for the current build mode",
+  );
 
   // -- First page: prev/next --
   if (manifest.length > 0) {
@@ -192,8 +260,17 @@ if (fs.existsSync(indexPath)) {
   check(html.includes('property="og:title"'), "SPA index.html has og:title");
   check(html.includes('name="twitter:card"'), "SPA index.html has twitter:card");
   check(html.includes('rel="canonical"'), "SPA index.html has canonical link");
-  check(html.includes('rel="sitemap"'), "SPA index.html has sitemap link");
+  check(
+    siteWideNoindex ? !html.includes('rel="sitemap"') : html.includes('rel="sitemap"'),
+    siteWideNoindex
+      ? "SPA index.html omits sitemap link in site-wide noindex mode"
+      : "SPA index.html has sitemap link",
+  );
   check(html.includes('name="robots"'), "SPA index.html has robots meta");
+  check(
+    metaContent("robots") === (siteWideNoindex ? "noindex, nofollow" : "index, follow"),
+    "SPA index.html uses robots metadata for the current build mode",
+  );
   check(!html.includes("__SEO_") && !html.includes("<domain>"), "SPA index.html contains no SEO template placeholders");
   check(metaContent("description") === resolvedSeo.description, "SPA index.html uses content/seo.json description");
   check(metaContent("keywords") === resolvedSeo.keywords, "SPA index.html uses content/seo.json keywords");

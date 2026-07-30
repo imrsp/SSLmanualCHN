@@ -22,6 +22,7 @@ dist/manifest.webmanifest
 dist/sw.js
 dist/src/app.<hash>.js
 dist/src/styles.<hash>.css
+dist/assets/fonts/*.<hash>.woff2
 dist/data/catalog.{json,js}
 dist/data/search-index-zh.{json,js}
 dist/data/search-index-en.{json,js}
@@ -30,17 +31,19 @@ dist/data/pages/*.{json,js}
 dist/themes/*.css
 dist/assets/**
 dist/seo/*.html
-dist/sitemap.xml
+dist/sitemap.xml（仅正式构建）
 dist/robots.txt
+dist/llms.txt
 ```
 
 ## 运行时加载模型
 
 - `catalog.json` 只包含目录、标题、状态、章节分组和标题锚点。
-- 阅读器进入某章时才请求对应的 `data/pages/<id>.json`。
+- 阅读器启动时并行请求 catalog、主题列表和当前路由对应的 `data/pages/<id>.json`，避免首章数据串行等待；后续进入其他章节时仍按需请求对应分片。
+- 每章完成首次绘制后，阅读器在浏览器空闲阶段预取下一章分片；快速切换到其他章节时，尚未执行的旧预取会自动失效。
 - 中英文搜索索引拆成 `search-index-zh` 和 `search-index-en`，按需加载。
 - 主题预设元数据来自 `data/themes.json`。
-- `manifest.webmanifest` 提供安装态元数据，`sw.js` 预缓存应用壳与核心元数据，并在访问过的页面分片和静态资源上做运行时缓存。更新后的 SW 会在下次进入站点时自动接管。
+- `manifest.webmanifest` 提供安装态元数据，`sw.js` 预缓存应用壳与核心元数据，并在访问过的页面分片和静态资源上做运行时缓存。Service Worker 的注册和换代安排在首章首次绘制后的空闲阶段，不阻塞正文；更新后的 SW 会在准备完成后接管。
 
 构建同时生成内容相同的 `.js` 数据文件：
 
@@ -51,7 +54,7 @@ dist/robots.txt
 ## 目录职责
 
 - `content/`：人工维护的正文与元数据，是内容事实来源。
-- `content/seo.json`：部署 URL、description、keywords、OG 图片、noindex 页面和 sitemap 回退日期的唯一 SEO 配置源。构建时同步生成 SPA 标签、预渲染标签和 `robots.txt`。
+- `content/seo.json`：部署 URL、description、keywords、OG 图片、noindex 页面和 sitemap 回退日期的唯一 SEO 配置源。构建时同步生成 SPA 标签、预渲染标签、`robots.txt` 和 `llms.txt`。
 - `content/upstream.json`：源站配置与内容合并进度的唯一记录；`mergedRevision` 表示当前中英文正文已经完整合并到的源站文档修订号，可以落后于最新抓取版本。
 - `content/upstream-patches.json`：记录上游原文中已确认、但本站需要主动修正的错误；工程校验会确认上游证据仍存在且中英文目标均已应用补丁。
 - `content/en/pages/`：英文基准正文。
@@ -59,6 +62,7 @@ dist/robots.txt
 - `content/themes/`：主题预设 JSON。
 - `src/`：静态阅读器源码。
 - `public/`：原样复制到发布物中的图片、PDF、favicon 和其他静态资源。
+- `fonts/src/`：构建字体子集所用的 TTF 源文件；CI 构建生成 `dist/assets/fonts/*.<hash>.woff2`，并在最终样式表中写入对应的内容哈希文件名。
 - `public/assets/manual/manifest.json`：手动维护的资源清单，用于告诉构建脚本哪些手册资源应被本地化并复制到发布物中。`downloaded` 和 `replaced` 资源会正常显示，`placeholder` 资源会在构建时被标记为 `hidden`，并由 CSS 直接隐藏。
 - `scripts/`：构建、验证、审计、本地预览、快照工具。
 - `upstream/snapshots/<Document Revision Number>/`：按官方文档修订号保存的不可覆盖源站转储。
@@ -126,15 +130,26 @@ standalone 页面特点：
  
  此外还生成：
  
- - `dist/robots.txt` — 根据 `content/seo.json` 动态生成，允许所有爬虫并指向 sitemap
- - `dist/sitemap.xml` — 涵盖 canonical 首页，以及未列入 `content/seo.json` `noindexPageIds` 的章节页和 standalone 页
- 
- 构建脚本新增产出：
- 
- ```text
- dist/seo/*.html
- dist/sitemap.xml
- dist/robots.txt
- ```
- 
- `npm run audit:seo` 可独立验证所有 SEO 产物的完整性。
+ - `dist/robots.txt` — 根据 `content/seo.json` 动态生成；正式构建指向 sitemap，全站 noindex 构建不发布 Sitemap 指令
+ - `dist/sitemap.xml` — 仅正式构建生成，涵盖 canonical 首页，以及未列入 `content/seo.json` `noindexPageIds` 的章节页和 standalone 页
+ - `dist/llms.txt` — 按 llms.txt Markdown 规范生成的 AI 智能体内容索引；正式构建按 `content/site.json` 章节分组，链接到允许索引的 `seo/*.html`
+
+`npm run audit:seo` 可独立验证所有 SEO 产物的完整性。
+
+### Beta 全站 noindex 构建
+
+`.github/workflows/beta-deploy.yml` 在执行 `npm run check` 时设置 `SEO_NOINDEX=true`。这是部署通道级开关，不写入 `content/seo.json`，因此不会改变正式版的 SEO 内容事实来源。
+
+全站 noindex 模式会改变以下构建产物：
+
+- `dist/index.html`：`<meta name="robots" content="noindex, nofollow">`
+- `dist/seo/*.html`：全部使用 `noindex, nofollow`，覆盖 `noindexPageIds` 的页面级默认值
+- `dist/sitemap.xml`：不生成，SPA 入口也不声明 `rel="sitemap"`
+- `dist/robots.txt`：继续允许爬虫读取 HTML 中的 `noindex`，但不发布 Sitemap 指令
+- `dist/llms.txt`：保留站点说明，但不列出任何手册页面链接
+
+正式构建不设置 `SEO_NOINDEX`，继续生成 `index, follow`、正常 sitemap 和 Sitemap 指令。`SEO_NOINDEX` 仅接受字符串 `true` 或 `false`；其他值会使构建失败，避免拼写错误导致 Beta 意外进入可索引模式。
+
+不能用 `robots.txt` 的 `Disallow: /` 代替 `noindex`。如果爬虫无法访问 HTML，就无法读取其中的 `noindex` 指令，URL 仍可能仅凭外部链接出现在搜索结果中。
+
+服务器级 `X-Robots-Tag` 是可选的部署防护，不属于构建产物；Nginx、Caddy 配置及验证方式见[部署指南](DEPLOYMENT.md#可选的-x-robots-tag-防护)。
