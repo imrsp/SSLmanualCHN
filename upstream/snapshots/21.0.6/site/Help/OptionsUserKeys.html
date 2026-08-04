@@ -1,0 +1,846 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html ng-app="sslLiveHelp">
+<head>
+    <meta content="text/html; charset=ISO-8859-1" http-equiv="content-type">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=yes">
+
+    <link href="../Help/style/style.css" rel="stylesheet">
+    <link href="../Help/style/jquery-ui-1.13.2.structure.css" rel="stylesheet">
+    <title>User Keys Options</title>
+    <script src="../Help/js/jquery-3.6.0.min.js"></script>
+    <script src="../Help/js/jquery-ui/1.13.2/jquery-ui.min.js"></script>
+    <!--<script type="text/javascript" src="cordova.js"></script>-->
+    <!-- Nav / search panels 2017 updates -->
+    <script>
+    window.baseDir = '../';
+    window.data = 'null';
+    </script>
+    <link rel="stylesheet" type="text/css" href="../Help/fonts/font-awesome-4.7.0/css/font-awesome.min.css" />
+    <link rel="stylesheet" type="text/css" href="../Help/style/sass-styles.css">
+    <script src="../Help/js/fastclick.js"></script>
+    <script src="../Help/js/lodash.core.min.js"></script>
+    <!--<script src="../Help/js/angular/1.2/angular.min.js"></script>-->  <!-- On a console -->
+    <script src="../Help/js/angular/1.8/angular.min.js"></script>   <!--Not on a console -->
+    <script src="../Help/js/ngStorage.min.js"></script>
+    <!--<script src="../Help/js/angular/1.2/angular-sanitize.min.js"></script>-->  <!-- On a console -->
+    <!--<script src="../Help/js/angular/1.2/angular-animate.min.js"></script>-->   <!-- On a console -->
+    <script src="../Help/js/angular/1.8/angular-sanitize.min.js"></script>  <!--Not on a console -->
+    <script src="../Help/js/angular/1.8/angular-animate.min.js"></script>   <!--Not on a console -->
+    <script src="../Help/js/lunr-2.3.min.js"></script>
+    <script src="../Help/js/menu.js"></script>
+
+</head>
+
+<body ng-controller="NavController as vm">
+
+    <!--<nav class="nav" ng-class="{ 'nav--visible' : vm.visible }" ng-if="vm.visible" role="navigation" aria-label="Primary">-->  <!-- On a console --> 
+    <nav class="nav" ng-class="{ 'nav--visible' : vm.visible }" role="navigation" aria-label="Primary"> <!--Not on a console -->
+        <!-- Search form -->
+        <div role="search">
+            <form class="nav__search" ng-if="vm.isSearchSupported">
+                <label class="nav__search-icon" for="query"><i aria-label="Search" title="Search" class="fa fa-search"></i></label>
+                <input type="search" id="query" class="nav__search-input" placeholder="Search..." ng-model="vm.query" />
+            </form>
+        </div>
+
+        <div class="nav__scroll" ng-style="vm.styleBasedOnSearchSupported">
+
+            <!-- Main nav -->
+            <ul class="main-nav" ng-hide="vm.query">
+                <li class="main-nav__item" ng-repeat="item in vm.nav">
+
+                    <!-- Link to page -->
+                    <a ng-if="item.url" ng-class="{'main-nav__link--active' : item.url===vm.currentPage}" class="main-nav__link" ng-attr-href="{{ vm.baseDir }}{{ item.url }}">
+                        {{ item.title }}
+                    </a>
+
+                    <!-- Expandable heading -->
+                    <span ng-click="vm.toggleExpanded(item.title)" ng-if="!item.url" class="main-nav__title">
+                        {{ item.title }}
+                        <span ng-if="!vm.isExpanded(item.title)" class="fa fa-caret-right"></span>
+                        <span ng-if="vm.isExpanded(item.title)" class="fa fa-caret-down"></span>
+                    </span>
+
+                    <!-- Subnav -->
+                    <ul ng-if="vm.isExpanded(item.title)" class="main-nav fx-fade">
+                        <li ng-repeat="sub in item.children" class="main-nav__item">
+
+                            <!-- Link to page -->
+                            <a ng-if="sub.url" ng-class="{'main-nav__link--active' : sub.url===vm.currentPage}" class="main-nav__link main-nav__link--level1" ng-attr-href="{{ vm.baseDir }}{{ sub.url }}">
+                                {{ sub.title }}
+                            </a>
+
+                            <!-- Expandable heading -->
+                            <span ng-click="vm.toggleExpanded(sub.title)" ng-if="!sub.url" class="main-nav__title main-nav__title--level1">
+                                {{ sub.title }}
+                                <span ng-if="!vm.isExpanded(sub.title)" class="fa fa-caret-right"></span>
+                                <span ng-if="vm.isExpanded(sub.title)" class="fa fa-caret-down"></span>
+                            </span>
+
+                            <!-- Sub-sub nav -->
+                            <ul ng-if="sub.children && vm.isExpanded(sub.title)" class="main-nav fx-fade">
+                                <li ng-repeat="subsub in sub.children" class="main-nav__item">
+
+                                    <!-- Link to page -->
+                                    <a ng-class="{'main-nav__link--active' : subsub.url===vm.currentPage}" class="main-nav__link main-nav__link--level2" ng-attr-href="{{ vm.baseDir }}{{ subsub.url }}" ng-bind-html="subsub.title">
+                                    </a>
+
+                                </li>
+                            </ul>
+
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+
+            <!-- Search results list -->
+            <ul class="search-results">
+                <li class="search-result" ng-repeat="result in vm.results">
+                    <a class="search-result__link" ng-attr-href="{{ vm.baseDir }}{{ 'Help/' + result.id }}">
+                        <h3 class="search-result__title">{{ result.title }}</h3>
+                        <p class="search-result__excerpt" ng-bind-html="result.excerpt"></p>
+                    </a>
+                </li>
+            </ul>
+
+            <!-- Keep screen on option - PhoneGap insomnia -->
+            <ul class="main-nav" ng-if="vm.isPhoneGap">
+                <li class="main-nav__item">
+                    <label class="main-nav__title">
+                        Keep Screen On
+                        <input style="display: none" type="checkbox" ng-model="vm.keepScreenOn" />
+                        <i ng-class="{'fa--cleared' : !vm.keepScreenOn, 'fa--checked' : vm.keepScreenOn}" class="fa fa-check"></i>
+                    </label>
+                </li>
+            </ul>
+
+
+        </div>
+    </nav>
+
+    <nav class="header" role="navigation" aria-label="Secondary">
+        <a ng-if="!vm.onAConsole" href="../index.html" class="header__btn" title="Home"><i class="fa fa-home"></i></a>
+        <div ng-if="!vm.onAConsole" class="header__history">
+            <a onclick="javascript:window.history.back()" class="header__btn"><i title="Back" class="fa fa-chevron-left"></i></a>
+            <a onclick="javascript:window.history.forward()" class="header__btn"><i title="Forwards" class="fa fa-chevron-right"></i></a>
+        </div>
+        <div align="right">
+            <a class="header__btn header__btn--nav" ng-click="vm.toggleVisibility()">
+                <i ng-if="!vm.visible" class="fa fa-bars"></i>
+                <i ng-if="vm.visible" class="fa fa-close"></i>
+            </a>
+        </div>
+    </nav>
+
+
+    <!-- Main content -->
+    <div id="main">
+        
+
+<div><a href="OptionsUser.html"><img class="TutorialNav" src="images/n_TutPrevious.png" alt=""><span class="TutorialNav">PREVIOUS: User Options</span></a></div>
+
+<p>The Options can be found in <span class="label">MENU</span> > <span class="label">Setup</span> > <span class="label">Options</span>.</p>
+
+<p>
+    The following pages detail the settings in each <span class="label">Options</span> tab:<br>
+    <a href="OptionsConsole.html"><span class="hyperlink">CONSOLE Options</span></a><br>
+    <a href="OptionsSystem.html"><span class="hyperlink">SYSTEM Options</span></a><br>
+    <a href="OptionsSurface.html"><span class="hyperlink">SURFACE Options</span></a><br>
+    <a href="OptionsUser.html"><span class="hyperlink">USER Options</span></a><br>
+    <a href="OptionsUserKeys.html"><span class="hyperlink">USER KEYS Options</span></a> (this page)<br>
+    <a href="OptionsRemote.html"><span class="hyperlink">REMOTE Options</span></a><br>
+    <a href="OptionsNetwork.html"><span class="hyperlink">NETWORK Options</span></a><br>
+    <a href="OptionsDAW.html"><span class="hyperlink">DAW Options</span></a><br>
+    <a href="OptionsExtCtrl.html"><span class="hyperlink">External Control Options</span></a><br>
+</p>
+
+<h2>User Key Options</h2>
+<p>These settings relate to the various user-assignable keys available on the console surface.</p>
+
+<p>User Keys Options are found in <span class="label">MENU</span> > <span class="label">Setup</span> > <span class="label">Options</span> > <span class="label">USER KEYS</span> tab.</p>
+
+<p>
+    There are several groups of User Keys that can be assigned to various functions for quick access. These are:
+    <ul>
+        <li><b>Keypad</b> Keys : Ten numeric keypad buttons located on the Master Tile (also accessible from the Control Tile screen, if fitted)</li>
+        <li><b>Mute/User</b> Keys : The ten Mute Group Master keys on the Master Tile can be toggled to User Keys using the <span class="label">MODE</span> key (also accessible from the Control Tile screen, if fitted)</li>
+        <li><b>Channel View Popout</b> : Sixteen virtual User Keys located in a popout accessed from the main screen Channel View sidebar</li>
+    </ul>
+    The method of assigning to any User Key is the same: locate the relevant section in the User Keys options tab, e.g. the MUTE/USER buttons section:
+</p>
+
+<img style="display: block; margin: 5px auto;" src="images/g_OptionsUserButtons.png" alt="">
+
+<p>Use the <img src="images/b_Arrow.png" alt=""> button to the right of each user key field to select a function from the list available (included below).</p>
+
+
+<div id="accordion" style="display: block; margin: auto;">
+    <div class="indexheader2">User Key Functions</div>
+    <div style="padding: 1em 0;">
+        <p>A full list of User Keys functions available is included below:</p>
+        <table class="nestedlist" style="text-align: left; margin: 0px;">
+            <tbody class="small">
+                <tr>
+                    <th rowspan="25">Menu Select</th>
+                    <th colspan="3">Channel View</th>
+                    <td><a href="ChanView.html"><span class="hyperlink">Channel View</span></a> to main screen<a href="#1"><span class="hyperlink"><sup>*1</sup></span></a></td>
+                </tr>
+                <tr>
+                    <th colspan="3">Automation</th>
+                    <td><a href="AutoNamesNotes.html"><span class="hyperlink">Automation page</span></a> to main screen<a href="#1"><span class="hyperlink"><sup>*1</sup></span></a></td>
+                </tr>
+                <tr>
+                    <th colspan="3">Overview</th>
+                    <td><a href="ExtScreen.html"><span class="hyperlink">Overview page</span></a> to main screen<a href="#1"><span class="hyperlink"><sup>*1</sup></span></a></td>
+                </tr>
+                <tr>
+                    <th colspan="3">Effects</th>
+                    <td><a href="FXIntro.html"><span class="hyperlink">Effects Rack page</span></a> to main screen<a href="#1"><span class="hyperlink"><sup>*1</sup></span></a></td>
+                </tr>
+                <tr>
+                    <th colspan="3">Matrix</th>
+                    <td><a href="Matrix.html"><span class="hyperlink">Matrix page</span></a> to main screen<a href="#1"><span class="hyperlink"><sup>*1</sup></span></a></td>
+                </tr>
+                <tr>
+                    <th colspan="3">Screen Query</th>
+                    <td><a href="Query.html#ScreenQuery"><span class="hyperlink">Screen Query</span></a> to main screen<a href="#1"><span class="hyperlink"><sup>*1</sup></span></a></td>
+                </tr>
+                <tr>
+                    <th rowspan="16">Setup</th>
+                    <th rowspan="9">Options</th>
+                    <th>Console</th>
+                    <td><a href="OptionsConsole.html"><span class="hyperlink">Console options</span></a> tab to main screen<a href="#1"><span class="hyperlink"><sup>*1</sup></span></a></td>
+                </tr>
+                <tr>
+                    <th>System</th>
+                    <td><a href="OptionsSystem.html"><span class="hyperlink">System options</span></a> tab to main screen<a href="#1"><span class="hyperlink"><sup>*1</sup></span></a></td>
+                </tr>
+                <tr>
+                    <th>Surface</th>
+                    <td><a href="OptionsSurface.html"><span class="hyperlink">Surface options</span></a> tab to main screen<a href="#1"><span class="hyperlink"><sup>*1</sup></span></a></td>
+                </tr>
+                <tr>
+                    <th>User</th>
+                    <td><a href="OptionsUser.html"><span class="hyperlink">User options</span></a> tab to main screen<a href="#1"><span class="hyperlink"><sup>*1</sup></span></a></td>
+                </tr>
+                <tr>
+                    <th>User Keys</th>
+                    <td><a href="OptionsUserKeys.html"><span class="hyperlink">User Key options</span></a> tab to main screen<a href="#1"><span class="hyperlink"><sup>*1</sup></span></a></td>
+                </tr>
+                <tr>
+                    <th>Remote</th>
+                    <td><a href="OptionsRemote.html"><span class="hyperlink">Remote options</span></a> tab to main screen<a href="#1"><span class="hyperlink"><sup>*1</sup></span></a></td>
+                </tr>
+                <tr>
+                    <th>Network</th>
+                    <td><a href="OptionsNetwork.html"><span class="hyperlink">Network options</span></a> tab to main screen<a href="#1"><span class="hyperlink"><sup>*1</sup></span></a></td>
+                </tr>
+                <tr>
+                    <th>DAW</th>
+                    <td><a href="OptionsDAW.html"><span class="hyperlink">DAW Control options</span></a> tab to main screen<a href="#1"><span class="hyperlink"><sup>*1</sup></span></a></td>
+                </tr>
+                <tr>
+                    <th>External Control</th>
+                    <td><a href="OptionsExtCtrl.html"><span class="hyperlink">External Control options</span></a> tab to main screen<a href="#1"><span class="hyperlink"><sup>*1</sup></span></a></td>
+                </tr>
+                <tr>
+                    <th colspan="2">Console Configuration</th>
+                    <td><a href="ConsoleConfig.html"><span class="hyperlink">Console Configuration page</span></a> to main screen<a href="#1"><span class="hyperlink"><sup>*1</sup></span></a></td>
+                </tr>
+                <tr>
+                    <th colspan="2">Layer Manager</th>
+                    <td><a href="LayerManager.html"><span class="hyperlink">Layer Manager page</span></a> to main screen<a href="#1"><span class="hyperlink"><sup>*1</sup></span></a></td>
+                </tr>
+                <tr>
+                    <th colspan="2">I/O</th>
+                    <td><a href="LocalMADIConfig.html"><span class="hyperlink">I/O page</span></a> to main screen<a href="#1"><span class="hyperlink"><sup>*1</sup></span></a></td>
+                </tr>
+                <tr>
+                    <th colspan="2">XY Routing</th>
+                    <td><a href="Routing.html#XY"><span class="hyperlink">XY Routing</span></a> to main screen<a href="#1"><span class="hyperlink"><sup>*1</sup></span></a></td>
+                </tr>
+                <tr>
+                    <th rowspan="3">File Manager</th>
+                    <th colspan="1">Showfiles</th>
+                    <td><a href="Showfiles.html"><span class="hyperlink">Showfiles page</span></a> to main screen<a href="#1"><span class="hyperlink"><sup>*1</sup></span></a></td>
+                </tr>
+                <tr>
+                    <th>Patch Manager</th>
+                    <td><a href="PatchManager.html"><span class="hyperlink">Patch Manager page</span></a> to main screen<a href="#1"><span class="hyperlink"><sup>*1</sup></span></a></td>
+                </tr>
+                <tr>
+                    <th>Presets</th>
+                    <td><a href="Presets.html"><span class="hyperlink">Presets page</span></a> to main screen<a href="#1"><span class="hyperlink"><sup>*1</sup></span></a></td>
+                </tr>
+                <tr>
+                    <th rowspan="3">Tools</th>
+                    <th colspan="2">Talkback Groups</th>
+                    <td><a href="TB.html#Groups"><span class="hyperlink">Talkback Groups page</span></a> to main screen<a href="#1"><span class="hyperlink"><sup>*1</sup></span></a></td>
+                </tr>
+                <tr>
+                    <th colspan="2">Signal Switcher</th>
+                    <td><a href="SignalSwitcher.html"><span class="hyperlink">Signal Switcher page</span></a> to main screen<a href="#1"><span class="hyperlink"><sup>*1</sup></span></a></td>
+                </tr>
+                <tr>
+                    <th colspan="2">Event Manager</th>
+                    <td><a href="EventManager.html"><span class="hyperlink">Event Manager page</span></a> to main screen<a href="#1"><span class="hyperlink"><sup>*1</sup></span></a></td>
+                </tr>
+
+                <tr>
+                    <th rowspan="36">Console Functions</th>
+                    <th rowspan="11">Solo Setup</th>
+                    <th colspan="2">SIP</th>
+                    <td>Toggle <a href="Solo.html"><span class="hyperlink">Solo In Place</span></a> mode on/off</td>
+                </tr>
+                <tr>
+                    <th colspan="2">Additive Solo A</th>
+                    <td>Toggle <a href="Solo.html"><span class="hyperlink">Additive Solo</span></a> mode for Solo bus A on/off</td>
+                </tr>
+                <tr>
+                    <th colspan="2">Additive Solo B</th>
+                    <td>Toggle <a href="Solo.html"><span class="hyperlink">Additive Solo</span></a> mode for Solo bus B on/off</td>
+                </tr>
+                <tr>
+                    <th rowspan="4">Solo A Default Feed Point</th>
+                    <th>None</th>
+                    <td>Change <a href="Solo.html"><span class="hyperlink">default feed point of Solo Bus A</span></a> to None (no send)</td>
+                </tr>
+                <tr>
+                    <th>Pre Fader</th>
+                    <td>Change <a href="Solo.html"><span class="hyperlink">default feed point of Solo Bus A</span></a> to Pre Fader</td>
+                </tr>
+                <tr>
+                    <th>Post All</th>
+                    <td>Change <a href="Solo.html"><span class="hyperlink">default feed point of Solo Bus A</span></a> to Post All</td>
+                </tr>
+                <tr>
+                    <th>Toggle Pre/Post</th>
+                    <td>Toggle the <a href="Solo.html"><span class="hyperlink">default feed point of Solo Bus A</span></a> between Pre Fader and Post All</td>
+                </tr>
+                <tr>
+                    <th rowspan="4">Solo B Default Feed Point</th>
+                    <th>None</th>
+                    <td>Change <a href="Solo.html"><span class="hyperlink">default feed point of Solo Bus B</span></a> to None (no send)</td>
+                </tr>
+                <tr>
+                    <th>Pre Fader</th>
+                    <td>Change <a href="Solo.html"><span class="hyperlink">default feed point of Solo Bus B</span></a> to Pre Fader</td>
+                </tr>
+                <tr>
+                    <th>Post All</th>
+                    <td>Change <a href="Solo.html"><span class="hyperlink">default feed point of Solo Bus B</span></a> to Post All</td>
+                </tr>
+                <tr>
+                    <th>Toggle Pre/Post</th>
+                    <td>Toggle the <a href="Solo.html"><span class="hyperlink">default feed point of Solo Bus B</span></a> between Pre Fader and Post All</td>
+                </tr>
+                <tr>
+                    <th rowspan="6">Tile Setup</th>
+                    <th colspan="2">Screen Follow Select</th>
+                    <td>Toggle <a href="OptionsSurface.html#SurfaceOptionsFaderTiles"><span class="hyperlink">Screen Follow Select</span></a> mode on/off</td>
+                </tr>
+                <tr>
+                    <th colspan="2">Link Control Tile</th>
+                    <td>Toggle <a href="OptionsSurface.html#SurfaceOptionsFocusFaderLock"><span class="hyperlink">Link Control Tile</span></a> mode on/off when Focus Fader is locked</td>
+                </tr>
+                <tr>
+                    <th colspan="2">Query to Focus Fader</th>
+                    <td>Toggle <a href="Query.html#QtoFocus"><span class="hyperlink">Query to Focus Fader</span></a> mode on/off</td>
+                </tr>
+                <tr>
+                    <th colspan="2">Lock To User Keys</th>
+                    <td>Toggle keypad <a href="OptionsSurface.html#SurfaceOptionsKeypad"><span class="hyperlink">Lock the Keypad to User Keys</span></a> on/off</td>
+                </tr>
+                <tr>
+                    <th rowspan="2">Path Label LCD</th>
+                    <th>Show Info</th>
+                    <td>Set <a href="OptionsSurface.html#SurfaceOptionsPathLCD"><span class="hyperlink">Path Label LCDs</span></a> to display path info</td>
+                </tr>
+                <tr>
+                    <th>Show Solo</th>
+                    <td>Set <a href="OptionsSurface.html#SurfaceOptionsPathLCD"><span class="hyperlink">Path Label LCDs</span></a> to display Solo bus info</td>
+                </tr>
+                <tr>
+                    <th colspan="2">Follow Setup</th>
+                    <th>Follow Mode On/Off</th>
+                    <td>Toggle Select/Solo/Query <a href="OptionsSurface.html#FollowModes"><span class="hyperlink">Follow Modes</span></a> on/off</td>
+                </tr>
+                <tr>
+                    <th colspan="2" rowspan="2">External Screen</th>
+                    <th>Overview</th>
+                    <td>Set <a href="OptionsConsole.html#ExternalScreen"><span class="hyperlink">External Screen</span></a> to Overview page</td>
+                </tr>
+                <tr>
+                    <th>Automation</th>
+                    <td>Set <a href="OptionsConsole.html#ExternalScreen"><span class="hyperlink">External Screen</span></a> to Automation page</td>
+                </tr>
+                <tr>
+                    <th colspan="2" rowspan="2">Rehearse Mode</th>
+                    <th>Global</th>
+                    <td>Toggle Global <a href="RecordingPlayback.html#RehearseMode"><span class="hyperlink">Rehearse Mode</span></a> on/off<a href="#2"><span class="hyperlink"><sup>*2</sup></span></a></td>
+                </tr>
+                <tr>
+                    <th>1 - 8</th>
+                    <td>Toggle <a href="RecordingPlayback.html#RehearseMode"><span class="hyperlink">Rehearse Mode</span></a> on/off for Live Recorder N</td>
+                </tr>
+                <tr>
+                    <th colspan="3">Surface Lock</th>
+                    <td>Engage <a href="OptionsConsole.html#ControlSurfaceLock"><span class="hyperlink">Control Surface Lock</span></a><a href="#2"><span class="hyperlink"><sup>*2</sup></span></a></td>
+                </tr>
+                <tr>
+                    <th>Effects</th>
+                    <th>Tempo Link</th>
+                    <th>Rack 1 - 6</th>
+                    <td>Tap Tempo (<a href="FXDelays.html#TempoLink"><span class="hyperlink">Tempo Link</span></a>) for Rack N</td>
+                </tr>
+                <tr>
+                    <th rowspan="3">Automation</th>
+                    <th>Fire Scene</th>
+                    <th>Scene N</th>
+                    <td>Fire scene N from the Automation list</td>
+                </tr>
+                <tr>
+                    <th colspan="2">Scene Name</th>
+                    <td>Rename the selected scene</td>
+                </tr>
+                <tr>
+                    <th colspan="2">Group Mode</th>
+                    <td>Toggle <a href="AutoGrouping.html"><span class="hyperlink">Group Mode</span></a> states (Group Mode/Group All/Disabled)</td>
+                </tr>
+                <tr>
+                    <th rowspan="2">Showfile</th>
+                    <th colspan="2">Save</th>
+                    <td>Save over the current showfile<a href="#2"><span class="hyperlink"><sup>*2</sup></span></a></td>
+                </tr>
+                <tr>
+                    <th colspan="2">Save As</th>
+                    <td>Save the current show as a new showfile</td>
+                </tr>
+                <tr>
+                    <th colspan="3">Auto Mute Safe</th>
+                    <td>Engage <a href="Mute.html#AutoMuteSafe"><span class="hyperlink">Auto Mute Safe</span></a></td>
+                </tr>
+                <tr>
+                    <th colspan="3">Temporary Auto Mute Safe</th>
+                    <td>Engage <a href="Mute.html#TempAutoMuteSafe"><span class="hyperlink">Temporary Auto Mute Safe</span></a></td>
+                </tr>
+                <tr>
+                    <th>Signal Switchers</th>
+                    <th>Signal Switcher 1 - 4</th>
+                    <th>Input B</th>
+                    <td>Toggle to Input B of selected <a href="SignalSwitcher.html"><span class="hyperlink">Signal Switcher</span></a></td>
+                </tr>
+                <tr>
+                    <th colspan="3">Clear Query</th>
+                    <td><a href="Query.html#ClearQuery"><span class="hyperlink">Clear a Query</span></a></td>
+                </tr>
+                <tr>
+                    <th colspan="2">Talkback Groups</th>
+                    <th>Group 1-10 IN</th>
+                    <td><a href="TB.html#Groups"><span class="hyperlink">Enable talkback to TB Group N</span></a><a href="#3"><span class="hyperlink"><sup>*3</sup></span></a></td>
+                </tr>
+                <tr>
+                    <th colspan="3">Channel View Edit Safe Mode</th>
+                    <td><a href="AutoFilters.html#PathSectionSafe"><span class="hyperlink">Engage Channel View Edit Safe Mode</span></a></td>
+                </tr>
+                <tr>
+                    <th colspan="2">IO Functions</th>
+                    <th>Recalibrate All</th>
+                    <td><a href="DanteNetIO.html#GainShare"><span class="hyperlink">Recalibrate all Owned inputs across all connected Net I/O stageboxes</span></a><a href="#2"><span class="hyperlink"><sup>*2</sup></span></a></td>
+                </tr>
+
+                <tr>
+                    <th rowspan="10">Path Functions</th>
+                    <th rowspan="2">Selected Path</th>
+                    <th colspan="2">Input A/B Toggle (Channels only)</th>
+                    <td>Toggle Selected Channel between Inputs A & B<a href="#2"><span class="hyperlink"><sup>*2</sup></span></a></td>
+                </tr>
+                <tr>
+                    <th colspan="2">Path Global Recall Safe</th>
+                    <td><a href="AutoFilters.html#RecallSafe"><span class="hyperlink">Enable Global Recall Safe for the Selected path</span></a><a href="#2"><span class="hyperlink"><sup>*2</sup></span></a></td>
+                </tr>
+                <tr>
+                    <th rowspan="8">Channel&nbsp;/ Stem&nbsp;/<br> Aux / Master&nbsp;/<br> Matrix&nbsp;/ Talkback&nbsp;/<br> Solo Chan&nbsp;/ VCA N</th>
+                    <th colspan="2">Path Select</th>
+                    <td>Select Path N (abides by <a href="OptionsSurface.html#FollowModes"><span class="hyperlink">Follow Modes</span></a>)</td>
+                </tr>
+                <tr>
+                    <th colspan="2">Mute</th>
+                    <td>Toggle Path N Mute state</td>
+                </tr>
+                <tr>
+                    <th rowspan="3">Input Select (Channels only)</th>
+                    <th>Input A</th>
+                    <td>Switch Channel N to Input A<a href="#2"><span class="hyperlink"><sup>*2</sup></span></a></td>
+                </tr>
+                <tr>
+                    <th>Input B</th>
+                    <td>Switch Channel N to Input B<a href="#2"><span class="hyperlink"><sup>*2</sup></span></a></td>
+                </tr>
+                <tr>
+                    <th> Input A/B Toggle</th>
+                    <td>Toggle Channel N between Inputs A & B<a href="#2"><span class="hyperlink"><sup>*2</sup></span></a></td>
+                </tr>
+                <tr>
+                    <th colspan="2"> Insert A IN (not VCAs)</th>
+                    <td>Toggle Path N Insert A IN state</td>
+                </tr>
+                <tr>
+                    <th colspan="2"> Insert B IN (not VCAs)</th>
+                    <td>Toggle Path N Insert B IN state</td>
+                </tr>
+                <tr>
+                    <th colspan="2"> TB IN (Stems/Auxes/Masters only)</th>
+                    <td><a href="TB.html"><span class="hyperlink">Talkback</span></a> to Stem/Aux/Master N<a href="#3"><span class="hyperlink"><sup>*3</sup></span></a></td>
+                </tr>
+
+                <tr>
+                    <th rowspan="16">Quick Controls</th>
+                    <th rowspan="9">Routing</th>
+                    <th rowspan="2">Input</th>
+                    <th>Input</th>
+                    <td>Switch Quick Controls to last selected Input section</td>
+                </tr>
+                <tr>
+                    <th>Mic Gain</th>
+                    <td>Switch Quick Controls to control Mic Gain directly</td>
+                </tr>
+                <tr>
+                    <th rowspan="2">Fader/TB</th>
+                    <th>Fader/TB</th>
+                    <td>Switch Quick Controls to last selected Fader/TB section</td>
+                </tr>
+                <tr>
+                    <th>Talkback</th>
+                    <td>Switch Quick Controls to Talkback section directly</td>
+                </tr>
+                <tr>
+                    <th colspan="2">Mute Groups</th>
+                    <td>Switch Quick Controls to last selected Mute Groups section</td>
+                </tr>
+                <tr>
+                    <th colspan="2">VCA</th>
+                    <td>Switch Quick Controls to last selected VCA section</td>
+                </tr>
+                <tr>
+                    <th colspan="2">Master</th>
+                    <td>Switch Quick Controls to last selected Master section</td>
+                </tr>
+                <tr>
+                    <th colspan="2">Stem</th>
+                    <td>Switch Quick Controls to last selected Stem section</td>
+                </tr>
+                <tr>
+                    <th colspan="2">Aux</th>
+                    <td>Switch Quick Controls to last selected Aux section</td>
+                </tr>
+                <tr>
+                    <th rowspan="7">Processing</th>
+                    <th colspan="2">EQ</th>
+                    <td>Switch Quick Controls to last selected EQ section</td>
+                </tr>
+                <tr>
+                    <th colspan="2">Dynamics</th>
+                    <td>Switch Quick Controls to last selected Dynamics section</td>
+                </tr>
+                <tr>
+                    <th colspan="2">Pan</th>
+                    <td>Switch Quick Controls to last selected Pan section</td>
+                </tr>
+                <tr>
+                    <th colspan="2">Time</th>
+                    <td>Switch Quick Controls to last selected Time (Delay & All Pass) section</td>
+                </tr>
+                <tr>
+                    <th colspan="2">Insert A</th>
+                    <td>Switch Quick Controls to Insert A section</td>
+                </tr>
+                <tr>
+                    <th colspan="2">Insert B</th>
+                    <td>Switch Quick Controls to Insert B section</td>
+                </tr>
+                <tr>
+                    <th colspan="2">Config</th>
+                    <td>Switch Quick Controls to Config section</td>
+                </tr>
+                <tr>
+                    <th>FX Slot Select</th>
+                    <th>Rack 1-6</th>
+                    <th colspan="2">Slot 1-16</th>
+                    <td>Switch main screen to the selected FX rack slot</td>
+                </tr>
+                <tr>
+                    <th>Mute Group Masters</th>
+                    <th colspan="3">MG Master 1-10</th>
+                    <td>Toggle Mute Group Master N</td>
+                </tr>
+                <tr>
+                    <th colspan="4">DAW</th>
+                    <td>Refer to separate table below.</td>
+                </tr>
+                <tr>
+                    <th>Event Select</th>
+                    <th colspan="3">[Name of Event]</th>
+                    <td>Trigger the User Key source of the <a href="EventManager.html"><span class="hyperlink">Event</span></a> specified.</td>
+                </tr>
+                <tr>
+                    <td colspan="5">
+                        <sup id="1">*1</sup> Second press reverts to previous screen<br>
+                        <sup id="2">*2</sup> Press and hold to activate<br>
+                        <sup id="3">*3</sup> Short press for latching, long press for momentary operation
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="indexheader2">DAW Control User Key Functions</div>
+    <div style="padding: 1em 0;">
+        <p>A full list of User Keys available for <a href="DAWControl.html"><span class="hyperlink">DAW control</span></a> is included below:</p>
+        <table class="nestedlist" style="text-align: left; margin: 0px;">
+            <tbody class="small">
+                <tr>
+                    <th rowspan="52">DAW 1 - 4</th>
+                    <th rowspan="14">Strip Master Switches</th>
+                    <th rowspan="4">Select - Assign</th>
+                    <th>Send A - E</th>
+                </tr>
+                <tr>
+                    <th>Pan</th>
+                </tr>
+                <tr>
+                    <th>Mute</th>
+                </tr>
+                <tr>
+                    <th>Flip</th>
+                </tr>
+                <tr>
+                    <th rowspan="2">Global</th>
+                    <th>Suspend</th>
+                </tr>
+                <tr>
+                    <th>Rec/Rdy All</th>
+                </tr>
+                <tr>
+                    <th>Misc</th>
+                    <th>Default</th>
+                </tr>
+                <tr>
+                    <th rowspan="2">Fader Banks</th>
+                    <th>Bank Down / Up</th>
+                </tr>
+                <tr>
+                    <th>Channel Down / Up</th>
+                </tr>
+                <tr>
+                    <th rowspan="5">Window</th>
+                    <th>Transport</th>
+                </tr>
+                <tr>
+                    <th>Edit</th>
+                </tr>
+                <tr>
+                    <th>Mix</th>
+                </tr>
+                <tr>
+                    <th>Alt</th>
+                </tr>
+                <tr>
+                    <th>Mem-Loc</th>
+                </tr>
+                <tr>
+                    <th rowspan="36">Master Section</th>
+                    <th rowspan="6">Keyboard Shortcuts</th>
+                    <th>Undo</th>
+                </tr>
+                <tr>
+                    <th>Save</th>
+                </tr>
+                <tr>
+                    <th>Shift/Add</th>
+                </tr>
+                <tr>
+                    <th>Option/All</th>
+                </tr>
+                <tr>
+                    <th>Ctrl/Clutch</th>
+                </tr>
+                <tr>
+                    <th>CMD/Alt/Fine</th>
+                </tr>
+                <tr>
+                    <th rowspan="2">Function Keys</th>
+                    <th>F1</th>
+                </tr>
+                <tr>
+                    <th>F8/ESC</th>
+                </tr>
+                <tr>
+                    <th rowspan="6">Auto Mode</th>
+                    <th>Read</th>
+                </tr>
+                <tr>
+                    <th>Latch</th>
+                </tr>
+                <tr>
+                    <th>Trim</th>
+                </tr>
+                <tr>
+                    <th>Touch</th>
+                </tr>
+                <tr>
+                    <th>Write</th>
+                </tr>
+                <tr>
+                    <th>Off</th>
+                </tr>
+                <tr>
+                    <th rowspan="3">Status/Group</th>
+                    <th>Auto</th>
+                </tr>
+                <tr>
+                    <th>Group</th>
+                </tr>
+                <tr>
+                    <th>Suspend</th>
+                </tr>
+                <tr>
+                    <th rowspan="12">Transport Keys</th>
+                    <th>RTZ</th>
+                </tr>
+                <tr>
+                    <th>END</th>
+                </tr>
+                <tr>
+                    <th>On-Line</th>
+                </tr>
+                <tr>
+                    <th>Loop</th>
+                </tr>
+                <tr>
+                    <th>Quick Punch</th>
+                </tr>
+                <tr>
+                    <th>Rewind</th>
+                </tr>
+                <tr>
+                    <th>Fast Forward</th>
+                </tr>
+                <tr>
+                    <th>Stop</th>
+                </tr>
+                <tr>
+                    <th>Play</th>
+                </tr>
+                <tr>
+                    <th>Rec</th>
+                </tr>
+                <tr>
+                    <th><</th>
+                </tr>
+                <tr>
+                    <th>></th>
+                </tr>
+                <tr>
+                    <th rowspan="6">Automation Write Enable</th>
+                    <th>AE Plugin</th>
+                </tr>
+                <tr>
+                    <th>AE Vol</th>
+                </tr>
+                <tr>
+                    <th>AE S Vol</th>
+                </tr>
+                <tr>
+                    <th>AE Pan</th>
+                </tr>
+                <tr>
+                    <th>AE Mute</th>
+                </tr>
+                <tr>
+                    <th>AE S Mute</th>
+                </tr>
+                <tr>
+                    <th>Keypad</th>
+                    <th>+ / -</th>
+                </tr>
+                <tr>
+                    <th rowspan="2" colspan="2">SSL Nested Functions</th>
+                    <th>Prev / Next</th>
+                </tr>
+                <tr>
+                    <th>Goto Marker 1</th>
+                </tr>
+                <tr>
+                    <th rowspan="14">Master DAW</th>
+                    <th rowspan="12">Master Section</th>
+                    <th rowspan="12">Transport Keys</th>
+                    <th>RTZ</th>
+                </tr>
+                <tr>
+                    <th>END</th>
+                </tr>
+                <tr>
+                    <th>On-Line</th>
+                </tr>
+                <tr>
+                    <th>Loop</th>
+                </tr>
+                <tr>
+                    <th>Quick Punch</th>
+                </tr>
+                <tr>
+                    <th>Rewind</th>
+                </tr>
+                <tr>
+                    <th>Fast Forward</th>
+                </tr>
+                <tr>
+                    <th>Stop</th>
+                </tr>
+                <tr>
+                    <th>Play</th>
+                </tr>
+                <tr>
+                    <th>Rec</th>
+                </tr>
+                <tr>
+                    <th><</th>
+                </tr>
+                <tr>
+                    <th>></th>
+                </tr>
+                <tr>
+                    <th rowspan="2" colspan="2">SSL Nested Functions</th>
+                    <th>Prev / Next</th>
+                </tr>
+                <tr>
+                    <th>Goto Marker 1</th>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+<h2>Useful Links</h2>
+
+<a href="OptionsConsole.html"><span class="hyperlink">CONSOLE Options</span></a><br>
+<a href="OptionsSystem.html"><span class="hyperlink">SYSTEM Options</span></a><br>
+<a href="OptionsSurface.html"><span class="hyperlink">SURFACE Options</span></a><br>
+<a href="OptionsUser.html"><span class="hyperlink">USER Options</span></a><br>
+<a href="OptionsRemote.html"><span class="hyperlink">REMOTE Options</span></a><br>
+<a href="OptionsNetwork.html"><span class="hyperlink">NETWORK Options</span></a><br>
+<a href="OptionsDAW.html"><span class="hyperlink">DAW Options</span></a><br>
+<a href="OptionsExtCtrl.html"><span class="hyperlink">EXTERNAL CONTROL Options</span></a><br>
+<a href="LinkIndex.html"><span class="hyperlink">Index and Glossary</span></a><br>
+
+<div class="TutorialNavNext"> <a href="OptionsRemote.html"><span class="TutorialNav">NEXT: Remote Options</span> <img class="TutorialNav" src="images/n_TutNext.png" alt=""></a></div>
+
+
+    </div>
+
+    <script src="../Help/js/OpenAccordionFromLink.js"></script>
+</body>
+</html>
