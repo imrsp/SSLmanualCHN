@@ -1788,6 +1788,12 @@
     "status": "downloaded"
   },
   {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_KLANG_EnableMappedChannels.png",
+    "localPath": "assets/manual/Help/images/g_KLANG_EnableMappedChannels.png",
+    "bytes": 63744,
+    "status": "downloaded"
+  },
+  {
     "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/g_KLANG_ExtCtrl_Setup.png",
     "localPath": "assets/manual/Help/images/g_KLANG_ExtCtrl_Setup.png",
     "bytes": 70393,
@@ -2794,6 +2800,12 @@
     "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/s_LinkGroup_pathIcons.png",
     "localPath": "assets/manual/Help/images/s_LinkGroup_pathIcons.png",
     "bytes": 26658,
+    "status": "downloaded"
+  },
+  {
+    "sourceUrl": "https://livehelp.solidstatelogic.com/Help/images/s_LinkGroup_StoreFilters.png",
+    "localPath": "assets/manual/Help/images/s_LinkGroup_StoreFilters.png",
+    "bytes": 199469,
     "status": "downloaded"
   },
   {

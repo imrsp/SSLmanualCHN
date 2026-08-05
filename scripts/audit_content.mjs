@@ -26,7 +26,7 @@ const upstreamMain = (html) => {
     /<div\s+id=["']main["'][^>]*>([\s\S]*?)<\/div>\s*<script\s+src=["'][^"']*OpenAccordionFromLink/i,
   )?.[1] ?? stripDocument(html);
   return main.replace(
-    /<div[^>]*>\s*<a[^>]*>\s*(?:<img[^>]*>)?\s*<span[^>]*>(?:PREVIOUS|NEXT):[\s\S]*?<\/span>\s*(?:<img[^>]*>)?\s*<\/a>\s*<\/div>/gi,
+    /<div[^>]*>\s*<a[^>]*>\s*(?:<img[^>]*>)?\s*<span[^>]*>(?:PREVIOUS|NEXT):[\s\S]*?<\/span\s*>\s*(?:<img[^>]*>)?\s*<\/a>\s*<\/div>/gi,
     "",
   );
 };

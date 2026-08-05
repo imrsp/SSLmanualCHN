@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "origin": "https://livehelp.solidstatelogic.com",
   "revisionUrl": "https://livehelp.solidstatelogic.com/Help/About.html",
-  "mergedRevision": "21.0.4",
+  "mergedRevision": "21.0.6",
   "allowedSnapshotFailures": [
     {
       "url": "https://livehelp.solidstatelogic.com/Help/images/g_SoloPopOut.png",

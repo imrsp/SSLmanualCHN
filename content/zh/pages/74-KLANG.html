@@ -118,7 +118,7 @@
 <p>在表格中选择 KLANG 行。</p>
 
 <img
-  style="display: block; margin: 5px auto; width: 600px"
+  style="display: block; margin: 5px auto; width: 800px"
   src="https://livehelp.solidstatelogic.com/Help/images/g_KLANG_ExtCtrl_Setup.png"
   alt="SSL External Control - KLANG setup"
 />
@@ -133,7 +133,7 @@
 
 <p>转到 <b>Setup</b> > <b>Tools</b> > <b>SSL KLANG Interface</b>.</p>
 <img
-  style="display: block; margin: 5px auto; width: 600px"
+  style="display: block; margin: 5px auto; width: 800px"
   src="https://livehelp.solidstatelogic.com/Help/images/g_SKI.png"
   alt="SSL KLANG Interface"
 />
@@ -179,15 +179,23 @@
 
 <p>启用 <span class="label">KLANG Mode</span> 并切换到此 GUI 后，所选通道路径会立即加入 KLANG Mix。此后，<span class="label">Gain</span> 和 <span class="label">In</span> 参数将与 KLANG 系统的 <b>Level</b> 和 <b>Mute</b> 参数关联。</p>
 
+<span class="note"><span class="notetitle">注意：</span>与 KLANG 关联的增益参数不支持<a href="https://livehelp.solidstatelogic.com/Help/BusRouting.html#VcaBusSends"><span class="hyperlink">VCA（V-Aux）控制</span></a>。</span>
+
 <img
   style="display: block; margin: 5px auto; width: 800px"
   src="https://livehelp.solidstatelogic.com/Help/images/g_KLANG_ChanAuxCrosspoint.png"
   alt="Chan-Aux KLANG Crosspoint"
 />
 
-<span class="note"><span class="notetitle">注意：</span>与 KLANG 关联的增益参数不支持<a href="https://livehelp.solidstatelogic.com/Help/BusRouting.html#VcaBusSends"><span class="hyperlink">VCA（V-Aux）控制</span></a>。</span>
+<p>若需将大量通道用于 KLANG，逐一为其启用 <span class="label">KLANG Mode</span> 可能需要一些时间。KLANG:app 提供一项名为 <b>Enable Mapped Channels</b> 的功能。单击此功能后，系统会自动在所有已关联 KLANG 的通道与关联 Aux 的交叉点上启用 <span class="label">KLANG Mode</span>。</p>
 
-<p>还可使用多项 KLANG 专用参数和功能：方位角、宽度、高度、声像模式、音色、独奏和聚焦。</p>
+<img
+  style="display: block; margin: 5px auto; width: 800px"
+  src="https://livehelp.solidstatelogic.com/Help/images/g_KLANG_EnableMappedChannels.png"
+  alt="Enable Mapped Channels"
+/>
+
+<p>除 <span class="label">Gain</span> 外，还可使用多项 KLANG 专用参数和功能：方位角、宽度、高度、声像模式、音色、独奏和聚焦。</p>
 
 <p><span class="label">Follow Detail</span> 启用后，可通过触控或通道区块的旋钮操作这些参数：</p>
 
