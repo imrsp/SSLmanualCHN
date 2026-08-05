@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "sourceRevision": "21.0.6",
+  "previous": "21.0.4",
+  "added": [
+    "https://livehelp.solidstatelogic.com/Help/images/g_KLANG_EnableMappedChannels.png",
+    "https://livehelp.solidstatelogic.com/Help/images/s_LinkGroup_StoreFilters.png"
+  ],
+  "changed": [
+    "https://livehelp.solidstatelogic.com/Help/About.html",
+    "https://livehelp.solidstatelogic.com/Help/KLANG.html",
+    "https://livehelp.solidstatelogic.com/Help/PathLink.html"
+  ],
+  "removed": []
+}

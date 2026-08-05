@@ -1,0 +1,353 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html ng-app="sslLiveHelp">
+<head>
+    <meta content="text/html; charset=ISO-8859-1" http-equiv="content-type">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=yes">
+
+    <link href="../Help/style/style.css" rel="stylesheet">
+    <link href="../Help/style/jquery-ui-1.13.2.structure.css" rel="stylesheet">
+    <title>Talkback</title>
+    <script src="../Help/js/jquery-3.6.0.min.js"></script>
+    <script src="../Help/js/jquery-ui/1.13.2/jquery-ui.min.js"></script>
+    <!--<script type="text/javascript" src="cordova.js"></script>-->
+    <!-- Nav / search panels 2017 updates -->
+    <script>
+    window.baseDir = '../';
+    window.data = 'null';
+    </script>
+    <link rel="stylesheet" type="text/css" href="../Help/fonts/font-awesome-4.7.0/css/font-awesome.min.css" />
+    <link rel="stylesheet" type="text/css" href="../Help/style/sass-styles.css">
+    <script src="../Help/js/fastclick.js"></script>
+    <script src="../Help/js/lodash.core.min.js"></script>
+    <!--<script src="../Help/js/angular/1.2/angular.min.js"></script>-->  <!-- On a console -->
+    <script src="../Help/js/angular/1.8/angular.min.js"></script>   <!--Not on a console -->
+    <script src="../Help/js/ngStorage.min.js"></script>
+    <!--<script src="../Help/js/angular/1.2/angular-sanitize.min.js"></script>-->  <!-- On a console -->
+    <!--<script src="../Help/js/angular/1.2/angular-animate.min.js"></script>-->   <!-- On a console -->
+    <script src="../Help/js/angular/1.8/angular-sanitize.min.js"></script>  <!--Not on a console -->
+    <script src="../Help/js/angular/1.8/angular-animate.min.js"></script>   <!--Not on a console -->
+    <script src="../Help/js/lunr-2.3.min.js"></script>
+    <script src="../Help/js/menu.js"></script>
+
+</head>
+
+<body ng-controller="NavController as vm">
+
+    <!--<nav class="nav" ng-class="{ 'nav--visible' : vm.visible }" ng-if="vm.visible" role="navigation" aria-label="Primary">-->  <!-- On a console --> 
+    <nav class="nav" ng-class="{ 'nav--visible' : vm.visible }" role="navigation" aria-label="Primary"> <!--Not on a console -->
+        <!-- Search form -->
+        <div role="search">
+            <form class="nav__search" ng-if="vm.isSearchSupported">
+                <label class="nav__search-icon" for="query"><i aria-label="Search" title="Search" class="fa fa-search"></i></label>
+                <input type="search" id="query" class="nav__search-input" placeholder="Search..." ng-model="vm.query" />
+            </form>
+        </div>
+
+        <div class="nav__scroll" ng-style="vm.styleBasedOnSearchSupported">
+
+            <!-- Main nav -->
+            <ul class="main-nav" ng-hide="vm.query">
+                <li class="main-nav__item" ng-repeat="item in vm.nav">
+
+                    <!-- Link to page -->
+                    <a ng-if="item.url" ng-class="{'main-nav__link--active' : item.url===vm.currentPage}" class="main-nav__link" ng-attr-href="{{ vm.baseDir }}{{ item.url }}">
+                        {{ item.title }}
+                    </a>
+
+                    <!-- Expandable heading -->
+                    <span ng-click="vm.toggleExpanded(item.title)" ng-if="!item.url" class="main-nav__title">
+                        {{ item.title }}
+                        <span ng-if="!vm.isExpanded(item.title)" class="fa fa-caret-right"></span>
+                        <span ng-if="vm.isExpanded(item.title)" class="fa fa-caret-down"></span>
+                    </span>
+
+                    <!-- Subnav -->
+                    <ul ng-if="vm.isExpanded(item.title)" class="main-nav fx-fade">
+                        <li ng-repeat="sub in item.children" class="main-nav__item">
+
+                            <!-- Link to page -->
+                            <a ng-if="sub.url" ng-class="{'main-nav__link--active' : sub.url===vm.currentPage}" class="main-nav__link main-nav__link--level1" ng-attr-href="{{ vm.baseDir }}{{ sub.url }}">
+                                {{ sub.title }}
+                            </a>
+
+                            <!-- Expandable heading -->
+                            <span ng-click="vm.toggleExpanded(sub.title)" ng-if="!sub.url" class="main-nav__title main-nav__title--level1">
+                                {{ sub.title }}
+                                <span ng-if="!vm.isExpanded(sub.title)" class="fa fa-caret-right"></span>
+                                <span ng-if="vm.isExpanded(sub.title)" class="fa fa-caret-down"></span>
+                            </span>
+
+                            <!-- Sub-sub nav -->
+                            <ul ng-if="sub.children && vm.isExpanded(sub.title)" class="main-nav fx-fade">
+                                <li ng-repeat="subsub in sub.children" class="main-nav__item">
+
+                                    <!-- Link to page -->
+                                    <a ng-class="{'main-nav__link--active' : subsub.url===vm.currentPage}" class="main-nav__link main-nav__link--level2" ng-attr-href="{{ vm.baseDir }}{{ subsub.url }}" ng-bind-html="subsub.title">
+                                    </a>
+
+                                </li>
+                            </ul>
+
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+
+            <!-- Search results list -->
+            <ul class="search-results">
+                <li class="search-result" ng-repeat="result in vm.results">
+                    <a class="search-result__link" ng-attr-href="{{ vm.baseDir }}{{ 'Help/' + result.id }}">
+                        <h3 class="search-result__title">{{ result.title }}</h3>
+                        <p class="search-result__excerpt" ng-bind-html="result.excerpt"></p>
+                    </a>
+                </li>
+            </ul>
+
+            <!-- Keep screen on option - PhoneGap insomnia -->
+            <ul class="main-nav" ng-if="vm.isPhoneGap">
+                <li class="main-nav__item">
+                    <label class="main-nav__title">
+                        Keep Screen On
+                        <input style="display: none" type="checkbox" ng-model="vm.keepScreenOn" />
+                        <i ng-class="{'fa--cleared' : !vm.keepScreenOn, 'fa--checked' : vm.keepScreenOn}" class="fa fa-check"></i>
+                    </label>
+                </li>
+            </ul>
+
+
+        </div>
+    </nav>
+
+    <nav class="header" role="navigation" aria-label="Secondary">
+        <a ng-if="!vm.onAConsole" href="../index.html" class="header__btn" title="Home"><i class="fa fa-home"></i></a>
+        <div ng-if="!vm.onAConsole" class="header__history">
+            <a onclick="javascript:window.history.back()" class="header__btn"><i title="Back" class="fa fa-chevron-left"></i></a>
+            <a onclick="javascript:window.history.forward()" class="header__btn"><i title="Forwards" class="fa fa-chevron-right"></i></a>
+        </div>
+        <div align="right">
+            <a class="header__btn header__btn--nav" ng-click="vm.toggleVisibility()">
+                <i ng-if="!vm.visible" class="fa fa-bars"></i>
+                <i ng-if="vm.visible" class="fa fa-close"></i>
+            </a>
+        </div>
+    </nav>
+
+
+    <!-- Main content -->
+    <div id="main">
+        
+
+<div><a href="Solo.html"><img class="TutorialNav" src="images/n_TutPrevious.png" alt=""><span class="TutorialNav">PREVIOUS: Solo</span></a></div>
+
+
+<h2>Talkback</h2>
+
+<p>
+    SSL Live consoles have two Talkback channels, each with two inputs and two types of output, allowing you to run two independent Talkback systems.
+    For example, you might use Talkback Channel 1 for a backstage cue speaker and Talkback Channel 2 to speak to musicians' in-ear monitors.
+</p>
+
+<p>Both Talkback channels have full channel controls with full signal processing.</p>
+
+<img style="margin: 8px 20px 0px 7px;" src="images/g_TBtile.png" alt="" align="left">
+
+<p>
+    Basic Talkback control is available in the <span style="font-weight: bold;">Talkback</span> area in the top right corner of the Master Tile (shown left).<br>
+    Turn the <span style="font-weight: bold;">TB1</span> and <span style="font-weight: bold;">TB2</span> encoders to change the fader level of the Talkback channels;
+    Press the encoders to mute the Talkback channels.
+</p>
+
+
+
+<p>The two Talkback output types can be summarised as follows:</p>
+
+
+
+
+<h3>Talkback Outputs</h3>
+
+<img style="display: block; margin: 25px auto;" src="images/g_TBdiagDirectOut.png" alt="">
+
+<p>
+    The main Talkback Outputs are used to feed remote speakers or headphones which may not have any other audio routed to it, such as a backstage cue speaker or another engineer's headphones.
+    These can also be used to feed the console's Matrix for injecting talkback into Matrix outputs.
+</p>
+
+<p>
+    Main Talkback Outputs are switched on and off using the <span class="label">OUT&nbsp;1</span> and <span class="label">OUT&nbsp;2</span>
+    keys in the Master Tile's <span style="font-weight: bold;">Talkback</span> area.
+    These buttons are also available in the Talkback Channel's <span class="label">Input/Routing</span> Detail View page (see below).
+</p>
+
+<p>
+    The <b>OUT</b> hardware keys will latch on if pressed for a short time or engage momentarily if pressed and held, automatically disengaging when the key is released.
+</p>
+
+
+<h3>Bus Injection</h3>
+
+<img style="display: block; margin: 25px auto;" src="images/g_TBdiagAuxSolo.png" alt="">
+
+<p>
+    You can also send Talkback to individual Aux buses (see diagram above), Stems and Masters. Talkback sends to buses are activated using the <span class="label">TB&nbsp;IN</span> button
+    in the bus' <span style="font-weight: bold;">Fader/TB</span> Quick Controls or Detail View page, as described further down this page.
+</p>
+
+
+<h2>Activating Talkback Inputs</h2>
+
+<p>The two inputs to each Talkback channel are switched in and out from the channel's Detail dialogue:</p>
+
+<p>A page similar to that shown below will appear (press the <span class="label">Input/Routing</span> button if a different dialogue page is shown):</p>
+
+<img style="display: block; margin: 25px auto;" src="images/g_detTBinput.png" alt="">
+
+<p>
+    Controls for the two inputs are located in either side of the dialogue. Each have full input configuration controls, as found in Input Channel
+    <span style="font-weight: bold;">Input</span> detail dialogues, introduced in <a href="DetailView.html"><span class="hyperlink">Detail View</span></a> section.
+</p>
+
+<p>
+    In addition, each input has a large <span class="label">Input&nbsp;IN</span> button which switches the input in and out. (The buttons are lit blue when the input is in).
+    These allow one or both TB inputs to feed the TB channel outputs.
+</p>
+
+
+<h2>Routing Talkback Inputs and Outputs</h2>
+
+<p>
+    The XLR inputs under the console's front buffer are available for Talkback microphones; the left side is hard-wired to local input A15 and the right to local input A16.
+    In the template showfiles, these inputs are routed to Input A of Talkback channels 1 and 2 respectively.
+</p>
+
+<p>
+    For L300, L350, L450, L500, L500&nbsp;Plus, L550 and L650 consoles, the Talkback XLR inputs are also internally hard-wired in parallel to the console's rear panel XLR inputs A15 and A16.
+</p>
+
+<span class="note">
+    <span class="notetitle">Note:</span> You should avoid plugging sources into an XLR input on the back of the console if a
+    source is also plugged into the corresponding front buffer input, as this will result in degraded audio performance.
+</span>
+
+<p>
+    Routing is performed in the Detail Dialogues of the Talkback Channels (<span style="font-weight: bold;">Input/Routing</span> page). To change the source for Input A press the
+    <span class="label">Route&nbsp;Input&nbsp;A</span> button and use the standard Routing dialogue which appears (see the <a href="Routing.html"><span class="hyperlink">Routing section</span></a> for details).
+    For Input B, use the <span class="label">Route&nbsp;Input&nbsp;B</span> button. Main Talkback Outputs (activated by the on-screen <span class="label">TALKBACK&nbsp;OUT</span> button or
+    <span class="label">OUT 1</span>/<span class="label">OUT 2</span> button in the <span style="font-weight: bold;">Talkback</span> section of the Master Tile) are routed using the <span class="label">Route&nbsp;Output</span> button.<br>
+    Use the <span class="label">Output&nbsp;Feed</span> button below the <span class="label">Route&nbsp;Output</span> button to choose where in the signal path the main output should be sourced
+    from: <span class="label">Post&nbsp;Trim</span>, <span class="label">Pre&nbsp;Fader</span>, <span class="label">Post&nbsp;Fader</span> or <span class="label">Post&nbsp;All</span>.
+    This does not affect the TB Channel to Aux/Stem/Master sends, which are always sourced <span style="font-weight: bold;">Post All</span> processing.
+</p>
+
+
+<h2>Sending to Buses</h2>
+
+<p>By default, both Talkback channels are routed to all Stem, Aux and Master buses, with their send gain set to 0 dB.</p>
+
+<p>This can be changed with the standard bus send controls in the Talkback Channel, using the Quick Controls, Detail dialogue, or Control Tile.</p>
+
+<span class="note"><span class="notetitle">Note:</span> Buses added to your Console Configuration will have their sends from both Talkback channels automatically switched IN and turned up to 0 dB.</span>
+
+<p>Talkback to individual buses can then be enabled within each bus path (or via a Talkback Group; see <a href="TB.html#Groups"><span class="hyperlink">below</span></a>).</p>
+
+<p>To access these controls, Select the desired Aux/Stem/Master path and press the <span style="font-weight: bold;">Fader/TB</span> Assigner button in the Channel View.</p>
+
+<p>
+    You can now press the <span class="label">TB</span> button to the left of the on-screen fader in the Channel View section,
+    or the <span class="label">TB&nbsp;to&nbsp;Bus</span> button in the <span style="font-weight: bold;">Fader/TB</span> Detail Dialogue, to activate or deactivate the Talkback injection.
+</p>
+
+<p>
+    <span style="font-weight: bold;">TB&nbsp;to&nbsp;Bus</span> can also be activated from the Quick Controls Fader section.
+    Press the Aux/Stem/Master's Fader Tile Quick Control encoder (or double-tap the on-screen encoder) to toggle the Quick Control page between the bus' main Fader and Talkback controls.
+</p>
+
+<img style="display:block; margin: 10px auto;" src="images/g_ChanViewAuxFaderTB.png" alt="">
+
+<p>
+    A <span style="font-weight: bold;">TB&nbsp;Dim</span> control is also included which allows the main bus signal to be attenuated while <span style="font-weight: bold;">TB&nbsp;to&nbsp;Bus</span> is engaged.
+    Each bus has its own TB Dim level, meaning each mix can be tailored according to the artist's preferences.
+</p>
+
+<img style="display:block; margin: 10px auto; width: 750px;" src="images/g_detAuxFADERTB.png" alt="">
+
+<p>Talkback can be injected into multiple buses simultaneously; simply enable <span style="font-weight: bold;">TB&nbsp;to&nbsp;Bus</span> for the desired Auxes/Stems/Masters.</p>
+
+<p>
+    Individual <span style="font-weight: bold;">TB&nbsp;to&nbsp;Bus</span> functions can also be assigned to user keys for quick access.
+    Refer to the <a href="OptionsUserKeys.html"><span class="hyperlink">User Keys</span></a> options page for further details.
+</p>
+
+<p>
+    <span style="font-weight: bold;">TB&nbsp;to&nbsp;Bus</span> functions on hardware keys will latch on if pressed for a short time or engage momentarily if pressed and held,
+    automatically disengaging when the key is released.
+</p>
+
+<span class="note">
+    <span class="notetitle">Note:</span> The <span style="font-weight: bold;">TB&nbsp;to&nbsp;Bus</span> enabled state is transitory, meaning it is not stored in showfiles or scenes.
+    This prevents the Talkback mics from being accidentally left switched on to buses. The <span style="font-weight: bold;">TB&nbsp;Dim</span> level is stored in showfiles.
+</span>
+
+
+<h2 id="Groups">Talkback Groups</h2>
+
+<p>Ten Talkback Groups are provided, to which any number of buses can be assigned, allowing Talkback to be injected into multiple Auxes/Stems/Masters from a single button or user key.</p>
+
+<p>
+    The same bus can be assigned to multiple Talkback Groups, e.g. a singer's Aux mix could be included in both 'Band' and 'Backing Vocals' TB Groups.
+    Talkback to each bus will be switched on when any of the assigned Talkback Groups are switched on. Talkback will be switched off when all assigned Talkback Groups are switched off.
+    The individual <span style="font-weight: bold;">TB&nbsp;to&nbsp;Bus</span> functions can still be used to toggle individual TB to Bus sends while they are assigned to a Talkback Group.
+</p>
+
+<p>
+    To assign buses to a Talkback Group, navigate to the Aux/Stem/Master's <span style="font-weight: bold;">Fader/TB</span> Detail View page and engage one or more of the ten buttons
+    in the <span style="font-weight: bold;">TB&nbsp;Groups</span> section. See also the Talkback Groups page described below.
+</p>
+
+<p>Once configured, TB Groups can be assigned to user keys for quick access. Refer to the <a href="OptionsUserKeys.html"><span class="hyperlink">User Keys</span></a> options page for further details.</p>
+
+<p>
+    <span style="font-weight: bold;">TB&nbsp;Group</span> functions on hardware keys will latch on if pressed for a short time or engage momentarily if pressed and held,
+    automatically disengaging when the key is released.
+</p>
+
+
+<h3>Talkback Groups page</h3>
+
+<p>
+    The <span style="font-weight: bold;">Talkback&nbsp;Groups</span> page can be used to view, name, assign to and engage Talkback Groups.
+    Access is from <span class="label">MENU</span> > <span class="label">Tools</span> > <span class="label">Talkback&nbsp;Groups</span>.
+</p>
+
+<img style="display:block; margin: 10px auto; width: 750px;" src="images/g_TBGroupPage.png" alt="">
+
+<p>
+    The top half of the page contains Talkback Group controls.
+    Press &amp; hold the <span class="label">TB&nbsp;Group&nbsp;Assign</span> button to engage assign mode. Use the Select keys on the Fader Tiles to assign Auxes/Stems/Masters to the selected Talkback Group.
+    A range of buses can be selected by pressing the first and last Select keys in the desired range. Press the <span class="label">TB&nbsp;Group&nbsp;Assign</span> button again to exit assign mode.
+</p>
+
+<p>Double-tap the name field (defaults to "Group N") to enter a user-defined name for the Talkback Group. This will be used when assigning the TB Group to user keys.</p>
+
+<p>Below the name field is a list of all buses assigned to each TB Group. This list can be swiped to scroll if a large number of buses are assigned to a single group.</p>
+
+<p>A <span class="label">TB&nbsp;Group&nbsp;IN</span> button is also provided, allowing Talkback to be injected into all of the buses listed in each group.</p>
+
+<p>The lower half of the page contains the Detail View for the Selected path. This can be used to view any path's processing and routing details, as in the Channel View screen.</p>
+
+
+<h2>Useful Links</h2>
+
+<a href="ConsoleConfig.html"><span class="hyperlink">Console Configuration</span></a><br>
+<a href="LinkIndex.html"><span class="hyperlink">Index and Glossary</span></a><br>
+
+
+<div class="TutorialNavNext"> <a href="Mute.html"><span class="TutorialNav">NEXT: Mute & Mute Groups</span> <img class="TutorialNav" src="images/n_TutNext.png" alt=""></a></div>
+
+
+    </div>
+
+    <script src="../Help/js/OpenAccordionFromLink.js"></script>
+</body>
+</html>

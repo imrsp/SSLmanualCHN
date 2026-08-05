@@ -1,0 +1,438 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html ng-app="sslLiveHelp">
+<head>
+    <meta content="text/html; charset=ISO-8859-1" http-equiv="content-type">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=yes">
+
+    <link href="../Help/style/style.css" rel="stylesheet">
+    <link href="../Help/style/jquery-ui-1.13.2.structure.css" rel="stylesheet">
+    <title>Routing</title>
+    <script src="../Help/js/jquery-3.6.0.min.js"></script>
+    <script src="../Help/js/jquery-ui/1.13.2/jquery-ui.min.js"></script>
+    <!--<script type="text/javascript" src="cordova.js"></script>-->
+    <!-- Nav / search panels 2017 updates -->
+    <script>
+    window.baseDir = '../';
+    window.data = 'null';
+    </script>
+    <link rel="stylesheet" type="text/css" href="../Help/fonts/font-awesome-4.7.0/css/font-awesome.min.css" />
+    <link rel="stylesheet" type="text/css" href="../Help/style/sass-styles.css">
+    <script src="../Help/js/fastclick.js"></script>
+    <script src="../Help/js/lodash.core.min.js"></script>
+    <!--<script src="../Help/js/angular/1.2/angular.min.js"></script>-->  <!-- On a console -->
+    <script src="../Help/js/angular/1.8/angular.min.js"></script>   <!--Not on a console -->
+    <script src="../Help/js/ngStorage.min.js"></script>
+    <!--<script src="../Help/js/angular/1.2/angular-sanitize.min.js"></script>-->  <!-- On a console -->
+    <!--<script src="../Help/js/angular/1.2/angular-animate.min.js"></script>-->   <!-- On a console -->
+    <script src="../Help/js/angular/1.8/angular-sanitize.min.js"></script>  <!--Not on a console -->
+    <script src="../Help/js/angular/1.8/angular-animate.min.js"></script>   <!--Not on a console -->
+    <script src="../Help/js/lunr-2.3.min.js"></script>
+    <script src="../Help/js/menu.js"></script>
+
+</head>
+
+<body ng-controller="NavController as vm">
+
+    <!--<nav class="nav" ng-class="{ 'nav--visible' : vm.visible }" ng-if="vm.visible" role="navigation" aria-label="Primary">-->  <!-- On a console --> 
+    <nav class="nav" ng-class="{ 'nav--visible' : vm.visible }" role="navigation" aria-label="Primary"> <!--Not on a console -->
+        <!-- Search form -->
+        <div role="search">
+            <form class="nav__search" ng-if="vm.isSearchSupported">
+                <label class="nav__search-icon" for="query"><i aria-label="Search" title="Search" class="fa fa-search"></i></label>
+                <input type="search" id="query" class="nav__search-input" placeholder="Search..." ng-model="vm.query" />
+            </form>
+        </div>
+
+        <div class="nav__scroll" ng-style="vm.styleBasedOnSearchSupported">
+
+            <!-- Main nav -->
+            <ul class="main-nav" ng-hide="vm.query">
+                <li class="main-nav__item" ng-repeat="item in vm.nav">
+
+                    <!-- Link to page -->
+                    <a ng-if="item.url" ng-class="{'main-nav__link--active' : item.url===vm.currentPage}" class="main-nav__link" ng-attr-href="{{ vm.baseDir }}{{ item.url }}">
+                        {{ item.title }}
+                    </a>
+
+                    <!-- Expandable heading -->
+                    <span ng-click="vm.toggleExpanded(item.title)" ng-if="!item.url" class="main-nav__title">
+                        {{ item.title }}
+                        <span ng-if="!vm.isExpanded(item.title)" class="fa fa-caret-right"></span>
+                        <span ng-if="vm.isExpanded(item.title)" class="fa fa-caret-down"></span>
+                    </span>
+
+                    <!-- Subnav -->
+                    <ul ng-if="vm.isExpanded(item.title)" class="main-nav fx-fade">
+                        <li ng-repeat="sub in item.children" class="main-nav__item">
+
+                            <!-- Link to page -->
+                            <a ng-if="sub.url" ng-class="{'main-nav__link--active' : sub.url===vm.currentPage}" class="main-nav__link main-nav__link--level1" ng-attr-href="{{ vm.baseDir }}{{ sub.url }}">
+                                {{ sub.title }}
+                            </a>
+
+                            <!-- Expandable heading -->
+                            <span ng-click="vm.toggleExpanded(sub.title)" ng-if="!sub.url" class="main-nav__title main-nav__title--level1">
+                                {{ sub.title }}
+                                <span ng-if="!vm.isExpanded(sub.title)" class="fa fa-caret-right"></span>
+                                <span ng-if="vm.isExpanded(sub.title)" class="fa fa-caret-down"></span>
+                            </span>
+
+                            <!-- Sub-sub nav -->
+                            <ul ng-if="sub.children && vm.isExpanded(sub.title)" class="main-nav fx-fade">
+                                <li ng-repeat="subsub in sub.children" class="main-nav__item">
+
+                                    <!-- Link to page -->
+                                    <a ng-class="{'main-nav__link--active' : subsub.url===vm.currentPage}" class="main-nav__link main-nav__link--level2" ng-attr-href="{{ vm.baseDir }}{{ subsub.url }}" ng-bind-html="subsub.title">
+                                    </a>
+
+                                </li>
+                            </ul>
+
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+
+            <!-- Search results list -->
+            <ul class="search-results">
+                <li class="search-result" ng-repeat="result in vm.results">
+                    <a class="search-result__link" ng-attr-href="{{ vm.baseDir }}{{ 'Help/' + result.id }}">
+                        <h3 class="search-result__title">{{ result.title }}</h3>
+                        <p class="search-result__excerpt" ng-bind-html="result.excerpt"></p>
+                    </a>
+                </li>
+            </ul>
+
+            <!-- Keep screen on option - PhoneGap insomnia -->
+            <ul class="main-nav" ng-if="vm.isPhoneGap">
+                <li class="main-nav__item">
+                    <label class="main-nav__title">
+                        Keep Screen On
+                        <input style="display: none" type="checkbox" ng-model="vm.keepScreenOn" />
+                        <i ng-class="{'fa--cleared' : !vm.keepScreenOn, 'fa--checked' : vm.keepScreenOn}" class="fa fa-check"></i>
+                    </label>
+                </li>
+            </ul>
+
+
+        </div>
+    </nav>
+
+    <nav class="header" role="navigation" aria-label="Secondary">
+        <a ng-if="!vm.onAConsole" href="../index.html" class="header__btn" title="Home"><i class="fa fa-home"></i></a>
+        <div ng-if="!vm.onAConsole" class="header__history">
+            <a onclick="javascript:window.history.back()" class="header__btn"><i title="Back" class="fa fa-chevron-left"></i></a>
+            <a onclick="javascript:window.history.forward()" class="header__btn"><i title="Forwards" class="fa fa-chevron-right"></i></a>
+        </div>
+        <div align="right">
+            <a class="header__btn header__btn--nav" ng-click="vm.toggleVisibility()">
+                <i ng-if="!vm.visible" class="fa fa-bars"></i>
+                <i ng-if="vm.visible" class="fa fa-close"></i>
+            </a>
+        </div>
+    </nav>
+
+
+    <!-- Main content -->
+    <div id="main">
+        
+
+<div><a href="DetailView.html"><img class="TutorialNav" src="images/n_TutPrevious.png" alt=""><span class="TutorialNav">PREVIOUS: Detail View</span></a></div>
+
+<h2>Routing</h2>
+<p>
+    The Live console's signal routing is extremely flexible; almost anything can be routed anywhere!
+    For example, a stagebox input can be routed directly to an <a href="FXIntro.html"><span class="hyperlink">FX Rack module</span></a>
+    or a Channel's <a href="PathProc.html#Dynamics"><span class="hyperlink">dynamics Key Input</span></a> without using another console Channel
+    (use the <a href="LocalMADIConfig.html"><span class="hyperlink">I/O page</span></a> to set preamp gain if required).
+</p>
+
+<p>Routing can be done in two different ways:</p>
+<p style="margin-bottom:0px">
+    <ul>
+        <li>From the <span style="font-weight:bold;">Routing View</span>: To make one route to/from a path</li>
+        <li>From <span style="font-weight:bold;">XY Routing</span> (<a href="Routing.html#XY"><span class="hyperlink">below</span></a>): To make multiple routes at the same time (e.g. when bulk routing channel inputs from stageboxes)</li>
+    </ul>
+</p>
+
+<p>For further information on I/O configuration, please refer to the <a href="Clocking.html"><span class="hyperlink">Clocking &amp; I/O Connections</span></a> section.</p>
+
+<h2>Routing View</h2>
+
+<p>
+    The <span style="font-weight:bold;">Routing View</span> appears in many places throughout the console.
+    Most commonly, the Routing View is found in the following places:
+<p style="margin-bottom:0px">
+    <ul>
+        <li>
+            <span class="label">Route&nbsp;Input&nbsp;A</span>, <span class="label">Route&nbsp;Input&nbsp;B</span> and <span class="label">Route&nbsp;Output</span> buttons
+            in the <span class="label">Input/Routing</span> section of the Detail View
+        </li>
+        <li><span class="label">Route&nbsp;Send</span> and <span class="label">Route&nbsp;Return</span> buttons in the <span class="label">Insert A</span>/<span class="label">Insert B</span> sections of the Detail View</li>
+        <li>When routing the Matrix inputs and outputs</li>
+        <li>When routing the key input to Dynamics FX units</li>
+    </ul>
+</p>
+<p>
+    <span class="note">
+        <span class="notetitle">Note:</span> Outputs can be routed to any number of destinations and are Post All processing (including the fader) for all path types except Channels, 
+        which can be set <a href="DetailView.html#Input"><span class="hyperlink"><b>per Channel</b></span></a> or <a href="OptionsSystem.html#Chop"><span class="hyperlink"><b>by default</b></span></a>.
+    </span>
+</p>
+<p>For example, to select a source for a channel's main input (Input A), touch <span class="label">Route&nbsp;Input&nbsp;A</span> in the input/routing <b>detail dialogue</b>.</p>
+
+<p>The <b>Routing View</b> will appear:</p>
+<div class="center">
+    <img style="display: block; margin: 0px auto 45px; width: 750px" src="images/g_detailRoute.png" alt="">
+</div>
+<p>Touching a group in the left column will open the contents in the next column, and again for the third and fourth columns if necessary.</p>
+<p>Swipe to scroll up or down the column list if necessary.</p>
+<p>For stagebox or generic MADI/Dante devices, the physical device will appear in the first column, its I/O types in the second column, then the individual I/O in the next column.</p>
+<p>The console internal I/O is available by touching the console group (listed as <span style="font-weight: bold;">LIVE</span> and ID number), then by selecting the source type and source number. If selecting channel or bus signals, you can then select the possible source points from the channel.</p>
+<p>Press <span class="label">Make</span> to complete the route.</p>
+
+<p>
+    <span class="note">
+        <span class="notetitle">Note: </span>If routing multichannel inputs or outputs (Stereo, LCR etc.), press &amp; hold the <span class="label">Make</span> button and press <span class="label">Make&nbsp;All</span> to make all 'legs' of the path to consecutive physical connectors where possible.<br>
+        XY Routing (explained below) can also be used to route to consecutive connections.<br>
+        Alternatively select the channel strip on the Main screen and press the <span class="label">Spill</span> button on the right hand side to route each leg in turn.
+    </span>
+</p>
+<p>The colours of the routing boxes indicate the following:</p>
+
+<table border="0" cellpadding="0" cellspacing="10">
+    <tbody>
+        <tr>
+            <td style="vertical-align: middle; width: 120px;"><img style="margin: 0px 10px 0px 0px;" src="images/b_RouteActiveEDGE.png" alt=""></td>
+            <td style="vertical-align: top;">
+                <span style="font-weight:bold;">Green</span>: Device or device element which is active (detected and locked) and contains routes to/from this channel;
+            </td>
+        </tr>
+        <tr>
+            <td style="vertical-align: middle; width: 120px;"><img style="margin: 0px 10px 0px 0px;" src="images/b_RouteDeviceInactiveEDGE.png" alt=""></td>
+            <td style="vertical-align: top;">
+                <span style="font-weight:bold;">Cyan</span>: Device or device sub-category which is active and available for routing but is not a routable element;
+            </td>
+        </tr>
+        <tr>
+            <td style="vertical-align: middle; width: 120px;"><img style="margin: 0px 10px 0px 0px;" src="images/b_RouteNumberInactive1EDGE.png" alt=""></td>
+            <td style="vertical-align: top;">
+                <span style="font-weight:bold;">Blue</span>: Device element that can be routed, is active and available for routing to/from this channel;
+            </td>
+        </tr>
+        <tr>
+            <td style="vertical-align: middle; width: 120px;"><img style="margin: 0px 10px 0px 0px;" src="images/b_RouteGrey.png" alt=""></td>
+            <td style="vertical-align: top;">
+                <span style="font-weight:bold;">Grey</span>: Device or device element is inactive (not detected or not locked) and does not contain routes to/from this channel.
+            </td>
+        </tr>
+        <tr>
+            <td style="vertical-align: middle; width: 120px;"><img style="margin: 0px 10px 0px 0px;" src="images/b_RouteUnavailableEDGE.png" alt=""></td>
+            <td style="vertical-align: top;">
+                <span style="font-weight:bold;">Brown</span>: Device or device element is active but is already in use and is therefore unavailable to be routed.
+            </td>
+        </tr>
+        <tr>
+            <td style="vertical-align: middle; width: 120px;"><img style="margin: 0px 10px 0px 0px;" src="images/b_RouteYellow.png" alt=""></td>
+            <td style="vertical-align: top;">
+                <span style="font-weight:bold;">Yellow</span>: Device or device element is inactive and already in use. Audio will not be present on this device.
+            </td>
+        </tr>
+        <tr>
+            <td style="vertical-align: middle; width: 120px;"><img style="margin: 0px 10px 0px 0px;" src="images/b_RouteRed.png" alt=""></td>
+            <td style="vertical-align: top;">
+                <span style="font-weight:bold;">Red</span>: Device or device element is inactive and contains routes to/from this channel. Audio will not be present on this device.
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+<p>There are three levels of 'unmaking' routes:</p>
+<p>For <span style="font-weight: bold;">Route In</span>:</p>
+<ul class="tab">
+    <li><span class="label">Clear&nbsp;&lt;element&gt;</span> (e.g. Clear Analogue A 11) unmakes all routes from the selected device element/physical connector (as shown in the scrollable current routes display to the left of the <span class="label">Clear&nbsp;&lt;element&gt;</span> button), including existing routes to other channels;</li>
+    <li><span class="label">Unmake</span> unmakes only the selected channel's input route from the device element that is highlighted (selected). Other channels routed to the same source are unaffected;</li>
+    <li><span class="label">Clear&nbsp;Input&nbsp;A</span>/<span class="label">Clear&nbsp;Input&nbsp;B</span> unmakes all of the channel's input routes, even if they are not currently selected. This includes all components of a stereo/LCR channel but not the channel's other (<span style="font-weight: bold;">A</span> or <span style="font-weight: bold;">B</span>) input.</li>
+</ul>
+<p>For <span style="font-weight: bold;">Route Out</span>:</p>
+<ul class="tab">
+    <li><span class="label">Clear&nbsp;&lt;element&gt;</span> (e.g. Clear AES 5/6) unmakes all routes to the selected device element/physical connector;</li>
+    <li><span class="label">Unmake</span> unmakes the channel's output route from the device element that is highlighted;</li>
+    <li><span class="label">Clear&nbsp;Output</span> unmakes all of the channel's output routes, even if not currently selected. This includes all components of a stereo/LCR channel.</li>
+</ul>
+<p>To close the display, select another detail page, deselect <span class="label">Route</span> or touch the <span class="label">Close</span> button.</p>
+<p>
+    <span class="note">
+        <span class="notetitle">Note: </span>The <span class="label">Close</span> button above the routing columns closes the routing but leaves the detail dialogue open.
+        Touching <span class="label">Close</span> above the route button will close the whole detail dialogue.
+    </span>
+</p>
+
+<br>
+
+<h2 id="XY">XY Routing</h2>
+<img style="display: block; margin: 25px auto;" src="images/g_XYSmall.png" align="right" alt="">
+
+<p>
+    The <span style="font-weight:bold;">XY Routing</span> page (<span class="label">MENU</span> > <span class="label">Setup</span>
+    > <span class="label">XY&nbsp;Routing</span>) provides a grid-style interface for bulk routing.
+</p>
+<p>The XY routing page provides an overview of patch status and the ability to quickly route large and complex patch assignments.</p>
+<p>
+    Start by selecting the desired <span style="font-weight:bold;">Source</span> and <span style="font-weight:bold;">Destination</span> at the top left of the page.
+    The <span style="font-weight:bold;">Source</span> will be listed on the <i>y</i> axis and the <span style="font-weight:bold;">Destination</span> on the <i>x</i> axis.
+</p>
+<p>
+    Tap in any crosspoint to create a <span style="font-weight:bold;">pending route</span> (<span style="font-weight:bold;">cyan</span>). To make the route press and hold <span class="label">Apply</span>.
+    If the device is online and locked, the route will go <span style="font-weight:bold;">green</span>. If the device is offline or not locked, the route will go <span style="font-weight:bold;">red</span>.
+</p>
+<p>
+    Multiple assignments can be made simultaneously by pressing and holding the first crosspoint, then touching the last cross point and then releasing both fingers.
+    Alternatively, tap in the first crosspoint, then press <span class="label">1:1&nbsp;From&nbsp;Selected</span>. A series of 1:1 pending routes (cyan) will be displayed. To make the routes press and hold <span class="label">Apply</span>.
+</p>
+<p>
+    To clear routes, tap on the crosspoints and they will display as a hollow circle (pending unroute state). Press &amp; hold <span class="label">Apply</span> to action the changes.
+</p>
+<p>
+    Alternatively, press &amp; hold <span class="label">Clear&nbsp;All&nbsp;Routes&nbsp;From...</span> to clear all routes from the selected source (e.g. a whole stagebox), 
+    or <span class="label">Clear&nbsp;All&nbsp;Routes&nbsp;To...</span> to clear all routes to the selected destination (e.g. all Channel Input A's).
+
+    <span class="note">
+        <span class="notetitle">Note: </span> The <span class="label">Clear&nbsp;All...</span> buttons will unmake routes immediately - the <span class="label">Apply</span> button does not need to be pressed.
+    </span>
+</p>
+
+<table class="insideborder" style="margin: 10px 0px;" border="0" cellpadding="4" cellspacing="1">
+  <tbody>
+    <tr>
+      <td style="width: 45px; padding: 2px 5px;"><img src="images/b_XY_selected.png" alt=""></td>
+      <td>Selected cell (cyan border)</td>
+    </tr>
+    <tr>
+      <td style="width: 45px; padding: 2px 5px;"><img src="images/b_XY_no_route.png" alt=""></td>
+      <td>No route</td>
+    </tr>
+    <tr>
+      <td style="width: 45px; padding: 2px 5px;"><img src="images/b_XY_pending_route.png" alt=""></td>
+      <td>Pending route</td>
+    </tr>
+    <tr>
+      <td style="width: 45px; padding: 2px 5px;"><img src="images/b_XY_pending_unroute.png" alt=""></td>
+      <td>Pending unroute</td>
+    </tr>
+    <tr>
+      <td style="width: 45px; padding: 2px 5px;"><img src="images/b_XY_route_made.png" alt=""></td>
+      <td>Route successfully made, device available</td>
+    </tr>
+    <tr>
+      <td style="width: 45px; padding: 2px 5px;"><img src="images/b_XY_route_unavailable.png" alt=""></td>
+      <td>Route made, device unavailable</td>
+    </tr>
+  </tbody>
+</table>
+
+<p id="colour">When an input or output is already routed to/from one location, the name on the axis will grey out. If an input is routed to multiple locations, the name on the axis will turn orange.</p>
+<p>If an input is already routed to one or more destinations, additional routes can be made from this input to more destinations</p>
+<p>
+    If an output is already routed to from another source, creating a new route to this output in <span class="label">XY&nbsp;Routing</span> will overwrite the previous route.
+    Overwriting routes can only be done from <span class="label">XY&nbsp;Routing</span>. In the normal routing view, a route to an output must be unmade, before a route from a different source can be created.
+</p>
+<p>Tap on the source/destination point on the axis to display the current route in the top left detail box.</p>
+<p>
+    There are navigation buttons to the right of the page that allow movement through large lists.
+    <span class="label">Align&nbsp;Selected</span> moves the grid so that the selected crosspoint is in the top left.
+    <span class="label">Home</span> returns the grid to the default position (top left of grid).
+</p>
+<p>Use the <span class="label">Refresh I/O</span> button to refresh the XY Routing page.</p>
+<img style="display: block; margin: 25px auto;" src="images/g_XYFull.png" alt="">
+
+<h3 id="RoutingModes">Routing Modes</h3>
+<p>XY Routing includes two routing modes</p>
+<ul>
+	<li><strong>Showfile Saved</strong> - Standard mode.</li>
+	<li><strong>Outside of Showfile</strong> - Persistent routes for Dante only.</li>
+</ul>
+<p>With full Dante routing directly from the console, you can choose to store routes within the showfile or configure them as independent, system-wide Dante routes. This effectively transforms the console into a powerful Dante controller, enabling seamless management of system-level routing.</p>
+
+<img style="display: block; margin: 0px auto 15px; width: 300px" src="images/u_RoutingXY_Modes.png" alt="">
+
+<p>The SSL Live console software fully integrates Dante routing, seamlessly embedding patching into the showfile and allowing complete routing control from a single user interface. All Dante devices can be configured and patched directly on the console, even offline. This functionality extends to the console's offline editor, SOLSA, enabling complete show preparation in advance. With Dante as a scalable extension of the console, SSL Live offers a powerful audio routing solution under full console control.</p>
+
+<p>With this power comes flexibility: routes and Dante subscriptions can be manually overridden as needed, but the console never automatically overwrites settings. The software applies an automatic arbitration process, with the 'first-in-wins' approach, and releases Dante subscriptions when the console powers down or a showfile unloads, freeing resources for other consoles or signals for alternate events. Everything is stored within the showfile for full recallability.</p>
+
+<p>When a permanent signal is needed, SSL Live includes an Outside of Showfile Routing Mode. Subscriptions made in this mode remain active even when the console is turned off or a different showfile is loaded, eliminating the need to open Dante Controller for persistent 'house routes.'</p>
+
+<h3 id="Problem">Troubleshooting</h3>
+<p>If the console cannot make any or some of the Dante routes, a pop up will appear. Refer to the Status Message area in the top left of the screen for further details. There will be a Status Message to explain why the routes have not been made.</p>
+<p>The message displayed will be one of the following:</p>
+<div>
+    <table class="insideborder" style="width: auto; margin: 15px 0px;" cellpadding="4" cellspacing="1">
+        <tbody>
+            <tr>
+                <th class="solidborder">Message</th>
+                <th class="solidborder">Meaning</th>
+            </tr>
+            <tr>
+                <td class="solidborder"><span style="font-weight:bold;">Warning:&nbsp;Some&nbsp;routes&nbsp;have&nbsp;not&nbsp;been&nbsp;made:<br>Insufficient Dante dual-domain inputs.</span></td>
+                <td class="solidborder">Some of the attempted routes have been made successfully and some have not.<br>This is because there are not enough dual-domain inputs left to make all of the routes.</td>
+            </tr>
+            <tr>
+                <td class="solidborder"><span style="font-weight:bold;">Warning:&nbsp;Some&nbsp;routes&nbsp;have&nbsp;not&nbsp;been&nbsp;made:<br>Insufficient Dante dual-domain outputs.</span></td>
+                <td class="solidborder">Some of the attempted routes have been made successfully and some have not.<br>This is because there are not enough dual-domain outputs left to make all of the routes.</td>
+            </tr>
+            <tr>
+                <td class="solidborder"><span style="font-weight:bold;">Warning:&nbsp;No&nbsp;routes&nbsp;have&nbsp;been&nbsp;made:<br>Insufficient Dante dual-domain inputs.</span></td>
+                <td class="solidborder">None of the attempted routes have been made.<br>This is because there are not enough dual-domain inputs left to make any of the routes.</td>
+            </tr>
+            <tr>
+                <td class="solidborder"><span style="font-weight:bold;">Warning:&nbsp;No&nbsp;routes&nbsp;have&nbsp;been&nbsp;made:<br>Insufficient Dante dual-domain outputs.</span></td>
+                <td class="solidborder">None of the attempted routes have been made.<br>This is because there are not enough dual-domain outputs left to make any of the routes.</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<p>Double tap on the Status Message to open the Status Message window. This displays all of the Status Messages in the last boot.</p>
+<img style="display: block; margin: 25px auto;" src="images/g_DanteStatusMessage.png">
+<p>There will be a Status Message for every failed Dante route. Scroll down the list to view the failed routes. Any attempted routes not listed have been made successfully.</p>
+
+<h2 id="GainSharing">Gain Sharing</h2>
+
+<h3>MADI Stageboxes</h3>
+
+<p>When more than one console is receiving signals from the same MADI stagebox, only one console can have remote control of the stagebox pre-amps. The 'Master' console is simply whichever one is connected to the MADI inputs of the stagebox (or port A of the Blacklight Concentrator, if connected over Blacklight II).</p>
+
+<p>The Gain Share function allows the console without pre-amp control (the 'Slave' console) to compensate digitally for any changes made to the analogue signal level by the Master console, therefore avoiding unintended changes to the Slave console's overall input level:</p>
+
+<p>Once the Master console engineer has settled on an initial analogue gain for a channel, the Slave console engineer should activate Gain Sharing by pressing the <span class="label">Gain Share</span> button on their Slave console.</p>
+
+<p>Now, if the analogue pre-amp gain is decreased by 3 dB by the Master console, the digital trim on the Slave console will increase by 3 dB. If Gain Sharing is left off on the Slave console, there will be no digital compensation on the Slave console for analogue gain changes.</p>
+<span class="note"><span class="notetitle">Note: </span>Large gain changes on the Master console (e.g. engaging the Pad or High Gain Sensitivity mode) may cause audible level changes on the Slave console as it applies a compensating trim.</span>
+
+<p>The colour of the LED bar at the top of the <span class="label">Gain Share</span> button indicates whether the signal level will increase or decrease if Gain Sharing is turned off. A grey light indicates that no digital trim offset has been applied (i.e. the analogue gain has not been changed since Gain Sharing was switched on).</p>
+<p>A green light indicates that turning Gain Sharing off will result in a decrease in level. (The analogue gain has been turned down and therefore the console has compensated by turning the digital trim up, so turning Gain Sharing off will remove this offset.)</p>
+<p>A red light indicates that caution should be taken as turning Gain Sharing off will result in an increase in level.</p>
+<p>The text field below the Gain Share button indicates the amount of digital trim that has been applied to the channel.</p>
+
+<span class="note">
+    <span class="notetitle">Note: </span>The 'Master' console also has a Gain Share button and digital trim control. These have no effect on the 'Slave' console's gain, nor do the 'Slave' console's Gain Share button and digital trim have any effect on the 'Master' console's gain.<br>
+    The 'Master' console's Gain Share button can be used to self gain share in order to maintain a consistent gain structure, even if the analogue gain needs to be changed. This is useful if settings such as compressor and gate thresholds have been already set and wish to be maintained.
+</span>
+
+<h3>Dante Stageboxes</h3>
+Gain sharing using Dante stageboxes is covered in the <a href="DanteNetIO.html#GainShare"><span class="hyperlink">Network I/O Devices Gain Sharing</span></a> section.
+
+<h2>Useful Links</h2>
+<a href="LocalMADIConfig.html"><span class="hyperlink">Local/MADI I/O Configuration</span></a><br>
+<a href="DanteSetup.html"><span class="hyperlink">Setting Up Dante</span></a><br>
+<a href="LinkIndex.html"><span class="hyperlink">Index and Glossary</span></a>
+
+<div class="TutorialNavNext"> <a href="PathProc.html"><span class="TutorialNav">NEXT: Path Processing</span> <img class="TutorialNav" src="images/n_TutNext.png" alt=""></a></div>
+
+
+    </div>
+
+    <script src="../Help/js/OpenAccordionFromLink.js"></script>
+</body>
+</html>

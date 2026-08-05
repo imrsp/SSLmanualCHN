@@ -1,0 +1,776 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html ng-app="sslLiveHelp">
+<head>
+    <meta content="text/html; charset=ISO-8859-1" http-equiv="content-type">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=yes">
+
+    <link href="../Help/style/style.css" rel="stylesheet">
+    <link href="../Help/style/jquery-ui-1.13.2.structure.css" rel="stylesheet">
+    <title>Network I/O Stageboxes</title>
+    <script src="../Help/js/jquery-3.6.0.min.js"></script>
+    <script src="../Help/js/jquery-ui/1.13.2/jquery-ui.min.js"></script>
+    <!--<script type="text/javascript" src="cordova.js"></script>-->
+    <!-- Nav / search panels 2017 updates -->
+    <script>
+    window.baseDir = '../';
+    window.data = 'null';
+    </script>
+    <link rel="stylesheet" type="text/css" href="../Help/fonts/font-awesome-4.7.0/css/font-awesome.min.css" />
+    <link rel="stylesheet" type="text/css" href="../Help/style/sass-styles.css">
+    <script src="../Help/js/fastclick.js"></script>
+    <script src="../Help/js/lodash.core.min.js"></script>
+    <!--<script src="../Help/js/angular/1.2/angular.min.js"></script>-->  <!-- On a console -->
+    <script src="../Help/js/angular/1.8/angular.min.js"></script>   <!--Not on a console -->
+    <script src="../Help/js/ngStorage.min.js"></script>
+    <!--<script src="../Help/js/angular/1.2/angular-sanitize.min.js"></script>-->  <!-- On a console -->
+    <!--<script src="../Help/js/angular/1.2/angular-animate.min.js"></script>-->   <!-- On a console -->
+    <script src="../Help/js/angular/1.8/angular-sanitize.min.js"></script>  <!--Not on a console -->
+    <script src="../Help/js/angular/1.8/angular-animate.min.js"></script>   <!--Not on a console -->
+    <script src="../Help/js/lunr-2.3.min.js"></script>
+    <script src="../Help/js/menu.js"></script>
+
+</head>
+
+<body ng-controller="NavController as vm">
+
+    <!--<nav class="nav" ng-class="{ 'nav--visible' : vm.visible }" ng-if="vm.visible" role="navigation" aria-label="Primary">-->  <!-- On a console --> 
+    <nav class="nav" ng-class="{ 'nav--visible' : vm.visible }" role="navigation" aria-label="Primary"> <!--Not on a console -->
+        <!-- Search form -->
+        <div role="search">
+            <form class="nav__search" ng-if="vm.isSearchSupported">
+                <label class="nav__search-icon" for="query"><i aria-label="Search" title="Search" class="fa fa-search"></i></label>
+                <input type="search" id="query" class="nav__search-input" placeholder="Search..." ng-model="vm.query" />
+            </form>
+        </div>
+
+        <div class="nav__scroll" ng-style="vm.styleBasedOnSearchSupported">
+
+            <!-- Main nav -->
+            <ul class="main-nav" ng-hide="vm.query">
+                <li class="main-nav__item" ng-repeat="item in vm.nav">
+
+                    <!-- Link to page -->
+                    <a ng-if="item.url" ng-class="{'main-nav__link--active' : item.url===vm.currentPage}" class="main-nav__link" ng-attr-href="{{ vm.baseDir }}{{ item.url }}">
+                        {{ item.title }}
+                    </a>
+
+                    <!-- Expandable heading -->
+                    <span ng-click="vm.toggleExpanded(item.title)" ng-if="!item.url" class="main-nav__title">
+                        {{ item.title }}
+                        <span ng-if="!vm.isExpanded(item.title)" class="fa fa-caret-right"></span>
+                        <span ng-if="vm.isExpanded(item.title)" class="fa fa-caret-down"></span>
+                    </span>
+
+                    <!-- Subnav -->
+                    <ul ng-if="vm.isExpanded(item.title)" class="main-nav fx-fade">
+                        <li ng-repeat="sub in item.children" class="main-nav__item">
+
+                            <!-- Link to page -->
+                            <a ng-if="sub.url" ng-class="{'main-nav__link--active' : sub.url===vm.currentPage}" class="main-nav__link main-nav__link--level1" ng-attr-href="{{ vm.baseDir }}{{ sub.url }}">
+                                {{ sub.title }}
+                            </a>
+
+                            <!-- Expandable heading -->
+                            <span ng-click="vm.toggleExpanded(sub.title)" ng-if="!sub.url" class="main-nav__title main-nav__title--level1">
+                                {{ sub.title }}
+                                <span ng-if="!vm.isExpanded(sub.title)" class="fa fa-caret-right"></span>
+                                <span ng-if="vm.isExpanded(sub.title)" class="fa fa-caret-down"></span>
+                            </span>
+
+                            <!-- Sub-sub nav -->
+                            <ul ng-if="sub.children && vm.isExpanded(sub.title)" class="main-nav fx-fade">
+                                <li ng-repeat="subsub in sub.children" class="main-nav__item">
+
+                                    <!-- Link to page -->
+                                    <a ng-class="{'main-nav__link--active' : subsub.url===vm.currentPage}" class="main-nav__link main-nav__link--level2" ng-attr-href="{{ vm.baseDir }}{{ subsub.url }}" ng-bind-html="subsub.title">
+                                    </a>
+
+                                </li>
+                            </ul>
+
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+
+            <!-- Search results list -->
+            <ul class="search-results">
+                <li class="search-result" ng-repeat="result in vm.results">
+                    <a class="search-result__link" ng-attr-href="{{ vm.baseDir }}{{ 'Help/' + result.id }}">
+                        <h3 class="search-result__title">{{ result.title }}</h3>
+                        <p class="search-result__excerpt" ng-bind-html="result.excerpt"></p>
+                    </a>
+                </li>
+            </ul>
+
+            <!-- Keep screen on option - PhoneGap insomnia -->
+            <ul class="main-nav" ng-if="vm.isPhoneGap">
+                <li class="main-nav__item">
+                    <label class="main-nav__title">
+                        Keep Screen On
+                        <input style="display: none" type="checkbox" ng-model="vm.keepScreenOn" />
+                        <i ng-class="{'fa--cleared' : !vm.keepScreenOn, 'fa--checked' : vm.keepScreenOn}" class="fa fa-check"></i>
+                    </label>
+                </li>
+            </ul>
+
+
+        </div>
+    </nav>
+
+    <nav class="header" role="navigation" aria-label="Secondary">
+        <a ng-if="!vm.onAConsole" href="../index.html" class="header__btn" title="Home"><i class="fa fa-home"></i></a>
+        <div ng-if="!vm.onAConsole" class="header__history">
+            <a onclick="javascript:window.history.back()" class="header__btn"><i title="Back" class="fa fa-chevron-left"></i></a>
+            <a onclick="javascript:window.history.forward()" class="header__btn"><i title="Forwards" class="fa fa-chevron-right"></i></a>
+        </div>
+        <div align="right">
+            <a class="header__btn header__btn--nav" ng-click="vm.toggleVisibility()">
+                <i ng-if="!vm.visible" class="fa fa-bars"></i>
+                <i ng-if="vm.visible" class="fa fa-close"></i>
+            </a>
+        </div>
+    </nav>
+
+
+    <!-- Main content -->
+    <div id="main">
+        
+
+
+<div><a href="DanteConfig.html"><img class="TutorialNav" src="images/n_TutPrevious.png" alt=""><span class="TutorialNav">PREVIOUS: Dante Dual Domain Routes</span></a></div>
+
+<p>
+    The following pages contain instructions on setting up SSL Live consoles for use with a Dante network, routing to and from Dante devices and controlling and gain sharing with SSL Net I/O Stageboxes:
+    <ul>
+        <li><a href="DanteSetup.html"><span class="hyperlink">Setting Up Dante</span></a></li>
+        <li><a href="DanteVTL.html"><span class="hyperlink">Virtual Tie Lines</span></a></li>
+        <li><a href="DanteConfig.html"><span class="hyperlink">Dual Domain Routes and Configuring Dante Devices</span></a></li>
+        <li>Network I/O Stageboxes and Devices (this page)</li>
+        <li><a href="DanteBridges.html"><span class="hyperlink">BLII & X-Light Bridges</span></a></li>
+    </ul>
+</p>
+
+<h2>Network I/O Stageboxes and Devices</h2>
+
+<p>SSL Live consoles can remotely control the following SSL Network I/O devices:</p>
+<p>
+    <ul>
+        <li><span style="font-weight:bold;">SB&nbsp;16.12</span> - 16 analogue mic/line inputs, 8 analogue outputs and 2 AES pairs (four channels)</li>
+        <li><span style="font-weight:bold;">SB&nbsp;32.24</span> - 32 analogue mic/line inputs, 16 analogue outputs and 4 AES pairs (eight channels)</li>
+        <li><span style="font-weight:bold;">SB&nbsp;8.8</span> - 8 analogue mic/line inputs and outputs</li>
+        <li><span style="font-weight:bold;">SB&nbsp;i16</span> - 16 analogue mic/line inputs</li>
+        <li><span style="font-weight:bold;">A16.D16</span> - 4 analogue mic/line inputs, 12 analogue line inputs, 16 analogue line outputs, 8 AES pairs, 4 GPIOs</li>
+        <li><span style="font-weight:bold;">A32</span> - 32 analogue line inputs and outputs</li>
+        <li><span style="font-weight:bold;">D64</span> - 32 AES pairs</li>
+        <li><span style="font-weight:bold;">GPIO32</span> - 32 GPIOs</li>
+        <li><span style="font-weight:bold;">MADI-Bridge</span> - 64 channel (at 48k) bridge between MADI and Dante</li>
+    </ul>
+</p>
+
+<p>These devices can also be controlled by SSL System T consoles and the <span style="font-weight:bold;">Network I/O Controller</span> application for PC.</p>
+
+<p>All Network I/O units support the AES67 and SMPTE 2110-30 AoIP network transport standards.</p>
+
+<p>The Network I/O Controller application and manuals for all Network I/O devices can be downloaded from <a class="external-link" tabindex="-1" href="https://www.solidstatelogic.com/live/remote-ecosystem/documents" target="_blank"><span class="hyperlink">www.solidstatelogic.com/live/remote-ecosystem/documents</span></a>.</p>
+
+<p>
+    Control and monitoring of Dante-based Shure ULX-D and Axient Digital wireless microphones is possible from the console. Please refer to the <a href="ShureIO.html#Wireless"><span class="hyperlink">Shure Wireless Control</span></a> section for further details.
+</p>
+
+<p>Remote control of the input parameters of Shure ANI devices is also possible; please refer to the <a href="ShureIO.html#ANI"><span class="hyperlink">Shure ANI</span></a> section for further details.</p>
+
+<span class="note">
+    <span class="notetitle">Note:</span> After changing the IP address of Network I/O devices, please fully reboot the device by disconnecting the power cables from the back of the unit and reconnecting them.
+    Using the <span class="label">Reboot</span> button in <span style="font-weight:bold;">Dante Controller</span> does not fully reboot the device.
+</span>
+
+<h2>Stagebox Reset</h2>
+
+<p>
+    It is a good idea to reset Net I/O Stagebox settings before using on a new show. They can be reset using the <span class="label">Reset&nbsp;IO&nbsp;Settings</span> button.
+    This can be found in the <span style="font-weight:bold;">Dante&nbsp;I/O&nbsp;Configuration</span> page (<span class="label">MENU</span> > <span class="label">Setup</span> > <span class="label">I/O</span> > <span class="label">Dante&nbsp;Configuration</span>) by tapping on the stagebox and navigating to the <span class="label">Setup</span> tab.
+</p>
+
+<img style="display: block; margin: 5px auto; width: 800px;" src="images/g_DanteDetailView.png" alt="">
+
+<span class="note">
+    <span class="notetitle">Note:</span> You must be stagebox owner to reset the stagebox. Press &amp; hold the <span class="label">Stagebox&nbsp;Ownership</span> button to engage and take ownership.<br><br>
+    <span class="notetitle">Caution:</span> Resetting the stagebox will cause jumps in level on the main and compensated split channels. SSL recommends that all affected channels are muted at the receiving device before performing a stagebox reset.
+</span>
+
+<p><span class="label">Reset&nbsp;IO&nbsp;Settings</span> resets the following settings:</p>
+
+<p>
+    <ul>
+        <li>All Ownership states will be set to unowned (see Ownership section <a href="DanteNetIO.html#Ownership"><span class="hyperlink">below</span></a>)</li>
+        <li>All inputs will be set to <span style="font-weight:bold;">+35 dB</span> gain in <span class="label">Mic</span> mode</li>
+        <li><span class="label">+48V</span> will be off for all inputs</li>
+        <li><span class="label">Pad</span> will be off for all inputs</li>
+        <li>Gain compensation points will be reset to <span style="font-weight:bold;">+25 dB</span> (10 dB below the +35 dB default mic gain setting) (see Gain Sharing section <a href="DanteNetIO.html#GainShare"><span class="hyperlink">below</span></a>)</li>
+        <li>For the SB&nbsp;32.24, resets the <span class="label">AES&nbsp;Input&nbsp;Enabled</span> buttons so all inputs are set to analogue (if applicable)</li>
+        <li>AES <span class="label">SRC</span> will be off for all inputs (if applicable)</li>
+        <li><span class="label">AutoPad</span> will be off (if applicable)</li>
+        <li><span class="label">Limiter</span> will be off for all inputs (if applicable)</li>
+        <li>GPOs will be off (if applicable)</li>
+        <li>Input and Output <span class="label">Mute</span> controls will be off</li>
+    </ul>
+</p>
+
+<p>IP addresses, Network A&amp;B Link status (if applicable), sample rate and operating level will be retained.</p>
+
+<span class="note">
+    <span class="notetitle">Note:</span> Please allow up to 30 seconds for all parameters to be reset.
+</span>
+
+<h2 id="Ownership">Ownership</h2>
+
+<p>Net I/O Stageboxes can be controlled by SSL Live or System T consoles and the Network I/O Controller application for PC.</p>
+
+<p>
+    The concept of ownership has been introduced to assign one owner to each stagebox input and GPO, so that there are no fights for control.
+    There is also one owner of the stagebox's general setup with control over operating level and other stagebox-wide settings (including AES/Analogue input switching on the SB&nbsp;32.24).
+</p>
+
+<p>So before you can remote control a stagebox, you must become the <i>owner</i> of that parameter. Ownership states are stored in the stagebox.</p>
+
+<span class="note">
+    <span class="notetitle">Please Note:</span><br>It is only possible to control the Main stagebox device.
+    The Comp device can never be controlled or owned.
+    For more information on the Main and Comp devices please see <a href="DanteNetIO.html#GainShare"><span class="hyperlink">Gain Sharing with Net I/O Stageboxes</span></a>.
+</span>
+
+<p>First, ensure the stagebox you want to control is in the Configured Devices list (see <a href="DanteConfig.html"><span class="hyperlink">Configuring Dante Devices</span></a>).</p>
+
+<p>The following ownership options are available:</p>
+<p>
+    <ul>
+        <li>
+            <span style="font-weight:bold;">Stagebox ownership</span>:
+            Change operating level, choosing between AES and analogue inputs, turning the AES input SRCs In and turning AutoPad on or off
+        </li>
+        <li><span style="font-weight:bold;">Input ownership</span>: control input parameters only</li>
+        <li><span style="font-weight:bold;">GPO ownership</span>: control all GPO parameters & settings</li>
+    </ul>
+</p>
+
+<div id="accordion" style="width:802px; display: block; margin: auto;">
+    <div class="indexheader2">Stagebox Ownership</div>
+    <div style="padding: 1em 0;">
+        <p><span class="label">Stagebox&nbsp;Ownership</span> provides control over the following parameters:</p>
+        <p style="margin-bottom:0px;">
+            <ul>
+                <li>Operating level</li>
+                <li>Enabling AES Inputs (SB&nbsp;32.24 only)</li>
+                <li>Turning on AES input SRCs (SB&nbsp;16.12 &amp; SB&nbsp;32.24 only)</li>
+                <li>Turning <span class="label">AutoPad</span> on or off (SB&nbsp;8.8 or i16 only)</li>
+                <li>Enabling <a href="#NetBSRC"><span class="hyperlink">Network B SRC</span></a> (SB&nbsp;16.12 &amp; SB&nbsp;32.24 only)</li>
+                <li>Reset stagebox settings</li>
+            </ul>
+        </p>
+
+        <p>
+            The <span style="font-weight:bold;">Stagebox Owner</span> cannot control inputs.
+            The stagebox does not require a <span style="font-weight:bold;">Stagebox Owner</span> at all times, so if you do not need to adjust the above settings the <span class="label">Stagebox&nbsp;Ownership</span> can remain unowned.
+        </p>
+
+        <p>
+            To become the Stagebox owner, tap on the stagebox in the <span class="label">Dante&nbsp;Configuration</span> page and the stagebox's Detail View will appear at the bottom.
+            Press and hold <span class="label">Stagebox&nbsp;Ownership</span>.
+        </p>
+
+        <p>The <span style="font-weight:bold;">Stagebox owner</span> is listed in cyan to the left of this button.</p>
+
+        <p>To release Stagebox ownership press and hold <span class="label">Stagebox&nbsp;Ownership</span> again to disengage.</p>
+    </div>
+    <div class="indexheader2">Input Ownership</div>
+    <div style="padding: 1em 0;">
+        <p>The owner of an input can control all input parameters including gain, Pad, Mic/Line and +48V.</p>
+
+        <p>
+            When a stagebox input is routed to the input of a Channel on the console, and that input didn't have an owner,
+            then the console will automatically become the owner of that input.
+        </p>
+
+        <p>However, if that input was already owned by another device, the console will not automatically take ownership from that device. Ownership must be taken manually.</p>
+
+        <p>
+            The input settings of a Net I/O stagebox can be viewed in the Channel Detail View in the Input/Routing page
+            (if that input has been routed to a Channel) or in the Detail View for the stagebox in the <span class="label">Dante&nbsp;Configuration</span> page.
+        </p>
+
+        <p>
+            To view the stagebox input settings tap on the stagebox in the <span class="label">Dante&nbsp;Configuration</span> page
+            and then tap <span class="label">Inputs</span> to the right (1 below).
+            Any inputs owned by the console will be displayed with a green background. Any inputs owned by another device will be purple. Unowned inputs are shown in black.
+
+        </p>
+
+        <img style="display: block; margin: 10px auto;" src="images/g_DanteInputs.png" alt="">
+
+        <img style="display: block; margin: 10px;" src="images/g_DanteTake.png" align="right" alt="">
+
+        <p>Tap on any input (2) and then tap <span class="label">Edit Settings</span> (3) to view that input's settings in a pop out.</p>
+
+        <p>The following instructions apply whether viewing the input settings in the Channel View or in Dante Configuration.</p>
+
+        <p>To own an input, navigate to that input's settings and you will see an Ownership section with a button and a display box.</p>
+
+        <p>The button in the <span class="label">Ownership</span> section will change its function depending on the ownership status of the input.</p>
+
+        <p>
+            If the input does not currently have an owner, the button will say <span class="label">Own</span>.
+            There will be nothing displayed in the box. Press and hold <span class="label">Own</span> and your console will become the owner of that input.
+        </p>
+
+        <p>
+            If the input already has an owner, the button will say <span class="label">Take</span>.
+            The current owner's device name will be displayed in the box.
+            Press and hold <span class="label">Take</span> and your console will take ownership of that input from the previous owner.
+        </p>
+
+        <p>
+            If your console is already the owner, the button will say <span class="label">Release</span>.
+            Your console's name will be displayed in the box.
+            Press and hold <span class="label">Release</span> and your console will release ownership, so that there is no owner of that input.
+        </p>
+
+        <span class="note"><span class="notetitle">Notes:</span><br>Ownership does not need to be released before it is taken.</span>
+
+        <p>Once your console has ownership, gain and input settings can be adjusted.</p>
+
+        <p>If your console is not the owner of an input, you will see that the controls are greyed out, and you cannot make any changes.</p>
+
+        <img style="display: block; margin: 10px; width: 300px;" src="images/g_DanteTakeAll.png" align="right" alt="">
+
+        <p id="TakeAll">
+            Ownership of all inputs of a Network I/O stagebox can be taken and released in one action. To do this go to <span class="label">MENU</span> > <span class="label">Setup</span> > <span class="label">I/O</span> > <span class="label">Dante Configuration</span>.
+            Tap on the stagebox to view its settings in the Detail View.
+        </p>
+
+        <p>In the Setup section of the stagebox, press and hold <span class="label">Inputs&nbsp;Ownership</span>. There are three options available:</p>
+
+        <div>
+            <table class="insideborder" style="width: auto; margin: 15px 0px;" cellpadding="4" cellspacing="1">
+                <tbody>
+                    <tr>
+                        <th class="solidborder">Own All</th>
+                        <td class="solidborder">Become the owner of all inputs that do not have an owner</td>
+                    </tr>
+                    <tr>
+                        <th class="solidborder">Take All</th>
+                        <td class="solidborder">Become the owner of all inputs (including inputs owned by a different device)</td>
+                    </tr>
+                    <tr>
+                        <th class="solidborder">Release All</th>
+                        <td class="solidborder">Release ownership of all inputs that the console owns</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+
+        <p>
+            Multiple control devices can own different inputs of a single stagebox at the same time.
+            But there can never be more than one owner for the same input.
+        </p>
+    </div>
+    <div class="indexheader2">GPO Ownership</div>
+    <div style="padding: 1em 0;">
+        <img style="display: block; margin: 10px;" src="images/g_GPOOwn.png" align="right" alt="">
+
+        <p>
+            Some Net I/O devices have GPIO ports that can be accessed from the console. GPO Ownership settings must be adjusted from the <span class="label">Dante&nbsp;Configuration</span> page.
+            Tap on the stagebox and it's Detail View will appear. Tap <span class="label">GPIO</span> to the right of the stagebox's Detail View.
+            To become the owner of a specific GPO, press and hold <span class="label">Own</span> or <span class="label">Take</span> as appropriate.
+            Press and hold <span class="label">Rel</span> to release ownership.
+        </p>
+
+        <p>
+            Press and hold <span class="label">GPO&nbsp;Ownership</span> then select <span class="label">Own&nbsp;All</span> to become the owner of all previously unowned GPOs.<br />
+            Use the <span class="label">Take&nbsp;All</span> option to take ownership of all GPOs, including those already owned by other devices.<br />
+            Use the <span class="label">Release&nbsp;All</span> option to release ownership of all GPOs that the console owns.
+        </p>
+
+        <p>Multiple control devices can own different GPOs of the stagebox at the same time. But there can never be more than one owner for the same GPO.</p>
+    </div>
+</div>
+
+
+<h3>Loading Showfiles</h3>
+
+<p>
+    Stagebox settings are retained in Live console showfiles so they can be recalled with a showfile load.
+    When a showfile is saved, the console also saves whether it is the "owner" of each input (and other settings).
+</p>
+
+<p>
+    When a showfile is loaded, the console will attempt to become the owner of all of the inputs (and other settings)
+    that it was the owner of when the showfile was saved. The console will only be successful if that input (or other setting) has no owner,
+    or is owned by the console at the time of the showfile load.
+    If that input (or other setting) is owned by another device, the console will not be able to take ownership.
+</p>
+
+<p>However, this is not true when using <span class="label">Load with Owner Override</span>. This function allows taking ownership from other devices upon showfile load. It is explained in <a href="#LoadOverride"><span class="hyperlink">this section</span></a> below.</p>
+
+<span class="note">
+    <span class="notetitle">Note:</span> It is therefore recommended that users clear the ownership of all stagebox inputs they wish to use before loading a showfile.
+    Once all the inputs the user wishes to use are unowned, or owned by the user's console, the showfile can be loaded and the showfile's gain settings will be applied accordingly.
+</span>
+
+<p>The following table shows how stagebox ownership status will behave in different showfile load scenarios.</p>
+
+<div>
+
+    <table class="insideborder" style="width: auto; margin: 15px 0px;" cellpadding="4" cellspacing="1">
+        <tbody>
+            <tr>
+                <th class="solidborder">Parameter Ownership Status Prior to Showfile Load</th>
+                <th class="solidborder">Parameter Ownership Status After Showfile Load</th>
+                <th class="solidborder">Parameter Settings Pushed from Showfile to Stagebox?</th>
+            </tr>
+            <tr>
+                <td class="solidborder">Owned by the console</td>
+                <td class="solidborder">Owned by the console</td>
+                <td class="solidborder">Yes</td>
+            </tr>
+            <tr>
+                <td class="solidborder">No owner</td>
+                <td class="solidborder">Owned by the console</td>
+                <td class="solidborder">Yes</td>
+            </tr>
+            <tr>
+                <td class="solidborder">Owned by another device</td>
+                <td class="solidborder">Still owned by the other device</td>
+                <td class="solidborder">No</td>
+            </tr>
+        </tbody>
+    </table>
+
+</div>
+
+
+<br>
+<span class="note">
+    <span class="notetitle">Please Note:</span><br>If the console was not the owner of an input (or other setting)
+    at the time of showfile save, when the showfile is reloaded,
+    the console will not attempt to become the owner of this input (or other setting) and it will be unaffected by the showfile load.
+</span>
+
+
+<p><i>For example:</i></p>
+
+<blockquote>
+    <p>An L500 is the owner of inputs 1, 2 and 3 on an SB&nbsp;32.24 and the showfile is saved.</p>
+
+    <div>
+        <table class="insideborder" style="width: auto; margin: 15px 0px;" cellpadding="4" cellspacing="1">
+            <tbody>
+                <tr>
+                    <th class="solidborder">Ch 1 Owner</th>
+                    <th class="solidborder">Ch 2 Owner</th>
+                    <th class="solidborder">Ch 3 Owner</th>
+                </tr>
+                <tr>
+                    <td class="solidborder">L500</td>
+                    <td class="solidborder">L500</td>
+                    <td class="solidborder">L500</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <p>
+        After the showfile is saved, an operator with an L200 takes ownership of input 1.
+        The operator of the L500 releases ownership of input 2, and retains ownership of input 3.
+    </p>
+
+    <div>
+        <table class="insideborder" style="width: auto; margin: 15px 0px;" cellpadding="4" cellspacing="1">
+            <tbody>
+                <tr>
+                    <th class="solidborder">Ch 1 Owner</th>
+                    <th class="solidborder">Ch 2 Owner</th>
+                    <th class="solidborder">Ch 3 Owner</th>
+                </tr>
+                <tr>
+                    <td class="solidborder">L200</td>
+                    <td class="solidborder">None</td>
+                    <td class="solidborder">L500</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <p>The L500 operator reloads the showfile, and the following will occur:</p>
+
+    <p>
+        <span style="font-weight:bold;">Input 1:</span> The L500 attempts to become the owner, but Input 1 is owned by the L200.
+        So the L500 cannot take ownership. Any gain settings, +48V, Pad etc. input settings will not be pushed from the L500 showfile
+        to the stagebox's Input 1. Input 1 retains its previous gain and input settings.
+    </p>
+
+    <p>
+        <span style="font-weight:bold;">Input 2:</span> The L500 attempts to become the owner. Input 2 is not owned by any device, so the L500 successfully becomes the owner.
+        Any gain settings, +48V, Pad etc. input settings will be pushed from the L500 showfile to the stagebox's Input 2.
+    </p>
+
+    <p>
+        <span style="font-weight:bold;">Input 3:</span> The L500 attempts to become the owner. Input 3 is already owned by the L500. Any gain settings, +48V, Pad etc.
+        input settings will be pushed from the L500 showfile to the stagebox's Input 3.
+    </p>
+
+    <div>
+        <table class="insideborder" style="width: auto; margin: 15px 0px;" cellpadding="4" cellspacing="1">
+            <tbody>
+                <tr>
+                    <th class="solidborder">Ch 1 Owner</th>
+                    <th class="solidborder">Ch 2 Owner</th>
+                    <th class="solidborder">Ch 3 Owner</th>
+                </tr>
+                <tr>
+                    <td class="solidborder">L200</td>
+                    <td class="solidborder">L500</td>
+                    <td class="solidborder">L500</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</blockquote>
+
+<p>
+    Please be aware of the current ownership states of each input on your stagebox before loading a showfile with input settings stored.
+    If other devices have ownership of some inputs, your console will not be able to take ownership of these inputs automatically on showfile load.
+</p>
+
+<p>
+    Before loading a showfile, go to <span class="label">MENU</span> > <span class="label">Setup</span> > <span class="label">I/O</span> > <span class="label">Dante&nbsp;Configuration</span> and add the stagebox to the <span style="font-weight:bold;">Configured Devices</span> list.
+    Tap on the stagebox and its Detail View will appear. To take ownership of all inputs, press and hold the <span class="label">Inputs&nbsp;Ownership</span> button in the <span class="label">Setup</span> tab and select <span class="label">Take&nbsp;All</span>.
+</p>
+<p>
+    To take ownership of individual inputs, select the first one you wish to own in the <span class="label">Inputs</span> tab and tap <span class="label">Edit&nbsp;Settings</span>.
+    If the input is owned by another device (not your console), press and hold <span class="label">Take</span> to take ownership. Check with the current owner beforehand if necessary!
+    If the input has no owner, or the console is already the owner, proceed to the next input.
+    Repeat this for all inputs that you wish to have control of. Each input should either have no owner, or your console should be the owner.
+</p>
+
+<p>Ensure that the stagebox name(s) match those stored in the showfile.</p>
+
+<span class="note">
+    <span class="notetitle">Please note:</span><br>Dante routes are associated with device names.
+    So changing Dante device names will remove all routes. Renaming devices should be done from Dante Controller, not on the console.
+    A warning dialogue will appear in Dante Controller before device names are changed to inform the user of a break in audio routes.
+</span>
+
+<p>Then load the showfile and all appropriate inputs will be owned and settings will be pushed from the showfile to the stagebox successfully.</p>
+
+<p>
+    When the console is powered down normally it will release ownership of all its owned stagebox parameters.
+</p>
+
+<h3 id="LoadOverride">Loading Showfiles with Owner Override</h3>
+
+<p>From Live 6.1 onwards, it's possible to load a showfile and override existing network ownership states. Any conditions listed above will be ignored, and the following occurs:</p>
+
+<p>
+    <ul>
+        <li>
+            Subscription/Route creation
+            <ul>
+                <li>If an Rx point on any Dante device already has a subscription, and a new subscription is included in the showfile, the showfile will successfully make this subscription.</li>
+                <li>If there are Rx subscriptions on the network that do not cross over with subscriptions made by the showfile, they are left as they were before the showfile was loaded.</li>
+            </ul>
+        </li>
+        <li>
+            Parameter control on stageboxes (or any other device with ownership capabilities)
+            <ul>
+                <li>If an audio input, output, GPI, GPO, or entire stagebox is already owned but this showfile would take ownership if there was no owner, loading with this mode will take ownership.</li>
+                <li>If there are inputs/devices on the network that are owned by another device, but ownership of these is not included in the showfile, the ownership states are left as they were before the showfile was loaded.</li>
+            </ul>
+        </li>
+    </ul>
+</p>
+
+<h2>Control</h2>
+
+<p>For Net I/O stageboxes, all parameters and settings will be displayed in the <span class="label">Dante&nbsp;Configuration</span> page Detail View when the device is tapped.</p>
+
+<p>Tapping Inputs or Outputs will show the settings for each input/output.</p>
+
+<p>Tapping on an input provides control over the input parameters: (providing that the Inputs are owned (see Ownership section above).</p>
+
+<p>
+    When an input from an SSL Network I/O Stagebox has been routed to the input of a channel, the input parameters will also display in the <span class="label">Input/Routing</span> section of the Detail View.
+    The parameters can then be controlled from the Quick Controls, the Control Tile and the TaCo app.
+</p>
+
+<span style="font-weight:bold;">SB&nbsp;32.24 Analogue vs AES Inputs</span>
+<p>Net I/O SB&nbsp;32.24 stageboxes running at 96 kHz have a maximum of 32 inputs available. The inputs can either be analogue (up to 32) or AES (up to 4 pairs; eight channels). This is user-definable on a pair by pair basis.</p>
+
+<p>To choose between analogue and AES inputs go to the Dante Configuration page and tap on an SB&nbsp;32.24 Main device to bring up the device's detail view.</p>
+
+<p>Press and hold <span class="label">Stagebox&nbsp;Ownership</span> to become the owner of the Stagebox.</p>
+
+<p>Tap on <span class="label">AES I/O</span> and tap on the AES pair.</p>
+
+<p>
+    Press & hold the <span class="label">AES Input Enabled</span> button to enable the AES inputs and disable the corresponding pair of analogue inputs.
+    The corresponding <span style="font-weight:bold;">AES IN ACT</span> LED on the front of the stagebox will light green to indicate that the AES ports are active.
+</p>
+
+<p>At 48 kHz all analogue and AES inputs of the SB&nbsp;32.24 are available simultaneously.</p>
+
+
+<h2 id="GainShare">Gain Sharing Using Net I/O Stageboxes</h2>
+
+<h3>What is a Gain Compensated Output?</h3>
+
+<p>The SSL Net I/O stageboxes provide two Dante outputs for each of the mic amp inputs; one the main output and the second a gain compensated output which delivers a constant signal level.</p>
+
+<p>
+    Gain compensated outputs are advantageous when two consoles need to receive the same mic amp input.
+    In the example of a FOH and Monitor desk setup the FOH console would receive the main outputs and the Monitor engineer who would receive the compensated outputs.
+    In this scenario the FOH engineer would be able to control the gain of the mic amp feeding their console without affecting the level of signal received at the Monitor console.
+</p>
+
+<p>Devices receiving signal from the Compensated output of the stagebox can be any Dante-enabled device (They do not have to be SSL devices).</p>
+
+<h3>How do Gain Compensated Outputs work?</h3>
+<p>
+    The output of the analogue mic amp circuit feeds an A to D converter. This digital data is then feed to two paths.
+    The first path routes the digital audio to the Dante Main output.
+    The second path passes the data through a digital gain control which automatically compensates for any changes made to the analogue audio level, by applying an inversely proportional gain.
+</p>
+
+<p>So for example if the analogue mic level was increased by 3 dB, the digital gain control for the compensated output would decrease by 3 dB to maintain a constant signal level.</p>
+
+<img style="display: block; margin: 25px auto;" src="images/g_GainShareFlow.png" alt="">
+
+
+<h3>Main and Comp Devices</h3>
+
+<p>When an SSL Network I/O Stagebox is connected to a Dante network, it will appear on the console as two separate Dante devices:</p>
+<ul>
+    <li>The <span style="font-weight:bold;">Main</span> uncompensated/gain dependant device</li>
+    <li>The <span style="font-weight:bold;">Comp</span> gain compensated device</li>
+</ul>
+
+<img style="display: block; margin: 25px auto;" src="images/g_CompUncomp.png" alt="">
+
+<span class="note">
+    <span class="notetitle">Note:</span> Only SB&nbsp;16.12 &amp; SB&nbsp;32.24 stageboxes will appear in Dante Controller as two separate devices. Other Net I/O devices will appear as a single device in Dante Controller.
+</span>
+
+<p>The <span style="font-weight:bold;">Main</span> device receives the uncompensated/gain dependant signal and has control over the stagebox.</p>
+
+<p>The <span style="font-weight:bold;">Comp</span> device receives the gain compensated signal and never has control. </p>
+
+<p>
+    Choose which console on your network should receive the uncompensated signal and requires gain control.
+    This console will need to route from the <span style="font-weight:bold;">Main</span> stagebox device. To use Gain Sharing, this must be an SSL console.
+</p>
+
+<p>Choose which Dante devices will should receive the gain compensated signal. These devices will need to route from the <span style="font-weight:bold;">Comp</span> stagebox device.</p>
+
+<p>
+    When the gain is changed by the <span style="font-weight:bold;">Main</span> device the signal level on the <span style="font-weight:bold;">Main</span> device will change depending on the gain applied.
+    The signal level on the <span style="font-weight:bold;">Comp</span> device will not change as the appropriate gain compensation will be applied.
+</p>
+
+
+<h3>Adjusting the Calibration Point</h3>
+
+<p>On the gain slider of a stagebox input there is a <span style="font-weight:bold;">&gamma;</span> symbol. This indicates the reference point for the digital gain compensation or Calibration Point.</p>
+
+<p>
+    When the gain slider is moved above or below the calibration point,
+    the corresponding input on the <span style="font-weight:bold;">Comp</span> device will be trimmed by the difference between the gain value and the position of the calibration point.
+</p>
+
+<p>
+    <i>For example</i>, if the Master console sets the gain to be 3 dB above the <span style="font-weight:bold;">&gamma;</span> point, -3 dB of digital trim will be applied to the <span style="font-weight:bold;">Comp</span> device.
+    So the signal level on the <span style="font-weight:bold;">Comp</span> device will not change.
+    If the Master console sets the gain to be exactly at the <span style="font-weight:bold;">&gamma;</span> point, no gain compensation will be applied to the <span style="font-weight:bold;">Comp</span> device.
+</p>
+
+<p>The <span style="font-weight:bold;">Main</span> device has control over the calibration point. The <span style="font-weight:bold;">Main</span> device can reset the calibration point or adjust it manually.</p>
+
+<p><span class="label">Recalibrate</span> resets the <span style="font-weight:bold;">&gamma;</span> point, and therefore resets the gain tracking point. <span class="label">Recalibrate</span> should only be used after rough gain levels have already been set. </p>
+
+<p>When the input is in <span style="font-weight:bold;">Line</span> mode, <span class="label">Recalibrate</span> moves the <span style="font-weight:bold;">&gamma;</span> point to the exact position of the analogue gain slider.</p>
+
+<p>
+    When the input is in <span style="font-weight:bold;">Mic</span> mode, <span class="label">Recalibrate</span> moves the <span style="font-weight:bold;">&gamma;</span> point to 10 dB below the position of the analogue gain slider.
+    The reason for this is a Mic level signal is likely to be far more dynamic and also require more gain added compared to a line level signal. This is to give head room and ensure the compensated input is not overloaded.
+</p>
+
+<p>The calibration point can be more closely aligned in 3 dB steps by using the <span class="label">+</span> or <span class="label">-</span> 3 dB buttons. This is reset the next time the input gain is recalibrated.</p>
+
+<img style="display: block; margin: 25px auto;" src="images/g_GainComp3dB.png" alt="">
+
+
+<h3>Practical Use</h3>
+
+<p>The main practical use for gain sharing is when sharing I/O between a Front of House console and a Monitor console. </p>
+
+<p>One of the consoles Owns the inputs and therefore has control of the gain and receives the gain dependant signal. This must be an SSL console.</p>
+
+<p>The other console receives the signal from the gain compensated split output. This does not have to be an SSL console and can be any Dante enabled device.</p>
+
+<p>The console with ownership/control of the stagebox inputs will set the gain structure of the system. This console should set rough gains before the calibration point is altered.</p>
+
+<p>Once the gain structure of the system has been set the <span class="label">Recalibrate</span> button should be pressed on each input. This creates a reference or calibration point for the gain compensation.</p>
+
+<p>The compensated inputs will not have their gain set until the <span class="label">Recalibrate</span> button is pressed.</p>
+
+<p>
+    All owned inputs of a specific device can be recalibrated at once. Go to the <span style="font-weight:bold;">Dante&nbsp;I/O&nbsp;Configuration</span> page 
+    (<span class="label">MENU</span> > <span class="label">Setup</span> > <span class="label">I/O</span> > <span class="label">Dante&nbsp;Configuration</span>) and tap on the <span style="font-weight:bold;">Main</span> stagebox device.
+    Now press and hold <span class="label">Recalibrate&nbsp;All&nbsp;Owned&nbsp;Inputs</span>.
+</p>
+
+<p>All owned inputs (across all devices) can be recalibrated using the IO Functions > Recalibrate All <a href="OptionsUserKeys.html"><span class="hyperlink">User Key</span></a>.</p>
+
+<p>If the gain structure of a specific input changes drastically before the show, <span class="label">Recalibrate</span> may be used again to reset the calibration point.</p>
+
+<span class="note">
+    <span class="notetitle">Caution:</span><br><span style="font-weight:bold;">DO NOT</span> use <span class="label">Recalibrate</span> on open channels during the show
+    as this will cause gain changes on the <span style="font-weight:bold;">Comp</span> device.<br><br>
+    SSL recommends that all outputs are muted on any device receiving the gain compensated signal before pressing <span class="label">Recalibrate</span>
+    as this could cause a jump in gain.
+</span>
+
+<h2 id="NetBSRC">SRC on Network B connection of Net I/O SB 32.24 and SB 16.12 stageboxes</h2>
+
+<p>
+    A Sample Rate Converter (SRC) is available on Network B of the SB 32.24 and SB 16.12 stageboxes, allowing the gain compensated split outputs to be run at a different sample rate or in a different clock domain.
+</p>
+
+<p>
+    Use the <b>Net B SRC</b> <span class="label">SRC&nbsp;In</span> button in the device's Setup page to engage the SRC (you must be the device owner to enable this button). 
+    Use Dante Controller to set the sample rate of the Network B module.
+</p>
+
+<p>
+    Example: Live console used for FOH at a show also being broadcast. The Live console and entire I/O infrastructure can operate at 96 kHz for optimum audio quality and low latency.
+    The Net B split output connections can be sample rate converted down to 48 kHz to feed the broadcast truck.
+</p>
+
+<h2>Useful Links:</h2>
+<a href="DanteSetup.html"><span class="hyperlink">Setting Up Dante</span></a><br>
+<a href="DanteConfig.html"><span class="hyperlink">Dual Domain Routes and Configuring Dante Devices</span></a><br>
+<a href="DanteNetIO.html"><span class="hyperlink">Network I/O Stageboxes and Devices</span></a><br>
+<a href="DanteVTL.html"><span class="hyperlink">Virtual Tie Lines</span></a><br>
+<a href="LocalMADIConfig.html"><span class="hyperlink">Local/MADI I/O Configuration</span></a><br>
+<a href="InstallGuide.html"><span class="hyperlink">Installation Guide</span></a><br>
+<a href="LinkIndex.html"><span class="hyperlink">Index and Glossary</span></a><br>
+
+<div class="TutorialNavNext"> <a href="DanteBridges.html"><span class="TutorialNav">NEXT: BLII & X-Light Bridges</span> <img class="TutorialNav" src="images/n_TutNext.png" alt=""></a></div>
+
+
+    </div>
+
+    <script src="../Help/js/OpenAccordionFromLink.js"></script>
+</body>
+</html>

@@ -1,0 +1,832 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html ng-app="sslLiveHelp">
+<head>
+    <meta content="text/html; charset=ISO-8859-1" http-equiv="content-type">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=yes">
+
+    <link href="../Help/style/style.css" rel="stylesheet">
+    <link href="../Help/style/jquery-ui-1.13.2.structure.css" rel="stylesheet">
+    <title>BLII &amp; X-Light Bridges</title>
+    <script src="../Help/js/jquery-3.6.0.min.js"></script>
+    <script src="../Help/js/jquery-ui/1.13.2/jquery-ui.min.js"></script>
+    <!--<script type="text/javascript" src="cordova.js"></script>-->
+    <!-- Nav / search panels 2017 updates -->
+    <script>
+    window.baseDir = '../';
+    window.data = 'null';
+    </script>
+    <link rel="stylesheet" type="text/css" href="../Help/fonts/font-awesome-4.7.0/css/font-awesome.min.css" />
+    <link rel="stylesheet" type="text/css" href="../Help/style/sass-styles.css">
+    <script src="../Help/js/fastclick.js"></script>
+    <script src="../Help/js/lodash.core.min.js"></script>
+    <!--<script src="../Help/js/angular/1.2/angular.min.js"></script>-->  <!-- On a console -->
+    <script src="../Help/js/angular/1.8/angular.min.js"></script>   <!--Not on a console -->
+    <script src="../Help/js/ngStorage.min.js"></script>
+    <!--<script src="../Help/js/angular/1.2/angular-sanitize.min.js"></script>-->  <!-- On a console -->
+    <!--<script src="../Help/js/angular/1.2/angular-animate.min.js"></script>-->   <!-- On a console -->
+    <script src="../Help/js/angular/1.8/angular-sanitize.min.js"></script>  <!--Not on a console -->
+    <script src="../Help/js/angular/1.8/angular-animate.min.js"></script>   <!--Not on a console -->
+    <script src="../Help/js/lunr-2.3.min.js"></script>
+    <script src="../Help/js/menu.js"></script>
+
+</head>
+
+<body ng-controller="NavController as vm">
+
+    <!--<nav class="nav" ng-class="{ 'nav--visible' : vm.visible }" ng-if="vm.visible" role="navigation" aria-label="Primary">-->  <!-- On a console --> 
+    <nav class="nav" ng-class="{ 'nav--visible' : vm.visible }" role="navigation" aria-label="Primary"> <!--Not on a console -->
+        <!-- Search form -->
+        <div role="search">
+            <form class="nav__search" ng-if="vm.isSearchSupported">
+                <label class="nav__search-icon" for="query"><i aria-label="Search" title="Search" class="fa fa-search"></i></label>
+                <input type="search" id="query" class="nav__search-input" placeholder="Search..." ng-model="vm.query" />
+            </form>
+        </div>
+
+        <div class="nav__scroll" ng-style="vm.styleBasedOnSearchSupported">
+
+            <!-- Main nav -->
+            <ul class="main-nav" ng-hide="vm.query">
+                <li class="main-nav__item" ng-repeat="item in vm.nav">
+
+                    <!-- Link to page -->
+                    <a ng-if="item.url" ng-class="{'main-nav__link--active' : item.url===vm.currentPage}" class="main-nav__link" ng-attr-href="{{ vm.baseDir }}{{ item.url }}">
+                        {{ item.title }}
+                    </a>
+
+                    <!-- Expandable heading -->
+                    <span ng-click="vm.toggleExpanded(item.title)" ng-if="!item.url" class="main-nav__title">
+                        {{ item.title }}
+                        <span ng-if="!vm.isExpanded(item.title)" class="fa fa-caret-right"></span>
+                        <span ng-if="vm.isExpanded(item.title)" class="fa fa-caret-down"></span>
+                    </span>
+
+                    <!-- Subnav -->
+                    <ul ng-if="vm.isExpanded(item.title)" class="main-nav fx-fade">
+                        <li ng-repeat="sub in item.children" class="main-nav__item">
+
+                            <!-- Link to page -->
+                            <a ng-if="sub.url" ng-class="{'main-nav__link--active' : sub.url===vm.currentPage}" class="main-nav__link main-nav__link--level1" ng-attr-href="{{ vm.baseDir }}{{ sub.url }}">
+                                {{ sub.title }}
+                            </a>
+
+                            <!-- Expandable heading -->
+                            <span ng-click="vm.toggleExpanded(sub.title)" ng-if="!sub.url" class="main-nav__title main-nav__title--level1">
+                                {{ sub.title }}
+                                <span ng-if="!vm.isExpanded(sub.title)" class="fa fa-caret-right"></span>
+                                <span ng-if="vm.isExpanded(sub.title)" class="fa fa-caret-down"></span>
+                            </span>
+
+                            <!-- Sub-sub nav -->
+                            <ul ng-if="sub.children && vm.isExpanded(sub.title)" class="main-nav fx-fade">
+                                <li ng-repeat="subsub in sub.children" class="main-nav__item">
+
+                                    <!-- Link to page -->
+                                    <a ng-class="{'main-nav__link--active' : subsub.url===vm.currentPage}" class="main-nav__link main-nav__link--level2" ng-attr-href="{{ vm.baseDir }}{{ subsub.url }}" ng-bind-html="subsub.title">
+                                    </a>
+
+                                </li>
+                            </ul>
+
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+
+            <!-- Search results list -->
+            <ul class="search-results">
+                <li class="search-result" ng-repeat="result in vm.results">
+                    <a class="search-result__link" ng-attr-href="{{ vm.baseDir }}{{ 'Help/' + result.id }}">
+                        <h3 class="search-result__title">{{ result.title }}</h3>
+                        <p class="search-result__excerpt" ng-bind-html="result.excerpt"></p>
+                    </a>
+                </li>
+            </ul>
+
+            <!-- Keep screen on option - PhoneGap insomnia -->
+            <ul class="main-nav" ng-if="vm.isPhoneGap">
+                <li class="main-nav__item">
+                    <label class="main-nav__title">
+                        Keep Screen On
+                        <input style="display: none" type="checkbox" ng-model="vm.keepScreenOn" />
+                        <i ng-class="{'fa--cleared' : !vm.keepScreenOn, 'fa--checked' : vm.keepScreenOn}" class="fa fa-check"></i>
+                    </label>
+                </li>
+            </ul>
+
+
+        </div>
+    </nav>
+
+    <nav class="header" role="navigation" aria-label="Secondary">
+        <a ng-if="!vm.onAConsole" href="../index.html" class="header__btn" title="Home"><i class="fa fa-home"></i></a>
+        <div ng-if="!vm.onAConsole" class="header__history">
+            <a onclick="javascript:window.history.back()" class="header__btn"><i title="Back" class="fa fa-chevron-left"></i></a>
+            <a onclick="javascript:window.history.forward()" class="header__btn"><i title="Forwards" class="fa fa-chevron-right"></i></a>
+        </div>
+        <div align="right">
+            <a class="header__btn header__btn--nav" ng-click="vm.toggleVisibility()">
+                <i ng-if="!vm.visible" class="fa fa-bars"></i>
+                <i ng-if="vm.visible" class="fa fa-close"></i>
+            </a>
+        </div>
+    </nav>
+
+
+    <!-- Main content -->
+    <div id="main">
+        
+
+
+<div><a href="DanteNetIO.html"><img class="TutorialNav" src="images/n_TutPrevious.png" alt=""><span class="TutorialNav">PREVIOUS: Network I/O Devices</span></a></div>
+
+<p>
+    The following pages contain instructions on setting up SSL Live consoles for use with a Dante network, routing to and from Dante devices and controlling and gain sharing with SSL Net I/O Stageboxes:
+    <ul>
+        <li><a href="DanteSetup.html"><span class="hyperlink">Setting Up Dante</span></a></li>
+        <li><a href="DanteVTL.html"><span class="hyperlink">Virtual Tie Lines</span></a></li>
+        <li><a href="DanteConfig.html"><span class="hyperlink">Dual Domain Routes and Configuring Dante Devices</span></a></li>
+        <li><a href="DanteNetIO.html"><span class="hyperlink">Network I/O Stageboxes and Devices</span></a></li>
+        <li>BLII & X-Light Bridges (this page)</li>
+    </ul>
+</p>
+
+<div id="accordion">
+    <div id="BLIIBridge" class="indexheader2">Net I/O BLII Bridge - High Capacity Dante Interface - CLICK HERE for more info.</div>
+    <div style="padding: 1em 0;">
+        <img style="display: block; margin: 15px auto;" src="images/g_BLIIBridgeFront.png" alt="">
+
+        <p>
+            The Net I/O BL II Bridge is a 1U rack-mount device which converts between high channel count Dante and SSL's proprietary BlackLight&trade; digital multichannel audio format.
+            It provides 256 redundant bidirectional uncompressed audio channels from an SSL BLII and Dante equipped Live console to/from Dante networks at 24-bit, at either 96 kHz or 48 kHz resolution.
+        </p>
+
+        <p>The BLII Bridge is designed to be located near the console and can only be used by one console at any one time.</p>
+
+        <p>
+            The Net I/O BLII Bridge is compatible with all BLII and Dante equipped SSL Live consoles running software version 4.5 or later 
+            and supports the AES67 and SMPTE 2110-30 AoIP network transport standards.
+        </p>
+
+        <span class="note">
+            <span class="notetitle">Notes:</span><br>Please be aware of network bandwidth when using a BLII Bridge on a Dante network.
+            10 Gigabit uplinks between switches may be required on networks involving a BLII Bridge and large amounts of I/O.
+        </span>
+
+        <h3>Front Panel LEDs</h3>
+        <p>There are four LED indicators on the front panel of the BLII Bridge: <span style="font-weight:bold;">PSU</span>, <span style="font-weight:bold;">BL S</span>, <span style="font-weight:bold;">SRC</span> and <span style="font-weight:bold;">NET S</span> for indicating power supply and clocking status.</p>
+
+        <div>
+
+            <table class="insideborder" style="width: auto; margin: 15px 0px;" cellpadding="4" cellspacing="1">
+                <tbody>
+                    <tr>
+                        <th class="solidborder">LED</th>
+                        <th class="solidborder">Off</th>
+                        <th class="solidborder">Solid Red</th>
+                        <th class="solidborder">Flashing Green & Red</th>
+                        <th class="solidborder">Flashing Green</th>
+                        <th class="solidborder">Solid Green</th>
+                    </tr>
+                    <tr>
+                        <th class="solidborder">PSU</th>
+                        <td class="solidborder">Both PSUs are off</td>
+                        <td class="solidborder">Only one PSU is functioning correctly</td>
+                        <td class="solidborder">N/A</td>
+                        <td class="solidborder">N/A</td>
+                        <td class="solidborder">Both PSUs functioning correctly</td>
+                    </tr>
+                    <tr>
+                        <th class="solidborder">BL&nbsp;S</th>
+                        <td class="solidborder">BLII Bridge not set to <span style="font-weight:bold;">Sync to External</span> BLII source and/or not connected to console</td>
+                        <td class="solidborder">N/A</td>
+                        <td class="solidborder">N/A</td>
+                        <td class="solidborder">Resyncing - searching for a valid clock source</td>
+                        <td class="solidborder">Clocked to BLII and incoming clock source present</td>
+                    </tr>
+                    <tr>
+                        <th class="solidborder">SRC</th>
+                        <td class="solidborder">Device synced to a clock source</td>
+                        <td class="solidborder">Device is resyncing (searching for a valid clock source)</td>
+                        <td class="solidborder">N/A</td>
+                        <td class="solidborder">N/A</td>
+                        <td class="solidborder">N/A</td>
+                    </tr>
+                    <tr>
+                        <th class="solidborder">NET&nbsp;S</th>
+                        <td class="dashedborder">Not configured to clock from Dante network</td>
+                        <td class="dashedborder">Unit it set to clock from Dante network but there is no network connected</td>
+                        <td class="dashedborder">Primary or Secondary network port not connected</td>
+                        <td class="solidborder">Resyncing - searching for a valid clock source</td>
+                        <td class="solidborder">Set to clock from Dante network and Leader Clock on network detected</td>
+                    </tr>
+                </tbody>
+            </table>
+
+			<p><strong>NOTE:</strong> When NetS is Flashing Red - Unit is PTPv1 Clock Leader only/AES67 disabled</p>
+
+        </div>
+
+        <br>
+
+        <h3>Front Panel Connections</h3>
+
+        <p>One pair of SFP cages is located on the front panel for Dante network connectivity:</p>
+        <img style="display: block; margin: 25px auto;" src="images/g_BLIIBridgeFrontCons.png" alt="">
+
+        <p>These will be pre-populated with RJ45 but can alternatively be populated with single-mode or multi-mode fibre SFPs.</p>
+
+        <p>The status LED meanings are as follows:</p>
+
+        <div>
+
+            <table class="insideborder" style="width: auto; margin: 15px 0px;" cellpadding="4" cellspacing="1">
+                <tbody>
+                    <tr>
+                        <th class="solidborder">LED</th>
+                        <th class="solidborder">Off</th>
+                        <th class="solidborder">Flashing Red</th>
+                        <th class="solidborder">Flashing Green & Red</th>
+                        <th class="solidborder">Flashing Green</th>
+                        <th class="solidborder">Solid Green</th>
+                    </tr>
+                    <tr>
+                        <th class="solidborder">ACT</th>
+                        <td class="solidborder">Unit is off</td>
+                        <td class="solidborder">N/A</td>
+                        <td class="solidborder">Unit is on</td>
+                        <td class="solidborder">N/A</td>
+                        <td class="solidborder">N/A</td>
+                    </tr>
+                    <tr>
+                        <th class="solidborder">SFP</th>
+                        <td class="solidborder">No SFP fitted</td>
+                        <td class="solidborder">N/A</td>
+                        <td class="solidborder">N/A</td>
+                        <td class="solidborder">N/A</td>
+                        <td class="solidborder">SFP fitted</td>
+                    </tr>
+                    <tr>
+                        <th class="solidborder">GM</th>
+                        <td class="dashedborder">Unit is not GM (or both <br> Dante Pri and Sec disconnected)</td>
+                        <td class="dashedborder">PTPv2 GM only</td>
+                        <td class="dashedborder">N/A</td>
+                        <td class="solidborder">PTPv1 GM only</td>
+                        <td class="solidborder">PTPv1 and PTPv2 <br> GM</td>
+                    </tr>
+                    <tr>
+                        <th class="solidborder">STAT</th>
+                        <td class="dashedborder">Hardware fault</td>
+                        <td class="dashedborder">Audio muted. The BLII Bridge automatically <br> mutes audio during resyncing</td>
+                        <td class="dashedborder">N/A</td>
+                        <td class="solidborder">Hardware OK</td>
+                        <td class="solidborder">N/A</td>
+                    </tr>
+                </tbody>
+            </table>
+
+        </div>
+
+        <br>
+
+        <p>The Program USB port is for performing updates to the unit. Instructions on updating the BLII Bridge will accompany all relevant update packages.</p>
+
+
+        <h3>Rear Panel Connections</h3>
+
+        <p>The BLII Bridge incorporates a pair of redundant power supplies, which are powered from the pair of IEC connections on the back of the unit.</p>
+
+        <p>Two pairs of SFP cages is located on the back panel. One pair will be pre-populated with multi-mode LC fibre SFPs but can alternatively be populated with single-mode SFPs.</p>
+
+        <p>HC Link 1 Port A Main and Backup are used for connecting to BLII 1a and 1b (or 2a and 2b) ports on the console respectively. </p>
+
+        <p>Port B is not in use.</p>
+
+        <img style="display: block; margin: 25px auto;" src="images/g_BLIIBridgeBackCons.png" alt="">
+
+        <p>
+            There is also an RX and SFP status LED for each port.
+            The leftmost pair of RX and SFP LEDs refer to Port A Main and the second from the left refers to Port A Backup. The third and fourth from the left pairs of LEDs refer to Port B, which is not in use.
+        </p>
+
+        <p>The status LED meanings are as follows:</p>
+
+        <div>
+
+            <table class="insideborder" style="width: auto; margin: 15px 0px;" cellpadding="4" cellspacing="1">
+                <tbody>
+                    <tr>
+                        <th class="solidborder">LED</th>
+                        <th class="solidborder">Off</th>
+                        <th class="solidborder">Solid Red</th>
+                        <th class="solidborder">Flashing Green</th>
+                        <th class="solidborder">Solid Green</th>
+                    </tr>
+                    <tr>
+                        <th class="solidborder">RX</th>
+                        <td class="solidborder">N/A</td>
+                        <td class="solidborder">Port is not connected</td>
+                        <td class="solidborder">Port is connected and is Active port <br> in redundant connection</td>
+                        <td class="solidborder">Port is connected and is Inactive port <br> in redundant connection</td>
+                    </tr>
+                    <tr>
+                        <th class="solidborder">SFP</th>
+                        <td class="solidborder">No SFP fitted</td>
+                        <td class="solidborder">N/A</td>
+                        <td class="solidborder">N/A</td>
+                        <td class="solidborder">SFP fitted</td>
+                    </tr>
+                </tbody>
+            </table>
+
+        </div>
+
+
+        <h3>Connecting BLII Bridge to SSL Live Consoles</h3>
+
+        <p>The following equipment is required to connect a BLII Bridge to an SSL Live console.</p>
+        <p style="margin-bottom:0px;">
+            <ul>
+                <li>An SSL Live console</li>
+                <li>
+                    <ul>
+                        <li>with at least one redundant pair of BLII ports fitted</li>
+                        <li>and with a Dante Expander module fitted (if you are interested in a Dante Expander retrofit please contact support@solidstatelogic.com)</li>
+                    </ul>
+                </li>
+                <li>A BLII Bridge</li>
+                <li>At least one network switch (non-redundant). At least two switches (primary and secondary) are required for a fully redundant connection.</li>
+            </ul>
+
+        <p>Connect the console's <span style="font-weight:bold;">BLII port 1a</span> to <span style="font-weight:bold;">HC Link Port A Main</span> on the back of the BLII Bridge via multi-mode LC fibre.*</p>
+
+        <p>Connect the console's <span style="font-weight:bold;">BLII port 1b</span> to <span style="font-weight:bold;">HC Link Port A Backup</span> on the back of the BLII Bridge via LC fibre.*</p>
+
+        <p><i>*or single-mode LC fibre if the console has been fitted with single-mode BLII ports and single-mode SFPs have been fitted to the BLII Bridge - not standard.</i></p>
+
+        <span class="note">
+            <span class="notetitle">Notes:</span><br> If using an L500&nbsp;Plus with two pairs of BLII ports fitted, either redundant pair can be used to connect to the BLII Bridge.
+            The other pair can be used to connect to a BL II-MADI Concentrator or another BLII Bridge.
+        </span>
+
+        <p>Connect the <span style="font-weight:bold;">BLII Bridge Dante Primary and Secondary ports</span> to the <span style="font-weight:bold;">primary and secondary Dante network switches</span> respectively.</p>
+
+        <p>
+            Connect the console's <span style="font-weight:bold;">Dante Expander Primary and Secondary ports</span> to the <span style="font-weight:bold;">primary and secondary Dante network switches</span> respectively.
+            You <span style="font-weight:bold;">must</span> also connect the Dante Expander to the Dante network. Dante device control cannot pass down a BLII connection, so connecting the Dante Expander allows the console to have control over Dante devices and create routes on the network.
+        </p>
+
+        <img style="display: block; margin: 25px auto;" src="images/g_BLIIBridgeConnection.png" alt="">
+
+        <p>Connect your Network I/O stageboxes to your Dante primary and secondary network switches, taking care not to cross over primary and secondary networks anywhere.</p>
+
+        <h3>Setting Up the BLII Bridge with an SSL Live Console</h3>
+
+        <p>On the console go to <span class="label">MENU</span> > <span class="label">Setup</span> > <span class="label">I/O</span> > <span class="label">Local/MADI Configuration</span>. </p>
+
+        <p>If there are no devices configured in the relevant port when the BLII Bridge is connected, the BLII Bridge will be automatically detected and configured.</p>
+
+        <p>If there are already devices configured in the relevant port, the port will need to be manually configured.</p>
+
+        <p>
+            To configure the port:
+            <ol>
+                <li>Tap on the relevant port column heading to view settings for the port.</li>
+                <li>Press &amp; hold <span class="label">Physical Port Selection:</span> in the Detail View of the port and select Blacklight II.</li>
+                <li>Press &amp; hold <span class="label">Configure Port For:</span> and select Net I/O BLII Bridge.</li>
+            </ol>
+        </p>
+
+        <img style="display: block; margin: 25px auto;" src="images/g_BLIIBridgeConfig.png" alt="">
+
+        <span class="note">
+            <span class="notetitle">Caution:</span><br>Take care when reconfiguring the BLII port as routes will be unmade.<br>
+            - If reconfiguring the BLII port from BLII-MADI Concentrator to BLII Bridge, all existing routes between the console and devices connected via the BLII-MADI Concentrator will be unmade.<br>
+            - If reconfiguring the BLII port from BLII Bridge to BLII-MADI Concentrator, <span style="font-weight:bold;">ALL</span> Dante dual domain routes will be unmade regardless of whether they route through the BLII Bridge or the Dante Expander Module.
+            Virtual Tie Line routes made to the Dante Expander Module will remain.<br><br>
+            - The console may also need to be re-clocked when changing port configuration. See the <a href="DanteBridges.html#Clocking"><span class="hyperlink">clocking section below</span></a>.
+        </span>
+
+        <p>BLII port configuration is stored in showfiles.</p>
+
+        <p>In order for the BLII Bridge to function correctly, the name of the BLII Bridge on the console must match the name of the unit in Dante Controller.</p>
+
+        <p>Ordinarily the BLII Bridge name will be automatically populated when it is detected on the network by the console software. However, if this does not occur, the name can be entered manually.</p>
+
+        <blockquote>
+            <p>First, open Dante Controller on a computer and connect it to the Dante network (or to the BLII Bridge's <span style="font-weight:bold;">Dante Primary</span> port directly using a network cable).</p>
+
+            <p>Check that the BLII Bridge appears in Dante Controller. (For more information on IP addresses and connecting Dante devices to the network, please see the <a href="DanteSetup.html"><span class="hyperlink">Setting Up Dante</span></a> section).</p>
+
+            <p>
+                To edit the BLII Bridge name in Dante Controller, double click on the BLII Bridge and go to the <span class="label">Device Config</span> tab.
+                At the top of the page under <span style="font-weight:bold;">Rename Device</span>, type in a name and press <span class="label">Apply</span>.
+                You will be asked to confirm the name change. Click <span class="label">Yes</span>. Please note that changing the Dante name of a device breaks all existing routes to/from this device.
+            </p>
+
+            <p>Set the BLII Bridge name on the console to match the name used in Dante Controller <span style="font-weight:bold;">exactly</span>.</p>
+
+            <img style="display: block; margin: 25px auto;" src="images/g_BLIIBridgeVTL.png" alt="">
+        </blockquote>
+
+        <p>Reboot the console.</p>
+
+        <p><span style="font-weight:bold;">PSU status</span>, <span style="font-weight:bold;">network status</span>, and <span style="font-weight:bold;">Sample Rate</span> are also displayed here.</p>
+    </div>
+    <div id="XLight" class="indexheader2">Net I/O X-Light Bridge - Ruggedised High Capacity Dante Interface - CLICK HERE for more info.</div>
+    <div style="padding: 1em 0;">
+        <img style="display: block; margin: 15px auto;" src="images/g_XLightBridgeFront.png" alt="">
+
+        <p>
+            The Net I/O X-Light Bridge is a 1U rack-mount device which converts between high channel count Dante and SSL's proprietary X-Light digital multichannel audio format.
+            It provides 256 redundant bidirectional uncompressed audio channels from an SSL X-Light equipped Live console to/from Dante networks at 24-bit, at either 96 kHz or 48 kHz resolution.
+        </p>
+
+        <p>The X-Light Bridge is designed to be located on stage and can only be used by one console at any one time.</p>
+
+        <p>
+            The X-Light Bridge is compatible with all X-Light equipped SSL Live consoles running software version 4.8 or later
+            and supports the AES67 and SMPTE 2110-30 AoIP network transport standards.
+        </p>
+
+        <span class="note">
+            <span class="notetitle">Notes:</span><br>Please be aware of network bandwidth when using an X-Light Bridge on a Dante network.
+            10 Gigabit uplinks between switches may be required on networks involving an X-Light Bridge and large amounts of I/O.
+        </span>
+
+        <h3>Front Panel Connections</h3>
+
+        <p>One pair of redundant X-Light ports is located on the front panel for connection to an SSL Live console:</p>
+        <img style="display: block; margin: 15px auto;" src="images/g_XLightBridgeFrontConns.png" alt="">
+
+        <h3>Front Panel LEDs</h3>
+        <p>There are eight LED indicators on the front panel of the X-Light Bridge: <span style="font-weight:bold;">PSU</span>, <span style="font-weight:bold;">XL S</span>, <span style="font-weight:bold;">SRC</span>, <span style="font-weight:bold;">NET S</span> for indicating power supply and clocking status...</p>
+
+        <div>
+            <table class="insideborder" style="width: auto; margin: 15px 0px;" cellpadding="4" cellspacing="1">
+                <tbody>
+                    <tr>
+                        <th class="solidborder">LED</th>
+                        <th class="solidborder">Off</th>
+                        <th class="solidborder">Solid Red</th>
+                        <th class="solidborder">Flashing Green & Red</th>
+                        <th class="solidborder">Flashing Green</th>
+                        <th class="solidborder">Solid Green</th>
+                    </tr>
+                    <tr>
+                        <th class="solidborder">PSU</th>
+                        <td class="solidborder">Both PSUs are off</td>
+                        <td class="solidborder">Only one PSU is functioning correctly</td>
+                        <td class="solidborder">N/A</td>
+                        <td class="solidborder">N/A</td>
+                        <td class="solidborder">Both PSUs functioning correctly</td>
+                    </tr>
+                    <tr>
+                        <th class="solidborder">XL&nbsp;S</th>
+                        <td class="solidborder">X-Light Bridge not set to <span style="font-weight:bold;">Sync to External</span> X-Light source and/or not connected to console</td>
+                        <td class="solidborder">N/A</td>
+                        <td class="solidborder">N/A</td>
+                        <td class="solidborder">Resyncing - searching for a valid clock source</td>
+                        <td class="solidborder">Clocked to X-Light and incoming clock source present</td>
+                    </tr>
+                    <tr>
+                        <th class="solidborder">SRC</th>
+                        <td class="solidborder">Device synced to a clock source</td>
+                        <td class="solidborder">Device is resyncing (searching for a valid clock source)</td>
+                        <td class="solidborder">N/A</td>
+                        <td class="solidborder">N/A</td>
+                        <td class="solidborder">N/A</td>
+                    </tr>
+                    <tr>
+                        <th class="solidborder">NET&nbsp;S</th>
+                        <td class="dashedborder">Not configured to clock from Dante network</td>
+                        <td class="dashedborder">Unit it set to clock from Dante network but there is no network connected</td>
+                        <td class="dashedborder">Primary or Secondary network port not connected</td>
+                        <td class="solidborder">Resyncing - searching for a valid clock source</td>
+                        <td class="solidborder">Set to clock from Dante network and Leader Clock on network detected</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <p><strong>NOTE:</strong> When NetS is Flashing Red - Unit is PTPv1 Clock Leader only/AES67 disabled</p>
+
+        <p>...and two pairs of <span style="font-weight:bold;">AUDIO</span> and <span style="font-weight:bold;">LINK</span> LEDs to show the status of the <span style="font-weight:bold;">MAIN</span> and <span style="font-weight:bold;">BACKUP</span> X-Light fibre connections to the console.</p>
+
+        <div>
+            <table class="insideborder" style="width: auto; margin: 15px 0px;" cellpadding="4" cellspacing="1">
+                <tbody>
+                    <tr>
+                        <th class="solidborder">LED</th>
+                        <th class="solidborder">Solid Red</th>
+                        <th class="solidborder">Flashing Green</th>
+                        <th class="solidborder">Solid Green</th>
+                    </tr>
+                    <tr>
+                        <th class="solidborder">AUDIO MAIN</th>
+                        <td class="solidborder">No Main connection to console via X-Light fibre</td>
+                        <td class="solidborder">Main Audio connection to console is good and is the active connection</td>
+                        <td class="solidborder">Main Audio connection to console is good (backup)</td>
+                    </tr>
+                    <tr>
+                        <th class="solidborder">LINK MAIN</th>
+                        <td class="solidborder">N/A</td>
+                        <td class="solidborder">Main Link connection to console is good</td>
+                        <td class="solidborder">N/A</td>
+                    </tr>
+                    <tr>
+                        <th class="solidborder">AUDIO BACKUP</th>
+                        <td class="solidborder">No Backup connection to console via X-Light fibre</td>
+                        <td class="solidborder">Backup Audio connection to console is good and is the active connection</td>
+                        <td class="solidborder">Backup Audio connection to console is good (backup)</td>
+                    </tr>
+                    <tr>
+                        <th class="solidborder">LINK BACKUP</th>
+                        <td class="solidborder">N/A</td>
+                        <td class="solidborder">Backup Link connection to console is good</td>
+                        <td class="solidborder">N/A</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <br>
+
+        <h3>Rear Panel Connections</h3>
+
+        <p>The X-Light Bridge incorporates a pair of redundant power supplies, which are powered from the pair of IEC connections on the back of the unit.</p>
+
+        <p>
+            Two pairs of redundant network connections are provided on the rear panel. The <span style="font-weight:bold;">PRI</span> and <span style="font-weight:bold;">SEC</span> <span style="font-weight:bold;">Dante AUDIO</span> pair transport up to 256x256 channels of audio between the Dante network and the console's X-Light ports.
+            The other pair, labelled <span style="font-weight:bold;">CONSOLE LINK PRI</span> and <span style="font-weight:bold;">SEC</span> provide a control link from the console for stagebox control and expose the console's local Dante audio channels and anything connected to the console's local Dante ports to the rest of the network, e.g. for playback/recording devices located close to the console.
+        </p>
+
+        <img style="display: block; margin: 15px auto;" src="images/g_XLightBridgeRearConns.png" alt="">
+
+        <p>Both <span style="font-weight:bold;">Dante AUDIO</span> and <span style="font-weight:bold;">CONSOLE LINK</span> ports should be connected to your network switches for correct operation.</p>
+
+        <h3>Connecting X-Light Bridge to SSL Live Consoles</h3>
+
+        <p>The following equipment is required to connect Network I/O stageboxes to an SSL Live console via an X-Light Bridge:</p>
+        <p>
+            <ul>
+                <li>An SSL Live console with X-Light ports fitted</li>
+                <li>An X-Light Bridge</li>
+                <li>At least one network switch (non-redundant). At least two switches (primary and secondary) are required for a fully redundant connection</li>
+                <li>A number of <a href="RemoteIO.html#NetIO"><span class="hyperlink">SSL Network I/O Dante stageboxes</span></a></li>
+            </ul>
+        </p>
+
+        <p>Connect the console's <span style="font-weight:bold;">X-Light port Main</span> to <span style="font-weight:bold;">Main</span> on the front of the X-Light Bridge.</p>
+
+        <p>Connect the console's <span style="font-weight:bold;">X-Light port Backup</span> to <span style="font-weight:bold;">Backup</span> on the front of the X-Light Bridge.</p>
+
+        <p>Connect the X-Light Bridge's <span style="font-weight:bold;">Dante AUDIO PRI</span> and <span style="font-weight:bold;">CONSOLE LINK PRI</span> ports on the rear of the unit to your Dante primary network switch.</p>
+
+        <p>Connect the X-Light Bridge's <span style="font-weight:bold;">Dante AUDIO SEC</span> and <span style="font-weight:bold;">CONSOLE LINK SEC</span> ports on the rear of the unit to your Dante secondary network switch.</p>
+
+        <img style="display: block; margin: 25px auto;" src="images/g_XLightBridgeConnection.png" alt="">
+
+        <p>Connect your Network I/O stageboxes to your Dante primary and secondary network switches, taking care not to cross over primary and secondary networks anywhere.</p>
+
+        <h3>Setting Up the X-Light Bridge with an SSL Live Console</h3>
+
+        <p>On the console go to <span class="label">MENU</span> > <span class="label">Setup</span> > <span class="label">I/O</span> > <span class="label">Local/MADI Configuration</span>. </p>
+
+        <p>If there are no devices configured in the relevant port when the X-Light Bridge is connected, the X-Light Bridge will be automatically detected and configured.</p>
+
+        <p>If there are already devices configured in the relevant port, the port will need to be manually configured.</p>
+
+        <p>
+            To configure the port:
+            <ol>
+                <li>For L100, L200 and L350 consoles, tap on the BLII port column heading to view settings for the BLII port. For L450, L550 and L650, tap on the second BLII/X-Light port heading (the right-most column in the I/O page)</li>
+                <li>Press &amp; hold <span class="label">Physical Port Selection:</span> in the Detail View of the port and select X-Light.</li>
+                <li>X-Light Bridge will be automatically configured in the <span class="label">Configure Port For:</span> section.</li>
+            </ol>
+        </p>
+
+        <img style="display: block; margin: 25px auto;" src="images/g_BLIIBridgeConfig.png" alt="">
+
+        <span class="note">
+            <span class="notetitle">Caution:</span><br>Take care when reconfiguring the BLII/X-Light port as routes will be unmade.<br>
+            Virtual Tie Line routes made to the Dante Expander Module will remain.<br><br>
+            The console may also need to be re-clocked when changing port configuration. See the <a href="DanteBridges.html#Clocking"><span class="hyperlink">clocking section below</span></a>.
+        </span>
+
+        <p>X-Light port configuration is stored in showfiles.</p>
+
+        <p>In order for the X-Light Bridge to function correctly, the name of the X-Light Bridge on the console must match the name of the unit in Dante Controller.</p>
+
+        <p>Ordinarily the X-Light Bridge name will be automatically populated when it is detected on the network by the console software. However, if this does not occur, the name can be entered manually.</p>
+
+        <blockquote>
+            <p>First, open Dante Controller on a computer and connect it to the Dante network (or to the X-Light Bridge's <span style="font-weight:bold;">Dante Audio Primary</span> port directly using a network cable).</p>
+
+            <p>Check that the X-Light Bridge appears in Dante Controller. (For more information on IP addresses and connecting Dante devices to the network, please see the <a href="DanteSetup.html"><span class="hyperlink">Setting Up Dante</span></a> section).</p>
+
+            <p>
+                To edit the X-Light Bridge name in Dante Controller, double click on the X-Light Bridge and go to the <span class="label">Device Config</span> tab.
+                At the top of the page under <span style="font-weight:bold;">Rename Device</span>, type in a name and press <span class="label">Apply</span>.
+                You will be asked to confirm the name change. Click <span class="label">Yes</span>. Please note that changing the Dante name of a device breaks all existing routes to/from this device.
+            </p>
+
+            <p>Set the X-Light Bridge name on the console to match the name used in Dante Controller <span style="font-weight:bold;">exactly</span>.</p>
+
+            <img style="display: block; margin: 25px auto;" src="images/g_XLightBridgeVTL.png" alt="">
+        </blockquote>
+
+        <p>Reboot the console.</p>
+
+        <p><span style="font-weight:bold;">PSU status</span>, <span style="font-weight:bold;">network status</span>, and <span style="font-weight:bold;">Sample Rate</span> are also displayed here.</p>
+    </div>
+</div>
+
+<h3>IP Addresses</h3>
+
+<p>When BLII/X-Light Bridges are shipped from SSL, they will be set to <span style="font-weight:bold;">DHCP</span>.</p>
+
+<p>
+    The BLII/X-Light Bridge's IP address must be in the same subnet as the Dante Expander module and the console's Dante Control Settings.
+    For more information about IP addresses and subnets please see <a href="DanteSetup.html"><span class="hyperlink">Setting Up Dante</span>.</a>
+</p>
+
+<span class="note">
+    <span class="notetitle">Please note:</span><br>The console's Dante Expander module <span style="font-weight:bold;">must</span> also be set to an IP address
+    within the same subnet as the BLII/X-Light Bridge and the console's Dante Control Settings.
+</span>
+
+<p><span style="font-weight:bold;">Changing the IP address of the BLII/X-Light Bridge and Dante Expander Module</span></p>
+
+<p>
+    The BLII/X-Light Bridge and Dante Expander's IP addresses are changed in <span style="font-weight:bold;">Dante Controller</span>.
+    Double click on the device and go to the <span class="label">Network Config</span> tab.
+    Choose either <span class="label">Obtain&nbsp;an&nbsp;IP&nbsp;Address&nbsp;Automatically</span> or <span class="label">Manually&nbsp;configure&nbsp;an&nbsp;IP&nbsp;address</span>.
+    If you select <span class="label">Manually&nbsp;configure&nbsp;an&nbsp;IP&nbsp;address</span>, type in an IP address and a <span style="font-weight:bold;">Netmask</span> (also known as <span style="font-weight:bold;">subnet mask</span>).
+</p>
+
+<p>
+    Click <span class="label">Apply</span>.
+    You will be asked to confirm the IP address configuration change. Click <span class="label">Yes</span>.
+    The BLII Bridge must be rebooted in order for these changes to take effect. Click <span class="label">Reboot</span> at the bottom of the window. You will be asked to confirm the reboot. Click <span class="label">Yes</span>.
+</p>
+
+<p><span style="font-weight:bold;">Changing the IP address of the console's Dante Control Settings</span></p>
+
+<p>
+    On the console, go to <span class="label">MENU</span> > <span class="label">Setup</span> > <span class="label">Options</span> > <span class="label">NETWORK</span> tab.
+    In the <span style="font-weight:bold;">DANTE CONTROL SETTINGS</span> section, the console's Dante Control IP Settings are listed. Choose either <span class="label">DHCP</span> or <span class="label">Fixed</span> IP addresses.
+    If you choose <span class="label">Fixed</span>, double tap on the <span style="font-weight:bold;">IP Address</span> and <span style="font-weight:bold;">Netmask</span>
+    (also known as <span style="font-weight:bold;">subnet mask</span>) fields to edit them. Press and hold <span class="label">Apply</span>.
+</p>
+
+<h3 id="Clocking">Clocking</h3>
+<p>Please refer to the <a href="Clocking.html#DanteBridge"><span class="hyperlink">BLII/X-Light Bridge section of the Clocking page</span></a> to correctly configure the console, BLII/X-Light Bridge and network clocking for correct operation.</p>
+
+<h3>Sample Rate</h3>
+
+<p>The sample rate of the BLII/X-Light Bridge must match the sample rate of the console.</p>
+
+<p>
+    The Sample Rate is changed in <span style="font-weight:bold;">Dante Controller</span>.
+    Double click on the BLII/X-Light Bridge and go to the <span class="label">Device&nbsp;Config</span> tab.
+    In the <span style="font-weight:bold;">Sample Rate</span> section, click on the drop down menu and select the desired sample rate. You will be asked to confirm the sample rate change. Click <span class="label">Yes</span>.
+</p>
+
+<p>
+    The BLII/X-Light Bridge must be rebooted in order for this change to take effect.
+    Click <span class="label">Reboot</span> at the bottom of the window. You will be asked to confirm the reboot. Click <span class="label">Yes</span>.
+</p>
+
+
+<div id="accordion">
+    <div class="indexheader2">Working with Multiple Sample Rates and a BLII/X-Light Bridge</div>
+    <div style="padding: 1em 0;">
+        <p>If working with multiple sample rates on the same network, as well as a BLII/X-Light Bridge, the following instructions must be followed.</p>
+
+        <p>The BLII/X-Light Bridge and the console must <span style="font-weight:bold;">ALWAYS</span> be running on the same sample rate.</p>
+
+        <p>To interface with devices on a different sample rate on the same network, these devices must be routed to/from the console via Virtual Tie Lines through the Dante Expander Module.</p>
+
+        <p>Go to <span class="label">MENU</span> > <span class="label">Setup</span> > <span class="label">I/O</span> > <span class="label">Local/MADI Configuration</span> and tap on the <span class="label">Dante Expander</span>.</p>
+
+        <p>Double tap on the Virtual Tie Lines quantity and type 32 (maximum quantity when either console or Dante Expander or both are running at 96 kHz). Now engage <span class="label">SRC In</span>.</p>
+        <p>
+            32 Virtual Tie Lines <span style="font-weight:bold;">MUST</span> be created, even if fewer are required.
+            This is because the console is not deterministic when choosing whether to create Dual Domain routes through the Dante Expander or the BLII/X-Light Bridge.
+            So if fewer than 32 Virtual Tie Lines are created, there will still be some Dante capacity remaining, which the console could use for Dual Domain Routes.
+            It would then be possible that the console attempts to make Dual Domain Routes to/from devices on a different sample rate. Dante network routes cannot be made between devices running different sample rates, so the network route would not be created.
+        </p>
+
+
+        <p>In <span style="font-weight:bold;">Dante Controller</span>, set the console's Dante Expander to the same sample rate as these other devices (different from the console and BLII/X-Light Bridge sample rates).</p>
+
+        <p>Now the console and BLII/X-Light Bridge are running one sample rate. And the Dante Expander and other devices on the network are running another sample rate. The Dante Expander has been set to sample rate convert between these two sample rates.</p>
+
+        <p>Now make routes to/from the other devices (on the different sample rate to the console) via Virtual Tie Lines. For instructions on how to do this please see <a href="DanteVTL.html"><span class="hyperlink">Dante Virtual Tie Lines</span></a>.</p>
+
+        <span class="note"><span class="notetitle">Please Note:</span><br>In this configuration, SSL recommends that the console is set to clock from the BLII/X-Light Bridge and the BLII/X-Light Bridge is set to clock from the Dante network. See the instructions on clocking above.</span>
+
+    </div>
+</div>
+
+<h3>Checking the Maximum Dante I/O Channel Count</h3>
+
+<p>
+    In <span class="label">MENU</span> > <span class="label">Setup</span> > <span class="label">I/O</span> > <span class="label">Dante&nbsp;Configuration</span>
+    at the top right of the page is a resource bar listing the quantity of the total number of dual domain Inputs and Outputs, as well as how many are currently in use.
+</p>
+
+<img style="display: block; margin: 25px auto;" src="images/g_BLIIBridgeResource.png" alt="">
+
+<p>The maximum quantity of Dante Inputs and Outputs varies depending on the following:</p>
+<p style="margin-bottom:0px;">
+    <ul>
+        <li>Whether a Dante Expander Module is fitted (32ch at 96 kHz, 64ch at 48 kHz)</li>
+        <li>Whether a BLII/X-Light Bridge is connected (256ch at all sample rates)</li>
+        <li>The Sample Rate of the console</li>
+        <li>The Sample Rate of the Dante Expander Module</li>
+        <li>The quantity of Virtual Tie Lines created to/from the Dante Expander Module</li>
+    </ul>
+
+
+
+<p>For example, if the console and Dante Expander are both running at 96 kHz, no Virtual Tie Lines have been created from the Dante Expander Module and there is one BLII Bridge connected the maximum Dante channel count will be:</p>
+<p><span style="font-weight:bold;">32ch</span> (Dante Expander at 96 kHz with no Virtual Tie Lines) <span style="font-weight:bold;">+ 256ch</span> (BLII Bridge) <span style="font-weight:bold;">= 288ch</span></p>
+
+<p>
+    Or for example, if the console and Dante Expander are both running at 48 kHz, 10 Virtual Tie Lines have been created from the Dante Expander Module
+    and there are two BLII Bridges connected the maximum Dante channel count will be:
+</p>
+<p><span style="font-weight:bold;">64ch</span> (Dante Expander at 48 kHz) <span style="font-weight:bold;">-10ch</span> (10 Virtual Tie Lines from Dante Expander) <span style="font-weight:bold;">+ 512ch</span> (two BLII Bridges) <span style="font-weight:bold;">= 566</span></p>
+
+<p>
+    The maximum Dante I/O count is 576 channels. To achieve this the console must be an L450, L500&nbsp;Plus, L550 or L650 with two BLII/X-Light Bridges configured, as well as a Dante Expander Module fitted.
+    And the console and Dante Expander Module must both be running at 48 kHz:
+</p>
+<p><span style="font-weight:bold;">64ch</span> (Dante Expander at 48 kHz) <span style="font-weight:bold;">+ 512ch</span> (two BLII/X-Light Bridges) <span style="font-weight:bold;">= 576</span></p>
+
+<span class="note"><span class="notetitle">Please Note:</span><br>All of the above is subject to network bandwidth limits.</span>
+
+<h3>Routing</h3>
+
+<p><span style="font-weight:bold;">Dual Domain Routes</span></p>
+<p>
+    Dual domain routes to and from Dante devices through the BLII/X-Light Bridge are made in exactly the same way as they are through the Dante Expander.
+    Please see <a href="DanteConfig.html#DualDomain"><span class="hyperlink">Working with Dual Domain Routes and the Dante Configuration page</span></a> for more information on making dual domain routes.
+</p>
+
+<span class="note">
+    <span class="notetitle">Please Note:</span><br>When making dual domain routes to and from Configured Dante devices,
+    the console chooses whether to make that route through the Dante Expander Module or through the BLII/X-Light Bridge.
+    This means that some routes may be made through the Dante Expander and some others may be made through the BLII/X-Light Bridge. This may change when the console is booted or when the showfile is reloaded.
+    This is all perfectly normal. Please be aware of existing routes when unplugging either the BLII/X-Light Bridge or the Dante Expander.
+    You can check how many routes are going through the BLII/X-Light Bridge and the Dante Expander in the <span class="label">Routing</span> tab of <span style="font-weight:bold;">Dante Controller</span>.
+    However, <span style="font-weight:bold;">do not</span> make or unmake these dual domain routes from <span style="font-weight:bold;">Dante Controller</span>.
+</span>
+
+
+<p><span style="font-weight:bold;">Virtual Tie Lines</span></p>
+
+<p>
+    To set up Virtual Tie Lines on the BLII/X-Light Bridge, go to <span class="label">MENU</span> > <span class="label">Setup</span> > <span class="label">I/O</span> > <span class="label">Local/MADI Configuration</span>.
+    Tap on the top of the BLII/X-Light port column corresponding to the local BLII/X-Light port that the BLII/X-Light Bridge is connected to.
+    The Detail View for the BLII/X-Light Bridge will now appear. Double tap on the text field next to "Virtual Tie Lines" to change the quantity of Virtual Tie Lines.
+</p>
+
+<img style="display: block; margin: 25px auto;" src="images/g_BLIIBridgeVTL.png" alt"">
+
+<p>On the BLII/X-Light Bridge it is possible to create Virtual Tie Line Inputs and Outputs separately.</p>
+<p>Once created, BLII/X-Light Bridge Virtual Tie Lines appear in the routing view under <span style="font-weight:bold;">Bridge Virtual Tie Lines</span>. The routing points are divided into groups of 32 channels for ease of navigation.</p>
+<p>
+    Virtual Tie Lines on the BLII/X-Light Bridge behave in the same way as they do on the Dante Expander Module.
+    For more information on Dante Virtual Tie Lines, please see <a href="DanteVTL.html"><span class="hyperlink">Dante Virtual Tie Lines</span></a>.
+</p>
+
+
+<span class="note"><span class="notetitle">Please Note: </span>It is not possible to configure groups of BLII/X-Light Bridge Virtual Tie Lines as Live Recorder IDs as it is with the Dante Expander Module.</span>
+
+
+
+<h2>Useful Links:</h2>
+
+<a href="DanteSetup.html"><span class="hyperlink">Setting Up Dante</span></a><br>
+<a href="DanteConfig.html"><span class="hyperlink">Dual Domain Routes and Configuring Dante Devices</span></a><br>
+<a href="DanteNetIO.html"><span class="hyperlink">Network I/O Stageboxes and Devices</span></a><br>
+<a href="DanteVTL.html"><span class="hyperlink">Virtual Tie Lines</span></a><br>
+<a href="LocalMADIConfig.html"><span class="hyperlink">Local/MADI I/O Configuration</span></a><br>
+<a href="Clocking.html#Dante"><span class="hyperlink">Clocking</span></a><br>
+
+<a href="InstallGuide.html"><span class="hyperlink">Installation Guide</span></a><br>
+<a href="LinkIndex.html"><span class="hyperlink">Index and Glossary</span></a><br>
+
+<div class="TutorialNavNext"> <a href="ShureIO.html"><span class="TutorialNav">NEXT: Shure I/O</span> <img class="TutorialNav" src="images/n_TutNext.png" alt=""></a></div>
+
+
+
+    </div>
+
+    <script src="../Help/js/OpenAccordionFromLink.js"></script>
+</body>
+</html>
