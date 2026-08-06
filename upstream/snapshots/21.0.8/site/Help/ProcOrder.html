@@ -1,0 +1,194 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html ng-app="sslLiveHelp">
+<head>
+    <meta content="text/html; charset=ISO-8859-1" http-equiv="content-type">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=yes">
+
+    <link href="../Help/style/style.css" rel="stylesheet">
+    <link href="../Help/style/jquery-ui-1.13.2.structure.css" rel="stylesheet">
+    <title>Processing Order</title>
+    <script src="../Help/js/jquery-3.6.0.min.js"></script>
+    <script src="../Help/js/jquery-ui/1.13.2/jquery-ui.min.js"></script>
+    <!--<script type="text/javascript" src="cordova.js"></script>-->
+    <!-- Nav / search panels 2017 updates -->
+    <script>
+    window.baseDir = '../';
+    window.data = 'null';
+    </script>
+    <link rel="stylesheet" type="text/css" href="../Help/fonts/font-awesome-4.7.0/css/font-awesome.min.css" />
+    <link rel="stylesheet" type="text/css" href="../Help/style/sass-styles.css">
+    <script src="../Help/js/fastclick.js"></script>
+    <script src="../Help/js/lodash.core.min.js"></script>
+    <!--<script src="../Help/js/angular/1.2/angular.min.js"></script>-->  <!-- On a console -->
+    <script src="../Help/js/angular/1.8/angular.min.js"></script>   <!--Not on a console -->
+    <script src="../Help/js/ngStorage.min.js"></script>
+    <!--<script src="../Help/js/angular/1.2/angular-sanitize.min.js"></script>-->  <!-- On a console -->
+    <!--<script src="../Help/js/angular/1.2/angular-animate.min.js"></script>-->   <!-- On a console -->
+    <script src="../Help/js/angular/1.8/angular-sanitize.min.js"></script>  <!--Not on a console -->
+    <script src="../Help/js/angular/1.8/angular-animate.min.js"></script>   <!--Not on a console -->
+    <script src="../Help/js/lunr-2.3.min.js"></script>
+    <script src="../Help/js/menu.js"></script>
+
+</head>
+
+<body ng-controller="NavController as vm">
+
+    <!--<nav class="nav" ng-class="{ 'nav--visible' : vm.visible }" ng-if="vm.visible" role="navigation" aria-label="Primary">-->  <!-- On a console --> 
+    <nav class="nav" ng-class="{ 'nav--visible' : vm.visible }" role="navigation" aria-label="Primary"> <!--Not on a console -->
+        <!-- Search form -->
+        <div role="search">
+            <form class="nav__search" ng-if="vm.isSearchSupported">
+                <label class="nav__search-icon" for="query"><i aria-label="Search" title="Search" class="fa fa-search"></i></label>
+                <input type="search" id="query" class="nav__search-input" placeholder="Search..." ng-model="vm.query" />
+            </form>
+        </div>
+
+        <div class="nav__scroll" ng-style="vm.styleBasedOnSearchSupported">
+
+            <!-- Main nav -->
+            <ul class="main-nav" ng-hide="vm.query">
+                <li class="main-nav__item" ng-repeat="item in vm.nav">
+
+                    <!-- Link to page -->
+                    <a ng-if="item.url" ng-class="{'main-nav__link--active' : item.url===vm.currentPage}" class="main-nav__link" ng-attr-href="{{ vm.baseDir }}{{ item.url }}">
+                        {{ item.title }}
+                    </a>
+
+                    <!-- Expandable heading -->
+                    <span ng-click="vm.toggleExpanded(item.title)" ng-if="!item.url" class="main-nav__title">
+                        {{ item.title }}
+                        <span ng-if="!vm.isExpanded(item.title)" class="fa fa-caret-right"></span>
+                        <span ng-if="vm.isExpanded(item.title)" class="fa fa-caret-down"></span>
+                    </span>
+
+                    <!-- Subnav -->
+                    <ul ng-if="vm.isExpanded(item.title)" class="main-nav fx-fade">
+                        <li ng-repeat="sub in item.children" class="main-nav__item">
+
+                            <!-- Link to page -->
+                            <a ng-if="sub.url" ng-class="{'main-nav__link--active' : sub.url===vm.currentPage}" class="main-nav__link main-nav__link--level1" ng-attr-href="{{ vm.baseDir }}{{ sub.url }}">
+                                {{ sub.title }}
+                            </a>
+
+                            <!-- Expandable heading -->
+                            <span ng-click="vm.toggleExpanded(sub.title)" ng-if="!sub.url" class="main-nav__title main-nav__title--level1">
+                                {{ sub.title }}
+                                <span ng-if="!vm.isExpanded(sub.title)" class="fa fa-caret-right"></span>
+                                <span ng-if="vm.isExpanded(sub.title)" class="fa fa-caret-down"></span>
+                            </span>
+
+                            <!-- Sub-sub nav -->
+                            <ul ng-if="sub.children && vm.isExpanded(sub.title)" class="main-nav fx-fade">
+                                <li ng-repeat="subsub in sub.children" class="main-nav__item">
+
+                                    <!-- Link to page -->
+                                    <a ng-class="{'main-nav__link--active' : subsub.url===vm.currentPage}" class="main-nav__link main-nav__link--level2" ng-attr-href="{{ vm.baseDir }}{{ subsub.url }}" ng-bind-html="subsub.title">
+                                    </a>
+
+                                </li>
+                            </ul>
+
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+
+            <!-- Search results list -->
+            <ul class="search-results">
+                <li class="search-result" ng-repeat="result in vm.results">
+                    <a class="search-result__link" ng-attr-href="{{ vm.baseDir }}{{ 'Help/' + result.id }}">
+                        <h3 class="search-result__title">{{ result.title }}</h3>
+                        <p class="search-result__excerpt" ng-bind-html="result.excerpt"></p>
+                    </a>
+                </li>
+            </ul>
+
+            <!-- Keep screen on option - PhoneGap insomnia -->
+            <ul class="main-nav" ng-if="vm.isPhoneGap">
+                <li class="main-nav__item">
+                    <label class="main-nav__title">
+                        Keep Screen On
+                        <input style="display: none" type="checkbox" ng-model="vm.keepScreenOn" />
+                        <i ng-class="{'fa--cleared' : !vm.keepScreenOn, 'fa--checked' : vm.keepScreenOn}" class="fa fa-check"></i>
+                    </label>
+                </li>
+            </ul>
+
+
+        </div>
+    </nav>
+
+    <nav class="header" role="navigation" aria-label="Secondary">
+        <a ng-if="!vm.onAConsole" href="../index.html" class="header__btn" title="Home"><i class="fa fa-home"></i></a>
+        <div ng-if="!vm.onAConsole" class="header__history">
+            <a onclick="javascript:window.history.back()" class="header__btn"><i title="Back" class="fa fa-chevron-left"></i></a>
+            <a onclick="javascript:window.history.forward()" class="header__btn"><i title="Forwards" class="fa fa-chevron-right"></i></a>
+        </div>
+        <div align="right">
+            <a class="header__btn header__btn--nav" ng-click="vm.toggleVisibility()">
+                <i ng-if="!vm.visible" class="fa fa-bars"></i>
+                <i ng-if="vm.visible" class="fa fa-close"></i>
+            </a>
+        </div>
+    </nav>
+
+
+    <!-- Main content -->
+    <div id="main">
+        
+
+   <div><a href="PathProc.html"><img class="TutorialNav" src="images/n_TutPrevious.png" alt=""><span class="TutorialNav">PREVIOUS: Path Processing</span></a></div>
+
+
+  <h2>Processing Order</h2>
+
+  <p>The processing order for the channel strip is shown across the top of the Eyeconix page of the Channel Detail dialogue, opened by double-tapping in the Eyeconix area at the base of the channel:</p>
+
+  <div align="center">
+  <img style="width: 84px; height: 84px;" src="images/n_MenuChanView.png" alt=""><img style="width: 74px; height: 84px;" src="images/n_arrow.png" alt=""><img style="width: 84px; height: 84px;" src="images/n_ChanSelect.png" alt=""><img style="width: 74px; height: 84px;" src="images/n_arrow.png" alt=""><img src="images/n_ChanEyecon.png" alt=""></div>
+
+  <p>A dialogue similar to the below will appear:</p>
+
+  <img style="display: block; margin: 25px auto; width: 750px;" src="images/g_DetailProcOrder.png" alt="">
+
+  <span class="note"><span class="notetitle">Note: </span>The buttons down the left of the dialogue define which Detail page is displayed. If the Name, Eyeconix and Colour page isn't already selected, touch the channel Eyeconix area in the top left corner of the dialogue.<br><br>
+    The Channel Scroller (near the top left corner) can be used to scroll the dialogue to a different channel.
+  </span>
+
+  <p>The default processing order for Full Processing channels is:</p>
+  <p><span style="font-weight: bold;">Filter &#10132; EQ &#10132; Gate &#10132; Compressor &#10132; Insert A &#10132; Insert B &#10132; Fader &#10132; All&nbsp;Pass Filter &#10132; Delay</span></p>
+  
+  <p>The default processing order for Dry channels is:</p>
+  <p><span style="font-weight: bold;">Insert A &#10132; Insert B &#10132; Fader</span></p>
+  
+  <p>The default processing order for Matrix output channels is:</p>
+  <p><span style="font-weight: bold;">Filter &#10132; EQ &#10132; Insert A &#10132; Insert B &#10132; Fader &#10132; All&nbsp;Pass Filter &#10132; Delay</span></p>
+  
+  <p>Because a change in the processing order can have a significant impact on the channel's output levels, the order is locked until the channel is muted:</p>
+  
+  <p>The <span class="label">Lock</span> button in the top right corner of the Detail page will prevent the processing order from being changed. Ensure it is deactivated before continuing and re-enable once finished to prevent accidental changes.</p>
+  
+  <p>Mute the channel using its <span class="label">Mute</span> button and you will see the padlock symbols disappear from the channel element icons.</p>
+
+  <p>You can now drag each icon to the left or right to change its position.</p>
+
+  <p>When you have finished, unmute the channel, though beware that you may have significantly changed the signal level.</p>
+  
+  <span class="note"><span class="notetitle">Note: </span>The changes will take effect as soon as the processing elements are moved. Care should be taken that any mix bus sends not in Follow Mute mode are turned down or muted accordingly, to prevent changes of processing order unexpectedly affecting their output level.
+  </span>
+
+  <h2>Useful Links</h2>
+  <a href="PathProc.html"><span class="hyperlink">Path Processing</span></a><br>
+  <a href="FXIntro.html"><span class="hyperlink">Effects Rack</span></a><br>
+  <a href="DetailView.html"><span class="hyperlink">Detail View</span></a><br>
+  <a href="LinkIndex.html"><span class="hyperlink">Index and Glossary</span></a><br>
+  
+  <div class="TutorialNavNext"> <a href="BusRouting.html"><span class="TutorialNav">NEXT: Buses & VCAs</span> <img class="TutorialNav" src="images/n_TutNext.png" alt=""></a></div>
+  
+
+    </div>
+
+    <script src="../Help/js/OpenAccordionFromLink.js"></script>
+</body>
+</html>

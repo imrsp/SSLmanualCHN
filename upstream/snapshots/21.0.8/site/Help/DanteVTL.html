@@ -1,0 +1,364 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html ng-app="sslLiveHelp">
+<head>
+    <meta content="text/html; charset=ISO-8859-1" http-equiv="content-type">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=yes">
+
+    <link href="../Help/style/style.css" rel="stylesheet">
+    <link href="../Help/style/jquery-ui-1.13.2.structure.css" rel="stylesheet">
+    <title>Dante Virtual Tie Lines</title>
+    <script src="../Help/js/jquery-3.6.0.min.js"></script>
+    <script src="../Help/js/jquery-ui/1.13.2/jquery-ui.min.js"></script>
+    <!--<script type="text/javascript" src="cordova.js"></script>-->
+    <!-- Nav / search panels 2017 updates -->
+    <script>
+    window.baseDir = '../';
+    window.data = 'null';
+    </script>
+    <link rel="stylesheet" type="text/css" href="../Help/fonts/font-awesome-4.7.0/css/font-awesome.min.css" />
+    <link rel="stylesheet" type="text/css" href="../Help/style/sass-styles.css">
+    <script src="../Help/js/fastclick.js"></script>
+    <script src="../Help/js/lodash.core.min.js"></script>
+    <!--<script src="../Help/js/angular/1.2/angular.min.js"></script>-->  <!-- On a console -->
+    <script src="../Help/js/angular/1.8/angular.min.js"></script>   <!--Not on a console -->
+    <script src="../Help/js/ngStorage.min.js"></script>
+    <!--<script src="../Help/js/angular/1.2/angular-sanitize.min.js"></script>-->  <!-- On a console -->
+    <!--<script src="../Help/js/angular/1.2/angular-animate.min.js"></script>-->   <!-- On a console -->
+    <script src="../Help/js/angular/1.8/angular-sanitize.min.js"></script>  <!--Not on a console -->
+    <script src="../Help/js/angular/1.8/angular-animate.min.js"></script>   <!--Not on a console -->
+    <script src="../Help/js/lunr-2.3.min.js"></script>
+    <script src="../Help/js/menu.js"></script>
+
+</head>
+
+<body ng-controller="NavController as vm">
+
+    <!--<nav class="nav" ng-class="{ 'nav--visible' : vm.visible }" ng-if="vm.visible" role="navigation" aria-label="Primary">-->  <!-- On a console --> 
+    <nav class="nav" ng-class="{ 'nav--visible' : vm.visible }" role="navigation" aria-label="Primary"> <!--Not on a console -->
+        <!-- Search form -->
+        <div role="search">
+            <form class="nav__search" ng-if="vm.isSearchSupported">
+                <label class="nav__search-icon" for="query"><i aria-label="Search" title="Search" class="fa fa-search"></i></label>
+                <input type="search" id="query" class="nav__search-input" placeholder="Search..." ng-model="vm.query" />
+            </form>
+        </div>
+
+        <div class="nav__scroll" ng-style="vm.styleBasedOnSearchSupported">
+
+            <!-- Main nav -->
+            <ul class="main-nav" ng-hide="vm.query">
+                <li class="main-nav__item" ng-repeat="item in vm.nav">
+
+                    <!-- Link to page -->
+                    <a ng-if="item.url" ng-class="{'main-nav__link--active' : item.url===vm.currentPage}" class="main-nav__link" ng-attr-href="{{ vm.baseDir }}{{ item.url }}">
+                        {{ item.title }}
+                    </a>
+
+                    <!-- Expandable heading -->
+                    <span ng-click="vm.toggleExpanded(item.title)" ng-if="!item.url" class="main-nav__title">
+                        {{ item.title }}
+                        <span ng-if="!vm.isExpanded(item.title)" class="fa fa-caret-right"></span>
+                        <span ng-if="vm.isExpanded(item.title)" class="fa fa-caret-down"></span>
+                    </span>
+
+                    <!-- Subnav -->
+                    <ul ng-if="vm.isExpanded(item.title)" class="main-nav fx-fade">
+                        <li ng-repeat="sub in item.children" class="main-nav__item">
+
+                            <!-- Link to page -->
+                            <a ng-if="sub.url" ng-class="{'main-nav__link--active' : sub.url===vm.currentPage}" class="main-nav__link main-nav__link--level1" ng-attr-href="{{ vm.baseDir }}{{ sub.url }}">
+                                {{ sub.title }}
+                            </a>
+
+                            <!-- Expandable heading -->
+                            <span ng-click="vm.toggleExpanded(sub.title)" ng-if="!sub.url" class="main-nav__title main-nav__title--level1">
+                                {{ sub.title }}
+                                <span ng-if="!vm.isExpanded(sub.title)" class="fa fa-caret-right"></span>
+                                <span ng-if="vm.isExpanded(sub.title)" class="fa fa-caret-down"></span>
+                            </span>
+
+                            <!-- Sub-sub nav -->
+                            <ul ng-if="sub.children && vm.isExpanded(sub.title)" class="main-nav fx-fade">
+                                <li ng-repeat="subsub in sub.children" class="main-nav__item">
+
+                                    <!-- Link to page -->
+                                    <a ng-class="{'main-nav__link--active' : subsub.url===vm.currentPage}" class="main-nav__link main-nav__link--level2" ng-attr-href="{{ vm.baseDir }}{{ subsub.url }}" ng-bind-html="subsub.title">
+                                    </a>
+
+                                </li>
+                            </ul>
+
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+
+            <!-- Search results list -->
+            <ul class="search-results">
+                <li class="search-result" ng-repeat="result in vm.results">
+                    <a class="search-result__link" ng-attr-href="{{ vm.baseDir }}{{ 'Help/' + result.id }}">
+                        <h3 class="search-result__title">{{ result.title }}</h3>
+                        <p class="search-result__excerpt" ng-bind-html="result.excerpt"></p>
+                    </a>
+                </li>
+            </ul>
+
+            <!-- Keep screen on option - PhoneGap insomnia -->
+            <ul class="main-nav" ng-if="vm.isPhoneGap">
+                <li class="main-nav__item">
+                    <label class="main-nav__title">
+                        Keep Screen On
+                        <input style="display: none" type="checkbox" ng-model="vm.keepScreenOn" />
+                        <i ng-class="{'fa--cleared' : !vm.keepScreenOn, 'fa--checked' : vm.keepScreenOn}" class="fa fa-check"></i>
+                    </label>
+                </li>
+            </ul>
+
+
+        </div>
+    </nav>
+
+    <nav class="header" role="navigation" aria-label="Secondary">
+        <a ng-if="!vm.onAConsole" href="../index.html" class="header__btn" title="Home"><i class="fa fa-home"></i></a>
+        <div ng-if="!vm.onAConsole" class="header__history">
+            <a onclick="javascript:window.history.back()" class="header__btn"><i title="Back" class="fa fa-chevron-left"></i></a>
+            <a onclick="javascript:window.history.forward()" class="header__btn"><i title="Forwards" class="fa fa-chevron-right"></i></a>
+        </div>
+        <div align="right">
+            <a class="header__btn header__btn--nav" ng-click="vm.toggleVisibility()">
+                <i ng-if="!vm.visible" class="fa fa-bars"></i>
+                <i ng-if="vm.visible" class="fa fa-close"></i>
+            </a>
+        </div>
+    </nav>
+
+
+    <!-- Main content -->
+    <div id="main">
+        
+
+
+<div><a href="DanteSetup.html"><img class="TutorialNav" src="images/n_TutPrevious.png" alt=""><span class="TutorialNav">PREVIOUS: Setting Up Dante</span></a></div>
+
+
+<p>
+    The following pages contain instructions on setting up SSL Live consoles for use with a Dante network, routing to and from Dante devices and controlling and gain sharing with SSL Net I/O Stageboxes:
+    <ul>
+        <li><a href="DanteSetup.html"><span class="hyperlink">Setting Up Dante</span></a></li>
+        <li>Virtual Tie Lines (this page)</li>
+        <li><a href="DanteConfig.html"><span class="hyperlink">Dual Domain Routes and Configuring Dante Devices</span></a></li>
+        <li><a href="DanteNetIO.html"><span class="hyperlink">Network I/O Stageboxes and Devices</span></a></li>
+        <li><a href="DanteBridges.html"><span class="hyperlink">BLII & X-Light Bridges</span></a></li>
+    </ul>
+</p>
+
+<div id="accordion">
+    <div class="indexheader2 accordion-section-title">What are the Differences Between Virtual Tie Lines and Dual Domain Routes?</div>
+    <div style="padding: 1em 0;" class="accordion-section-content">
+        <p>There are two methods available for Dante routing on SSL Live consoles: Dual Domain Routes and Virtual Tie Lines.</p>
+
+        <h3>Dual Domain Routes</h3>
+
+        <p>Dual Domain Routes are unique to SSL, allowing the console to interact directly with devices on the network, with no need to use Dante Controller to make routes.</p>
+
+        <p>When using Dual Domain Routes, Dante devices will appear in the console's routing view.</p>
+
+        <p>Dual Domain Routes are used for most routing situations. Dual Domain Routes from SSL Net I/O stageboxes to Channel inputs also provide gain control as well as control over other stagebox parameters (e.g. +48V).</p>
+
+        <p>
+            As with normal Dante routes, by default Dual Domain Routes are created using unicast flows.
+            If multicast flows are desired, these must be set up in Dante Controller in the usual way. Any existing Dual Domain Routes using those transmit channels will be converted to multicast and any Dual Domain Routes subsequently created from those transmit channels will be multicast.
+        </p>
+
+        <span class="note">
+            <span class="notetitle">Please Note:</span><br>Dual Domain Routes should not be used for routing between multiple SSL consoles.
+            Use Virtual Tie Lines for this purpose (see below).
+            This is because when SSL consoles make a Dual Domain Route from the console, the console is not deterministic when choosing a Dante output to route from, or a Dante input on the other device to route to.
+            This route will be created in any of the available routing points.
+            If the other device is an SSL console, this non-deterministic approach means the receiving console is not aware of which input has been routed to (and vice versa).
+        </span>
+
+        <p>Devices must be configured in the <span class="label">Dante Configuration</span> page before Dual Domain Routes can be made. The <span class="label">Dante Configuration</span> page is the console's Dante I/O Setup page.</p>
+
+        <p>Dual Domain Routes can be made through the Dante Expander Module or a BLII/X-Light Bridge.</p>
+
+        <p>For more information on Dual Domain Routes and configuring Dante devices please see <a href="DanteConfig.html#DualDomain"><span class="hyperlink">Dante Dual Domain Routes</span></a>.</p>
+
+        <h3>Virtual Tie Lines</h3>
+
+        <p>Using Virtual Tie Lines allows SSL Live consoles to be used as a typical Dante I/O device.</p>
+
+        <p>Once created, <span class="label">Local Virtual Tie Lines</span> will appear in the routing view as a local I/O type.</p>
+
+        <p>When routing to a Virtual Tie Line, only the internal route in the console is made - connecting a path to the Dante Expander Module.</p>
+
+        <p>The network route (connecting the Dante Expander Module to another Dante device on the network) must be made manually from Dante Controller.</p>
+
+        <p>Virtual Tie Lines should be used for routing between multiple SSL consoles, for live recording and rehearse mode.</p>
+
+        <p>Virtual Tie Lines do not carry control data, and therefore should not be used for routes from Net I/O stagebox inputs to the console unless control is not required.</p>
+
+        <p>The Dante Expander Module's I/O does not contain any Virtual Tie Lines by default, they must be created.</p>
+
+        <p>Virtual Tie Lines can be made through the Dante Expander Module or a BLII/X-Light Bridge.</p>
+    </div>
+</div>
+
+
+
+<h3>Creating Virtual Tie Lines</h3>
+
+Dante transmit/receive channels on the console's Dante Expander or BLII/X-Light Bridge allocated as Virtual Tie Lines appear at the beginning of that device's I/O capacity. The capacity reserved for Virtual Tie Lines is deducted from the dual domain routing capacity that the console uses to automatically make routes directly to other Dante devices.
+
+<span class="note">
+    <span class="notetitle">Please Note:</span><br>Virtual Tie Lines should be configured before any other Dante routing is done.
+    If connected to a BLII/X-Light Bridge, the console may use either the BLII/X-Light Bridge or Dante Expander module I/O resources to create dual domain routes and cannot switch routes from one to another once routes have been made.
+    Failure to configure Virtual Tie Lines before making dual domain routes may result in the I/O resources being used up by dual domain routes, leaving not enough resources for the Virtual Tie Line quantity desired on the BLII/X-Light Bridge or Dante Expander.
+</span>
+
+<p><span style="font-weight:bold;">Through the Dante Expander Module</span></p>
+<p>
+    To create Virtual Tie Lines go to <span class="label">MENU</span> > <span class="label">Setup</span> > <span class="label">I/O</span> > <span class="label">Local/MADI Configuration</span>
+    then tap on the Dante Expander Module to bring up its Detail View.
+    Double tap on the Virtual Tie Lines label area and select the number of Virtual Tie Lines you require. This will create the same number of inputs and outputs.
+</p>
+
+<img style="display: block; margin: 10px auto;" src="images/g_VirtualTieLines.png" alt="">
+
+<p>Up to 32 Virtual Tie Lines can be created at 96 kHz or up to 64 at 48 kHz.</p>
+
+<p><span style="font-weight:bold;">Through a BLII/X-Light Bridge</span></p>
+
+<p>
+    To set up Virtual Tie Lines on a BLII/X-Light Bridge, go to <span class="label">MENU</span> > <span class="label">Setup</span> > <span class="label">I/O</span> > <span class="label">Local/MADI Configuration</span>.
+    Tap on the top of the BLII/X-Light port column corresponding to the local port that the BLII/X-Light Bridge is connected to.
+    The Detail View for the BLII/X-Light Bridge will now appear. On the BLII/X-Light Bridge it is possible to create Virtual Tie Line Inputs and Outputs separately.
+    Double tap on the Virtual Tie Line Inputs or Outputs text fields to change the quantity of Virtual Tie Lines.
+</p>
+
+
+<img style="display: block; margin: 25px auto;" src="images/g_BLIIBridgeVTL.png" alt"">
+
+<p>Up to 256 Virtual Tie Lines can be created at 96 kHz or 48 kHz.</p>
+
+<p>BLII/X-Light Bridge Virtual Tie Lines appear in the Routing View under <span class="label">Bridge Virtual Tie Lines</span>. The routing points are divided into groups of 32 channels for ease of navigation.</p>
+
+
+
+<p>When dual domain routes are made, fewer Virtual Tie Lines can be created.</p>
+
+<p>
+    <i>For example:</i>
+    If the console and Dante Expander Module are at 96 kHz the maximum Dante routes possible is 32 (without a BLII/X-Light Bridge). If 2 dual domain routes are made, the remaining number of possible Dante routes becomes 30.
+    So no more than 30 Virtual Tie Lines can now be created.
+</p>
+
+<p>Creating one Virtual Tie Line creates an input and an output simultaneously. </p>
+
+<p>If the quantity of Virtual Tie Lines does not update after attempting to create more, you have reached the maximum quantity of Virtual Tie Lines possible.</p>
+
+<p>This could be because</p>
+<p style="margin-bottom:0px;">
+    <ul>
+        <li>You are trying to create more than 32 Virtual Tie Lines at 96 kHz or more than 64 at 48 kHz</li>
+        <li>Or you already have some dual domain routes made, and therefore fewer Virtual Tie Lines can now be made.</li>
+        <li>The more Virtual Tie Line routes that have been allocated, the fewer dual domain routes will be available for other Dante devices. Virtual Tie Lines are always allocated to the first n number of Dante inputs and outputs. Dual domain routes can be created from the remaining Dante inputs/outputs. </li>
+    </ul>
+
+<p>
+    <i>For example</i> (at 96 kHz), if I make 10 Virtual Tie Lines, Dante inputs and outputs 1-10 will be assigned to Virtual Tie Lines.
+    All existing dual domain routes using these I/O points will be moved to different routing points. Only Dante inputs and outputs 11-32 are now available for dual domain routes.
+</p>
+
+<p>
+    The total quantity of dual domain routes and Virtual Tie Lines cannot exceed 32 channels at 96 kHz or 64 channels at 48 kHz.
+    The number of Dual Domain Routing inputs/outputs currently in use is displayed in a resource bar above the Configured Devices list in the <span class="label">Dante Configuration</span> page.
+</p>
+
+<img style="display: block; margin: 25px auto;" src="images/g_DanteResourceBar.png" alt="">
+
+<span class="note"><span class="notetitle">Important:</span><br>Changing the quantity of Virtual Tie Lines may cause a brief loss of audio.</span>
+
+
+<h3>Routing to/from Virtual Tie Lines</h3>
+<p>The Dante Virtual Tie Lines created will now appear in the routing view.</p>
+
+<p>First, make a route on the console to/from <span class="label">Local Virtual Tie Lines</span> or one of the routing points under <span class="label">Bridge Virtual Tie Lines</span> for BLII/X-Light Bridge Virtual Tie Lines.</p>
+
+<p>Then in <span style="font-weight:bold;">Dante Controller</span>, make the route between the console's Dante Expander Module/BLII Bridge/X-Light Bridge (as appropriate) and the other Dante device.</p>
+
+<p><i>For example</i>, let's say we want to route two channels from a computer running Dante Virtual Soundcard to the input of Channels 1 and 2 on the console using Virtual Tie Lines.</p>
+
+<p>Ensure both the console's Dante Expander Module and the computer running Dante Virtual Soundcard are visible in <span style="font-weight:bold;">Dante Controller</span> and within the same subnet (names in <span style="font-weight:bold;">black</span> text).</p>
+
+<img style="display: block; margin: 15px auto;" src="images/g_VTL1.png" alt="">
+
+<p>
+    Now create two Virtual Tie Lines on the console.
+    Go to <span class="label">MENU</span> > <span class="label">Setup</span> > <span class="label">I/O</span> > <span class="label">Local/MADI Configuration</span> and tap on the <span class="label">Dante Expander</span>.
+    Double tap on the Virtual Tie Lines quantity and enter 2.
+</p>
+
+<img style="display: block; margin: 15px auto;" src="images/g_VTL2.png" alt="">
+
+<p>
+    Now locate Channels 1 and 2 in the Channel View.
+    Double tap on Channel 1's eyeconix image and tap on <span class="label">Input/Routing</span>.
+    Now tap on <span class="label">Route Input A</span>.
+    Tap on the console (first routing point, usually starts with "LIVE"). Now tap on <span class="label">Local Virtual Tie Lines</span>. Tap on <span class="label">1</span> and tap <span class="label">Make</span>.
+    The route will go green.
+</p>
+
+<img style="display: block; margin: 15px auto; width: 750px;" src="images/g_VTL3.png" alt="">
+
+<p>Now repeat this for Channel 2 and Dante Virtual Tie Line 2.</p>
+
+<p>Back in <span style="font-weight:bold;">Dante Controller</span>, open the crosspoint matrix for the computer's transmit channels and the console's Dante Expander receive channels.</p>
+
+<p>Create a route from the computers Dante Virtual Soundcard channels 1-2 to the console's Dante Expander channels 1-2 by clicking in those crosspoints.</p>
+
+<p>Green check-marks will appear in those crosspoints.</p>
+
+<img style="display: block; margin: 25px auto;" src="images/g_VTL4.png" alt="">
+
+
+<h3>System Set Minimum VTL Counts</h3>
+
+<p>System Set Minimum VTL Counts streamlines showfile routing for fixed installations by setting a system-defined minimum VTL count for each console's Dante interface. Even if a loaded showfile specifies a lower VTL count, the system enforces this minimum, preserving 'house set' connections that guest engineers cannot alter.</p>
+
+<p>The minimum count is configured independently for the Live Dante Expander and each BLII expansion port via an XML file in the Config Files directory, contact SSL support for further details. </p>
+
+<!--
+No longer true since V5.2 removed Live Recorders. 
+
+<h3>Using the Dante Expander Module as a Live Recorder</h3>
+
+<p>You can also use the Dante Expander Module as a Live Recorder; refer to the <a href="RecordingPlayback.html"><span class="hyperlink">Multitrack&nbsp;Recording&nbsp;&amp;&nbsp;Playback</span></a> section.</p>
+
+<p>Using the Live Recorder feature will automatically create the requisite number of Virtual Tie Lines (32 at 96 kHz or 64 at 48 kHz) for routing to the Dante recording/playback device using Dante Controller.</p>
+
+<span class="note"><span class="notetitle">Please Note: </span>It is not possible to configure groups of BLII/X-Light Bridge Virtual Tie Lines as Live Recorder IDs.</span>
+-->
+<br>
+
+
+<h2>Useful Links:</h2>
+<a href="DanteSetup.html"><span class="hyperlink">Setting Up Dante</span></a><br>
+<a href="DanteConfig.html"><span class="hyperlink">Dual Domain Routes and Configuring Dante Devices</span></a><br>
+<a href="DanteNetIO.html"><span class="hyperlink">Network I/O Stageboxes and Devices</span></a><br>
+<a href="DanteBridges.html"><span class="hyperlink">BLII &amp; X-Light Bridges</span></a><br>
+<a href="LocalMADIConfig.html"><span class="hyperlink">Local/MADI I/O Configuration</span></a><br>
+
+<a href="InstallGuide.html"><span class="hyperlink">Installation Guide</span></a><br>
+<a href="LinkIndex.html"><span class="hyperlink">Index and Glossary</span></a><br>
+
+<div class="TutorialNavNext"> <a href="DanteConfig.html"><span class="TutorialNav">NEXT: Dante Dual Domain Routes</span> <img class="TutorialNav" src="images/n_TutNext.png" alt=""></a></div>
+
+
+        
+    </div>
+
+    <script src="../Help/js/OpenAccordionFromLink.js"></script>
+</body>
+</html>

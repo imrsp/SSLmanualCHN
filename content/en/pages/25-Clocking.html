@@ -48,7 +48,7 @@
 
 
 <p>
-    The console may be clocked internally, or externally via video, AES, wordclock, MADI, Blacklight II (in a dual SSL console system) or Dante. 
+    The console may be clocked internally, or externally via video, AES, wordclock, MADI, Blacklight II (in a dual SSL console system) or Dante.
     This is chosen in <span class="label">Menu</span> > <span class="label">Setup</span> > <span class="label">Options</span> > <span class="label">SYSTEM</span> tab.
 </p>
 
@@ -57,7 +57,7 @@
 </p>
 
 <p>
-    Use the arrow buttons to open the <b>Main</b> or <b>Backup</b> selection menus. Select the required clock source then press & hold the <span class="label">APPLY</span> button. 
+    Use the arrow buttons to open the <b>Main</b> or <b>Backup</b> selection menus. Select the required clock source then press & hold the <span class="label">APPLY</span> button.
     Ensure that the <span style="font-weight: bold;">Current</span> source matches the expected clock source.
 </p>
 
@@ -92,19 +92,19 @@
     <div class="indexheader2 accordion-section-title">Clocking from a Blacklight II Concentrator</div>
     <div id="Blacklight" style="padding: 1em 0;" class="accordion-section-content">
         <p>
-            Two consoles may be connected to a Blacklight II Concentrator for sharing a set of stageboxes. 
-            The 'Master' console (designated as such by connecting to the Blacklight Concentrator's <span style="font-weight: bold;">A</span> ports) will distribute its clock to the Blacklight system 
-            and any stageboxes and consoles connected to it. The 'Slave' console (designated by connecting to the Blacklight Concentrator's <span style="font-weight: bold;">B</span> ports) 
+            Two consoles may be connected to a Blacklight II Concentrator for sharing a set of stageboxes.
+            The 'Leader' console (designated as such by connecting to the Blacklight Concentrator's <span style="font-weight: bold;">A</span> ports) will distribute its clock to the Blacklight system
+            and any stageboxes and consoles connected to it. The 'Follower' console (designated by connecting to the Blacklight Concentrator's <span style="font-weight: bold;">B</span> ports)
             should therefore set its clock source to the corresponding <span class="label">BLII</span> port on the rear of the console.
         </p>
 
         <p>
-            The Master console should distribute either its internal clock over Blacklight, or one of the external clock source options listed above, 
-            <span style="font-weight: bold;">with the exception of any Blacklight port of which it is the Master</span>. 
-            Selecting the <span class="label">BLII</span> clock source button will reveal a subset of buttons. 
-            The Slave console should use the <span class="label">Blacklight&nbsp;II</span> option. 
-            However, the Master console <span style="font-weight: bold;">may</span> use one of the <span class="label">MADI</span> options if an external MADI source is connected 
-            to the corresponding MADI input on the Blacklight Concentrator. For example, this could be a MADI feed from a third party device providing clock, 
+            The Leader console should distribute either its internal clock over Blacklight, or one of the external clock source options listed above,
+            <span style="font-weight: bold;">with the exception of any Blacklight port of which it is the Leader</span>.
+            Selecting the <span class="label">BLII</span> clock source button will reveal a subset of buttons.
+            The Follower console should use the <span class="label">Blacklight&nbsp;II</span> option.
+            However, the Leader console <span style="font-weight: bold;">may</span> use one of the <span class="label">MADI</span> options if an external MADI source is connected
+            to the corresponding MADI input on the Blacklight Concentrator. For example, this could be a MADI feed from a third party device providing clock,
             or an SSL stagebox fed with a wordclock signal and set to clock from its external wordclock input. (Note that wordclock cannot be connected directly to a BLII Concentrator's MADI ports.)
         </p>
     </div>
@@ -127,13 +127,13 @@
 
         <p>If you are not using Dante network redundancy, please use the primary connection (rather than the secondary) to ensure accurate synchronisation.</p>
 
-        <span class="note"><span class="notetitle">SSL Recommends: </span>SSL recommends that the console is set to clock from the Dante network (slave mode) to benefit from the Dante clock election process.</span>
+        <span class="note"><span class="notetitle">SSL Recommends: </span>SSL recommends that the console is set to clock from the Dante network (follower mode) to benefit from the Dante clock election process.</span>
 
 
         <br>
 
 
-        <span style="font-weight:bold;">Setting up the Console as a Slave of the Dante Network</span>
+        <span style="font-weight:bold;">Setting up the Console as a Follower of the Dante Network</span>
 
         <p>In this configuration, a Dante device other than the console is the Leader Clock. The console and all other devices on the network will clock to this Leader.</p>
 
@@ -141,7 +141,7 @@
             In <span style="font-weight:bold;">Dante Controller</span>, go to the <span class="label">Clock&nbsp;Status</span> tab.
             Check the <span style="font-weight:bold;">Preferred Leader</span> checkbox for the Leader Clock device(s) if you wish to set one.
             Dante has its own clock election process, so it is not necessary to set a <span style="font-weight:bold;">Preferred Leader</span>.
-            For this example, ensure that <span style="font-weight:bold;">Preferred Leader</span> and <span style="font-weight:bold;">Sync to External</span> are unchecked for all other devices on the network 
+            For this example, ensure that <span style="font-weight:bold;">Preferred Leader</span> and <span style="font-weight:bold;">Sync to External</span> are unchecked for all other devices on the network
             (including the console's Dante Expander and BLII/X-Light Bridge as applicable).
 
         <p>
@@ -200,14 +200,14 @@
     <div class="indexheader2 accordion-section-title">Clocking over a BLII or X-Light Bridge</div>
     <div id="DanteBridge" style="padding: 1em 0;" class="accordion-section-content">
         <span class="note">
-            <span class="notetitle">Important:</span> As detailed in the previous section, SSL recommends that the console is set to clock from the Dante network (slave mode) to benefit from the Dante clock election process.
+            <span class="notetitle">Important:</span> As detailed in the previous section, SSL recommends that the console is set to clock from the Dante network (follower mode) to benefit from the Dante clock election process.
             This should be done using the <b>local Dante Expander</b> port as described above, even if using a BLII/X-Light Bridge.
             Provided both the console and BLII/X-Light Bridge remain clocked to the Dante network they will remain synchronous.
         </span>
 
-        <h3>Setting up the Console as a Slave of the Dante Network</h3>
+        <h3>Setting up the Console as a Follower of the Dante Network</h3>
 
-        <p>For the most reliable clocking scheme, SSL recommends that the console is set to be a slave of the Dante network when using a BLII or X-Light Bridge.</p>
+        <p>For the most reliable clocking scheme, SSL recommends that the console is set to be a follower of the Dante network when using a BLII or X-Light Bridge.</p>
 
         <p>
             In this configuration, both the BLII/X-Light Bridge and console (via the local Dante Expander) are set to clock from the Dante Network.
@@ -254,7 +254,7 @@
                     <tr>
                         <th class="solidborder">GM</th>
                         <th class="solidborder">N/A</th>
-                        <td class="solidborder">Device elected as network Grand Master (Leader Clock)</td>
+                        <td class="solidborder">Device elected as network Primary Leader (Clock)</td>
                         <td class="solidborder">Off</td>
                     </tr>
                 </tbody>
@@ -305,9 +305,9 @@
 <p><img style="margin: -16px 0px 5px 15px; float: right;" src="https://livehelp.solidstatelogic.com/Help/images/SetupClocking/image002.png" alt=""></p>
 
 <ul class="tab">
-    <li>Red: no MADI from master console detected.</li>
-    <li>Red/green flashing: a single master MADI port is locked (non-redundant cabling).</li>
-    <li>Green: both master MADI ports 1 & 2 are locked (redundant cabling).</li>
+    <li>Red: no MADI from Leader console detected.</li>
+    <li>Red/green flashing: a single Leader MADI port is locked (non-redundant cabling).</li>
+    <li>Green: both Leader MADI ports 1 & 2 are locked (redundant cabling).</li>
 </ul>
 
 <p>To change the sample rate of the stagebox, unlock the controls as described above then use the <span class="label">RATE</span> button to cycle through the available options.</p>

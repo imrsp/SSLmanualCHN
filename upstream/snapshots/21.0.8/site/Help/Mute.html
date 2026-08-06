@@ -1,0 +1,378 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html ng-app="sslLiveHelp">
+<head>
+    <meta content="text/html; charset=ISO-8859-1" http-equiv="content-type">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=yes">
+
+    <link href="../Help/style/style.css" rel="stylesheet">
+    <link href="../Help/style/jquery-ui-1.13.2.structure.css" rel="stylesheet">
+    <title>Mute &amp; Mute Group Configuration</title>
+    <script src="../Help/js/jquery-3.6.0.min.js"></script>
+    <script src="../Help/js/jquery-ui/1.13.2/jquery-ui.min.js"></script>
+    <!--<script type="text/javascript" src="cordova.js"></script>-->
+    <!-- Nav / search panels 2017 updates -->
+    <script>
+    window.baseDir = '../';
+    window.data = 'null';
+    </script>
+    <link rel="stylesheet" type="text/css" href="../Help/fonts/font-awesome-4.7.0/css/font-awesome.min.css" />
+    <link rel="stylesheet" type="text/css" href="../Help/style/sass-styles.css">
+    <script src="../Help/js/fastclick.js"></script>
+    <script src="../Help/js/lodash.core.min.js"></script>
+    <!--<script src="../Help/js/angular/1.2/angular.min.js"></script>-->  <!-- On a console -->
+    <script src="../Help/js/angular/1.8/angular.min.js"></script>   <!--Not on a console -->
+    <script src="../Help/js/ngStorage.min.js"></script>
+    <!--<script src="../Help/js/angular/1.2/angular-sanitize.min.js"></script>-->  <!-- On a console -->
+    <!--<script src="../Help/js/angular/1.2/angular-animate.min.js"></script>-->   <!-- On a console -->
+    <script src="../Help/js/angular/1.8/angular-sanitize.min.js"></script>  <!--Not on a console -->
+    <script src="../Help/js/angular/1.8/angular-animate.min.js"></script>   <!--Not on a console -->
+    <script src="../Help/js/lunr-2.3.min.js"></script>
+    <script src="../Help/js/menu.js"></script>
+
+</head>
+
+<body ng-controller="NavController as vm">
+
+    <!--<nav class="nav" ng-class="{ 'nav--visible' : vm.visible }" ng-if="vm.visible" role="navigation" aria-label="Primary">-->  <!-- On a console --> 
+    <nav class="nav" ng-class="{ 'nav--visible' : vm.visible }" role="navigation" aria-label="Primary"> <!--Not on a console -->
+        <!-- Search form -->
+        <div role="search">
+            <form class="nav__search" ng-if="vm.isSearchSupported">
+                <label class="nav__search-icon" for="query"><i aria-label="Search" title="Search" class="fa fa-search"></i></label>
+                <input type="search" id="query" class="nav__search-input" placeholder="Search..." ng-model="vm.query" />
+            </form>
+        </div>
+
+        <div class="nav__scroll" ng-style="vm.styleBasedOnSearchSupported">
+
+            <!-- Main nav -->
+            <ul class="main-nav" ng-hide="vm.query">
+                <li class="main-nav__item" ng-repeat="item in vm.nav">
+
+                    <!-- Link to page -->
+                    <a ng-if="item.url" ng-class="{'main-nav__link--active' : item.url===vm.currentPage}" class="main-nav__link" ng-attr-href="{{ vm.baseDir }}{{ item.url }}">
+                        {{ item.title }}
+                    </a>
+
+                    <!-- Expandable heading -->
+                    <span ng-click="vm.toggleExpanded(item.title)" ng-if="!item.url" class="main-nav__title">
+                        {{ item.title }}
+                        <span ng-if="!vm.isExpanded(item.title)" class="fa fa-caret-right"></span>
+                        <span ng-if="vm.isExpanded(item.title)" class="fa fa-caret-down"></span>
+                    </span>
+
+                    <!-- Subnav -->
+                    <ul ng-if="vm.isExpanded(item.title)" class="main-nav fx-fade">
+                        <li ng-repeat="sub in item.children" class="main-nav__item">
+
+                            <!-- Link to page -->
+                            <a ng-if="sub.url" ng-class="{'main-nav__link--active' : sub.url===vm.currentPage}" class="main-nav__link main-nav__link--level1" ng-attr-href="{{ vm.baseDir }}{{ sub.url }}">
+                                {{ sub.title }}
+                            </a>
+
+                            <!-- Expandable heading -->
+                            <span ng-click="vm.toggleExpanded(sub.title)" ng-if="!sub.url" class="main-nav__title main-nav__title--level1">
+                                {{ sub.title }}
+                                <span ng-if="!vm.isExpanded(sub.title)" class="fa fa-caret-right"></span>
+                                <span ng-if="vm.isExpanded(sub.title)" class="fa fa-caret-down"></span>
+                            </span>
+
+                            <!-- Sub-sub nav -->
+                            <ul ng-if="sub.children && vm.isExpanded(sub.title)" class="main-nav fx-fade">
+                                <li ng-repeat="subsub in sub.children" class="main-nav__item">
+
+                                    <!-- Link to page -->
+                                    <a ng-class="{'main-nav__link--active' : subsub.url===vm.currentPage}" class="main-nav__link main-nav__link--level2" ng-attr-href="{{ vm.baseDir }}{{ subsub.url }}" ng-bind-html="subsub.title">
+                                    </a>
+
+                                </li>
+                            </ul>
+
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+
+            <!-- Search results list -->
+            <ul class="search-results">
+                <li class="search-result" ng-repeat="result in vm.results">
+                    <a class="search-result__link" ng-attr-href="{{ vm.baseDir }}{{ 'Help/' + result.id }}">
+                        <h3 class="search-result__title">{{ result.title }}</h3>
+                        <p class="search-result__excerpt" ng-bind-html="result.excerpt"></p>
+                    </a>
+                </li>
+            </ul>
+
+            <!-- Keep screen on option - PhoneGap insomnia -->
+            <ul class="main-nav" ng-if="vm.isPhoneGap">
+                <li class="main-nav__item">
+                    <label class="main-nav__title">
+                        Keep Screen On
+                        <input style="display: none" type="checkbox" ng-model="vm.keepScreenOn" />
+                        <i ng-class="{'fa--cleared' : !vm.keepScreenOn, 'fa--checked' : vm.keepScreenOn}" class="fa fa-check"></i>
+                    </label>
+                </li>
+            </ul>
+
+
+        </div>
+    </nav>
+
+    <nav class="header" role="navigation" aria-label="Secondary">
+        <a ng-if="!vm.onAConsole" href="../index.html" class="header__btn" title="Home"><i class="fa fa-home"></i></a>
+        <div ng-if="!vm.onAConsole" class="header__history">
+            <a onclick="javascript:window.history.back()" class="header__btn"><i title="Back" class="fa fa-chevron-left"></i></a>
+            <a onclick="javascript:window.history.forward()" class="header__btn"><i title="Forwards" class="fa fa-chevron-right"></i></a>
+        </div>
+        <div align="right">
+            <a class="header__btn header__btn--nav" ng-click="vm.toggleVisibility()">
+                <i ng-if="!vm.visible" class="fa fa-bars"></i>
+                <i ng-if="vm.visible" class="fa fa-close"></i>
+            </a>
+        </div>
+    </nav>
+
+
+    <!-- Main content -->
+    <div id="main">
+        
+
+<div><a href="TB.html"><img class="TutorialNav" src="images/n_TutPrevious.png" alt=""><span class="TutorialNav">PREVIOUS: Talkback</span></a></div>
+
+<h2>Mutes</h2>
+
+<p>Each channel has a <span class="label">Mute</span> button, located above the channel fader. A Channel can also be muted in the following ways:</p>
+
+<ul>
+    <li>Automation mute, activated using an Automation 'Scene' in which the channel is muted;</li>
+    <li>Group mute, activated from a Mute Group to which the channel belongs;</li>
+    <li>VCA mute, activated using the <span class="label">Mute</span> button on a VCA control channel to which the channel belongs. (VCAs are described in the next Setup help page)</li>
+</ul>
+
+<p>The colour of the <span class="label">Mute</span> buttons indicate the following, as explained further down the page:</p>
+
+<p><img alt="" src="images/b_MuteW.png" style="width: 36px; height: 36px;" align="middle">Unlit: Unmuted (can be muted manually, or via Automation or Group muting);</p>
+
+<p><img src="images/b_MuteO.png" alt="" align="middle">Orange: Group Mute (muted by a Mute Group or VCA);</p>
+
+<p><img src="images/b_MuteR.png" alt="" align="middle">Red: Manual or Automated Mute (the channel cannot be unmuted by a group);</p>
+
+<p><img src="images/b_MuteRF.png" alt="" align="middle">Flashing Red: Safe Mute (safe from Automation or Group unmuting);</p>
+
+<p><img src="images/b_MuteG.png" alt="" align="middle"> Green: Safe Unmute (safe from Automation or Group muting).</p>
+
+<span class="note"><span class="notetitle">Note:</span> Mutes do not silence the recorder outputs or any pre-fader Insert sends.</span>
+
+<br>
+<h2>Mute Groups</h2>
+
+<span class="note"><span class="notetitle">Definition: </span>Mute Groups allow a number of channels to be muted with the press of a single button &#8211; a horn section, or all performers from one 'act', for example.</span>
+
+<p>SSL Live consoles have ten mute groups, controlled using the ten Mute Group buttons on the Master Tile.</p>
+
+<p>Channels of any type can be included in Mute Groups, and each channel can be in any number of Mute Groups.</p>
+
+<p>
+    To mute all signals in a Mute Group, simply press the relevant Mute Group button.
+    The Mute Group button will go orange as will the <span class="label">MUTE</span> buttons for all channels included in it.
+</p>
+
+<span class="note"><span class="notetitle">Note: </span>If you mute a channel locally (using its own Mute button), it will remain muted regardless of the status of any Mute Groups it is part of, as indicated by the button going red.<br> </span>
+
+
+<table>
+    <tbody>
+        <tr>
+            <td style="vertical-align: middle; width: 490px;"><img style="margin: 0px 20px 0px 0px;" src="images/g_miniMutegroups.png" alt=""></td>
+            <td style="vertical-align: top;">
+                <p>The Mute Group Master buttons can also be accessed from the Control Tile:</p>
+                <p>Press the <span class="label">Home</span> button on the Control Tile then select the <span class="label">Mute&nbsp;Groups</span> option from the Home screen.</p>
+                <p>Use the on-screen buttons or press the rotary encoders adjacent to the on-screen buttons to toggle the Mute Groups on and off.</p>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+
+<br>
+<h2>Assigning Channels to Mute Groups</h2>
+
+<img style="margin: 0px 10px;" src="images/g_MuteGroupTile.png" align="right" alt="">
+
+<p>You can assign channels to Mute Groups using the Master Tile Mute Group buttons or the Mute Group functions in the Main Screen or Control Tile:</p>
+
+<span class="note"><span class="notetitle">Note:</span> If you add a Channel to a Mute Group while the Mute Group is active, the channel will immediately become muted.</span>
+
+<h3>Master Tile Mute Group buttons:</h3>
+
+<p>Press & hold the Master Tile Mute Group button for the group you wish to alter &#8211; it will flash orange to indicate that it is in Configuration mode.</p>
+
+<p>To add a channel to the Group, press its <span class="label">SELECT</span> button &#8211; it will flash orange to indicate that it is included.</p>
+
+<p>To remove a channel from the Group, press its <span class="label">SELECT</span> button &#8211; it will stop flashing.</p>
+<p>You can also add a range of channels by pressing-and-holding the <span class="label">SELECT</span> button at one end of the range, then pressing the <span class="label">SELECT</span> button at the other end of the range.</p>
+
+<p>Press the Master Tile Mute Group button again to return to normal operation.</p>
+
+<br>
+
+<h3>Detail View</h3>
+
+<p>An expanded version of the Mute Group Quick Controls is available in the <span style="font-weight: bold;">MG + VCA</span> Detail page, opened by double-tapping the Quick Display while the <span style="font-weight: bold;">MG</span> or <span style="font-weight: bold;">VCA</span> Assign button is active:</p>
+
+
+<p><img style="display: block; margin: 27px auto;" src="images/g_DetailMGVCA.png" alt=""></p>
+
+<p>If the <span class="label">Lock</span> button (in the right side of the page) is active, touch the Selector for the required Mute Group, then switch the channel into or out of the group using the Upper Quick Key below the <span style="font-weight: bold;">MG On </span>label at the base of the screen.</p>
+
+<p>If <span style="font-weight: bold;">Lock</span> is inactive, simply press the Mute Group Selector to add or remove the channel.</p>
+
+
+<br>
+
+<h3>Quick Controls:</h3>
+
+<img style="margin: 0px 0px 5px 20px;" src="images/g_QuickMG.png" alt="" align="right">
+
+<p>Select the <span class="label">MG</span> Assign button within a Channel Strip:</p>
+
+<p>Ten Mute Group Selectors are shown in the Selector area of the channel strip, along with a <span class="label">MUTE SAFE</span> button. </p>
+
+<p>Touch the Group Selector for the Mute Group for which you wish to add or remove the channel. </p>
+
+<p>If Quick Control Lock (located in the right edge of the screen) is active, it will go blue to indicate that the Group is assigned to the Quick Controls. You can then use the Upper Quick Key to add or remove the channel to or from that Mute Group &#8211; the number area of the MG Selector will go green to indicate the channel is included in that Mute Group.</p>
+
+<p>If the Quick Control Lock is inactive, the channel will be added to the Mute Group as well as being assigned to the Quick Controls. </p>
+
+<p>The Left Quick Key is used for the Channel Safe, as described below.</p>
+
+<p>
+    <img style="margin: 3px 10px;" src="images/b_AssignMG_on.png" alt="" align="left">
+
+    The colour bar in the channel's <span class="label">MG</span> Assign button will go orange to indicate that the channel has been assigned to at least one Mute Group.
+</p>
+
+<p>The MG Selectors display as follows:</p>
+
+<p><img style="margin: 2px 5px;" src="images/b_SelMGOffUnsel.png" alt="" align="top">Unassigned and inactive;</p>
+
+<p><img style="margin: 2px 5px;" src="images/b_SelMGOffSel.png" alt="" align="top">Assigned to Quick Controls and inactive;</p>
+
+<p><img style="margin: 2px 5px;" src="images/b_SelMGOnSel.png" alt="" align="top">Assigned to Quick Controls and active;</p>
+
+<p><img style="margin: 2px 5px;" src="images/b_SelMGOnUnsel.png" alt="" align="top">Unassigned and active.</p>
+
+
+<br>
+
+<h3>Control Tile</h3>
+
+<p>The Control Tile can also be used to edit Mute Group assignments for a channel:</p>
+
+<table>
+    <tbody>
+        <tr>
+            <td>
+                <p>Press the <span class="label">VCA&nbsp;/&nbsp;MG</span> button above the Channel Screen to assign it to the controls:</p>
+
+                <p>The 'Selected' channel is shown at the top of the screen; the <span style="font-weight: bold;">Prev</span> and <span style="font-weight: bold;">Next</span> arrow buttons either side of it can be used to scroll channels.</p>
+
+                <p>The Mute Group Selectors are shown down the left side of the screen. </p>
+
+                <p>To assign the current channel to a Mute Group, ensure that the <span class="label">Lock</span> button above them is inactive, then simply touch the Selector for the required Mute Group.</p>
+
+                <p>If lock is active, you will not be able to edit the screen's contents.</p>
+            </td>
+            <td style="width: 480px;"><img style="margin: 0px 10px;" src="images/g_miniVCAMG.png" alt=""></td>
+        </tr>
+    </tbody>
+</table>
+
+
+<br>
+
+<h2 id="MuteSafe">Mute Safe</h2>
+
+<p><span class="label">MUTE SAFE</span> allows you to override any indirect mutes which might try and act on a channel (Mute Groups, VCAs or Automation mutes).</p>
+
+<p>When <span class="label">MUTE SAFE</span> is engaged on a path that is currently muted, the path will automatically enter <span style="font-weight:bold;">Safe Mute</span> state.</p>
+
+<p>When <span class="label">MUTE SAFE</span> is engaged on a path that is currently unmuted, the path will automatically enter <span style="font-weight:bold;">Safe Unmute</span> state.</p>
+
+<p><img src="images/b_MuteRF.png" alt="" align="middle">Flashing Red: <span style="font-weight:bold;">Safe Mute</span> (safe from Automation or Group unmuting);</p>
+
+<p><img src="images/b_MuteG.png" alt="" align="middle"> Green: <span style="font-weight:bold;">Safe Unmute</span> (safe from Automation or Group muting).</p>
+
+<p>Tapping the <span class="label">MUTE</span> button will alternate that path between <span style="font-weight:bold;">Safe Mute</span> and <span style="font-weight:bold;">Safe Unmute</span>.</p>
+
+<p>The <span class="label">MUTE SAFE</span> function is enabled using the Quick Control MG page, as described above, or using similar procedures in the Channel Detail dialogue or Control Tile. Tap <span class="label">MUTE SAFE</span> to engage or disengage it.</p>
+
+<p>See also the <span style="font-weight:bold;">Auto Mute Safe</span> and <span style="font-weight:bold;">Temporary Auto Mute Safe</span> modes below.</p>
+
+<span class="note"><span class="notetitle">Notes:</span><br><span class="label">MUTE SAFE</span> on/off state is not stored in scenes or showfiles.</span>
+
+<h3 id="AutoMuteSafe">Auto Mute Safe</h3>
+<p><span style="font-weight:bold;">Auto Mute Safe</span> can be used to quickly engage <span style="font-weight:bold;">Mute Safe</span> mode on any path, e.g. when a channel needs to be Safe Muted 
+    (if an instrument breaks and is generating noise) or Safe Unmuted (somebody picks up the wrong microphone) during a show. Auto Mute Safe mode is activated from a User Key.
+    Once activated, pressing any <span class="label">MUTE</span> key will engage <span style="font-weight:bold;">Mute Safe</span> mode on that path and toggle its mute state.
+    The path will remain Safe Muted/Unmuted until the problem is resolved and Mute Safe is manually disengaged.
+</p>
+
+<p>
+    To use <span style="font-weight:bold;">Auto Mute Safe</span> first add it as a <a href="OptionsUserKeys.html"><span class="hyperlink">User Key</span></a> in 
+    <span class="label">MENU</span> > <span class="label">Setup</span> > <span class="label">Options</span> > <span class="label">USER&nbsp;KEYS</span> tab.
+    <span class="label">Auto Mute Safe</span> is located in the <span class="label">Console Functions</span> User Key options.
+</p>
+<p>
+    Once assigned to a User Key, press the User Key to engage <span class="label">Auto Mute Safe</span> mode.
+    Now press the <span class="label">MUTE</span> button on any path and <span class="label">MUTE SAFE</span> will turn on for that path.
+    <span style="font-weight:bold;">Auto Mute Safe</span> will remain enabled so other paths can be placed in <span style="font-weight:bold;">Mute Safe</span> mode from their <span class="label">MUTE</span> keys.
+    The path(s) will now be in <span style="font-weight:bold;">Safe Mute</span> or <span style="font-weight:bold;">Safe Unmute</span> state, depending on the previous Mute state (unmuted or muted respectively).
+</p>
+
+<p>Tapping the path's <span class="label">MUTE</span> button will then alternate that path between <span style="font-weight:bold;">Safe Mute</span> and <span style="font-weight:bold;">Safe Unmute</span> 
+    states until <span style="font-weight:bold;">Mute Safe</span> mode is manually disabled.</p>
+
+<p>
+    To turn off <span class="label">Auto Mute Safe</span> press the User Key again to disengage. Any paths that were entered into <span class="label">MUTE SAFE</span> will remain in this mode after <span style="font-weight:bold;">Auto Mute Safe</span> is disengaged.
+    Go to the Quick Control MG page or Channel View or Detail View to turn off <span class="label">MUTE SAFE</span> for that path. Any other paths' <span class="label">MUTE</span> buttons will now return to normal operation.
+</p>
+
+<p><img style="display: block; margin: 0px auto;" src="images/g_AutoMuteSafe.png" alt=""></p>
+
+
+<h3 id="TempAutoMuteSafe">Temporary Auto Mute Safe</h3>
+<p>
+    <span style="font-weight:bold;">Temporary Auto Mute Safe</span> extends the <span style="font-weight:bold;">Auto Mute Safe</span> mode described above. Primarily useful for line or sound checks, 
+    when only a temporary override of the mute state is required (e.g. unmuting individual channels from a band Mute Group to confidence check them), <span style="font-weight:bold;">Temporary Auto Mute Safe</span> is also allocatable to a User Key.
+</p>
+
+<p>
+    To assign <span style="font-weight:bold;">Temporary Auto Mute Safe</span> to a <a href="OptionsUserKeys.html"><span class="hyperlink">User Key</span></a> navigate to 
+    <span class="label">MENU</span> > <span class="label">Setup</span> > <span class="label">Options</span> > <span class="label">USER&nbsp;KEYS</span> tab.
+    <span class="label">Temporary Auto Mute Safe</span> is located in the <span class="label">Console Functions</span> User Key options. Once assigned to a User Key, press the User Key to engage <span class="label">Temporary Auto Mute Safe</span> mode.
+</p>
+
+<p>
+    Once activated, a press of any <span class="label">MUTE</span> key places that path into <span style="font-weight:bold;">Mute Safe</span> mode and toggles the Mute state (exactly like the Auto Mute Safe above).
+    But in the temporary mode, a second press of the Mute key will simply leave Mute Safe mode, putting the Mute back to its 'correct' underlying state, rather than toggling its state within Mute Safe mode.
+    Disengaging <span class="label">Temporary Auto Mute Safe</span> mode cancels any Mute Safes which had been triggered by that mode. Any Mute Safes that were manually activated
+    (whether before or after Temporary Auto Mute Safe was activated) remain unchanged when turning off the temporary mode.
+</p>
+
+<p><img style="display: block; margin: 0px auto;" src="images/g_TempAutoMuteSafe.png" alt=""></p>
+
+<h2>Useful Links:</h2>
+
+<a href="Solo.html"><span class="hyperlink">Solo</span></a><br>
+<a href="LinkIndex.html"><span class="hyperlink">Index and Glossary</span></a><br>
+
+<div class="TutorialNavNext"> <a href="Presets.html"><span class="TutorialNav">NEXT: Presets</span> <img class="TutorialNav" src="images/n_TutNext.png" alt=""></a></div>
+
+
+    </div>
+
+    <script src="../Help/js/OpenAccordionFromLink.js"></script>
+</body>
+</html>
