@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
-  "sourceRevision": "21.0.6",
-  "snapshot": "21.0.6",
-  "manifest": "21.0.6/manifest.json",
-  "diff": "21.0.6/diff.json",
-  "capturedAt": "2026-08-04T07:52:38.351Z"
+  "sourceRevision": "21.0.8",
+  "snapshot": "21.0.8",
+  "manifest": "21.0.8/manifest.json",
+  "diff": "21.0.8/diff.json",
+  "capturedAt": "2026-10-26T06:35:11.795Z"
 }

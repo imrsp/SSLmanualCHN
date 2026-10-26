@@ -1,0 +1,339 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html ng-app="sslLiveHelp">
+<head>
+    <meta content="text/html; charset=ISO-8859-1" http-equiv="content-type">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=yes">
+
+    <link href="../Help/style/style.css" rel="stylesheet">
+    <link href="../Help/style/jquery-ui-1.13.2.structure.css" rel="stylesheet">
+    <title>Showfiles</title>
+    <script src="../Help/js/jquery-3.6.0.min.js"></script>
+    <script src="../Help/js/jquery-ui/1.13.2/jquery-ui.min.js"></script>
+    <!--<script type="text/javascript" src="cordova.js"></script>-->
+    <!-- Nav / search panels 2017 updates -->
+    <script>
+    window.baseDir = '../';
+    window.data = 'null';
+    </script>
+    <link rel="stylesheet" type="text/css" href="../Help/fonts/font-awesome-4.7.0/css/font-awesome.min.css" />
+    <link rel="stylesheet" type="text/css" href="../Help/style/sass-styles.css">
+    <script src="../Help/js/fastclick.js"></script>
+    <script src="../Help/js/lodash.core.min.js"></script>
+    <!--<script src="../Help/js/angular/1.2/angular.min.js"></script>-->  <!-- On a console -->
+    <script src="../Help/js/angular/1.8/angular.min.js"></script>   <!--Not on a console -->
+    <script src="../Help/js/ngStorage.min.js"></script>
+    <!--<script src="../Help/js/angular/1.2/angular-sanitize.min.js"></script>-->  <!-- On a console -->
+    <!--<script src="../Help/js/angular/1.2/angular-animate.min.js"></script>-->   <!-- On a console -->
+    <script src="../Help/js/angular/1.8/angular-sanitize.min.js"></script>  <!--Not on a console -->
+    <script src="../Help/js/angular/1.8/angular-animate.min.js"></script>   <!--Not on a console -->
+    <script src="../Help/js/lunr-2.3.min.js"></script>
+    <script src="../Help/js/menu.js"></script>
+
+</head>
+
+<body ng-controller="NavController as vm">
+
+    <!--<nav class="nav" ng-class="{ 'nav--visible' : vm.visible }" ng-if="vm.visible" role="navigation" aria-label="Primary">-->  <!-- On a console --> 
+    <nav class="nav" ng-class="{ 'nav--visible' : vm.visible }" role="navigation" aria-label="Primary"> <!--Not on a console -->
+        <!-- Search form -->
+        <div role="search">
+            <form class="nav__search" ng-if="vm.isSearchSupported">
+                <label class="nav__search-icon" for="query"><i aria-label="Search" title="Search" class="fa fa-search"></i></label>
+                <input type="search" id="query" class="nav__search-input" placeholder="Search..." ng-model="vm.query" />
+            </form>
+        </div>
+
+        <div class="nav__scroll" ng-style="vm.styleBasedOnSearchSupported">
+
+            <!-- Main nav -->
+            <ul class="main-nav" ng-hide="vm.query">
+                <li class="main-nav__item" ng-repeat="item in vm.nav">
+
+                    <!-- Link to page -->
+                    <a ng-if="item.url" ng-class="{'main-nav__link--active' : item.url===vm.currentPage}" class="main-nav__link" ng-attr-href="{{ vm.baseDir }}{{ item.url }}">
+                        {{ item.title }}
+                    </a>
+
+                    <!-- Expandable heading -->
+                    <span ng-click="vm.toggleExpanded(item.title)" ng-if="!item.url" class="main-nav__title">
+                        {{ item.title }}
+                        <span ng-if="!vm.isExpanded(item.title)" class="fa fa-caret-right"></span>
+                        <span ng-if="vm.isExpanded(item.title)" class="fa fa-caret-down"></span>
+                    </span>
+
+                    <!-- Subnav -->
+                    <ul ng-if="vm.isExpanded(item.title)" class="main-nav fx-fade">
+                        <li ng-repeat="sub in item.children" class="main-nav__item">
+
+                            <!-- Link to page -->
+                            <a ng-if="sub.url" ng-class="{'main-nav__link--active' : sub.url===vm.currentPage}" class="main-nav__link main-nav__link--level1" ng-attr-href="{{ vm.baseDir }}{{ sub.url }}">
+                                {{ sub.title }}
+                            </a>
+
+                            <!-- Expandable heading -->
+                            <span ng-click="vm.toggleExpanded(sub.title)" ng-if="!sub.url" class="main-nav__title main-nav__title--level1">
+                                {{ sub.title }}
+                                <span ng-if="!vm.isExpanded(sub.title)" class="fa fa-caret-right"></span>
+                                <span ng-if="vm.isExpanded(sub.title)" class="fa fa-caret-down"></span>
+                            </span>
+
+                            <!-- Sub-sub nav -->
+                            <ul ng-if="sub.children && vm.isExpanded(sub.title)" class="main-nav fx-fade">
+                                <li ng-repeat="subsub in sub.children" class="main-nav__item">
+
+                                    <!-- Link to page -->
+                                    <a ng-class="{'main-nav__link--active' : subsub.url===vm.currentPage}" class="main-nav__link main-nav__link--level2" ng-attr-href="{{ vm.baseDir }}{{ subsub.url }}" ng-bind-html="subsub.title">
+                                    </a>
+
+                                </li>
+                            </ul>
+
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+
+            <!-- Search results list -->
+            <ul class="search-results">
+                <li class="search-result" ng-repeat="result in vm.results">
+                    <a class="search-result__link" ng-attr-href="{{ vm.baseDir }}{{ 'Help/' + result.id }}">
+                        <h3 class="search-result__title">{{ result.title }}</h3>
+                        <p class="search-result__excerpt" ng-bind-html="result.excerpt"></p>
+                    </a>
+                </li>
+            </ul>
+
+            <!-- Keep screen on option - PhoneGap insomnia -->
+            <ul class="main-nav" ng-if="vm.isPhoneGap">
+                <li class="main-nav__item">
+                    <label class="main-nav__title">
+                        Keep Screen On
+                        <input style="display: none" type="checkbox" ng-model="vm.keepScreenOn" />
+                        <i ng-class="{'fa--cleared' : !vm.keepScreenOn, 'fa--checked' : vm.keepScreenOn}" class="fa fa-check"></i>
+                    </label>
+                </li>
+            </ul>
+
+
+        </div>
+    </nav>
+
+    <nav class="header" role="navigation" aria-label="Secondary">
+        <a ng-if="!vm.onAConsole" href="../index.html" class="header__btn" title="Home"><i class="fa fa-home"></i></a>
+        <div ng-if="!vm.onAConsole" class="header__history">
+            <a onclick="javascript:window.history.back()" class="header__btn"><i title="Back" class="fa fa-chevron-left"></i></a>
+            <a onclick="javascript:window.history.forward()" class="header__btn"><i title="Forwards" class="fa fa-chevron-right"></i></a>
+        </div>
+        <div align="right">
+            <a class="header__btn header__btn--nav" ng-click="vm.toggleVisibility()">
+                <i ng-if="!vm.visible" class="fa fa-bars"></i>
+                <i ng-if="vm.visible" class="fa fa-close"></i>
+            </a>
+        </div>
+    </nav>
+
+
+    <!-- Main content -->
+    <div id="main">
+        
+
+ 
+<div><a href="RemoteIO.html"><img class="TutorialNav" src="images/n_TutPrevious.png" alt=""><span class="TutorialNav">PREVIOUS: Introduction - Stageboxes</span></a></div>
+  
+  <h2>Showfiles</h2>
+
+  <p>SSL Live console settings are saved and recalled with <b>showfiles</b>. In addition to saving you from having to recreate all of your settings each time you switch between projects, it also allows you to transfer configurations between consoles.</p>
+
+  <p>SSL have created a number of templates which provide a starting point from which you can create your own showfiles.
+  This also means that the task of setting up your console may be very straightforward, as we've already done most of it for you.</p>
+  
+  
+  <p>Begin by loading an SSL Template. To do this tap <span class="label">System Templates</span>, select a template and press and hold <span class="label">Load</span>.</p>
+  
+
+  <span class="note"><span class="notetitle">Note: </span> At the very top of the main screen there is a status display that logs a range of console activity, including showfile management functions. This area goes red to indicate that a procedure has not been successful. Double tap the message area to open the <span style="font-weight: bold;">Status Messages</span> window for further information.</span>
+
+  <p>Showfiles are saved and loaded using the <span style="font-weight: bold;">Showfiles</span> screen, accessed by selecting <span class="label">MENU</span> > <span class="label">Setup</span> > <span class="label">File&nbsp;Manager</span> > <span class="label">Showfiles</span> tab.</p>
+
+  <p>The following screen will appear:</p>
+
+  <img style="display: block; margin: 5px auto; width: 750px;" src="images/g_Show1.png" alt="">
+  
+  <h2>Showfile List Navigation</h2>
+
+  <p>To access SSL's template showfiles, touch <span class="label">System Templates</span>. The details of the template's contents are shown in the Notes area for each template.</p>
+
+  <p>
+    To access User showfile, start by ensuring that <span class="label">System Templates</span> is inactive. Drives will then be listed across the top of the showfile list, with the internal drive shown as <span style="font-weight: bold;">HD</span>, 
+      and <span style="font-weight: bold;">USB</span> drives listed in the order in which they were plugged in. Touch a drive to select it, using the arrow buttons to scroll the list if necessary.
+  </p>
+
+  <span class="note"><span class="notetitle">Notes:</span><br>
+    USB drives can be inserted into any of the USB ports on the console. There is one towards the top-right of the control surface (top left on L200, L450 and L650), one under each end of the front of the console, and four on the back of the console. USB drives do not need to be ejected before being removed.<br>
+    USB drives should be used for file transfers (copy) only. Loading or saving showfiles directly to USB is not recommended due to the risk of drive removal mid-operation. If loading a showfile, copy it to the internal drive first and load from there. If saving a showfile, save to the internal drive initially and make a copy to the USB drive.
+  </span>
+
+  <p>The contents of the selected location are shown in the showfile list below the drives. You can scroll the list up and down by swiping the screen.</p>
+
+  <p>Folders appear at the top of the list, indicated by folder icons; double-tap them to open them, and touch <span class="label">Up</span> to move back up a level.</p>
+
+  <p>Tap the <b>Name</b> or <b>Date Modified</b> column headings to sort the files alphabetically or by date order (tap the same column heading to toggle between ascending and descending order).</p>
+
+  <p>Touch a showfile to select it &#8211; it will become highlighted with a cyan surround.</p>
+
+  <p>The <span class="label">Edit</span> button accesses the functions listed below it; these are described below.</p>
+
+  <p>For loading and saving showfiles, <span class="label">Edit</span> must be <span style="font-style: italic;">inactive</span>.</p>
+
+  <p>To create a new folder in the current location, touch <span class="label">New&nbsp;Folder</span>. You can then rename the folder as
+  described below.</p>
+
+  <h2 id="LoadSave">Load, Save, Save As</h2>
+
+  <h3>Loading</h3>
+
+  <p>To load or save a showfile, start by selecting the showfile to be loaded or overwritten.</p>
+
+  <p>Ensure that the <span class="label">Edit</span> button is <span style="font-style: italic;">inactive</span>.</p>
+
+  <p>To load the selected showfile, press & hold <span class="label">Load</span>.</p>
+
+  <p>Pressing and holding <span class="label">Load with Owner Override</span> allows the operator to load a showfile and override any ownership states currently on the network.</p>
+
+  <p>Any existing device control and Dante subscription ownership states will be overwritten by the ownership states included in the selected showfile.</p>
+
+  <span class="note">
+      <span class="notetitle">Notes:</span><br>
+     Using <span class="label">Load with Owner Override</span> has the potential to:<br />
+      - Remove active routes from other devices to receivers utilised in the showfile being loaded.<br />
+      - Remove control of stageboxes from other consoles on the network.<br />
+     Take great care to ensure this action is correct.
+  </span>
+
+  <h3>Saving</h3>
+
+  <p>To save the current desk configuration as a new file, press <span class="label">Save&nbsp;As</span>. Name the new showfile using the keyboard which appears, and touch <span class="label">OK</span>. This showfile will then become the loaded showfile.</p>
+
+  <span class="note"><span class="notetitle">Notes:</span><br>
+    SSL Template showfiles cannot be overwritten. Use the <span style="font-weight: bold;">Save As</span> function to save them as your own showfile to save any changes.<br>
+    Files preceded by a padlock symbol cannot be overwritten, as described below.
+  </span>
+  
+  
+
+  <p>To save the current desk configuration over the existing showfile, press & hold <span class="label">Save</span>.</p>
+
+  <h2>Showfile Notes</h2>
+
+  <p>Any pertinent details about a showfile can be typed into the Notes display, beneath the showfile list.</p>
+
+  <p>To type notes for a showfile, navigate to the showfile and Select it so that it has a cyan surround. Its name will be shown above the notes display.</p>
+
+  <p>Double-tap inside the notes display, then type the notes using the keyboard which appears, and touch <span class="label">OK</span>.</p>
+
+  <p>These notes will appear in the notes display whenever that showfile is highlighted in the showfile list.</p>
+
+  <h2>Edit Mode</h2>
+
+  <p>A number of folder actions are only available when the showfile list is in Edit mode.</p>
+
+  <p>To activate Edit mode, touch the <span class="label">Edit</span> button in the top-centre of the screen. The button will 'light' and a second navigation pane will appear in the right side of the screen.</p>
+
+  <p>To select a showfile to be edited using any of the edit actions listed between the panes, navigate to it in the left navigation pane and touch the circle at the end of its list entry &#8211; the circle will go red to indicate that the showfile is Edit Enabled.</p>
+
+  <p>You can select multiple showfiles and multiple folders for edit. You can also select all showfiles and folders in the current location by touching the <span style="font-weight: bold;">All</span> circle at the top of the list.</p>
+
+  <span class="note"><span class="notetitle">Remember: </span>Edit mode functions always act on the showfiles which are Edit Enabled, and not on showfiles which are highlighted (displayed with a cyan surround).</span>
+
+  <h3>Moving and Copying Showfiles</h3>
+
+  <p>To move or copy files and folders, navigate to the source folder in the left pane, and the destination folder in the right navigation pane;</p>
+
+  <p>In the left navigation pane, Edit Enable the items to be moved or copied;</p>
+
+  <p>Now press the <span class="label">Move</span> or <span class="label">Copy</span> button in between the two panes. The items will be moved or copied to the new location.</p>
+
+  <span class="note"><span class="notetitle">Notes:</span><br>
+    The currently loaded showfile cannot be moved. Items cannot be copied into their current location.
+  </span>
+
+  <h3>Making Showfiles Read-Only</h3>
+
+  <p>You can make showfiles read-only in order to prevent them from being overwritten via the Save function.</p>
+
+  <p>To select the showfiles to be made Read-Only, navigate to them in the left navigation pane and Edit Enable them.</p>
+
+  <p>Now press the <span class="label">Read&nbsp;Only</span> button in between the two panes. A padlock symbol will appear before the file names.</p>
+
+  <p>To undo a file's Read Only status, simply repeat this procedure.</p>
+
+  <h3>Renaming Showfiles and Folders</h3>
+
+  <p>To rename a file or folder, navigate to it in the left navigation pane and Edit Enable it.</p>
+
+  <p>Now press the <span class="label">Rename</span> button between the panes, rename the showfile using the keyboard which appears, and touch <span class="label">OK</span>.</p>
+
+  <h3>Deleting Showfiles and Folders</h3>
+
+  <p>To delete showfiles or folders, navigate to them in the left navigation pane and Edit Enable them.</p>
+
+  <p>Now press & hold the <span class="label">Delete</span> button between the panes.</p>
+
+  <span class="note"><span class="notetitle">Note: </span>Folders must be empty before they can be deleted. Showfiles with Read Only protection cannot be deleted.</span>
+  
+  <h2>Backup Showfiles</h2>
+  
+  <p>The console saves a backup showfile with the state of the console every minute, so this is the most you will lose in the event of a power loss.</p>
+  
+  <p>When restarting the console it will always load the most recent backup showfile for you, so it's ready to go.</p>
+  
+  <span class="note"><span class="notetitle">Note: </span>If the last showfile loaded or saved was to a USB drive, the backup showfile will not be loaded when restarting the console. This is a security feature to prevent visiting engineers' showfile data from persisting in the system.</span>
+
+  <h2 id="StatusBarIndication">Status Bar Indication</h2>
+
+  <p>The name of the currently loaded showfile is displayed at the very top of the screen, towards the right-middle of the status bar. One of the following icons will be displayed to the left-middle of the status bar:</p>
+
+  <table>
+    <tr>
+      <td><img alt="Green disk" src="images/g_DiskGreen.png" style="margin: 2px 15px 2px 10px;" align="top"></td>
+      <td>The Current showfile is saved to the user's showfile and no pending changes to any part of the showfile are detected by the system;</td>
+    </tr>
+    <tr>
+      <td><img alt="Yellow disk" src="images/g_DiskYellow.png" style="margin: 2px 15px 2px 10px;" align="top"></td>
+      <td>Part of the Current showfile has changed since last user Showfile save and the changes are saved on the console's backup system;</td>
+    </tr>
+    <tr>
+      <td><img alt="Orange disk" src="images/g_DiskOrange.png" style="margin: 2px 15px 2px 10px;" align="top"></td>
+      <td>Part of the Current showfile has changed since last user Showfile save and the changes are not yet saved on the console's backup system;</td>
+    </tr>
+    <tr>
+      <td><img alt="White disk" src="images/g_DiskWhite.png" style="margin: 2px 15px 2px 10px;" align="top"></td>
+      <td>The system is currently saving or loading showfile data, either to/from user file, or from the console's backup system.</td>
+    </tr>
+  </table>
+  
+
+  <h2>Which parameters are stored in Showfiles?</h2>
+  <p>A list of parameters stored in showfiles can be found in the <a href="Storage.html"><span class="hyperlink">Parameters & Settings Storage</span></a> page.</p>
+
+<h2>Showfile Compatibility</h2>
+<p>
+    Old showfiles will always load on newer versions of software. However, new showfiles may not load on previous versions of software, due to new feature data not being recognised by older software.
+    This includes versions of <a href="SOLSAOffline.html"><span class="hyperlink">SOLSA</span></a>, so it is important that any installations of SOLSA are kept up to date in line with console software to ensure showfiles can be edited offline.
+</p>
+
+
+  <h2>Useful Links</h2>
+
+<a href="Presets.html"><span class="hyperlink">Presets</span></a><br>
+  <a href="LinkIndex.html"><span class="hyperlink">Index and Glossary</span></a><br>
+  
+  <div class="TutorialNavNext"> <a href="ConsoleConfig.html"><span class="TutorialNav">NEXT: Console Configuration</span> <img class="TutorialNav" src="images/n_TutNext.png" alt=""></a></div>
+
+
+    </div>
+
+    <script src="../Help/js/OpenAccordionFromLink.js"></script>
+</body>
+</html>

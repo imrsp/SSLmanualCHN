@@ -1,0 +1,330 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html ng-app="sslLiveHelp">
+<head>
+    <meta content="text/html; charset=ISO-8859-1" http-equiv="content-type">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=yes">
+
+    <link href="../Help/style/style.css" rel="stylesheet">
+    <link href="../Help/style/jquery-ui-1.13.2.structure.css" rel="stylesheet">
+    <title>Main Screen Menu</title>
+    <script src="../Help/js/jquery-3.6.0.min.js"></script>
+    <script src="../Help/js/jquery-ui/1.13.2/jquery-ui.min.js"></script>
+    <!--<script type="text/javascript" src="cordova.js"></script>-->
+    <!-- Nav / search panels 2017 updates -->
+    <script>
+    window.baseDir = '../';
+    window.data = 'null';
+    </script>
+    <link rel="stylesheet" type="text/css" href="../Help/fonts/font-awesome-4.7.0/css/font-awesome.min.css" />
+    <link rel="stylesheet" type="text/css" href="../Help/style/sass-styles.css">
+    <script src="../Help/js/fastclick.js"></script>
+    <script src="../Help/js/lodash.core.min.js"></script>
+    <!--<script src="../Help/js/angular/1.2/angular.min.js"></script>-->  <!-- On a console -->
+    <script src="../Help/js/angular/1.8/angular.min.js"></script>   <!--Not on a console -->
+    <script src="../Help/js/ngStorage.min.js"></script>
+    <!--<script src="../Help/js/angular/1.2/angular-sanitize.min.js"></script>-->  <!-- On a console -->
+    <!--<script src="../Help/js/angular/1.2/angular-animate.min.js"></script>-->   <!-- On a console -->
+    <script src="../Help/js/angular/1.8/angular-sanitize.min.js"></script>  <!--Not on a console -->
+    <script src="../Help/js/angular/1.8/angular-animate.min.js"></script>   <!--Not on a console -->
+    <script src="../Help/js/lunr-2.3.min.js"></script>
+    <script src="../Help/js/menu.js"></script>
+
+</head>
+
+<body ng-controller="NavController as vm">
+
+    <!--<nav class="nav" ng-class="{ 'nav--visible' : vm.visible }" ng-if="vm.visible" role="navigation" aria-label="Primary">-->  <!-- On a console --> 
+    <nav class="nav" ng-class="{ 'nav--visible' : vm.visible }" role="navigation" aria-label="Primary"> <!--Not on a console -->
+        <!-- Search form -->
+        <div role="search">
+            <form class="nav__search" ng-if="vm.isSearchSupported">
+                <label class="nav__search-icon" for="query"><i aria-label="Search" title="Search" class="fa fa-search"></i></label>
+                <input type="search" id="query" class="nav__search-input" placeholder="Search..." ng-model="vm.query" />
+            </form>
+        </div>
+
+        <div class="nav__scroll" ng-style="vm.styleBasedOnSearchSupported">
+
+            <!-- Main nav -->
+            <ul class="main-nav" ng-hide="vm.query">
+                <li class="main-nav__item" ng-repeat="item in vm.nav">
+
+                    <!-- Link to page -->
+                    <a ng-if="item.url" ng-class="{'main-nav__link--active' : item.url===vm.currentPage}" class="main-nav__link" ng-attr-href="{{ vm.baseDir }}{{ item.url }}">
+                        {{ item.title }}
+                    </a>
+
+                    <!-- Expandable heading -->
+                    <span ng-click="vm.toggleExpanded(item.title)" ng-if="!item.url" class="main-nav__title">
+                        {{ item.title }}
+                        <span ng-if="!vm.isExpanded(item.title)" class="fa fa-caret-right"></span>
+                        <span ng-if="vm.isExpanded(item.title)" class="fa fa-caret-down"></span>
+                    </span>
+
+                    <!-- Subnav -->
+                    <ul ng-if="vm.isExpanded(item.title)" class="main-nav fx-fade">
+                        <li ng-repeat="sub in item.children" class="main-nav__item">
+
+                            <!-- Link to page -->
+                            <a ng-if="sub.url" ng-class="{'main-nav__link--active' : sub.url===vm.currentPage}" class="main-nav__link main-nav__link--level1" ng-attr-href="{{ vm.baseDir }}{{ sub.url }}">
+                                {{ sub.title }}
+                            </a>
+
+                            <!-- Expandable heading -->
+                            <span ng-click="vm.toggleExpanded(sub.title)" ng-if="!sub.url" class="main-nav__title main-nav__title--level1">
+                                {{ sub.title }}
+                                <span ng-if="!vm.isExpanded(sub.title)" class="fa fa-caret-right"></span>
+                                <span ng-if="vm.isExpanded(sub.title)" class="fa fa-caret-down"></span>
+                            </span>
+
+                            <!-- Sub-sub nav -->
+                            <ul ng-if="sub.children && vm.isExpanded(sub.title)" class="main-nav fx-fade">
+                                <li ng-repeat="subsub in sub.children" class="main-nav__item">
+
+                                    <!-- Link to page -->
+                                    <a ng-class="{'main-nav__link--active' : subsub.url===vm.currentPage}" class="main-nav__link main-nav__link--level2" ng-attr-href="{{ vm.baseDir }}{{ subsub.url }}" ng-bind-html="subsub.title">
+                                    </a>
+
+                                </li>
+                            </ul>
+
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+
+            <!-- Search results list -->
+            <ul class="search-results">
+                <li class="search-result" ng-repeat="result in vm.results">
+                    <a class="search-result__link" ng-attr-href="{{ vm.baseDir }}{{ 'Help/' + result.id }}">
+                        <h3 class="search-result__title">{{ result.title }}</h3>
+                        <p class="search-result__excerpt" ng-bind-html="result.excerpt"></p>
+                    </a>
+                </li>
+            </ul>
+
+            <!-- Keep screen on option - PhoneGap insomnia -->
+            <ul class="main-nav" ng-if="vm.isPhoneGap">
+                <li class="main-nav__item">
+                    <label class="main-nav__title">
+                        Keep Screen On
+                        <input style="display: none" type="checkbox" ng-model="vm.keepScreenOn" />
+                        <i ng-class="{'fa--cleared' : !vm.keepScreenOn, 'fa--checked' : vm.keepScreenOn}" class="fa fa-check"></i>
+                    </label>
+                </li>
+            </ul>
+
+
+        </div>
+    </nav>
+
+    <nav class="header" role="navigation" aria-label="Secondary">
+        <a ng-if="!vm.onAConsole" href="../index.html" class="header__btn" title="Home"><i class="fa fa-home"></i></a>
+        <div ng-if="!vm.onAConsole" class="header__history">
+            <a onclick="javascript:window.history.back()" class="header__btn"><i title="Back" class="fa fa-chevron-left"></i></a>
+            <a onclick="javascript:window.history.forward()" class="header__btn"><i title="Forwards" class="fa fa-chevron-right"></i></a>
+        </div>
+        <div align="right">
+            <a class="header__btn header__btn--nav" ng-click="vm.toggleVisibility()">
+                <i ng-if="!vm.visible" class="fa fa-bars"></i>
+                <i ng-if="vm.visible" class="fa fa-close"></i>
+            </a>
+        </div>
+    </nav>
+
+
+    <!-- Main content -->
+    <div id="main">
+        
+
+
+<div><a href="GettingStarted.html"><img class="TutorialNav" src="images/n_TutPrevious.png" alt=""><span class="TutorialNav">PREVIOUS: Quick Start Guide</span></a></div>
+
+<h2>Main Screen Menu</h2>
+<p>The <b>Menu</b> buttons in the rightmost column of the <b>Main Screen</b> allow for configuration. There are <b>two</b> menu trees, <b>operational</b> and <b>setup</b>:</p>
+
+<table>
+    <tbody>
+        <tr>
+            <td style="vertical-align: middle; width: 77px;"><img style="margin: 0px 10px 0px 0px;" src="images/b_menuEDGE.png" alt=""></td>
+            <td style="vertical-align: top;">
+                Expands the menu tree:
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+<blockquote>
+    <table>
+        <tbody>
+            <tr>
+                <td style="vertical-align: middle; width: 77px;"><img style="margin: 0px 10px 0px 0px;" src="images/b_chanviewEDGE.png" alt=""></td>
+                <td style="vertical-align: top;">
+                    <b>Channel View</b> displays the Fader Tile that is selected with the Fader Tile's <span class="label">Screen</span> button. This is where you'll spend most of your time. The <span class="label">Screen</span> button will also call this view from any other menu.
+                </td>
+            </tr>
+            <tr>
+                <td style="vertical-align: middle; width: 77px;"><img style="margin: 0px 10px 0px 0px;" src="images/b_automationEDGE.png" alt=""></td>
+                <td style="vertical-align: top;">
+                    <b>Automation</b> is where scenes within the showfile are managed.
+                </td>
+            </tr>
+            <tr>
+                <td style="vertical-align: middle; width: 77px;"><img style="margin: 0px 10px 0px 0px;" src="images/b_overviewEDGE.png" alt=""></td>
+                <td style="vertical-align: top;">
+                    <b>Overview</b> shows all paths in the showfile at once. It's great for getting an idea how the showfile is configured at a glance.
+                </td>
+            </tr>
+            <tr>
+                <td style="vertical-align: middle; width: 77px;"><img style="margin: 0px 10px 0px 0px;" src="images/b_effectsEDGE.png" alt=""></td>
+                <td style="vertical-align: top;">
+                    <b>Effects</b> displays the rack of on-board effects.
+                </td>
+            </tr>
+            <tr>
+                <td style="vertical-align: middle; width: 77px;"><img style="margin: 0px 10px 0px 0px;" src="images/b_matrixEDGE.png" alt=""></td>
+                <td style="vertical-align: top;">
+                    <b>Matrix</b> accesses the output matrices.
+                </td>
+            </tr>
+            <tr>
+                <td style="vertical-align: middle; width: 77px;"><img style="margin: 0px 10px 0px 0px;" src="images/b_ScreenQueryEDGE.png" alt=""></td>
+                <td style="vertical-align: top;">
+                    <b>Screen Query</b> provides ability to Query from Main Screen.
+                </td>
+            </tr>
+            <tr>
+                <td style="vertical-align: middle; width: 77px;"><img style="margin: 0px 10px 0px 0px;" src="images/b_setupEDGE.png" alt=""></td>
+                <td style="vertical-align: top;">
+                    <b>Setup</b> opens the console setup configuration menus:
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</blockquote>
+
+<blockquote>
+    <blockquote>
+        <table>
+            <tbody>
+                <tr>
+                    <td style="vertical-align: middle; width: 77px;"><img style="margin: 0px 10px 0px 0px;" src="images/b_MenuSetupOptionsEDGE.png" alt=""></td>
+                    <td style="vertical-align: top;">
+                        <b>Options</b> accesses a range of console and user options, arranged into tabs of different sections.
+                    </td>
+                </tr>
+                <tr>
+                    <td style="vertical-align: middle; width: 77px;"><img style="margin: 0px 10px 0px 0px;" src="images/b_MenuSetupConfigEDGE.png" alt=""></td>
+                    <td style="vertical-align: top;">
+                        <b>Console Configuration</b> is where the DSP paths are allocated. This is where you will begin.
+                    </td>
+                </tr>
+                <tr>
+                    <td style="vertical-align: middle; width: 77px;"><img style="margin: 0px 10px 0px 0px;" src="images/b_MenuSetupLayerEDGE.png" alt=""></td>
+                    <td style="vertical-align: top;">
+                        <b>Layer Manager</b> is where your physical Fader Tile layout is defined. You would use this after <b>Console Configuration</b>.
+                    </td>
+                </tr>
+                <tr>
+                    <td style="vertical-align: middle; width: 77px;"><img style="margin: 0px 10px 0px 0px;" src="images/b_MenuSetupIOEDGE.png" alt=""></td>
+                    <td style="vertical-align: top;">
+                        <b>I/O</b> is where the physical audio connections are defined and managed.
+                    </td>
+                </tr>
+                <tr>
+                    <td style="vertical-align: middle; width: 77px;"><img style="margin: 0px 10px 0px 0px;" src="images/b_MenuSetupXYRoutingEDGE.png" alt=""></td>
+                    <td style="vertical-align: top;">
+                        <b>XY Routing</b> allows for bulk routing in an XY interface.
+                    </td>
+                </tr>
+                <tr>
+                    <td style="vertical-align: middle; width: 77px;"><img style="margin: 0px 10px 0px 0px;" src="images/b_MenuSetupFileMgrEDGE.png" alt=""></td>
+                    <td style="vertical-align: top;">
+                        <b>File Manager</b> allows access to <a href="Showfiles.html"><span class="hyperlink">Showfile</span></a> management, processing <a href="Presets.html"><span class="hyperlink">Preset file</span></a> management and import/export of <a href="PatchManager.html"><span class="hyperlink">input patch files</span></a>.
+                    </td>
+                </tr>
+                <tr>
+                    <td style="vertical-align: middle; width: 77px;"><img style="margin: 0px 10px 0px 0px;" src="images/b_MenuSystemPower.png" alt=""></td>
+                    <td style="vertical-align: top;">
+                        <b>System&nbsp;/&nbsp;Power</b>* (press & hold) allows you to shutdown the console properly and provides diagnostic tools and system level settings. 
+                        (Labelled <b>System</b> on <a href="SOLSAOffline.html"><span class="hyperlink">SOLSA</span></a>.)
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </blockquote>
+</blockquote>
+
+<blockquote>
+    <table>
+        <tbody>
+            <tr>
+                <td style="vertical-align: middle; width: 77px;"><img style="margin: 0px 10px 0px 0px;" src="images/b_MenuTools.png" alt=""></td>
+                <td style="vertical-align: top;">
+                    <b>Tools</b> opens the console tools menus:
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</blockquote>
+
+<blockquote>
+    <blockquote>
+        <table>
+            <tbody>
+                <tr>
+                    <td style="vertical-align: middle; width: 77px;"><img style="margin: 0px 10px 0px 0px;" src="images/b_MenuSetupTBGroupsEDGE.png" alt=""></td>
+                    <td style="vertical-align: top;">
+                        <b>Talkback Groups</b> enables <a href="TB.html#Groups"><span class="hyperlink">Talkback Groups</span></a> to be configured and engaged.
+                    </td>
+                </tr>
+                <tr>
+                    <td style="vertical-align: middle; width: 77px;"><img style="margin: 0px 10px 0px 0px;" src="images/b_MenuSignalSwitcher.png" alt=""></td>
+                    <td style="vertical-align: top;">
+                        <b>Signal Switcher</b> can be used for bulk switching of signals; refer to the <a href="SignalSwitcher.html"><span class="hyperlink">Signal Switcher</span></a> section.
+                    </td>
+                </tr>
+                <tr>
+                    <td style="vertical-align: middle; width: 77px;"><img style="margin: 0px 10px 0px 0px;" src="images/b_MenuEventManager.png" alt=""></td>
+                    <td style="vertical-align: top;">
+                        <b>Event Manager</b> is used to set up <a href="EventManager.html"><span class="hyperlink">Events</span></a>, consisting of one of more state-driven sources, which when met will cause one or more actions to be triggered.
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </blockquote>
+</blockquote>
+
+<blockquote>
+    <table>
+        <tbody>
+            <tr>
+                <td style="vertical-align: middle; width: 77px;"><img style="margin: 0px 10px 0px 0px;" src="images/b_HelpEDGE.png" alt=""></td>
+                <td style="vertical-align: top;">
+                    <b>Help</b> accesses the SSL Live Help System.
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</blockquote>
+
+<p>
+    <span class="note">
+        <span class="notetitle">Note: </span>Once in the Setup or Tools menu you can quickly toggle to the other by pressing the <span class="label">Setup</span> / <span class="label">Tools</span> button.
+    </span>
+</p>
+
+<h2>Useful Links</h2>
+<p><a href="GUI.html"><span class="hyperlink">Touchscreen Controls</span></a></p>
+
+<a href="LinkIndex.html"><span class="hyperlink">Index and Glossary</span></a><br>
+
+<div class="TutorialNavNext"> <a href="GUI.html"><span class="TutorialNav">NEXT: Touchscreen Controls</span> <img class="TutorialNav" src="images/n_TutNext.png" alt=""></a></div>
+
+
+    </div>
+
+    <script src="../Help/js/OpenAccordionFromLink.js"></script>
+</body>
+</html>

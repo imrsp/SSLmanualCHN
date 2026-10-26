@@ -1,0 +1,22 @@
+{
+  "schemaVersion": 1,
+  "sourceRevision": "21.0.8",
+  "previous": "21.0.6",
+  "added": [],
+  "changed": [
+    "https://livehelp.solidstatelogic.com/Help/About.html",
+    "https://livehelp.solidstatelogic.com/Help/AutoFilters.html",
+    "https://livehelp.solidstatelogic.com/Help/Clocking.html",
+    "https://livehelp.solidstatelogic.com/Help/DanteNetIO.html",
+    "https://livehelp.solidstatelogic.com/Help/GettingStarted.html",
+    "https://livehelp.solidstatelogic.com/Help/RemoteIO.html",
+    "https://livehelp.solidstatelogic.com/Help/Routing.html",
+    "https://livehelp.solidstatelogic.com/Help/SetupClockingExA.html",
+    "https://livehelp.solidstatelogic.com/Help/SetupClockingExB.html",
+    "https://livehelp.solidstatelogic.com/Help/SetupClockingExC.html",
+    "https://livehelp.solidstatelogic.com/Help/SetupClockingExD.html",
+    "https://livehelp.solidstatelogic.com/Help/SetupClockingExE.html",
+    "https://livehelp.solidstatelogic.com/Help/SetupClockingExF.html"
+  ],
+  "removed": []
+}

@@ -108,6 +108,8 @@ Offline Software,离线软件,软件,
 Dante Primary, Dante 主网, Dante,
 Dante Secondary, Dante 备网, Dante,
 monitor mixes, 监听混音/监听母线, 信号, 分情况 如果谓语是处理 调整等 翻译成监听混音 如果是linking verb 或者动词 route 翻译成监听母线
+Leader console,主控台,多控制台角色,"SSL Live 多控制台配置中拥有话放增益控制权或向其他控制台分发时钟的控制台；与 Dante 主时钟区分"
+Follower console,从属控制台,多控制台角色,"SSL Live 多控制台配置中跟随 Leader console 时钟或增益的控制台"
 Useful Links,实用链接,章节标题,"所有页面统一使用“实用链接”"
 Layer,推子层,操作面,仅引用界面原文时候保留英文
 Bank,推子组,操作面,仅引用界面原文时候保留英文

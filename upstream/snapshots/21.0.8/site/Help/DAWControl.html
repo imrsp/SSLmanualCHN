@@ -1,0 +1,376 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html ng-app="sslLiveHelp">
+<head>
+    <meta content="text/html; charset=ISO-8859-1" http-equiv="content-type">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=yes">
+
+    <link href="../Help/style/style.css" rel="stylesheet">
+    <link href="../Help/style/jquery-ui-1.13.2.structure.css" rel="stylesheet">
+    <title>DAW Control</title>
+    <script src="../Help/js/jquery-3.6.0.min.js"></script>
+    <script src="../Help/js/jquery-ui/1.13.2/jquery-ui.min.js"></script>
+    <!--<script type="text/javascript" src="cordova.js"></script>-->
+    <!-- Nav / search panels 2017 updates -->
+    <script>
+    window.baseDir = '../';
+    window.data = 'null';
+    </script>
+    <link rel="stylesheet" type="text/css" href="../Help/fonts/font-awesome-4.7.0/css/font-awesome.min.css" />
+    <link rel="stylesheet" type="text/css" href="../Help/style/sass-styles.css">
+    <script src="../Help/js/fastclick.js"></script>
+    <script src="../Help/js/lodash.core.min.js"></script>
+    <!--<script src="../Help/js/angular/1.2/angular.min.js"></script>-->  <!-- On a console -->
+    <script src="../Help/js/angular/1.8/angular.min.js"></script>   <!--Not on a console -->
+    <script src="../Help/js/ngStorage.min.js"></script>
+    <!--<script src="../Help/js/angular/1.2/angular-sanitize.min.js"></script>-->  <!-- On a console -->
+    <!--<script src="../Help/js/angular/1.2/angular-animate.min.js"></script>-->   <!-- On a console -->
+    <script src="../Help/js/angular/1.8/angular-sanitize.min.js"></script>  <!--Not on a console -->
+    <script src="../Help/js/angular/1.8/angular-animate.min.js"></script>   <!--Not on a console -->
+    <script src="../Help/js/lunr-2.3.min.js"></script>
+    <script src="../Help/js/menu.js"></script>
+
+</head>
+
+<body ng-controller="NavController as vm">
+
+    <!--<nav class="nav" ng-class="{ 'nav--visible' : vm.visible }" ng-if="vm.visible" role="navigation" aria-label="Primary">-->  <!-- On a console --> 
+    <nav class="nav" ng-class="{ 'nav--visible' : vm.visible }" role="navigation" aria-label="Primary"> <!--Not on a console -->
+        <!-- Search form -->
+        <div role="search">
+            <form class="nav__search" ng-if="vm.isSearchSupported">
+                <label class="nav__search-icon" for="query"><i aria-label="Search" title="Search" class="fa fa-search"></i></label>
+                <input type="search" id="query" class="nav__search-input" placeholder="Search..." ng-model="vm.query" />
+            </form>
+        </div>
+
+        <div class="nav__scroll" ng-style="vm.styleBasedOnSearchSupported">
+
+            <!-- Main nav -->
+            <ul class="main-nav" ng-hide="vm.query">
+                <li class="main-nav__item" ng-repeat="item in vm.nav">
+
+                    <!-- Link to page -->
+                    <a ng-if="item.url" ng-class="{'main-nav__link--active' : item.url===vm.currentPage}" class="main-nav__link" ng-attr-href="{{ vm.baseDir }}{{ item.url }}">
+                        {{ item.title }}
+                    </a>
+
+                    <!-- Expandable heading -->
+                    <span ng-click="vm.toggleExpanded(item.title)" ng-if="!item.url" class="main-nav__title">
+                        {{ item.title }}
+                        <span ng-if="!vm.isExpanded(item.title)" class="fa fa-caret-right"></span>
+                        <span ng-if="vm.isExpanded(item.title)" class="fa fa-caret-down"></span>
+                    </span>
+
+                    <!-- Subnav -->
+                    <ul ng-if="vm.isExpanded(item.title)" class="main-nav fx-fade">
+                        <li ng-repeat="sub in item.children" class="main-nav__item">
+
+                            <!-- Link to page -->
+                            <a ng-if="sub.url" ng-class="{'main-nav__link--active' : sub.url===vm.currentPage}" class="main-nav__link main-nav__link--level1" ng-attr-href="{{ vm.baseDir }}{{ sub.url }}">
+                                {{ sub.title }}
+                            </a>
+
+                            <!-- Expandable heading -->
+                            <span ng-click="vm.toggleExpanded(sub.title)" ng-if="!sub.url" class="main-nav__title main-nav__title--level1">
+                                {{ sub.title }}
+                                <span ng-if="!vm.isExpanded(sub.title)" class="fa fa-caret-right"></span>
+                                <span ng-if="vm.isExpanded(sub.title)" class="fa fa-caret-down"></span>
+                            </span>
+
+                            <!-- Sub-sub nav -->
+                            <ul ng-if="sub.children && vm.isExpanded(sub.title)" class="main-nav fx-fade">
+                                <li ng-repeat="subsub in sub.children" class="main-nav__item">
+
+                                    <!-- Link to page -->
+                                    <a ng-class="{'main-nav__link--active' : subsub.url===vm.currentPage}" class="main-nav__link main-nav__link--level2" ng-attr-href="{{ vm.baseDir }}{{ subsub.url }}" ng-bind-html="subsub.title">
+                                    </a>
+
+                                </li>
+                            </ul>
+
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+
+            <!-- Search results list -->
+            <ul class="search-results">
+                <li class="search-result" ng-repeat="result in vm.results">
+                    <a class="search-result__link" ng-attr-href="{{ vm.baseDir }}{{ 'Help/' + result.id }}">
+                        <h3 class="search-result__title">{{ result.title }}</h3>
+                        <p class="search-result__excerpt" ng-bind-html="result.excerpt"></p>
+                    </a>
+                </li>
+            </ul>
+
+            <!-- Keep screen on option - PhoneGap insomnia -->
+            <ul class="main-nav" ng-if="vm.isPhoneGap">
+                <li class="main-nav__item">
+                    <label class="main-nav__title">
+                        Keep Screen On
+                        <input style="display: none" type="checkbox" ng-model="vm.keepScreenOn" />
+                        <i ng-class="{'fa--cleared' : !vm.keepScreenOn, 'fa--checked' : vm.keepScreenOn}" class="fa fa-check"></i>
+                    </label>
+                </li>
+            </ul>
+
+
+        </div>
+    </nav>
+
+    <nav class="header" role="navigation" aria-label="Secondary">
+        <a ng-if="!vm.onAConsole" href="../index.html" class="header__btn" title="Home"><i class="fa fa-home"></i></a>
+        <div ng-if="!vm.onAConsole" class="header__history">
+            <a onclick="javascript:window.history.back()" class="header__btn"><i title="Back" class="fa fa-chevron-left"></i></a>
+            <a onclick="javascript:window.history.forward()" class="header__btn"><i title="Forwards" class="fa fa-chevron-right"></i></a>
+        </div>
+        <div align="right">
+            <a class="header__btn header__btn--nav" ng-click="vm.toggleVisibility()">
+                <i ng-if="!vm.visible" class="fa fa-bars"></i>
+                <i ng-if="vm.visible" class="fa fa-close"></i>
+            </a>
+        </div>
+    </nav>
+
+
+    <!-- Main content -->
+    <div id="main">
+        
+
+
+<div><a href="SignalSwitcher.html"><img class="TutorialNav" src="images/n_TutPrevious.png" alt=""><span class="TutorialNav">PREVIOUS: Signal Switcher</span></a></div>
+
+<h2>DAW Control</h2>
+
+<p>
+    SSL Live software supports DAW control via the HUI&trade; protocol. This is primarily for integrating with Pro Tools but is a control option with some other DAW software.
+    8, 16, 24 or 32 DAW controller channels can be configured for up to 4 separate DAWs. Connection is via the <a href="OptionsNetwork.html#Network"><span class="hyperlink">Connectivity Network port</span></a> using ipMIDI as on other SSL DAW control products.
+</p>
+
+<h3>DAW Control Basics</h3>
+
+<p>
+    The HUI protocol was originally developed to control Pro Tools from dedicated control surfaces built by Mackie.
+    All DAW functions described below refer specifically to Pro Tools operation and use the label names of the hardware control functions that the SSL Live DAW control software emulates.
+</p>
+
+<span class="note">
+    <span class="notetitle">Note:</span> There are other DAWs that can be controlled via the HUI protocol, however most of them do not map the HUI control messages directly to equivalent functions.
+    Solid State Logic has extensively tested our HUI implementation with Pro Tools on both Mac and PC platforms but unfortunately is not able to offer support for DAWs other than Pro Tools when
+    using SSL Live's DAW control in the event that issues arise in their use of the HUI protocol.
+</span>
+
+<p>
+    DAW control can be configured in banks of 8 consecutive channels with a maximum of four banks providing 32 physical console faders for DAW Control for each DAW.
+    As there are both channel scrolling and banking keys there is no limit to the number of tracks in a Pro Tools session that can be accessed, as the tracks can be scrolled or banked on to the console faders as required.
+    Pro Tools Memory Locations can also be used to recall specific track layouts.
+</p>
+
+<p>
+    DAW control is via the SSL Live Fader Tiles with the controls mapped to the DAW mixer functions instead of the console's internal processing.
+    The faders control DAW track level and the encoders control track panning and send levels. A <b>Flip</b> function allows the faders to control send levels.
+    Track arming and automation modes can be set via the <span class="label">Q</span> switch.
+</p>
+
+<p>
+    When using SSL Live as the control surface for a Pro Tools mix session, two solutions are recommended.
+    When Pro Tools is being used as a playback source together with other live audio sources, a single HUI port setup provides 8 DAW control paths on the surface,
+    which are banked in 8 track increments like other 8-fader controllers.
+    These DAW control paths can be combined with audio paths on the console surface for a hybrid workflow.
+    Alternatively, configuring a 24 fader surface (three HUI ports) over two Fader Tiles and banking in 24 track increments is typically the most
+    favourable solution to minimise banking if DAW control is the console's primary application.
+</p>
+
+<p>
+    A DAW popout in the Channel View screen contains groups of buttons to assign the encoder function and set up track automation modes.
+    It also offers transport control, plus channel scrolling and banking buttons and other useful master functions. These are explained in detail below.
+    All of these functions, together with additional commands available in the HUI protocol, can be mapped to <a href="OptionsUserKeys.html"><span class="hyperlink">User Keys</span></a>.
+</p>
+
+<h3>Main Controller Features</h3>
+<p>
+    The following functions in Pro Tools can be controlled via dedicated front panel controls or touch screen access on the control surface:
+    <ul>
+        <li>
+            Track
+            <ul>
+                <li>Level</li>
+                <li>Mute</li>
+                <li>Solo</li>
+                <li>Stereo Pan</li>
+                <li>Track Arm</li>
+                <li>Automation Mode</li>
+                <li>Sends A-E Level, Pre/Post, Mute and Stereo Pan</li>
+                <li>Fader to 0 dB</li>
+                <li>Stereo Meters*</li>
+                <li>Channel Label</li>
+                <li>Select</li>
+            </ul>
+        </li>
+        <li>
+            Session Track Navigation
+            <ul>
+                <li>Channel Up/Down</li>
+                <li>Bank Up/Down</li>
+            </ul>
+        </li>
+        <li>
+            Automation
+            <ul>
+                <li>Automation Suspend</li>
+                <li>Fill to Start, End, Mix</li>
+            </ul>
+        </li>
+        <li>
+            Timeline
+            <ul>
+                <li>Stop, Play, Record</li>
+                <li>Return to Zero (RTZ)</li>
+                <li>Loop</li>
+                <li>Next Marker, Previous Marker</li>
+                <li>Goto Marker 1</li>
+            </ul>
+        </li>
+        <li>
+            General Functions
+            <ul>
+                <li>All Record</li>
+                <li>Group Suspend</li>
+                <li>Sends to Fader (Flip)</li>
+                <li>Modifier keys: Shift, Opt/All, Alt and Ctrl</li>
+            </ul>
+        </li>
+    </ul>
+
+    * Metering on a HUI surface is not available if EUCON has been enabled in the Pro Tools Setup > Peripherals > Ethernet Controllers menu.
+    Disable this checkbox if bi-directional control is working correctly but no metering is shown.
+</p>
+
+<p>Additional control functions are available as <a href="OptionsUserKeys.html"><span class="hyperlink">User Keys</span></a> and <a href="EventManager.html"><span class="hyperlink">Events</span></a> together with the Master functions listed above.</p>
+
+<h3>Configuring ipMIDI</h3>
+
+<p>Please refer to the <a href="ipMIDI.html"><span class="hyperlink">ipMIDI section</span></a> for instructions on configuring ipMIDI on the DAW host machine.</p>
+
+<h3>DAW Control Setup</h3>
+
+<p>
+    Select the ipMIDI ports to be used with each connected DAW via the DAW tab of the Setup > Options page.
+    A maximum of four ports per DAW is possible in Pro Tools via HUI (up to 32 DAW control faders).
+    Ports need not be consecutive but the lowest port will always be DAW channels 1-8.
+</p>
+
+<p>It is recommended that the Pro Tools host computer is booted after the ipMIDI ports have been selected on the console, or rebooted if already running.</p>
+
+<img style="display: block; margin: 5px auto; width: 790px;" src="images/g_DAW_Setup.png" alt="">
+
+<p>
+    Master transport keys are assignable to <a href="OptionsUserKeys.html"><span class="hyperlink">User Keys</span></a> and <a href="EventManager.html"><span class="hyperlink">Events</span></a>.
+    These will control whichever DAW has the <b>Transport Master</b> option selected in the setup page.
+</p>
+
+<p>
+    MTC (MIDI Timecode) source selection is also configured in this page. Use of MTC is described in the <a href="OptionsSystem.html#Timecode"><span class="hyperlink">Timecode options</span></a> section.
+</p>
+
+<span class="note">
+    <span class="notetitle">Note:</span> If using <a href="ipMIDI.html"><span class="hyperlink">ipMIDI</span></a> for DAW Control this should be a different ipMIDI port to that used for <a href="AutoIOActions.html"><span class="hyperlink">Automation Input/Output Actions</span></a>,
+    <a href="EventManager.html"><span class="hyperlink">Events</span></a> and <a href="OptionsSystem.html#Timecode"><span class="hyperlink">Timecode</span></a>.
+</span>
+
+<h3>Configuring DAW Banks</h3>
+
+<p>
+    Once the DAW ports have been enabled in the DAW Control Setup page, the DAW controller channels will be visible in the DAW Source Layer in the <a href="LayerManager.html"><span class="hyperlink">Layer Manager</span></a>.
+    Channels can then be placed in User Banks as required. Note that the DAW Channel Label shows the number of the DAW port as well as the channel number.
+    Once connection to a Pro Tools system is established this will be replaced by the four character Pro Tools track label received from the DAW.
+</p>
+
+<img style="display: block; margin: 5px auto;" src="images/g_DAW_Banks.png" alt="">
+
+<p>Note that DAW channels are not currently supported in TaCo.</p>
+
+<h3>Fader Tile Control</h3>
+
+<img style="display: block; margin: 5px auto;" src="images/g_DAW_FaderTile.png" alt="">
+
+<h3>DAW Channel Strip</h3>
+
+<img style="display: block; margin: 5px auto;" src="images/g_DAW_ChannelStrip.png" alt="">
+
+<h3>DAW Popout</h3>
+<p>
+    The DAW popout is accessed via the sidebar on the right of the Channel View page. Press the <span class="label">DAW</span> button to open the main popout. 
+    A detailed overview of the functions controlled from the popout can be found below.
+</p>
+
+<img style="display: block; margin: 5px auto;" src="images/g_DAW_Popout.png" alt="">
+
+<p>
+    Press &amp; hold the <span class="label">DAW</span> button to select which DAW is being controlled from the popout.
+    (If the popout has previously been used for User Keys then the sidebar button will be labelled <span class="label">User Keys</span>.)
+</p>
+
+<img style="display: block; margin: 5px auto; width: 200px;" src="images/g_DAW_ButtonPopout.png" alt="">
+
+<h3>DAW Pop-Out Button Modes</h3>
+
+<p>Standard touch button operation is 'one shot', i.e. when the button is released the indicated function is actioned. Button descriptions highlighted in red above operate in a different manner:</p>
+
+<h4>The Modifier Keys</h4>
+
+<img style="display: block; margin: 5px auto;" src="images/g_DAW_ModifierKeys.png" alt="">
+
+<p>These keys have a latching action so that they can be used in conjunction with other DAW functions. The first operation of the button latches the function on, and a subsequent operation cancels the function.</p>
+
+<h4>Automation Mode Control</h4>
+
+<img style="display: block; margin: 5px auto;" src="images/g_DAW_AutoModeCtrl.png" alt="">
+
+<p>
+    <span class="label">Auto Set</span> is a toggle function which changes the function of the front panel <span class="label">Q</span> switch to select automation modes in conjunction with the 6 automation mode buttons:
+    <span class="label">Off</span>, <span class="label">Read</span>, <span class="label">Write</span>, <span class="label">Latch</span>, <span class="label">Touch</span>, and <span class="label">Trim</span> (Pro Tools HD only).
+</p>
+
+<p>
+    Two modes of operation are possible:
+    <ul>
+        <li>Hold down the Fader strip <span class="label">Q</span> switch then select the required automation mode using the touch screen button. It will function in 'one shot' mode.</li>
+        <li>Push and hold an automation mode button and it will latch on. Multiple channels can then be selected to the latched mode via their <span class="label">Q</span> switches. Touch the mode button again to unlatch.</li>
+    </ul>
+</p>
+
+<p>
+    In conjunction with the Modifier Keys, multiple tracks can be set to a specific automation mode:
+    <ul>
+        <li><span class="label">Opt/All</span> + <span class="label">Auto Mode</span> sets all tracks to the selected mode.</li>
+        <li>
+            <span class="label">Shift</span> + <span class="label">Opt/All</span> + <span class="label">Auto Mode</span> sets all selected tracks
+            (tip: use the <span class="label">Q</span> key + <span class="label">Alt</span> to select multiple non contiguous tracks) to an auto mode.
+        </li>
+    </ul>
+</p>
+
+<h2>Useful Links</h2>
+
+<p><a href="OptionsUserKeys.html"><span class="hyperlink">User Keys</span></a></p>
+
+<p><a href="EventManager.html"><span class="hyperlink">Events</span></a></p>
+
+<p><a href="LayerManager.html"><span class="hyperlink">Layer Manager</span></a></p>
+
+<p><a href="ipMIDI.html"><span class="hyperlink">ipMIDI</span></a></p>
+
+<p><a href="OptionsNetwork.html"><span class="hyperlink">Network Settings</span></a></p>
+
+<p><a href="LinkIndex.html"><span class="hyperlink">Index and Glossary</span></a></p>
+
+<div class="TutorialNavNext"> <a href="ExternalControl.html"><span class="TutorialNav">NEXT: External Control</span> <img class="TutorialNav" src="images/n_TutNext.png" alt=""></a></div>
+
+
+    </div>
+
+    <script src="../Help/js/OpenAccordionFromLink.js"></script>
+</body>
+</html>

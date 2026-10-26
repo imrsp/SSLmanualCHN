@@ -53,7 +53,7 @@
 </p>
 <p>
     <span class="note">
-        <span class="notetitle">Note:</span> Outputs can be routed to any number of destinations and are Post All processing (including the fader) for all path types except Channels, 
+        <span class="notetitle">Note:</span> Outputs can be routed to any number of destinations and are Post All processing (including the fader) for all path types except Channels,
         which can be set <a href="https://livehelp.solidstatelogic.com/Help/DetailView.html#Input"><span class="hyperlink"><b>per Channel</b></span></a> or <a href="https://livehelp.solidstatelogic.com/Help/OptionsSystem.html#Chop"><span class="hyperlink"><b>by default</b></span></a>.
     </span>
 </p>
@@ -172,7 +172,7 @@
     To clear routes, tap on the crosspoints and they will display as a hollow circle (pending unroute state). Press &amp; hold <span class="label">Apply</span> to action the changes.
 </p>
 <p>
-    Alternatively, press &amp; hold <span class="label">Clear&nbsp;All&nbsp;Routes&nbsp;From...</span> to clear all routes from the selected source (e.g. a whole stagebox), 
+    Alternatively, press &amp; hold <span class="label">Clear&nbsp;All&nbsp;Routes&nbsp;From...</span> to clear all routes from the selected source (e.g. a whole stagebox),
     or <span class="label">Clear&nbsp;All&nbsp;Routes&nbsp;To...</span> to clear all routes to the selected destination (e.g. all Channel Input A's).
 
     <span class="note">
@@ -278,14 +278,14 @@
 
 <h3>MADI Stageboxes</h3>
 
-<p>When more than one console is receiving signals from the same MADI stagebox, only one console can have remote control of the stagebox pre-amps. The 'Master' console is simply whichever one is connected to the MADI inputs of the stagebox (or port A of the Blacklight Concentrator, if connected over Blacklight II).</p>
+<p>When more than one console is receiving signals from the same MADI stagebox, only one console can have remote control of the stagebox pre-amps. The 'Leader' console is simply whichever one is connected to the MADI inputs of the stagebox (or port A of the Blacklight Concentrator, if connected over Blacklight II).</p>
 
-<p>The Gain Share function allows the console without pre-amp control (the 'Slave' console) to compensate digitally for any changes made to the analogue signal level by the Master console, therefore avoiding unintended changes to the Slave console's overall input level:</p>
+<p>The Gain Share function allows the console without pre-amp control (the 'Follower' console) to compensate digitally for any changes made to the analogue signal level by the Leader console, therefore avoiding unintended changes to the Follower console's overall input level:</p>
 
-<p>Once the Master console engineer has settled on an initial analogue gain for a channel, the Slave console engineer should activate Gain Sharing by pressing the <span class="label">Gain Share</span> button on their Slave console.</p>
+<p>Once the Leader console engineer has settled on an initial analogue gain for a channel, the Follower console engineer should activate Gain Sharing by pressing the <span class="label">Gain Share</span> button on their Follower console.</p>
 
-<p>Now, if the analogue pre-amp gain is decreased by 3 dB by the Master console, the digital trim on the Slave console will increase by 3 dB. If Gain Sharing is left off on the Slave console, there will be no digital compensation on the Slave console for analogue gain changes.</p>
-<span class="note"><span class="notetitle">Note: </span>Large gain changes on the Master console (e.g. engaging the Pad or High Gain Sensitivity mode) may cause audible level changes on the Slave console as it applies a compensating trim.</span>
+<p>Now, if the analogue pre-amp gain is decreased by 3 dB by the Leader console, the digital trim on the Follower console will increase by 3 dB. If Gain Sharing is left off on the Follower console, there will be no digital compensation on the Follower console for analogue gain changes.</p>
+<span class="note"><span class="notetitle">Note: </span>Large gain changes on the Leader console (e.g. engaging the Pad or High Gain Sensitivity mode) may cause audible level changes on the Follower console as it applies a compensating trim.</span>
 
 <p>The colour of the LED bar at the top of the <span class="label">Gain Share</span> button indicates whether the signal level will increase or decrease if Gain Sharing is turned off. A grey light indicates that no digital trim offset has been applied (i.e. the analogue gain has not been changed since Gain Sharing was switched on).</p>
 <p>A green light indicates that turning Gain Sharing off will result in a decrease in level. (The analogue gain has been turned down and therefore the console has compensated by turning the digital trim up, so turning Gain Sharing off will remove this offset.)</p>
@@ -293,8 +293,8 @@
 <p>The text field below the Gain Share button indicates the amount of digital trim that has been applied to the channel.</p>
 
 <span class="note">
-    <span class="notetitle">Note: </span>The 'Master' console also has a Gain Share button and digital trim control. These have no effect on the 'Slave' console's gain, nor do the 'Slave' console's Gain Share button and digital trim have any effect on the 'Master' console's gain.<br>
-    The 'Master' console's Gain Share button can be used to self gain share in order to maintain a consistent gain structure, even if the analogue gain needs to be changed. This is useful if settings such as compressor and gate thresholds have been already set and wish to be maintained.
+    <span class="notetitle">Note: </span>The 'Leader' console also has a Gain Share button and digital trim control. These have no effect on the 'Follower' console's gain, nor do the 'Follower' console's Gain Share button and digital trim have any effect on the 'Leader' console's gain.<br>
+    The 'Leader' console's Gain Share button can be used to self gain share in order to maintain a consistent gain structure, even if the analogue gain needs to be changed. This is useful if settings such as compressor and gate thresholds have been already set and wish to be maintained.
 </span>
 
 <h3>Dante Stageboxes</h3>

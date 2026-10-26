@@ -1,0 +1,212 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html ng-app="sslLiveHelp">
+<head>
+    <meta content="text/html; charset=ISO-8859-1" http-equiv="content-type">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=yes">
+
+    <link href="../Help/style/style.css" rel="stylesheet">
+    <link href="../Help/style/jquery-ui-1.13.2.structure.css" rel="stylesheet">
+    <title>Reverb Effects</title>
+    <script src="../Help/js/jquery-3.6.0.min.js"></script>
+    <script src="../Help/js/jquery-ui/1.13.2/jquery-ui.min.js"></script>
+    <!--<script type="text/javascript" src="cordova.js"></script>-->
+    <!-- Nav / search panels 2017 updates -->
+    <script>
+    window.baseDir = '../';
+    window.data = 'null';
+    </script>
+    <link rel="stylesheet" type="text/css" href="../Help/fonts/font-awesome-4.7.0/css/font-awesome.min.css" />
+    <link rel="stylesheet" type="text/css" href="../Help/style/sass-styles.css">
+    <script src="../Help/js/fastclick.js"></script>
+    <script src="../Help/js/lodash.core.min.js"></script>
+    <!--<script src="../Help/js/angular/1.2/angular.min.js"></script>-->  <!-- On a console -->
+    <script src="../Help/js/angular/1.8/angular.min.js"></script>   <!--Not on a console -->
+    <script src="../Help/js/ngStorage.min.js"></script>
+    <!--<script src="../Help/js/angular/1.2/angular-sanitize.min.js"></script>-->  <!-- On a console -->
+    <!--<script src="../Help/js/angular/1.2/angular-animate.min.js"></script>-->   <!-- On a console -->
+    <script src="../Help/js/angular/1.8/angular-sanitize.min.js"></script>  <!--Not on a console -->
+    <script src="../Help/js/angular/1.8/angular-animate.min.js"></script>   <!--Not on a console -->
+    <script src="../Help/js/lunr-2.3.min.js"></script>
+    <script src="../Help/js/menu.js"></script>
+
+</head>
+
+<body ng-controller="NavController as vm">
+
+    <!--<nav class="nav" ng-class="{ 'nav--visible' : vm.visible }" ng-if="vm.visible" role="navigation" aria-label="Primary">-->  <!-- On a console --> 
+    <nav class="nav" ng-class="{ 'nav--visible' : vm.visible }" role="navigation" aria-label="Primary"> <!--Not on a console -->
+        <!-- Search form -->
+        <div role="search">
+            <form class="nav__search" ng-if="vm.isSearchSupported">
+                <label class="nav__search-icon" for="query"><i aria-label="Search" title="Search" class="fa fa-search"></i></label>
+                <input type="search" id="query" class="nav__search-input" placeholder="Search..." ng-model="vm.query" />
+            </form>
+        </div>
+
+        <div class="nav__scroll" ng-style="vm.styleBasedOnSearchSupported">
+
+            <!-- Main nav -->
+            <ul class="main-nav" ng-hide="vm.query">
+                <li class="main-nav__item" ng-repeat="item in vm.nav">
+
+                    <!-- Link to page -->
+                    <a ng-if="item.url" ng-class="{'main-nav__link--active' : item.url===vm.currentPage}" class="main-nav__link" ng-attr-href="{{ vm.baseDir }}{{ item.url }}">
+                        {{ item.title }}
+                    </a>
+
+                    <!-- Expandable heading -->
+                    <span ng-click="vm.toggleExpanded(item.title)" ng-if="!item.url" class="main-nav__title">
+                        {{ item.title }}
+                        <span ng-if="!vm.isExpanded(item.title)" class="fa fa-caret-right"></span>
+                        <span ng-if="vm.isExpanded(item.title)" class="fa fa-caret-down"></span>
+                    </span>
+
+                    <!-- Subnav -->
+                    <ul ng-if="vm.isExpanded(item.title)" class="main-nav fx-fade">
+                        <li ng-repeat="sub in item.children" class="main-nav__item">
+
+                            <!-- Link to page -->
+                            <a ng-if="sub.url" ng-class="{'main-nav__link--active' : sub.url===vm.currentPage}" class="main-nav__link main-nav__link--level1" ng-attr-href="{{ vm.baseDir }}{{ sub.url }}">
+                                {{ sub.title }}
+                            </a>
+
+                            <!-- Expandable heading -->
+                            <span ng-click="vm.toggleExpanded(sub.title)" ng-if="!sub.url" class="main-nav__title main-nav__title--level1">
+                                {{ sub.title }}
+                                <span ng-if="!vm.isExpanded(sub.title)" class="fa fa-caret-right"></span>
+                                <span ng-if="vm.isExpanded(sub.title)" class="fa fa-caret-down"></span>
+                            </span>
+
+                            <!-- Sub-sub nav -->
+                            <ul ng-if="sub.children && vm.isExpanded(sub.title)" class="main-nav fx-fade">
+                                <li ng-repeat="subsub in sub.children" class="main-nav__item">
+
+                                    <!-- Link to page -->
+                                    <a ng-class="{'main-nav__link--active' : subsub.url===vm.currentPage}" class="main-nav__link main-nav__link--level2" ng-attr-href="{{ vm.baseDir }}{{ subsub.url }}" ng-bind-html="subsub.title">
+                                    </a>
+
+                                </li>
+                            </ul>
+
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+
+            <!-- Search results list -->
+            <ul class="search-results">
+                <li class="search-result" ng-repeat="result in vm.results">
+                    <a class="search-result__link" ng-attr-href="{{ vm.baseDir }}{{ 'Help/' + result.id }}">
+                        <h3 class="search-result__title">{{ result.title }}</h3>
+                        <p class="search-result__excerpt" ng-bind-html="result.excerpt"></p>
+                    </a>
+                </li>
+            </ul>
+
+            <!-- Keep screen on option - PhoneGap insomnia -->
+            <ul class="main-nav" ng-if="vm.isPhoneGap">
+                <li class="main-nav__item">
+                    <label class="main-nav__title">
+                        Keep Screen On
+                        <input style="display: none" type="checkbox" ng-model="vm.keepScreenOn" />
+                        <i ng-class="{'fa--cleared' : !vm.keepScreenOn, 'fa--checked' : vm.keepScreenOn}" class="fa fa-check"></i>
+                    </label>
+                </li>
+            </ul>
+
+
+        </div>
+    </nav>
+
+    <nav class="header" role="navigation" aria-label="Secondary">
+        <a ng-if="!vm.onAConsole" href="../index.html" class="header__btn" title="Home"><i class="fa fa-home"></i></a>
+        <div ng-if="!vm.onAConsole" class="header__history">
+            <a onclick="javascript:window.history.back()" class="header__btn"><i title="Back" class="fa fa-chevron-left"></i></a>
+            <a onclick="javascript:window.history.forward()" class="header__btn"><i title="Forwards" class="fa fa-chevron-right"></i></a>
+        </div>
+        <div align="right">
+            <a class="header__btn header__btn--nav" ng-click="vm.toggleVisibility()">
+                <i ng-if="!vm.visible" class="fa fa-bars"></i>
+                <i ng-if="vm.visible" class="fa fa-close"></i>
+            </a>
+        </div>
+    </nav>
+
+
+    <!-- Main content -->
+    <div id="main">
+        
+
+   <div><a href="FXModulation.html"><img class="TutorialNav" src="images/n_TutPrevious.png" alt=""><span class="TutorialNav">PREVIOUS: Modulation Effects</span></a></div>
+
+   <p>For more information about Effects in general, please see the <a href="FXIntro.html"><span class="hyperlink">Effects Rack Overview</span></a> section.</p>
+
+<h2>Reverb Effects</h2>
+
+  <h2>Degenerative Reverb</h2>
+
+  <p>This is a standard reverb which allows you to exaggerate the rate at which the signal degenerates into noise.</p>
+
+  <img style="display: block; margin: 20px auto;" src="images/g_FXdegen.png" alt="">
+
+  <h2>Gated Reverb</h2>
+
+  <p>This is a non-linear reverb where you can gate the tail of the decay.</p>
+
+  <img style="display: block; margin: 20px auto;" src="images/g_fxRevGate.png" alt="">
+
+  <p><span style="font-weight: bold;">Size</span> Emulates the size of the room, altering the quantity and speed of the reflections.</p>
+
+  <p><span style="font-weight: bold;">Diffusion</span> affects how quickly the early reflections get absorbed into the smooth reverb curve.</p>
+
+  <p><span style="font-weight: bold;">Colour</span> alters the harmonic colour of the reflections, to emulate the materials the sound might be bouncing off.
+
+  <h2 id="ERVerb">ER-Verb</h2>
+
+  <p>The ER (Early Reflections) Reverb has 5 different algorithms, with different size and surface characteristics: Ambient, Tight, Recording Room, Stadium and Cathedral.</p>
+  
+  <img style="display: block; margin: 20px auto;" src="images/g_FXRevERAmbient.png" alt="">
+  <img style="display: block; margin: 20px auto;" src="images/g_FXRevERAmbientERPage.png" alt="">
+
+  <p>Each module has two pages, toggled using the <span class="label">ER&nbsp;Control</span> button.</p>
+
+  <p>The main page provides standard room simulation controls such as <span style="font-weight: bold;">Pre-Delay</span>, <span style="font-weight: bold;">Decay</span> and the ratio between early reflections and reverb tail (<span style="font-weight: bold;">ER : Rev</span>);</p>
+
+  <p>The <span style="font-weight: bold;">ER Control</span> page is for early reflection parameters such as <span style="font-weight: bold;">Density</span> and <span style="font-weight: bold;">Damping</span> controls.</p>
+
+  <h2>LeVerb</h2>
+
+  <p>A multi-purpose reverb unit which is simple to use, specifically designed for live situations.
+
+  <img style="display: block; margin: 10px auto;" src="images/g_FXLeverb.png" alt="">
+
+  <h2>Plate Reverb</h2>
+
+  <p>This unit simply emulates a classic plate reverb.</p>
+
+  <img style="display: block; margin: 20px auto;" src="images/g_FXPlate.png" alt="">
+  
+ <h2>Useful Links</h2>
+  <a href="DetailView.html"><span class="hyperlink">Detail View</span></a><br>
+  <a href="FXIntro.html"><span class="hyperlink">Effects Rack Overview</span></a><br>
+  <a href="FXDelays.html"><span class="hyperlink">Delay Effects</span></a><br>
+  <a href="FXDynamics.html"><span class="hyperlink">Dynamics Effects</span></a><br>
+  <a href="FXEQs.html"><span class="hyperlink">EQ Effects</span></a><br>
+  <a href="FXModulation.html"><span class="hyperlink">Modulation Effects</span></a><br>
+  <a href="FXOther.html"><span class="hyperlink">Other Effects Modules</span></a><br>
+  <a href="FXTools.html"><span class="hyperlink">Audio Tools</span></a><br>
+  <a href="FXAutoMix.html"><span class="hyperlink">Automix</span></a><br>
+  <a href="LinkIndex.html"><span class="hyperlink">Index and Glossary</span></a><br>
+
+ 
+ 
+  <div class="TutorialNavNext"> <a href="FXOther.html"><span class="TutorialNav">NEXT: Other Effects</span> <img class="TutorialNav" src="images/n_TutNext.png" alt=""></a></div>
+
+ 
+
+    </div>
+
+    <script src="../Help/js/OpenAccordionFromLink.js"></script>
+</body>
+</html>

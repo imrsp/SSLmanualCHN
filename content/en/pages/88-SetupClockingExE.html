@@ -15,18 +15,18 @@
 </span>
 
 <ol>
-    <li>Follow the instructions in <a href="SetupClockingExD.html"><span class="hyperlink">System Example D</span></a> to connect the stagebox(es) to the Master console. This console will have analogue input gain control and access to any audio outputs. The second console will be the Slave console and only be able to receive a post analogue gain signal over Blacklight, but can compensate for any analogue gain changes digitally to maintain a consistent gain structure (see the <a href="Routing.html#GainSharing"><span class="hyperlink">Gain Sharing</span></a> for further details).</li>
+    <li>Follow the instructions in <a href="SetupClockingExD.html"><span class="hyperlink">System Example D</span></a> to connect the stagebox(es) to the Leader console. This console will have analogue input gain control and access to any audio outputs. The second console will be the Follower console and only be able to receive a post analogue gain signal over Blacklight, but can compensate for any analogue gain changes digitally to maintain a consistent gain structure (see the <a href="Routing.html#GainSharing"><span class="hyperlink">Gain Sharing</span></a> for further details).</li>
 
     <li>
-        Connect Blacklight Concentrator port <span style="font-weight: bold;">B Main</span> (and <span style="font-weight: bold;">B Backup</span> if a redundant Blacklight connection is required) to Blacklight port <span style="font-weight: bold;">1a</span> (and <span style="font-weight: bold;">1b</span> if connecting redundantly) on the second (Slave) console. Slave console Blacklight ports <span style="font-weight: bold;">2a</span> and <span style="font-weight: bold;">2b</span> may be used for connecting to a second Blacklight Concentrator unit.<br>
+        Connect Blacklight Concentrator port <span style="font-weight: bold;">B Main</span> (and <span style="font-weight: bold;">B Backup</span> if a redundant Blacklight connection is required) to Blacklight port <span style="font-weight: bold;">1a</span> (and <span style="font-weight: bold;">1b</span> if connecting redundantly) on the second (Follower) console. Follower console Blacklight ports <span style="font-weight: bold;">2a</span> and <span style="font-weight: bold;">2b</span> may be used for connecting to a second Blacklight Concentrator unit.<br>
 
         <img style="display: block; margin: 10px auto;" src="assets/manual/Help/images/SetupClocking/image016.png" alt="">
     </li>
 
-    <li>Set the second (Slave) console to clock from the relevant Blacklight II port connected to the Blacklight Concentrator, as described in the main <a href="Clocking.html"><span class="hyperlink">Clocking</span></a> section.</li>
-    <li>If redundant MADI connections are being used between stageboxes and Blacklight Concentrator (8-port version only), turn on <span class="label">Redundancy&nbsp;Status</span> for the relevant pair of MADI ports in the second (Slave) console's I/O page under the <span style="font-weight: bold;">BL II</span> column (the ports shown correspond to the physical MADI ports on the rear of the Concentrator unit).</li>
+    <li>Set the second (Follower) console to clock from the relevant Blacklight II port connected to the Blacklight Concentrator, as described in the main <a href="Clocking.html"><span class="hyperlink">Clocking</span></a> section.</li>
+    <li>If redundant MADI connections are being used between stageboxes and Blacklight Concentrator (8-port version only), turn on <span class="label">Redundancy&nbsp;Status</span> for the relevant pair of MADI ports in the second (Follower) console's I/O page under the <span style="font-weight: bold;">BL II</span> column (the ports shown correspond to the physical MADI ports on the rear of the Concentrator unit).</li>
     <li>
-        The Master console clocks the Blacklight Concentrator via the Blacklight connection, which then clocks the Slave console (via Blacklight) and the stageboxes (via MADI).
+        The Leader console clocks the Blacklight Concentrator via the Blacklight connection, which then clocks the Follower console (via Blacklight) and the stageboxes (via MADI).
 
         <img style="display: block; margin: 10px auto;" src="assets/manual/Help/images/SetupClocking/image017.png" alt="">
     </li>
@@ -46,21 +46,21 @@
                 </tr>
                 <tr>
                     <td>A Main</td>
-                    <td>Connection to Master Live console</td>
+                    <td>Connection to Leader Live console</td>
                     <td rowspan="2">} Redundant pair</td>
                 </tr>
                 <tr>
                     <td>A Backup</td>
-                    <td>Backup connection to Master Live console</td>
+                    <td>Backup connection to Leader Live console</td>
                 </tr>
                 <tr>
                     <td>B Main</td>
-                    <td>Connection to Slave Live console</td>
+                    <td>Connection to Follower Live console</td>
                     <td rowspan="2">} Redundant pair</td>
                 </tr>
                 <tr>
                     <td>B Backup</td>
-                    <td>Backup connection to Slave Live console</td>
+                    <td>Backup connection to Follower Live console</td>
                 </tr>
             </tbody>
         </table>
